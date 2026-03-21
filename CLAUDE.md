@@ -1,14 +1,18 @@
 # CLAUDE.md
 
-Agent definitions are in docs/agents/. Read the relevant SKILL.md before performing any task that falls within an agent's domain.
+MANDATORY: Before performing any task, identify which agent(s) from docs/agents/ are relevant. Read the corresponding SKILL.md file(s) BEFORE writing any code or taking any action.
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Before Every Task
+1. Identify which agent(s) this task falls under (see docs/agents/README.md)
+2. Read the relevant SKILL.md file(s)
+3. Check if Legal Compliance gate applies
+4. Confirm you are operating within that agent's boundaries
 
 ---
 
 ## What This Repository Is
 
-Heimdall is an External Attack Surface Management (EASM) service for small businesses. It runs on OpenClaw (open-source AI agent framework), continuously monitors the public-facing digital surface of client websites, interprets findings via Claude API, and delivers plain-language results through Telegram — no client dashboard. Named after the Norse god who never sleeps and sees all threats approaching.
+Heimdall is an External Attack Surface Management (EASM) service for small businesses. It runs on OpenClaw (open-source AI agent framework), continuously monitors the public-facing digital surface of client websites, interprets findings via Claude API, and delivers plain-language results through Telegram — no client dashboard.
 
 This repository is in the **pre-code planning phase**. Context lives in `docs/`.
 
@@ -19,7 +23,7 @@ This repository is in the **pre-code planning phase**. Context lives in `docs/`.
 | File | Contents |
 |------|----------|
 | `docs/heimdall-briefing-v2.md` | **Primary context doc — read this first.** Architecture, pilot plan, go-to-market, Danish policy context, corrections to apply to business case. Single source of truth. |
-| `docs/business-case-v1.md` | Business case v1 — superseded. Reference only. |
+| `docs/business-case-v2.docx` | Business case v2. Reference only. |
 | `docs/Heimdall_Legal_Risk_Assessment.md` | Danish legal analysis of scanning under Straffeloven §263. Read before touching any scanning functionality. |
 | `docs/OpenClaw_RPi5_Autonomous_Profit_Research.md` | Original autonomous profit scenario research — background context. |
 
@@ -114,3 +118,5 @@ Full reference list with numbered sources is in `docs/heimdall-briefing-v2.md`.
 ## Generating the Business Case v2.0
 
 When asked to produce the final Heimdall Business Case — apply all corrections listed in the "Instructions for Claude Code" section of `docs/heimdall-briefing-v2.md`. Key changes from v1: add EASM definition, remove Pi from client-facing sections, revise target customer scope, switch to superscript citations, add Danish cybersecurity policy section, add legal framework section, use kr. pricing, use numbered references from the briefing.
+
+MANDATORY: Before performing any task, identify which agent(s) from docs/agents/ are relevant. Read the corresponding SKILL.md file(s) BEFORE writing any code or taking any action.
