@@ -1,4 +1,4 @@
-<!-- CLAUDE.md v2.1 — Last updated: 2026-03-21 -->
+<!-- CLAUDE.md v2.2 — Last updated: 2026-03-21 -->
 
 # CLAUDE.md
 
@@ -55,7 +55,9 @@ Steps:
 - Do not store API keys, tokens, or secrets in any committed file
 - Do not modify files in `docs/agents/` without explicit instruction — these are agent definitions, not working documents
 - Do not duplicate business data (pricing, statistics, policy figures) that already exists in `docs/heimdall-briefing-v2.md` — reference the briefing instead
-
+- Do not modify code without running `git pull` first
+- Do not commit directly to `main` — create a feature branch and merge via pull request
+- Do not create large monolithic commits — commit logically grouped changes separately with descriptive messages
 ---
 
 ## Content and Copywriting Rules
