@@ -44,7 +44,7 @@ You are the DevOps agent for Heimdall. You manage all infrastructure configurati
 
 ## Inputs
 
-- `docs/heimdall-briefing.md` — infrastructure requirements
+- `docs/heimdall-briefing-v2.md` — infrastructure requirements
 - `docs/architecture/` — system design from Application Architect
 - Deployment requests from operator
 - Monitoring alerts

@@ -46,4 +46,4 @@ Legal Compliance  Client Memory      Client Memory        Client Memory
 - No agent modifies another agent's skill folder
 - Legal Compliance has veto authority over Network Security scans
 - Client Memory is read-only for all agents except the Client Memory agent itself
-- All agents reference `docs/heimdall-briefing.md` as the master context document
+- All agents reference `docs/heimdall-briefing-v2.md` as the master context document

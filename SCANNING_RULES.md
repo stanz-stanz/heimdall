@@ -169,7 +169,7 @@ Examples of things that might seem passive but are **not allowed at Level 0**:
 
 - **Straffeloven §263, stk. 1** — https://danskelove.dk/straffeloven/263
 - **ICLG Cybersecurity 2026 (Denmark)** — https://iclg.com/practice-areas/cybersecurity-laws-and-regulations/denmark
-- **Full legal analysis** — see `docs/Heimdall_Legal_Risk_Assessment.md`
+- **Full legal analysis** — see `docs/legal/Heimdall_Legal_Risk_Assessment.md`
 
 ---
 

@@ -23,7 +23,7 @@ You are the Application Architect for Heimdall. You own the system design, enfor
 
 ## Inputs
 
-- `docs/heimdall-briefing.md` — master context
+- `docs/heimdall-briefing-v2.md` — master context
 - `docs/architecture/` — your own architecture docs (you own this folder)
 - Code changes proposed by any agent
 - Questions from other agents about where code should live
