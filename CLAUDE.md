@@ -1,4 +1,4 @@
-<!-- CLAUDE.md v2.4 — Last updated: 2026-03-22 -->
+<!-- CLAUDE.md v2.5 — Last updated: 2026-03-22 -->
 
 # CLAUDE.md
 
@@ -29,7 +29,7 @@ When documents conflict, this is the precedence order:
 | 1 | `SCANNING_RULES.md` (project root) | Authoritative source for what scanning actions are allowed or forbidden at each level. All other documents defer to it on scanning legality. |
 | 2 | `docs/agents/legal-compliance/SKILL.md` (Valdí) | Enforces SCANNING_RULES.md. Defines the validation workflow, forensic logging, approval tokens, and consent registry. |
 | 3 | This file (`CLAUDE.md`) | Orchestration and general project rules. Points to the above documents for scanning constraints — does not restate them. |
-| 4 | `docs/heimdall-briefing-v2.md` | Business context, strategy, architecture. Single source of truth for non-scanning project details. |
+| 4 | `docs/heimdall-briefing.md` | Business context, strategy, architecture. Single source of truth for non-scanning project details. |
 
 If this file says something about scanning that contradicts `SCANNING_RULES.md`, follow `SCANNING_RULES.md`.
 
@@ -58,7 +58,7 @@ The complete definition of what is allowed and forbidden at each Layer/Level is 
 
 | File | Contents |
 |------|----------|
-| `docs/heimdall-briefing-v2.md` | **Primary context doc — read this first.** Architecture, pilot plan, go-to-market, legal framework, Danish policy context. Single source of truth for all business and technical details. |
+| `docs/heimdall-briefing.md` | **Primary context doc — read this first.** Architecture, pilot plan, go-to-market, legal framework, Danish policy context. Single source of truth for all business and technical details. |
 | `SCANNING_RULES.md` | **Authoritative scanning constraint document.** What is allowed and forbidden at each Layer/Level. Read before writing or modifying any scanning code. |
 | `docs/agents/legal-compliance/SKILL.md` | **Valdí — Legal Compliance Agent.** Enforces SCANNING_RULES.md. Validates scan types, manages consent registry, produces forensic logs. |
 | `docs/legal/Heimdall_Legal_Risk_Assessment.md` | Danish legal analysis of scanning under Straffeloven §263. |
@@ -88,18 +88,35 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 **Build this first, on the laptop.** No dependency on the Pi or OpenClaw.
 
-Goal: CVR register data → website URLs → CMS/tech detection → bucketed prospecting list + per-site briefs.
+Goal: manually extracted CVR data → website URLs → CMS/tech detection → filtered, bucketed prospecting list + per-site briefs.
 
-Steps:
-1. Obtain Vejle-area company list from CVR (`https://datacvr.virk.dk`)
-2. Extract website URLs
-3. Write scanning functions for CMS/hosting/tech detection (Layer 1 only)
-4. **Submit each scanning function to Valdí for Gate 1 review before execution**
-5. Batch scan with approved scan types (webanalyze, httpx)
+### Input
+
+Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) and saves it as `data/prospects/CVR-extract.xlsx`. The pipeline does **not** scrape or access datacvr.virk.dk.
+
+### Pipeline Steps
+
+1. Read CVR Excel export
+2. Apply pre-scan filters from `data/prospects/filters.json` (industry_code, contactable) — see `docs/agents/prospecting/SKILL.md` for filter config
+3. Derive website domains from company email addresses
+4. Resolve domains (check website exists + robots.txt compliance)
+5. Layer 1 scanning with Valdí-approved scan types (webanalyze, httpx)
 6. Bucket results: A > B > E > C > D (see `docs/agents/prospecting/SKILL.md` for full bucketing logic)
-7. Filter by CVR branchekoder for GDPR-sensitive sectors
-8. Generate per-site briefs
-9. Output: bucketed CSV + per-site JSON briefs
+7. Apply post-scan filters from `filters.json` (bucket)
+8. GDPR sensitivity filter by CVR branchekoder
+9. Agency detection (footer credits, meta author tags)
+10. Generate per-site briefs
+11. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
+
+### Supporting Data Files
+
+| File | Purpose |
+|------|---------|
+| `data/prospects/CVR-extract.xlsx` | Input: manually extracted CVR company list |
+| `data/prospects/filters.json` | Optional: configurable pipeline filters |
+| `data/prospects/industry_codes.json` | Static: industry code → English name mapping |
+| `data/prospects/prospects-list.csv` | Output: bucketed prospect list (only companies with live websites) |
+| `data/prospects/briefs/{domain}.json` | Output: per-site technology briefs |
 
 ---
 
@@ -111,7 +128,7 @@ Steps:
 - Do not write client-facing text that mentions Raspberry Pi, specific hardware, or internal infrastructure details — use abstract language ("dedicated secure infrastructure," "cloud-based AI interpretation layer")
 - Do not store API keys, tokens, or secrets in any committed file
 - Do not modify files in `docs/agents/` without explicit instruction — these are agent definitions, not working documents
-- Do not duplicate business data (pricing, statistics, policy figures) that already exists in `docs/heimdall-briefing-v2.md` — reference the briefing instead
+- Do not duplicate business data (pricing, statistics, policy figures) that already exists in `docs/heimdall-briefing.md` — reference the briefing instead
 - Do not modify code without running `git pull` first
 - Do not commit directly to `main` — create a feature branch and merge via pull request
 - Do not create large monolithic commits — commit logically grouped changes separately with descriptive messages
@@ -127,7 +144,7 @@ When generating any written output for this project:
 - **No phrases like** "stated honestly," "full transparency," "to be honest" — confidence is implicit
 - **Citations:** numbered superscripts → References section at end (not inline "Source: ..." format)
 - **All scanning tool references** must include GitHub repository links
-- **For policy data, statistics, and pricing details** — pull from `docs/heimdall-briefing-v2.md`, do not rely on memory
+- **For policy data, statistics, and pricing details** — pull from `docs/heimdall-briefing.md`, do not rely on memory
 
 ---
 
