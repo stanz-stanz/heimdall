@@ -1,0 +1,28 @@
+# Pipeline output data (regenerated on each run)
+data/prospects/*.csv
+data/prospects/*.json
+data/prospects/briefs/*.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

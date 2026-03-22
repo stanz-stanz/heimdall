@@ -90,6 +90,21 @@ The ICLG Cybersecurity Report 2026 (Denmark chapter) states: "Unsolicited penetr
 
 The lead generation pipeline (Layer 1) can proceed — it reads publicly served information. The vulnerability scanning service (Layer 2) requires **written consent** before activation. This aligns with the business model: the free prospecting scan uses Layer 1 data; the paid service activates Layer 2 only after onboarding and authorization.
 
+### Outreach Constraints — Danish Marketing Practices Act
+
+Markedsføringsloven prohibits unsolicited electronic marketing 
+(email, SMS, automated messages) without prior consent. Cold 
+calling requires checking the Robinson List. 
+
+Heimdall's outreach model for the pilot is therefore non-electronic: 
+in-person visits to local businesses, local business networking, 
+and the agency partnership channel. The prospecting pipeline 
+produces scan data and per-site briefs that feed into these 
+conversations — it does not automate any client contact.
+
+This constraint should be confirmed with legal counsel alongside 
+the §263 review.
+
 ### Open Legal Questions for Counsel
 1. Confirm the Layer 1/Layer 2 boundary under §263
 2. Draft/review a scanning authorization template

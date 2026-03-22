@@ -1,0 +1,74 @@
+{
+  "approvals": [
+    {
+      "scan_type_id": "ssl_certificate_check",
+      "token": "9446c250-37c3-4f36-bc82-e2be64ee9381",
+      "approved_at": "2026-03-22T10:00:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:e83c524bc9670743dec22bd800ee69ac08d1538dd44ff9a687ce9064bf8800bc",
+      "log_file": "logs/valdi/2026-03-22_10-00-00_ssl_certificate_check.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "homepage_meta_extraction",
+      "token": "c023519a-0894-4959-b878-828517cbf2d2",
+      "approved_at": "2026-03-22T10:01:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:bd550ddb8e53769f063dbf1d09cf9752cd651ab4be6caff86c79521fbc0ee04d",
+      "log_file": "logs/valdi/2026-03-22_10-01-00_homepage_meta_extraction.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "httpx_tech_fingerprint",
+      "token": "69c956db-2ad1-4606-b9b4-f85bc309be4e",
+      "approved_at": "2026-03-22T10:02:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:8427a2da6fd9ff7338f6c6309fcbbc126ba22cc2dd235531cecddbaa2def538c",
+      "log_file": "logs/valdi/2026-03-22_10-02-00_httpx_tech_fingerprint.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "webanalyze_cms_detection",
+      "token": "474b98c0-4d33-4703-80ca-0a65ba77e467",
+      "approved_at": "2026-03-22T10:03:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:651e4c58a07be11bb5219bd0071109f0e469c273c6d9d5b93a5dcac676975b67",
+      "log_file": "logs/valdi/2026-03-22_10-03-00_webanalyze_cms_detection.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "response_header_check",
+      "token": "60ecae45-0147-4fa4-a3d8-82e149f01291",
+      "approved_at": "2026-03-22T10:04:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:da1541bd1c72627be49f28f12f13b3f69de27876e94ba4eec5ae026a1c7d192c",
+      "log_file": "logs/valdi/2026-03-22_10-04-00_response_header_check.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "robots_txt_check",
+      "token": "db78dd3c-a221-4b25-a57f-1779b31d66e3",
+      "approved_at": "2026-03-22T10:10:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:4177e71d888b6ac59423f23a6e8b0a57177b44e0cca5f315c6c2b47783c4826b",
+      "log_file": "logs/valdi/2026-03-22_10-10-00_robots_txt_check.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "passive_domain_scan_orchestrator",
+      "token": "b619e44e-9521-4a32-8ee2-9e6ff8bab9cb",
+      "approved_at": "2026-03-22T10:11:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:8d9dfd94653dc3bec726ca04749e9e0da26032566412763a0dd4fff6bc9ac641",
+      "log_file": "logs/valdi/2026-03-22_10-11-00_passive_domain_scan_orchestrator_v2.md",
+      "hash_method": "inspect.getsource"
+    }
+  ]
+}

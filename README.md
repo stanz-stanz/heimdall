@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/docs/images/heimdall_logo.png?raw=true" alt="Heimdall keeps watch for invaders"/>
+  <img src="/docs/images/heimdall.png?raw=true" alt="Heimdall keeps watch for invaders"/>
 </p>
 
 # heimdall
