@@ -31,8 +31,8 @@ def write_csv(
 
     fieldnames = [
         "cvr_number", "company_name", "website", "bucket", "industry_code",
-        "industry_name", "gdpr_sensitive", "cms", "hosting", "ssl_valid",
-        "ssl_expiry", "tech_stack", "risk_summary", "discard_reason",
+        "industry_name", "gdpr_sensitive", "reklamebeskyttet", "cms", "hosting",
+        "ssl_valid", "ssl_expiry", "tech_stack", "risk_summary", "discard_reason",
     ]
 
     rows = []
@@ -49,6 +49,7 @@ def write_csv(
             "industry_code": company.industry_code,
             "industry_name": company.industry_name,
             "gdpr_sensitive": gdpr_sensitive,
+            "reklamebeskyttet": "Ja" if company.ad_protected else "Nej",
             "cms": scan.cms if scan else "",
             "hosting": scan.hosting if scan else "",
             "ssl_valid": scan.ssl_valid if scan else "",

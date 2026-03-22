@@ -132,6 +132,41 @@ When a web agency authorizes Heimdall to scan their clients' websites, the legal
 
 ---
 
+## Addendum — Compliance Controls Implemented (March 22, 2026)
+
+Since this assessment was written, the following technical and procedural controls have been implemented to enforce the Layer 1 / Layer 2 boundary:
+
+### Valdí — Legal Compliance Agent
+
+A programmatic compliance agent ("Valdí") now validates all scanning code before execution. Valdí operates at two gates:
+
+- **Gate 1 (scan-type validation):** Every scanning function is reviewed against a documented set of rules (`SCANNING_RULES.md`) before it can execute. Valdí classifies the function's activities by Layer, confirms they do not exceed what the target's consent Level permits, and issues an approval token. If the function violates any rule, it is blocked with a structured explanation. Each review — approval or rejection — produces a timestamped forensic log with the full function source, reasoning, and rule citations.
+
+- **Gate 2 (per-target authorisation):** Before each scan batch, Valdí confirms that the scan type has a valid approval token and that each target's consent level permits the scan's Layer. Targets without written consent are restricted to Layer 1.
+
+Valdí's forensic logs are retained as evidence of due diligence. Rejection logs are preserved alongside approval logs — they demonstrate that the system catches and blocks non-compliant scanning code.
+
+### robots.txt Compliance
+
+A blanket rule has been adopted: if a target's `robots.txt` denies automated access, Heimdall skips the target entirely, regardless of Layer or consent Level. This goes beyond what §263 requires, but reduces friction and demonstrates respect for site operators' expressed preferences.
+
+### Relevance to Counsel Consultation
+
+These controls are documented in three project files that should accompany this memo when presented to legal counsel:
+
+| Document | Contents |
+|----------|----------|
+| `SCANNING_RULES.md` | Authoritative rules for what is allowed/forbidden at each Layer and Level |
+| `docs/agents/legal-compliance/SKILL.md` | Valdí's full specification — gates, forensic log format, approval tokens, consent registry |
+| `docs/legal/Valdi_Implementation_Actions.md` | Implementation checklist for the compliance system |
+
+### Additional Questions for Counsel (Arising from Implementation)
+
+5. Does the existence of a programmatic compliance layer (Valdí) with timestamped forensic logs reduce liability if an agent-generated scanning function inadvertently crosses the Layer 1 / Layer 2 boundary?
+6. What audit trail documentation would a Danish court or prosecutor expect to see to demonstrate due diligence in automated external scanning?
+
+---
+
 ## Sources
 
 | Source | URL |

@@ -27,9 +27,6 @@ def generate_brief(
     elif scan.cms:
         risk_factors.append(f"Self-hosted {scan.cms}")
 
-    if scan.admin_panel_exposed:
-        risk_factors.append("Admin panel exposed")
-
     if not scan.ssl_valid:
         risk_factors.append("SSL invalid or missing")
     elif scan.ssl_days_remaining >= 0 and scan.ssl_days_remaining < 30:
@@ -49,8 +46,6 @@ def generate_brief(
     hooks = []
     if scan.ssl_days_remaining >= 0 and scan.ssl_days_remaining < 30:
         hooks.append(f"SSL certificate expires in {scan.ssl_days_remaining} days")
-    if scan.admin_panel_exposed:
-        hooks.append("Admin login page is publicly accessible")
     if not scan.headers.get("strict_transport_security"):
         hooks.append("No HSTS header — browser connections not enforced as HTTPS")
 
@@ -78,7 +73,6 @@ def generate_brief(
             },
             "server": scan.server,
             "detected_plugins": plugin_names,
-            "admin_panel_exposed": scan.admin_panel_exposed,
             "headers": scan.headers,
         },
         "tech_stack": scan.tech_stack,

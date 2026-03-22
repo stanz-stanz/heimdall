@@ -59,8 +59,6 @@ def detect_agencies(
             if not scan:
                 continue
             site_issues = []
-            if scan.cms and "wordpress" in scan.cms.lower() and scan.admin_panel_exposed:
-                site_issues.append("exposed admin panel")
             if not scan.ssl_valid:
                 site_issues.append("invalid SSL")
             elif scan.ssl_days_remaining >= 0 and scan.ssl_days_remaining < 30:

@@ -1,6 +1,12 @@
 """Pipeline configuration: constants, paths, and classification rules."""
 
+import os
 from pathlib import Path
+
+# Ensure Go binaries are discoverable
+_go_bin = Path.home() / "go" / "bin"
+if _go_bin.is_dir() and str(_go_bin) not in os.environ.get("PATH", ""):
+    os.environ["PATH"] = f"{_go_bin}:{os.environ.get('PATH', '')}"
 
 # --- Paths ---
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
