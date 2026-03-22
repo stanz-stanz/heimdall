@@ -2,4 +2,4 @@
   <img src="/docs/images/heimdall.png?raw=true" alt="Heimdall keeps watch for invaders"/>
 </p>
 
-An OpenClaw-Powered Cybersecurity Service for Small Businesses
+## An OpenClaw-Powered Cybersecurity Service for Small Businesses
