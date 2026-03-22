@@ -12,8 +12,8 @@
       "last_validated": "2026-03-22T10:00:00Z",
       "function_file": "pipeline/scanner.py",
       "function_name": "_check_ssl",
-      "function_lines": "41-64",
-      "function_hash": "sha256:92913351a212ed6abcb6d9a8a9614c1205140f15cd2bfbf267abb06f4e6c30b8"
+      "function_hash": "sha256:e83c524bc9670743dec22bd800ee69ac08d1538dd44ff9a687ce9064bf8800bc",
+      "hash_method": "inspect.getsource"
     },
     {
       "id": "homepage_meta_extraction",
@@ -28,8 +28,8 @@
       "last_validated": "2026-03-22T10:01:00Z",
       "function_file": "pipeline/scanner.py",
       "function_name": "_extract_page_meta",
-      "function_lines": "68-108",
-      "function_hash": "sha256:6818b848066874a41aa08a340e5a6db0d4d2ea951ca63601848071472f38a88c"
+      "function_hash": "sha256:bd550ddb8e53769f063dbf1d09cf9752cd651ab4be6caff86c79521fbc0ee04d",
+      "hash_method": "inspect.getsource"
     },
     {
       "id": "httpx_tech_fingerprint",
@@ -44,8 +44,8 @@
       "last_validated": "2026-03-22T10:02:00Z",
       "function_file": "pipeline/scanner.py",
       "function_name": "_run_httpx",
-      "function_lines": "111-157",
-      "function_hash": "sha256:9f5fb3f1ed4cd20611a661046b729d4e573bb2235e0a26a3505a51d2c2e0ddfe"
+      "function_hash": "sha256:8427a2da6fd9ff7338f6c6309fcbbc126ba22cc2dd235531cecddbaa2def538c",
+      "hash_method": "inspect.getsource"
     },
     {
       "id": "webanalyze_cms_detection",
@@ -60,8 +60,8 @@
       "last_validated": "2026-03-22T10:03:00Z",
       "function_file": "pipeline/scanner.py",
       "function_name": "_run_webanalyze",
-      "function_lines": "160-207",
-      "function_hash": "sha256:79058d2d513fcf6d748e0c44d4ec253b7e7bd56eeb9593f394acc4c42af7a06f"
+      "function_hash": "sha256:651e4c58a07be11bb5219bd0071109f0e469c273c6d9d5b93a5dcac676975b67",
+      "hash_method": "inspect.getsource"
     },
     {
       "id": "response_header_check",
@@ -76,8 +76,38 @@
       "last_validated": "2026-03-22T10:04:00Z",
       "function_file": "pipeline/scanner.py",
       "function_name": "_get_response_headers",
-      "function_lines": "210-232",
-      "function_hash": "sha256:3c588da7ab51fd46f4d899289f396c5e014c2c7616aae572a4c96d2e212b5049"
+      "function_hash": "sha256:da1541bd1c72627be49f28f12f13b3f69de27876e94ba4eec5ae026a1c7d192c",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "id": "robots_txt_check",
+      "description": "Fetches robots.txt and parses it to determine if automated access is permitted for the domain",
+      "layer": 1,
+      "level_required": 0,
+      "tools": ["requests"],
+      "paths_accessed": ["/robots.txt"],
+      "handles_robots_txt_denial": true,
+      "current_approval_token": "db78dd3c-a221-4b25-a57f-1779b31d66e3",
+      "last_validated": "2026-03-22T10:10:00Z",
+      "function_file": "pipeline/scanner.py",
+      "function_name": "_check_robots_txt",
+      "function_hash": "sha256:4177e71d888b6ac59423f23a6e8b0a57177b44e0cca5f315c6c2b47783c4826b",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "id": "passive_domain_scan_orchestrator",
+      "description": "Orchestrator that validates Valdi tokens, filters domains via robots.txt, runs all Layer 1 scan types, and writes pre-scan compliance checks",
+      "layer": 1,
+      "level_required": 0,
+      "tools": ["httpx", "webanalyze", "requests"],
+      "paths_accessed": ["/", "/robots.txt"],
+      "handles_robots_txt_denial": true,
+      "current_approval_token": "b619e44e-9521-4a32-8ee2-9e6ff8bab9cb",
+      "last_validated": "2026-03-22T10:11:00Z",
+      "function_file": "pipeline/scanner.py",
+      "function_name": "scan_domains",
+      "function_hash": "sha256:44119902f59d78ceddbd54c5d308a985db7f11a8162e14edd11de3b9121b87f2",
+      "hash_method": "inspect.getsource"
     }
   ]
 }

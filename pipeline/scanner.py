@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import inspect
 import json
 import logging
 import re
@@ -11,6 +13,8 @@ import socket
 import subprocess
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from pathlib import Path
+from urllib.robotparser import RobotFileParser
 
 import requests
 
@@ -31,7 +35,6 @@ class ScanResult:
     ssl_expiry: str = ""
     ssl_days_remaining: int = -1
     detected_plugins: list[str] = field(default_factory=list)
-    admin_panel_exposed: bool = False
     headers: dict = field(default_factory=dict)
     tech_stack: list[str] = field(default_factory=list)
     meta_author: str = ""
@@ -64,24 +67,6 @@ def _check_ssl(domain: str) -> dict:
 
     return result
 
-
-def _check_admin_panels(domain: str) -> bool:
-    """Check for exposed admin panels at common paths."""
-    admin_paths = ["/wp-admin/", "/wp-login.php", "/administrator/", "/admin/", "/user/login"]
-    for path in admin_paths:
-        try:
-            resp = requests.get(
-                f"https://{domain}{path}",
-                timeout=REQUEST_TIMEOUT,
-                headers={"User-Agent": USER_AGENT},
-                allow_redirects=False,
-            )
-            # A 200 or 302 to a login page means it's exposed
-            if resp.status_code in (200, 301, 302):
-                return True
-        except requests.RequestException:
-            continue
-    return False
 
 
 def _extract_page_meta(domain: str) -> tuple[str, str, list[str]]:
@@ -251,19 +236,154 @@ def _get_response_headers(domain: str) -> dict:
     return headers
 
 
+def _check_robots_txt(domain: str) -> bool:
+    """Layer 1 / Level 0 — Check if robots.txt allows automated access.
+
+    Returns True if access is allowed, False if denied.
+    Fetching robots.txt is permitted at all Layers — it is an explicitly published file.
+    """
+    try:
+        resp = requests.get(
+            f"https://{domain}/robots.txt",
+            timeout=REQUEST_TIMEOUT,
+            headers={"User-Agent": USER_AGENT},
+            allow_redirects=True,
+        )
+        if resp.status_code != 200:
+            return True  # No robots.txt — no restriction expressed
+        rp = RobotFileParser()
+        rp.parse(resp.text.splitlines())
+        return rp.can_fetch("*", "/")
+    except requests.RequestException:
+        return True  # Cannot fetch robots.txt — no restriction determinable
+
+
+# Map scan type IDs to their implementing functions (populated after all functions are defined)
+_SCAN_TYPE_FUNCTIONS: dict[str, callable] = {}
+
+
+def _init_scan_type_map() -> None:
+    """Populate the scan type function map. Called once at module load."""
+    _SCAN_TYPE_FUNCTIONS.update({
+        "ssl_certificate_check": _check_ssl,
+        "homepage_meta_extraction": _extract_page_meta,
+        "httpx_tech_fingerprint": _run_httpx,
+        "webanalyze_cms_detection": _run_webanalyze,
+        "response_header_check": _get_response_headers,
+    })
+
+
+def _validate_approval_tokens() -> bool:
+    """Validate that all scan types have current approval tokens with matching function hashes."""
+    approvals_path = Path(__file__).resolve().parent.parent / "data" / "valdi" / "active_approvals.json"
+    try:
+        with open(approvals_path) as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        log.error("Cannot read approval tokens: %s", e)
+        return False
+
+    approvals = {a["scan_type_id"]: a for a in data.get("approvals", [])}
+
+    for scan_type_id, func in _SCAN_TYPE_FUNCTIONS.items():
+        approval = approvals.get(scan_type_id)
+        if not approval:
+            log.error("No approval token for scan type: %s", scan_type_id)
+            return False
+
+        current_hash = "sha256:" + hashlib.sha256(
+            inspect.getsource(func).encode("utf-8")
+        ).hexdigest()
+        if current_hash != approval["function_hash"]:
+            log.error(
+                "Function hash mismatch for %s — approval token invalidated. "
+                "Re-submit to Valdi for Gate 1 review.",
+                scan_type_id,
+            )
+            return False
+
+    return True
+
+
+def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
+    """Write pre-scan compliance check to data/compliance/."""
+    check_dir = Path(__file__).resolve().parent.parent / "data" / "compliance"
+    check_dir.mkdir(parents=True, exist_ok=True)
+
+    now = datetime.now(timezone.utc)
+    check = {
+        "scan_request_id": f"req-{now.strftime('%Y%m%d-%H%M%S')}",
+        "batch_type": "prospect-scan-level0",
+        "scan_types": list(_SCAN_TYPE_FUNCTIONS.keys()),
+        "scan_layer": 1,
+        "target_level": 0,
+        "checks": {
+            "all_approval_tokens_valid": True,
+            "all_function_hashes_match": True,
+            "robots_txt_filtered": True,
+        },
+        "domains_allowed": len(allowed),
+        "domains_skipped_robots_txt": len(skipped),
+        "skipped_domains": skipped,
+        "checked_at": now.isoformat() + "Z",
+    }
+
+    filepath = check_dir / f"pre-scan-check-{now.strftime('%Y-%m-%d_%H-%M-%S')}.json"
+    with open(filepath, "w") as f:
+        json.dump(check, f, indent=2)
+    log.info("Pre-scan check written to %s", filepath)
+    return filepath
+
+
 def scan_domains(companies: list[Company]) -> dict[str, ScanResult]:
-    """Run Layer 1 scanning on all non-discarded companies. Returns dict keyed by domain."""
+    """Layer 1 / Level 0 — Run passive technology fingerprinting on all non-discarded companies.
+
+    Validates Valdi approval tokens and function hashes before execution.
+    Filters domains through robots.txt before any scanning activity.
+    Returns dict keyed by domain.
+    """
+    _init_scan_type_map()
+
+    # Gate check: validate all approval tokens and function hashes
+    if not _validate_approval_tokens():
+        log.error("BLOCKED — Valdi approval token validation failed. No scans will execute.")
+        return {}
+
     active = [c for c in companies if not c.discarded and c.website_domain]
     domains = list(set(c.website_domain for c in active))
     log.info("Scanning %d unique domains (Layer 1 passive only)", len(domains))
 
-    # Batch scans with CLI tools
-    httpx_results = _run_httpx(domains)
-    webanalyze_results = _run_webanalyze(domains)
+    # robots.txt pre-filter — BEFORE any scanning activity
+    allowed_domains = []
+    skipped_domains = []
+    for domain in domains:
+        if _check_robots_txt(domain):
+            allowed_domains.append(domain)
+        else:
+            skipped_domains.append(domain)
+            log.info("SKIPPED %s — robots.txt denies automated access", domain)
+
+    if skipped_domains:
+        log.info(
+            "robots.txt filter: %d allowed, %d skipped",
+            len(allowed_domains), len(skipped_domains),
+        )
+
+    if not allowed_domains:
+        log.warning("No domains passed robots.txt filter — nothing to scan")
+        return {}
+
+    # Write pre-scan compliance check (Gate 2 batch check)
+    pre_scan_path = _write_pre_scan_check(allowed_domains, skipped_domains)
+    log.info("Pre-scan check: %s", pre_scan_path)
+
+    # Batch scans with CLI tools — only robots.txt-allowed domains
+    httpx_results = _run_httpx(allowed_domains)
+    webanalyze_results = _run_webanalyze(allowed_domains)
 
     results: dict[str, ScanResult] = {}
 
-    for i, domain in enumerate(domains, 1):
+    for i, domain in enumerate(allowed_domains, 1):
         scan = ScanResult(domain=domain)
 
         # SSL check
@@ -316,9 +436,6 @@ def scan_domains(companies: list[Company]) -> dict[str, ScanResult]:
         if plugins:
             scan.detected_plugins = plugins
 
-        # Admin panel check
-        scan.admin_panel_exposed = _check_admin_panels(domain)
-
         # Derive hosting from server header and tech stack
         hosting_hints = {
             "one.com": "one.com", "simply.com": "simply.com", "gigahost": "Gigahost",
@@ -334,7 +451,10 @@ def scan_domains(companies: list[Company]) -> dict[str, ScanResult]:
         results[domain] = scan
 
         if i % 25 == 0:
-            log.info("Scanned %d/%d domains", i, len(domains))
+            log.info("Scanned %d/%d domains", i, len(allowed_domains))
 
-    log.info("Layer 1 scanning complete: %d domains scanned", len(results))
+    log.info(
+        "Layer 1 scanning complete: %d domains scanned, %d skipped (robots.txt)",
+        len(results), len(skipped_domains),
+    )
     return results
