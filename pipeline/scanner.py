@@ -273,15 +273,18 @@ def _init_scan_type_map() -> None:
     })
 
 
-def _validate_approval_tokens() -> bool:
-    """Validate that all scan types have current approval tokens with matching function hashes."""
+def _validate_approval_tokens() -> dict | None:
+    """Validate all scan types have current approval tokens with matching function hashes.
+
+    Returns the approvals dict on success, None on failure.
+    """
     approvals_path = Path(__file__).resolve().parent.parent / "data" / "valdi" / "active_approvals.json"
     try:
         with open(approvals_path) as f:
             data = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         log.error("Cannot read approval tokens: %s", e)
-        return False
+        return None
 
     approvals = {a["scan_type_id"]: a for a in data.get("approvals", [])}
 
@@ -289,7 +292,7 @@ def _validate_approval_tokens() -> bool:
         approval = approvals.get(scan_type_id)
         if not approval:
             log.error("No approval token for scan type: %s", scan_type_id)
-            return False
+            return None
 
         current_hash = "sha256:" + hashlib.sha256(
             inspect.getsource(func).encode("utf-8")
@@ -300,9 +303,9 @@ def _validate_approval_tokens() -> bool:
                 "Re-submit to Valdi for Gate 1 review.",
                 scan_type_id,
             )
-            return False
+            return None
 
-    return True
+    return data
 
 
 def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
@@ -335,17 +338,27 @@ def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
     return filepath
 
 
-def scan_domains(companies: list[Company]) -> dict[str, ScanResult]:
+def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str, ScanResult]:
     """Layer 1 / Level 0 — Run passive technology fingerprinting on all non-discarded companies.
 
     Validates Valdi approval tokens and function hashes before execution.
     Filters domains through robots.txt before any scanning activity.
+    Requires operator confirmation unless confirmed=True.
     Returns dict keyed by domain.
     """
+    from pipeline.operator import (
+        print_gate1_summary,
+        print_pre_scan_summary,
+        print_run_summary,
+        prompt_confirmation,
+        write_run_summary,
+    )
+
     _init_scan_type_map()
 
     # Gate check: validate all approval tokens and function hashes
-    if not _validate_approval_tokens():
+    approvals_data = _validate_approval_tokens()
+    if approvals_data is None:
         log.error("BLOCKED — Valdi approval token validation failed. No scans will execute.")
         return {}
 
@@ -376,6 +389,21 @@ def scan_domains(companies: list[Company]) -> dict[str, ScanResult]:
     # Write pre-scan compliance check (Gate 2 batch check)
     pre_scan_path = _write_pre_scan_check(allowed_domains, skipped_domains)
     log.info("Pre-scan check: %s", pre_scan_path)
+
+    # --- Operator notification ---
+    print_gate1_summary(approvals_data)
+    print_pre_scan_summary(
+        allowed_domains, skipped_domains,
+        list(_SCAN_TYPE_FUNCTIONS.keys()), approvals_data,
+    )
+
+    # --- Hard confirmation gate ---
+    if not confirmed:
+        if not prompt_confirmation(len(allowed_domains)):
+            log.info("ABORTED — Operator declined confirmation. No scans executed.")
+            return {}
+
+    start_time = datetime.now(timezone.utc)
 
     # Batch scans with CLI tools — only robots.txt-allowed domains
     httpx_results = _run_httpx(allowed_domains)
@@ -453,8 +481,19 @@ def scan_domains(companies: list[Company]) -> dict[str, ScanResult]:
         if i % 25 == 0:
             log.info("Scanned %d/%d domains", i, len(allowed_domains))
 
+    end_time = datetime.now(timezone.utc)
+
+    # --- Post-scan notification ---
+    print_run_summary(results, skipped_domains, start_time, end_time)
+    summary_path = write_run_summary(
+        results, skipped_domains, allowed_domains, pre_scan_path,
+        "interactive" if not confirmed else "--confirmed flag",
+        start_time, end_time, approvals_data,
+    )
+
     log.info(
         "Layer 1 scanning complete: %d domains scanned, %d skipped (robots.txt)",
         len(results), len(skipped_domains),
     )
+    log.info("Run summary: %s", summary_path)
     return results

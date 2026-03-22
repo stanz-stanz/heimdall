@@ -34,6 +34,7 @@ def run(
     briefs_dir: Path,
     skip_scrape: bool = False,
     skip_scan: bool = False,
+    confirmed: bool = False,
 ) -> None:
     """Execute the full lead generation pipeline."""
 
@@ -63,7 +64,7 @@ def run(
     scan_results: dict[str, ScanResult] = {}
     if not skip_scan:
         log.info("=== Step 5: Layer 1 scanning ===")
-        scan_results = scan_domains(companies)
+        scan_results = scan_domains(companies, confirmed=confirmed)
     else:
         log.info("=== Step 5: Skipping Layer 1 scan (--skip-scan) ===")
 
@@ -119,6 +120,7 @@ def main():
     parser.add_argument("--briefs", type=Path, default=BRIEFS_DIR, help="Output directory for per-site JSON briefs")
     parser.add_argument("--skip-scrape", action="store_true", help="Skip scraping datacvr.virk.dk for missing emails")
     parser.add_argument("--skip-scan", action="store_true", help="Skip Layer 1 scanning (test ingestion only)")
+    parser.add_argument("--confirmed", action="store_true", help="Skip interactive confirmation (operator has pre-reviewed)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable debug logging")
     args = parser.parse_args()
 
@@ -138,6 +140,7 @@ def main():
         briefs_dir=args.briefs,
         skip_scrape=args.skip_scrape,
         skip_scan=args.skip_scan,
+        confirmed=args.confirmed,
     )
 
 
