@@ -1,10 +1,8 @@
-"""CVR data ingestion: read Excel, scrape datacvr.virk.dk for missing emails, derive website domains."""
+"""CVR data ingestion: read Excel and derive website domains."""
 
 from __future__ import annotations
 
 import logging
-import random
-import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -17,15 +15,10 @@ from pipeline.config import (
     COL_COMPANY_FORM,
     COL_CVR,
     COL_EMAIL,
-    COL_END_DATE,
     COL_INDUSTRY,
     COL_NAME,
     COL_PHONE,
     COL_POSTCODE,
-    COL_START_DATE,
-    CVR_ACCORDION_XPATH,
-    CVR_BASE_URL,
-    CVR_SCRAPE_DELAY,
     FREE_WEBMAIL,
 )
 
@@ -99,63 +92,6 @@ def read_excel(path: Path) -> list[Company]:
 
     wb.close()
     log.info("Read %d companies from %s", len(companies), path.name)
-    return companies
-
-
-def scrape_missing_emails(companies: list[Company]) -> list[Company]:
-    """For companies without an email, scrape datacvr.virk.dk to try to get one."""
-    missing = [c for c in companies if not c.email]
-    if not missing:
-        log.info("All companies have emails, skipping CVR scraping")
-        return companies
-
-    log.info("Scraping datacvr.virk.dk for %d companies missing email", len(missing))
-
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        log.warning("Playwright not installed — cannot scrape CVR. Run: pip install playwright && playwright install chromium")
-        return companies
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-
-        for company in missing:
-            url = f"{CVR_BASE_URL}/{company.cvr}"
-            try:
-                resp = page.goto(url, wait_until="domcontentloaded", timeout=20000)
-                if resp and resp.status != 200:
-                    log.warning("CVR %s: HTTP %d", company.cvr, resp.status)
-                    continue
-
-                # Click the accordion to reveal extended info
-                accordion = page.locator(f"xpath={CVR_ACCORDION_XPATH}")
-                accordion.wait_for(state="visible", timeout=10000)
-                accordion.click()
-                time.sleep(1)  # wait for content to render
-
-                # Look for email in the expanded section
-                page.wait_for_timeout(2000)
-                content = page.content()
-
-                # Extract email from page content — look for mailto: links
-                import re
-                email_match = re.search(r'mailto:([^"\'<>\s]+)', content)
-                if email_match:
-                    company.email = email_match.group(1).strip().lower()
-                    log.info("CVR %s: found email %s", company.cvr, company.email)
-
-            except Exception as e:
-                log.warning("CVR %s: scrape failed — %s", company.cvr, e)
-
-            delay = random.uniform(*CVR_SCRAPE_DELAY)
-            time.sleep(delay)
-
-        browser.close()
-
-    still_missing = sum(1 for c in companies if not c.email)
-    log.info("After scraping: %d companies still without email", still_missing)
     return companies
 
 

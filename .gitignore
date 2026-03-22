@@ -1,7 +1,13 @@
 # Pipeline output data (regenerated on each run)
 data/prospects/*.csv
-data/prospects/*.json
 data/prospects/briefs/*.json
+
+# Pipeline input data (local only)
+data/prospects/CVR-extract.xlsx
+
+# Pipeline reference/config data (tracked)
+!data/prospects/industry_codes.json
+!data/prospects/filters.json
 
 # Python
 __pycache__/

@@ -12,21 +12,21 @@ if _go_bin.is_dir() and str(_go_bin) not in os.environ.get("PATH", ""):
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data" / "prospects"
 BRIEFS_DIR = DATA_DIR / "briefs"
-DEFAULT_INPUT = PROJECT_ROOT / "docs" / "reference" / "CVR-extraction-sample.xlsx"
+DEFAULT_INPUT = DATA_DIR / "CVR-extract.xlsx"
+DEFAULT_FILTERS = DATA_DIR / "filters.json"
+INDUSTRY_CODES_PATH = DATA_DIR / "industry_codes.json"
 
 # --- Excel column indices (0-based) ---
 COL_CVR = 0
-COL_START_DATE = 1
-COL_END_DATE = 2
-COL_NAME = 3
-COL_ADDRESS = 4
-COL_POSTCODE = 5
-COL_CITY = 6
-COL_COMPANY_FORM = 7
-COL_INDUSTRY = 8
-COL_PHONE = 9
-COL_EMAIL = 10
-COL_AD_PROTECTED = 11
+COL_NAME = 1
+COL_ADDRESS = 2
+COL_POSTCODE = 3
+COL_CITY = 4
+COL_COMPANY_FORM = 5
+COL_INDUSTRY = 6
+COL_PHONE = 7
+COL_EMAIL = 8
+COL_AD_PROTECTED = 9
 
 # --- Free webmail providers (discard if email domain matches) ---
 FREE_WEBMAIL = frozenset({
@@ -73,7 +73,3 @@ GDPR_SENSITIVE_CODES = {
 REQUEST_TIMEOUT = 15  # seconds
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
-# --- CVR scraping ---
-CVR_BASE_URL = "https://datacvr.virk.dk/enhed/virksomhed"
-CVR_ACCORDION_XPATH = '//*[@id="accordion-udvidede-virksomhedsoplysninger-button"]'
-CVR_SCRAPE_DELAY = (1, 3)  # random delay range in seconds between requests

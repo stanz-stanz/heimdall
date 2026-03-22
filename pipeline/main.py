@@ -1,10 +1,10 @@
 """Heimdall Lead Generation Pipeline — CLI entrypoint.
 
 Usage:
-    python -m pipeline.main                          # defaults: CVR sample file, data/prospects/ output
+    python -m pipeline.main                          # defaults: data/prospects/CVR-extract.xlsx
     python -m pipeline.main --input path/to/file.xlsx
     python -m pipeline.main --output path/to/output/
-    python -m pipeline.main --skip-scrape            # skip CVR website scraping for missing emails
+    python -m pipeline.main --filters path/to/filters.json
     python -m pipeline.main --skip-scan              # skip Layer 1 scanning (useful for testing ingestion only)
 """
 
@@ -15,8 +15,9 @@ import logging
 import sys
 from pathlib import Path
 
-from pipeline.config import BRIEFS_DIR, DATA_DIR, DEFAULT_INPUT
-from pipeline.cvr import Company, derive_domains, read_excel, scrape_missing_emails
+from pipeline.config import BRIEFS_DIR, DATA_DIR, DEFAULT_FILTERS, DEFAULT_INPUT
+from pipeline.cvr import Company, derive_domains, read_excel
+from pipeline.filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
 from pipeline.resolver import resolve_domains
 from pipeline.scanner import ScanResult, scan_domains
 from pipeline.bucketer import assign_buckets
@@ -32,7 +33,7 @@ def run(
     input_path: Path,
     output_dir: Path,
     briefs_dir: Path,
-    skip_scrape: bool = False,
+    filters_path: Path,
     skip_scan: bool = False,
     confirmed: bool = False,
 ) -> None:
@@ -45,12 +46,10 @@ def run(
         log.error("No companies found in input file")
         return
 
-    # Step 2: Scrape missing emails from datacvr.virk.dk
-    if not skip_scrape:
-        log.info("=== Step 2: Scraping missing emails ===")
-        companies = scrape_missing_emails(companies)
-    else:
-        log.info("=== Step 2: Skipping CVR scrape (--skip-scrape) ===")
+    # Step 2: Load and apply pre-scan filters
+    log.info("=== Step 2: Applying pre-scan filters ===")
+    filters = load_filters(filters_path)
+    companies = apply_pre_scan_filters(companies, filters)
 
     # Step 3: Derive website domains from email addresses
     log.info("=== Step 3: Deriving website domains ===")
@@ -72,16 +71,20 @@ def run(
     log.info("=== Step 6: Assigning buckets ===")
     buckets = assign_buckets(companies, scan_results)
 
-    # Step 7: GDPR filter
-    log.info("=== Step 7: GDPR sensitivity filter ===")
+    # Step 7: Apply post-scan filters (bucket)
+    log.info("=== Step 7: Applying post-scan filters ===")
+    companies = apply_post_scan_filters(companies, buckets, filters)
+
+    # Step 8: GDPR filter
+    log.info("=== Step 8: GDPR sensitivity filter ===")
     gdpr_flags = flag_gdpr_sensitive(companies)
 
-    # Step 8: Agency detection
-    log.info("=== Step 8: Agency detection ===")
+    # Step 9: Agency detection
+    log.info("=== Step 9: Agency detection ===")
     agency_briefs = detect_agencies(companies, scan_results, buckets)
 
-    # Step 9: Generate per-site briefs
-    log.info("=== Step 9: Generating briefs ===")
+    # Step 10: Generate per-site briefs
+    log.info("=== Step 10: Generating briefs ===")
     site_briefs: dict[str, dict] = {}
     for company in companies:
         if company.discarded or not company.website_domain:
@@ -94,8 +97,8 @@ def run(
         brief = generate_brief(company, scan, bucket, gdpr_sensitive)
         site_briefs[company.website_domain] = brief
 
-    # Step 10: Write outputs
-    log.info("=== Step 10: Writing outputs ===")
+    # Step 11: Write outputs
+    log.info("=== Step 11: Writing outputs ===")
     csv_path = write_csv(companies, buckets, gdpr_flags, scan_results, output_dir)
     brief_count = write_briefs(site_briefs, briefs_dir)
     agency_count = write_agency_briefs(agency_briefs, output_dir)
@@ -118,7 +121,7 @@ def main():
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT, help="Path to CVR Excel export")
     parser.add_argument("--output", type=Path, default=DATA_DIR, help="Output directory for CSV and agency briefs")
     parser.add_argument("--briefs", type=Path, default=BRIEFS_DIR, help="Output directory for per-site JSON briefs")
-    parser.add_argument("--skip-scrape", action="store_true", help="Skip scraping datacvr.virk.dk for missing emails")
+    parser.add_argument("--filters", type=Path, default=DEFAULT_FILTERS, help="Path to filters JSON file")
     parser.add_argument("--skip-scan", action="store_true", help="Skip Layer 1 scanning (test ingestion only)")
     parser.add_argument("--confirmed", action="store_true", help="Skip interactive confirmation (operator has pre-reviewed)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable debug logging")
@@ -138,7 +141,7 @@ def main():
         input_path=args.input,
         output_dir=args.output,
         briefs_dir=args.briefs,
-        skip_scrape=args.skip_scrape,
+        filters_path=args.filters,
         skip_scan=args.skip_scan,
         confirmed=args.confirmed,
     )
