@@ -62,7 +62,7 @@ You are the Grant & Funding specialist for Heimdall. You draft grant application
 
 ## Inputs
 
-- `docs/heimdall-briefing-v2.md` — master context
+- `docs/heimdall-briefing.md` — master context
 - `docs/Heimdall_Business_Case_v2.md` — business case
 - Specific grant call documents (uploaded or referenced)
 - Budget estimates from briefing (pilot: ~7,000 kr.)

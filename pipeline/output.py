@@ -8,11 +8,20 @@ import logging
 from datetime import date
 from pathlib import Path
 
-from pipeline.config import BRIEFS_DIR, DATA_DIR
+from pipeline.config import BRIEFS_DIR, DATA_DIR, INDUSTRY_CODES_PATH
 from pipeline.cvr import Company
 from pipeline.scanner import ScanResult
 
 log = logging.getLogger(__name__)
+
+
+def _load_industry_codes() -> dict[str, str]:
+    """Load industry code-to-English-name mapping from JSON."""
+    if not INDUSTRY_CODES_PATH.exists():
+        log.warning("Industry codes file not found: %s", INDUSTRY_CODES_PATH)
+        return {}
+    with open(INDUSTRY_CODES_PATH, encoding="utf-8") as f:
+        return json.load(f)
 
 
 def write_csv(
@@ -25,21 +34,25 @@ def write_csv(
     """Write the bucketed prospect list CSV."""
     output_dir = output_dir or DATA_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
+    industry_codes = _load_industry_codes()
 
-    filename = f"prospect-list-{date.today().isoformat()}.csv"
+    filename = "prospects-list.csv"
     filepath = output_dir / filename
 
     fieldnames = [
         "cvr_number", "company_name", "website", "bucket", "industry_code",
-        "industry_name", "gdpr_sensitive", "reklamebeskyttet", "cms", "hosting",
-        "ssl_valid", "ssl_expiry", "tech_stack", "risk_summary", "discard_reason",
+        "industry_name", "gdpr_sensitive", "contactable", "cms", "hosting",
+        "ssl_valid", "ssl_expiry", "risk_summary",
     ]
 
     rows = []
     for company in companies:
+        if company.discarded or not company.website_domain:
+            continue
+
         bucket = buckets.get(company.cvr, "D")
         gdpr_sensitive, _ = gdpr_flags.get(company.cvr, (False, ""))
-        scan = scan_results.get(company.website_domain) if company.website_domain else None
+        scan = scan_results.get(company.website_domain)
 
         row = {
             "cvr_number": company.cvr,
@@ -47,16 +60,14 @@ def write_csv(
             "website": company.website_domain,
             "bucket": bucket,
             "industry_code": company.industry_code,
-            "industry_name": company.industry_name,
+            "industry_name": industry_codes.get(company.industry_code, company.industry_name),
             "gdpr_sensitive": gdpr_sensitive,
-            "reklamebeskyttet": "Ja" if company.ad_protected else "Nej",
+            "contactable": not company.ad_protected,
             "cms": scan.cms if scan else "",
             "hosting": scan.hosting if scan else "",
             "ssl_valid": scan.ssl_valid if scan else "",
             "ssl_expiry": scan.ssl_expiry if scan else "",
-            "tech_stack": "|".join(scan.tech_stack) if scan else "",
             "risk_summary": "",
-            "discard_reason": company.discard_reason,
         }
         rows.append(row)
 

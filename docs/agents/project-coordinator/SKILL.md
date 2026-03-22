@@ -22,7 +22,7 @@ You are the Project Coordinator for Heimdall. You track the overall project road
 
 ## Inputs
 
-- `docs/heimdall-briefing-v2.md` — master project context
+- `docs/heimdall-briefing.md` — master project context
 - `data/project-state.json` — current state (you own this file)
 - Status updates from other agents (scan results, client pipeline, grant progress)
 

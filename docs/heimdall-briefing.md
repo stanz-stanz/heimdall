@@ -1,7 +1,7 @@
-# Heimdall — Project Briefing v2
+# Heimdall — Project Briefing v3
 
 **Master context document for Claude Code sessions. Drop this in `docs/heimdall-briefing.md`.**
-**Replaces v1. Last updated: March 21, 2026.**
+**Replaces v2. Last updated: March 22, 2026.**
 
 ---
 
@@ -111,7 +111,11 @@ the §263 review.
 3. Clarify whether a web agency can authorize scanning of their clients' sites, or whether each end client must consent independently
 4. Recommended firms: Plesner, Kromann Reumert, Bech-Bruun (all have IT law / cybersecurity practices)
 
-Full legal research memo: see `Heimdall_Legal_Risk_Assessment.md`
+Full legal research memo: see `docs/Heimdall_Legal_Risk_Assessment.md`
+
+### Compliance Controls — Valdí
+
+Heimdall uses a programmatic compliance agent ("Valdí") that validates all scanning code against `SCANNING_RULES.md` before execution. Every validation produces a timestamped forensic log. See `docs/agents/legal-compliance/SKILL.md` for the full specification. See `SCANNING_RULES.md` (project root) for the authoritative rules on what is permitted at each Layer and Level.
 
 ---
 
@@ -219,7 +223,7 @@ Closest competitor: **Intruder.io**. Founded 2015, GCHQ Cyber Accelerator alumni
 
 ### Enterprise EASM Players (For Context — Not Direct Competitors)
 
-CrowdStrike Falcon Surface, Trend Micro Cyber Risk Exposure Management, Censys Attack Surface Management, Qualys EASM. All enterprise-priced, enterprise-designed. Relevant as context for what EASM means at scale, but not competitors at the SMB/kr. 215/month tier.
+CrowdStrike Falcon Surface, Trend Micro Cyber Risk Exposure Management, Censys Attack Surface Management, Qualys EASM. All enterprise-priced, enterprise-designed. Relevant as context for what EASM means at scale, but not competitors at the SMB tier.
 
 ### Three Differentiators
 
@@ -233,21 +237,41 @@ CrowdStrike Falcon Surface, Trend Micro Cyber Risk Exposure Management, Censys A
 
 ## Service Tiers and Pricing
 
-| Tier | Price | Key Features |
-|------|-------|-------------|
-| Watchman | 215 kr./month | Weekly scan, plain-language Telegram findings, trend tracking, on-demand rescan |
-| Sentinel | 590 kr./month | Daily scan, uptime monitoring, SSL tracking, DNS change detection, proactive CVE matching, vendor email drafts |
-| Guardian | 1.480 kr./month | Authenticated scanning, OWASP ZAP DAST, shadow AI detection, quarterly PDF report, remediation verification |
+### Watchman — 499 kr./month
 
-### Unit Economics (Estimates)
+*We find problems on your website, explain them in plain language, and tell you what needs fixing.*
 
-| Tier | Price | Est. API Cost | Est. Compute | Est. Gross Margin |
-|------|-------|--------------|-------------|------------------|
-| Watchman | 215 kr. | ~22 kr. | ~1.5 kr. | ~89% |
-| Sentinel | 590 kr. | ~74 kr. | ~3.7 kr. | ~87% |
-| Guardian | 1.480 kr. | ~186 kr. | ~7.5 kr. | ~87% |
+Weekly scan. Findings delivered straight to Telegram. We track what's changed since last time and follow up on anything unresolved.
 
-API cost estimates based on current Claude API pricing. Actual costs vary with usage.
+### Sentinel — 799 kr./month
+
+*We watch your website every day. If something changes or a new threat hits your setup, you'll know the same day — with step-by-step instructions and a message ready to forward to whoever handles it.*
+
+Everything in Watchman, plus: daily scans, uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, drafted emails to your developer or hosting provider.
+
+### Guardian — 1.199 kr./month
+
+*We actively test your defences, confirm that fixes worked, and give you a report you can show your accountant or insurer.*
+
+Everything in Sentinel, plus: active vulnerability testing (with your written permission), detection of exposed AI tools and agent infrastructure, remediation verification, quarterly security report.
+
+### Tier Logic
+
+The tiers are structured around how much Heimdall takes off the client's plate:
+
+- **Watchman** tells you *what* is wrong.
+- **Sentinel** tells you *how* to fix it and writes the message for you.
+- **Guardian** *tests* your defences, *verifies* fixes, and *documents* your security posture.
+
+The "Who Do I Send This To?" problem (see Pilot Plan) is resolved differently at each tier. Watchman identifies the category of person responsible (your developer, your hosting provider). Sentinel provides the specific steps and a ready-to-forward message. Guardian verifies the fix was applied.
+
+### Pricing Summary
+
+| Tier | Price | Scan Frequency | Remediation Guidance | Active Testing |
+|------|-------|---------------|---------------------|---------------|
+| Watchman | 499 kr./month | Weekly | What to fix | No |
+| Sentinel | 699 kr./month | Daily | How to fix it + draft message | No |
+| Guardian | 999 kr./month | Daily | How to fix it + verification | Yes (with consent) |
 
 ---
 
@@ -255,22 +279,38 @@ API cost estimates based on current Claude API pricing. Actual costs vary with u
 
 ### Phase 0: Prospecting Engine
 
-1. Obtain Vejle-area company list from CVR (https://datacvr.virk.dk — public data)
-2. Extract website URLs from register entries
-3. Batch scan with `webanalyze` or `httpx` for CMS/hosting/tech detection (Layer 1 — passive, legally safe)
-4. Auto-bucket results:
+**Input:** Federico manually extracts a Vejle-area company list from CVR (https://datacvr.virk.dk — public data) and saves it as `data/prospects/CVR-extract.xlsx`. The pipeline does not scrape or access datacvr.virk.dk.
+
+**Pipeline steps:**
+
+1. Read CVR Excel export
+2. Apply pre-scan filters from `data/prospects/filters.json` (industry_code, contactable)
+3. Derive website domains from company email addresses (discard free webmail)
+4. Resolve domains (check website exists + robots.txt compliance)
+5. Layer 1 scanning with Valdí-approved scan types (`webanalyze`, `httpx`) — all scan types must pass Valdí Gate 1 review before execution
+6. Auto-bucket results:
    - **Bucket A (HIGHEST):** Self-hosted WordPress on shared hosting
    - **Bucket B (HIGH):** Other self-hosted CMS (Joomla, Drupal, PrestaShop)
    - **Bucket C (LOWER):** Shopify / Squarespace / Wix (platform handles most infrastructure security)
    - **Bucket D (SKIP):** No website / parked domain
    - **Bucket E (MEDIUM):** Custom-built / unidentifiable
-5. Second dimension: filter by CVR branchekoder for GDPR-sensitive industries (healthcare, legal, accounting, real estate, dental)
-6. Generate per-site brief: CMS, hosting provider, SSL status, detected plugins, risk profile
-7. Output: bucketed CSV + per-site briefs
+7. Apply post-scan filters from `filters.json` (bucket)
+8. Flag GDPR-sensitive industries via CVR branchekoder (healthcare, legal, accounting, real estate, dental)
+9. Detect web agencies via footer credits and meta author tags
+10. Generate per-site brief: CMS, hosting provider, SSL status, detected plugins, risk profile
+11. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
+
+**Output notes:**
+- Only companies with a live website appear in the output CSV
+- Industry names are translated to English via `data/prospects/industry_codes.json` (static lookup by industry code)
+- `contactable` field (boolean) replaces the Danish Reklamebeskyttet flag (inverted: ad-protected = not contactable)
+- `tech_stack` is in per-site briefs only, not in the CSV
+
+**Filter configuration:** see `docs/agents/prospecting/SKILL.md` for the `filters.json` format
 
 ### The "First Finding Free" Sales Motion
 
-The prospecting scan (Layer 1) costs nothing to run and produces real findings: outdated CMS versions, expiring SSL certificates, exposed admin panels, detectable technology stack. This data powers a free-sample sales motion — show the prospect a real finding on their actual website before asking for money.
+The prospecting scan (Layer 1) costs nothing to run and produces real findings: outdated CMS versions, expiring SSL certificates, missing security headers, detectable technology stack. This data powers a free-sample sales motion — show the prospect a real finding on their actual website before asking for money.
 
 ### Agency Pitch (Bonus)
 
@@ -280,26 +320,27 @@ Scan all sites built by a specific local agency (identifiable from footer credit
 
 ## Pilot Plan
 
-### Budget: ~7.000 kr. ($1,000)
+### Budget: ~12.000 kr.
 
 | Item | Est. Cost |
 |------|----------|
-| NVMe HAT + 256GB SSD | ~335 kr. |
-| PSU + cooler (if needed) | ~185 kr. |
-| Claude API (3 months) | ~1.115 kr. |
-| Domain + landing page | ~225 kr. |
-| Professional indemnity insurance | ~3.700–5.200 kr./year |
-| Contingency | ~375–740 kr. |
+Hardware (Raspberry Pi 5 8gb NVMe HAT + 256 GB SSD)  |~2.000 kr.
+Power supply and cooling    |~250 kr.
+Claude API usage (3 months)    |~1.500 kr.
+Domain and landing page    |~500 kr./year
+Professional indemnity insurance    |~3.700–5.500 kr./year
+Contingency    |~800–1.500 kr.
+
 
 ### Timeline
 
-**Week 1:** Build lead-gen pipeline in Claude Code. Configure Pi with OpenClaw + scanning tools. Write core scanning skill. Test on own domains.
+**Week 1:** Build lead-gen pipeline in Claude Code on laptop. Implement Valdí compliance gates. Test scanning functions on own domains. Pi/OpenClaw setup comes after pipeline is validated.
 
 **Week 2–3:** Run prospecting scan across Vejle businesses. Recruit 5 pilot clients from Bucket A. Free first month. Get written scanning authorization.
 
 **Week 3–4:** Run scan cycles. Human-in-the-loop (Federico reviews every message). Refine prompt templates. Document what Claude gets right and wrong.
 
-**Week 4:** Second scan cycle. Test follow-up/memory model. End-of-pilot conversations: Did you read it? Did you understand? Did you act? Would you pay 215 kr./month?
+**Week 4:** Second scan cycle. Test follow-up/memory model. End-of-pilot conversations: Did you read it? Did you understand? Did you act? Would you pay for this?
 
 ### What the Pilot Validates
 
@@ -309,23 +350,26 @@ Scan all sites built by a specific local agency (identifiable from footer credit
 
 ### The "Who Do I Send This To?" Problem
 
-| Client Scenario | Heimdall's Response |
-|----------------|-------------------|
-| Has a web developer | Message designed to be forwarded directly |
-| Self-manages WordPress | Step-by-step wp-admin instructions |
-| Fully hosted (Shopify/Squarespace) | Platform-specific settings or drafted support ticket |
-| Nobody manages it | Draft hosting provider support ticket + curated freelancer referral list |
+| Client Scenario | Watchman | Sentinel / Guardian |
+|----------------|----------|-------------------|
+| Has a web developer | Identifies the issue and who should handle it | Message designed to be forwarded directly to the developer |
+| Self-manages WordPress | Identifies the issue and that it's a wp-admin task | Step-by-step wp-admin instructions |
+| Fully hosted (Shopify/Squarespace) | Identifies the issue and the platform | Platform-specific settings or drafted support ticket |
+| Nobody manages it | Identifies the issue and suggests contacting hosting provider | Draft hosting provider support ticket + curated freelancer referral list |
 
-Every finding ends with a clear "who should fix this" line.
+Every finding ends with a clear "who should fix this" line. Sentinel and Guardian add the "how" — specific steps and ready-to-send messages.
 
 ---
 
 ## Documents Produced
 
 1. **Heimdall_Business_Case_v2.md** — board-ready document (to be regenerated from this briefing in Claude Code with all corrections applied)
-2. **Heimdall_Legal_Risk_Assessment.md** — legal research memo on §263 and scanning consent
+2. **Heimdall_Legal_Risk_Assessment.md** — legal research memo on §263 and scanning consent (with Valdí addendum)
 3. **OpenClaw_RPi5_Autonomous_Profit_Research.md** — original research on autonomous profit scenarios
-4. **This briefing** — master context for Claude Code
+4. **SCANNING_RULES.md** — authoritative constraint document for all scanning code (project root)
+5. **docs/agents/legal-compliance/SKILL.md** — Valdí legal compliance agent specification
+6. **docs/legal/Valdi_Implementation_Actions.md** — implementation checklist for the compliance system
+7. **This briefing** — master context for Claude Code
 
 ---
 
@@ -333,8 +377,8 @@ Every finding ends with a clear "who should fix this" line.
 
 When asked to produce the final Heimdall Business Case v2.0:
 
-### Corrections from v1 to Apply
-- Add EASM definition/context in the introduction
+### Corrections from v1/v2 to Apply
+- Add EASM definition/context in the introduction ✓ (done in v2)
 - Do NOT mention Raspberry Pi in client-facing sections. Infrastructure section should describe the architecture abstractly. Keep Pi details in an internal appendix only.
 - Target customer DOES include businesses with endpoint security (CrowdStrike etc.) and businesses with small IT teams. Does NOT include businesses with an MSSP already handling external monitoring.
 - Replace all "Sources: ..." inline citations with superscript reference numbers pointing to a References section at the end
@@ -347,6 +391,11 @@ When asked to produce the final Heimdall Business Case v2.0:
 - Incorporate the legal framework summary (§263, consent requirement, Layer 1/2/3 distinction)
 - Incorporate GDPR Article 32 as a compliance driver¹¹
 - Add the EASM reference sources (CrowdStrike, Trend Micro, Censys, NCSC UK, Vectra) to the references
+- Use new pricing tiers: Watchman 499 kr., Sentinel 799 kr., Guardian 1.199 kr. ✓ (done in v3)
+- Do NOT include profit margins or unit economics in any document — internal knowledge only
+- Remove "exposed admin panels" from Layer 1 findings — admin panel detection is Layer 2 ✓ (done in v3)
+- Reference Valdí compliance controls in legal and scanning sections ✓ (done in v3)
+- Tier descriptions must use client-facing language, no tool names (no "OWASP ZAP DAST", no "Nuclei")
 
 ### References (for numbered superscripts in the document)
 
