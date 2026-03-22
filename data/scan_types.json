@@ -1,0 +1,83 @@
+{
+  "scan_types": [
+    {
+      "id": "ssl_certificate_check",
+      "description": "Standard TLS handshake to read SSL certificate details (expiry, issuer, validity)",
+      "layer": 1,
+      "level_required": 0,
+      "tools": [],
+      "paths_accessed": [],
+      "handles_robots_txt_denial": "N/A — TLS handshake, not HTTP request",
+      "current_approval_token": "9446c250-37c3-4f36-bc82-e2be64ee9381",
+      "last_validated": "2026-03-22T10:00:00Z",
+      "function_file": "pipeline/scanner.py",
+      "function_name": "_check_ssl",
+      "function_lines": "41-64",
+      "function_hash": "sha256:92913351a212ed6abcb6d9a8a9614c1205140f15cd2bfbf267abb06f4e6c30b8"
+    },
+    {
+      "id": "homepage_meta_extraction",
+      "description": "Fetches homepage HTML to extract meta author tag, footer credits, and WordPress plugin slugs from page source",
+      "layer": 1,
+      "level_required": 0,
+      "tools": ["requests"],
+      "paths_accessed": ["/"],
+      "handles_robots_txt_denial": false,
+      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "c023519a-0894-4959-b878-828517cbf2d2",
+      "last_validated": "2026-03-22T10:01:00Z",
+      "function_file": "pipeline/scanner.py",
+      "function_name": "_extract_page_meta",
+      "function_lines": "68-108",
+      "function_hash": "sha256:6818b848066874a41aa08a340e5a6db0d4d2ea951ca63601848071472f38a88c"
+    },
+    {
+      "id": "httpx_tech_fingerprint",
+      "description": "Runs httpx CLI with tech-detect, server, status-code, and title flags for passive technology fingerprinting",
+      "layer": 1,
+      "level_required": 0,
+      "tools": ["httpx"],
+      "paths_accessed": ["/"],
+      "handles_robots_txt_denial": false,
+      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "69c956db-2ad1-4606-b9b4-f85bc309be4e",
+      "last_validated": "2026-03-22T10:02:00Z",
+      "function_file": "pipeline/scanner.py",
+      "function_name": "_run_httpx",
+      "function_lines": "111-157",
+      "function_hash": "sha256:9f5fb3f1ed4cd20611a661046b729d4e573bb2235e0a26a3505a51d2c2e0ddfe"
+    },
+    {
+      "id": "webanalyze_cms_detection",
+      "description": "Runs webanalyze CLI with -crawl 0 for CMS/technology detection from homepage response only",
+      "layer": 1,
+      "level_required": 0,
+      "tools": ["webanalyze"],
+      "paths_accessed": ["/"],
+      "handles_robots_txt_denial": false,
+      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "474b98c0-4d33-4703-80ca-0a65ba77e467",
+      "last_validated": "2026-03-22T10:03:00Z",
+      "function_file": "pipeline/scanner.py",
+      "function_name": "_run_webanalyze",
+      "function_lines": "160-207",
+      "function_hash": "sha256:79058d2d513fcf6d748e0c44d4ec253b7e7bd56eeb9593f394acc4c42af7a06f"
+    },
+    {
+      "id": "response_header_check",
+      "description": "HEAD request to homepage to check for security-relevant response headers (X-Frame-Options, CSP, HSTS, X-Content-Type-Options)",
+      "layer": 1,
+      "level_required": 0,
+      "tools": ["requests"],
+      "paths_accessed": ["/"],
+      "handles_robots_txt_denial": false,
+      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "60ecae45-0147-4fa4-a3d8-82e149f01291",
+      "last_validated": "2026-03-22T10:04:00Z",
+      "function_file": "pipeline/scanner.py",
+      "function_name": "_get_response_headers",
+      "function_lines": "210-232",
+      "function_hash": "sha256:3c588da7ab51fd46f4d899289f396c5e014c2c7616aae572a4c96d2e212b5049"
+    }
+  ]
+}
