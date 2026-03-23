@@ -421,3 +421,209 @@ Post-pilot migration path:
 - **Multi-node** architecture as client volume exceeds single-server capacity
 
 The migration is planned and straightforward. The skill architecture does not change — only the hardware underneath it.
+
+---
+
+## 10. Risk Analysis & Mitigations
+
+### 10.1 LLM Hallucination
+
+| | |
+|---|---|
+| **Probability** | Medium |
+| **Impact** | High — incorrect advice could cause a client to take wrong action or ignore a real threat |
+| **Mitigation** | Tools produce findings, LLM only interprets. The LLM never decides what is vulnerable — it explains what the scanner found. During pilot: human-in-the-loop review of every message. Post-pilot: confidence scoring system flags low-confidence interpretations for human review. Known risk of "false specificity" (plausible advice wrong for the specific environment) is mitigated by separating "what's wrong" from "how to fix" and bounding remediation guidance to generic best practices with authoritative links. |
+
+### 10.2 Legal Gray Zone (Straffeloven §263)
+
+| | |
+|---|---|
+| **Probability** | Low (for Layer 1); Medium (for Layer 2 without consent) |
+| **Impact** | Critical — criminal liability for the operator |
+| **Mitigation** | Valdí two-gate compliance system enforces Layer/Level boundaries programmatically. Forensic logging creates a due diligence trail. Layer 2 scanning only activates after written client consent. Legal counsel engagement is a funded milestone in The Ask (15,000–25,000 kr.). The business model is designed so that the free prospecting scan (Layer 1) and the paid service (Layer 2 with consent) align with the legal boundary. |
+
+### 10.3 Solo Founder
+
+| | |
+|---|---|
+| **Probability** | High (bus factor = 1) |
+| **Impact** | High — project stops if founder is unavailable |
+| **Mitigation** | Network security partner provides domain expertise and operational backup. Claude Code functions as a force multiplier — a solo developer with AI tooling operates at the output level of a small team. All agent specifications are documented in SKILL.md files, making the system transferable. The entire codebase (14 modules, 10 agent specs, compliance system, legal research) was built in days, not months. Advisory targets include university partners (for grant consortium) and legal counsel. First hire priority (if funded) is a part-time operations person. |
+
+### 10.4 Customer Churn
+
+| | |
+|---|---|
+| **Probability** | High (30–40% Y1 is the baseline assumption) |
+| **Impact** | Medium — manageable if acquisition cost is low |
+| **Mitigation** | Persistent memory creates switching costs. Agency partnerships provide cohort retention (if the agency stays, their clients stay). GDPR Article 32 creates an ongoing compliance obligation, not a one-time fix. The follow-up model keeps the service visible. Break-even at 5–6 clients means the business survives high early churn. The financial projections already account for this churn rate. |
+
+### 10.5 Competitive Response
+
+| | |
+|---|---|
+| **Probability** | Medium |
+| **Impact** | Medium |
+| **Mitigation** | Adding messaging delivery to a dashboard product requires rebuilding the communication layer, user model, and output format — not shipping a webhook. Intruder and HostedScan are optimized for security-literate users; pivoting to non-technical SMBs means changing the product, not adding a feature. Local in-person relationships (forced by Markedsføringsloven) create a moat that remote-first competitors cannot replicate easily. First-mover advantage in shadow AI detection adds differentiation. |
+
+### 10.6 Danish Market Size
+
+| | |
+|---|---|
+| **Probability** | N/A (this is a structural constraint, not a risk event) |
+| **Impact** | Low — if the model works, 200 clients in Denmark is a viable business |
+| **Mitigation** | Denmark-first is a strategy, not a limitation. It means GDPR-first — the compliance framework translates to all 27 EU member states. 200 paying clients at 650 kr./month blended = 1.56M kr./year ARR. That is a real business. EU expansion is the growth story, funded by revenue and grants. The conservative projections assume Denmark only. |
+
+### 10.7 Shadow AI Detection Commoditization
+
+| | |
+|---|---|
+| **Probability** | Medium (within 12–24 months) |
+| **Impact** | Low |
+| **Mitigation** | Shadow AI detection is one of three differentiators — not the only one. If competitors add it, Heimdall still has messaging-first delivery and persistent memory. The first-mover window (estimated 12–18 months) is enough to establish market position and client relationships. The real moat is the delivery model + local trust, not any single detection capability. |
+
+---
+
+## 11. Regulatory & Legal Framework
+
+### 11.1 Danish Criminal Law — Straffeloven §263
+
+Straffeloven §263, stk. 1 criminalizes gaining unauthorized access ("uberettiget adgang") to another person's data system. Penalty: fine or up to 18 months imprisonment; up to 6 years under aggravating circumstances.¹⁵
+
+The ICLG Cybersecurity Report 2026 (Denmark) states: "Unsolicited penetration of an IT system (without permission from the owner) will — most likely — be considered a violation under section 263 of the Danish Penal Code."¹⁶
+
+**Heimdall's position:** Layer 1 scanning (reading publicly served information) carries minimal legal risk — it is functionally identical to visiting a website in a browser. Layer 2 scanning (active vulnerability probing) operates in the gray zone and requires written client consent before activation. This maps cleanly to the business model: free prospecting scan = Layer 1; paid service = Layer 2 with consent.
+
+A full legal risk assessment has been prepared (see project documentation) and will be presented to legal counsel as a funded milestone.
+
+### 11.2 GDPR Article 32 — The Compliance Driver
+
+GDPR Article 32 requires "appropriate technical and organisational measures" to ensure security appropriate to the risk.⁷ This applies to every business handling personal data — including the restaurant collecting booking information, the physiotherapy clinic with patient records, and the e-commerce shop processing payments.
+
+Most Danish SMBs are non-compliant with Article 32 by default. They do not know this. Heimdall makes the gap visible and provides a path to close it. The subscription is not a cost — it is a compliance measure.
+
+### 11.3 Markedsføringsloven — Outreach Constraint as Advantage
+
+Danish marketing law prohibits unsolicited electronic marketing without prior consent. Cold calling requires Robinson List compliance. This eliminates the standard SaaS cold outreach playbook.
+
+Reframed: this forces a high-trust, in-person acquisition model. Heimdall's "first finding free" approach — showing a business owner a real scan of their actual website — works in person. It does not need email. The constraint creates a barrier to entry for remote-first competitors who rely on digital outbound at scale.
+
+### 11.4 Valdí as Demonstrable Due Diligence
+
+The Valdí compliance system — two-gate validation, forensic logging, approval tokens, documented incident response — was built specifically to demonstrate due diligence under §263. Every scan type is validated before execution. Every validation is logged. Every rejection is preserved alongside approvals.
+
+If Heimdall is ever questioned by regulators, the forensic log trail provides timestamped evidence of what was scanned, what was approved, what was rejected, and why.
+
+### 11.5 Open Questions for Counsel
+
+The following questions are documented and will be addressed as a funded milestone:
+
+1. Confirm the Layer 1/Layer 2 boundary under §263
+2. Draft/review a scanning authorization template
+3. Clarify whether a web agency can authorize scanning of their clients' sites, or whether each end client must consent independently
+4. Assess whether Valdí's forensic logs meet due diligence expectations under Danish law
+
+Recommended firms: Plesner, Kromann Reumert, Bech-Bruun (all with IT law / cybersecurity practices).
+
+---
+
+## 12. Team & Execution Capability
+
+### 12.1 Founder
+
+**Federico** — Vejle-based. Technical background: Claude Code, React/TSX, self-hosted infrastructure, Raspberry Pi experience. Building Heimdall alongside the Fjordleather brand (leather goods — separate business, shared entrepreneurial infrastructure).
+
+What Federico built in the first weeks of development:
+- 14-module Python pipeline for lead generation
+- 10 agent specifications with documented boundaries and handoff protocols
+- Valdí legal compliance system with two-gate validation and forensic logging
+- Complete legal risk assessment of Danish scanning law under §263
+- Post-incident report and remediation for a compliance boundary violation
+- Prospecting pipeline tested against 353 live Vejle-area domains
+
+This is not a slide deck. The product is being built.
+
+### 12.2 Network Security Partner
+
+A network security specialist provides domain expertise, technical credibility, and operational support. This partnership addresses the "solo founder" risk and adds professional depth that matters in conversations with agencies, business associations, and grant consortiums.
+
+### 12.3 Claude Code as Force Multiplier
+
+The codebase was built with Claude Code — Anthropic's AI development assistant. This is a deliberate architectural choice, not a shortcut. A solo developer with Claude Code operates at the output level of a small team for code generation, documentation, research, and specification writing.
+
+The agent specifications (SKILL.md files) encode domain knowledge in a structured, transferable format. If the team grows, new developers onboard by reading the specifications — the knowledge is in the system, not in one person's head.
+
+### 12.4 Advisory Targets
+
+| Role | Purpose | Status |
+|------|---------|--------|
+| University partner (AAU/SDU/DTU) | Grant consortium, research validation | Target for NCC-DK application |
+| Legal counsel (Plesner/Kromann/Bech-Bruun) | §263 confirmation, authorization template | Funded milestone |
+| Industriens Fond | Cybersikkerhedsprogram alignment | Research stage |
+| Operations hire (part-time) | Client communication, pilot support | Post-funding priority |
+
+---
+
+## 13. Financial Projections
+
+### 13.1 Three Scenarios
+
+All scenarios assume blended ARPC (average revenue per client) of 650 kr./month and account for 30–40% Y1 churn.
+
+**Conservative (base case):**
+
+| | Month 12 | Month 24 | Month 36 |
+|---|---------|---------|---------|
+| Active clients | 10 | 50 | 100 |
+| MRR | 6,500 kr. | 32,500 kr. | 65,000 kr. |
+| ARR | 78,000 kr. | 390,000 kr. | 780,000 kr. |
+| Gross margin | ~73% | ~81% | ~83% |
+| Monthly infra cost | ~560 kr. | ~700 kr. | ~1,400 kr. |
+| Monthly API cost | ~750 kr. | ~3,750 kr. | ~7,500 kr. |
+
+Assumptions: Organic growth only. No agency partnerships beyond 1. No grant funding. Weighted toward Watchman tier.
+
+**Moderate:**
+
+| | Month 12 | Month 24 | Month 36 |
+|---|---------|---------|---------|
+| Active clients | 20 | 80 | 200 |
+| MRR | 13,000 kr. | 52,000 kr. | 130,000 kr. |
+| ARR | 156,000 kr. | 624,000 kr. | 1,560,000 kr. |
+| Gross margin | ~77% | ~82% | ~84% |
+
+Assumptions: 2 agency partnerships. Tier mix shifts toward Sentinel. Local business association traction.
+
+**Optimistic:**
+
+| | Month 12 | Month 24 | Month 36 |
+|---|---------|---------|---------|
+| Active clients | 30 | 120 | 300 |
+| MRR | 19,500 kr. | 78,000 kr. | 195,000 kr. |
+| ARR | 234,000 kr. | 936,000 kr. | 2,340,000 kr. |
+| Gross margin | ~79% | ~83% | ~85% |
+
+Assumptions: NCC-DK grant awarded. 3+ agency partnerships. EU pilot begins in Month 24. Tier mix includes Guardian clients.
+
+### 13.2 Break-Even Analysis
+
+| Metric | Value |
+|--------|-------|
+| Fixed monthly costs (infra + API + insurance) | ~3,500 kr. |
+| Blended ARPC | ~650 kr. |
+| Gross margin per client | ~500–535 kr. |
+| **Break-even point** | **~5–6 paying clients** |
+| Pilot budget (self-funded) | 12,000 kr. |
+| Pre-revenue runway | 3–4 months |
+
+The low break-even point is a structural advantage. Heimdall does not need 1,000 clients to be viable. Five clients paying 499 kr./month cover operating costs. Everything above that is margin.
+
+### 13.3 What the Numbers Do Not Include
+
+These projections do not account for:
+- Grant funding (NCC-DK, Digital Europe Programme, Industriens Fond) — all non-dilutive upside
+- Consulting revenue from agency partnerships (implementation services for findings)
+- Upsell revenue from Watchman → Sentinel → Guardian tier migration
+- Quarterly report fees (Guardian tier, priced into subscription but high-margin)
+
+These are excluded deliberately. The conservative case must stand on subscription revenue alone.
