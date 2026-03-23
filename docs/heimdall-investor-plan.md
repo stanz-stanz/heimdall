@@ -627,3 +627,105 @@ These projections do not account for:
 - Quarterly report fees (Guardian tier, priced into subscription but high-margin)
 
 These are excluded deliberately. The conservative case must stand on subscription revenue alone.
+
+---
+
+## 14. The Ask
+
+### 14.1 Amount
+
+**150,000–250,000 kr.** — deliberately modest. This is not a bet on a vision. It is funding for specific, near-term milestones that convert a working prototype into a revenue-generating business.
+
+### 14.2 Use of Funds
+
+| Use | Amount | Why |
+|-----|--------|-----|
+| Legal counsel (§263 + consent template) | 15,000–25,000 kr. | Confirm the legal framework. Draft client authorization template. Clarify agency delegation rights. |
+| Professional indemnity insurance (Year 1) | 5,500 kr. | Required before scanning client sites commercially. |
+| Pilot hardware (Raspberry Pi 5 + accessories) | 2,500 kr. | Dedicated always-on scanning infrastructure for 5–10 pilot clients. |
+| Claude API (6 months) | 4,500 kr. | Finding interpretation, message composition, follow-up generation. |
+| Domain + marketing materials | 3,000 kr. | Landing page, business cards, one-pagers for in-person sales. |
+| Founder runway (3–6 months part-time) | 60,000–120,000 kr. | Enables focused execution alongside existing business (Fjordleather). |
+| VPS migration | 10,000 kr. | Move from Pi to production hosting when client count exceeds pilot capacity. |
+| Grant consortium costs | 20,000 kr. | NCC-DK application preparation, university partner coordination, travel. |
+| Contingency | 20,000–40,000 kr. | Unforeseen costs, extended timeline, additional legal review. |
+
+### 14.3 Milestone-Gated Deployment
+
+The funding is not a lump sum. It is deployed against specific milestones:
+
+| Milestone | Timeline | Funded By |
+|-----------|----------|-----------|
+| Legal confirmation + authorization template | Month 1–2 | Legal counsel budget |
+| Pilot launch (5 clients, Vejle) | Month 2 | Hardware + insurance + API |
+| Pilot validation data collected | Month 3 | Founder runway |
+| First paying clients | Month 3–4 | Founder runway + marketing |
+| NCC-DK grant application submitted | Before April 15 | Grant consortium budget |
+| First agency partnership | Month 4–6 | Founder runway + marketing |
+| Break-even (5–6 clients) | Month 4–6 | — |
+| 10 paying clients | Month 6 | — |
+| VPS migration | Month 6–8 | VPS budget |
+| 20 paying clients | Month 12 | — |
+
+### 14.4 Why This Amount
+
+The ask is small because the cost structure is small. There is no office, no team of 10, no enterprise sales cycle. The infrastructure is a Raspberry Pi transitioning to a VPS. The sales motion is in-person conversations powered by free scans. The AI interpretation runs on a pay-per-use API.
+
+The largest line item is founder runway — enabling Federico to dedicate meaningful time to the pilot alongside his existing business. Without it, the project progresses at evenings-and-weekends pace. With it, the timeline compresses from 12 months to 6.
+
+A larger raise is possible but not necessary. If the NCC-DK grant is awarded, the funding picture changes significantly — the 5.5M kr. pool could fund 12–18 months of accelerated development and expansion. The angel investment positions Heimdall to apply for that grant from a position of strength (working product, paying clients, legal confirmation).
+
+---
+
+## 15. Why Now?
+
+Five forces are converging in 2026 that make this the right moment — not 2024, not 2028.
+
+### 15.1 Government Spending Starts Now
+
+The Danish government allocated 211 million kr. for cybersecurity over 2026–2029, plus 275 million kr./year for NIS2 implementation.² This is not a proposal — it is a signed cross-party agreement backed by nearly every party in the Folketing. SMV-CERT, the new SMB-focused Computer Emergency Response Team, is being built as a public-private partnership.⁴ The money is flowing and the infrastructure is being created for exactly the type of service Heimdall provides.
+
+### 15.2 The NCC-DK Grant Window Is Open
+
+The 5.5 million kr. NCC-DK grant pool opened on February 26, 2026 with a deadline of April 15, 2026.³ The stated criteria — "innovative cybersecurity solutions" with a cited example of "an AI-based tool that uses pattern recognition to simulate attacker behaviour" — describe Heimdall's architecture almost exactly. This is a time-limited opportunity. Total NCC-DK grant budget for 2026–2029: 43 million kr. Missing the first round means waiting for the next.
+
+### 15.3 NIS2 Compliance Pressure Is Mounting
+
+NIS2 (effective in Denmark since July 1, 2025) expands mandatory security requirements into the SMB space through supply chain obligations. Larger enterprises must ensure their suppliers meet security standards — pulling their SMB vendors into compliance scope. A restaurant may not care about NIS2 directly, but the booking platform it uses, or the payment processor it relies on, may start requiring security attestations from its business clients.
+
+### 15.4 The Shadow AI Attack Surface Is Exploding
+
+Over 21,000 OpenClaw instances are publicly exposed.¹⁰ Kaspersky found 512 vulnerabilities in the platform.¹² A Dark Reading poll found 48% of security professionals consider agentic AI a top attack vector for 2026.¹³ Businesses are deploying AI agents — chatbots, workflow automation, data processing — without understanding the security implications. No SMB-focused security tool scans for this. Heimdall does.
+
+### 15.5 The Delivery Gap Is Still Open
+
+As of March 2026, no EASM product delivers findings through messaging apps to non-technical business owners. Every competitor uses a dashboard. The window for establishing messaging-first delivery as a category is open now. It will not stay open indefinitely — but the first mover who builds a client base with persistent memory and local trust relationships creates a position that is expensive to replicate.
+
+---
+
+These five forces do not individually guarantee success. Together, they create a convergence: government money, grant opportunity, regulatory pressure, a new attack surface, and an unserved delivery model — all in 2026. The question for an investor is not whether the cybersecurity market for Danish SMBs will grow. The government has already decided it will. The question is who will serve it.
+
+---
+
+## References
+
+1. Styrelsen for Samfundssikkerhed — 40% of Danish SMBs lack adequate security. https://samsik.dk
+2. Danish Government — Cybersecurity Strategy 2026–2029 ("Aftale om strategi for cyber- og informationssikkerhed 2026-2029"). https://mssb.dk/nyheder/nyhedsarkiv/2026/januar/aftale-ny-strategi-for-cyber-og-informationssikkerhed/
+3. NCC-DK — 5.5M kr. grant pool for innovative cybersecurity solutions. https://samsik.dk/artikler/2026/02/ny-pulje-55-mio-kr-til-innovative-loesninger-paa-cybertruslen/
+4. DI Digital — SMV-CERT proposal (Lars Sandahl quote). https://www.danskindustri.dk/brancher/di-digital/nyhedsarkiv/nyheder/2025/12/di-vil-samle-krafterne-mod-cyberangreb-ny-enhed-skal-styrke-beskyttelsen-af-sma-og-mellemstore-virksomheder/
+5. VikingCloud 2026 SMB Statistics — 60% breach closure rate. Cited via https://digacore.com/blog/managed-cybersecurity-services-smb-2026/
+6. NCSA / Getastra — SMB breach survival data. Cited via https://www.getastra.com/blog/dast/vulnerability-scanning-for-smbs/
+7. GDPR Article 32 / Vectra compliance guide. https://www.vectra.ai/topics/gdpr-compliance
+8. Qualys — Dashboard documentation ("interactive customizable widgets"). https://blog.qualys.com/product-tech/2020/02/04/actionable-searching-and-data-download-with-vulnerability-management-dashboards
+9. Intruder.io / Bugcrowd — Vulnerability scanning tools, Intruder profile. https://www.intruder.io/blog/the-top-vulnerability-scanning-tools / https://www.bugcrowd.com/glossary/intruder-vulnerability-scanner/
+10. SecurityScorecard STRIKE Team — 21,000+ exposed OpenClaw instances. Cited via https://pbxscience.com/openclaw-2026s-first-major-ai-agent-security-crisis-explained/
+11. Koi Security / Bitdefender — ClawHub malicious skills. Cited via https://blog.cyberdesserts.com/openclaw-malicious-skills-security/
+12. Kaspersky — OpenClaw security audit (512 vulnerabilities). Cited via https://www.institutionalinvestor.com/article/openclaw-ai-agent-institutional-investors-need-understand-shouldnt-touch
+13. Dark Reading / Kiteworks — 48% agentic AI attack vector poll; Gravitee State of AI Agent Security 2026. Cited via https://www.kiteworks.com/cybersecurity-risk-management/agentic-ai-attack-surface-enterprise-security-2026/ and https://beam.ai/agentic-insights/ai-agent-security-in-2026-the-risks-most-enterprises-still-ignore
+14. Danish CVR Register — Public company data. https://datacvr.virk.dk
+15. Straffeloven §263 — Danish Penal Code hacking provision. https://danskelove.dk/straffeloven/263
+16. ICLG Cybersecurity Report 2026 — Denmark chapter. https://iclg.com/practice-areas/cybersecurity-laws-and-regulations/denmark
+
+---
+
+*This document was prepared in March 2026. Financial projections are forward-looking estimates based on stated assumptions. All scanning activities described comply with Danish law as analyzed in the project's legal risk assessment — confirmation by qualified legal counsel is a funded milestone.*
