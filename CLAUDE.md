@@ -1,4 +1,4 @@
-<!-- CLAUDE.md v2.5 — Last updated: 2026-03-22 -->
+<!-- CLAUDE.md v2.6 — Last updated: 2026-03-24 -->
 
 # CLAUDE.md
 
@@ -62,8 +62,12 @@ The complete definition of what is allowed and forbidden at each Layer/Level is 
 | `SCANNING_RULES.md` | **Authoritative scanning constraint document.** What is allowed and forbidden at each Layer/Level. Read before writing or modifying any scanning code. |
 | `docs/agents/legal-compliance/SKILL.md` | **Valdí — Legal Compliance Agent.** Enforces SCANNING_RULES.md. Validates scan types, manages consent registry, produces forensic logs. |
 | `docs/legal/Heimdall_Legal_Risk_Assessment.md` | Danish legal analysis of scanning under Straffeloven §263. |
+| `docs/legal/compliance-checklist.md` | Compliance checklist for scanning operations. |
 | `docs/agents/README.md` | Agent system overview, chain architecture, handoff protocols. |
 | `docs/reference/incidents/` | Post-incident reports. Read before building any scanning functionality. |
+| `docs/plans/Heimdall_Investor_Plan.docx` | **Investor plan (committee-ready).** Manually maintained — do not regenerate or overwrite. |
+| `docs/plans/investor-plan-outline.md` | Outline and structure reference for the investor plan. |
+| `docs/decisions/log.md` | Decision log for project-level choices. |
 
 ---
 
@@ -115,8 +119,8 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 | `data/prospects/CVR-extract.xlsx` | Input: manually extracted CVR company list |
 | `data/prospects/filters.json` | Optional: configurable pipeline filters |
 | `data/prospects/industry_codes.json` | Static: industry code → English name mapping |
-| `data/prospects/prospects-list.csv` | Output: bucketed prospect list (only companies with live websites) |
-| `data/prospects/briefs/{domain}.json` | Output: per-site technology briefs |
+| `data/prospects/prospect-list.csv` | Output: bucketed prospect list (only companies with live websites) |
+| `data/prospects/briefs/{domain}.json` | Output: per-site technology briefs (placeholder — `briefs/` has `.gitkeep` only) |
 
 ---
 
