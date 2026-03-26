@@ -1,8 +1,8 @@
 # Heimdall — Startup Denmark (SIRI) Application Outline
 
 **Status:** Designed, pending writing
-**Output file:** `docs/plans/heimdall-siri-application.md`
-**Agent ownership:** Grant & Funding Agent (`docs/agents/grant-funding/SKILL.md`)
+**Output file:** `docs/business/heimdall-siri-application.md`
+**Agent ownership:** Grant & Funding Agent (`agents/grant-funding/SKILL.md`)
 
 ---
 
@@ -194,7 +194,7 @@ Directly addresses SIRI Criterion 4.
 
 ### References
 
-Numbered superscript citations throughout → references section at end, sourced from `docs/heimdall-briefing.md` (lines 401–431) plus market data. Add Startup Denmark programme reference.
+Numbered superscript citations throughout → references section at end, sourced from `docs/briefing.md` (lines 401–431) plus market data. Add Startup Denmark programme reference.
 
 ---
 
@@ -216,9 +216,9 @@ Numbered superscript citations throughout → references section at end, sourced
 
 | File | Use |
 |------|-----|
-| `docs/heimdall-briefing.md` | All business data, pricing, stats, references |
+| `docs/briefing.md` | All business data, pricing, stats, references |
 | `docs/legal/Heimdall_Legal_Risk_Assessment.md` | Legal framework content |
-| `docs/agents/grant-funding/SKILL.md` | Agent boundaries |
+| `agents/grant-funding/SKILL.md` | Agent boundaries |
 | `docs/reference/incidents/incident-2026-03-22-layer2-violation.md` | Incident framing |
 | `SCANNING_RULES.md` | Layer/Level definitions (reference, don't restate) |
 | Federico's resume (`canonical.yaml`) | Team section biographical data |

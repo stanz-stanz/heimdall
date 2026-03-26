@@ -33,7 +33,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 **Consequences:**
 - `heimdall-investor-plan.md` → `heimdall-siri-application.md` (major rewrite)
 - `investor-plan-outline.md` → `siri-application-outline.md` (major rewrite)
-- `Heimdall_Investor_Plan.docx` archived to `docs/plans/archive/`
+- `Heimdall_Investor_Plan.docx` archived to `docs/business/archive/`
 - Grant & Funding agent scope expanded to include SIRI application as Priority 0
 - NCC-DK grant becomes Phase 2 (post-CVR), not primary goal
 - New mandatory sections: "Why Denmark", "Scalability & Job Creation in Denmark", "Innovation"
