@@ -5,19 +5,79 @@ from __future__ import annotations
 import logging
 from datetime import date
 
+from pipeline.config import GDPR_SENSITIVE_CODES
 from pipeline.cvr import Company
 from pipeline.scanner import ScanResult
 
 log = logging.getLogger(__name__)
+
+# Technologies that indicate personal data collection/processing
+_DATA_HANDLING_PLUGINS = {
+    "gravityforms", "gravity-forms", "contact-form-7", "cf7", "wpforms",
+    "woocommerce", "booketbord", "booket-bord", "easy-digital-downloads",
+    "formidable", "ninja-forms", "caldera-forms", "everest-forms",
+}
+
+_TRACKING_TECH = {
+    "google analytics", "google tag manager", "facebook pixel",
+    "hotjar", "matomo", "piwik", "hubspot", "intercom", "crisp",
+    "recaptcha", "mailchimp",
+}
+
+_ECOMMERCE_CMS = {"shopify", "woocommerce", "prestashop", "magento"}
+
+
+def _determine_gdpr_sensitivity(
+    company: Company, scan: ScanResult,
+) -> dict:
+    """Determine GDPR sensitivity from industry code AND scan evidence.
+
+    Returns a structured object with the determination and all reasons.
+    """
+    reasons = []
+
+    # Signal 1: Industry code (pre-existing heuristic)
+    if company.industry_code:
+        for prefix in sorted(GDPR_SENSITIVE_CODES.keys(), key=len, reverse=True):
+            if company.industry_code.startswith(prefix):
+                reasons.append(f"Industry: {GDPR_SENSITIVE_CODES[prefix]}")
+                break
+
+    # Signal 2: Data-handling plugins (forms, bookings, payments)
+    data_plugins = [p for p in scan.detected_plugins
+                    if p.lower().replace(" ", "-") in _DATA_HANDLING_PLUGINS]
+    if data_plugins:
+        names = ", ".join(p.replace("-", " ").title() for p in data_plugins)
+        reasons.append(f"Data-handling plugins: {names}")
+
+    # Signal 3: E-commerce CMS or plugin
+    if scan.cms and scan.cms.lower() in _ECOMMERCE_CMS:
+        reasons.append(f"E-commerce platform: {scan.cms}")
+    ecom_plugins = [t for t in scan.tech_stack if t.lower().split(":")[0] in _ECOMMERCE_CMS]
+    if ecom_plugins and not any("E-commerce" in r for r in reasons):
+        reasons.append(f"E-commerce plugin: {', '.join(ecom_plugins)}")
+
+    # Signal 4: Tracking/analytics (visitor behavior data, requires cookie consent)
+    tracking = [t for t in scan.tech_stack
+                if any(tr in t.lower() for tr in _TRACKING_TECH)]
+    if tracking:
+        reasons.append(f"Visitor tracking: {', '.join(tracking)}")
+
+    return {
+        "sensitive": len(reasons) > 0,
+        "reasons": reasons,
+    }
 
 
 def generate_brief(
     company: Company,
     scan: ScanResult,
     bucket: str,
-    gdpr_sensitive: bool,
 ) -> dict:
     """Generate a per-site brief matching docs/agents/prospecting/SKILL.md schema."""
+    # Determine GDPR sensitivity from evidence
+    gdpr = _determine_gdpr_sensitivity(company, scan)
+
     # Build findings — each with severity (CVSS-aligned), description, and risk
     # Severity levels follow industry standard: critical, high, medium, low, info
     findings = []
@@ -97,13 +157,8 @@ def generate_brief(
             })
 
     # Plugins — especially those handling user data (forms, booking, e-commerce)
-    _data_handling_plugins = {
-        "gravityforms", "gravity-forms", "contact-form-7", "cf7", "wpforms",
-        "woocommerce", "booketbord", "booket-bord", "easy-digital-downloads",
-        "formidable", "ninja-forms", "caldera-forms", "everest-forms",
-    }
-    data_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") in _data_handling_plugins]
-    other_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") not in _data_handling_plugins]
+    data_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") in _DATA_HANDLING_PLUGINS]
+    other_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") not in _DATA_HANDLING_PLUGINS]
 
     if data_plugins:
         plugin_list = ", ".join(p.replace("-", " ").title() for p in data_plugins)
@@ -157,7 +212,8 @@ def generate_brief(
         "company_name": company.name,
         "scan_date": date.today().isoformat(),
         "bucket": bucket,
-        "gdpr_sensitive": gdpr_sensitive,
+        "gdpr_sensitive": gdpr["sensitive"],
+        "gdpr_reasons": gdpr["reasons"],
         "industry": company.industry_name,
         "technology": {
             "cms": scan.cms,

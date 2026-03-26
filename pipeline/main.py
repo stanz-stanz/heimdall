@@ -21,7 +21,6 @@ from pipeline.filters import apply_post_scan_filters, apply_pre_scan_filters, lo
 from pipeline.resolver import resolve_domains
 from pipeline.scanner import ScanResult, scan_domains
 from pipeline.bucketer import assign_buckets
-from pipeline.gdpr_filter import flag_gdpr_sensitive
 from pipeline.agency_detector import detect_agencies
 from pipeline.brief_generator import generate_brief
 from pipeline.output import write_agency_briefs, write_briefs, write_csv
@@ -75,16 +74,12 @@ def run(
     log.info("=== Step 7: Applying post-scan filters ===")
     companies = apply_post_scan_filters(companies, buckets, filters)
 
-    # Step 8: GDPR filter
-    log.info("=== Step 8: GDPR sensitivity filter ===")
-    gdpr_flags = flag_gdpr_sensitive(companies)
-
-    # Step 9: Agency detection
-    log.info("=== Step 9: Agency detection ===")
+    # Step 8: Agency detection
+    log.info("=== Step 8: Agency detection ===")
     agency_briefs = detect_agencies(companies, scan_results, buckets)
 
-    # Step 10: Generate per-site briefs
-    log.info("=== Step 10: Generating briefs ===")
+    # Step 9: Generate per-site briefs (includes evidence-based GDPR determination)
+    log.info("=== Step 9: Generating briefs (with GDPR determination) ===")
     site_briefs: dict[str, dict] = {}
     for company in companies:
         if company.discarded or not company.website_domain:
@@ -92,14 +87,13 @@ def run(
         scan = scan_results.get(company.website_domain)
         if not scan:
             continue
-        gdpr_sensitive, _ = gdpr_flags.get(company.cvr, (False, ""))
         bucket = buckets.get(company.cvr, "D")
-        brief = generate_brief(company, scan, bucket, gdpr_sensitive)
+        brief = generate_brief(company, scan, bucket)
         site_briefs[company.website_domain] = brief
 
-    # Step 11: Write outputs
-    log.info("=== Step 11: Writing outputs ===")
-    csv_path = write_csv(companies, buckets, gdpr_flags, scan_results, output_dir)
+    # Step 10: Write outputs
+    log.info("=== Step 10: Writing outputs ===")
+    csv_path = write_csv(companies, buckets, site_briefs, scan_results, output_dir)
     brief_count = write_briefs(site_briefs, briefs_dir)
     agency_count = write_agency_briefs(agency_briefs, output_dir)
 
@@ -107,10 +101,12 @@ def run(
     total = len(companies)
     discarded = sum(1 for c in companies if c.discarded)
     active = total - discarded
+    gdpr_count = sum(1 for b in site_briefs.values() if b.get("gdpr_sensitive"))
     log.info("=== Pipeline complete ===")
     log.info("Total companies: %d", total)
     log.info("Discarded: %d", discarded)
     log.info("Active prospects: %d", active)
+    log.info("GDPR-sensitive (evidence-based): %d", gdpr_count)
     log.info("Site briefs generated: %d", brief_count)
     log.info("Agency briefs generated: %d", agency_count)
     log.info("CSV output: %s", csv_path)

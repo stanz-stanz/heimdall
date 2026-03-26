@@ -27,7 +27,7 @@ def _load_industry_codes() -> dict[str, str]:
 def write_csv(
     companies: list[Company],
     buckets: dict[str, str],
-    gdpr_flags: dict[str, tuple[bool, str]],
+    site_briefs: dict[str, dict],
     scan_results: dict[str, ScanResult],
     output_dir: Path | None = None,
 ) -> Path:
@@ -51,7 +51,8 @@ def write_csv(
             continue
 
         bucket = buckets.get(company.cvr, "D")
-        gdpr_sensitive, _ = gdpr_flags.get(company.cvr, (False, ""))
+        brief = site_briefs.get(company.website_domain, {})
+        gdpr_sensitive = brief.get("gdpr_sensitive", False)
         scan = scan_results.get(company.website_domain)
 
         row = {
