@@ -66,7 +66,7 @@
       "approved_at": "2026-03-22T10:11:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:24a98eb474ebfb7b28e684a7d23e5504ef5afa74e4e9cc79b4420b256050ef46",
+      "function_hash": "sha256:1adda9919a09c453d1b658a8e024114e367a5e37163fc8e22f6f41604400bd28",
       "log_file": "agents/valdi/logs/2026-03-22_10-11-00_passive_domain_scan_orchestrator_v2.md",
       "hash_method": "inspect.getsource"
     },
