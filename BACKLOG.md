@@ -23,25 +23,29 @@ Close out the feature branch. Everything needed to merge and have a clean baseli
 
 ---
 
-## Sprint 2 — Pipeline Hardening
+## Sprint 2 — Docker Architecture (Pi5)
 
-Make the pipeline production-ready for a full Vejle run (all 68 targets, not just the 4 restaurant filter).
+Build the production scanning infrastructure. Architecture documented in `docs/architecture/pi5-docker-architecture.md`.
 
 ### Product
-- [ ] Widen filters for full Vejle run (currently filtering to industry code 561110 only)
-- [ ] WPScan commercial API — contact Automattic for pricing, evaluate for Level 1
-- [ ] Rate limiting / throttling for crt.sh (currently 2s, may need adaptive backoff)
-- [ ] Error handling review — what happens when a tool hangs mid-batch?
-- [ ] Pipeline output summary: per-finding severity breakdown, top-N hooks
-- [ ] Marketing sub-agent — translate technical findings (severity/description/risk) into business-impact language for the sales conversation
+- [ ] Implement `src/worker/main.py` — Redis BRPOP loop, Valdí validation on startup
+- [ ] Implement `src/worker/scan_job.py` — single-domain scan execution using existing scan functions
+- [ ] Implement `src/worker/cache.py` — Redis cache check/store with TTL
+- [ ] Implement `src/scheduler/` — APScheduler, client config reader, job creator
+- [ ] Implement `src/api/` — FastAPI health endpoint, scan-complete listener, brief assembly
+- [ ] Extract per-domain versions of batch functions (httpx, webanalyze for single domain)
+- [ ] Write Dockerfiles (worker, scheduler, api)
+- [ ] Full Vejle run on Docker stack (183+ domains)
+- [ ] Marketing sub-agent — translate technical findings to business-impact language
 
 ### SIRI
-- [ ] Finalise SIRI application content based on pilot data from full Vejle run
+- [ ] Finalise SIRI application content based on pilot data
 - [ ] Generate SIRI pitch deck (10-page PDF from `heimdall-siri-application.md`)
 
 ### Housekeeping
-- [ ] SSLyze AGPL review — confirm unmodified use is safe for our commercial model
-- [ ] Nikto DB licensing — assess whether we need a CIRT.net commercial license
+- [ ] WPScan commercial API — contact Automattic for pricing
+- [ ] SSLyze AGPL review
+- [ ] Nikto DB licensing review
 - [ ] Document all tool licenses in a single reference file
 
 ---

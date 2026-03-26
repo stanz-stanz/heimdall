@@ -59,56 +59,26 @@ You are the DevOps agent for Heimdall. You manage all infrastructure configurati
 
 ## Configuration Files
 
-### docker-compose.yml (Production Template)
+### docker-compose.yml (Pi5 Architecture)
 
-```yaml
-version: '3.8'
-services:
-  scanner:
-    build: ./scanner
-    environment:
-      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
-      - SCAN_DATA_DIR=/data/scans
-    volumes:
-      - scan-data:/data/scans
-      - client-data:/data/clients:ro
-    networks:
-      - internal
-    restart: unless-stopped
+See `infra/docker/docker-compose.yml` for the full file. Summary:
 
-  messenger:
-    build: ./messenger
-    environment:
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - CLIENT_DATA_DIR=/data/clients
-    volumes:
-      - client-data:/data/clients
-      - message-data:/data/messages
-    networks:
-      - internal
-    restart: unless-stopped
-
-  openclaw:
-    build: ./openclaw
-    environment:
-      - CLAUDE_API_KEY=${CLAUDE_API_KEY}
-    volumes:
-      - scan-data:/data/scans
-      - client-data:/data/clients
-      - message-data:/data/messages
-    networks:
-      - internal
-    restart: unless-stopped
-
-volumes:
-  scan-data:
-  client-data:
-  message-data:
-
-networks:
-  internal:
-    driver: bridge
 ```
+Pi5 (Docker Compose)
+├── redis              # Job queue + result cache (512 MB)
+├── heimdall-scheduler # Creates scan jobs per client schedule
+├── heimdall-worker ×3 # Pulls jobs from Redis, executes scans, stores results
+├── heimdall-api       # Results API + Telegram delivery
+└── volumes
+    ├── /data/cache    # Tool-specific scan cache
+    ├── /data/results  # Scan results per client
+    ├── /data/clients  # Client profiles, consent records
+    └── /data/valdi    # Approval tokens, forensic logs
+```
+
+Workers are stateless. Scale by changing `deploy.replicas`. 3 workers on Pi5 = ~360-720 domains/hour.
+
+Full architecture documented in `docs/architecture/pi5-docker-architecture.md`.
 
 ### Cron Schedule (Pilot)
 

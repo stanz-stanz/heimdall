@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    command: >
+      redis-server
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+    volumes:
+      - redis-data:/data
+    networks:
+      - internal
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  scheduler:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.scheduler
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CLIENT_DATA_DIR=/data/clients
+      - VALDI_DIR=/data/valdi
+    volumes:
+      - client-data:/data/clients:ro
+      - valdi-data:/data/valdi:ro
+      - config-data:/config:ro
+    networks:
+      - internal
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.worker
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - VALDI_DIR=/data/valdi
+      - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
+    volumes:
+      - valdi-data:/data/valdi
+      - result-data:/data/results
+      - cache-data:/data/cache
+      - config-data:/config:ro
+    networks:
+      - internal
+    depends_on:
+      redis:
+        condition: service_healthy
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.api
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
+      - CLIENT_DATA_DIR=/data/clients
+    volumes:
+      - client-data:/data/clients:ro
+      - result-data:/data/results:ro
+      - config-data:/config:ro
+    networks:
+      - internal
+      - tailscale
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports: []  # No inbound ports — Tailscale only
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  redis-data:
+  client-data:
+  valdi-data:
+  result-data:
+  cache-data:
+  config-data:
+
+networks:
+  internal:
+    driver: bridge
+  tailscale:
+    external: true
