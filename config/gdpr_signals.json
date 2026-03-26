@@ -1,0 +1,27 @@
+{
+  "industry_codes": {
+    "86": "Sundhedsvæsen (Healthcare)",
+    "69": "Advokat- og revisionsvirksomhed (Legal & Accounting)",
+    "6910": "Advokatvirksomhed (Legal)",
+    "6920": "Revisionsvirksomhed (Accounting)",
+    "68": "Ejendomsmægler (Real estate)",
+    "6831": "Ejendomsmæglere (Real estate agents)",
+    "8623": "Tandlæge (Dental)",
+    "64": "Finansiel virksomhed (Financial services)",
+    "65": "Forsikring (Insurance)",
+    "66": "Finansiel service (Financial service activities)"
+  },
+  "data_handling_plugins": [
+    "gravityforms", "gravity-forms", "contact-form-7", "cf7", "wpforms",
+    "woocommerce", "booketbord", "booket-bord", "easy-digital-downloads",
+    "formidable", "ninja-forms", "caldera-forms", "everest-forms"
+  ],
+  "tracking_tech": [
+    "google analytics", "google tag manager", "facebook pixel",
+    "hotjar", "matomo", "piwik", "hubspot", "intercom", "crisp",
+    "recaptcha", "mailchimp"
+  ],
+  "ecommerce_cms": [
+    "shopify", "woocommerce", "prestashop", "magento"
+  ]
+}

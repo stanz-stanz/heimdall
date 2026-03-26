@@ -5,26 +5,17 @@ from __future__ import annotations
 import logging
 from datetime import date
 
-from .config import GDPR_SENSITIVE_CODES
+from .config import (
+    GDPR_DATA_HANDLING_PLUGINS,
+    GDPR_ECOMMERCE_CMS,
+    GDPR_SENSITIVE_CODES,
+    GDPR_TRACKING_TECH,
+    SENSITIVE_TECH,
+)
 from .cvr import Company
 from .scanner import ScanResult
 
 log = logging.getLogger(__name__)
-
-# Technologies that indicate personal data collection/processing
-_DATA_HANDLING_PLUGINS = {
-    "gravityforms", "gravity-forms", "contact-form-7", "cf7", "wpforms",
-    "woocommerce", "booketbord", "booket-bord", "easy-digital-downloads",
-    "formidable", "ninja-forms", "caldera-forms", "everest-forms",
-}
-
-_TRACKING_TECH = {
-    "google analytics", "google tag manager", "facebook pixel",
-    "hotjar", "matomo", "piwik", "hubspot", "intercom", "crisp",
-    "recaptcha", "mailchimp",
-}
-
-_ECOMMERCE_CMS = {"shopify", "woocommerce", "prestashop", "magento"}
 
 
 def _determine_gdpr_sensitivity(
@@ -45,21 +36,21 @@ def _determine_gdpr_sensitivity(
 
     # Signal 2: Data-handling plugins (forms, bookings, payments)
     data_plugins = [p for p in scan.detected_plugins
-                    if p.lower().replace(" ", "-") in _DATA_HANDLING_PLUGINS]
+                    if p.lower().replace(" ", "-") in GDPR_DATA_HANDLING_PLUGINS]
     if data_plugins:
         names = ", ".join(p.replace("-", " ").title() for p in data_plugins)
         reasons.append(f"Data-handling plugins: {names}")
 
     # Signal 3: E-commerce CMS or plugin
-    if scan.cms and scan.cms.lower() in _ECOMMERCE_CMS:
+    if scan.cms and scan.cms.lower() in GDPR_ECOMMERCE_CMS:
         reasons.append(f"E-commerce platform: {scan.cms}")
-    ecom_plugins = [t for t in scan.tech_stack if t.lower().split(":")[0] in _ECOMMERCE_CMS]
+    ecom_plugins = [t for t in scan.tech_stack if t.lower().split(":")[0] in GDPR_ECOMMERCE_CMS]
     if ecom_plugins and not any("E-commerce" in r for r in reasons):
         reasons.append(f"E-commerce plugin: {', '.join(ecom_plugins)}")
 
     # Signal 4: Tracking/analytics (visitor behavior data, requires cookie consent)
     tracking = [t for t in scan.tech_stack
-                if any(tr in t.lower() for tr in _TRACKING_TECH)]
+                if any(tr in t.lower() for tr in GDPR_TRACKING_TECH)]
     if tracking:
         reasons.append(f"Visitor tracking: {', '.join(tracking)}")
 
@@ -157,8 +148,8 @@ def generate_brief(
             })
 
     # Plugins — especially those handling user data (forms, booking, e-commerce)
-    data_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") in _DATA_HANDLING_PLUGINS]
-    other_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") not in _DATA_HANDLING_PLUGINS]
+    data_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") in GDPR_DATA_HANDLING_PLUGINS]
+    other_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") not in GDPR_DATA_HANDLING_PLUGINS]
 
     if data_plugins:
         plugin_list = ", ".join(p.replace("-", " ").title() for p in data_plugins)
@@ -176,8 +167,7 @@ def generate_brief(
         })
 
     # Server technology exposure
-    _sensitive_tech = {"php", "mysql", "mariadb", "postgresql", "asp.net", "java", "node.js"}
-    exposed_backend = [t for t in scan.tech_stack if t.lower().split(":")[0].lower() in _sensitive_tech]
+    exposed_backend = [t for t in scan.tech_stack if t.lower().split(":")[0].lower() in SENSITIVE_TECH]
     if exposed_backend:
         tech_list = ", ".join(exposed_backend)
         findings.append({
