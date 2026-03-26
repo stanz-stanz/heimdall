@@ -18,32 +18,6 @@ def generate_brief(
     gdpr_sensitive: bool,
 ) -> dict:
     """Generate a per-site brief matching docs/agents/prospecting/SKILL.md schema."""
-    # Build risk summary
-    risk_factors = []
-    if scan.cms and "wordpress" in scan.cms.lower():
-        risk_factors.append(f"Self-hosted {scan.cms}")
-        if scan.hosting:
-            risk_factors.append(f"on {scan.hosting}")
-    elif scan.cms:
-        risk_factors.append(f"Self-hosted {scan.cms}")
-
-    if not scan.ssl_valid:
-        risk_factors.append("SSL invalid or missing")
-    elif scan.ssl_days_remaining >= 0 and scan.ssl_days_remaining < 30:
-        risk_factors.append(f"SSL expiring in {scan.ssl_days_remaining} days")
-
-    if not scan.headers.get("x_frame_options"):
-        risk_factors.append("Missing X-Frame-Options")
-    if not scan.headers.get("content_security_policy"):
-        risk_factors.append("Missing Content-Security-Policy")
-    if not scan.headers.get("strict_transport_security"):
-        risk_factors.append("Missing HSTS")
-    if scan.exposed_cloud_storage:
-        risk_factors.append("Exposed cloud storage bucket detected")
-
-    priority = {"A": "HIGH", "B": "HIGH", "E": "MEDIUM", "C": "LOWER", "D": "SKIP"}.get(bucket, "UNKNOWN")
-    risk_summary = ". ".join(risk_factors) + f". Priority: {priority}." if risk_factors else f"Priority: {priority}."
-
     # Build findings — each with severity (CVSS-aligned), description, and risk
     # Severity levels follow industry standard: critical, high, medium, low, info
     findings = []
@@ -148,6 +122,5 @@ def generate_brief(
         },
         "dns": scan.dns_records,
         "cloud_exposure": scan.exposed_cloud_storage,
-        "risk_summary": risk_summary,
         "findings": findings,
     }

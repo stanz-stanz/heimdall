@@ -115,7 +115,7 @@ def _extract_page_meta(domain: str) -> tuple[str, str, list[str]]:
                 break
 
         # WordPress plugin detection from HTML source
-        wp_plugin_matches = re.findall(r'/wp-content/plugins/([^/]+)/', html)
+        wp_plugin_matches = re.findall(r'/wp-content/plugins/([\w-]+)/', html)
         if wp_plugin_matches:
             plugins = list(set(wp_plugin_matches))
 
