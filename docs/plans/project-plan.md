@@ -1,16 +1,18 @@
 # Heimdall Project Plan
 
 **Owner:** Project Coordinator Agent
-**Last updated:** 2026-03-26
+**Last updated:** 2026-03-27
 **Status tracker:** `data/project-state.json`
 
 ---
 
 ## Current state
 
-Phase 0 prospecting pipeline is code-complete. Business documents pivoted to Startup Denmark (SIRI). Project restructured into clean directory layout. Pi5 Docker architecture designed but not implemented.
+Sprint 1 complete (merged to main). Sprint 2 code complete (cache, worker, scheduler, Dockerfiles). Pi5 validated and ready (18/18 checks pass). Awaiting first Docker build on Pi5 for Vejle run (Increment 2.5).
 
-**Blocker:** Pipeline cannot process 183+ domains in reasonable time. Docker + Redis architecture resolves this.
+**153 tests passing.** Structured JSON logging. Benchmark script with mock mode.
+
+**Next:** Deploy to Pi5 → full Vejle run → Sprint 3 (Level 1 scanning).
 
 ---
 

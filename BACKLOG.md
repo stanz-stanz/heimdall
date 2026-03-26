@@ -13,9 +13,9 @@ Every increment must satisfy:
 
 ---
 
-## Sprint 1 — Consolidate & Ship (current)
+## Sprint 1 — Consolidate & Ship [COMPLETE]
 
-Close out the feature branch. Establish the testing and observability baseline.
+Merged to main. 153 tests, structured logging, benchmarks, README, .env.example.
 
 ### Increment 1.1 — Test foundation
 
@@ -89,9 +89,11 @@ Measure current performance and set targets.
 
 ---
 
-## Sprint 2 — Docker Architecture (Pi5)
+## Sprint 2 — Docker Architecture (Pi5) [IN PROGRESS]
 
 Build the production scanning infrastructure. Architecture: `docs/architecture/pi5-docker-architecture.md`.
+
+**Status:** Increments 2.1–2.4 complete (code + Dockerfiles). Pi5 validated (18/18 checks pass). Increment 2.5 (Vejle run) blocked on first Docker build on Pi5.
 
 ### Increment 2.1 — Redis cache layer
 

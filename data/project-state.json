@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-03-27T01:00:00Z",
-  "phase": "sprint-1",
+  "last_updated": "2026-03-27T02:00:00Z",
+  "phase": "sprint-2",
   "current_sprint": {
-    "name": "Sprint 1 — Consolidate & Ship",
-    "started": "2026-03-26",
-    "target_end": "2026-04-02",
+    "name": "Sprint 2 — Docker Architecture (Pi5)",
+    "started": "2026-03-27",
+    "target_end": "2026-04-16",
     "status": "in-progress"
   },
   "milestones": [
@@ -75,37 +75,46 @@
       "id": "M7",
       "name": "Merge to main (Sprint 1, Increment 1.4)",
       "target_date": "2026-04-02",
-      "status": "pending",
+      "status": "complete",
       "owner_agent": "project-coordinator",
-      "blockers": ["M4", "M5", "M6"],
-      "notes": "Clean git history, merge feature/siri-pivot, update README"
+      "blockers": [],
+      "notes": "Merged feature/siri-pivot to main. README updated, .env.example created."
     },
     {
       "id": "M8",
       "name": "Redis cache layer (Sprint 2, Increment 2.1)",
       "target_date": "2026-04-09",
-      "status": "pending",
+      "status": "complete",
       "owner_agent": "application-architect",
-      "blockers": ["M7"],
-      "notes": "src/worker/cache.py with TTL per scan type, tested with fakeredis"
+      "blockers": [],
+      "notes": "src/worker/cache.py — ScanCache with TTL per scan type, graceful degradation, 18 tests with fakeredis."
     },
     {
       "id": "M9",
       "name": "Worker implementation (Sprint 2, Increment 2.2)",
       "target_date": "2026-04-09",
-      "status": "pending",
+      "status": "complete",
       "owner_agent": "application-architect",
-      "blockers": ["M8"],
-      "notes": "scan_job.py + main.py, Valdí validation on startup, single-domain scan"
+      "blockers": [],
+      "notes": "scan_job.py + main.py — BRPOP loop, Valdí on startup, cache-aware, 7 tests."
+    },
+    {
+      "id": "M9b",
+      "name": "Scheduler (Sprint 2, Increment 2.3)",
+      "target_date": "2026-04-09",
+      "status": "complete",
+      "owner_agent": "application-architect",
+      "blockers": [],
+      "notes": "src/scheduler/ — JobCreator, prospect mode, reuses CVR/filter modules, 9 tests."
     },
     {
       "id": "M10",
-      "name": "Docker containers running (Sprint 2, Increment 2.4)",
+      "name": "Docker containers (Sprint 2, Increment 2.4)",
       "target_date": "2026-04-16",
-      "status": "pending",
+      "status": "complete",
       "owner_agent": "devops",
-      "blockers": ["M9"],
-      "notes": "Dockerfiles, docker compose up, 50-domain benchmark"
+      "blockers": [],
+      "notes": "Dockerfiles for worker (multi-stage Go+Python), scheduler, API. Pi5 validation script passes (18/18)."
     },
     {
       "id": "M11",
@@ -113,8 +122,8 @@
       "target_date": "2026-04-16",
       "status": "pending",
       "owner_agent": "prospecting",
-      "blockers": ["M10"],
-      "notes": "183+ domains, < 30min cold, < 10min warm"
+      "blockers": ["Pi5 Docker build"],
+      "notes": "183+ domains on Pi5 Docker stack. Blocked on first docker compose up. Pi5 validated and ready."
     }
   ],
   "external_deadlines": [
@@ -140,13 +149,15 @@
   },
   "blockers": [
     {
-      "description": "Pipeline cannot process 183+ domains in reasonable time without Docker/Redis architecture",
-      "severity": "high",
-      "resolution": "Sprint 2 — Docker implementation with workers + Redis caching",
-      "owner": "devops + application-architect"
+      "description": "Vejle run blocked on first Pi5 Docker build",
+      "severity": "medium",
+      "resolution": "Copy CVR data to Pi5, run docker compose up --build",
+      "owner": "devops"
     }
   ],
   "next_actions": [
-    "Increment 1.4: clean git history, merge to main, update README, .env.example"
+    "Deploy to Pi5: scp CVR data, docker compose up --build",
+    "Increment 2.5: full Vejle run on Docker (183+ domains)",
+    "Sprint 3: consent management + Level 1 scanning"
   ]
 }
