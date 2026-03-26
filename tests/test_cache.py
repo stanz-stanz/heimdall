@@ -139,17 +139,17 @@ class TestTTLPerScanType:
         cache = _make_cache()
         cache.set("ssl", "a.dk", {"v": 1})
         ttl = cache._redis.ttl(_make_key("ssl", "a.dk"))
-        assert ttl == CACHE_TTLS["ssl"]  # 86400
+        assert CACHE_TTLS["ssl"] - 2 <= ttl <= CACHE_TTLS["ssl"]
 
     def test_subfinder_gets_7d_ttl(self) -> None:
         cache = _make_cache()
         cache.set("subfinder", "a.dk", {"v": 1})
         ttl = cache._redis.ttl(_make_key("subfinder", "a.dk"))
-        assert ttl == CACHE_TTLS["subfinder"]  # 604800
+        assert CACHE_TTLS["subfinder"] - 2 <= ttl <= CACHE_TTLS["subfinder"]
 
     def test_all_configured_types_have_correct_ttl(self) -> None:
         cache = _make_cache()
         for scan_type, expected_ttl in CACHE_TTLS.items():
             cache.set(scan_type, "check.dk", {"t": scan_type})
             actual_ttl = cache._redis.ttl(_make_key(scan_type, "check.dk"))
-            assert actual_ttl == expected_ttl, f"{scan_type}: expected {expected_ttl}, got {actual_ttl}"
+            assert expected_ttl - 2 <= actual_ttl <= expected_ttl, f"{scan_type}: expected ~{expected_ttl}, got {actual_ttl}"

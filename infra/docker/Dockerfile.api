@@ -1,0 +1,46 @@
+# =============================================================================
+# Heimdall API — Placeholder Dockerfile
+# Target: linux/arm64 (Raspberry Pi 5)
+# Resource budget: 256 MB RAM, shared CPU
+# NOTE: src/api/main.py does not exist yet — this Dockerfile is ready for when it does.
+# =============================================================================
+
+FROM python:3.11-slim
+
+LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
+LABEL description="Heimdall API — serves scan results and delivers Telegram messages"
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN groupadd --gid 1000 heimdall \
+ && useradd --uid 1000 --gid 1000 --create-home heimdall
+
+# Create data directories the volumes will mount into
+RUN mkdir -p /data/clients /data/results /config \
+ && chown -R heimdall:heimdall /data /config
+
+WORKDIR /app
+
+# Install Python deps first (layer caching)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY src/ ./src/
+
+# Own everything by non-root user
+RUN chown -R heimdall:heimdall /app
+
+USER heimdall
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+ENTRYPOINT ["python", "-m", "src.api.main"]

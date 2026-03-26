@@ -1,0 +1,68 @@
+# =============================================================================
+# Heimdall Worker — Multi-stage Dockerfile
+# Target: linux/arm64 (Raspberry Pi 5)
+# Resource budget: 1 GB RAM, 1 CPU core per replica
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Stage 1: Build Go CLI tools
+# ---------------------------------------------------------------------------
+FROM golang:1.22-alpine AS go-builder
+
+RUN apk add --no-cache git
+
+# Install all four Go CLI tools.
+# Pin to known-good versions for reproducibility.
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@v1.6.9 \
+ && GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@v0.4.2 \
+ && GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.6.7 \
+ && GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@v1.2.1
+
+# ---------------------------------------------------------------------------
+# Stage 2: Runtime image
+# ---------------------------------------------------------------------------
+FROM python:3.11-slim AS runtime
+
+LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
+LABEL description="Heimdall scan worker — executes Layer 1 scan jobs from Redis queue"
+
+# System deps needed by Go binaries and Python packages
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# Copy Go binaries from builder stage
+COPY --from=go-builder /go/tools/httpx       /usr/local/bin/httpx
+COPY --from=go-builder /go/tools/webanalyze  /usr/local/bin/webanalyze
+COPY --from=go-builder /go/tools/subfinder   /usr/local/bin/subfinder
+COPY --from=go-builder /go/tools/dnsx        /usr/local/bin/dnsx
+
+# Create non-root user
+RUN groupadd --gid 1000 heimdall \
+ && useradd --uid 1000 --gid 1000 --create-home heimdall
+
+# Create data directories the volumes will mount into
+RUN mkdir -p /data/valdi /data/results /data/cache /config \
+ && chown -R heimdall:heimdall /data /config
+
+WORKDIR /app
+
+# Install Python deps first (layer caching)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY src/ ./src/
+COPY config/ ./config/
+
+# Own everything by non-root user
+RUN chown -R heimdall:heimdall /app
+
+USER heimdall
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD python -c "import redis, os; r = redis.from_url(os.environ.get('REDIS_URL','redis://localhost:6379/0')); r.ping()" || exit 1
+
+ENTRYPOINT ["python", "-m", "src.worker.main"]
