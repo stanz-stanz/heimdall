@@ -221,7 +221,7 @@ def write_run_summary(
 ) -> Path:
     """Write a JSON run summary to data/compliance/."""
     from .config import PROJECT_ROOT
-    check_dir = PROJECT_ROOT / "data" / "compliance"
+    check_dir = PROJECT_ROOT / "agents" / "valdi" / "compliance"
     check_dir.mkdir(parents=True, exist_ok=True)
 
     # CMS breakdown

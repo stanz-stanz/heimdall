@@ -489,7 +489,7 @@ def _validate_approval_tokens() -> dict | None:
     Returns the approvals dict on success, None on failure.
     """
     from .config import PROJECT_ROOT
-    approvals_path = PROJECT_ROOT / "data" / "valdi" / "active_approvals.json"
+    approvals_path = PROJECT_ROOT / "agents" / "valdi" / "approvals.json"
     try:
         with open(approvals_path) as f:
             data = json.load(f)
@@ -522,7 +522,7 @@ def _validate_approval_tokens() -> dict | None:
 def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
     """Write pre-scan compliance check to data/compliance/."""
     from .config import PROJECT_ROOT
-    check_dir = PROJECT_ROOT / "data" / "compliance"
+    check_dir = PROJECT_ROOT / "agents" / "valdi" / "compliance"
     check_dir.mkdir(parents=True, exist_ok=True)
 
     now = datetime.now(timezone.utc)
