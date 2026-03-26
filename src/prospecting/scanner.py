@@ -1,4 +1,7 @@
-"""Layer 1 scanner: passive technology fingerprinting via httpx and webanalyze."""
+"""Layer 1 scanner: passive technology fingerprinting via httpx and webanalyze.
+
+Uses ThreadPoolExecutor for concurrent I/O. Designed to scale to thousands of domains.
+"""
 
 from __future__ import annotations
 
@@ -6,18 +9,25 @@ import hashlib
 import inspect
 import json
 import logging
+import os
 import re
 import shutil
 import ssl
 import socket
 import subprocess
+import tempfile
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.robotparser import RobotFileParser
 
 import requests
+
+# Concurrency settings — tune based on network capacity and target politeness
+MAX_WORKERS_HTTP = 20    # for SSL, headers, meta, robots.txt
+MAX_WORKERS_API = 5      # for rate-limited APIs (crt.sh, GrayHatWarfare)
 
 from .config import (
     CRT_SH_API_URL,
@@ -132,7 +142,6 @@ def _run_httpx(domains: list[str]) -> dict[str, dict]:
         return {}
 
     # Write domains to temp file
-    import tempfile
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
         f.write("\n".join(domains))
         input_file = f.name
@@ -170,7 +179,7 @@ def _run_httpx(domains: list[str]) -> dict[str, dict]:
         log.warning("httpx execution failed: %s", e)
         return {}
     finally:
-        import os
+
         os.unlink(input_file)
 
 
@@ -180,7 +189,6 @@ def _run_webanalyze(domains: list[str]) -> dict[str, list[str]]:
         log.warning("webanalyze not found in PATH — skipping webanalyze scan")
         return {}
 
-    import tempfile
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
         for d in domains:
             f.write(f"https://{d}\n")
@@ -220,7 +228,7 @@ def _run_webanalyze(domains: list[str]) -> dict[str, list[str]]:
         log.warning("webanalyze execution failed: %s", e)
         return {}
     finally:
-        import os
+
         os.unlink(input_file)
 
 
@@ -280,14 +288,13 @@ def _run_subfinder(domains: list[str]) -> dict[str, list[str]]:
         log.warning("subfinder not found in PATH — skipping subdomain enumeration")
         return {}
 
-    import tempfile, os
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
         f.write("\n".join(domains))
         input_file = f.name
 
     try:
         result = subprocess.run(
-            ["subfinder", "-dL", input_file, "-json", "-silent", "-all"],
+            ["subfinder", "-dL", input_file, "-json", "-silent"],
             capture_output=True,
             text=True,
             timeout=SUBFINDER_TIMEOUT,
@@ -331,7 +338,6 @@ def _run_dnsx(domains: list[str]) -> dict[str, dict]:
         log.warning("dnsx not found in PATH — skipping DNS enrichment")
         return {}
 
-    import tempfile, os
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
         f.write("\n".join(domains))
         input_file = f.name
@@ -371,51 +377,59 @@ def _run_dnsx(domains: list[str]) -> dict[str, dict]:
         os.unlink(input_file)
 
 
+def _query_crt_sh_single(domain: str) -> tuple:
+    """Query crt.sh for a single domain. Returns (domain, certs_list)."""
+    try:
+        time.sleep(CRT_SH_DELAY)  # rate limit even within thread pool
+        resp = requests.get(
+            f"{CRT_SH_API_URL}/?q=%.{domain}&output=json",
+            timeout=30,
+            headers={"User-Agent": USER_AGENT},
+        )
+        if resp.status_code != 200:
+            log.debug("crt.sh returned %d for %s", resp.status_code, domain)
+            return domain, []
+
+        data = resp.json()
+        if not isinstance(data, list):
+            return domain, []
+
+        seen = set()
+        certs = []
+        for entry in data:
+            cn = entry.get("common_name", "")
+            if cn and cn not in seen:
+                seen.add(cn)
+                certs.append({
+                    "common_name": cn,
+                    "issuer_name": entry.get("issuer_name", ""),
+                    "not_before": entry.get("not_before", ""),
+                    "not_after": entry.get("not_after", ""),
+                })
+        return domain, certs
+
+    except (requests.RequestException, json.JSONDecodeError) as e:
+        log.debug("crt.sh query failed for %s: %s", domain, e)
+        return domain, []
+
+
 def _query_crt_sh(domains: list[str]) -> dict[str, list[dict]]:
     """Layer 1 / Level 0 — Certificate Transparency log query via crt.sh API.
 
     Queries a third-party public index. No requests to the target's infrastructure.
+    Uses thread pool with rate limiting for concurrent queries.
     """
     results: dict[str, list[dict]] = {}
 
-    for i, domain in enumerate(domains):
-        try:
-            resp = requests.get(
-                f"{CRT_SH_API_URL}/?q=%.{domain}&output=json",
-                timeout=30,
-                headers={"User-Agent": USER_AGENT},
-            )
-            if resp.status_code != 200:
-                log.debug("crt.sh returned %d for %s", resp.status_code, domain)
-                continue
-
-            data = resp.json()
-            if not isinstance(data, list):
-                continue
-
-            # Deduplicate by common_name
-            seen = set()
-            certs = []
-            for entry in data:
-                cn = entry.get("common_name", "")
-                if cn and cn not in seen:
-                    seen.add(cn)
-                    certs.append({
-                        "common_name": cn,
-                        "issuer_name": entry.get("issuer_name", ""),
-                        "not_before": entry.get("not_before", ""),
-                        "not_after": entry.get("not_after", ""),
-                    })
-
-            if certs:
-                results[domain] = certs
-
-        except (requests.RequestException, json.JSONDecodeError) as e:
-            log.debug("crt.sh query failed for %s: %s", domain, e)
-
-        # Rate limit
-        if i < len(domains) - 1:
-            time.sleep(CRT_SH_DELAY)
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS_API) as executor:
+        futures = {executor.submit(_query_crt_sh_single, d): d for d in domains}
+        for future in as_completed(futures):
+            try:
+                domain, certs = future.result()
+                if certs:
+                    results[domain] = certs
+            except Exception as e:
+                log.debug("crt.sh thread error: %s", e)
 
     log.info("crt.sh: found certificates for %d/%d domains", len(results), len(domains))
     return results
@@ -578,15 +592,23 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
     domains = list(set(c.website_domain for c in active))
     log.info("Scanning %d unique domains (Layer 1 passive only)", len(domains))
 
-    # robots.txt pre-filter — BEFORE any scanning activity
+    # robots.txt pre-filter — BEFORE any scanning activity (concurrent)
     allowed_domains = []
     skipped_domains = []
-    for domain in domains:
-        if _check_robots_txt(domain):
-            allowed_domains.append(domain)
-        else:
-            skipped_domains.append(domain)
-            log.info("SKIPPED %s — robots.txt denies automated access", domain)
+    log.info("Checking robots.txt for %d domains (concurrent, %d workers)", len(domains), MAX_WORKERS_HTTP)
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS_HTTP) as executor:
+        futures = {executor.submit(_check_robots_txt, d): d for d in domains}
+        for future in as_completed(futures):
+            domain = futures[future]
+            try:
+                if future.result():
+                    allowed_domains.append(domain)
+                else:
+                    skipped_domains.append(domain)
+                    log.info("SKIPPED %s — robots.txt denies automated access", domain)
+            except Exception as e:
+                allowed_domains.append(domain)  # fail-open: can't check = no restriction
+                log.debug("robots.txt check error for %s: %s", domain, e)
 
     if skipped_domains:
         log.info(
@@ -621,9 +643,14 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
     httpx_results = _run_httpx(allowed_domains)
     webanalyze_results = _run_webanalyze(allowed_domains)
 
-    # New passive enrichment tools
+    # --- Concurrent enrichment tools (run in parallel with CLI batch scans) ---
+    # subfinder and dnsx are CLI batch tools — run sequentially but fast
     subfinder_results = _run_subfinder(allowed_domains)
+
+    # crt.sh and GrayHatWarfare are API queries — run concurrently with rate limiting
+    log.info("Querying APIs concurrently (crt.sh, GrayHatWarfare) for %d domains", len(allowed_domains))
     crt_sh_results = _query_crt_sh(allowed_domains)
+    ghw_results = _query_grayhatwarfare(allowed_domains)
 
     # DNS enrichment: primary domains + discovered subdomains
     all_dns_targets = set(allowed_domains)
@@ -631,11 +658,11 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         all_dns_targets.update(subs)
     dnsx_results = _run_dnsx(list(all_dns_targets))
 
-    ghw_results = _query_grayhatwarfare(allowed_domains)
+    # --- Concurrent per-domain scanning (SSL, headers, meta) ---
+    from .config import CMS_KEYWORDS, HOSTING_PROVIDERS
 
-    results: dict[str, ScanResult] = {}
-
-    for i, domain in enumerate(allowed_domains, 1):
+    def _scan_single_domain(domain: str) -> ScanResult:
+        """Scan a single domain — designed to run in a thread pool."""
         scan = ScanResult(domain=domain)
 
         # SSL check
@@ -648,7 +675,14 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         # Response headers
         scan.headers = _get_response_headers(domain)
 
-        # httpx results
+        # Page meta extraction (author, footer credit, plugins)
+        meta_author, footer_credit, plugins = _extract_page_meta(domain)
+        scan.meta_author = meta_author
+        scan.footer_credit = footer_credit
+        if plugins:
+            scan.detected_plugins = plugins
+
+        # httpx results (from batch)
         httpx_data = httpx_results.get(domain, {})
         if httpx_data:
             scan.raw_httpx = httpx_data
@@ -657,7 +691,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             if tech:
                 scan.tech_stack.extend(tech)
 
-        # webanalyze results
+        # webanalyze results (from batch)
         wa_techs = webanalyze_results.get(domain, [])
         if wa_techs:
             scan.tech_stack.extend(wa_techs)
@@ -666,7 +700,6 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         scan.tech_stack = list(dict.fromkeys(scan.tech_stack))
 
         # Derive CMS from tech stack
-        from .config import CMS_KEYWORDS
         for tech in scan.tech_stack:
             for keyword, cms_name in CMS_KEYWORDS.items():
                 if keyword in tech.lower():
@@ -675,37 +708,35 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             if scan.cms:
                 break
 
-        # Page meta extraction (author, footer credit, plugins)
-        meta_author, footer_credit, plugins = _extract_page_meta(domain)
-        scan.meta_author = meta_author
-        scan.footer_credit = footer_credit
-        if plugins:
-            scan.detected_plugins = plugins
-
         # Derive hosting from server header and tech stack
-        from .config import HOSTING_PROVIDERS
         combined = (scan.server + " " + " ".join(scan.tech_stack)).lower()
         for hint, provider in HOSTING_PROVIDERS.items():
             if hint in combined and provider:
                 scan.hosting = provider
                 break
 
-        # Subdomains (from subfinder)
+        # Enrichment data (from batch results)
         scan.subdomains = subfinder_results.get(domain, [])
-
-        # DNS records (from dnsx — primary domain only)
         scan.dns_records = dnsx_results.get(domain, {})
-
-        # CT certificates (from crt.sh)
         scan.ct_certificates = crt_sh_results.get(domain, [])
-
-        # Cloud storage exposure (from GrayHatWarfare)
         scan.exposed_cloud_storage = ghw_results.get(domain, [])
 
-        results[domain] = scan
+        return scan
 
-        if i % 25 == 0:
-            log.info("Scanned %d/%d domains", i, len(allowed_domains))
+    results: dict[str, ScanResult] = {}
+    log.info("Scanning %d domains concurrently (%d workers)", len(allowed_domains), MAX_WORKERS_HTTP)
+    completed = 0
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS_HTTP) as executor:
+        futures = {executor.submit(_scan_single_domain, d): d for d in allowed_domains}
+        for future in as_completed(futures):
+            domain = futures[future]
+            try:
+                results[domain] = future.result()
+            except Exception as e:
+                log.warning("Scan failed for %s: %s", domain, e)
+            completed += 1
+            if completed % 50 == 0:
+                log.info("Scanned %d/%d domains", completed, len(allowed_domains))
 
     end_time = datetime.now(timezone.utc)
 

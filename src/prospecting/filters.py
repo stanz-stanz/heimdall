@@ -37,7 +37,7 @@ def load_filters(path: Path) -> dict:
 
 def apply_pre_scan_filters(companies: list[Company], filters: dict) -> list[Company]:
     """Apply industry_code and contactable filters before scanning. Mutates discard_reason."""
-    industry_prefixes = filters.get("industry_code")
+    industry_prefixes = filters.get("industry_code") or None  # treat empty list as no filter
     contactable_filter = filters.get("contactable")
 
     if industry_prefixes is None and contactable_filter is None:

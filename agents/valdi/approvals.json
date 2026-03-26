@@ -26,7 +26,7 @@
       "approved_at": "2026-03-22T10:02:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:8427a2da6fd9ff7338f6c6309fcbbc126ba22cc2dd235531cecddbaa2def538c",
+      "function_hash": "sha256:907dd87adb253ee32d295a4feaeb6edf75aa5ca34d5069cb9afeef3cc1153a8e",
       "log_file": "agents/valdi/logs/2026-03-22_10-02-00_httpx_tech_fingerprint.md",
       "hash_method": "inspect.getsource"
     },
@@ -36,7 +36,7 @@
       "approved_at": "2026-03-22T10:03:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:651e4c58a07be11bb5219bd0071109f0e469c273c6d9d5b93a5dcac676975b67",
+      "function_hash": "sha256:33cd9f29afe38a5009531eca714b622523b29f3ca35e460d7e6c6a51a5e37233",
       "log_file": "agents/valdi/logs/2026-03-22_10-03-00_webanalyze_cms_detection.md",
       "hash_method": "inspect.getsource"
     },
@@ -66,7 +66,7 @@
       "approved_at": "2026-03-22T10:11:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:1adda9919a09c453d1b658a8e024114e367a5e37163fc8e22f6f41604400bd28",
+      "function_hash": "sha256:8372ece33951867bd17e32b507b6c4d345fee11e09e4cc47f6d85eb875317982",
       "log_file": "agents/valdi/logs/2026-03-22_10-11-00_passive_domain_scan_orchestrator_v2.md",
       "hash_method": "inspect.getsource"
     },
@@ -76,7 +76,7 @@
       "approved_at": "2026-03-26T17:00:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:c77968b13596d827a0fec931b455c607a71b7b6dbfa8b486ca0e3858385244a8",
+      "function_hash": "sha256:e93f4cd10b15e15f6036fb86576e9b75df10b656d2fcecc112dc80ac620eb305",
       "log_file": "agents/valdi/logs/2026-03-26_17-00-00_subdomain_enumeration_passive.md",
       "hash_method": "inspect.getsource"
     },
@@ -86,7 +86,7 @@
       "approved_at": "2026-03-26T17:01:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:e2aef0115f2936ba1e561d71726d198c34989c6c79e0d17bdc1aa87accf27d5d",
+      "function_hash": "sha256:5c1cba266cc3fe274fd05701af26610d8dc98cd68a2ca45be2c67dbfe5230cba",
       "log_file": "agents/valdi/logs/2026-03-26_17-01-00_dns_enrichment.md",
       "hash_method": "inspect.getsource"
     },
@@ -96,7 +96,7 @@
       "approved_at": "2026-03-26T17:02:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:6e5ff7917ce1d26f5a4957d2eb8e8a7dfb80724423a2d8aeb0ede837bd2afd0a",
+      "function_hash": "sha256:7e1bb03984d67bcc50f98d378bfabebefc4c11f5d1ac3a9efe884fce914ef7df",
       "log_file": "agents/valdi/logs/2026-03-26_17-02-00_certificate_transparency_query.md",
       "hash_method": "inspect.getsource"
     },
