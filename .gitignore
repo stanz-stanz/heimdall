@@ -1,17 +1,15 @@
 # Pipeline output data (regenerated on each run)
-data/prospects/*.csv
-data/prospects/briefs/*.json
-data/compliance/
+data/output/*.csv
+data/output/briefs/*.json
+
+# Pipeline input data (local only)
+data/input/CVR-extract.xlsx
+
+# Valdí compliance logs (regenerated on each run)
+agents/valdi/compliance/
 
 # Claude Code local config
 .claude/
-
-# Pipeline input data (local only)
-data/prospects/CVR-extract.xlsx
-
-# Pipeline reference/config data (tracked)
-!data/prospects/industry_codes.json
-!data/prospects/filters.json
 
 # Python
 __pycache__/

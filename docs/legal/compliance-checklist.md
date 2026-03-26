@@ -1,6 +1,6 @@
 # Heimdall Compliance Checklist
 
-Maintained by Valdi (Legal Compliance Agent). See `docs/agents/legal-compliance/SKILL.md` for full context.
+Maintained by Valdi (Legal Compliance Agent). See `agents/valdi/SKILL.md` for full context.
 
 ---
 

@@ -5,6 +5,33 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-26 — Session wrap-up: tooling, pipeline enrichment, GDPR redesign, project restructure
+
+**Decided**
+- Integrate 4 new Level 0 tools: subfinder (subdomain enumeration), dnsx (DNS enrichment), crt.sh (CT log queries), GrayHatWarfare (exposed cloud storage index)
+- Valdí classification: GrayHatWarfare → Layer 1 (third-party index), CloudEnum → Layer 2 (active enumeration)
+- Add 5 Level 1 tools to SCANNING_RULES.md: CMSeek, Katana, FeroxBuster, SecretFinder, CloudEnum (not registered — no approval tokens until Level 1 pipeline is built)
+- Replace flat `sales_hook` with structured `findings` array: severity (industry-standard), description, risk
+- Evidence-based GDPR determination from scan results (plugins, tracking, e-commerce) replaces industry-code-only approach
+- WPScan commercial API: flag as cost to investigate with Automattic, add to COGS in SIRI financials
+- Three-phase project restructure: `pipeline/` → `src/prospecting/`, `docs/agents/` → `agents/`, docs reorganised
+
+**Rejected**
+- Flat per-event remediation pricing (Model A) — too rigid for variable-complexity work
+- Bundled remediation credits (Model C) — premature before pilot validation
+- Code-lives-with-agent structure (Option A) — awkward Python imports
+
+**Unresolved**
+- WPScan commercial API pricing (need quote from Automattic)
+- crt.sh rate limiting (429s at 1s delay — increase to 2-3s)
+- Hardcoded config values in config.py need extracting to `config/*.json` files (planned follow-up)
+- Agent SKILL.md files have stale path references (data/prospects/, docs/Heimdall_Business_Case_v2.md)
+- CLAUDE.md Scanning Workflow section still references `pipeline.main`
+- Video pitch script (mandatory for SIRI) deferred
+- Valdí forensic logs missing for the 4 new scan types (approval tokens reference files that don't exist yet)
+
+---
+
 ## 2026-03-25 — Session wrap-up: SIRI pivot + pricing + remediation service
 
 **Decided**
@@ -33,7 +60,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 **Consequences:**
 - `heimdall-investor-plan.md` → `heimdall-siri-application.md` (major rewrite)
 - `investor-plan-outline.md` → `siri-application-outline.md` (major rewrite)
-- `Heimdall_Investor_Plan.docx` archived to `docs/plans/archive/`
+- `Heimdall_Investor_Plan.docx` archived to `docs/business/archive/`
 - Grant & Funding agent scope expanded to include SIRI application as Priority 0
 - NCC-DK grant becomes Phase 2 (post-CVR), not primary goal
 - New mandatory sections: "Why Denmark", "Scalability & Job Creation in Denmark", "Innovation"
