@@ -666,9 +666,15 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         scan.tech_stack = list(dict.fromkeys(scan.tech_stack))
 
         # Derive CMS from tech stack
-        from .config import CMS_KEYWORDS
+        cms_keywords = {
+            "wordpress": "WordPress", "joomla": "Joomla", "drupal": "Drupal",
+            "prestashop": "PrestaShop", "magento": "Magento", "shopify": "Shopify",
+            "squarespace": "Squarespace", "wix": "Wix", "weebly": "Weebly",
+            "webflow": "Webflow", "typo3": "TYPO3", "craft cms": "Craft CMS",
+            "umbraco": "Umbraco", "sitecore": "Sitecore", "woocommerce": "WordPress",
+        }
         for tech in scan.tech_stack:
-            for keyword, cms_name in CMS_KEYWORDS.items():
+            for keyword, cms_name in cms_keywords.items():
                 if keyword in tech.lower():
                     scan.cms = cms_name
                     break
@@ -683,9 +689,13 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             scan.detected_plugins = plugins
 
         # Derive hosting from server header and tech stack
-        from .config import HOSTING_PROVIDERS
+        hosting_hints = {
+            "one.com": "one.com", "simply.com": "simply.com", "gigahost": "Gigahost",
+            "unoeuro": "UnoEuro/Simply", "amazonaws": "AWS", "cloudflare": "Cloudflare",
+            "nginx": "", "apache": "", "litespeed": "LiteSpeed",
+        }
         combined = (scan.server + " " + " ".join(scan.tech_stack)).lower()
-        for hint, provider in HOSTING_PROVIDERS.items():
+        for hint, provider in hosting_hints.items():
             if hint in combined and provider:
                 scan.hosting = provider
                 break
