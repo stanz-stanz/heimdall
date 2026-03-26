@@ -189,7 +189,7 @@ CVR Extract (manual) → Domain Derivation → robots.txt Check → Layer 1 Scan
 1. **Input:** Company data from the Danish CVR register (datacvr.virk.dk — public data).¹⁴ The pipeline does not scrape or access the CVR register directly.
 2. **Domain derivation:** Website domains are extracted from company email addresses. Free webmail providers are discarded.
 3. **robots.txt compliance:** If a target's robots.txt denies automated access, the target is skipped entirely. No exceptions.
-4. **Layer 1 scanning:** Passive observation using webanalyze (https://github.com/rverton/webanalyze) and httpx (https://github.com/projectdiscovery/httpx) — reading what the server voluntarily sends to any visitor.
+4. **Layer 1 scanning:** Passive observation using open-source tools — webanalyze (https://github.com/rverton/webanalyze), httpx (https://github.com/projectdiscovery/httpx), subfinder (https://github.com/projectdiscovery/subfinder) for subdomain enumeration via Certificate Transparency logs, dnsx (https://github.com/projectdiscovery/dnsx) for DNS enrichment, and sslyze for TLS analysis. Reads only what the server voluntarily sends to any visitor.
 5. **Bucketing:** Results are auto-classified by risk profile (A through E).
 6. **Brief generation:** Per-site JSON briefs containing CMS, hosting provider, SSL status, detected plugins, risk profile, and agency credits.
 
@@ -326,9 +326,10 @@ At 199 kr./mo, Watchman is cheaper than every competitor's entry tier — includ
 | Revenue (blended) | ~350 kr. | Weighted average, early mix |
 | Claude API | ~50 kr. | Interpretation + follow-up (lower tiers = less processing) |
 | Infrastructure | ~15–30 kr. | At 50+ clients; higher per-client at pilot scale |
+| Tool licensing | ~10–20 kr. | WPScan commercial API (Sentinel/Guardian only, pro-rated); amortised across client base |
 | Insurance allocation | ~30–45 kr. | Professional indemnity, pro-rated |
-| **Total COGS** | **~95–115 kr.** | |
-| **Gross margin** | **~67–73%** | Improves with scale and tier migration |
+| **Total COGS** | **~105–145 kr.** | |
+| **Gross margin** | **~59–70%** | Improves with scale, tier migration, and licensing amortisation |
 
 The margin is lower than premium-priced competitors but the pricing creates a fundamentally different market dynamic: 199 kr./mo eliminates price as an objection. Volume compensates for margin.
 
@@ -344,7 +345,7 @@ The margin is lower than premium-priced competitors but the pricing creates a fu
 
 ### 7.4 Break-Even
 
-At ~350 kr. blended revenue and fixed costs of ~2,500 kr./month, break-even occurs at approximately **10 paying clients**. At the aggressive pricing, this requires a larger client base than a premium model — but the lower price point makes each conversion significantly easier. The pipeline has already identified 68 prime targets in Vejle alone; the pilot needs 5–10.
+At ~350 kr. blended revenue and fixed costs of ~2,800 kr./month (including tool licensing), break-even occurs at approximately **11–12 paying clients**. At the aggressive pricing, this requires a larger client base than a premium model — but the lower price point makes each conversion significantly easier. The pipeline has already identified 68 prime targets in Vejle alone; the pilot needs 5–10.
 
 ---
 
@@ -577,7 +578,7 @@ The codebase was built with Claude Code — Anthropic's AI development assistant
 
 ### 14.1 Three Scenarios
 
-All scenarios use the aggressive pricing. Blended ARPC: ~350 kr./month (early, Watchman-heavy mix), growing to ~420 kr./month as tier mix matures. Churn: 30–40% Year 1.
+All scenarios use the aggressive pricing. Blended ARPC: ~350 kr./month (early, Watchman-heavy mix), growing to ~420 kr./month as tier mix matures. Churn: 30–40% Year 1. Tool licensing (WPScan commercial API) included in COGS.
 
 **Conservative (base case):**
 
@@ -586,7 +587,7 @@ All scenarios use the aggressive pricing. Blended ARPC: ~350 kr./month (early, W
 | Active clients | 10 | 50 | 100 |
 | MRR | 3,500 kr. | 19,000 kr. | 40,000 kr. |
 | ARR | 42,000 kr. | 228,000 kr. | 480,000 kr. |
-| Gross margin | ~63% | ~69% | ~72% |
+| Gross margin | ~58% | ~65% | ~68% |
 
 Assumptions: Organic growth only. No agency partnerships beyond 1. Weighted toward Watchman tier.
 
@@ -597,7 +598,7 @@ Assumptions: Organic growth only. No agency partnerships beyond 1. Weighted towa
 | Active clients | 20 | 80 | 200 |
 | MRR | 7,000 kr. | 30,400 kr. | 84,000 kr. |
 | ARR | 84,000 kr. | 364,800 kr. | 1,008,000 kr. |
-| Gross margin | ~67% | ~72% | ~74% |
+| Gross margin | ~62% | ~68% | ~70% |
 
 Assumptions: 2 agency partnerships. Tier mix shifts toward Sentinel. Local business association traction.
 
@@ -608,7 +609,7 @@ Assumptions: 2 agency partnerships. Tier mix shifts toward Sentinel. Local busin
 | Active clients | 30 | 120 | 300 |
 | MRR | 10,800 kr. | 48,000 kr. | 126,000 kr. |
 | ARR | 129,600 kr. | 576,000 kr. | 1,512,000 kr. |
-| Gross margin | ~69% | ~73% | ~75% |
+| Gross margin | ~64% | ~69% | ~72% |
 
 Assumptions: 3+ agency partnerships. Post-CVR grant funding accelerates growth. EU pilot begins in Month 24.
 
@@ -616,12 +617,14 @@ Assumptions: 3+ agency partnerships. Post-CVR grant funding accelerates growth. 
 
 | Metric | Value |
 |--------|-------|
-| Fixed monthly costs (infra + API + insurance) | ~2,500 kr. |
+| Fixed monthly costs (infra + API + insurance + tool licensing) | ~2,800 kr. |
 | Blended ARPC | ~350 kr. |
-| Margin per client | ~235–255 kr. |
-| **Break-even point** | **~10 paying clients** |
+| Margin per client | ~205–245 kr. |
+| **Break-even point** | **~11–12 paying clients** |
 
-The trade-off is explicit: aggressive pricing requires ~10 clients to break even instead of 5–6 at premium pricing. But at 199 kr./mo, each conversion is significantly easier. The pipeline has identified 68 prime targets in Vejle alone — a 7–14× surplus over the pilot requirement.
+The trade-off is explicit: aggressive pricing requires ~12 clients to break even instead of 5–6 at premium pricing. But at 199 kr./mo, each conversion is significantly easier. The pipeline has identified 68 prime targets in Vejle alone — a 6× surplus over the break-even requirement.
+
+Tool licensing costs (primarily WPScan commercial API for Sentinel/Guardian tiers) are amortised across the client base. As the client base grows, per-client licensing cost decreases.
 
 ### 14.3 Self-Sustainability
 
