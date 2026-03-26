@@ -3,7 +3,7 @@
 # Run on the Pi5 before first deployment.
 # Usage: bash scripts/validate_pi5.sh
 
-set -euo pipefail
+set +e
 
 PASS=0
 FAIL=0
