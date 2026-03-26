@@ -74,6 +74,63 @@ def generate_brief(
             "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads.",
         })
 
+    # CMS version disclosure
+    if scan.cms:
+        # Extract version from tech_stack if available (e.g., "WordPress:6.9.4")
+        cms_version = ""
+        for tech in scan.tech_stack:
+            if scan.cms.lower() in tech.lower() and ":" in tech:
+                cms_version = tech.split(":", 1)[1]
+                break
+
+        if cms_version:
+            findings.append({
+                "severity": "medium",
+                "description": f"{scan.cms} version {cms_version} publicly disclosed",
+                "risk": f"The exact {scan.cms} version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly.",
+            })
+        elif scan.cms.lower() == "wordpress":
+            findings.append({
+                "severity": "low",
+                "description": f"{scan.cms} detected (version not determined)",
+                "risk": f"The site runs {scan.cms}. While the exact version is not exposed, CMS-specific attack patterns can still be attempted.",
+            })
+
+    # Plugins — especially those handling user data (forms, booking, e-commerce)
+    _data_handling_plugins = {
+        "gravityforms", "gravity-forms", "contact-form-7", "cf7", "wpforms",
+        "woocommerce", "booketbord", "booket-bord", "easy-digital-downloads",
+        "formidable", "ninja-forms", "caldera-forms", "everest-forms",
+    }
+    data_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") in _data_handling_plugins]
+    other_plugins = [p for p in scan.detected_plugins if p.lower().replace(" ", "-") not in _data_handling_plugins]
+
+    if data_plugins:
+        plugin_list = ", ".join(p.replace("-", " ").title() for p in data_plugins)
+        findings.append({
+            "severity": "medium",
+            "description": f"Data-handling plugin{'s' if len(data_plugins) > 1 else ''} detected: {plugin_list}",
+            "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance.",
+        })
+
+    if len(other_plugins) > 0:
+        findings.append({
+            "severity": "info",
+            "description": f"{len(scan.detected_plugins)} WordPress plugin{'s' if len(scan.detected_plugins) > 1 else ''} detected",
+            "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated.",
+        })
+
+    # Server technology exposure
+    _sensitive_tech = {"php", "mysql", "mariadb", "postgresql", "asp.net", "java", "node.js"}
+    exposed_backend = [t for t in scan.tech_stack if t.lower().split(":")[0].lower() in _sensitive_tech]
+    if exposed_backend:
+        tech_list = ", ".join(exposed_backend)
+        findings.append({
+            "severity": "low",
+            "description": f"Backend technology exposed: {tech_list}",
+            "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector.",
+        })
+
     # Cloud storage exposure
     if scan.exposed_cloud_storage:
         bucket_count = len(scan.exposed_cloud_storage)
