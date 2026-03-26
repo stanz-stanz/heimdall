@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-27T00:00:00Z",
+  "last_updated": "2026-03-27T01:00:00Z",
   "phase": "sprint-1",
   "current_sprint": {
     "name": "Sprint 1 — Consolidate & Ship",
@@ -57,19 +57,19 @@
       "id": "M5",
       "name": "Logging foundation (Sprint 1, Increment 1.2)",
       "target_date": "2026-04-02",
-      "status": "pending",
+      "status": "complete",
       "owner_agent": "devops",
       "blockers": [],
-      "notes": "Structured JSON logging, per-domain scan logs, pipeline run summary"
+      "notes": "JSONFormatter, --log-format flag, per-scan-type timing, pipeline_complete structured log, 7 tests"
     },
     {
       "id": "M6",
       "name": "Performance baseline (Sprint 1, Increment 1.3)",
       "target_date": "2026-04-02",
-      "status": "pending",
+      "status": "complete",
       "owner_agent": "application-architect",
-      "blockers": ["M4"],
-      "notes": "Benchmark script, baseline measurements for 5/20/50 domains, performance targets"
+      "blockers": [],
+      "notes": "scripts/benchmark.py with mock mode, per-stage timing, JSON output. Target: <30s/domain cold cache."
     },
     {
       "id": "M7",
@@ -147,8 +147,6 @@
     }
   ],
   "next_actions": [
-    "Start Increment 1.2: implement structured JSON logging",
-    "Start Increment 1.3: create benchmark script, measure baseline",
-    "Increment 1.4: clean git history, merge to main, update README"
+    "Increment 1.4: clean git history, merge to main, update README, .env.example"
   ]
 }
