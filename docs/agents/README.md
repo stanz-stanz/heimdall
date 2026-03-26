@@ -15,7 +15,7 @@ Heimdall uses specialised Claude Code agents, each with a defined role, toolset,
 | Message Composer | `message-composer/` | Findings → channel-formatted messages (Telegram/WhatsApp) |
 | Prospecting | `prospecting/` | Lead generation pipeline, CVR data, Layer 1 scanning |
 | Legal Compliance | `legal-compliance/` | Scanning consent verification, Layer classification, GDPR checks |
-| Grant & Funding | `grant-funding/` | Application drafting, budget tables, consortium materials |
+| Grant & Funding | `grant-funding/` | Startup Denmark (SIRI) application, grant drafting, budget tables, consortium materials |
 | Client Memory | `client-memory/` | Per-client persistent state, scan history, remediation tracking |
 | DevOps | `devops/` | Infrastructure config, Docker, deployment, monitoring |
 

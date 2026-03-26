@@ -56,7 +56,7 @@ The Nationale Koordinationscenter for Cybersikkerhed (NCC-DK) opened a **5.5 mil
 
 Requirements: minimum 2 consortium partners, at least 1 private company. Example projects they cite include "an AI-based tool that uses pattern recognition to simulate attacker behavior."
 
-**This is directly relevant to Heimdall.** A consortium application (Heimdall + a university or established security firm) developing an AI-powered EASM service for Danish SMBs fits their stated criteria.
+**This is directly relevant to Heimdall.** A consortium application (Heimdall + a university or established security firm) developing an AI-powered EASM service for Danish SMBs fits their stated criteria. **Note:** NCC-DK grants require a CVR. This opportunity becomes accessible after Startup Denmark approval and company registration. See decision log entry 2026-03-25.
 
 ### EU-Level: SECURE Project + Digital Europe Programme
 
@@ -235,21 +235,21 @@ CrowdStrike Falcon Surface, Trend Micro Cyber Risk Exposure Management, Censys A
 
 ---
 
-## Service Tiers and Pricing
+## Service Tiers and Pricing (all prices excl. moms)
 
-### Watchman — 499 kr./month
+### Watchman — 199 kr./month
 
 *We find problems on your website, explain them in plain language, and tell you what needs fixing.*
 
 Weekly scan. Findings delivered straight to Telegram. We track what's changed since last time and follow up on anything unresolved.
 
-### Sentinel — 799 kr./month
+### Sentinel — 399 kr./month
 
 *We watch your website every day. If something changes or a new threat hits your setup, you'll know the same day — with step-by-step instructions and a message ready to forward to whoever handles it.*
 
 Everything in Watchman, plus: daily scans, uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, drafted emails to your developer or hosting provider.
 
-### Guardian — 1.199 kr./month
+### Guardian — 799 kr./month (annual: 599 kr./month)
 
 *We actively test your defences, confirm that fixes worked, and give you a report you can show your accountant or insurer.*
 
@@ -265,13 +265,24 @@ The tiers are structured around how much Heimdall takes off the client's plate:
 
 The "Who Do I Send This To?" problem (see Pilot Plan) is resolved differently at each tier. Watchman identifies the category of person responsible (your developer, your hosting provider). Sentinel provides the specific steps and a ready-to-forward message. Guardian verifies the fix was applied.
 
+### Remediation Service (Optional, All Tiers)
+
+Available as an optional add-on across all tiers. When the client has no developer, no IT contact, and no ability to follow the fixing guide — Heimdall executes the fix directly. Billed hourly, separately from the subscription. Totally optional: the client can always follow the guide themselves or forward the drafted message to their own resources.
+
+**Reference pricing (indicative — subject to adjustment during pilot):** Minimum charge (first hour) 599 kr., each additional hour 399 kr./hr. Positioned between a general web developer (~325 kr./hr) and a cybersecurity specialist (~500 kr./hr). Most common SMB fixes resolve within one hour.
+
+No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remediation. They all stop at advisory. This closes the last-mile gap between "you have a vulnerability" and "it is fixed."
+
 ### Pricing Summary
 
 | Tier | Price | Scan Frequency | Remediation Guidance | Active Testing |
 |------|-------|---------------|---------------------|---------------|
-| Watchman | 499 kr./month | Weekly | What to fix | No |
-| Sentinel | 699 kr./month | Daily | How to fix it + draft message | No |
-| Guardian | 999 kr./month | Daily | How to fix it + verification | Yes (with consent) |
+| Watchman | 199 kr./month | Weekly | What to fix | No |
+| Sentinel | 399 kr./month | Daily | How to fix it + draft message | No |
+| Guardian | 799 kr./month (annual: 599) | Daily | How to fix it + verification | Yes (with consent) |
+| Remediation (add-on) | 599 kr. first hr, 399 kr./hr after* | On demand | Heimdall executes the fix | N/A |
+
+*Reference pricing — subject to adjustment during pilot. All prices excl. moms (Danish VAT).
 
 ---
 
@@ -355,7 +366,7 @@ Contingency    |~800–1.500 kr.
 | Has a web developer | Identifies the issue and who should handle it | Message designed to be forwarded directly to the developer |
 | Self-manages WordPress | Identifies the issue and that it's a wp-admin task | Step-by-step wp-admin instructions |
 | Fully hosted (Shopify/Squarespace) | Identifies the issue and the platform | Platform-specific settings or drafted support ticket |
-| Nobody manages it | Identifies the issue and suggests contacting hosting provider | Draft hosting provider support ticket + curated freelancer referral list |
+| Nobody manages it | Identifies the issue and suggests contacting hosting provider | Draft hosting provider support ticket + option to use Heimdall's remediation service (per-event, excl. moms) |
 
 Every finding ends with a clear "who should fix this" line. Sentinel and Guardian add the "how" — specific steps and ready-to-send messages.
 
@@ -363,7 +374,7 @@ Every finding ends with a clear "who should fix this" line. Sentinel and Guardia
 
 ## Documents Produced
 
-1. **Heimdall_Business_Case_v2.md** — board-ready document (to be regenerated from this briefing in Claude Code with all corrections applied)
+1. **heimdall-siri-application.md** — Startup Denmark (SIRI) application document, targeting the expert panel's four scoring criteria (Innovation, Market Potential, Scalability, Team)
 2. **Heimdall_Legal_Risk_Assessment.md** — legal research memo on §263 and scanning consent (with Valdí addendum)
 3. **OpenClaw_RPi5_Autonomous_Profit_Research.md** — original research on autonomous profit scenarios
 4. **SCANNING_RULES.md** — authoritative constraint document for all scanning code (project root)
@@ -373,9 +384,9 @@ Every finding ends with a clear "who should fix this" line. Sentinel and Guardia
 
 ---
 
-## Instructions for Claude Code: Generating the Final Business Case
+## Instructions for Claude Code: Generating the SIRI Application
 
-When asked to produce the final Heimdall Business Case v2.0:
+When asked to produce or update the Heimdall Startup Denmark (SIRI) application (`docs/plans/heimdall-siri-application.md`):
 
 ### Corrections from v1/v2 to Apply
 - Add EASM definition/context in the introduction ✓ (done in v2)
@@ -391,8 +402,8 @@ When asked to produce the final Heimdall Business Case v2.0:
 - Incorporate the legal framework summary (§263, consent requirement, Layer 1/2/3 distinction)
 - Incorporate GDPR Article 32 as a compliance driver¹¹
 - Add the EASM reference sources (CrowdStrike, Trend Micro, Censys, NCSC UK, Vectra) to the references
-- Use new pricing tiers: Watchman 499 kr., Sentinel 799 kr., Guardian 1.199 kr. ✓ (done in v3)
-- Do NOT include profit margins or unit economics in any document — internal knowledge only
+- Use aggressive pricing tiers: Watchman 199 kr., Sentinel 399 kr., Guardian 799 kr. (annual: 599 kr.) ✓ (updated in SIRI application)
+- Include unit economics in the SIRI application to demonstrate self-sustainability (break-even, gross margins)
 - Remove "exposed admin panels" from Layer 1 findings — admin panel detection is Layer 2 ✓ (done in v3)
 - Reference Valdí compliance controls in legal and scanning sections ✓ (done in v3)
 - Tier descriptions must use client-facing language, no tool names (no "OWASP ZAP DAST", no "Nuclei")

@@ -46,6 +46,7 @@ Level 0 scanning may **only** read information that the server voluntarily sends
 - **Technology fingerprinting from public page responses** — tools like httpx and webanalyze that analyze the homepage response. These read what the server already sends; they do not send crafted probes.
 - **robots.txt and security.txt** — these are explicitly published for public consumption.
 - **Publicly linked pages** — any page reachable by following links from the homepage or sitemap.xml.
+- **Third-party public indexes** — querying public databases or search engines for information about the target (e.g., Certificate Transparency logs via crt.sh, exposed cloud storage indexes via GrayHatWarfare). No requests are sent to the target's infrastructure.
 
 ### Allowed Tools at Level 0
 
@@ -54,9 +55,12 @@ Level 0 scanning may **only** read information that the server voluntarily sends
 | httpx | HTTP probing of public pages, tech fingerprinting from response data |
 | webanalyze | CMS/technology detection from public page responses |
 | subfinder | Subdomain discovery via passive sources (CT logs, DNS datasets) |
+| crt.sh | Certificate Transparency log search (passive, public data) |
+| dnsx | DNS resolution and enrichment (A, AAAA, MX, TXT, CNAME, NS) |
 | sslyze / testssl.sh | TLS/SSL certificate and configuration analysis |
 | dig / nslookup | DNS record queries |
 | curl / wget | Fetching public pages only (homepage, sitemap.xml, robots.txt, security.txt) |
+| GrayHatWarfare | Querying a third-party public index of exposed cloud storage buckets. No direct requests to the target's infrastructure. See Valdí classification note below. |
 
 ---
 
@@ -99,9 +103,14 @@ When Heimdall holds a signed scanning authorization from the site owner, the fol
 ### Allowed at Level 1 (in addition to all Level 0 actions)
 
 - **Nuclei** — template-based vulnerability scanning within agreed scope
-- **Nikto** — web server vulnerability scanning
+- **Nikto** — web server vulnerability scanning (note: DB rules require commercial license from CIRT.net)
 - **Nmap** — port scanning, service detection
-- **WPScan** — WordPress-specific vulnerability and plugin scanning
+- **WPScan** — WordPress-specific vulnerability and plugin scanning (requires commercial API license — free tier is non-commercial only)
+- **CMSeek** — CMS detection including admin panel paths and version-specific URLs
+- **Katana** — web crawling for hidden endpoint discovery via JS parsing and dynamic link following
+- **FeroxBuster** — directory enumeration and content discovery
+- **SecretFinder** — JavaScript analysis for exposed API keys, tokens, and endpoints
+- **CloudEnum** — active enumeration of cloud storage buckets (S3, Azure Blob, GCS) using company-name patterns. See Valdí classification note below.
 - **Directory enumeration** of agreed-upon scope
 - **Admin panel detection** — checking for `/wp-admin/`, `/administrator/`, etc.
 - **API endpoint probing** within agreed scope
@@ -162,6 +171,25 @@ Examples of things that might seem passive but are **not allowed at Level 0**:
 - Requesting `/wp-json/wp/v2/users/` to enumerate users (API probing)
 - Sending a HEAD request to an admin path "just to check the status code" (still a directed probe)
 - Fetching `/.well-known/` paths other than `security.txt` (unless linked)
+
+---
+
+## Valdí Classification Notes
+
+### GrayHatWarfare — Classified Layer 1 (Level 0 permitted)
+
+**Date:** 2026-03-26
+**Classification:** Layer 1 — Passive
+**Reasoning:** GrayHatWarfare queries a third-party public index of exposed cloud storage buckets. It does not send any requests to the target's infrastructure. It is functionally equivalent to a search engine query ("does company X have publicly exposed S3 buckets?"). The data is already indexed and public. This passes the Decision Test: no request is sent to a URL that is being "guessed or probed for" on the target's servers.
+**Constraint:** The free tier is limited (~2,936 of 19.5B files). Premium tier (~230 EUR/yr) required for production use.
+**Approved for:** Level 0 prospecting pipeline (Layer 1 only — reading a public index).
+
+### CloudEnum — Classified Layer 2 (Level 1 consent required)
+
+**Date:** 2026-03-26
+**Classification:** Layer 2 — Active Probing
+**Reasoning:** CloudEnum actively constructs URL patterns using the company name (e.g., `companyname.s3.amazonaws.com`, `companyname.blob.core.windows.net`) and sends HTTP requests to cloud provider endpoints to check if those buckets exist. While the requests go to AWS/Azure/GCP infrastructure (not the target's servers), the tool is actively probing for assets associated with a specific company. This is directed enumeration — it probes for resources that are not publicly linked or advertised. Under the conservative default (SCANNING_RULES.md: "If you are unsure whether an action is Layer 1 or Layer 2, treat it as Layer 2"), this is classified as active probing.
+**Approved for:** Level 1 only (Sentinel/Guardian tiers with written consent).
 
 ---
 

@@ -95,8 +95,29 @@ Filters are configured via `data/prospects/filters.json`. All keys are optional 
     }
   },
   "tech_stack": ["WordPress", "Apache", "jQuery", "WooCommerce"],
-  "risk_summary": "Self-hosted WordPress on shared hosting. SSL expiring in 12 days. Missing HSTS. Priority: HIGH.",
-  "sales_hook": "SSL certificate expires in 12 days."
+  "subdomains": {
+    "count": 2,
+    "list": ["www.restaurant-nordlys.dk", "booking.restaurant-nordlys.dk"]
+  },
+  "dns": {
+    "a": ["185.60.40.10"],
+    "mx": ["mx01.one.com"],
+    "ns": ["ns01.one.com", "ns02.one.com"],
+    "txt": ["v=spf1 include:spf.one.com -all"]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "SSL certificate expires in 12 days",
+      "risk": "When it expires, browsers will block access to the site with a security warning. Visitors will not be able to reach the website until the certificate is renewed."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
 }
 ```
 

@@ -65,8 +65,8 @@ The complete definition of what is allowed and forbidden at each Layer/Level is 
 | `docs/legal/compliance-checklist.md` | Compliance checklist for scanning operations. |
 | `docs/agents/README.md` | Agent system overview, chain architecture, handoff protocols. |
 | `docs/reference/incidents/` | Post-incident reports. Read before building any scanning functionality. |
-| `docs/plans/Heimdall_Investor_Plan.docx` | **Investor plan (committee-ready).** Manually maintained — do not regenerate or overwrite. |
-| `docs/plans/investor-plan-outline.md` | Outline and structure reference for the investor plan. |
+| `docs/plans/heimdall-siri-application.md` | **Startup Denmark (SIRI) application.** Business plan targeting the SIRI expert panel's four scoring criteria (Innovation, Market Potential, Scalability, Team). |
+| `docs/plans/siri-application-outline.md` | Outline and structure reference for the SIRI application. |
 | `docs/decisions/log.md` | Decision log for project-level choices. |
 
 ---

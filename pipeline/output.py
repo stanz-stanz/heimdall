@@ -42,7 +42,7 @@ def write_csv(
     fieldnames = [
         "cvr_number", "company_name", "website", "bucket", "industry_code",
         "industry_name", "gdpr_sensitive", "contactable", "cms", "hosting",
-        "ssl_valid", "ssl_expiry", "risk_summary",
+        "ssl_valid", "ssl_expiry", "subdomain_count",
     ]
 
     rows = []
@@ -67,7 +67,7 @@ def write_csv(
             "hosting": scan.hosting if scan else "",
             "ssl_valid": scan.ssl_valid if scan else "",
             "ssl_expiry": scan.ssl_expiry if scan else "",
-            "risk_summary": "",
+            "subdomain_count": len(scan.subdomains) if scan else 0,
         }
         rows.append(row)
 
