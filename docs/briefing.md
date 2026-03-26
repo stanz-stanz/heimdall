@@ -290,12 +290,12 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 
 ### Phase 0: Prospecting Engine
 
-**Input:** Federico manually extracts a Vejle-area company list from CVR (https://datacvr.virk.dk — public data) and saves it as `data/prospects/CVR-extract.xlsx`. The pipeline does not scrape or access datacvr.virk.dk.
+**Input:** Federico manually extracts a Vejle-area company list from CVR (https://datacvr.virk.dk — public data) and saves it as `data/input/CVR-extract.xlsx`. The pipeline does not scrape or access datacvr.virk.dk.
 
 **Pipeline steps:**
 
 1. Read CVR Excel export
-2. Apply pre-scan filters from `data/prospects/filters.json` (industry_code, contactable)
+2. Apply pre-scan filters from `config/filters.json` (industry_code, contactable)
 3. Derive website domains from company email addresses (discard free webmail)
 4. Resolve domains (check website exists + robots.txt compliance)
 5. Layer 1 scanning with Valdí-approved scan types (`webanalyze`, `httpx`) — all scan types must pass Valdí Gate 1 review before execution
@@ -313,7 +313,7 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 
 **Output notes:**
 - Only companies with a live website appear in the output CSV
-- Industry names are translated to English via `data/prospects/industry_codes.json` (static lookup by industry code)
+- Industry names are translated to English via `config/industry_codes.json` (static lookup by industry code)
 - `contactable` field (boolean) replaces the Danish Reklamebeskyttet flag (inverted: ad-protected = not contactable)
 - `tech_stack` is in per-site briefs only, not in the CSV
 

@@ -25,15 +25,15 @@ You are the Prospecting agent for Heimdall. You run the lead generation pipeline
 
 ## Inputs
 
-- CVR register Excel export (`data/prospects/CVR-extract.xlsx`, manually extracted)
+- CVR register Excel export (`data/input/CVR-extract.xlsx`, manually extracted)
 - Target geographic area (default: Vejle, Denmark)
 - Target industry codes (optional GDPR filter)
-- Optional filters file (`data/prospects/filters.json`) — see Filter Configuration below
+- Optional filters file (`config/filters.json`) — see Filter Configuration below
 
 ## Outputs
 
-- `data/prospects/prospects-list.csv`
-- `data/prospects/briefs/{domain}.json` — per-site technology brief
+- `data/output/prospects-list.csv`
+- `data/output/briefs/{domain}.json` — per-site technology brief
 
 ### Output Schema: prospects-list CSV
 
@@ -43,13 +43,13 @@ cvr_number,company_name,website,bucket,industry_code,industry_name,gdpr_sensitiv
 
 Notes:
 - Only companies with a live website are included (discarded/no-website companies are excluded)
-- `industry_name` is translated to English via `data/prospects/industry_codes.json` (static lookup by industry code, falls back to Danish if unmapped)
+- `industry_name` is translated to English via `config/industry_codes.json` (static lookup by industry code, falls back to Danish if unmapped)
 - `contactable` is a boolean (True/False), inverted from Reklamebeskyttet (ad-protected = not contactable)
 - `tech_stack` is not in the CSV — it is available in per-site briefs only
 
 ## Filter Configuration
 
-Filters are configured via `data/prospects/filters.json`. All keys are optional — omit a key to skip that filter. Missing file = no filters.
+Filters are configured via `config/filters.json`. All keys are optional — omit a key to skip that filter. Missing file = no filters.
 
 ```json
 {

@@ -81,7 +81,7 @@ You are the Grant & Funding specialist for Heimdall. You draft grant application
 ## Inputs
 
 - `docs/briefing.md` — master context
-- `docs/Heimdall_Business_Case_v2.md` — business case
+- `docs/business/heimdall-siri-application.md` — SIRI application (primary business case)
 - Specific grant call documents (uploaded or referenced)
 - Budget estimates from briefing (pilot: ~7,000 kr.)
 
