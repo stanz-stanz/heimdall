@@ -1,6 +1,10 @@
 # Pipeline output data (regenerated on each run)
 data/prospects/*.csv
 data/prospects/briefs/*.json
+data/compliance/
+
+# Claude Code local config
+.claude/
 
 # Pipeline input data (local only)
 data/prospects/CVR-extract.xlsx
