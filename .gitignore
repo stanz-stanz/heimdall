@@ -2,6 +2,9 @@
 data/output/*.csv
 data/output/briefs/*.json
 
+# Benchmark results (local only)
+data/benchmarks/*.json
+
 # Pipeline input data (local only)
 data/input/CVR-extract.xlsx
 

@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import time
 from pathlib import Path
 
 from .config import BRIEFS_DIR, DATA_DIR, DEFAULT_FILTERS, DEFAULT_INPUT
@@ -23,6 +24,7 @@ from .scanner import ScanResult, scan_domains
 from .bucketer import assign_buckets
 from .agency_detector import detect_agencies
 from .brief_generator import generate_brief
+from .logging_config import setup_logging
 from .output import write_agency_briefs, write_briefs, write_csv
 
 log = logging.getLogger("pipeline")
@@ -37,6 +39,7 @@ def run(
     confirmed: bool = False,
 ) -> None:
     """Execute the full lead generation pipeline."""
+    pipeline_start = time.monotonic()
 
     # Step 1: Read CVR data
     log.info("=== Step 1: Reading CVR data from %s ===", input_path.name)
@@ -98,6 +101,7 @@ def run(
     agency_count = write_agency_briefs(agency_briefs, output_dir)
 
     # Summary
+    pipeline_end = time.monotonic()
     total = len(companies)
     discarded = sum(1 for c in companies if c.discarded)
     active = total - discarded
@@ -111,6 +115,19 @@ def run(
     log.info("Agency briefs generated: %d", agency_count)
     log.info("CSV output: %s", csv_path)
 
+    log.info(
+        "pipeline_complete",
+        extra={"context": {
+            "total_companies": total,
+            "discarded": discarded,
+            "active": active,
+            "gdpr_sensitive": gdpr_count,
+            "briefs_generated": brief_count,
+            "agency_briefs": agency_count,
+            "duration_ms": int((pipeline_end - pipeline_start) * 1000),
+        }},
+    )
+
 
 def main():
     parser = argparse.ArgumentParser(description="Heimdall Lead Generation Pipeline")
@@ -121,12 +138,12 @@ def main():
     parser.add_argument("--skip-scan", action="store_true", help="Skip Layer 1 scanning (test ingestion only)")
     parser.add_argument("--confirmed", action="store_true", help="Skip interactive confirmation (operator has pre-reviewed)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable debug logging")
+    parser.add_argument("--log-format", choices=["text", "json"], default="text", help="Log output format")
     args = parser.parse_args()
 
-    logging.basicConfig(
-        level=logging.DEBUG if args.verbose else logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%H:%M:%S",
+    setup_logging(
+        level="DEBUG" if args.verbose else "INFO",
+        fmt=args.log_format,
     )
 
     if not args.input.exists():

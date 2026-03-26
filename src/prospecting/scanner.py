@@ -663,20 +663,27 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
 
     def _scan_single_domain(domain: str) -> ScanResult:
         """Scan a single domain — designed to run in a thread pool."""
+        domain_t0 = time.monotonic()
         scan = ScanResult(domain=domain)
 
         # SSL check
+        t0 = time.monotonic()
         ssl_info = _check_ssl(domain)
+        log.info("scan_type_complete", extra={"context": {"domain": domain, "scan_type": "ssl", "duration_ms": int((time.monotonic() - t0) * 1000)}})
         scan.ssl_valid = ssl_info["valid"]
         scan.ssl_issuer = ssl_info["issuer"]
         scan.ssl_expiry = ssl_info["expiry"]
         scan.ssl_days_remaining = ssl_info["days_remaining"]
 
         # Response headers
+        t0 = time.monotonic()
         scan.headers = _get_response_headers(domain)
+        log.info("scan_type_complete", extra={"context": {"domain": domain, "scan_type": "headers", "duration_ms": int((time.monotonic() - t0) * 1000)}})
 
         # Page meta extraction (author, footer credit, plugins)
+        t0 = time.monotonic()
         meta_author, footer_credit, plugins = _extract_page_meta(domain)
+        log.info("scan_type_complete", extra={"context": {"domain": domain, "scan_type": "page_meta", "duration_ms": int((time.monotonic() - t0) * 1000)}})
         scan.meta_author = meta_author
         scan.footer_credit = footer_credit
         if plugins:
@@ -720,6 +727,10 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         scan.dns_records = dnsx_results.get(domain, {})
         scan.ct_certificates = crt_sh_results.get(domain, [])
         scan.exposed_cloud_storage = ghw_results.get(domain, [])
+
+        total_ms = int((time.monotonic() - domain_t0) * 1000)
+        findings_count = len(scan.tech_stack) + len(scan.subdomains) + len(scan.ct_certificates) + len(scan.exposed_cloud_storage)
+        log.info("domain_scan_complete", extra={"context": {"domain": domain, "duration_ms": total_ms, "findings_count": findings_count}})
 
         return scan
 
