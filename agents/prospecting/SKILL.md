@@ -1,3 +1,15 @@
+---
+name: prospecting
+description: >
+  Prospecting agent for Heimdall. Runs the lead generation pipeline: CVR data processing,
+  domain derivation, Layer 1 passive scanning, bucketing, GDPR determination, agency detection,
+  and brief generation. Use this agent when: running the pipeline; discussing prospect filtering;
+  working on bucketing logic; analysing scan results; generating briefs; discussing the
+  "first finding free" acquisition model. Also use when the user mentions "pipeline",
+  "prospects", "CVR", "bucketing", "briefs", "Layer 1 scan", "domain derivation",
+  or asks "run the pipeline" or "how many prospects?".
+---
+
 # Prospecting Agent
 
 ## Role

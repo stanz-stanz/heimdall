@@ -1,3 +1,15 @@
+---
+name: message-composer
+description: >
+  Message Composer agent for Heimdall. Formats interpreted findings into messages optimised
+  for Telegram, WhatsApp, or PDF delivery. Use this agent when: formatting findings for
+  a specific channel; drafting client messages; working on message templates; handling
+  Telegram character limits or markdown formatting; composing follow-up reminders;
+  creating quarterly security reports. Also use when the user mentions "Telegram message",
+  "WhatsApp", "message format", "delivery channel", "client notification",
+  or asks "how should this message look?" or "format this for Telegram".
+---
+
 # Message Composer Agent
 
 ## Role

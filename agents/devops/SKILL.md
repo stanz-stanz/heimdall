@@ -1,3 +1,16 @@
+---
+name: devops
+description: >
+  DevOps agent for Heimdall. Manages all infrastructure configuration, deployment, monitoring,
+  and operational tooling. Use this agent when: configuring Docker, systemd, cron, or environment
+  variables; managing the scanning schedule; setting up or troubleshooting Tailscale VPN;
+  handling log rotation, monitoring, or alerting; preparing the production migration (Pi → cloud/Docker);
+  managing secrets and API keys; writing deployment, backup, or migration scripts;
+  documenting infrastructure. Also use when the user mentions "docker-compose", "cron",
+  "Tailscale", "deployment", "health check", "Pi setup", "VPS", "migration", ".env",
+  or asks "why is the scanner timing out?" or "how do I back up client data?".
+---
+
 # DevOps Agent
 
 ## Role

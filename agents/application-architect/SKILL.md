@@ -1,3 +1,15 @@
+---
+name: application-architect
+description: >
+  Application Architect agent for Heimdall. Owns system design, code structure conventions,
+  and architectural decisions. Use this agent when: making structural changes to the codebase;
+  designing new modules or components; reviewing data flow between agents; planning scaling
+  strategy; evaluating technology choices; refactoring architecture. Also use when the user
+  mentions "architecture", "system design", "code structure", "data flow", "scaling",
+  "refactor", "component design", or asks "how should this be structured?" or "what's
+  the right pattern for this?".
+---
+
 # Application Architect Agent
 
 ## Role
