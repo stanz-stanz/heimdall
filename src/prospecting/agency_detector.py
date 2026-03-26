@@ -3,8 +3,8 @@
 import logging
 from collections import defaultdict
 
-from pipeline.cvr import Company
-from pipeline.scanner import ScanResult
+from .cvr import Company
+from .scanner import ScanResult
 
 log = logging.getLogger(__name__)
 

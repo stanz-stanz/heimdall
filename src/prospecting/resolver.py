@@ -8,8 +8,8 @@ from urllib.robotparser import RobotFileParser
 
 import requests
 
-from pipeline.config import REQUEST_TIMEOUT, USER_AGENT
-from pipeline.cvr import Company
+from .config import REQUEST_TIMEOUT, USER_AGENT
+from .cvr import Company
 
 log = logging.getLogger(__name__)
 

@@ -5,9 +5,9 @@ from __future__ import annotations
 import logging
 from datetime import date
 
-from pipeline.config import GDPR_SENSITIVE_CODES
-from pipeline.cvr import Company
-from pipeline.scanner import ScanResult
+from .config import GDPR_SENSITIVE_CODES
+from .cvr import Company
+from .scanner import ScanResult
 
 log = logging.getLogger(__name__)
 

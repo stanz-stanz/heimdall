@@ -19,7 +19,7 @@ from urllib.robotparser import RobotFileParser
 
 import requests
 
-from pipeline.config import (
+from .config import (
     CRT_SH_API_URL,
     CRT_SH_DELAY,
     DNSX_TIMEOUT,
@@ -28,7 +28,7 @@ from pipeline.config import (
     SUBFINDER_TIMEOUT,
     USER_AGENT,
 )
-from pipeline.cvr import Company
+from .cvr import Company
 
 log = logging.getLogger(__name__)
 
@@ -488,7 +488,8 @@ def _validate_approval_tokens() -> dict | None:
 
     Returns the approvals dict on success, None on failure.
     """
-    approvals_path = Path(__file__).resolve().parent.parent / "data" / "valdi" / "active_approvals.json"
+    from .config import PROJECT_ROOT
+    approvals_path = PROJECT_ROOT / "data" / "valdi" / "active_approvals.json"
     try:
         with open(approvals_path) as f:
             data = json.load(f)
@@ -520,7 +521,8 @@ def _validate_approval_tokens() -> dict | None:
 
 def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
     """Write pre-scan compliance check to data/compliance/."""
-    check_dir = Path(__file__).resolve().parent.parent / "data" / "compliance"
+    from .config import PROJECT_ROOT
+    check_dir = PROJECT_ROOT / "data" / "compliance"
     check_dir.mkdir(parents=True, exist_ok=True)
 
     now = datetime.now(timezone.utc)
@@ -556,7 +558,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
     Requires operator confirmation unless confirmed=True.
     Returns dict keyed by domain.
     """
-    from pipeline.operator import (
+    from .operator import (
         print_gate1_summary,
         print_pre_scan_summary,
         print_run_summary,

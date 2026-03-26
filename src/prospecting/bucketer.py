@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import logging
 
-from pipeline.config import BUCKET_A_CMS, BUCKET_B_CMS, BUCKET_C_PLATFORMS
-from pipeline.cvr import Company
-from pipeline.scanner import ScanResult
+from .config import BUCKET_A_CMS, BUCKET_B_CMS, BUCKET_C_PLATFORMS
+from .cvr import Company
+from .scanner import ScanResult
 
 log = logging.getLogger(__name__)
 

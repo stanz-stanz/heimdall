@@ -6,7 +6,7 @@ import json
 import logging
 from pathlib import Path
 
-from pipeline.cvr import Company
+from .cvr import Company
 
 log = logging.getLogger(__name__)
 

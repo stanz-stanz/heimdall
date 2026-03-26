@@ -8,7 +8,7 @@ from pathlib import Path
 
 import openpyxl
 
-from pipeline.config import (
+from .config import (
     COL_ADDRESS,
     COL_AD_PROTECTED,
     COL_CITY,

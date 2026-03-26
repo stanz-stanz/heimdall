@@ -64,7 +64,7 @@ def print_gate1_summary(approvals: dict) -> None:
 
     lines.append(_box_sep())
     lines.append(f"  {len(entries)} scan types registered. All function hashes verified.")
-    lines.append(f"  Forensic logs: {DIM}logs/valdi/{RESET}")
+    lines.append(f"  Forensic logs: {DIM}agents/valdi/logs/{RESET}")
     lines.append(_box_bot())
     lines.append("")
 
@@ -75,7 +75,8 @@ def _read_verdict(log_path: str) -> str:
     """Extract verdict from a forensic log file's header."""
     if not log_path:
         return "UNKNOWN"
-    full_path = Path(__file__).resolve().parent.parent / log_path
+    from .config import PROJECT_ROOT
+    full_path = PROJECT_ROOT / log_path
     try:
         with open(full_path) as f:
             for line in f:
@@ -219,7 +220,8 @@ def write_run_summary(
     approvals: dict,
 ) -> Path:
     """Write a JSON run summary to data/compliance/."""
-    check_dir = Path(__file__).resolve().parent.parent / "data" / "compliance"
+    from .config import PROJECT_ROOT
+    check_dir = PROJECT_ROOT / "data" / "compliance"
     check_dir.mkdir(parents=True, exist_ok=True)
 
     # CMS breakdown

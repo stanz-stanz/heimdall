@@ -15,15 +15,15 @@ import logging
 import sys
 from pathlib import Path
 
-from pipeline.config import BRIEFS_DIR, DATA_DIR, DEFAULT_FILTERS, DEFAULT_INPUT
-from pipeline.cvr import Company, derive_domains, read_excel
-from pipeline.filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
-from pipeline.resolver import resolve_domains
-from pipeline.scanner import ScanResult, scan_domains
-from pipeline.bucketer import assign_buckets
-from pipeline.agency_detector import detect_agencies
-from pipeline.brief_generator import generate_brief
-from pipeline.output import write_agency_briefs, write_briefs, write_csv
+from .config import BRIEFS_DIR, DATA_DIR, DEFAULT_FILTERS, DEFAULT_INPUT
+from .cvr import Company, derive_domains, read_excel
+from .filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
+from .resolver import resolve_domains
+from .scanner import ScanResult, scan_domains
+from .bucketer import assign_buckets
+from .agency_detector import detect_agencies
+from .brief_generator import generate_brief
+from .output import write_agency_briefs, write_briefs, write_csv
 
 log = logging.getLogger("pipeline")
 

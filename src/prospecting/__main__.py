@@ -1,4 +1,4 @@
 """Allow running as: python -m pipeline"""
-from pipeline.main import main
+from .main import main
 
 main()

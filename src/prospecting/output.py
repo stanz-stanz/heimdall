@@ -8,9 +8,9 @@ import logging
 from datetime import date
 from pathlib import Path
 
-from pipeline.config import BRIEFS_DIR, DATA_DIR, INDUSTRY_CODES_PATH
-from pipeline.cvr import Company
-from pipeline.scanner import ScanResult
+from .config import BRIEFS_DIR, DATA_DIR, INDUSTRY_CODES_PATH
+from .cvr import Company
+from .scanner import ScanResult
 
 log = logging.getLogger(__name__)
 

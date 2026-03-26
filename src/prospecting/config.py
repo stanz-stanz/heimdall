@@ -9,12 +9,12 @@ if _go_bin.is_dir() and str(_go_bin) not in os.environ.get("PATH", ""):
     os.environ["PATH"] = f"{_go_bin}:{os.environ.get('PATH', '')}"
 
 # --- Paths ---
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "data" / "prospects"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent  # src/prospecting/config.py → repo root
+DATA_DIR = PROJECT_ROOT / "data" / "output"
 BRIEFS_DIR = DATA_DIR / "briefs"
-DEFAULT_INPUT = DATA_DIR / "CVR-extract.xlsx"
-DEFAULT_FILTERS = DATA_DIR / "filters.json"
-INDUSTRY_CODES_PATH = DATA_DIR / "industry_codes.json"
+DEFAULT_INPUT = PROJECT_ROOT / "data" / "input" / "CVR-extract.xlsx"
+DEFAULT_FILTERS = PROJECT_ROOT / "config" / "filters.json"
+INDUSTRY_CODES_PATH = PROJECT_ROOT / "config" / "industry_codes.json"
 
 # --- Excel column indices (0-based) ---
 COL_CVR = 0
