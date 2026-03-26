@@ -1,0 +1,154 @@
+{
+  "last_updated": "2026-03-26T22:00:00Z",
+  "phase": "sprint-1",
+  "current_sprint": {
+    "name": "Sprint 1 — Consolidate & Ship",
+    "started": "2026-03-26",
+    "target_end": "2026-04-02",
+    "status": "in-progress"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "name": "SIRI pivot — business docs reframed",
+      "target_date": "2026-03-26",
+      "status": "complete",
+      "owner_agent": "grant-funding",
+      "blockers": [],
+      "notes": "All business docs pivoted from angel investor to Startup Denmark"
+    },
+    {
+      "id": "M1",
+      "name": "Lead-gen pipeline code-complete",
+      "target_date": "2026-03-26",
+      "status": "complete",
+      "owner_agent": "prospecting",
+      "blockers": [],
+      "notes": "11 pipeline steps, 9 scan types, Valdí-gated, evidence-based GDPR, structured findings"
+    },
+    {
+      "id": "M2",
+      "name": "Project restructure",
+      "target_date": "2026-03-26",
+      "status": "complete",
+      "owner_agent": "application-architect",
+      "blockers": [],
+      "notes": "3-phase restructure: src/, agents/, config/, data/input+output/, docs/"
+    },
+    {
+      "id": "M3",
+      "name": "Pi5 Docker architecture designed",
+      "target_date": "2026-03-26",
+      "status": "complete",
+      "owner_agent": "devops",
+      "blockers": [],
+      "notes": "Architecture doc, docker-compose, worker module structure"
+    },
+    {
+      "id": "M4",
+      "name": "Test foundation (Sprint 1, Increment 1.1)",
+      "target_date": "2026-04-02",
+      "status": "pending",
+      "owner_agent": "application-architect",
+      "blockers": [],
+      "notes": "pytest setup, unit tests for all scan functions, brief generator, bucketer, filters"
+    },
+    {
+      "id": "M5",
+      "name": "Logging foundation (Sprint 1, Increment 1.2)",
+      "target_date": "2026-04-02",
+      "status": "pending",
+      "owner_agent": "devops",
+      "blockers": [],
+      "notes": "Structured JSON logging, per-domain scan logs, pipeline run summary"
+    },
+    {
+      "id": "M6",
+      "name": "Performance baseline (Sprint 1, Increment 1.3)",
+      "target_date": "2026-04-02",
+      "status": "pending",
+      "owner_agent": "application-architect",
+      "blockers": ["M4"],
+      "notes": "Benchmark script, baseline measurements for 5/20/50 domains, performance targets"
+    },
+    {
+      "id": "M7",
+      "name": "Merge to main (Sprint 1, Increment 1.4)",
+      "target_date": "2026-04-02",
+      "status": "pending",
+      "owner_agent": "project-coordinator",
+      "blockers": ["M4", "M5", "M6"],
+      "notes": "Clean git history, merge feature/siri-pivot, update README"
+    },
+    {
+      "id": "M8",
+      "name": "Redis cache layer (Sprint 2, Increment 2.1)",
+      "target_date": "2026-04-09",
+      "status": "pending",
+      "owner_agent": "application-architect",
+      "blockers": ["M7"],
+      "notes": "src/worker/cache.py with TTL per scan type, tested with fakeredis"
+    },
+    {
+      "id": "M9",
+      "name": "Worker implementation (Sprint 2, Increment 2.2)",
+      "target_date": "2026-04-09",
+      "status": "pending",
+      "owner_agent": "application-architect",
+      "blockers": ["M8"],
+      "notes": "scan_job.py + main.py, Valdí validation on startup, single-domain scan"
+    },
+    {
+      "id": "M10",
+      "name": "Docker containers running (Sprint 2, Increment 2.4)",
+      "target_date": "2026-04-16",
+      "status": "pending",
+      "owner_agent": "devops",
+      "blockers": ["M9"],
+      "notes": "Dockerfiles, docker compose up, 50-domain benchmark"
+    },
+    {
+      "id": "M11",
+      "name": "Full Vejle run on Docker (Sprint 2, Increment 2.5)",
+      "target_date": "2026-04-16",
+      "status": "pending",
+      "owner_agent": "prospecting",
+      "blockers": ["M10"],
+      "notes": "183+ domains, < 30min cold, < 10min warm"
+    }
+  ],
+  "external_deadlines": [
+    {
+      "name": "Startup Denmark application",
+      "date": "TBD",
+      "status": "drafting",
+      "owner_agent": "grant-funding",
+      "notes": "Priority 0 — required for CVR registration. Video pitch script still needed."
+    },
+    {
+      "name": "NCC-DK grant application",
+      "date": "2026-04-15",
+      "status": "blocked",
+      "owner_agent": "grant-funding",
+      "notes": "Requires CVR (post Startup Denmark approval). Phase 2."
+    }
+  ],
+  "clients": {
+    "pilot_target": 5,
+    "onboarded": 0,
+    "scanned": 0
+  },
+  "blockers": [
+    {
+      "description": "Pipeline cannot process 183+ domains in reasonable time without Docker/Redis architecture",
+      "severity": "high",
+      "resolution": "Sprint 2 — Docker implementation with workers + Redis caching",
+      "owner": "devops + application-architect"
+    }
+  ],
+  "next_actions": [
+    "Start Increment 1.1: set up pytest, write unit tests for scan functions",
+    "Start Increment 1.2: implement structured JSON logging",
+    "Start Increment 1.3: create benchmark script, measure baseline"
+  ]
+}
