@@ -32,8 +32,9 @@ else
     warn "Cannot detect hardware model (not a Pi?)"
 fi
 
-MEM_KB=$(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}' || echo "0")
-MEM_GB=$(awk "BEGIN {printf \"%.1f\", $MEM_KB / 1048576}" 2>/dev/null || echo "?")
+MEM_KB=$(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}')
+MEM_KB=${MEM_KB:-0}
+MEM_GB=$(python3 -c "print(f'{${MEM_KB}/1048576:.1f}')" 2>/dev/null || echo "?")
 if [ "$MEM_KB" -ge 7000000 ] 2>/dev/null; then
     pass "RAM: ${MEM_GB} GB (need ≥8 GB)"
 elif [ "$MEM_KB" -ge 3500000 ] 2>/dev/null; then
