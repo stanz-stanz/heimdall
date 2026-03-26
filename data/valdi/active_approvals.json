@@ -66,8 +66,48 @@
       "approved_at": "2026-03-22T10:11:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:8d9dfd94653dc3bec726ca04749e9e0da26032566412763a0dd4fff6bc9ac641",
+      "function_hash": "sha256:523c1e6b75c85dd4ce0628393ee4f832792f74630b0feaf9fdcf7f53f36f1997",
       "log_file": "logs/valdi/2026-03-22_10-11-00_passive_domain_scan_orchestrator_v2.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "subdomain_enumeration_passive",
+      "token": "a1b2c3d4-1111-4aaa-bbbb-subfinder00001",
+      "approved_at": "2026-03-26T17:00:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:c77968b13596d827a0fec931b455c607a71b7b6dbfa8b486ca0e3858385244a8",
+      "log_file": "logs/valdi/2026-03-26_17-00-00_subdomain_enumeration_passive.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "dns_enrichment",
+      "token": "a1b2c3d4-2222-4aaa-bbbb-dnsx000000001",
+      "approved_at": "2026-03-26T17:01:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:e2aef0115f2936ba1e561d71726d198c34989c6c79e0d17bdc1aa87accf27d5d",
+      "log_file": "logs/valdi/2026-03-26_17-01-00_dns_enrichment.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "certificate_transparency_query",
+      "token": "a1b2c3d4-3333-4aaa-bbbb-crtsh00000001",
+      "approved_at": "2026-03-26T17:02:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:6e5ff7917ce1d26f5a4957d2eb8e8a7dfb80724423a2d8aeb0ede837bd2afd0a",
+      "log_file": "logs/valdi/2026-03-26_17-02-00_certificate_transparency_query.md",
+      "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "cloud_storage_index_query",
+      "token": "a1b2c3d4-4444-4aaa-bbbb-ghw0000000001",
+      "approved_at": "2026-03-26T17:03:00Z",
+      "level": 0,
+      "layer": 1,
+      "function_hash": "sha256:89d8d25b2fb360cecde97db47a5fa14385d81c5c9dbd1485bdbd9a24e4d9a422",
+      "log_file": "logs/valdi/2026-03-26_17-03-00_cloud_storage_index_query.md",
       "hash_method": "inspect.getsource"
     }
   ]

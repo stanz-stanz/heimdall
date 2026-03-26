@@ -38,6 +38,8 @@ def generate_brief(
         risk_factors.append("Missing Content-Security-Policy")
     if not scan.headers.get("strict_transport_security"):
         risk_factors.append("Missing HSTS")
+    if scan.exposed_cloud_storage:
+        risk_factors.append("Exposed cloud storage bucket detected")
 
     priority = {"A": "HIGH", "B": "HIGH", "E": "MEDIUM", "C": "LOWER", "D": "SKIP"}.get(bucket, "UNKNOWN")
     risk_summary = ". ".join(risk_factors) + f". Priority: {priority}." if risk_factors else f"Priority: {priority}."
@@ -48,6 +50,10 @@ def generate_brief(
         hooks.append(f"SSL certificate expires in {scan.ssl_days_remaining} days")
     if not scan.headers.get("strict_transport_security"):
         hooks.append("No HSTS header — browser connections not enforced as HTTPS")
+    if len(scan.subdomains) > 5:
+        hooks.append(f"Your domain has {len(scan.subdomains)} subdomains — each one is an entry point that needs monitoring")
+    if scan.exposed_cloud_storage:
+        hooks.append("Exposed cloud storage bucket detected — your files may be publicly accessible")
 
     sales_hook = ". ".join(hooks) + "." if hooks else ""
 
@@ -76,6 +82,12 @@ def generate_brief(
             "headers": scan.headers,
         },
         "tech_stack": scan.tech_stack,
+        "subdomains": {
+            "count": len(scan.subdomains),
+            "list": scan.subdomains[:20],
+        },
+        "dns": scan.dns_records,
+        "cloud_exposure": scan.exposed_cloud_storage,
         "risk_summary": risk_summary,
         "sales_hook": sales_hook,
     }

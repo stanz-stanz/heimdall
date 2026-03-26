@@ -73,3 +73,12 @@ GDPR_SENSITIVE_CODES = {
 REQUEST_TIMEOUT = 15  # seconds
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
+# --- External API settings ---
+CRT_SH_API_URL = "https://crt.sh"
+CRT_SH_DELAY = 1.0  # seconds between requests (be respectful to crt.sh)
+GRAYHATWARFARE_API_KEY = os.environ.get("GRAYHATWARFARE_API_KEY", "")
+
+# --- CLI tool timeouts ---
+SUBFINDER_TIMEOUT = 600  # 10 min for large batches
+DNSX_TIMEOUT = 300  # 5 min
+

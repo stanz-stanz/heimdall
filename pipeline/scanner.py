@@ -11,6 +11,7 @@ import shutil
 import ssl
 import socket
 import subprocess
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -18,7 +19,15 @@ from urllib.robotparser import RobotFileParser
 
 import requests
 
-from pipeline.config import REQUEST_TIMEOUT, USER_AGENT
+from pipeline.config import (
+    CRT_SH_API_URL,
+    CRT_SH_DELAY,
+    DNSX_TIMEOUT,
+    GRAYHATWARFARE_API_KEY,
+    REQUEST_TIMEOUT,
+    SUBFINDER_TIMEOUT,
+    USER_AGENT,
+)
 from pipeline.cvr import Company
 
 log = logging.getLogger(__name__)
@@ -40,6 +49,10 @@ class ScanResult:
     meta_author: str = ""
     footer_credit: str = ""
     raw_httpx: dict = field(default_factory=dict)
+    subdomains: list[str] = field(default_factory=list)
+    dns_records: dict = field(default_factory=dict)
+    ct_certificates: list[dict] = field(default_factory=list)
+    exposed_cloud_storage: list[dict] = field(default_factory=list)
 
 
 def _check_ssl(domain: str) -> dict:
@@ -258,6 +271,199 @@ def _check_robots_txt(domain: str) -> bool:
         return True  # Cannot fetch robots.txt — no restriction determinable
 
 
+def _run_subfinder(domains: list[str]) -> dict[str, list[str]]:
+    """Layer 1 / Level 0 — Subdomain enumeration via passive sources (CT logs, DNS datasets).
+
+    Uses subfinder CLI. No direct queries to the target's infrastructure beyond DNS.
+    """
+    if not shutil.which("subfinder"):
+        log.warning("subfinder not found in PATH — skipping subdomain enumeration")
+        return {}
+
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
+        f.write("\n".join(domains))
+        input_file = f.name
+
+    try:
+        result = subprocess.run(
+            ["subfinder", "-dL", input_file, "-json", "-silent", "-all"],
+            capture_output=True,
+            text=True,
+            timeout=SUBFINDER_TIMEOUT,
+        )
+        results: dict[str, list[str]] = {}
+        for line in result.stdout.strip().split("\n"):
+            if not line:
+                continue
+            try:
+                data = json.loads(line)
+                host = data.get("host", "").lower().strip()
+                # Determine which parent domain this subdomain belongs to
+                if host:
+                    for domain in domains:
+                        if host.endswith(f".{domain}") or host == domain:
+                            results.setdefault(domain, []).append(host)
+                            break
+            except json.JSONDecodeError:
+                continue
+
+        # Deduplicate per domain
+        for domain in results:
+            results[domain] = list(dict.fromkeys(results[domain]))
+
+        log.info("subfinder: found %d subdomains across %d domains",
+                 sum(len(v) for v in results.values()), len(results))
+        return results
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        log.warning("subfinder execution failed: %s", e)
+        return {}
+    finally:
+        os.unlink(input_file)
+
+
+def _run_dnsx(domains: list[str]) -> dict[str, dict]:
+    """Layer 1 / Level 0 — DNS record enrichment (A, AAAA, CNAME, MX, NS, TXT).
+
+    Standard DNS queries to public resolvers. Public by design.
+    """
+    if not shutil.which("dnsx"):
+        log.warning("dnsx not found in PATH — skipping DNS enrichment")
+        return {}
+
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
+        f.write("\n".join(domains))
+        input_file = f.name
+
+    try:
+        result = subprocess.run(
+            ["dnsx", "-l", input_file, "-json", "-a", "-aaaa", "-cname", "-mx", "-ns", "-txt", "-silent"],
+            capture_output=True,
+            text=True,
+            timeout=DNSX_TIMEOUT,
+        )
+        results: dict[str, dict] = {}
+        for line in result.stdout.strip().split("\n"):
+            if not line:
+                continue
+            try:
+                data = json.loads(line)
+                host = data.get("host", "").lower().strip()
+                if host:
+                    results[host] = {
+                        "a": data.get("a", []),
+                        "aaaa": data.get("aaaa", []),
+                        "cname": data.get("cname", []),
+                        "mx": data.get("mx", []),
+                        "ns": data.get("ns", []),
+                        "txt": data.get("txt", []),
+                    }
+            except json.JSONDecodeError:
+                continue
+
+        log.info("dnsx: enriched DNS for %d domains", len(results))
+        return results
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        log.warning("dnsx execution failed: %s", e)
+        return {}
+    finally:
+        os.unlink(input_file)
+
+
+def _query_crt_sh(domains: list[str]) -> dict[str, list[dict]]:
+    """Layer 1 / Level 0 — Certificate Transparency log query via crt.sh API.
+
+    Queries a third-party public index. No requests to the target's infrastructure.
+    """
+    results: dict[str, list[dict]] = {}
+
+    for i, domain in enumerate(domains):
+        try:
+            resp = requests.get(
+                f"{CRT_SH_API_URL}/?q=%.{domain}&output=json",
+                timeout=30,
+                headers={"User-Agent": USER_AGENT},
+            )
+            if resp.status_code != 200:
+                log.debug("crt.sh returned %d for %s", resp.status_code, domain)
+                continue
+
+            data = resp.json()
+            if not isinstance(data, list):
+                continue
+
+            # Deduplicate by common_name
+            seen = set()
+            certs = []
+            for entry in data:
+                cn = entry.get("common_name", "")
+                if cn and cn not in seen:
+                    seen.add(cn)
+                    certs.append({
+                        "common_name": cn,
+                        "issuer_name": entry.get("issuer_name", ""),
+                        "not_before": entry.get("not_before", ""),
+                        "not_after": entry.get("not_after", ""),
+                    })
+
+            if certs:
+                results[domain] = certs
+
+        except (requests.RequestException, json.JSONDecodeError) as e:
+            log.debug("crt.sh query failed for %s: %s", domain, e)
+
+        # Rate limit
+        if i < len(domains) - 1:
+            time.sleep(CRT_SH_DELAY)
+
+    log.info("crt.sh: found certificates for %d/%d domains", len(results), len(domains))
+    return results
+
+
+def _query_grayhatwarfare(domains: list[str]) -> dict[str, list[dict]]:
+    """Layer 1 / Level 0 — Exposed cloud storage search via GrayHatWarfare public index.
+
+    Queries a third-party public index. No requests to the target's infrastructure.
+    """
+    if not GRAYHATWARFARE_API_KEY:
+        log.warning("GRAYHATWARFARE_API_KEY not set — skipping cloud storage search")
+        return {}
+
+    results: dict[str, list[dict]] = {}
+
+    for domain in domains:
+        try:
+            resp = requests.get(
+                "https://buckets.grayhatwarfare.com/api/v2/files",
+                params={"keywords": domain},
+                headers={"Authorization": f"Bearer {GRAYHATWARFARE_API_KEY}"},
+                timeout=30,
+            )
+            if resp.status_code != 200:
+                log.debug("GrayHatWarfare returned %d for %s", resp.status_code, domain)
+                continue
+
+            data = resp.json()
+            files = data.get("files", [])
+            if files:
+                buckets: dict[str, int] = {}
+                for f in files:
+                    bucket_name = f.get("bucket", "unknown")
+                    buckets[bucket_name] = buckets.get(bucket_name, 0) + 1
+
+                results[domain] = [
+                    {"bucket_name": name, "file_count": count}
+                    for name, count in buckets.items()
+                ]
+
+        except (requests.RequestException, json.JSONDecodeError) as e:
+            log.debug("GrayHatWarfare query failed for %s: %s", domain, e)
+
+    log.info("GrayHatWarfare: found exposed storage for %d/%d domains", len(results), len(domains))
+    return results
+
+
 # Map scan type IDs to their implementing functions (populated after all functions are defined)
 _SCAN_TYPE_FUNCTIONS: dict[str, callable] = {}
 
@@ -270,6 +476,10 @@ def _init_scan_type_map() -> None:
         "httpx_tech_fingerprint": _run_httpx,
         "webanalyze_cms_detection": _run_webanalyze,
         "response_header_check": _get_response_headers,
+        "subdomain_enumeration_passive": _run_subfinder,
+        "dns_enrichment": _run_dnsx,
+        "certificate_transparency_query": _query_crt_sh,
+        "cloud_storage_index_query": _query_grayhatwarfare,
     })
 
 
@@ -409,6 +619,18 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
     httpx_results = _run_httpx(allowed_domains)
     webanalyze_results = _run_webanalyze(allowed_domains)
 
+    # New passive enrichment tools
+    subfinder_results = _run_subfinder(allowed_domains)
+    crt_sh_results = _query_crt_sh(allowed_domains)
+
+    # DNS enrichment: primary domains + discovered subdomains
+    all_dns_targets = set(allowed_domains)
+    for subs in subfinder_results.values():
+        all_dns_targets.update(subs)
+    dnsx_results = _run_dnsx(list(all_dns_targets))
+
+    ghw_results = _query_grayhatwarfare(allowed_domains)
+
     results: dict[str, ScanResult] = {}
 
     for i, domain in enumerate(allowed_domains, 1):
@@ -475,6 +697,18 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             if hint in combined and provider:
                 scan.hosting = provider
                 break
+
+        # Subdomains (from subfinder)
+        scan.subdomains = subfinder_results.get(domain, [])
+
+        # DNS records (from dnsx — primary domain only)
+        scan.dns_records = dnsx_results.get(domain, {})
+
+        # CT certificates (from crt.sh)
+        scan.ct_certificates = crt_sh_results.get(domain, [])
+
+        # Cloud storage exposure (from GrayHatWarfare)
+        scan.exposed_cloud_storage = ghw_results.get(domain, [])
 
         results[domain] = scan
 
