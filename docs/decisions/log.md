@@ -5,6 +5,31 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-27 — Tiered enrichment: subfinder batch + local CT database + observability
+
+**Decided**
+- Subfinder batch pre-scan: two-phase scheduler (enrichment → scan), 3 parallel batches of 68 domains, Redis atomic counter for completion signaling
+- Local CertStream CT database replaces remote crt.sh API: SQLite WAL mode on NVMe, `immutable=1` for readers, ct-collector Docker container
+- cAdvisor replaced with Docker built-in Prometheus metrics endpoint (cAdvisor incompatible with Pi OS containerd snapshotter)
+- Docker-expert agent reviews mandatory before merge (both branches reviewed, 9 findings fixed per branch)
+- Prometheus retention: 30 days or 2GB whichever first
+- Worker `stop_grace_period: 330s` (5 min subfinder + 20s stagger + 30s buffer)
+- `ENRICHMENT_WORKERS` configurable via env var, not hardcoded
+- Subfinder CLI flags: `-t 10` (threads) and `-max-time 3` (min/domain) to cap memory within 1GB container budget
+
+**Rejected**
+- cAdvisor for container metrics — incompatible with Pi OS overlayfs/containerd snapshotter
+- Worker `depends_on: ct-collector` — .dk certificates too rare in CertStream for healthcheck timing
+- Hardcoded `ENRICHMENT_WORKERS=3` — made env-configurable per docker-expert review
+
+**Unresolved**
+- Subfinder found 0 subdomains — most passive sources need API keys (not blocking, pipeline works)
+- CT backfill from crt.sh not yet run — one-time step before first production deploy
+- cgroup memory limits not supported on Pi OS kernel — `cgroup_enable=memory` added to cmdline.txt but container memory limits still show warnings
+- Grafana dashboard needs customization for Heimdall-specific panels
+
+---
+
 ## 2026-03-26 — Session wrap-up: tooling, pipeline enrichment, GDPR redesign, project restructure
 
 **Decided**

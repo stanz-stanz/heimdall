@@ -2,17 +2,22 @@
 
 ## Overview
 
-Heimdall runs on a Raspberry Pi 5 (8GB RAM, NVMe SSD) as a Docker Compose stack. The architecture separates concerns into four containers coordinated through Redis.
+Heimdall runs on a Raspberry Pi 5 (8GB RAM, NVMe SSD) as a Docker Compose stack. The architecture separates concerns into containers coordinated through Redis.
 
 ```
 Pi5 (Docker Compose)
-├── heimdall-scheduler     # Triggers scans per client schedule
-├── heimdall-worker × 3    # Scan execution containers
+├── heimdall-scheduler     # Two-phase: enrichment batches → scan jobs
+├── heimdall-worker × 3    # Scan execution (dual-queue: enrichment + scan)
 ├── redis                  # Job queue + result cache
+├── ct-collector           # CertStream subscriber → local SQLite CT database
 ├── heimdall-api           # Results API (for Telegram delivery)
+├── dozzle                 # Live container log viewer (:8080)
+├── prometheus             # Metrics collection (:9090)
+├── grafana                # Dashboards (:3000)
 └── volumes
     ├── /data/cache        # Tool-specific scan cache
     ├── /data/results      # Scan results per client
+    ├── /data/ct           # CT certificate SQLite database (NVMe)
     └── /data/clients      # Client profiles, consent records
 ```
 
@@ -37,25 +42,31 @@ Reads client configurations from `/data/clients/`. For each client, creates scan
 | Sentinel | Daily (06:00) | Layer 1 only (Layer 2 when Level 1 pipeline is built) |
 | Guardian | Daily (05:00) | Layer 1 + Layer 2 (with consent) |
 
-Also handles the prospecting pipeline: reads CVR data, applies filters, creates scan jobs for all prospect domains.
+Also handles the prospecting pipeline with a two-phase approach:
 
-The scheduler is a lightweight Python process using APScheduler. It does no scanning — only creates jobs.
+1. **Enrichment phase**: Extracts domains from CVR data, divides into 3 batches, pushes to `queue:enrichment`. Workers run `subfinder -dL` in batch mode (one subprocess for ~68 domains), cache results per-domain in Redis. Scheduler polls a Redis atomic counter until all batches complete.
+2. **Scan phase**: Pushes 204 per-domain scan jobs to `queue:scan`. Workers get subfinder cache hits (~879ms/domain vs ~66s without).
+
+Supports `--skip-enrichment` for subsequent runs with warm cache.
+
+The scheduler is a lightweight Python process. It does no scanning — only creates jobs.
 
 ### heimdall-worker (× 3)
 
 Pulls one domain job from Redis, executes all scan types for that domain, stores results. Each worker:
 
 1. **Validates Valdí approvals on startup** — if any token is invalid, the worker refuses to start
-2. **Checks robots.txt** — hard skip if denied
-3. **Checks Redis cache** for each scan type — if fresh, reuses cached result
-4. **Runs scan types** that need refreshing (SSL, headers, meta, httpx, webanalyze, subfinder, dnsx, crt.sh, GrayHatWarfare)
+2. **BRPOP on dual queue** — `["queue:enrichment", "queue:scan"]` (enrichment has priority)
+3. **Enrichment jobs**: runs `subfinder -dL` in batch mode, caches results per-domain with format matching `_cached_or_run` expectations, increments Redis completion counter
+4. **Scan jobs**: checks robots.txt (hard skip if denied), checks Redis cache for each scan type, runs scan types that need refreshing
 5. **Assembles ScanResult** from fresh + cached data
 6. **Generates findings** (severity/description/risk)
 7. **Determines GDPR sensitivity** from scan evidence
-8. **Stores result** in Redis cache (per-type TTL) and writes JSON to `/data/results/{client_id}/{domain}/{date}.json`
-9. **Publishes scan-complete event** via Redis pub/sub
+8. **Queries local CT database** (SQLite, `immutable=1` mode) instead of remote crt.sh API (<5ms vs 1-32s)
+9. **Stores result** in Redis cache (per-type TTL) and writes JSON to `/data/results/{client_id}/{domain}/{date}.json`
+10. **Publishes scan-complete event** via Redis pub/sub
 
-Workers are identical and stateless. Scale by changing `deploy.replicas` in docker-compose.yml. 3 workers on Pi5 uses 3 of 4 CPU cores.
+Workers are identical and stateless. Scale by changing `deploy.replicas` in docker-compose.yml. 3 workers on Pi5 uses 3 of 4 CPU cores. `stop_grace_period: 330s` allows enrichment jobs to complete before SIGKILL.
 
 ### heimdall-api
 
@@ -83,9 +94,13 @@ Runs as a lightweight FastAPI or Flask process.
 }
 ```
 
-Jobs are pushed to Redis list `queue:scan`. Workers BRPOP with a 30s timeout (blocks until a job arrives, then processes it).
+Two queue types:
+- **`queue:enrichment`** — batch subfinder jobs (3 jobs for 204 domains, one per worker)
+- **`queue:scan`** — per-domain scan jobs (204 jobs)
 
-For prospecting (no client), `client_id` is `"prospect"` and results go to `/data/results/prospects/`.
+Workers BRPOP with enrichment priority and a 30s timeout. Enrichment jobs are processed first; scan jobs only start after enrichment completes.
+
+For prospecting (no client), `client_id` is `"prospect"` and results go to `/data/results/prospect/`.
 
 ## Caching Strategy
 
@@ -111,27 +126,37 @@ Workers check Redis cache before each scan type. If the cached result exists and
 |-----------|-----|-----|-------|
 | Redis | 512 MB | Shared | Maxmemory policy: allkeys-lru |
 | Worker × 3 | 3 GB (1 GB each) | 3 cores | Go tools (httpx, subfinder) are memory-hungry |
+| CT Collector | 256 MB | 0.25 core | CertStream WebSocket + SQLite writer |
 | Scheduler | 256 MB | Shared | Lightweight, mostly sleeping |
 | API | 256 MB | Shared | Lightweight, event-driven |
-| Raspberry Pi OS | 2 GB | — | Base system + Docker daemon |
-| **Buffer** | **2 GB** | — | Headroom for spikes |
+| Prometheus | 256 MB | Shared | 30-day / 2GB retention |
+| Grafana | 256 MB | Shared | Dashboards |
+| Dozzle | 128 MB | Shared | Live log viewer |
+| Raspberry Pi OS | 1.5 GB | — | Base system + Docker daemon |
+| **Buffer** | **1.5 GB** | — | Headroom for spikes |
 
-### Throughput estimate
+### Throughput (measured, Vejle 204 domains)
 
-- 3 workers × 1 domain per worker
-- ~15-30s per domain (with cache hits on slow tools)
-- = 6-12 domains/minute
-- = 360-720 domains/hour
+| Phase | Duration | Per-domain |
+|-------|----------|------------|
+| Subfinder enrichment (cold) | 5.5 min | 3 parallel batches of 68 |
+| Core scan (warm cache) | 3.0 min | 879ms avg |
+| **Total (first run)** | **~8.5 min** | — |
+| **Total (warm cache)** | **~3 min** | — |
 
-**200 clients × 5 domains = 1,000 domains:** ~25-45 minutes for full scan. With caching: ~10-20 minutes for daily rescan.
+Previous sequential approach: ~75 min for 204 domains (~66s/domain). **9x improvement.**
+
+Cache hit rate on second run: 100% (1827 hits, 0 misses).
 
 ## Network
 
-- **Outbound only** — no inbound ports. All connectivity via Tailscale VPN.
-- Workers make HTTPS requests to target domains and third-party APIs (crt.sh, GrayHatWarfare).
+- **Outbound only** — no inbound ports except monitoring UIs. Connectivity via Tailscale VPN.
+- Workers make HTTPS requests to target domains and third-party APIs (GrayHatWarfare).
+- CT collector maintains persistent WebSocket to CertStream (`wss://certstream.calidog.io/`).
 - API communicates with Telegram Bot API via HTTPS.
 - Claude API called via HTTPS for finding interpretation.
 - All inter-container traffic on Docker bridge network (never leaves the Pi).
+- Monitoring ports: Dozzle (:8080), Grafana (:3000), Prometheus (:9090) — local network only.
 
 ## Scaling Path
 

@@ -68,6 +68,7 @@ The complete definition of what is allowed and forbidden at each Layer/Level is 
 | `docs/business/heimdall-siri-application.md` | **Startup Denmark (SIRI) application.** Business plan targeting the SIRI expert panel's four scoring criteria (Innovation, Market Potential, Scalability, Team). |
 | `docs/business/siri-application-outline.md` | Outline and structure reference for the SIRI application. |
 | `docs/decisions/log.md` | Decision log for project-level choices. |
+| `docs/architecture/pi5-docker-architecture.md` | Pi5 Docker stack design: containers, queues, caching, resource budget, measured throughput. |
 
 ---
 
@@ -90,9 +91,11 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 ## Build Priority: Phase 0 — Lead Generation Pipeline
 
-**Build this first, on the laptop.** No dependency on the Pi or OpenClaw.
+**Laptop pipeline complete. Docker stack deployed on Pi5.**
 
 Goal: manually extracted CVR data → website URLs → CMS/tech detection → filtered, bucketed prospecting list + per-site briefs.
+
+The pipeline runs as a Docker Compose stack on Pi5 with a two-phase architecture: subfinder batch enrichment (3 parallel batches) → per-domain core scans (with warm cache). Local CertStream CT database replaces remote crt.sh API. See `docs/architecture/pi5-docker-architecture.md` for full details.
 
 ### Input
 

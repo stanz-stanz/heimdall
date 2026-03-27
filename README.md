@@ -9,19 +9,42 @@ External Attack Surface Management (EASM) for Danish SMBs. Finds vulnerabilities
 ### Project structure
 
 ```
-src/prospecting/     Code — lead generation pipeline (Phase 0)
-src/worker/          Code — Docker worker module (Sprint 2)
+src/prospecting/     Lead generation pipeline (Phase 0)
+src/worker/          Docker scan worker (BRPOP loop, enrichment, scan execution)
+src/scheduler/       Job scheduler (two-phase: enrichment → scan)
+src/ct_collector/    CertStream CT log subscriber + local SQLite store
 agents/              Agent specs + agent-owned data (12 agents)
 config/              Static configuration (JSON)
 data/input/          Manual input (CVR extracts)
 data/output/         Pipeline results (briefs, CSV)
 docs/                Briefing, business plan, legal, architecture
-infra/               Docker Compose, environment templates
-scripts/             Benchmark and utility scripts
-tests/               pytest test suite
+infra/docker/        Docker Compose, Dockerfiles, Prometheus, Grafana
+scripts/             Benchmark, analysis, and utility scripts
+tests/               pytest test suite (217 tests)
 ```
 
-### Run the pipeline
+### Docker deployment (Pi5)
+
+```bash
+# Build and start the full stack (scheduler, 3 workers, Redis, ct-collector, monitoring)
+docker compose -f infra/docker/docker-compose.yml -f infra/docker/docker-compose.monitoring.yml up -d --build
+
+# Analyze results after a run completes
+docker exec docker-worker-1 python scripts/analyze_results.py /data/results/prospect
+
+# Run with warm cache (skip enrichment phase)
+docker compose run scheduler --mode prospect --confirmed --skip-enrichment
+
+# One-time CT backfill (run before first deploy, with ct-collector stopped)
+docker compose --profile backfill run --rm ct-backfill
+```
+
+**Monitoring endpoints:**
+- Dozzle (live logs): `http://<pi5-ip>:8080`
+- Grafana (dashboards): `http://<pi5-ip>:3000`
+- Prometheus (metrics): `http://<pi5-ip>:9090`
+
+### Local development (laptop)
 
 ```bash
 # Install dependencies
@@ -46,8 +69,8 @@ python -m src.prospecting.main --skip-scan
 ### Run tests
 
 ```bash
-python -m pytest
-python -m pytest --cov=src       # with coverage
+python -m pytest              # 217 tests
+python -m pytest --cov=src    # with coverage
 ```
 
 ### Run benchmarks
@@ -57,10 +80,24 @@ python scripts/benchmark.py --mock --domains 5    # mock mode (no network)
 python scripts/benchmark.py --domains 20           # real scan
 ```
 
+### Performance
+
+204 domains (Vejle municipality), Pi5 with 3 workers:
+
+| Phase | Time |
+|-------|------|
+| Subfinder enrichment | 5.5 min (3 parallel batches) |
+| Core scan (warm cache) | 3.0 min |
+| **Total** | **~8.5 min** |
+
+100% cache hit rate on subsequent runs. 9x improvement over initial sequential approach.
+
 ### Environment variables
 
 Copy `.env.example` to `.env`:
 
 ```bash
 GRAYHATWARFARE_API_KEY=          # Optional — cloud storage exposure search
+ENRICHMENT_WORKERS=3             # Number of subfinder batch workers (default: 3)
+CT_DB_PATH=/data/ct/certificates.db  # Path to local CT database
 ```
