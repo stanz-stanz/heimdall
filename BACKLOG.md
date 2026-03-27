@@ -89,11 +89,11 @@ Measure current performance and set targets.
 
 ---
 
-## Sprint 2 — Docker Architecture (Pi5) [IN PROGRESS]
+## Sprint 2 — Docker Architecture (Pi5) [COMPLETE]
 
-Build the production scanning infrastructure. Architecture: `docs/architecture/pi5-docker-architecture.md`.
+Production scanning infrastructure deployed on Pi5. Architecture: `docs/architecture/pi5-docker-architecture.md`.
 
-**Status:** Increments 2.1–2.4 complete (code + Dockerfiles). Pi5 validated (18/18 checks pass). Increment 2.5 (Vejle run) blocked on first Docker build on Pi5.
+**Results:** 204 domains in 8.5 min (9x improvement over sequential). Subfinder batch enrichment, local CT database, observability stack (Prometheus + Grafana + Dozzle). 217 tests. API deferred to Sprint 3.
 
 ### Increment 2.1 — Redis cache layer
 
@@ -175,29 +175,42 @@ Package everything into containers. Validate on local Docker, then Pi5.
 - [ ] All container logs are JSON-structured, collected by `docker compose logs`
 - [ ] Benchmark: 50 domains cold < 10min, 50 domains warm < 2min
 
-### Increment 2.5 — Full Vejle run + API
+### Increment 2.5 — Full Vejle run [DONE] + API [MOVED TO SPRINT 3]
+
+| Item | Status |
+|------|--------|
+| Full Vejle run | **Done** — 204 domains, 203 completed, 8.5 min total |
+| Performance report | **Done** — GitHub issue #5, architecture doc updated |
+| Subfinder batch enrichment | **Done** — 3 batches, 5.5 min, 100% cache hit |
+| Local CT database | **Done** — ct-collector running, SQLite WAL mode |
+| Observability | **Done** — Prometheus + Grafana + Dozzle + Docker metrics |
+| `src/api/main.py` | **Moved** — first task of Sprint 3 |
+
+**Vejle run results:**
+- 204 domains, 203 completed, 1 skipped (robots.txt), 0 failed
+- 8.5 min total (enrichment 5.5 min + scan 3 min), warm cache 3 min
+- 974 findings (33 critical, 1 high, 245 medium, 618 low, 77 info)
+- 100% cache hit rate (1827 hits, 0 misses)
+
+---
+
+## Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning) [NEXT]
+
+Build the paid-service scanning pipeline. Requires written client consent (Level 1).
+
+### Increment 3.0 — Results API (moved from Sprint 2)
 
 | Item | Description |
 |------|-------------|
 | `src/api/main.py` | FastAPI: `/health`, `/results/{domain}`, scan-complete pub/sub listener |
-| Full Vejle run | 183+ domains on Docker stack |
-| Performance report | Document: total time, per-stage breakdown, cache hit rate, error rate |
 | Logging | API request logs, scan-complete event logs |
+| Tests | Health endpoint, result retrieval, missing domain |
 
 **Definition of Done:**
-- [ ] 183+ domains scanned successfully on Docker stack
-- [ ] Total scan time < 30 minutes (cold), < 10 minutes (warm)
 - [ ] API health endpoint responds
 - [ ] API serves scan results as JSON
-- [ ] Performance report documented with per-stage timing
-- [ ] Zero Valdí violations in forensic logs
-- [ ] Error rate < 5% (domains that failed to scan)
-
----
-
-## Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning)
-
-Build the paid-service scanning pipeline. Requires written client consent (Level 1).
+- [ ] Unit tests with mocked results
+- [ ] Logs: request latency, errors
 
 ### Increment 3.1 — Consent management + Valdí Level 1
 
@@ -332,7 +345,7 @@ SIRI submission runs on its own timeline. Product roadmap continues regardless.
 
 ---
 
-## Observability (feature/monitoring branch)
+## Observability [MERGED TO MAIN]
 
 Two goals:
 1. **Real-time run monitoring** — watch Heimdall scan in progress (live logs, active workers, queue depth, domains/min)
@@ -340,8 +353,11 @@ Two goals:
 
 ### Done
 - [x] Dozzle — real-time log viewer (port 8080)
-- [x] cAdvisor + Prometheus + Grafana — container resource dashboards (CPU, memory, network)
-- [x] Pre-provisioned Grafana dashboard: "Heimdall — Container Resources"
+- [x] Prometheus + Grafana — Docker engine metrics (cAdvisor removed — incompatible with Pi OS)
+- [x] Docker built-in Prometheus metrics endpoint (:9323)
+- [x] Prometheus retention: 30 days / 2GB
+- [x] `scripts/analyze_results.py` — post-run scan analysis
+- [x] `scripts/watch_and_analyze.py` — auto-analyze when queue drains
 
 ### Next
 - [ ] Custom Prometheus metrics in worker — jobs completed, domains scanned, findings by severity, cache hit rate, scan duration histograms (`prometheus_client` Python package)
