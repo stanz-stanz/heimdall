@@ -39,6 +39,28 @@ services:
         condition: service_healthy
     restart: "no"
 
+  ct-collector:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.ct-collector
+    environment:
+      - CT_DB_PATH=/data/ct/certificates.db
+      - CERTSTREAM_URL=wss://certstream.calidog.io/
+      - LOG_FORMAT=json
+      - DOMAIN_FILTER=.dk
+      - CLEANUP_INTERVAL_HOURS=24
+      - STATUS_FILE=/data/ct/collector_status.json
+    volumes:
+      - ct-data:/data/ct
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+    restart: unless-stopped
+
   worker:
     build:
       context: ../..
@@ -47,11 +69,13 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - VALDI_DIR=/data/valdi
       - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
+      - CT_DB_PATH=/data/ct/certificates.db
     volumes:
       - valdi-data:/data/valdi
       - result-data:/data/results
       - cache-data:/data/cache
       - config-data:/config:ro
+      - ct-data:/data/ct:ro
     networks:
       - internal
     depends_on:
@@ -107,6 +131,7 @@ volumes:
   result-data:
   cache-data:
   config-data:
+  ct-data:
 
 networks:
   internal:

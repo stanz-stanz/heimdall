@@ -1,0 +1,44 @@
+# =============================================================================
+# Heimdall CT Collector — CertStream subscriber + local SQLite store
+# Target: linux/arm64 (Raspberry Pi 5)
+# Resource budget: 256 MB RAM, 0.25 CPU core
+# =============================================================================
+
+FROM python:3.11-slim
+
+LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
+LABEL description="Heimdall CT collector — subscribes to CertStream, stores .dk certificates locally"
+
+# System deps
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN groupadd --gid 1000 heimdall \
+ && useradd --uid 1000 --gid 1000 --create-home heimdall
+
+# Create data directory the volume will mount into
+RUN mkdir -p /data/ct \
+ && chown -R heimdall:heimdall /data
+
+WORKDIR /app
+
+# Install Python deps first (layer caching)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY src/ ./src/
+COPY config/ ./config/
+
+# Own everything by non-root user
+RUN chown -R heimdall:heimdall /app
+
+USER heimdall
+
+HEALTHCHECK --interval=60s --timeout=5s --retries=3 \
+    CMD python -m src.ct_collector.healthcheck || exit 1
+
+ENTRYPOINT ["python", "-m", "src.ct_collector.main"]
