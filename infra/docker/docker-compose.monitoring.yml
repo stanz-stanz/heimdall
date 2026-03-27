@@ -9,11 +9,17 @@
 services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
+    privileged: true  # required for cgroupv2 on Pi OS
     volumes:
       - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/run:/var/run:ro
       - /sys:/sys:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    devices:
+      - /dev/kmsg
     ports:
       - "8081:8080"
     networks:
