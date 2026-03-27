@@ -22,7 +22,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.scheduler
-    command: ["python", "-m", "src.scheduler.main", "--mode", "prospect", "--confirmed"]
+    command: ["--mode", "prospect", "--confirmed"]
     environment:
       - REDIS_URL=redis://redis:6379/0
       - CLIENT_DATA_DIR=/data/clients
