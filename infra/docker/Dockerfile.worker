@@ -7,15 +7,16 @@
 # ---------------------------------------------------------------------------
 # Stage 1: Build Go CLI tools
 # ---------------------------------------------------------------------------
-FROM golang:1.22-alpine AS go-builder
+FROM golang:1.24-alpine AS go-builder
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git ca-certificates
 
-# Install all four Go CLI tools.
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@latest \
- && GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@latest \
- && GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest \
- && GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+# Install Go CLI tools one at a time (easier to debug failures).
+RUN mkdir -p /go/tools
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+RUN GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@latest
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
 
 # ---------------------------------------------------------------------------
 # Stage 2: Runtime image
