@@ -127,7 +127,11 @@ def _execute_enrichment_job(
                 batch_index,
                 stagger_delay,
             )
-            time.sleep(stagger_delay)
+            for _ in range(stagger_delay):
+                if _shutdown_requested:
+                    log.info("Shutdown requested during stagger — aborting enrichment batch %d", batch_index)
+                    return  # finally block will increment counter
+                time.sleep(1)
 
         # Run subfinder in batch mode
         results = _run_subfinder_with_retry(domains)

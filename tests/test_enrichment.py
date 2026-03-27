@@ -371,7 +371,7 @@ class TestExecuteEnrichmentJob:
         assert result == {}
 
     def test_stagger_delay_applied(self) -> None:
-        """Stagger delay causes a sleep before execution."""
+        """Stagger delay causes 1s sleeps in a loop."""
         server = fakeredis.FakeServer()
         cache = _make_cache(server)
         redis_conn = _make_redis(server)
@@ -383,7 +383,9 @@ class TestExecuteEnrichmentJob:
              patch("src.worker.main.time.sleep") as mock_sleep:
             _execute_enrichment_job(job, cache, redis_conn)
 
-        mock_sleep.assert_called_once_with(10)
+        # Interruptible loop: 10 calls to sleep(1) instead of one sleep(10)
+        assert mock_sleep.call_count == 10
+        mock_sleep.assert_called_with(1)
 
     def test_no_stagger_for_batch_zero(self) -> None:
         """Batch 0 has stagger_delay=0, so no sleep."""

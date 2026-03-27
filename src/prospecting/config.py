@@ -42,13 +42,15 @@ CRT_SH_DELAY = 2.0  # seconds between requests (avoid 429s from crt.sh)
 GRAYHATWARFARE_API_KEY = os.environ.get("GRAYHATWARFARE_API_KEY", "")
 
 # --- CLI tool timeouts ---
-SUBFINDER_TIMEOUT = 900  # 15 min for large batches (enrichment pre-scan)
+SUBFINDER_TIMEOUT = 300  # 5 min — sufficient for ~23 passive-only domains per batch
 DNSX_TIMEOUT = 300  # 5 min
 
 # --- Enrichment pre-scan settings ---
-ENRICHMENT_WORKERS = 3
-ENRICHMENT_STAGGER_SECONDS = 10
+ENRICHMENT_WORKERS = int(os.environ.get("ENRICHMENT_WORKERS", "3"))
+ENRICHMENT_STAGGER_SECONDS = int(os.environ.get("ENRICHMENT_STAGGER_SECONDS", "10"))
 ENRICHMENT_RETRY_LIMIT = 1
+SUBFINDER_THREADS = int(os.environ.get("SUBFINDER_THREADS", "10"))
+SUBFINDER_MAX_ENUM_TIME = int(os.environ.get("SUBFINDER_MAX_ENUM_TIME", "3"))  # minutes per domain
 
 
 # --- JSON-loaded classification data ---
