@@ -132,14 +132,16 @@
       "date": "TBD",
       "status": "drafting",
       "owner_agent": "grant-funding",
-      "notes": "Priority 0 — required for CVR registration. Video pitch script still needed."
+      "dependency_type": "soft",
+      "notes": "Benefits from pilot data but never blocks product roadmap. Submit when Federico decides evidence is strong enough."
     },
     {
       "name": "NCC-DK grant application",
       "date": "2026-04-15",
-      "status": "blocked",
+      "status": "blocked (no CVR)",
       "owner_agent": "grant-funding",
-      "notes": "Requires CVR (post Startup Denmark approval). Phase 2."
+      "dependency_type": "soft",
+      "notes": "Requires CVR from SIRI approval. Product continues regardless."
     }
   ],
   "clients": {

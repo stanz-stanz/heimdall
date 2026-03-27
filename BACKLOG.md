@@ -303,16 +303,18 @@ First paying clients. Human-in-the-loop for every message.
 - [ ] Zero Valdí violations across all client scans
 - [ ] Client feedback collected on message clarity
 
-### Increment 4.3 — SIRI submission
+### Increment 4.3 — SIRI submission (soft dependency — never blocks product)
+
+SIRI submission runs on its own timeline. Product roadmap continues regardless.
 
 | Item | Description |
 |------|-------------|
-| SIRI application final | Update with real pilot data and metrics |
+| SIRI application final | Update with available data — does not wait for pilot completion |
 | Video pitch | Record 5-min video |
 | Submit | Application + video + supporting documents |
 
 **Definition of Done:**
-- [ ] Application reflects actual pilot metrics (domains scanned, findings, client feedback)
+- [ ] Application updated with strongest available evidence
 - [ ] Video recorded, reviewed, under 5 minutes
 - [ ] Application submitted on startupdenmark.info
 - [ ] Receipt confirmed
@@ -345,7 +347,7 @@ Two goals:
 - [ ] Custom Prometheus metrics in worker — jobs completed, domains scanned, findings by severity, cache hit rate, scan duration histograms (`prometheus_client` Python package)
 - [ ] Real-time run dashboard in Grafana — queue depth, active jobs, domains/min throughput, worker utilisation
 - [ ] Post-run analytics dashboard in Grafana — per-scan-type duration trends, cache hit rate over time, slowest domains, error rate, subfinder/crt.sh bottleneck tracking
-- [ ] Grafana Loki + Promtail — ingest structured JSON worker logs for log-based analytics (no code changes)
+- [ ] Grafana Loki + Promtail — ingest structured JSON worker logs for log-based analytics (no code changes). For Docker, there's a native Loki Docker logging driver so containers ship logs directly. Grafana gives the Kibana-like dashboarding and query experience
 - [ ] Redis exporter for Prometheus — expose queue length, cache key count, memory usage
 
 ---

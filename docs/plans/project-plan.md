@@ -109,17 +109,23 @@ Week 2:
 
 ## Dependency chain
 
+**Hard dependencies** (code blocks code):
 ```
 Sprint 1                    Sprint 2                       Sprint 3              Sprint 4
 ─────────                   ─────────                      ─────────             ─────────
 1.1 Tests ──┐               2.1 Cache ─── 2.2 Worker ─┐   3.1 Consent ─┐       4.1 Telegram
 1.2 Logging ┼─ 1.4 Merge ──┤                          ├── 2.4 Docker   │       4.2 Onboarding
 1.3 Bench ──┘               2.3 Scheduler ─────────────┘       │        ├─ 3.3 Interpreter
-                                                           2.5 Vejle    │       4.3 SIRI
+                                                           2.5 Vejle    │
                                                                 │       │
                                                                 └───────┼─ 3.2 Level 1 tools
                                                                         └─ 3.4 Client Memory
 ```
+
+**Soft dependencies** (nice to have, never blockers):
+- SIRI application benefits from pilot data, but product roadmap is never blocked by SIRI formalities
+- SIRI submission can happen at any point when Federico decides the evidence is strong enough
+- Client outreach can start with Level 0 briefs ("first finding free") in parallel with Sprint 3 development
 
 ---
 
@@ -130,17 +136,16 @@ Sprint 1                    Sprint 2                       Sprint 3             
 | WPScan commercial license cost unknown | Medium | Medium | Contact Automattic early (Sprint 2). Fallback: skip WPScan, use Nuclei WordPress templates. |
 | Pi5 resource constraints (8 GB RAM) | Low | High | Benchmarked: 3 workers fit in budget. Scale to VPS if needed. |
 | crt.sh rate limiting at scale | High | Low | 7-day cache TTL. Subfinder provides overlapping subdomain data. crt.sh is enrichment, not critical. |
-| SIRI application rejected | Low | Critical | Strong technical evidence (working product, real scan data). Video pitch rehearsed. |
 | Solo founder — bus factor | High | High | All knowledge in SKILL.md files + documented architecture. Claude Code as force multiplier. Network security partner. |
 
 ---
 
 ## External deadlines
 
-| Deadline | Date | Status | Action required |
-|----------|------|--------|-----------------|
-| Startup Denmark application | TBD | Drafting | Video pitch script needed. Submit after pilot data collected (Sprint 4). |
-| NCC-DK grant | 2026-04-15 | Blocked | Requires CVR. Becomes actionable after SIRI approval. |
+| Deadline | Date | Status | Relationship to product |
+|----------|------|--------|------------------------|
+| Startup Denmark application | TBD | Drafting | Soft dependency — benefits from pilot data but never blocks product roadmap. Submit when ready. |
+| NCC-DK grant | 2026-04-15 | Blocked (no CVR) | Soft dependency — requires CVR from SIRI approval. Product continues regardless. |
 
 ---
 
