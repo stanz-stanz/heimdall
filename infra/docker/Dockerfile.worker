@@ -11,6 +11,8 @@ FROM golang:1.24-alpine AS go-builder
 
 RUN apk add --no-cache git ca-certificates
 
+ENV GOTOOLCHAIN=auto
+
 # Install Go CLI tools one at a time (easier to debug failures).
 RUN mkdir -p /go/tools
 RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@latest
