@@ -235,8 +235,8 @@ class TestResultStructure:
             assert result["job_id"] == "test-001"
 
             # Timing has a total
-            assert "total" in result["timing"]
-            assert isinstance(result["timing"]["total"], float)
+            assert "total_ms" in result["timing"]
+            assert isinstance(result["timing"]["total_ms"], int)
 
             # Cache stats
             assert "hits" in result["cache_stats"]

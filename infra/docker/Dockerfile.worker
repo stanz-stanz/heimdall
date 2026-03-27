@@ -55,10 +55,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code and agent data
+# Copy application code, agent data, and scripts
 COPY src/ ./src/
 COPY config/ ./config/
 COPY agents/ ./agents/
+COPY scripts/ ./scripts/
 
 # Own everything by non-root user
 RUN chown -R heimdall:heimdall /app

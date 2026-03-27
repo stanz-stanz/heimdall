@@ -12,7 +12,10 @@ import time
 from dataclasses import asdict
 from typing import Any, Dict, List, Optional, Tuple
 
+from src.prospecting.brief_generator import generate_brief, _determine_gdpr_sensitivity
+from src.prospecting.bucketer import classify
 from src.prospecting.config import CMS_KEYWORDS, HOSTING_PROVIDERS
+from src.prospecting.cvr import Company
 from src.prospecting.scanner import (
     ScanResult,
     _check_robots_txt,
@@ -217,10 +220,30 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
             break
 
     # ------------------------------------------------------------------
-    # 5. Build return dict
+    # 5. Generate findings + GDPR determination
     # ------------------------------------------------------------------
-    total_dt = time.monotonic() - job_t0
-    timing["total"] = round(total_dt, 4)
+    # Build a minimal Company for brief generation
+    company = Company(
+        cvr=job.get("client_id", "prospect"),
+        name=job.get("company_name", domain),
+        address="", postcode="", city="",
+        company_form="", industry_code=job.get("industry_code", ""),
+        industry_name=job.get("industry_name", ""),
+        phone="", email="",
+        ad_protected=False,
+        website_domain=domain,
+        discard_reason="",
+    )
+    bucket = classify(company, scan)
+    brief = generate_brief(company, scan, bucket)
+
+    # ------------------------------------------------------------------
+    # 6. Build return dict
+    # ------------------------------------------------------------------
+    total_ms = int((time.monotonic() - job_t0) * 1000)
+    # Convert all timing values to ms (int)
+    timing_ms = {k: int(v * 1000) if isinstance(v, float) else v for k, v in timing.items()}
+    timing_ms["total_ms"] = total_ms
 
     log.info(
         "domain_scan_complete",
@@ -228,9 +251,10 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
             "context": {
                 "domain": domain,
                 "job_id": job_id,
-                "duration_ms": int(total_dt * 1000),
+                "duration_ms": total_ms,
                 "cache_hits": job_hits,
                 "cache_misses": job_misses,
+                "findings_count": len(brief.get("findings", [])),
             },
         },
     )
@@ -240,6 +264,7 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
         "job_id": job_id,
         "status": "completed",
         "scan_result": asdict(scan),
-        "timing": timing,
+        "brief": brief,
+        "timing": timing_ms,
         "cache_stats": {"hits": job_hits, "misses": job_misses},
     }

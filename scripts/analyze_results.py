@@ -39,8 +39,16 @@ def analyze(results: list[dict]) -> dict:
     skipped = [r for r in results if r.get("status") == "skipped"]
     failed = [r for r in results if r.get("status") not in ("completed", "skipped")]
 
-    # Timing
-    durations = [r.get("timing", {}).get("total_ms", 0) for r in completed]
+    # Timing — handle both total_ms (int, new) and total (float seconds, legacy)
+    durations = []
+    for r in completed:
+        t = r.get("timing", {})
+        if "total_ms" in t:
+            durations.append(t["total_ms"])
+        elif "total" in t:
+            durations.append(int(t["total"] * 1000))
+        else:
+            durations.append(0)
     avg_ms = sum(durations) / len(durations) if durations else 0
     max_ms = max(durations) if durations else 0
     min_ms = min(durations) if durations else 0
@@ -51,6 +59,7 @@ def analyze(results: list[dict]) -> dict:
 
     # Scan results
     scan_results = [r.get("scan_result", {}) for r in completed]
+    briefs = [r.get("brief", {}) for r in completed]
 
     # CMS distribution
     cms_counter = Counter()
@@ -58,19 +67,19 @@ def analyze(results: list[dict]) -> dict:
         cms = sr.get("cms", "")
         cms_counter[cms or "(none)"] += 1
 
-    # Findings by severity
+    # Findings by severity — read from brief (preferred) or scan_result (legacy)
     severity_counter = Counter()
     finding_types = Counter()
-    for sr in scan_results:
-        for f in sr.get("findings", []):
+    for brief in briefs:
+        for f in brief.get("findings", []):
             severity_counter[f.get("severity", "unknown")] += 1
             finding_types[f.get("description", "unknown")[:60]] += 1
 
-    # GDPR
-    gdpr_sensitive = sum(1 for sr in scan_results if sr.get("gdpr_sensitive"))
+    # GDPR — read from brief
+    gdpr_sensitive = sum(1 for b in briefs if b.get("gdpr_sensitive"))
     gdpr_reasons = Counter()
-    for sr in scan_results:
-        for reason in sr.get("gdpr_reasons", []):
+    for b in briefs:
+        for reason in b.get("gdpr_reasons", []):
             gdpr_reasons[reason[:60]] += 1
 
     # Hosting
@@ -86,14 +95,15 @@ def analyze(results: list[dict]) -> dict:
     subdomain_counts = [len(sr.get("subdomains", [])) for sr in scan_results]
     total_subdomains = sum(subdomain_counts)
 
-    # Per-scan-type timing
+    # Per-scan-type timing — convert to ms
     type_durations: dict[str, list[int]] = {}
     for r in completed:
-        for scan_type, timing in r.get("timing", {}).items():
-            if scan_type == "total_ms":
+        for scan_type, val in r.get("timing", {}).items():
+            if scan_type in ("total_ms", "total"):
                 continue
-            if isinstance(timing, (int, float)):
-                type_durations.setdefault(scan_type, []).append(int(timing))
+            if isinstance(val, (int, float)):
+                ms = int(val) if val > 100 else int(val * 1000)  # auto-detect s vs ms
+                type_durations.setdefault(scan_type, []).append(ms)
 
     return {
         "total_domains": total,
