@@ -92,6 +92,14 @@ services:
       timeout: 5s
       retries: 3
 
+  dozzle:
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
 volumes:
   redis-data:
   client-data:
