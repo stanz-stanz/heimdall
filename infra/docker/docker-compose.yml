@@ -22,6 +22,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.scheduler
+    command: ["python", "-m", "src.scheduler.main", "--mode", "prospect", "--confirmed"]
     environment:
       - REDIS_URL=redis://redis:6379/0
       - CLIENT_DATA_DIR=/data/clients
@@ -30,12 +31,13 @@ services:
       - client-data:/data/clients:ro
       - valdi-data:/data/valdi:ro
       - config-data:/config:ro
+      - ../../data/input:/data/input:ro
     networks:
       - internal
     depends_on:
       redis:
         condition: service_healthy
-    restart: unless-stopped
+    restart: "no"
 
   worker:
     build:
@@ -67,6 +69,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.api
+    profiles: ["full"]  # Not started by default — API not implemented yet
     environment:
       - REDIS_URL=redis://redis:6379/0
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}

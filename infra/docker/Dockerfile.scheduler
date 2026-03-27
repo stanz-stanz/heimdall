@@ -20,7 +20,7 @@ RUN groupadd --gid 1000 heimdall \
  && useradd --uid 1000 --gid 1000 --create-home heimdall
 
 # Create data directories the volumes will mount into
-RUN mkdir -p /data/clients /data/valdi /config \
+RUN mkdir -p /data/clients /data/valdi /data/input /config \
  && chown -R heimdall:heimdall /data /config
 
 WORKDIR /app
