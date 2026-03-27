@@ -70,6 +70,11 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
         default=os.environ.get("RESULTS_DIR", "/data/results"),
         help="Base directory for result JSON files (default: /data/results)",
     )
+    parser.add_argument(
+        "--ct-db",
+        default=os.environ.get("CT_DB_PATH", "/data/ct/certificates.db"),
+        help="Path to local CT certificate database (default: /data/ct/certificates.db)",
+    )
     return parser.parse_args(argv)
 
 
@@ -225,6 +230,20 @@ def main(argv: Optional[list] = None) -> None:
     setup_logging(level=args.log_level, fmt=args.log_format)
 
     log.info("Heimdall worker starting")
+
+    # ------------------------------------------------------------------
+    # 0. Check CT database availability
+    # ------------------------------------------------------------------
+    ct_db_path = args.ct_db
+    if os.path.isfile(ct_db_path):
+        log.info("CT database found at %s", ct_db_path)
+    else:
+        log.warning("CT database not found at %s — crt.sh queries will return empty results", ct_db_path)
+
+    # Set module-level CT_DB_PATH for scan_job to use
+    from .scan_job import _CT_DB_PATH as _unused  # noqa: F401
+    import src.worker.scan_job as _scan_job_mod
+    _scan_job_mod._CT_DB_PATH = ct_db_path
 
     # ------------------------------------------------------------------
     # 1. Validate Valdi approval tokens (fail-fast)
