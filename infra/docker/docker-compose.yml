@@ -27,6 +27,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - CLIENT_DATA_DIR=/data/clients
       - VALDI_DIR=/data/valdi
+      - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
     volumes:
       - client-data:/data/clients:ro
       - valdi-data:/data/valdi:ro
@@ -47,6 +48,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - VALDI_DIR=/data/valdi
       - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
+      - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
     volumes:
       - valdi-data:/data/valdi
       - result-data:/data/results
@@ -57,6 +59,7 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+    stop_grace_period: 330s  # 5 min subfinder + 20s stagger + 30s buffer
     deploy:
       replicas: 3
       resources:
