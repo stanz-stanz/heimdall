@@ -57,7 +57,8 @@ def main():
         time.sleep(args.poll_interval)
 
     # Run analysis
-    from scripts.analyze_results import load_results, analyze, print_report
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from analyze_results import load_results, analyze, print_report
 
     results = load_results(args.results_dir)
     if not results:
