@@ -3,9 +3,9 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: "cadvisor"
+  - job_name: "docker"
     static_configs:
-      - targets: ["cadvisor:8080"]
+      - targets: ["host.docker.internal:9323"]
 
   - job_name: "prometheus"
     static_configs:

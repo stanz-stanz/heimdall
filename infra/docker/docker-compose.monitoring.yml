@@ -1,34 +1,14 @@
 # Monitoring stack — run alongside the main docker-compose.yml
 # Usage: docker compose -f infra/docker/docker-compose.yml -f infra/docker/docker-compose.monitoring.yml up -d
 #
+# Prereq: Docker metrics endpoint enabled in /etc/docker/daemon.json:
+#   {"metrics-addr": "0.0.0.0:9323", "experimental": true}
+#
 # Access:
-#   Grafana:   http://heimdall.local:3000  (admin/heimdall)
+#   Grafana:    http://heimdall.local:3000  (admin/heimdall)
 #   Prometheus: http://heimdall.local:9090
-#   cAdvisor:  http://heimdall.local:8081
 
 services:
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
-    privileged: true  # required for cgroupv2 on Pi OS
-    command:
-      - --docker_only=true            # skip non-Docker containers, reduces errors
-      - --housekeeping_interval=10s
-      - --store_container_labels=false
-    volumes:
-      - /:/rootfs:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /sys:/sys:ro
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-    devices:
-      - /dev/kmsg
-    ports:
-      - "8081:8080"
-    networks:
-      - internal
-    restart: unless-stopped
-
   prometheus:
     image: prom/prometheus:v2.51.0
     volumes:
@@ -38,8 +18,8 @@ services:
       - "9090:9090"
     networks:
       - internal
-    depends_on:
-      - cadvisor
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
   grafana:
