@@ -76,7 +76,7 @@
       "approved_at": "2026-03-26T17:00:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:e93f4cd10b15e15f6036fb86576e9b75df10b656d2fcecc112dc80ac620eb305",
+      "function_hash": "sha256:b974723f50ffc5851ece9fe577f4a35ca9161f752dc32b43298bbfcdc7205bc3",
       "log_file": "agents/valdi/logs/2026-03-26_17-00-00_subdomain_enumeration_passive.md",
       "hash_method": "inspect.getsource"
     },
