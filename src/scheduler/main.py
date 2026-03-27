@@ -13,7 +13,7 @@ from src.scheduler.job_creator import JobCreator
 log = logging.getLogger(__name__)
 
 DEFAULT_REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
-DEFAULT_INPUT_PATH = Path(os.environ.get("INPUT_DIR", "data/input")) / "CVR-extract.xlsx"
+DEFAULT_INPUT_PATH = Path(os.environ.get("INPUT_DIR", "/data/input")) / "CVR-extract.xlsx"
 DEFAULT_FILTERS_PATH = Path("config/filters.json")
 
 
