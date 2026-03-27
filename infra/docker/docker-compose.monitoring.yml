@@ -1,0 +1,47 @@
+# Monitoring stack — run alongside the main docker-compose.yml
+# Usage: docker compose -f infra/docker/docker-compose.yml -f infra/docker/docker-compose.monitoring.yml up -d
+#
+# Prereq: Docker metrics endpoint enabled in /etc/docker/daemon.json:
+#   {"metrics-addr": "0.0.0.0:9323", "experimental": true}
+#
+# Access:
+#   Grafana:    http://heimdall.local:3000  (admin/heimdall)
+#   Prometheus: http://heimdall.local:9090
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=30d
+      - --storage.tsdb.retention.size=2GB
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.4.1
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=heimdall
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3000:3000"
+    networks:
+      - internal
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:
