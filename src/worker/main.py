@@ -4,10 +4,10 @@ Run as::
 
     python -m src.worker.main [--redis-url redis://localhost:6379/0] [--log-format json]
 
-The worker blocks on BRPOP waiting for jobs on the ``queue:scan`` Redis list.
-Each job is a JSON object with at least a ``domain`` key.  Results are written
-to ``/data/results/{client_id}/{domain}/{date}.json`` and a ``scan-complete``
-event is published via Redis pub/sub.
+The worker blocks on BRPOP waiting for jobs on ``queue:enrichment`` and
+``queue:scan`` Redis lists (enrichment has priority).  Scan job results are
+written to ``/data/results/{client_id}/{domain}/{date}.json`` and a
+``scan-complete`` event is published via Redis pub/sub.
 """
 
 from __future__ import annotations
@@ -18,14 +18,17 @@ import logging
 import os
 import signal
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import redis
 
+from src.prospecting.config import ENRICHMENT_RETRY_LIMIT
 from src.prospecting.logging_config import setup_logging
-from src.prospecting.scanner import _init_scan_type_map, _validate_approval_tokens
+from src.prospecting.scanner import _init_scan_type_map, _run_subfinder, _validate_approval_tokens
+from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
 from .cache import ScanCache
 from .scan_job import execute_scan_job
@@ -81,6 +84,137 @@ def _write_result(base_dir: str, client_id: str, domain: str, result: dict) -> P
     return filepath
 
 
+def _execute_enrichment_job(
+    job: dict[str, Any],
+    cache: ScanCache,
+    redis_conn: redis.Redis,
+) -> None:
+    """Execute a batch subfinder enrichment job.
+
+    Runs subfinder in batch mode (-dL) for all domains in the job, then
+    stores results in the cache with the same format that scan_job.py
+    expects from ``_cached_or_run("subfinder", _run_subfinder, [domain])``.
+
+    Always increments the enrichment counter, even on failure, to avoid
+    hanging the scheduler's wait_for_enrichment loop.
+    """
+    batch_index = job.get("batch_index", 0)
+    total_batches = job.get("total_batches", 1)
+    stagger_delay = job.get("stagger_delay", 0)
+    domains = job.get("domains", [])
+    job_id = job.get("job_id", "")
+
+    log.info(
+        "enrichment_job_started",
+        extra={
+            "context": {
+                "job_id": job_id,
+                "batch_index": batch_index,
+                "total_batches": total_batches,
+                "domain_count": len(domains),
+                "stagger_delay": stagger_delay,
+            },
+        },
+    )
+
+    t0 = time.monotonic()
+
+    try:
+        # Stagger to avoid API rate-limit collisions between workers
+        if stagger_delay > 0:
+            log.info(
+                "Staggering enrichment batch %d by %ds",
+                batch_index,
+                stagger_delay,
+            )
+            time.sleep(stagger_delay)
+
+        # Run subfinder in batch mode
+        results = _run_subfinder_with_retry(domains)
+
+        # Store results per domain in cache — format must match what
+        # _cached_or_run("subfinder", _run_subfinder, [domain]) would store.
+        # _run_subfinder([domain]) returns {domain: [subdomains]}.
+        # _cached_or_run stores the return value directly via cache.set().
+        cached_count = 0
+        for domain in domains:
+            domain_result = {domain: results.get(domain, [])}
+            cache.set("subfinder", domain, domain_result)
+            cached_count += 1
+
+        elapsed = time.monotonic() - t0
+        log.info(
+            "enrichment_job_completed",
+            extra={
+                "context": {
+                    "job_id": job_id,
+                    "batch_index": batch_index,
+                    "domain_count": len(domains),
+                    "cached_count": cached_count,
+                    "subdomains_found": sum(len(v) for v in results.values()),
+                    "duration_ms": int(elapsed * 1000),
+                },
+            },
+        )
+    except Exception:
+        elapsed = time.monotonic() - t0
+        log.exception(
+            "enrichment_job_failed",
+            extra={
+                "context": {
+                    "job_id": job_id,
+                    "batch_index": batch_index,
+                    "domain_count": len(domains),
+                    "duration_ms": int(elapsed * 1000),
+                },
+            },
+        )
+    finally:
+        # Always increment — don't hang the scheduler
+        try:
+            redis_conn.incr(ENRICHMENT_COUNTER_KEY)
+        except (redis.ConnectionError, redis.TimeoutError) as exc:
+            log.warning(
+                "Failed to increment enrichment counter: %s", exc
+            )
+
+
+def _run_subfinder_with_retry(
+    domains: list[str],
+    retry_limit: int = ENRICHMENT_RETRY_LIMIT,
+) -> dict[str, list[str]]:
+    """Run subfinder with retry on failure."""
+    last_error: Exception | None = None
+
+    for attempt in range(1 + retry_limit):
+        try:
+            results = _run_subfinder(domains)
+            if attempt > 0:
+                log.info(
+                    "subfinder succeeded on retry attempt %d", attempt
+                )
+            return results
+        except Exception as exc:
+            last_error = exc
+            if attempt < retry_limit:
+                log.warning(
+                    "subfinder failed (attempt %d/%d): %s — retrying",
+                    attempt + 1,
+                    1 + retry_limit,
+                    exc,
+                )
+            else:
+                log.error(
+                    "subfinder failed after %d attempts: %s",
+                    1 + retry_limit,
+                    exc,
+                )
+
+    # Return empty results rather than raising — the enrichment job
+    # must always complete so the counter gets incremented
+    return {}
+
+
 def main(argv: Optional[list] = None) -> None:
     """Worker main loop: validate Valdi, connect to Redis, process jobs."""
     args = _parse_args(argv)
@@ -125,13 +259,15 @@ def main(argv: Optional[list] = None) -> None:
     signal.signal(signal.SIGINT, _handle_signal)
 
     # ------------------------------------------------------------------
-    # 5. BRPOP loop
+    # 5. BRPOP loop — enrichment queue has priority over scan queue
     # ------------------------------------------------------------------
-    log.info("Worker ready — waiting for jobs on queue:scan")
+    log.info("Worker ready — waiting for jobs on queue:enrichment, queue:scan")
 
     while not _shutdown_requested:
         try:
-            item = redis_conn.brpop("queue:scan", timeout=30)
+            item = redis_conn.brpop(
+                ["queue:enrichment", "queue:scan"], timeout=30
+            )
         except (redis.ConnectionError, redis.TimeoutError) as exc:
             log.warning("Redis BRPOP error: %s — retrying", exc)
             continue
@@ -140,7 +276,7 @@ def main(argv: Optional[list] = None) -> None:
             # Timeout, no job available — loop back and check shutdown flag
             continue
 
-        _queue_name, raw_job = item
+        queue_name, raw_job = item
 
         try:
             job = json.loads(raw_job)
@@ -148,9 +284,25 @@ def main(argv: Optional[list] = None) -> None:
             log.warning("Malformed job JSON: %s — skipping", exc)
             continue
 
+        job_type = job.get("job_type", "scan")
+        job_id = job.get("job_id", "")
+
+        # ------------------------------------------------------------------
+        # Route: enrichment job
+        # ------------------------------------------------------------------
+        if job_type == "enrichment":
+            log.info(
+                "enrichment_job_received",
+                extra={"context": {"job_id": job_id, "queue": queue_name}},
+            )
+            _execute_enrichment_job(job, cache, redis_conn)
+            continue
+
+        # ------------------------------------------------------------------
+        # Route: scan job (default)
+        # ------------------------------------------------------------------
         domain = job.get("domain", "unknown")
         client_id = job.get("client_id", "prospect")
-        job_id = job.get("job_id", "")
 
         log.info(
             "job_started",
@@ -193,7 +345,7 @@ def main(argv: Optional[list] = None) -> None:
                     "domain": domain,
                     "status": result.get("status"),
                     "cache_stats": result.get("cache_stats"),
-                    "total_ms": int(result.get("timing", {}).get("total", 0) * 1000),
+                    "total_ms": int(result.get("timing", {}).get("total_ms", 0)),
                 },
             },
         )

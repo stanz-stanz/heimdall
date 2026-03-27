@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -11,12 +12,16 @@ from typing import Any
 
 import redis
 
+from src.prospecting.config import ENRICHMENT_STAGGER_SECONDS, ENRICHMENT_WORKERS
 from src.prospecting.cvr import Company, derive_domains, read_excel
 from src.prospecting.filters import apply_pre_scan_filters, load_filters
 
 log = logging.getLogger(__name__)
 
 QUEUE_NAME = "queue:scan"
+ENRICHMENT_QUEUE = "queue:enrichment"
+ENRICHMENT_COUNTER_KEY = "enrichment:completed"
+ENRICHMENT_TOTAL_KEY = "enrichment:total"
 
 
 def _make_job_id() -> str:
@@ -24,6 +29,13 @@ def _make_job_id() -> str:
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     short_id = uuid.uuid4().hex[:8]
     return f"scan-{date_str}-{short_id}"
+
+
+def _make_enrichment_job_id() -> str:
+    """Generate a unique enrichment job ID: enrich-{date}-{short_uuid}."""
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    short_id = uuid.uuid4().hex[:8]
+    return f"enrich-{date_str}-{short_id}"
 
 
 def _build_job(
@@ -47,6 +59,24 @@ def _build_job(
     }
 
 
+def _build_enrichment_job(
+    domains: list[str],
+    batch_index: int,
+    total_batches: int,
+    stagger_delay: int,
+) -> dict[str, Any]:
+    """Build an enrichment job dict for batch subfinder pre-scan."""
+    return {
+        "job_id": _make_enrichment_job_id(),
+        "job_type": "enrichment",
+        "domains": domains,
+        "batch_index": batch_index,
+        "total_batches": total_batches,
+        "stagger_delay": stagger_delay,
+        "created_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+
+
 class JobCreator:
     """Creates scan jobs and pushes them to a Redis queue."""
 
@@ -56,17 +86,18 @@ class JobCreator:
             redis_url, decode_responses=True
         )
 
-    def create_prospect_jobs(
+    def extract_prospect_domains(
         self, input_path: Path, filters_path: Path
-    ) -> int:
-        """Read CVR data, apply filters, derive domains, push one job per domain.
+    ) -> list[str]:
+        """Read CVR data, apply filters, derive domains, return deduplicated domain list.
 
-        Returns the number of jobs created.
+        This is the shared first phase of the prospect pipeline — used by both
+        enrichment and scan job creation.
         """
         companies = read_excel(input_path)
         if not companies:
-            log.info("No companies found in %s — 0 jobs created", input_path)
-            return 0
+            log.info("No companies found in %s — 0 domains extracted", input_path)
+            return []
 
         filters = load_filters(filters_path)
         companies = apply_pre_scan_filters(companies, filters)
@@ -76,25 +107,129 @@ class JobCreator:
 
         # Deduplicate by domain — multiple companies can share a domain
         seen_domains: set[str] = set()
-        unique: list[Company] = []
+        unique_domains: list[str] = []
         for company in active:
             if company.website_domain not in seen_domains:
                 seen_domains.add(company.website_domain)
-                unique.append(company)
+                unique_domains.append(company.website_domain)
 
+        log.info(
+            "Extracted %d unique domains from %d companies",
+            len(unique_domains),
+            len(companies),
+        )
+        return unique_domains
+
+    def create_scan_jobs_for_domains(self, domains: list[str]) -> int:
+        """Push one scan job per domain to the scan queue.
+
+        Returns the number of jobs created.
+        """
         count = 0
-        for company in unique:
-            job = _build_job(domain=company.website_domain)
+        for domain in domains:
+            job = _build_job(domain=domain)
             self._push_job(job)
             count += 1
 
-        log.info(
-            "Created %d prospect jobs from %d companies (%d unique domains)",
-            count,
-            len(companies),
-            len(seen_domains),
-        )
+        log.info("Created %d scan jobs for %d domains", count, len(domains))
         return count
+
+    def create_prospect_jobs(
+        self, input_path: Path, filters_path: Path
+    ) -> int:
+        """Read CVR data, apply filters, derive domains, push one job per domain.
+
+        Returns the number of jobs created.
+
+        Backward-compatible wrapper around extract_prospect_domains +
+        create_scan_jobs_for_domains.
+        """
+        domains = self.extract_prospect_domains(input_path, filters_path)
+        if not domains:
+            return 0
+        return self.create_scan_jobs_for_domains(domains)
+
+    def create_enrichment_jobs(
+        self,
+        domains: list[str],
+        num_workers: int = ENRICHMENT_WORKERS,
+        stagger_seconds: int = ENRICHMENT_STAGGER_SECONDS,
+    ) -> int:
+        """Split domains into batches and push enrichment jobs to the enrichment queue.
+
+        Domains are distributed round-robin across *num_workers* batches.
+        Each batch gets a stagger delay of ``batch_index * stagger_seconds``
+        to avoid API rate-limit collisions.
+
+        Returns the number of enrichment jobs created.
+        """
+        if not domains:
+            log.info("No domains for enrichment — 0 jobs created")
+            return 0
+
+        # Cap workers to number of domains
+        actual_workers = min(num_workers, len(domains))
+
+        # Round-robin domain distribution
+        batches: list[list[str]] = [[] for _ in range(actual_workers)]
+        for i, domain in enumerate(domains):
+            batches[i % actual_workers].append(domain)
+
+        # Reset Redis counters
+        self._conn.set(ENRICHMENT_COUNTER_KEY, 0)
+        self._conn.set(ENRICHMENT_TOTAL_KEY, actual_workers)
+
+        # Push enrichment jobs
+        for batch_index, batch_domains in enumerate(batches):
+            job = _build_enrichment_job(
+                domains=batch_domains,
+                batch_index=batch_index,
+                total_batches=actual_workers,
+                stagger_delay=batch_index * stagger_seconds,
+            )
+            self._conn.lpush(ENRICHMENT_QUEUE, json.dumps(job))
+
+        log.info(
+            "Created %d enrichment jobs (%d domains, stagger=%ds)",
+            actual_workers,
+            len(domains),
+            stagger_seconds,
+        )
+        return actual_workers
+
+    def wait_for_enrichment(
+        self, timeout: int = 3600, poll_interval: int = 5
+    ) -> bool:
+        """Poll Redis until all enrichment batches have completed.
+
+        Returns True when all batches complete, False on timeout.
+        """
+        deadline = time.monotonic() + timeout
+        total = int(self._conn.get(ENRICHMENT_TOTAL_KEY) or 0)
+
+        if total == 0:
+            log.warning("Enrichment total is 0 — nothing to wait for")
+            return True
+
+        log.info("Waiting for %d enrichment batches (timeout=%ds)", total, timeout)
+
+        while time.monotonic() < deadline:
+            completed = int(self._conn.get(ENRICHMENT_COUNTER_KEY) or 0)
+            if completed >= total:
+                log.info(
+                    "All %d enrichment batches completed", total
+                )
+                return True
+            time.sleep(poll_interval)
+
+        completed = int(self._conn.get(ENRICHMENT_COUNTER_KEY) or 0)
+        log.warning(
+            "Enrichment timeout after %ds: %d/%d batches completed",
+            timeout,
+            completed,
+            total,
+        )
+        return False
 
     def create_client_jobs(self, client_dir: Path, tier: str) -> int:
         """Read client profiles from *client_dir*, create scan jobs per domain.

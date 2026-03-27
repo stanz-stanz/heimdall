@@ -42,8 +42,13 @@ CRT_SH_DELAY = 2.0  # seconds between requests (avoid 429s from crt.sh)
 GRAYHATWARFARE_API_KEY = os.environ.get("GRAYHATWARFARE_API_KEY", "")
 
 # --- CLI tool timeouts ---
-SUBFINDER_TIMEOUT = 600  # 10 min for large batches
+SUBFINDER_TIMEOUT = 900  # 15 min for large batches (enrichment pre-scan)
 DNSX_TIMEOUT = 300  # 5 min
+
+# --- Enrichment pre-scan settings ---
+ENRICHMENT_WORKERS = 3
+ENRICHMENT_STAGGER_SECONDS = 10
+ENRICHMENT_RETRY_LIMIT = 1
 
 
 # --- JSON-loaded classification data ---
