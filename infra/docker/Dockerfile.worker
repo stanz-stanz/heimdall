@@ -12,11 +12,10 @@ FROM golang:1.22-alpine AS go-builder
 RUN apk add --no-cache git
 
 # Install all four Go CLI tools.
-# Pin to known-good versions for reproducibility.
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@v1.6.9 \
- && GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@v0.4.2 \
- && GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.6.7 \
- && GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@v1.2.1
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@latest \
+ && GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@latest \
+ && GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest \
+ && GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
 
 # ---------------------------------------------------------------------------
 # Stage 2: Runtime image
