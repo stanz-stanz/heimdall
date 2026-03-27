@@ -55,10 +55,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code and agent data
+# Copy application code, agent data, and scripts
 COPY src/ ./src/
 COPY config/ ./config/
 COPY agents/ ./agents/
+COPY scripts/ ./scripts/
 
 # Own everything by non-root user
 RUN chown -R heimdall:heimdall /app
@@ -66,6 +67,6 @@ RUN chown -R heimdall:heimdall /app
 USER heimdall
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-    CMD python -c "import redis, os; r = redis.from_url(os.environ.get('REDIS_URL','redis://localhost:6379/0')); r.ping()" || exit 1
+    CMD python -c "import redis, os, pathlib; r = redis.from_url(os.environ.get('REDIS_URL','redis://localhost:6379/0')); r.ping(); assert pathlib.Path(os.environ.get('CT_DB_PATH','/data/ct/certificates.db')).exists(), 'CT DB missing'" || exit 1
 
 ENTRYPOINT ["python", "-m", "src.worker.main"]

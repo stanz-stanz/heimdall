@@ -8,28 +8,61 @@ scan data, timing breakdown, and cache statistics.
 from __future__ import annotations
 
 import logging
+import os
 import time
 from dataclasses import asdict
 from typing import Any, Dict, List, Optional, Tuple
 
+from src.prospecting.brief_generator import generate_brief, _determine_gdpr_sensitivity
+from src.prospecting.bucketer import classify
 from src.prospecting.config import CMS_KEYWORDS, HOSTING_PROVIDERS
+from src.prospecting.cvr import Company
 from src.prospecting.scanner import (
     ScanResult,
     _check_robots_txt,
     _check_ssl,
     _extract_page_meta,
     _get_response_headers,
-    _query_crt_sh_single,
     _query_grayhatwarfare,
     _run_dnsx,
     _run_httpx,
     _run_subfinder,
     _run_webanalyze,
 )
+from src.ct_collector.db import open_readonly, query_certificates
 
 from .cache import ScanCache
 
 log = logging.getLogger(__name__)
+
+# Path to the local CT database (set via CT_DB_PATH env var or --ct-db arg)
+_CT_DB_PATH: str = os.environ.get("CT_DB_PATH", "/data/ct/certificates.db")
+
+
+def _query_local_ct(domain: str) -> tuple:
+    """Query the local CT SQLite database for certificates matching *domain*.
+
+    Returns ``(domain, certs_list)`` in the same format as
+    ``_query_crt_sh_single`` for backward compatibility with cache unpacking
+    on lines 191-199.
+
+    Degrades gracefully: if the database is missing or unreadable, returns
+    ``(domain, [])``.
+    """
+    if not os.path.isfile(_CT_DB_PATH):
+        log.debug("ct_db_not_found", extra={"context": {"path": _CT_DB_PATH}})
+        return domain, []
+
+    try:
+        conn = open_readonly(_CT_DB_PATH)
+        try:
+            certs = query_certificates(conn, domain, include_expired=False)
+            return domain, certs
+        finally:
+            conn.close()
+    except Exception as exc:
+        log.debug("ct_db_query_failed", extra={"context": {"domain": domain, "error": str(exc)}})
+        return domain, []
 
 
 def _timed(fn: Any, *args: Any, **kwargs: Any) -> Tuple[Any, float]:
@@ -130,7 +163,7 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
     dnsx_results = _cached_or_run("dnsx", _run_dnsx, [domain])
 
     # --- API queries ---
-    crtsh_raw = _cached_or_run("crtsh", _query_crt_sh_single, domain)
+    crtsh_raw = _cached_or_run("crtsh", _query_local_ct, domain)
     ghw_results = _cached_or_run("ghw", _query_grayhatwarfare, [domain])
 
     # ------------------------------------------------------------------
@@ -217,10 +250,30 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
             break
 
     # ------------------------------------------------------------------
-    # 5. Build return dict
+    # 5. Generate findings + GDPR determination
     # ------------------------------------------------------------------
-    total_dt = time.monotonic() - job_t0
-    timing["total"] = round(total_dt, 4)
+    # Build a minimal Company for brief generation
+    company = Company(
+        cvr=job.get("client_id", "prospect"),
+        name=job.get("company_name", domain),
+        address="", postcode="", city="",
+        company_form="", industry_code=job.get("industry_code", ""),
+        industry_name=job.get("industry_name", ""),
+        phone="", email="",
+        ad_protected=False,
+        website_domain=domain,
+        discard_reason="",
+    )
+    bucket = classify(company, scan)
+    brief = generate_brief(company, scan, bucket)
+
+    # ------------------------------------------------------------------
+    # 6. Build return dict
+    # ------------------------------------------------------------------
+    total_ms = int((time.monotonic() - job_t0) * 1000)
+    # Convert all timing values to ms (int)
+    timing_ms = {k: int(v * 1000) if isinstance(v, float) else v for k, v in timing.items()}
+    timing_ms["total_ms"] = total_ms
 
     log.info(
         "domain_scan_complete",
@@ -228,9 +281,10 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
             "context": {
                 "domain": domain,
                 "job_id": job_id,
-                "duration_ms": int(total_dt * 1000),
+                "duration_ms": total_ms,
                 "cache_hits": job_hits,
                 "cache_misses": job_misses,
+                "findings_count": len(brief.get("findings", [])),
             },
         },
     )
@@ -240,6 +294,7 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
         "job_id": job_id,
         "status": "completed",
         "scan_result": asdict(scan),
-        "timing": timing,
+        "brief": brief,
+        "timing": timing_ms,
         "cache_stats": {"hits": job_hits, "misses": job_misses},
     }

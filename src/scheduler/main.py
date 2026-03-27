@@ -33,6 +33,11 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Skip interactive confirmation prompt.",
     )
     parser.add_argument(
+        "--skip-enrichment",
+        action="store_true",
+        help="Skip the subfinder batch enrichment phase (prospect mode only).",
+    )
+    parser.add_argument(
         "--input",
         type=Path,
         default=DEFAULT_INPUT_PATH,
@@ -81,7 +86,31 @@ def main(argv: list[str] | None = None) -> int:
     creator = JobCreator(redis_url=args.redis_url)
 
     try:
-        count = creator.create_prospect_jobs(args.input, args.filters)
+        # Phase 1: Extract domains
+        domains = creator.extract_prospect_domains(args.input, args.filters)
+        if not domains:
+            log.info("No domains extracted — nothing to do")
+            return 0
+
+        # Phase 2: Enrichment pre-scan (unless skipped)
+        if not args.skip_enrichment:
+            log.info("Phase 1/2: Starting subfinder batch enrichment for %d domains", len(domains))
+            enrichment_count = creator.create_enrichment_jobs(domains)
+            if enrichment_count > 0:
+                enrichment_ok = creator.wait_for_enrichment(timeout=3600)
+                if not enrichment_ok:
+                    log.warning(
+                        "Enrichment did not complete within timeout — "
+                        "proceeding with scan jobs (subfinder will run per-domain for uncached domains)"
+                    )
+            log.info("Phase 1/2: Enrichment phase complete")
+        else:
+            log.info("Enrichment phase skipped (--skip-enrichment)")
+
+        # Phase 3: Create per-domain scan jobs
+        log.info("Phase 2/2: Creating per-domain scan jobs for %d domains", len(domains))
+        count = creator.create_scan_jobs_for_domains(domains)
+
     except Exception:
         log.exception("Failed to create prospect jobs")
         return 1
