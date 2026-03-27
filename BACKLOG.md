@@ -330,6 +330,26 @@ First paying clients. Human-in-the-loop for every message.
 
 ---
 
+## Observability (feature/monitoring branch)
+
+Two goals:
+1. **Real-time run monitoring** — watch Heimdall scan in progress (live logs, active workers, queue depth, domains/min)
+2. **Post-run analytics** — analyze metrics to improve performance and detect bottlenecks (scan type durations, cache effectiveness, error rates, per-domain timing trends)
+
+### Done
+- [x] Dozzle — real-time log viewer (port 8080)
+- [x] cAdvisor + Prometheus + Grafana — container resource dashboards (CPU, memory, network)
+- [x] Pre-provisioned Grafana dashboard: "Heimdall — Container Resources"
+
+### Next
+- [ ] Custom Prometheus metrics in worker — jobs completed, domains scanned, findings by severity, cache hit rate, scan duration histograms (`prometheus_client` Python package)
+- [ ] Real-time run dashboard in Grafana — queue depth, active jobs, domains/min throughput, worker utilisation
+- [ ] Post-run analytics dashboard in Grafana — per-scan-type duration trends, cache hit rate over time, slowest domains, error rate, subfinder/crt.sh bottleneck tracking
+- [ ] Grafana Loki + Promtail — ingest structured JSON worker logs for log-based analytics (no code changes)
+- [ ] Redis exporter for Prometheus — expose queue length, cache key count, memory usage
+
+---
+
 ## Parking Lot
 
 Items with no sprint assignment yet.
