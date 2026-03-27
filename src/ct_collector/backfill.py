@@ -4,8 +4,16 @@ Run as::
 
     python -m src.ct_collector.backfill [--db-path /data/ct/certificates.db]
 
+Or via Docker Compose::
+
+    docker compose run --rm ct-backfill
+
 Fetches all certificate records from crt.sh for .dk domains and inserts
 them into the local CT database.  Supports resumption via a progress file.
+
+IMPORTANT: Run this BEFORE starting the ct-collector service, or stop
+the collector first. SQLite allows only one writer — concurrent writes
+from backfill and collector risk contention and missed CertStream messages.
 """
 
 from __future__ import annotations

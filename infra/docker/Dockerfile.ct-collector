@@ -29,9 +29,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application code (ct-collector does not need config/)
 COPY src/ ./src/
-COPY config/ ./config/
 
 # Own everything by non-root user
 RUN chown -R heimdall:heimdall /app

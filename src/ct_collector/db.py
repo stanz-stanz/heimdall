@@ -56,7 +56,7 @@ def init_db(db_path: str) -> sqlite3.Connection:
 
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA synchronous=NORMAL")
-    conn.execute("PRAGMA cache_size=-64000")  # 64 MB
+    conn.execute("PRAGMA cache_size=-8000")  # 8 MB — safe for 256 MB container budget
 
     conn.executescript(_SCHEMA_SQL)
     conn.commit()
@@ -83,10 +83,9 @@ def open_readonly(db_path: str) -> sqlite3.Connection:
     sqlite3.OperationalError
         If the database file does not exist.
     """
-    uri = f"file:{db_path}?mode=ro"
+    uri = f"file:{db_path}?immutable=1"
     conn = sqlite3.connect(uri, uri=True, timeout=5)
     conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA query_only=ON")
     return conn
 
 

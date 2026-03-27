@@ -133,7 +133,11 @@ def _write_status(
 
 
 def _cleanup_loop(db_path: str, interval_hours: int) -> None:
-    """Daemon thread: periodic cleanup + WAL checkpoint."""
+    """Daemon thread: periodic cleanup + WAL checkpoint.
+
+    Opens a lightweight connection (no large cache) to avoid OOM in
+    the 256 MB container budget.
+    """
     interval_seconds = interval_hours * 3600
     while not _shutdown_requested:
         # Sleep in small increments to check shutdown flag
@@ -146,9 +150,10 @@ def _cleanup_loop(db_path: str, interval_hours: int) -> None:
             return
 
         try:
-            from .db import init_db as _open_db
+            import sqlite3 as _sqlite3
 
-            conn = _open_db(db_path)
+            conn = _sqlite3.connect(db_path, timeout=30)
+            conn.row_factory = _sqlite3.Row
             try:
                 deleted = cleanup_old_entries(conn, days=90)
                 conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
