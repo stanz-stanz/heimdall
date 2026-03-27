@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   redis:
     image: redis:7-alpine
@@ -80,7 +78,6 @@ services:
       - config-data:/config:ro
     networks:
       - internal
-      - tailscale
     depends_on:
       redis:
         condition: service_healthy
@@ -103,5 +100,6 @@ volumes:
 networks:
   internal:
     driver: bridge
-  tailscale:
-    external: true
+  # tailscale:
+  #   external: true
+  # Uncomment when Tailscale is installed and `docker network create tailscale` is run
