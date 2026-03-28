@@ -130,6 +130,16 @@
       "log_file": "agents/valdi/logs/2026-03-28_16-00-00_wpscan_wordpress_scan.md",
       "hash_method": "inspect.getsource",
       "note": "Covers _request_wpscan delegation function in scan_job.py. Actual wpscan execution in sidecar container."
+    },
+    {
+      "scan_type_id": "cmseek_cms_deep_scan",
+      "token": "bf921a05-dc95-4ff9-99cf-0b9f8630aaf3",
+      "approved_at": "2026-03-28T17:00:00Z",
+      "level": 1,
+      "layer": 2,
+      "function_hash": "sha256:f4ae289a1b3933a9452ccca10244b43e9d18eb42cd8a2e1599a7d491826526d3",
+      "log_file": "agents/valdi/logs/2026-03-28_17-00-00_cmseek_cms_deep_scan.md",
+      "hash_method": "inspect.getsource"
     }
   ]
 }

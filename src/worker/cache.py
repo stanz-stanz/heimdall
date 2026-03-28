@@ -29,6 +29,7 @@ CACHE_TTLS: Dict[str, int] = {
     "ghw": 604800,          # 7d
     "nuclei": 86400,        # 24h
     "wpscan": 86400,        # 24h
+    "cmseek": 604800,       # 7d — CMS identity changes rarely
 }
 
 DEFAULT_TTL: int = 86400  # fallback if scan_type not in CACHE_TTLS

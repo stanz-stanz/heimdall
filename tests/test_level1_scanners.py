@@ -57,8 +57,16 @@ _NUCLEI_RESULT = {_DOMAIN: {
 }}
 
 
+_CMSEEK_RESULT = {_DOMAIN: {
+    "cms_id": "wp",
+    "cms_name": "WordPress",
+    "cms_version": "6.9.4",
+    "detection_param": "header",
+}}
+
+
 def _patch_all_scans_with_nuclei():
-    """Patches for all scan functions including nuclei."""
+    """Patches for all scan functions including Level 1 tools."""
     return [
         patch("src.worker.scan_job._check_robots_txt", return_value=True),
         patch("src.worker.scan_job._check_ssl", return_value=_SSL_RESULT),
@@ -71,6 +79,7 @@ def _patch_all_scans_with_nuclei():
         patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
         patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
         patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
+        patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
     ]
 
 
@@ -192,11 +201,12 @@ class TestRegistrySplit:
     def test_level1_functions_populated(self):
         _init_scan_type_map()
         assert "nuclei_vulnerability_scan" in _LEVEL1_SCAN_FUNCTIONS
+        assert "cmseek_cms_deep_scan" in _LEVEL1_SCAN_FUNCTIONS
         assert "ssl_certificate_check" not in _LEVEL1_SCAN_FUNCTIONS
 
     def test_combined_map_has_all(self):
         _init_scan_type_map()
-        assert len(_SCAN_TYPE_FUNCTIONS) == 10
+        assert len(_SCAN_TYPE_FUNCTIONS) == 11
         assert "ssl_certificate_check" in _SCAN_TYPE_FUNCTIONS
         assert "nuclei_vulnerability_scan" in _SCAN_TYPE_FUNCTIONS
 
@@ -305,7 +315,8 @@ class TestLevel1Execution:
             # Standard cache stats still present
             assert "cache_stats" in result
             # Level 1 has 10 misses (9 L0 + 1 nuclei)
-            assert result["cache_stats"]["misses"] == 10
+            # Level 1 has 11 misses (9 L0 + nuclei + cmseek)
+            assert result["cache_stats"]["misses"] == 11
         finally:
             for p in patches:
                 p.stop()
@@ -350,6 +361,7 @@ class TestWPScanDelegation:
             patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
             patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
+            patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
         ]
         for p in patches:
             p.start()
@@ -387,6 +399,7 @@ class TestWPScanDelegation:
             patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
             patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
+            patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
         ]
         for p in patches:
             p.start()

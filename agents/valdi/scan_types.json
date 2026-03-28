@@ -142,6 +142,22 @@
       "function_name": "_request_wpscan",
       "function_hash": "sha256:8a3ae86aab66d4722c24be5ce0de5209af7523a3df9aabd38098e8ec71be4874",
       "hash_method": "inspect.getsource"
+    },
+    {
+      "id": "cmseek_cms_deep_scan",
+      "description": "CMS detection + deep fingerprinting via CMSeek — probes admin panels, version files, plugin paths. Requires Level 1 (written consent).",
+      "layer": 2,
+      "level_required": 1,
+      "tools": ["CMSeek (Python)"],
+      "paths_accessed": ["/admin/", "/manager/", "/administrator/", "/readme.html", "/wp-content/plugins/"],
+      "handles_robots_txt_denial": false,
+      "robots_txt_note": "robots.txt enforcement delegated to worker Gate 2 consent check",
+      "current_approval_token": "bf921a05-dc95-4ff9-99cf-0b9f8630aaf3",
+      "last_validated": "2026-03-28T17:00:00Z",
+      "function_file": "src/prospecting/scanner.py",
+      "function_name": "_run_cmseek",
+      "function_hash": "sha256:f4ae289a1b3933a9452ccca10244b43e9d18eb42cd8a2e1599a7d491826526d3",
+      "hash_method": "inspect.getsource"
     }
   ]
 }
