@@ -73,6 +73,8 @@ The complete definition of what is allowed and forbidden at each Layer/Level is 
 | `src/consent/validator.py` | Consent validator — Gate 2 enforcement, fail-closed on all error paths |
 | `src/interpreter/` | Finding Interpreter — LLM-powered scan interpretation (Claude API / Ollama abstraction) |
 | `src/composer/telegram.py` | Message Composer — Telegram formatting with 4096-char auto-splitting |
+| `docs/digital-twin-use-cases.md` | Digital twin architecture, use cases, legal foundation |
+| `config/synthetic_targets.json` | Config: synthetic target registry for twin consent bypass |
 
 ---
 
@@ -117,7 +119,8 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 8. Evidence-based GDPR sensitivity determination (from scan results + industry code)
 9. Agency detection (footer credits, meta author tags)
 10. Generate per-site briefs
-11. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
+11. WordPress domains: enrich with twin-derived Layer 2 findings (Nuclei, WPScan against local digital twin — no consent required). See `SCANNING_RULES.md` for twin framework.
+12. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
 
 ### Supporting Data Files
 
@@ -130,6 +133,8 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 | `data/output/briefs/{domain}.json` | Output: per-site technology briefs |
 | `config/interpreter.json` | Config: LLM backend, model, tone, language settings |
 | `config/consent_schema.json` | Config: consent authorisation JSON schema |
+| `config/synthetic_targets.json` | Config: synthetic target registry for twin consent bypass |
+| `tools/twin/slug_map.json` | Static: plugin/theme slug → version mapping for twin reconstruction |
 
 ---
 

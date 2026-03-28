@@ -33,7 +33,7 @@ Forty percent of Danish small and medium businesses do not have a security level
 
 **Heimdall** is an External Attack Surface Management (EASM) service that continuously monitors a business's public-facing digital surface — domains, certificates, web servers, CMS platforms, plugins — and delivers findings as plain-language messages through Telegram and WhatsApp. Not a dashboard. Not a PDF report. A conversation, in Danish, that tells the owner what is wrong, who should fix it, and what to say to that person.
 
-**The innovation:** No existing EASM product delivers findings through messaging apps to non-technical business owners. Heimdall's architecture is built from the ground up around conversational delivery, persistent memory of each client's infrastructure, AI-powered interpretation of technical findings, and automated legal compliance governance. This is not an incremental improvement — it is a fundamentally different approach to cybersecurity for SMBs.
+**The innovation:** No existing EASM product delivers findings through messaging apps to non-technical business owners. Heimdall's architecture is built from the ground up around conversational delivery, persistent memory of each client's infrastructure, AI-powered interpretation of technical findings, and automated legal compliance governance. Two technical innovations are particularly distinctive. First, a **digital twin** system that reconstructs a prospect's website from publicly available data and runs it on Heimdall's own infrastructure — enabling CVE-level vulnerability scanning without touching the prospect's systems or requiring their consent, because Danish criminal law (Straffeloven §263) only protects "another person's data system." Second, **Valdí**, a programmatic compliance agent with two-gate validation and forensic logging, built as a systemic response to a real compliance incident — demonstrating a governance maturity that most startups never achieve. This is not an incremental improvement — it is a fundamentally different approach to cybersecurity for SMBs.
 
 **Business model:** Three subscription tiers at 199, 399, and 799 kr./month — Watchman is cheaper than every competitor's entry tier. Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~10 paying clients.
 
@@ -222,19 +222,27 @@ Heimdall operates under Danish criminal law (Straffeloven §263), which criminal
 
 **No scanning code executes without a valid Valdí approval token.**
 
-### 4.4 Governance Maturity
+Valdí constitutes **demonstrable due diligence** under Danish law. If Heimdall's scanning activities are ever questioned by regulators, the forensic log trail provides timestamped, machine-generated evidence of every scan type validated, every approval issued, every rejection recorded, and every pre-scan authorization check performed. This is not a retrospective compliance narrative — it is a live, auditable record that exists before any scan executes. For a company operating on the boundary defined by §263, this level of programmatic governance is a concrete legal asset.
 
-During early pipeline development, a function was written that probed specific admin paths on target domains — active probing that crosses the Layer 1 boundary into Layer 2. The function was integrated into the pipeline and executed against 353 domains before the violation was identified.
+### 4.4 Governance Maturity — The March 22 Incident
 
-It was caught by the project owner's manual review, not by automated checks. The response was immediate: the code was removed, all tainted data was scrubbed from output files, a full code review confirmed no other boundary violations, and the incident was documented in a formal post-incident report.
+On March 22, 2026, during early pipeline development, a function was written that probed specific admin paths (`/wp-admin/`, `/wp-login.php`, `/administrator/`) on target domains — active probing that crosses the Layer 1 boundary into Layer 2. The function was integrated into the pipeline and executed against 353 live domains before the violation was identified.
 
-**Valdí was built as a direct result of this incident.** The two-gate compliance system with forensic logging exists because a human caught what the code did not. The team identifies compliance failures, responds with systemic fixes rather than patches, and documents everything. The forensic log trail is designed to demonstrate due diligence to regulators and legal counsel.
+The violation was caught by the project owner's manual review of pipeline output. The response was immediate and systematic:
+
+1. **Detection:** The project owner challenged a sales hook ("Admin login page is publicly accessible") and identified that the underlying function constituted Layer 2 activity running without consent.
+2. **Containment:** The offending function was removed from the codebase. All tainted data — output files, briefs, and cached results containing the unauthorized findings — was scrubbed.
+3. **Verification:** A full code review of the entire scanning pipeline confirmed no other boundary violations existed.
+4. **Documentation:** A formal post-incident report was written, documenting the root cause (a classification error where admin path probing was treated as "checking publicly accessible URLs" rather than correctly identified as directed probing), the timeline, and the remediation steps.
+5. **Systemic response:** Valdí was designed and built as a direct result — a two-gate automated compliance system that makes this class of error structurally impossible going forward.
+
+**This incident history is stronger evidence of governance maturity than a clean record.** Any organization can claim it has never had a compliance incident. Heimdall can demonstrate that when a boundary violation occurred, the system detected it, scrubbed all tainted data, documented the root cause, and built an automated gate to prevent recurrence. The correction mechanism is proven — not theoretical. This is precisely the kind of evidence that regulators and legal counsel assess when evaluating due diligence.
 
 ---
 
 ## 5. Innovation
 
-Heimdall introduces five distinct innovations to the External Attack Surface Management market. These are not incremental improvements to existing products — they represent a fundamentally different approach to delivering cybersecurity to non-technical users.
+Heimdall introduces seven distinct innovations to the External Attack Surface Management market. These are not incremental improvements to existing products — they represent a fundamentally different approach to delivering cybersecurity to non-technical users.
 
 ### 5.1 Messaging-First Delivery Model
 
@@ -244,19 +252,40 @@ Every existing EASM product delivers findings through web dashboards. Heimdall d
 
 Over 21,000 OpenClaw instances are publicly exposed.¹⁰ Kaspersky found 512 vulnerabilities in the platform.¹² Businesses are deploying AI agents without understanding the security implications. No SMB-focused security tool scans for exposed AI agent infrastructure. Heimdall is the first to address this attack surface for small businesses.
 
-### 5.3 Persistent Memory Architecture
+### 5.3 Digital Twin — CVE-Level Findings Without Consent or Contact
+
+This is the innovation no competitor has.
+
+Heimdall's Layer 1 (passive) scanning collects publicly available data about a prospect's website: CMS version, plugin versions, server software, SSL configuration. From this data, Heimdall constructs a **digital twin** — an exact replica of the prospect's technology stack running on Heimdall's own infrastructure.
+
+The legal foundation is explicit in Straffeloven §263's language: the statute criminalizes unauthorized access to **"another person's data system"** ("en andens datasystem"). A digital twin is Heimdall's own system. It is built from lawfully obtained public data. Running vulnerability scanners against it cannot constitute a §263 violation because the system belongs to the scanner operator.
+
+This transforms the sales conversation. Without the twin, Layer 1 scanning produces surface-level observations: "Your WordPress is version 5.8.3" or "You are missing a Content-Security-Policy header." With the twin, Heimdall runs Nuclei templates and WPScan against the replica and produces CVE-level findings: "Your WordPress version and plugin combination has 3 known CVEs, including CVE-2023-XXXXX which allows unauthenticated access to user data."
+
+The difference for a restaurant owner with an online booking system is the difference between "your door is old" and "your door has a known defect that lets strangers walk in." The second message creates urgency. The second message sells.
+
+**What the digital twin enables:**
+
+- **CVE-level prospecting findings** from publicly available data alone — no customer consent required, no contact with their infrastructure
+- **Remediation verification** — when the prospect becomes a paying client and applies a fix, Heimdall can reconstruct the twin with the updated configuration and re-scan to confirm the vulnerability is resolved
+- **Deterministic test fixtures** — twins built from known configurations provide reproducible regression tests for the scanning pipeline, eliminating dependence on live third-party infrastructure for quality assurance
+- **Scalable depth** — every prospect in the pipeline gets the same depth of analysis that would traditionally require written consent and active scanning of their live systems
+
+No competitor in the EASM space offers this capability. The standard industry approach is: passive scan produces shallow findings; deep findings require consent and active scanning of the client's live infrastructure. Heimdall eliminates this tradeoff entirely.
+
+### 5.4 Persistent Memory Architecture
 
 Heimdall builds a longitudinal understanding of each client's infrastructure, findings history, and remediation patterns. The agent remembers what it told the client, what changed, what was fixed, and what was ignored. This compounds in value over time and creates switching costs — a new provider would start from zero.
 
-### 5.4 Programmatic Legal Compliance (Valdí)
+### 5.5 Programmatic Legal Compliance (Valdí)
 
 Automated governance of scanning operations using a two-gate validation system with forensic logging and approval tokens. Every scan type is validated against documented legal rules before execution. Every validation is logged. This was built in response to a real compliance incident, demonstrating a mature approach to governance.
 
-### 5.5 AI-Powered Interpretation Chain
+### 5.6 AI-Powered Interpretation Chain
 
 Open-source scanning tools produce structured technical data. The Claude API interprets that data in plain language for non-technical users, including routing ("who should fix this") and actionable next steps. The LLM never decides what is vulnerable — it explains what the tools found. This separation of detection from interpretation is a novel architecture for SMB security products.
 
-### 5.6 End-to-End Remediation (Find It, Explain It, Fix It)
+### 5.7 End-to-End Remediation (Find It, Explain It, Fix It)
 
 Every existing competitor stops at advisory — the customer must find someone to execute the fix. Heimdall offers an optional, per-event remediation service that closes the loop entirely. For the SMB owner with no developer and no IT resources, this is the difference between receiving advice they cannot act on and having the problem solved. No EASM competitor currently offers this.
 
@@ -446,15 +475,17 @@ They could add a Telegram notification. But notification is not delivery. Heimda
 
 If the business owner can navigate a vulnerability scanning dashboard, configure scan targets, interpret CVSS scores, and act on the findings — HostedScan is the better choice. At 199 kr./mo, Heimdall costs less than HostedScan's own paid tier (~215 kr./mo) while delivering through the channel the owner actually uses. For the majority of SMB owners who cannot navigate a dashboard, the dashboard might as well not exist.
 
-### 10.3 Four Durable Differentiators
+### 10.3 Five Durable Differentiators
 
 1. **Messaging-first delivery:** The entire product is built around conversational delivery to non-technical users — not a feature bolted onto a dashboard.
 
-2. **Persistent memory:** Longitudinal understanding of each client's infrastructure, findings history, and remediation patterns. Creates switching costs and compounds in value.
+2. **Digital twin vulnerability analysis:** CVE-level findings from publicly available data alone — no customer consent required, no contact with their live systems. No competitor offers this.
 
-3. **Shadow AI/agent detection:** Scanning for exposed OpenClaw instances, MCP servers, and rogue AI agents. First-mover position in a rapidly growing attack surface.¹⁰ ¹¹ ¹³
+3. **Persistent memory:** Longitudinal understanding of each client's infrastructure, findings history, and remediation patterns. Creates switching costs and compounds in value.
 
-4. **Optional remediation service:** No competitor offers hands-on fixes. Intruder.io and HostedScan stop at guidance — the client must find someone to execute. Heimdall closes the loop with per-event consultancy, becoming the client's de facto security team.
+4. **Shadow AI/agent detection:** Scanning for exposed OpenClaw instances, MCP servers, and rogue AI agents. First-mover position in a rapidly growing attack surface.¹⁰ ¹¹ ¹³
+
+5. **Optional remediation service:** No competitor offers hands-on fixes. Intruder.io and HostedScan stop at guidance — the client must find someone to execute. Heimdall closes the loop with per-event consultancy, becoming the client's de facto security team.
 
 ---
 
@@ -468,13 +499,23 @@ Straffeloven §263, stk. 1 criminalizes gaining unauthorized access to data syst
 
 GDPR Article 32 requires "appropriate technical and organisational measures" to ensure security appropriate to the risk.⁷ Most Danish SMBs are non-compliant by default. They do not know this. Heimdall makes the gap visible and provides a path to close it.
 
-### 11.3 Valdí as Demonstrable Due Diligence
+### 11.3 Digital Twin — Legal Foundation Under §263
 
-The Valdí compliance system — two-gate validation, forensic logging, approval tokens, documented incident response — demonstrates due diligence under §263. Every scan type is validated before execution. Every validation is logged. If Heimdall is ever questioned by regulators, the forensic log trail provides timestamped evidence of what was scanned, approved, rejected, and why.
+Heimdall's digital twin system constructs replicas of prospect websites on Heimdall's own infrastructure, built entirely from publicly available data collected during Layer 1 scanning. The legal basis for running vulnerability scanners (Nuclei, WPScan) against these twins rests directly on the language of §263, stk. 1, which criminalizes unauthorized access to **"en andens datasystem"** — another person's data system.¹⁵
 
-### 11.4 Open Questions for Counsel
+A digital twin is not another person's data system. It is built by Heimdall, hosted by Heimdall, and owned by Heimdall. The data used to construct it — CMS versions, plugin versions, server software, SSL configuration — is publicly served information that any browser visitor receives. Running Layer 2 scanning tools against this self-owned replica cannot constitute a §263 violation.
 
-Legal counsel engagement is planned for the establishment phase to confirm the Layer 1/Layer 2 boundary under §263, draft a scanning authorization template, and clarify agency delegation rights. Recommended firms: Plesner, Kromann Reumert, Bech-Bruun (all with IT law / cybersecurity practices).
+This distinction enables Heimdall to produce CVE-level vulnerability findings for prospecting purposes without requiring customer consent and without making any active probes against the prospect's live infrastructure. The input is lawful (Layer 1 public data), the scanning target is self-owned (the twin), and the output is high-confidence inference (marked with `provenance: "twin-derived"` throughout the pipeline).
+
+Confirmation of this legal interpretation is included in the planned legal counsel engagement (see Section 11.5).
+
+### 11.4 Valdí as Demonstrable Due Diligence
+
+The Valdí compliance system — two-gate validation, forensic logging, approval tokens, documented incident response — demonstrates due diligence under §263. Every scan type is validated before execution. Every validation is logged. The March 22, 2026 incident (Section 4.4) and Valdí's construction as a systemic response provide concrete evidence that the governance mechanism works: a boundary violation was detected, all tainted data was scrubbed, the root cause was documented, and an automated prevention system was built. If Heimdall is ever questioned by regulators, the forensic log trail provides timestamped evidence of what was scanned, approved, rejected, and why — including evidence that the system catches and corrects its own failures.
+
+### 11.5 Open Questions for Counsel
+
+Legal counsel engagement is planned for the establishment phase to confirm the Layer 1/Layer 2 boundary under §263, validate the digital twin's legal basis (self-owned system built from public data does not constitute "another person's data system" under §263), draft a scanning authorization template, and clarify agency delegation rights. Recommended firms: Plesner, Kromann Reumert, Bech-Bruun (all with IT law / cybersecurity practices).
 
 ---
 
