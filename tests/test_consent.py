@@ -292,6 +292,22 @@ class TestLevel1Blocked:
         assert result.allowed is False
         assert "escapes client directory" in result.reason
 
+    def test_consent_document_prefix_collision(self, tmp_path):
+        """client-001-evil must not satisfy a check for client-001."""
+        # Create client-001 with a consent doc path that resolves to
+        # a sibling directory client-001-evil/
+        evil_dir = tmp_path / "client-001-evil"
+        evil_dir.mkdir()
+        (evil_dir / "fake.pdf").write_text("not yours", encoding="utf-8")
+
+        _write_auth(tmp_path, consent_document="../client-001-evil/fake.pdf", with_document=False)
+        result = check_consent(
+            tmp_path, "client-001", "test.dk",
+            level_requested=1, reference_date=date(2026, 6, 1),
+        )
+        assert result.allowed is False
+        assert "escapes client directory" in result.reason
+
 
 # ---------------------------------------------------------------------------
 # Type safety — every wrong type MUST block, never crash

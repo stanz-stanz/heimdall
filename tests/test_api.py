@@ -1,12 +1,14 @@
 """Tests for the Heimdall Results API."""
 
 import json
+from pathlib import Path
 
 import fakeredis
 import pytest
 from fastapi.testclient import TestClient
 
-from src.api.app import create_app
+from src.api.app import create_app, _handle_scan_complete
+from src.api.result_store import ResultStore
 
 
 # ---------------------------------------------------------------------------
@@ -237,3 +239,109 @@ class TestPathTraversal:
         """Single-character names don't match the 2+ char regex."""
         resp = client.get("/results/x")
         assert resp.status_code == 400
+
+
+# ---------------------------------------------------------------------------
+# _handle_scan_complete pipeline
+# ---------------------------------------------------------------------------
+
+_MOCK_LLM_RESPONSE = json.dumps({
+    "good_news": ["SSL certificate valid"],
+    "findings": [
+        {
+            "title": "Missing HSTS",
+            "explanation": "Connection not fully protected.",
+            "action": "Ask your host to enable HSTS",
+            "who": "web_host",
+            "effort": "5 minutes",
+        },
+    ],
+    "summary": "One quick fix needed.",
+})
+
+
+class TestHandleScanComplete:
+    def test_full_pipeline(self, results_dir, monkeypatch, tmp_path):
+        """scan-complete → interpret → compose → message file written."""
+        monkeypatch.setattr(
+            "src.interpreter.interpreter.complete",
+            lambda prompt, system="": _MOCK_LLM_RESPONSE,
+        )
+        messages_dir = tmp_path / "messages"
+        messages_dir.mkdir()
+
+        store = ResultStore(str(results_dir))
+        payload = {"job_id": "test-001", "domain": "example.dk",
+                   "client_id": "prospect", "status": "completed"}
+
+        _handle_scan_complete(payload, store, str(messages_dir))
+
+        # Verify message file was written
+        msg_path = messages_dir / "prospect" / "example.dk" / "message.json"
+        assert msg_path.is_file()
+        msg = json.loads(msg_path.read_text())
+        assert msg["domain"] == "example.dk"
+        assert msg["client_id"] == "prospect"
+        assert len(msg["telegram_messages"]) >= 1
+        assert "Missing HSTS" in msg["telegram_messages"][0]
+        assert "interpreted" in msg
+        assert msg["interpreted"]["findings"][0]["title"] == "Missing HSTS"
+
+    def test_llm_failure_does_not_crash(self, results_dir, monkeypatch, tmp_path):
+        """If the LLM fails, the handler logs and returns — no crash."""
+        from src.interpreter.llm import LLMError
+        monkeypatch.setattr(
+            "src.interpreter.interpreter.complete",
+            lambda prompt, system="": (_ for _ in ()).throw(LLMError("API down")),
+        )
+        messages_dir = tmp_path / "messages"
+        messages_dir.mkdir()
+
+        store = ResultStore(str(results_dir))
+        payload = {"job_id": "test-001", "domain": "example.dk",
+                   "client_id": "prospect", "status": "completed"}
+
+        # Should not raise
+        _handle_scan_complete(payload, store, str(messages_dir))
+
+        # No message file written
+        msg_path = messages_dir / "prospect" / "example.dk" / "message.json"
+        assert not msg_path.exists()
+
+    def test_non_completed_status_skipped(self, results_dir, tmp_path):
+        """Jobs with status != 'completed' are silently skipped."""
+        messages_dir = tmp_path / "messages"
+        messages_dir.mkdir()
+        store = ResultStore(str(results_dir))
+        payload = {"job_id": "test-001", "domain": "example.dk",
+                   "client_id": "prospect", "status": "skipped"}
+
+        _handle_scan_complete(payload, store, str(messages_dir))
+
+        msg_path = messages_dir / "prospect" / "example.dk" / "message.json"
+        assert not msg_path.exists()
+
+    def test_missing_result_skipped(self, tmp_path):
+        """If no scan result exists for the domain, handler returns cleanly."""
+        messages_dir = tmp_path / "messages"
+        messages_dir.mkdir()
+        empty_results = tmp_path / "results"
+        empty_results.mkdir()
+        store = ResultStore(str(empty_results))
+        payload = {"job_id": "test-001", "domain": "nope.dk",
+                   "client_id": "prospect", "status": "completed"}
+
+        _handle_scan_complete(payload, store, str(messages_dir))
+
+    def test_invalid_client_id_rejected(self, results_dir, tmp_path):
+        """Path traversal in client_id from pub/sub is blocked."""
+        messages_dir = tmp_path / "messages"
+        messages_dir.mkdir()
+        store = ResultStore(str(results_dir))
+        payload = {"job_id": "test-001", "domain": "example.dk",
+                   "client_id": "../etc", "status": "completed"}
+
+        _handle_scan_complete(payload, store, str(messages_dir))
+
+        # Nothing written outside messages dir
+        assert not (messages_dir / "../etc").exists()

@@ -72,41 +72,66 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 # Pub/sub listener — interpret + compose on scan-complete
 # ---------------------------------------------------------------------------
 
+_PUBSUB_RECONNECT_BACKOFF = [1, 2, 5, 10, 30]  # seconds
+
+
 async def _listen_scan_complete(
     redis_conn: redis.Redis,
     result_store: ResultStore,
     messages_dir: str,
 ) -> None:
-    pubsub = redis_conn.pubsub()
-    await asyncio.to_thread(pubsub.subscribe, "scan-complete")
-    log.info("pubsub_subscribed", extra={"context": {"channel": "scan-complete"}})
-    try:
-        while True:
-            msg = await asyncio.to_thread(
-                pubsub.get_message, ignore_subscribe_messages=True, timeout=1.0,
-            )
-            if msg and msg["type"] == "message":
-                try:
-                    payload = json.loads(msg["data"])
-                    log.info("scan_complete_event", extra={"context": {
-                        "job_id": payload.get("job_id"),
-                        "domain": payload.get("domain"),
-                        "client_id": payload.get("client_id"),
-                        "status": payload.get("status"),
-                    }})
-                    # Interpret + compose in a thread to avoid blocking
-                    await asyncio.to_thread(
-                        _handle_scan_complete, payload, result_store, messages_dir,
-                    )
-                except (json.JSONDecodeError, TypeError) as exc:
-                    log.warning("scan_complete_parse_error", extra={"context": {"error": str(exc)}})
-            await asyncio.sleep(0.1)
-    except asyncio.CancelledError:
-        pubsub.unsubscribe("scan-complete")
-        pubsub.close()
-        log.info("pubsub_unsubscribed")
-    except Exception:
-        log.exception("pubsub_error")
+    """Subscribe to scan-complete and process events. Auto-reconnects on failure."""
+    reconnect_count = 0
+
+    while True:
+        try:
+            pubsub = redis_conn.pubsub()
+            await asyncio.to_thread(pubsub.subscribe, "scan-complete")
+            log.info("pubsub_subscribed", extra={"context": {
+                "channel": "scan-complete", "reconnect_count": reconnect_count,
+            }})
+            reconnect_count = 0  # reset on successful subscribe
+
+            while True:
+                msg = await asyncio.to_thread(
+                    pubsub.get_message, ignore_subscribe_messages=True, timeout=1.0,
+                )
+                if msg and msg["type"] == "message":
+                    try:
+                        payload = json.loads(msg["data"])
+                        log.info("scan_complete_event", extra={"context": {
+                            "job_id": payload.get("job_id"),
+                            "domain": payload.get("domain"),
+                            "client_id": payload.get("client_id"),
+                            "status": payload.get("status"),
+                        }})
+                        await asyncio.to_thread(
+                            _handle_scan_complete, payload, result_store, messages_dir,
+                        )
+                    except (json.JSONDecodeError, TypeError) as exc:
+                        log.warning("scan_complete_parse_error", extra={"context": {"error": str(exc)}})
+                await asyncio.sleep(0.1)
+
+        except asyncio.CancelledError:
+            try:
+                pubsub.unsubscribe("scan-complete")
+                pubsub.close()
+            except Exception:
+                pass
+            log.info("pubsub_unsubscribed")
+            return  # clean shutdown — do not reconnect
+
+        except Exception:
+            reconnect_count += 1
+            wait = _PUBSUB_RECONNECT_BACKOFF[min(reconnect_count - 1, len(_PUBSUB_RECONNECT_BACKOFF) - 1)]
+            log.warning("pubsub_reconnecting", extra={"context": {
+                "reconnect_count": reconnect_count, "wait_seconds": wait,
+            }}, exc_info=True)
+            try:
+                pubsub.close()
+            except Exception:
+                pass
+            await asyncio.sleep(wait)
 
 
 def _handle_scan_complete(

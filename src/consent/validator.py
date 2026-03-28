@@ -228,7 +228,7 @@ def _check_consent_inner(
 
     doc_full_path = (client_dir / client_id / consent_doc_path).resolve()
     client_root = (client_dir / client_id).resolve()
-    if not str(doc_full_path).startswith(str(client_root)):
+    if client_root not in doc_full_path.parents and doc_full_path != client_root:
         return _blocked(client_id, domain, level_requested,
                         f"Consent document path escapes client directory: {consent_doc_path}",
                         level_authorised=level_authorised,
