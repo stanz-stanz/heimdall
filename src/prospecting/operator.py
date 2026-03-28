@@ -64,7 +64,7 @@ def print_gate1_summary(approvals: dict) -> None:
 
     lines.append(_box_sep())
     lines.append(f"  {len(entries)} scan types registered. All function hashes verified.")
-    lines.append(f"  Forensic logs: {DIM}agents/valdi/logs/{RESET}")
+    lines.append(f"  Forensic logs: {DIM}.claude/agents/valdi/logs/{RESET}")
     lines.append(_box_bot())
     lines.append("")
 
@@ -221,7 +221,7 @@ def write_run_summary(
 ) -> Path:
     """Write a JSON run summary to data/compliance/."""
     from .config import PROJECT_ROOT
-    check_dir = PROJECT_ROOT / "agents" / "valdi" / "compliance"
+    check_dir = PROJECT_ROOT / ".claude" / "agents" / "valdi" / "compliance"
     check_dir.mkdir(parents=True, exist_ok=True)
 
     # CMS breakdown

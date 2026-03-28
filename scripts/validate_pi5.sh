@@ -155,7 +155,7 @@ else
     warn ".env not found — copy from .env.template and fill in values"
 fi
 
-if [ -f "$PROJECT_ROOT/agents/valdi/approvals.json" ]; then
+if [ -f "$PROJECT_ROOT/.claude/agents/valdi/approvals.json" ]; then
     pass "Valdí approvals.json found"
 else
     fail "Valdí approvals.json missing — worker will refuse to start"

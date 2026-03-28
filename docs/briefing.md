@@ -115,7 +115,7 @@ Full legal research memo: see `docs/Heimdall_Legal_Risk_Assessment.md`
 
 ### Compliance Controls — Valdí
 
-Heimdall uses a programmatic compliance agent ("Valdí") that validates all scanning code against `SCANNING_RULES.md` before execution. Every validation produces a timestamped forensic log. See `agents/valdi/SKILL.md` for the full specification. See `SCANNING_RULES.md` (project root) for the authoritative rules on what is permitted at each Layer and Level.
+Heimdall uses a programmatic compliance agent ("Valdí") that validates all scanning code against `SCANNING_RULES.md` before execution. Every validation produces a timestamped forensic log. See `.claude/agents/valdi/SKILL.md` for the full specification. See `SCANNING_RULES.md` (project root) for the authoritative rules on what is permitted at each Layer and Level.
 
 ---
 
@@ -317,7 +317,7 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 - `contactable` field (boolean) replaces the Danish Reklamebeskyttet flag (inverted: ad-protected = not contactable)
 - `tech_stack` is in per-site briefs only, not in the CSV
 
-**Filter configuration:** see `agents/prospecting/SKILL.md` for the `filters.json` format
+**Filter configuration:** see `.claude/agents/prospecting/SKILL.md` for the `filters.json` format
 
 ### The "First Finding Free" Sales Motion
 
@@ -378,7 +378,7 @@ Every finding ends with a clear "who should fix this" line. Sentinel and Guardia
 2. **Heimdall_Legal_Risk_Assessment.md** — legal research memo on §263 and scanning consent (with Valdí addendum)
 3. **OpenClaw_RPi5_Autonomous_Profit_Research.md** — original research on autonomous profit scenarios
 4. **SCANNING_RULES.md** — authoritative constraint document for all scanning code (project root)
-5. **agents/valdi/SKILL.md** — Valdí legal compliance agent specification
+5. **.claude/agents/valdi/SKILL.md** — Valdí legal compliance agent specification
 6. **docs/legal/Valdi_Implementation_Actions.md** — implementation checklist for the compliance system
 7. **This briefing** — master context for Claude Code
 

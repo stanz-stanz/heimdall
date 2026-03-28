@@ -217,7 +217,7 @@ Build the paid-service scanning pipeline. Requires written client consent (Level
 | Item | Description |
 |------|-------------|
 | Client authorization template | Legal document for client signature |
-| Consent registry | `agents/valdi/consent/{client_id}.json` with scope, dates, signatures |
+| Consent registry | `.claude/agents/valdi/consent/{client_id}.json` with scope, dates, signatures |
 | Valdí Gate 2 for Level 1 | Verify consent exists and is current before Level 1 scan |
 | Tests | Test consent validation: valid, expired, wrong scope, missing |
 

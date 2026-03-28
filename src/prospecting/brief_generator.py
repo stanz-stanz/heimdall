@@ -65,7 +65,7 @@ def generate_brief(
     scan: ScanResult,
     bucket: str,
 ) -> dict:
-    """Generate a per-site brief matching docs/agents/prospecting/SKILL.md schema."""
+    """Generate a per-site brief matching .claude/agents/prospecting/SKILL.md schema."""
     # Determine GDPR sensitivity from evidence
     gdpr = _determine_gdpr_sensitivity(company, scan)
 

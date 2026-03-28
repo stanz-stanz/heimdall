@@ -8,11 +8,12 @@ data/benchmarks/*.json
 # Pipeline input data (local only)
 data/input/CVR-extract.xlsx
 
-# Valdí compliance logs (regenerated on each run)
-agents/valdi/compliance/
+# Claude Code local config — ignore contents, but track agents
+.claude/*
+!.claude/agents/
 
-# Claude Code local config
-.claude/
+# Valdí compliance logs (regenerated on each run)
+.claude/agents/valdi/compliance/
 
 # Python
 __pycache__/

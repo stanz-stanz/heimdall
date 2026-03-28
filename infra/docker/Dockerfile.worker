@@ -74,7 +74,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code, agent data, and scripts
 COPY src/ ./src/
 COPY config/ ./config/
-COPY agents/ ./agents/
+COPY .claude/agents/ ./.claude/agents/
 COPY scripts/ ./scripts/
 
 # Own everything by non-root user

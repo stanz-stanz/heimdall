@@ -29,7 +29,7 @@ The following documents clearly define the Layer 1/Layer 2 boundary and prohibit
 - **`CLAUDE.md`** — "Do not run Layer 2 scanning tools against any target without verified written authorisation"
 - **`docs/heimdall-briefing-v2.md`** — Defines Layer 2 as "tools like Nuclei and Nikto send crafted requests to test for specific CVEs" and states it "requires written consent before activation"
 - **`docs/Heimdall_Legal_Risk_Assessment.md`** — Legal analysis of Straffeloven §263 and the risk of unauthorized active probing
-- **`agents/prospecting/SKILL.md`** — "You ONLY operate at Layer 1" and "You NEVER send crafted requests to test for vulnerabilities"
+- **`.claude/agents/prospecting/SKILL.md`** — "You ONLY operate at Layer 1" and "You NEVER send crafted requests to test for vulnerabilities"
 
 Despite these constraints being read and acknowledged before building, the `_check_admin_panels` function was written as part of the scanner module without recognizing that probing specific admin paths crosses the Layer 1/Layer 2 boundary. The error was one of classification: the function was treated as "checking publicly accessible URLs" rather than correctly identified as "actively probing for specific endpoints that a casual visitor would not request."
 
