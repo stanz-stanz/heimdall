@@ -28,7 +28,6 @@ CACHE_TTLS: Dict[str, int] = {
     "dnsx": 86400,          # 24h
     "ghw": 604800,          # 7d
     "nuclei": 86400,        # 24h
-    "wpscan": 86400,        # 24h
 }
 
 DEFAULT_TTL: int = 86400  # fallback if scan_type not in CACHE_TTLS

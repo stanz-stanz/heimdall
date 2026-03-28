@@ -9,7 +9,6 @@
     "dns_enrichment": 0,
     "certificate_transparency_query": 0,
     "cloud_storage_index_query": 0,
-    "nuclei_vulnerability_scan": 1,
-    "wpscan_wordpress_scan": 1
+    "nuclei_vulnerability_scan": 1
   }
 }

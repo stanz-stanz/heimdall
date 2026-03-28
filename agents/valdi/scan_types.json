@@ -126,22 +126,6 @@
       "function_name": "_run_nuclei",
       "function_hash": "sha256:4addb4f2a7256546f8a954c8eba5706e129e118d1e0ad7a37290ab04e5c4efe9",
       "hash_method": "inspect.getsource"
-    },
-    {
-      "id": "wpscan_wordpress_scan",
-      "description": "WordPress vulnerability and plugin scanning via WPScan — probes wp-admin, plugin/theme version files, cross-references WPScan vulnerability database. Requires Level 1 (written consent).",
-      "layer": 2,
-      "level_required": 1,
-      "tools": ["wpscan"],
-      "paths_accessed": ["/wp-admin/", "/wp-login.php", "/wp-content/plugins/", "/wp-content/themes/", "/readme.html", "/wp-includes/"],
-      "handles_robots_txt_denial": false,
-      "robots_txt_note": "robots.txt enforcement delegated to worker Gate 2 consent check",
-      "current_approval_token": "c9c5d87c-5500-4840-a737-d071287d072c",
-      "last_validated": "2026-03-28T15:00:00Z",
-      "function_file": "src/prospecting/scanner.py",
-      "function_name": "_run_wpscan",
-      "function_hash": "sha256:6943393dd053eb15ad074b777e65c264222d3579421e8e8ce2dacd295444635c",
-      "hash_method": "inspect.getsource"
     }
   ]
 }
