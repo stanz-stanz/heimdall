@@ -115,7 +115,11 @@ Full legal research memo: see `docs/Heimdall_Legal_Risk_Assessment.md`
 
 ### Compliance Controls — Valdí
 
-Heimdall uses a programmatic compliance agent ("Valdí") that validates all scanning code against `SCANNING_RULES.md` before execution. Every validation produces a timestamped forensic log. See `agents/valdi/SKILL.md` for the full specification. See `SCANNING_RULES.md` (project root) for the authoritative rules on what is permitted at each Layer and Level.
+Heimdall uses a programmatic compliance agent ("Valdí") that validates all scanning code against `SCANNING_RULES.md` before execution. Every validation produces a timestamped forensic log. See `.claude/agents/valdi/SKILL.md` for the full specification. See `SCANNING_RULES.md` (project root) for the authoritative rules on what is permitted at each Layer and Level.
+
+### Digital Twin System
+
+Heimdall extends Layer 1 findings with Layer 2 context through a digital twin system: replicas of prospect websites built from Layer 1 scan data, running entirely on Heimdall's own infrastructure. Scanning a system you own is not a §263 violation, so the twin enables vulnerability testing (Nuclei, WPScan) without requiring client consent. Findings carry `provenance: "twin-derived"` markers to distinguish them from direct scan results. See `SCANNING_RULES.md` for the full digital twin framework and constraints.
 
 ---
 
@@ -172,6 +176,10 @@ The Pi is an implementation detail for the pilot, not a selling point. Clients c
 - Separation of scanning infrastructure from client communication
 - Potential multi-node architecture as client volume grows
 - Same OpenClaw skill architecture, different substrate
+
+### Digital Twin Container (Testing Infrastructure)
+
+The digital twin runs as a Docker Compose service under profile `["twin"]`, exposing ports 9080 (HTTP) and 9443 (HTTPS with self-signed TLS cert). Resource budget: 256 MB RAM. The twin container reconstructs a target's CMS environment from Layer 1 scan data (detected CMS version, plugins, theme) and serves it locally for Layer 2 scanning. This is testing infrastructure — it does not serve client traffic and is not part of the production scanning pipeline. Implementation: `tools/twin/`, Docker support in `infra/docker/Dockerfile.twin`, pipeline integration via `src/worker/twin_scan.py`.
 
 ### Scanning Tools
 
@@ -309,7 +317,8 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 8. Flag GDPR-sensitive industries via CVR branchekoder (healthcare, legal, accounting, real estate, dental)
 9. Detect web agencies via footer credits and meta author tags
 10. Generate per-site brief: CMS, hosting provider, SSL status, detected plugins, risk profile
-11. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
+11. WordPress domains: enrich with twin-derived Layer 2 findings (Nuclei, WPScan run against local digital twin replica — no consent required)
+12. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
 
 **Output notes:**
 - Only companies with a live website appear in the output CSV
@@ -317,11 +326,11 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 - `contactable` field (boolean) replaces the Danish Reklamebeskyttet flag (inverted: ad-protected = not contactable)
 - `tech_stack` is in per-site briefs only, not in the CSV
 
-**Filter configuration:** see `agents/prospecting/SKILL.md` for the `filters.json` format
+**Filter configuration:** see `.claude/agents/prospecting/SKILL.md` for the `filters.json` format
 
 ### The "First Finding Free" Sales Motion
 
-The prospecting scan (Layer 1) costs nothing to run and produces real findings: outdated CMS versions, expiring SSL certificates, missing security headers, detectable technology stack. This data powers a free-sample sales motion — show the prospect a real finding on their actual website before asking for money.
+The prospecting scan (Layer 1) costs nothing to run and produces real findings: outdated CMS versions, expiring SSL certificates, missing security headers, detectable technology stack. The digital twin system takes this further — by reconstructing the prospect's CMS environment locally, Heimdall can surface CVE-level vulnerability findings (with `provenance: "twin-derived"` markers) in the initial outreach, without requiring consent. This data powers a free-sample sales motion — show the prospect a real, specific finding on their actual website before asking for money.
 
 ### Agency Pitch (Bonus)
 
@@ -378,7 +387,7 @@ Every finding ends with a clear "who should fix this" line. Sentinel and Guardia
 2. **Heimdall_Legal_Risk_Assessment.md** — legal research memo on §263 and scanning consent (with Valdí addendum)
 3. **OpenClaw_RPi5_Autonomous_Profit_Research.md** — original research on autonomous profit scenarios
 4. **SCANNING_RULES.md** — authoritative constraint document for all scanning code (project root)
-5. **agents/valdi/SKILL.md** — Valdí legal compliance agent specification
+5. **.claude/agents/valdi/SKILL.md** — Valdí legal compliance agent specification
 6. **docs/legal/Valdi_Implementation_Actions.md** — implementation checklist for the compliance system
 7. **This briefing** — master context for Claude Code
 

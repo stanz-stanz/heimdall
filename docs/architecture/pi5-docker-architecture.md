@@ -14,6 +14,7 @@ Pi5 (Docker Compose)
 ├── dozzle                 # Live container log viewer (:8080)
 ├── prometheus             # Metrics collection (:9090)
 ├── grafana                # Dashboards (:3000)
+├── heimdall-twin          # [profile: twin] Brief-to-website simulator (:9080/:9443)
 └── volumes
     ├── /data/cache        # Tool-specific scan cache
     ├── /data/results      # Scan results per client
@@ -84,6 +85,21 @@ Environment variables: `REDIS_URL`, `RESULTS_DIR`, `MESSAGES_DIR`, `CLAUDE_API_K
 
 Volumes: `result-data` (read-only), `client-data` (read-only), `message-data` (writable), `config-data` (read-only).
 
+### heimdall-twin (profile: twin)
+
+Brief-to-website simulator. Reads a prospect brief JSON from the `/config` volume and serves HTTP/HTTPS responses that replicate the prospect's detected tech stack (WordPress version, plugin headers, missing security headers, exposed endpoints). Used for Layer 2 scanning without prospect consent -- the twin is Heimdall-owned infrastructure, so Straffeloven ss.263 does not apply.
+
+- **Image:** `python:3.11-slim`
+- **Ports:** 9080 (HTTP), 9443 (HTTPS)
+- **Resources:** 256 MB RAM, 0.25 CPU
+- **TLS:** self-signed certificate generated at build time
+- **Health check:** `/healthz`
+- **Profile-gated:** only runs when explicitly requested (`docker compose --profile twin up`). Not part of the standard production stack.
+- **No Redis cache:** the twin is deterministic -- the same brief always produces identical responses, so caching adds no value.
+- **Synthetic target registry:** registered in `config/synthetic_targets.json`. The consent validator recognises registered twins and bypasses Gate 2 consent checks while Gate 1 tool validation still applies.
+
+Volumes: `config-data` (read-only).
+
 ## Job Structure
 
 ```json
@@ -137,6 +153,7 @@ Workers check Redis cache before each scan type. If the cached result exists and
 | Prometheus | 256 MB | Shared | 30-day / 2GB retention |
 | Grafana | 256 MB | Shared | Dashboards |
 | Dozzle | 128 MB | Shared | Live log viewer |
+| Twin | 256 MB | 0.25 core | Profile-gated, not in default stack |
 | Raspberry Pi OS | 1.5 GB | — | Base system + Docker daemon |
 | **Buffer** | **1.5 GB** | — | Headroom for spikes |
 
@@ -183,3 +200,4 @@ The worker count is the only knob. Everything else scales linearly. The same doc
 - Compliance checks written to `/data/valdi/compliance/` volume
 - robots.txt check runs before every domain scan, regardless of cache
 - No Level 1 scan types are registered in the approval file — workers cannot execute them
+- **Twin-targeted scans** still require Gate 1 approval tokens (tool validation) but bypass Gate 2 consent checks. Twins are registered in `config/synthetic_targets.json` (synthetic target registry); the consent validator recognises them and skips Level/consent verification. See the "Heimdall-Owned Test Infrastructure" section in `SCANNING_RULES.md` for the full compliance framework.

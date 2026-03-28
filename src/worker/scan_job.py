@@ -356,6 +356,35 @@ def execute_scan_job(
     brief = generate_brief(company, scan, bucket)
 
     # ------------------------------------------------------------------
+    # 5b. Twin scan — Layer 2 tools against a digital twin (WordPress only)
+    # ------------------------------------------------------------------
+    if scan.cms == "WordPress" and brief.get("tech_stack"):
+        try:
+            from .twin_scan import run_twin_scan
+            twin_result = run_twin_scan(brief)
+            if twin_result and twin_result.get("findings"):
+                for finding in twin_result["findings"]:
+                    finding["provenance"] = "twin-derived"
+                brief["findings"].extend(twin_result["findings"])
+                brief["twin_scan"] = {
+                    "twin_scan_date": twin_result["twin_scan_date"],
+                    "scan_tools": twin_result["scan_tools"],
+                    "duration_ms": twin_result["duration_ms"],
+                    "note": "Findings derived from passive fingerprinting, not confirmed against live target",
+                }
+                log.info(
+                    "twin_scan_enriched",
+                    extra={"context": {
+                        "domain": domain,
+                        "twin_findings": len(twin_result["findings"]),
+                        "twin_tools": twin_result["scan_tools"],
+                        "twin_duration_ms": twin_result["duration_ms"],
+                    }},
+                )
+        except Exception:
+            log.exception("twin_scan_failed for %s", domain)
+
+    # ------------------------------------------------------------------
     # 6. Build return dict
     # ------------------------------------------------------------------
     total_ms = int((time.monotonic() - job_t0) * 1000)

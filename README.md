@@ -13,7 +13,7 @@ src/prospecting/     Lead generation pipeline (Phase 0)
 src/worker/          Docker scan worker (BRPOP loop, enrichment, scan execution)
 src/scheduler/       Job scheduler (two-phase: enrichment → scan)
 src/ct_collector/    CertStream CT log subscriber + local SQLite store
-agents/              Agent specs + agent-owned data (12 agents)
+.claude/agents/      Agent specs + agent-owned data (12 agents)
 config/              Static configuration (JSON)
 data/input/          Manual input (CVR extracts)
 data/output/         Pipeline results (briefs, CSV)

@@ -7,7 +7,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:e83c524bc9670743dec22bd800ee69ac08d1538dd44ff9a687ce9064bf8800bc",
-      "log_file": "agents/valdi/logs/2026-03-22_10-00-00_ssl_certificate_check.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-22_10-00-00_ssl_certificate_check.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -17,7 +17,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:58f192ea6d8e06e5002383cd741d739f0b9e85308ee5462a6791f04e19443e83",
-      "log_file": "agents/valdi/logs/2026-03-22_10-01-00_homepage_meta_extraction.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-22_10-01-00_homepage_meta_extraction.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -27,7 +27,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:907dd87adb253ee32d295a4feaeb6edf75aa5ca34d5069cb9afeef3cc1153a8e",
-      "log_file": "agents/valdi/logs/2026-03-22_10-02-00_httpx_tech_fingerprint.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-22_10-02-00_httpx_tech_fingerprint.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -37,7 +37,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:33cd9f29afe38a5009531eca714b622523b29f3ca35e460d7e6c6a51a5e37233",
-      "log_file": "agents/valdi/logs/2026-03-22_10-03-00_webanalyze_cms_detection.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-22_10-03-00_webanalyze_cms_detection.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -47,7 +47,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:da1541bd1c72627be49f28f12f13b3f69de27876e94ba4eec5ae026a1c7d192c",
-      "log_file": "agents/valdi/logs/2026-03-22_10-04-00_response_header_check.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-22_10-04-00_response_header_check.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -57,7 +57,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:4177e71d888b6ac59423f23a6e8b0a57177b44e0cca5f315c6c2b47783c4826b",
-      "log_file": "agents/valdi/logs/2026-03-22_10-10-00_robots_txt_check.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-22_10-10-00_robots_txt_check.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -67,7 +67,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:8372ece33951867bd17e32b507b6c4d345fee11e09e4cc47f6d85eb875317982",
-      "log_file": "agents/valdi/logs/2026-03-22_10-11-00_passive_domain_scan_orchestrator_v2.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-22_10-11-00_passive_domain_scan_orchestrator_v2.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -77,7 +77,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:b974723f50ffc5851ece9fe577f4a35ca9161f752dc32b43298bbfcdc7205bc3",
-      "log_file": "agents/valdi/logs/2026-03-26_17-00-00_subdomain_enumeration_passive.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-26_17-00-00_subdomain_enumeration_passive.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -87,7 +87,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:5c1cba266cc3fe274fd05701af26610d8dc98cd68a2ca45be2c67dbfe5230cba",
-      "log_file": "agents/valdi/logs/2026-03-26_17-01-00_dns_enrichment.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-26_17-01-00_dns_enrichment.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -97,7 +97,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:7e1bb03984d67bcc50f98d378bfabebefc4c11f5d1ac3a9efe884fce914ef7df",
-      "log_file": "agents/valdi/logs/2026-03-26_17-02-00_certificate_transparency_query.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-26_17-02-00_certificate_transparency_query.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -107,7 +107,7 @@
       "level": 0,
       "layer": 1,
       "function_hash": "sha256:89d8d25b2fb360cecde97db47a5fa14385d81c5c9dbd1485bdbd9a24e4d9a422",
-      "log_file": "agents/valdi/logs/2026-03-26_17-03-00_cloud_storage_index_query.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-26_17-03-00_cloud_storage_index_query.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -117,7 +117,7 @@
       "level": 1,
       "layer": 2,
       "function_hash": "sha256:4addb4f2a7256546f8a954c8eba5706e129e118d1e0ad7a37290ab04e5c4efe9",
-      "log_file": "agents/valdi/logs/2026-03-28_14-00-00_nuclei_vulnerability_scan.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-28_14-00-00_nuclei_vulnerability_scan.md",
       "hash_method": "inspect.getsource"
     },
     {
@@ -127,7 +127,7 @@
       "level": 1,
       "layer": 2,
       "function_hash": "sha256:8a3ae86aab66d4722c24be5ce0de5209af7523a3df9aabd38098e8ec71be4874",
-      "log_file": "agents/valdi/logs/2026-03-28_16-00-00_wpscan_wordpress_scan.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-28_16-00-00_wpscan_wordpress_scan.md",
       "hash_method": "inspect.getsource",
       "note": "Covers _request_wpscan delegation function in scan_job.py. Actual wpscan execution in sidecar container."
     },
@@ -138,7 +138,7 @@
       "level": 1,
       "layer": 2,
       "function_hash": "sha256:f4ae289a1b3933a9452ccca10244b43e9d18eb42cd8a2e1599a7d491826526d3",
-      "log_file": "agents/valdi/logs/2026-03-28_17-00-00_cmseek_cms_deep_scan.md",
+      "log_file": ".claude/agents/valdi/logs/2026-03-28_17-00-00_cmseek_cms_deep_scan.md",
       "hash_method": "inspect.getsource"
     }
   ]

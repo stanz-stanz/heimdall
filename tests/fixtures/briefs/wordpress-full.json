@@ -1,0 +1,95 @@
+{
+  "domain": "example-restaurant.dk",
+  "cvr": "00000000",
+  "company_name": "Example Restaurant ApS",
+  "scan_date": "2026-03-26",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Booketbord, Gravityforms",
+    "Visitor tracking: Google Tag Manager, reCAPTCHA"
+  ],
+  "industry": "Servering af mad i restauranter og caféer",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-05-25",
+      "days_remaining": 59
+    },
+    "server": "cloudflare",
+    "detected_plugins": [
+      "Gravityformsrecaptcha",
+      "Popups For Divi",
+      "Booketbord",
+      "Gravityforms"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "FitVids.JS:4.27.6",
+    "Google Tag Manager",
+    "HTTP/3",
+    "Magnific Popup:4.27.6",
+    "MySQL",
+    "PHP",
+    "WP Rocket",
+    "WordPress:6.9.4",
+    "Yoast SEO:26.9",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "reCAPTCHA"
+  ],
+  "subdomains": {
+    "count": 3,
+    "list": [
+      "sgtm.example-restaurant.dk",
+      "load.sgtm.example-restaurant.dk",
+      "www.example-restaurant.dk"
+    ]
+  },
+  "dns": {
+    "a": ["104.21.8.190", "172.67.130.153"],
+    "aaaa": ["2606:4700:3030::6815:8be"],
+    "cname": [],
+    "mx": ["example-restaurant-dk.mail.protection.outlook.com"],
+    "ns": ["ns1.cloudflare.com", "ns2.cloudflare.com"],
+    "txt": ["v=spf1 mx a include:spf.protection.outlook.com -all"]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible in the page source."
+    }
+  ]
+}

@@ -1,5 +1,8 @@
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "tools/twin/tests"]
+markers = [
+    "integration: marks tests that start real HTTP servers (deselect with '-m not integration')",
+]
 pythonpath = ["."]
 addopts = "-v --tb=short"
 

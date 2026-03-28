@@ -171,6 +171,27 @@ services:
           cpus: '0.5'
     restart: unless-stopped
 
+  twin:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.twin
+    profiles: ["twin"]
+    environment:
+      - BRIEF_FILE=${BRIEF_FILE:-/config/conrads.dk.json}
+    volumes:
+      - ../../data/output/briefs:/config:ro
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+    networks:
+      - internal
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+    restart: "no"
+
   dozzle:
     image: amir20/dozzle:latest
     volumes:

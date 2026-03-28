@@ -23,6 +23,7 @@ RULES:
 - NEVER fabricate technical details that are not in the scan data
 - NEVER give environment-specific instructions (file paths, server config) — you do not know their setup
 - Keep it short. The owner will read this on their phone.
+- When a finding has provenance "twin-derived", it was inferred from the detected software version, not confirmed by direct testing. Frame these as: "Based on the detected version of [software], this version is known to have [vulnerability]." Use "is known to be affected by", "is associated with", or "may be affected by" — never present twin-derived findings as confirmed vulnerabilities.
 
 OUTPUT FORMAT: Return valid JSON with this exact structure:
 {{
@@ -87,7 +88,11 @@ def build_user_prompt(brief: dict) -> str:
         sev = f.get("severity", "unknown").upper()
         desc = f.get("description", "")
         risk = f.get("risk", "")
-        findings_lines.append(f"[{sev}] {desc}\n  Risk: {risk}")
+        provenance = f.get("provenance", "")
+        line = f"[{sev}] {desc}\n  Risk: {risk}"
+        if provenance == "twin-derived":
+            line += "\n  (Provenance: inferred from detected version, not confirmed by direct testing)"
+        findings_lines.append(line)
     findings_text = "\n\n".join(findings_lines) if findings_lines else "No findings."
 
     return USER_PROMPT.format(

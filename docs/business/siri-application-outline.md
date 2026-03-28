@@ -2,7 +2,7 @@
 
 **Status:** Designed, pending writing
 **Output file:** `docs/business/heimdall-siri-application.md`
-**Agent ownership:** Grant & Funding Agent (`agents/grant-funding/SKILL.md`)
+**Agent ownership:** Grant & Funding Agent (`.claude/agents/grant-funding/SKILL.md`)
 
 ---
 
@@ -218,7 +218,7 @@ Numbered superscript citations throughout → references section at end, sourced
 |------|-----|
 | `docs/briefing.md` | All business data, pricing, stats, references |
 | `docs/legal/Heimdall_Legal_Risk_Assessment.md` | Legal framework content |
-| `agents/grant-funding/SKILL.md` | Agent boundaries |
+| `.claude/agents/grant-funding/SKILL.md` | Agent boundaries |
 | `docs/reference/incidents/incident-2026-03-22-layer2-violation.md` | Incident framing |
 | `SCANNING_RULES.md` | Layer/Level definitions (reference, don't restate) |
 | Federico's resume (`canonical.yaml`) | Team section biographical data |

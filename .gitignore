@@ -9,10 +9,7 @@ data/benchmarks/*.json
 data/input/CVR-extract.xlsx
 
 # Valdí compliance logs (regenerated on each run)
-agents/valdi/compliance/
-
-# Claude Code local config
-.claude/
+.claude/agents/valdi/compliance/
 
 # Python
 __pycache__/

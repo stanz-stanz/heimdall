@@ -157,7 +157,7 @@ These controls are documented in three project files that should accompany this 
 | Document | Contents |
 |----------|----------|
 | `SCANNING_RULES.md` | Authoritative rules for what is allowed/forbidden at each Layer and Level |
-| `agents/valdi/SKILL.md` | Valdí's full specification — gates, forensic log format, approval tokens, consent registry |
+| `.claude/agents/valdi/SKILL.md` | Valdí's full specification — gates, forensic log format, approval tokens, consent registry |
 | `docs/legal/Valdi_Implementation_Actions.md` | Implementation checklist for the compliance system |
 
 ### Additional Questions for Counsel (Arising from Implementation)
