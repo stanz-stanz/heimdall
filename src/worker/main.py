@@ -340,9 +340,10 @@ def main(argv: Optional[list] = None) -> None:
         )
 
         # Gate 2: Consent check (Valdí) — Level 1+ requires valid consent
-        # SAFETY: if the level field is missing, malformed, or ambiguous,
-        # we BLOCK rather than default to Level 0. A missing field is a
-        # bug, not a reason to skip consent checks.
+        # NOTE: a missing level field defaults to 0 (backward compat with
+        # prospect jobs that predate the level field). Invalid types BLOCK.
+        # TODO: once all job creators set level explicitly, change the
+        # missing-field case from default-to-0 to block.
         raw_level = job.get("level")
         if raw_level is None:
             # Prospecting jobs (Level 0) always set level=0 explicitly.

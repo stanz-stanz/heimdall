@@ -226,7 +226,13 @@ def _check_consent_inner(
                         level_authorised=level_authorised,
                         consent_expiry=expiry_str)
 
-    doc_full_path = client_dir / client_id / consent_doc_path
+    doc_full_path = (client_dir / client_id / consent_doc_path).resolve()
+    client_root = (client_dir / client_id).resolve()
+    if not str(doc_full_path).startswith(str(client_root)):
+        return _blocked(client_id, domain, level_requested,
+                        f"Consent document path escapes client directory: {consent_doc_path}",
+                        level_authorised=level_authorised,
+                        consent_expiry=expiry_str)
     if not doc_full_path.is_file():
         return _blocked(client_id, domain, level_requested,
                         f"Consent document not found: {consent_doc_path}",

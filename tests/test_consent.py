@@ -268,6 +268,30 @@ class TestLevel1Blocked:
             level_requested=1, reference_date=date(2028, 1, 1),
         ).allowed is False
 
+    def test_expiry_boundary_date(self, tmp_path):
+        """The expiry date itself is the LAST valid day (> not >=)."""
+        _write_auth(tmp_path, consent_expiry="2027-03-21")
+        # On the expiry date: still valid
+        assert check_consent(
+            tmp_path, "client-001", "test.dk",
+            level_requested=1, reference_date=date(2027, 3, 21),
+        ).allowed is True
+        # Day after: expired
+        assert check_consent(
+            tmp_path, "client-001", "test.dk",
+            level_requested=1, reference_date=date(2027, 3, 22),
+        ).allowed is False
+
+    def test_consent_document_path_traversal(self, tmp_path):
+        """Consent document path must not escape the client directory."""
+        _write_auth(tmp_path, consent_document="../../etc/passwd", with_document=False)
+        result = check_consent(
+            tmp_path, "client-001", "test.dk",
+            level_requested=1, reference_date=date(2026, 6, 1),
+        )
+        assert result.allowed is False
+        assert "escapes client directory" in result.reason
+
 
 # ---------------------------------------------------------------------------
 # Type safety — every wrong type MUST block, never crash
@@ -303,6 +327,19 @@ class TestTypeSafety:
         result = check_consent(tmp_path, "c", "", level_requested=1)
         assert result.allowed is False
         assert "Empty domain" in result.reason
+
+    def test_whitespace_only_domain(self, tmp_path):
+        result = check_consent(tmp_path, "c", "   ", level_requested=1)
+        assert result.allowed is False
+        assert "Empty domain" in result.reason
+
+    def test_whitespace_only_consent_document(self, tmp_path):
+        _write_auth(tmp_path, consent_document="   ")
+        result = check_consent(
+            tmp_path, "client-001", "test.dk",
+            level_requested=1, reference_date=date(2026, 6, 1),
+        )
+        assert result.allowed is False
 
     def test_authorised_domains_is_string(self, tmp_path):
         """If authorised_domains is a string instead of list, block."""
