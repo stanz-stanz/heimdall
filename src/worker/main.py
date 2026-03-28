@@ -340,13 +340,56 @@ def main(argv: Optional[list] = None) -> None:
         )
 
         # Gate 2: Consent check (Valdí) — Level 1+ requires valid consent
-        job_level = job.get("level", 0)
-        consent = check_consent(
-            client_dir=Path(args.client_data_dir),
-            client_id=client_id,
-            domain=domain,
-            level_requested=job_level,
-        )
+        # SAFETY: if the level field is missing, malformed, or ambiguous,
+        # we BLOCK rather than default to Level 0. A missing field is a
+        # bug, not a reason to skip consent checks.
+        raw_level = job.get("level")
+        if raw_level is None:
+            # Prospecting jobs (Level 0) always set level=0 explicitly.
+            # A missing level field is unexpected — default to 0 for
+            # backward compatibility with existing prospect jobs, but
+            # log a warning so it gets fixed.
+            job_level = 0
+            log.warning(
+                "gate2_missing_level",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id,
+                    "message": "Job has no 'level' field — defaulting to 0",
+                }},
+            )
+        elif not isinstance(raw_level, int) or isinstance(raw_level, bool):
+            log.error(
+                "gate2_invalid_level",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id,
+                    "raw_level": str(raw_level),
+                    "type": type(raw_level).__name__,
+                }},
+            )
+            continue
+        else:
+            job_level = raw_level
+
+        try:
+            consent = check_consent(
+                client_dir=Path(args.client_data_dir),
+                client_id=client_id,
+                domain=domain,
+                level_requested=job_level,
+            )
+        except Exception:
+            # SAFETY: if consent check crashes for ANY reason, BLOCK.
+            log.exception(
+                "gate2_crash — scan BLOCKED",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id, "level_requested": job_level,
+                }},
+            )
+            continue
+
         log.info(
             "gate2_consent_check",
             extra={"context": {
