@@ -207,10 +207,10 @@ Build the paid-service scanning pipeline. Requires written client consent (Level
 | Tests | Health endpoint, result retrieval, missing domain |
 
 **Definition of Done:**
-- [ ] API health endpoint responds
-- [ ] API serves scan results as JSON
-- [ ] Unit tests with mocked results
-- [ ] Logs: request latency, errors
+- [x] API health endpoint responds
+- [x] API serves scan results as JSON
+- [x] Unit tests with mocked results
+- [x] Logs: request latency, errors
 
 ### Increment 3.1 — Consent management + Valdí Level 1
 
@@ -222,10 +222,10 @@ Build the paid-service scanning pipeline. Requires written client consent (Level
 | Tests | Test consent validation: valid, expired, wrong scope, missing |
 
 **Definition of Done:**
-- [ ] Consent registry schema documented
-- [ ] Valdí blocks Level 1 scans for clients without valid consent
-- [ ] Unit tests cover all consent edge cases
-- [ ] Logs: consent check result per client per scan
+- [x] Consent registry schema documented
+- [x] Valdí blocks Level 1 scans for clients without valid consent
+- [x] Unit tests cover all consent edge cases
+- [x] Logs: consent check result per client per scan
 
 ### Increment 3.2 — Level 1 scan types
 
@@ -255,11 +255,11 @@ Build the paid-service scanning pipeline. Requires written client consent (Level
 | Benchmark | Claude API latency per finding batch |
 
 **Definition of Done:**
-- [ ] Interpreter produces Danish plain-language explanations for all finding types
-- [ ] Messages fit Telegram limits, render correctly in markdown
-- [ ] Unit tests with mocked Claude API responses
-- [ ] Benchmark: interpretation latency < 5s per client brief
-- [ ] Logs: API call duration, token usage, interpretation confidence
+- [x] Interpreter produces Danish plain-language explanations for all finding types
+- [x] Messages fit Telegram limits, render correctly in markdown
+- [x] Unit tests with mocked Claude API responses
+- [x] Benchmark: interpretation latency < 5s per client brief
+- [x] Logs: API call duration, token usage, interpretation confidence
 
 ### Increment 3.4 — Client Memory + Remediation workflow
 

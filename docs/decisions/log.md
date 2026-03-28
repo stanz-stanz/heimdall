@@ -5,6 +5,32 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-28 — Sprint 3 increments 3.0, 3.1, 3.3, 3.2 planned
+
+**Decided**
+- Results API (3.0): FastAPI in existing 256 MB API container, reads from disk (not Redis), pub/sub listener wired for interpretation pipeline
+- Consent framework (3.1): fail-closed on all error paths, `authorised_by.role` is informational only (legal standing question deferred to Danish counsel), subdomain scope is strict (explicit list, no wildcards), consent document existence verified on disk, path traversal protection on consent_document field
+- Finding Interpreter (3.3): Claude API (Sonnet) over template-based — the contextual narrative (connecting findings across a business's specific situation) is the product differentiator. LLM backend abstraction allows Ollama swap via config change. Tone parameter (concise/balanced/detailed) configurable per client.
+- Message Composer: Telegram formatting with 4096-char auto-splitting, ready for Sprint 4.1 bot delivery
+- Level 1 scan types (3.2): Nuclei first (same Go ecosystem), WPScan + CMSeek deferred to follow-up (ARM64 Ruby gem risk). Level-gated registry refactor: `_LEVEL0_SCAN_FUNCTIONS` / `_LEVEL1_SCAN_FUNCTIONS` with `WORKER_MAX_LEVEL` env var
+- Python-expert and docker-expert reviews run in parallel after each increment — caught path traversal via pub/sub, missing Docker volumes, client re-creation per API call, fragile JSON parsing
+
+**Rejected**
+- Template-based interpretation (Option C) — produces generic output indistinguishable from templates for the end client; the value is in contextual, industry-specific narratives
+- Ollama on Pi5 alongside current stack — only 200 MB free RAM; would require stopping workers during interpretation phase
+- Separate Level 0 vs Level 1 worker Docker images — doubles build time and deployment complexity for no operational benefit on a single Pi5
+- Pydantic response models for the API — unnecessary overhead for serving worker-written JSON as-is
+
+**Unresolved**
+- Who is legally authorised to consent to active scanning under Danish law (§263) — pending legal counsel
+- WPScan commercial API pricing (Automattic quote pending)
+- WPScan Ruby gem ARM64 compilation — deferred until Nuclei is verified
+- CMSeek pip package availability — may need git clone install
+- Nuclei template size (~300 MB) — may need filtering to critical/high severity only
+- CLAUDE.md Build Priority section still says "Phase 0" — needs update to reflect Sprint 3 state
+
+---
+
 ## 2026-03-27 — Tiered enrichment: subfinder batch + local CT database + observability
 
 **Decided**

@@ -1,11 +1,11 @@
 {
-  "last_updated": "2026-03-27T22:30:00Z",
+  "last_updated": "2026-03-28T12:00:00Z",
   "phase": "sprint-3",
   "current_sprint": {
     "name": "Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning)",
     "started": "2026-03-28",
     "target_end": "2026-04-23",
-    "status": "not-started"
+    "status": "in-progress"
   },
   "completed_sprints": [
     {
@@ -33,7 +33,8 @@
       "id": "M12",
       "name": "Results API (moved from Sprint 2)",
       "target_date": "2026-04-02",
-      "status": "pending",
+      "status": "complete",
+      "completed_date": "2026-03-28",
       "owner_agent": "application-architect",
       "blockers": [],
       "notes": "FastAPI: /health, /results/{domain}. First task of Sprint 3."
@@ -42,7 +43,8 @@
       "id": "M13",
       "name": "Consent management + Valdí Level 1 (Sprint 3, Increment 3.1)",
       "target_date": "2026-04-09",
-      "status": "pending",
+      "status": "complete",
+      "completed_date": "2026-03-28",
       "owner_agent": "valdi",
       "blockers": [],
       "notes": "Client authorization template, consent registry, Valdí Gate 2 for Level 1"
@@ -60,7 +62,8 @@
       "id": "M15",
       "name": "Finding Interpreter + Message Composer (Sprint 3, Increment 3.3)",
       "target_date": "2026-04-16",
-      "status": "pending",
+      "status": "complete",
+      "completed_date": "2026-03-28",
       "owner_agent": "finding-interpreter",
       "blockers": [],
       "notes": "Claude API interpretation, Telegram formatting"
@@ -100,10 +103,8 @@
   },
   "blockers": [],
   "next_actions": [
-    "Sprint 3 start: build Results API (FastAPI /health + /results/{domain})",
-    "Consent management + Valdí Level 1 gate",
-    "Level 1 scan types (WPScan, CMSeek, Nuclei)",
-    "Finding Interpreter (Claude API) + Message Composer (Telegram)"
+    "Sprint 3.2: Level 1 scan types — Nuclei integration (requires M13 consent management, now complete)",
+    "Sprint 3.4: Client Memory + Remediation workflow (delta detection, state machine)"
   ],
   "follow_ups": [
     "CT backfill from crt.sh (one-time, before next production run)",

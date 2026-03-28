@@ -69,6 +69,10 @@ The complete definition of what is allowed and forbidden at each Layer/Level is 
 | `docs/business/siri-application-outline.md` | Outline and structure reference for the SIRI application. |
 | `docs/decisions/log.md` | Decision log for project-level choices. |
 | `docs/architecture/pi5-docker-architecture.md` | Pi5 Docker stack design: containers, queues, caching, resource budget, measured throughput. |
+| `src/api/` | Results API — FastAPI service serving scan results, pub/sub listener for interpretation pipeline |
+| `src/consent/validator.py` | Consent validator — Gate 2 enforcement, fail-closed on all error paths |
+| `src/interpreter/` | Finding Interpreter — LLM-powered scan interpretation (Claude API / Ollama abstraction) |
+| `src/composer/telegram.py` | Message Composer — Telegram formatting with 4096-char auto-splitting |
 
 ---
 
@@ -89,11 +93,11 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 ---
 
-## Build Priority: Phase 0 — Lead Generation Pipeline
+## Build Priority: Sprint 3 — Level 1 Pipeline
 
-**Laptop pipeline complete. Docker stack deployed on Pi5.**
+**Sprint 2 complete (Docker on Pi5). Sprint 3 in progress — consent management, interpretation pipeline, Level 1 scan types.**
 
-Goal: manually extracted CVR data → website URLs → CMS/tech detection → filtered, bucketed prospecting list + per-site briefs.
+Goal: consent-gated scanning for paying clients, AI-interpreted findings in Danish, Telegram delivery.
 
 The pipeline runs as a Docker Compose stack on Pi5 with a two-phase architecture: subfinder batch enrichment (3 parallel batches) → per-domain core scans (with warm cache). Local CertStream CT database replaces remote crt.sh API. See `docs/architecture/pi5-docker-architecture.md` for full details.
 
@@ -124,6 +128,8 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 | `config/industry_codes.json` | Static: industry code → English name mapping |
 | `data/output/prospects-list.csv` | Output: bucketed prospect list (only companies with live websites) |
 | `data/output/briefs/{domain}.json` | Output: per-site technology briefs |
+| `config/interpreter.json` | Config: LLM backend, model, tone, language settings |
+| `config/consent_schema.json` | Config: consent authorisation JSON schema |
 
 ---
 

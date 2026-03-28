@@ -18,7 +18,8 @@ Pi5 (Docker Compose)
     ├── /data/cache        # Tool-specific scan cache
     ├── /data/results      # Scan results per client
     ├── /data/ct           # CT certificate SQLite database (NVMe)
-    └── /data/clients      # Client profiles, consent records
+    ├── /data/clients      # Client profiles, consent records
+    └── /data/messages    # Composed messages for Telegram delivery
 ```
 
 ## Containers
@@ -70,14 +71,18 @@ Workers are identical and stateless. Scale by changing `deploy.replicas` in dock
 
 ### heimdall-api
 
-Reads scan results and generates client-facing output:
+FastAPI service (256 MB RAM, 0.5 CPU). Four roles:
 
-- Assembles per-client briefs from scan results
-- Formats messages for Telegram delivery (via Message Composer logic)
-- Exposes health check endpoint (`/health`)
-- Listens for scan-complete events via Redis pub/sub to trigger delivery
+1. **Results API** — serves scan results from disk (`/health`, `/results/{client_id}`, `/results/{client_id}/{domain}`, `/results/{client_id}/{domain}/dates`)
+2. **Finding Interpreter** — on scan-complete pub/sub event, calls Claude API (Sonnet) to interpret raw findings into contextual, plain-language Danish reports. LLM backend abstraction supports Ollama swap via config.
+3. **Message Composer** — formats interpreted findings for Telegram delivery (4096-char limit, auto-splitting). Writes composed messages to `/data/messages/{client_id}/{domain}/`.
+4. **Health check** — `/health` endpoint for Docker healthcheck (Redis ping + results dir status).
 
-Runs as a lightweight FastAPI or Flask process.
+Listens for `scan-complete` events via Redis pub/sub. Interpretation runs in a thread pool to avoid blocking the event loop.
+
+Environment variables: `REDIS_URL`, `RESULTS_DIR`, `MESSAGES_DIR`, `CLAUDE_API_KEY`, `TELEGRAM_BOT_TOKEN`, `CLIENT_DATA_DIR`.
+
+Volumes: `result-data` (read-only), `client-data` (read-only), `message-data` (writable), `config-data` (read-only).
 
 ## Job Structure
 
@@ -128,7 +133,7 @@ Workers check Redis cache before each scan type. If the cached result exists and
 | Worker × 3 | 3 GB (1 GB each) | 3 cores | Go tools (httpx, subfinder) are memory-hungry |
 | CT Collector | 256 MB | 0.25 core | CertStream WebSocket + SQLite writer |
 | Scheduler | 256 MB | Shared | Lightweight, mostly sleeping |
-| API | 256 MB | Shared | Lightweight, event-driven |
+| API | 256 MB | 0.5 CPU | FastAPI + thread pool for LLM interpretation |
 | Prometheus | 256 MB | Shared | 30-day / 2GB retention |
 | Grafana | 256 MB | Shared | Dashboards |
 | Dozzle | 128 MB | Shared | Live log viewer |
