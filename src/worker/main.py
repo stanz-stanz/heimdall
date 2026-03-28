@@ -30,6 +30,8 @@ from src.prospecting.logging_config import setup_logging
 from src.prospecting.scanner import _init_scan_type_map, _run_subfinder, _validate_approval_tokens
 from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
+from src.consent.validator import check_consent
+
 from .cache import ScanCache
 from .scan_job import execute_scan_job
 
@@ -74,6 +76,11 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
         "--ct-db",
         default=os.environ.get("CT_DB_PATH", "/data/ct/certificates.db"),
         help="Path to local CT certificate database (default: /data/ct/certificates.db)",
+    )
+    parser.add_argument(
+        "--client-data-dir",
+        default=os.environ.get("CLIENT_DATA_DIR", "/data/clients"),
+        help="Base directory for client authorisation data (default: /data/clients)",
     )
     return parser.parse_args(argv)
 
@@ -331,6 +338,78 @@ def main(argv: Optional[list] = None) -> None:
             "job_started",
             extra={"context": {"job_id": job_id, "domain": domain, "client_id": client_id}},
         )
+
+        # Gate 2: Consent check (Valdí) — Level 1+ requires valid consent
+        # NOTE: a missing level field defaults to 0 (backward compat with
+        # prospect jobs that predate the level field). Invalid types BLOCK.
+        # TODO: once all job creators set level explicitly, change the
+        # missing-field case from default-to-0 to block.
+        raw_level = job.get("level")
+        if raw_level is None:
+            # Prospecting jobs (Level 0) always set level=0 explicitly.
+            # A missing level field is unexpected — default to 0 for
+            # backward compatibility with existing prospect jobs, but
+            # log a warning so it gets fixed.
+            job_level = 0
+            log.warning(
+                "gate2_missing_level",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id,
+                    "message": "Job has no 'level' field — defaulting to 0",
+                }},
+            )
+        elif not isinstance(raw_level, int) or isinstance(raw_level, bool):
+            log.error(
+                "gate2_invalid_level",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id,
+                    "raw_level": str(raw_level),
+                    "type": type(raw_level).__name__,
+                }},
+            )
+            continue
+        else:
+            job_level = raw_level
+
+        try:
+            consent = check_consent(
+                client_dir=Path(args.client_data_dir),
+                client_id=client_id,
+                domain=domain,
+                level_requested=job_level,
+            )
+        except Exception:
+            # SAFETY: if consent check crashes for ANY reason, BLOCK.
+            log.exception(
+                "gate2_crash — scan BLOCKED",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id, "level_requested": job_level,
+                }},
+            )
+            continue
+
+        log.info(
+            "gate2_consent_check",
+            extra={"context": {
+                "job_id": job_id, "domain": domain, "client_id": client_id,
+                "level_requested": job_level,
+                "level_authorised": consent.level_authorised,
+                "allowed": consent.allowed, "reason": consent.reason,
+                "authorised_by_role": consent.authorised_by_role,
+            }},
+        )
+        if not consent.allowed:
+            log.warning(
+                "gate2_blocked",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id, "reason": consent.reason,
+                }},
+            )
+            continue
 
         try:
             result = execute_scan_job(job, cache)

@@ -89,11 +89,13 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379/0
       - VALDI_DIR=/data/valdi
+      - CLIENT_DATA_DIR=/data/clients
       - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
       - CT_DB_PATH=/data/ct/certificates.db
     volumes:
       - valdi-data:/data/valdi
+      - client-data:/data/clients:ro
       - result-data:/data/results
       - cache-data:/data/cache
       - config-data:/config:ro
@@ -116,9 +118,9 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.api
-    profiles: ["full"]  # Not started by default — API not implemented yet
     environment:
       - REDIS_URL=redis://redis:6379/0
+      - RESULTS_DIR=/data/results
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
       - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
       - CLIENT_DATA_DIR=/data/clients
@@ -132,6 +134,11 @@ services:
       redis:
         condition: service_healthy
     ports: []  # No inbound ports — Tailscale only
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
