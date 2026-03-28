@@ -69,7 +69,8 @@ The complete definition of what is allowed and forbidden at each Layer/Level is 
 | `docs/business/siri-application-outline.md` | Outline and structure reference for the SIRI application. |
 | `docs/decisions/log.md` | Decision log for project-level choices. |
 | `docs/architecture/pi5-docker-architecture.md` | Pi5 Docker stack design: containers, queues, caching, resource budget, measured throughput. |
-| `src/api/` | Results API — FastAPI service serving scan results, pub/sub listener for interpretation pipeline |
+| `src/api/` | Results API + Mobile Console — FastAPI service serving scan results, pub/sub listener, console PWA (monitor dashboard + demo mode with live twin scanning) |
+| `src/api/console.py` | Console API router — operator monitor, demo replay, live twin demo endpoints |
 | `src/consent/validator.py` | Consent validator — Gate 2 enforcement, fail-closed on all error paths |
 | `src/interpreter/` | Finding Interpreter — LLM-powered scan interpretation (Claude API / Ollama abstraction) |
 | `src/composer/telegram.py` | Message Composer — Telegram formatting with 4096-char auto-splitting |
@@ -97,7 +98,7 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 ## Build Priority: Sprint 3 — Level 1 Pipeline
 
-**Sprint 2 complete (Docker on Pi5). Sprint 3 in progress — consent management, interpretation pipeline, Level 1 scan types.**
+**Sprint 2 complete (Docker on Pi5). Sprint 3 in progress — consent management, interpretation pipeline, Level 1 scan types. Digital twin system shipped (Layer 2 without consent). Mobile console PWA shipped (operator monitor + live twin demo).**
 
 Goal: consent-gated scanning for paying clients, AI-interpreted findings in Danish, Telegram delivery.
 
