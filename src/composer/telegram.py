@@ -49,16 +49,19 @@ def compose_telegram(interpreted: dict) -> list[str]:
         good_lines = "\n".join(f"  + {item}" for item in good_news)
         sections.append(good_lines)
 
-    # Findings
+    # Findings — split into confirmed and twin-derived groups
     findings = interpreted.get("findings", [])
-    for i, f in enumerate(findings, 1):
+    confirmed = [f for f in findings if f.get("provenance") != "twin-derived"]
+    twin_derived = [f for f in findings if f.get("provenance") == "twin-derived"]
+
+    def _format_finding(f: dict, idx: int) -> str:
         title = f.get("title", "")
         explanation = f.get("explanation", "")
         action = f.get("action", "")
         who = f.get("who", "")
         effort = f.get("effort", "")
 
-        parts = [f"{i}. {title}"]
+        parts = [f"{idx}. {title}"]
         if explanation:
             parts.append(explanation)
         if action:
@@ -73,8 +76,18 @@ def compose_telegram(interpreted: dict) -> list[str]:
             elif effort:
                 action_line += f" (~{effort})"
             parts.append(action_line)
+        return "\n".join(parts)
 
-        sections.append("\n".join(parts))
+    idx = 1
+    for f in confirmed:
+        sections.append(_format_finding(f, idx))
+        idx += 1
+
+    if twin_derived:
+        sections.append("--- Probable findings (based on detected versions) ---")
+        for f in twin_derived:
+            sections.append(_format_finding(f, idx))
+            idx += 1
 
     # Summary
     summary = interpreted.get("summary", "")
