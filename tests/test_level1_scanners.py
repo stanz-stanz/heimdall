@@ -309,3 +309,114 @@ class TestLevel1Execution:
         finally:
             for p in patches:
                 p.stop()
+
+
+# ---------------------------------------------------------------------------
+# WPScan delegation tests (worker → sidecar via Redis)
+# ---------------------------------------------------------------------------
+
+class TestWPScanDelegation:
+    """Verify WPScan delegation to sidecar for WordPress domains."""
+
+    def test_wordpress_domain_triggers_wpscan(self):
+        """Level 1 WordPress job delegates to WPScan sidecar."""
+        cache = _make_cache()
+        redis_conn = fakeredis.FakeRedis(decode_responses=True)
+
+        wpscan_response = json.dumps({
+            "job_id": "wpscan-test-wp-001",
+            "domain": _DOMAIN,
+            "status": "completed",
+            "wpscan": {"vulnerabilities": [{"title": "Test Vuln"}], "wordpress": {"version": "6.9.4"}, "plugins": []},
+        })
+        redis_conn.lpush("wpscan:result:wpscan-test-wp-001", wpscan_response)
+
+        job = {
+            "job_id": "test-wp-001",
+            "domain": _DOMAIN,
+            "client_id": "client-001",
+            "level": 1,
+        }
+        wp_httpx = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["WordPress"]}}
+        patches = [
+            patch("src.worker.scan_job._check_robots_txt", return_value=True),
+            patch("src.worker.scan_job._check_ssl", return_value=_SSL_RESULT),
+            patch("src.worker.scan_job._get_response_headers", return_value=_HEADERS_RESULT),
+            patch("src.worker.scan_job._extract_page_meta", return_value=_META_RESULT),
+            patch("src.worker.scan_job._run_httpx", return_value=wp_httpx),
+            patch("src.worker.scan_job._run_webanalyze", return_value={}),
+            patch("src.worker.scan_job._run_subfinder", return_value=_SUBFINDER_RESULT),
+            patch("src.worker.scan_job._run_dnsx", return_value=_DNSX_RESULT),
+            patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
+            patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
+            patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
+        ]
+        for p in patches:
+            p.start()
+        try:
+            result = execute_scan_job(job, cache, redis_conn=redis_conn)
+            assert "level1_scan_result" in result
+            assert "wpscan" in result["level1_scan_result"]
+            wpscan = result["level1_scan_result"]["wpscan"]
+            assert wpscan["wordpress"]["version"] == "6.9.4"
+        finally:
+            for p in patches:
+                p.stop()
+
+    def test_non_wordpress_skips_wpscan(self):
+        """Level 1 non-WordPress job does not delegate to WPScan."""
+        cache = _make_cache()
+        redis_conn = fakeredis.FakeRedis(decode_responses=True)
+
+        job = {
+            "job_id": "test-nowp-001",
+            "domain": _DOMAIN,
+            "client_id": "client-001",
+            "level": 1,
+        }
+        no_wp_httpx = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["Nginx", "HTML5"]}}
+        patches = [
+            patch("src.worker.scan_job._check_robots_txt", return_value=True),
+            patch("src.worker.scan_job._check_ssl", return_value=_SSL_RESULT),
+            patch("src.worker.scan_job._get_response_headers", return_value=_HEADERS_RESULT),
+            patch("src.worker.scan_job._extract_page_meta", return_value=_META_RESULT),
+            patch("src.worker.scan_job._run_httpx", return_value=no_wp_httpx),
+            patch("src.worker.scan_job._run_webanalyze", return_value={}),
+            patch("src.worker.scan_job._run_subfinder", return_value=_SUBFINDER_RESULT),
+            patch("src.worker.scan_job._run_dnsx", return_value=_DNSX_RESULT),
+            patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
+            patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
+            patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
+        ]
+        for p in patches:
+            p.start()
+        try:
+            result = execute_scan_job(job, cache, redis_conn=redis_conn)
+            assert "level1_scan_result" in result
+            assert "wpscan" not in result["level1_scan_result"]
+            assert redis_conn.llen("queue:wpscan") == 0
+        finally:
+            for p in patches:
+                p.stop()
+
+    def test_level0_skips_wpscan(self):
+        """Level 0 job never triggers WPScan regardless of CMS."""
+        cache = _make_cache()
+        redis_conn = fakeredis.FakeRedis(decode_responses=True)
+
+        job = {
+            "job_id": "test-l0-wp-001",
+            "domain": _DOMAIN,
+            "client_id": "prospect",
+            "level": 0,
+        }
+        patches = _patch_all_scans_with_nuclei()
+        for p in patches:
+            p.start()
+        try:
+            result = execute_scan_job(job, cache, redis_conn=redis_conn)
+            assert "level1_scan_result" not in result
+            assert redis_conn.llen("queue:wpscan") == 0
+        finally:
+            for p in patches:
+                p.stop()
