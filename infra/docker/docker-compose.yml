@@ -89,11 +89,13 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379/0
       - VALDI_DIR=/data/valdi
+      - CLIENT_DATA_DIR=/data/clients
       - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
       - CT_DB_PATH=/data/ct/certificates.db
     volumes:
       - valdi-data:/data/valdi
+      - client-data:/data/clients:ro
       - result-data:/data/results
       - cache-data:/data/cache
       - config-data:/config:ro

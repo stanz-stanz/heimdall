@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Client Authorisation",
+  "description": "Schema for client scanning consent. The 'authorised_by.role' field is informational — legal standing of the signer is validated by the operator at onboarding, not by code.",
+  "type": "object",
+  "required": [
+    "client_id",
+    "authorised_domains",
+    "level_authorised",
+    "consent_type",
+    "consent_date",
+    "consent_expiry",
+    "consent_document",
+    "authorised_by",
+    "status"
+  ],
+  "properties": {
+    "client_id": { "type": "string" },
+    "company_name": { "type": "string" },
+    "cvr": { "type": "string" },
+    "authorised_domains": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "level_authorised": { "type": "integer", "minimum": 0, "maximum": 1 },
+    "layers_permitted": {
+      "type": "array",
+      "items": { "type": "integer" }
+    },
+    "consent_type": { "type": "string", "enum": ["written"] },
+    "consent_date": { "type": "string", "format": "date" },
+    "consent_expiry": { "type": "string", "format": "date" },
+    "consent_document": { "type": "string" },
+    "authorised_by": {
+      "type": "object",
+      "required": ["name", "role", "email"],
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+    "status": { "type": "string", "enum": ["active", "suspended", "revoked", "expired"] },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

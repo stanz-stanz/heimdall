@@ -30,6 +30,8 @@ from src.prospecting.logging_config import setup_logging
 from src.prospecting.scanner import _init_scan_type_map, _run_subfinder, _validate_approval_tokens
 from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
+from src.consent.validator import check_consent
+
 from .cache import ScanCache
 from .scan_job import execute_scan_job
 
@@ -74,6 +76,11 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
         "--ct-db",
         default=os.environ.get("CT_DB_PATH", "/data/ct/certificates.db"),
         help="Path to local CT certificate database (default: /data/ct/certificates.db)",
+    )
+    parser.add_argument(
+        "--client-data-dir",
+        default=os.environ.get("CLIENT_DATA_DIR", "/data/clients"),
+        help="Base directory for client authorisation data (default: /data/clients)",
     )
     return parser.parse_args(argv)
 
@@ -331,6 +338,34 @@ def main(argv: Optional[list] = None) -> None:
             "job_started",
             extra={"context": {"job_id": job_id, "domain": domain, "client_id": client_id}},
         )
+
+        # Gate 2: Consent check (Valdí) — Level 1+ requires valid consent
+        job_level = job.get("level", 0)
+        consent = check_consent(
+            client_dir=Path(args.client_data_dir),
+            client_id=client_id,
+            domain=domain,
+            level_requested=job_level,
+        )
+        log.info(
+            "gate2_consent_check",
+            extra={"context": {
+                "job_id": job_id, "domain": domain, "client_id": client_id,
+                "level_requested": job_level,
+                "level_authorised": consent.level_authorised,
+                "allowed": consent.allowed, "reason": consent.reason,
+                "authorised_by_role": consent.authorised_by_role,
+            }},
+        )
+        if not consent.allowed:
+            log.warning(
+                "gate2_blocked",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "client_id": client_id, "reason": consent.reason,
+                }},
+            )
+            continue
 
         try:
             result = execute_scan_job(job, cache)
