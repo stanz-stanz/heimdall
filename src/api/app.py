@@ -118,6 +118,14 @@ def _handle_scan_complete(
     client_id = payload.get("client_id", "")
     domain = payload.get("domain", "")
 
+    # Validate path components from untrusted pub/sub data
+    if not _SAFE_NAME.match(client_id) or not _SAFE_NAME.match(domain):
+        log.warning("interpret_invalid_path", extra={"context": {
+            "client_id": client_id, "domain": domain,
+            "reason": "Invalid characters in client_id or domain from pub/sub",
+        }})
+        return
+
     if payload.get("status") != "completed":
         return
 

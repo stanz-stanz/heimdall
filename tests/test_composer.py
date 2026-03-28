@@ -157,7 +157,10 @@ class TestEdgeCases:
         messages = compose_telegram(interpreted)
         assert "Oops" in messages[0]
 
-    def test_client_name_override(self):
-        messages = compose_telegram(_sample_interpreted(), client_name="Peter")
-        # client_name is accepted but currently used for future personalisation
-        assert len(messages) >= 1
+    def test_minimal_finding_dict(self):
+        """Finding with only a title should not crash."""
+        interpreted = _sample_interpreted(findings=[
+            {"title": "Minor thing"},
+        ])
+        messages = compose_telegram(interpreted)
+        assert "Minor thing" in messages[0]

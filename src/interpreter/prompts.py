@@ -84,9 +84,10 @@ def build_user_prompt(brief: dict) -> str:
     findings = brief.get("findings", [])
     findings_lines = []
     for f in findings:
-        findings_lines.append(
-            f"[{f['severity'].upper()}] {f['description']}\n  Risk: {f['risk']}"
-        )
+        sev = f.get("severity", "unknown").upper()
+        desc = f.get("description", "")
+        risk = f.get("risk", "")
+        findings_lines.append(f"[{sev}] {desc}\n  Risk: {risk}")
     findings_text = "\n\n".join(findings_lines) if findings_lines else "No findings."
 
     return USER_PROMPT.format(

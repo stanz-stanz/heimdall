@@ -9,20 +9,12 @@ from __future__ import annotations
 import json
 import logging
 import time
-from pathlib import Path
 from typing import Optional
 
-from .llm import LLMError, complete
+from .llm import LLMError, _load_config, complete
 from .prompts import build_system_prompt, build_user_prompt
 
 log = logging.getLogger(__name__)
-
-_CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "interpreter.json"
-
-
-def _load_config() -> dict:
-    with open(_CONFIG_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
 
 
 def interpret_brief(
@@ -109,29 +101,32 @@ def interpret_brief(
 
 
 def _parse_response(raw: str) -> dict:
-    """Parse the LLM JSON response, handling common formatting issues."""
+    """Parse the LLM JSON response, extracting JSON robustly.
+
+    Finds the first ``{`` and last ``}`` in the response to handle
+    preamble text, markdown fences, and trailing commentary.
+    """
     text = raw.strip()
 
-    # Strip markdown fences if the model wraps in ```json
-    if text.startswith("```"):
-        lines = text.split("\n")
-        # Remove first line (```json) and last line (```)
-        lines = [l for l in lines if not l.strip().startswith("```")]
-        text = "\n".join(lines)
+    # Find the JSON object boundaries
+    first_brace = text.find("{")
+    last_brace = text.rfind("}")
 
-    parsed = json.loads(text)
+    if first_brace == -1 or last_brace == -1 or last_brace <= first_brace:
+        raise ValueError(f"No JSON object found in response (len={len(text)})")
+
+    json_str = text[first_brace:last_brace + 1]
+    parsed = json.loads(json_str)
 
     if not isinstance(parsed, dict):
         raise ValueError(f"Expected dict, got {type(parsed).__name__}")
 
-    # Validate required keys
     if "findings" not in parsed:
         raise ValueError("Response missing 'findings' key")
 
     if not isinstance(parsed["findings"], list):
         raise ValueError("'findings' must be a list")
 
-    # Ensure defaults
     parsed.setdefault("good_news", [])
     parsed.setdefault("summary", "")
 

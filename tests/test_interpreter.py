@@ -5,7 +5,7 @@ import json
 import pytest
 
 from src.interpreter.interpreter import InterpreterError, interpret_brief, _parse_response
-from src.interpreter.llm import LLMError
+from src.interpreter.llm import LLMError, complete
 from src.interpreter.prompts import build_system_prompt, build_user_prompt
 
 
@@ -129,6 +129,27 @@ class TestParseResponse:
         parsed = _parse_response(wrapped)
         assert len(parsed["findings"]) == 2
 
+    def test_json_with_preamble_text(self):
+        """LLM adds commentary before the JSON — should still parse."""
+        with_preamble = f"Here is the report:\n\n{_MOCK_LLM_RESPONSE}\n\nHope this helps!"
+        parsed = _parse_response(with_preamble)
+        assert len(parsed["findings"]) == 2
+
+    def test_json_with_fences_no_language_tag(self):
+        wrapped = f"```\n{_MOCK_LLM_RESPONSE}\n```"
+        parsed = _parse_response(wrapped)
+        assert len(parsed["findings"]) == 2
+
+    def test_truncated_json_raises(self):
+        """Truncated JSON (e.g. from max_tokens) should raise cleanly."""
+        truncated = '{"findings": [{"title": "x"'
+        with pytest.raises((json.JSONDecodeError, ValueError)):
+            _parse_response(truncated)
+
+    def test_no_braces_at_all(self):
+        with pytest.raises(ValueError, match="No JSON object found"):
+            _parse_response("The model refused to answer.")
+
     def test_invalid_json_raises(self):
         with pytest.raises((json.JSONDecodeError, ValueError)):
             _parse_response("not json at all")
@@ -142,7 +163,7 @@ class TestParseResponse:
             _parse_response('{"findings": "not a list"}')
 
     def test_array_response_rejected(self):
-        with pytest.raises(ValueError, match="dict"):
+        with pytest.raises(ValueError, match="No JSON object found"):
             _parse_response('[1, 2, 3]')
 
     def test_defaults_set(self):
@@ -197,3 +218,21 @@ class TestInterpretBrief:
         )
         with pytest.raises(InterpreterError, match="Failed to parse"):
             interpret_brief(_sample_brief())
+
+
+# ---------------------------------------------------------------------------
+# LLM backend
+# ---------------------------------------------------------------------------
+
+class TestLLMBackend:
+    def test_missing_api_key(self, monkeypatch):
+        monkeypatch.delenv("CLAUDE_API_KEY", raising=False)
+        # Reset cached client
+        import src.interpreter.llm as llm_mod
+        llm_mod._anthropic_client = None
+        with pytest.raises(LLMError, match="CLAUDE_API_KEY"):
+            complete("test", config_override={"backend": "anthropic"})
+
+    def test_unknown_backend(self):
+        with pytest.raises(LLMError, match="Unknown LLM backend"):
+            complete("test", config_override={"backend": "gpt4"})

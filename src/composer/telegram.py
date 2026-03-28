@@ -8,7 +8,6 @@ and splits into multiple messages when needed.
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
 log = logging.getLogger(__name__)
 
@@ -17,10 +16,7 @@ TELEGRAM_MAX_CHARS = 4096
 _MESSAGE_BUDGET = TELEGRAM_MAX_CHARS - 50
 
 
-def compose_telegram(
-    interpreted: dict,
-    client_name: Optional[str] = None,
-) -> list[str]:
+def compose_telegram(interpreted: dict) -> list[str]:
     """Format an interpreted brief into Telegram message(s).
 
     Parameters
@@ -28,8 +24,6 @@ def compose_telegram(
     interpreted : dict
         Output from ``interpret_brief``: ``good_news``, ``findings``,
         ``summary``, ``domain``, ``company_name``, ``scan_date``.
-    client_name : str, optional
-        First name of the recipient. Falls back to company_name.
 
     Returns
     -------
@@ -40,7 +34,6 @@ def compose_telegram(
     """
     domain = interpreted.get("domain", "")
     scan_date = interpreted.get("scan_date", "")
-    name = client_name or interpreted.get("company_name", "")
 
     sections = []
 
