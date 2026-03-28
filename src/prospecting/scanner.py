@@ -742,7 +742,7 @@ def _validate_approval_tokens(max_level: int = 0) -> dict | None:
     Returns the approvals dict on success, None on failure.
     """
     from .config import PROJECT_ROOT
-    approvals_path = PROJECT_ROOT / "agents" / "valdi" / "approvals.json"
+    approvals_path = PROJECT_ROOT / ".claude" / "agents" / "valdi" / "approvals.json"
     try:
         with open(approvals_path) as f:
             data = json.load(f)

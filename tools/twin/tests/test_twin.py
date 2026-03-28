@@ -18,7 +18,7 @@ from tools.twin.twin_server import TwinHandler, _build_routes, _build_common_hea
 
 @pytest.fixture
 def conrads_brief():
-    brief_path = Path(__file__).parents[3] / "data" / "output" / "briefs" / "conrads.dk.json"
+    brief_path = Path(__file__).parents[3] / "tests" / "fixtures" / "briefs" / "wordpress-full.json"
     with open(brief_path) as f:
         return json.load(f)
 
@@ -255,9 +255,9 @@ def test_server_serves_responses(conrads_brief, slug_map):
     common_headers = _build_common_headers(conrads_brief)
 
     TwinHandler.routes = routes
-    TwinHandler.domain = "conrads.dk"
+    TwinHandler.domain = "example-restaurant.dk"
     TwinHandler.common_headers = common_headers
-    TwinHandler.login_cookie = "domain=conrads.dk"
+    TwinHandler.login_cookie = "domain=example-restaurant.dk"
     TwinHandler.jitter = False
 
     server = HTTPServer(("127.0.0.1", 0), TwinHandler)
