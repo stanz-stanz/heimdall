@@ -151,6 +151,17 @@ def _check_consent_inner(
             reason="Level 0 — no consent required",
         )
 
+    # ---- Synthetic target: Heimdall-owned twin ----
+    if _is_synthetic_target(domain):
+        return ConsentCheckResult(
+            allowed=True,
+            client_id=client_id,
+            domain=domain,
+            level_requested=level_requested,
+            level_authorised=level_requested,
+            reason="Synthetic target — Heimdall-owned digital twin",
+        )
+
     # ---- Level 1+: load and validate consent ----
     auth = load_authorisation(client_dir, client_id)
 
@@ -253,6 +264,24 @@ def _check_consent_inner(
         consent_expiry=expiry_str,
         authorised_by_role=role,
     )
+
+
+def _is_synthetic_target(domain: str) -> bool:
+    """Check if a domain is a Heimdall-owned synthetic target (digital twin).
+
+    Fail-closed: returns False if the registry is missing or malformed.
+    """
+    registry_path = Path(__file__).resolve().parent.parent.parent / "config" / "synthetic_targets.json"
+    try:
+        with open(registry_path, "r", encoding="utf-8") as f:
+            registry = json.load(f)
+        if not isinstance(registry, dict):
+            return False
+        # Strip port for matching (e.g., "127.0.0.1:9080" → "127.0.0.1")
+        domain_no_port = domain.split(":")[0]
+        return domain_no_port in registry or domain in registry
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return False
 
 
 def _safe_int(value) -> int:

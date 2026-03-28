@@ -126,6 +126,39 @@ When Heimdall holds a signed scanning authorization from the site owner, the fol
 
 ---
 
+## Heimdall-Owned Test Infrastructure (Digital Twins)
+
+A **digital twin** is a container running on Heimdall's own infrastructure that simulates a target website's technology stack by replaying publicly served data collected during Layer 1 scanning. The twin is built from a prospect brief JSON — the same output the Layer 1 pipeline already produces.
+
+### Legal basis
+
+Straffeloven §263 criminalizes unauthorized access to **another person's data system**. A digital twin is Heimdall's own system, built from lawfully obtained public data. Scanning it cannot constitute a §263 violation because the system belongs to the scanner operator.
+
+### What is permitted against twins
+
+- **All Layer 1 and Layer 2 scanning tools** — Nuclei, WPScan, CMSeek, and any other Valdí-approved tool may run against a twin. The consent/Level restriction exists to protect external site operators; it does not apply when the target is Heimdall's own infrastructure.
+- **No Layer 3 (exploitation)** — even against twins. This is a tool safety constraint, not a legal one.
+
+### What the twin does NOT change
+
+- **Layer 1 data collection** against the real prospect site still follows all Level 0 rules in this document. The twin does not grant permission to collect data that would otherwise be forbidden.
+- **Valdí Gate 1 still applies** — every scanning tool must have an approved scan type regardless of target. The twin exempts the target from consent checks, not the tool from validation.
+- **robots.txt checks do not apply** to twins — Heimdall controls the twin's robots.txt.
+
+### Data provenance requirement
+
+Any finding produced by scanning a twin must carry a `provenance: "twin-derived"` marker. This indicates the finding was inferred from passive data, not confirmed by direct scanning of the prospect's live infrastructure. This distinction must be preserved through the interpretation and message composition pipeline.
+
+Client-facing language must reflect this: use "is known to be affected by" or "detected version is associated with," not "has this vulnerability." Twin-derived findings are high-confidence inferences, not confirmed observations.
+
+### Synthetic Target Registry
+
+Twins are registered in `config/synthetic_targets.json`. The consent validator checks this registry before performing Level/consent checks. Registered synthetic targets bypass Gate 2 consent validation but remain subject to Gate 1 tool validation.
+
+If the registry file is missing or malformed, the validator treats all targets as external (fail-closed).
+
+---
+
 ## Workflow Enforcement
 
 ### For Claude Code Agents

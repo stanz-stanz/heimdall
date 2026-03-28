@@ -1,0 +1,17 @@
+{
+  "twin.local": {
+    "type": "digital-twin",
+    "owner": "heimdall",
+    "layers_permitted": [1, 2]
+  },
+  "127.0.0.1": {
+    "type": "digital-twin",
+    "owner": "heimdall",
+    "layers_permitted": [1, 2]
+  },
+  "localhost": {
+    "type": "digital-twin",
+    "owner": "heimdall",
+    "layers_permitted": [1, 2]
+  }
+}
