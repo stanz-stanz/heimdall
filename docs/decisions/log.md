@@ -5,6 +5,29 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-28 — Mobile console PWA + live twin demo mode
+
+**Decided**
+- Mobile console merged from `feature/mobile-console` as a PWA (vanilla JS, no framework, no build step) served from the existing FastAPI API container
+- Two modes: Monitor (5s polling of Redis queue depths + recent scans) and Demo (theatrical brief replay with WebSocket streaming)
+- Live Twin demo mode added: orchestrator starts a digital twin in-process, runs Nuclei/WPScan against it, streams findings to WebSocket as they arrive. Same event schema as replay — frontend animation code unchanged
+- Concurrency guard: only one live demo at a time (asyncio.Lock), returns 429 if occupied. Falls back to replay if tools not installed
+- `agents/fullstack-guy/SKILL.md` placed at `.claude/agents/fullstack-guy/SKILL.md` (consistent with agents/ refactor)
+- Console explored as Svelte rewrite — user evaluated options via visual companion, preferred the existing vanilla JS design
+
+**Rejected**
+- Svelte/React rewrite — user saw mockups, preferred current vanilla JS (no build step, simpler deployment)
+- Redesigned demo section with terminal + chips layout — user preferred the original radial progress + timeline design
+- Separate Docker container for console — lives in existing API container, no additional resource cost
+
+**Unresolved**
+- Console not yet reflected in CLAUDE.md or briefing.md (PR #12 still open)
+- `prefers-reduced-motion` media query not implemented in console CSS
+- WebSocket auto-reconnect on network drop not implemented
+- Multi-client simultaneous demo would need Redis pub/sub refactor (current: single asyncio.Queue per scan_id)
+
+---
+
 ## 2026-03-28 — Digital twin: brief-to-website generator
 
 **Decided**
