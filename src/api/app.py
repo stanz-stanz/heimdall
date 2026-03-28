@@ -16,6 +16,9 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
+from src.interpreter.interpreter import InterpreterError, interpret_brief
+from src.composer.telegram import compose_telegram
+
 from .result_store import ResultStore
 
 log = logging.getLogger(__name__)
@@ -66,10 +69,14 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 
 
 # ---------------------------------------------------------------------------
-# Pub/sub listener (log-only in 3.0 — 3.3 adds Telegram handler)
+# Pub/sub listener — interpret + compose on scan-complete
 # ---------------------------------------------------------------------------
 
-async def _listen_scan_complete(redis_conn: redis.Redis) -> None:
+async def _listen_scan_complete(
+    redis_conn: redis.Redis,
+    result_store: ResultStore,
+    messages_dir: str,
+) -> None:
     pubsub = redis_conn.pubsub()
     await asyncio.to_thread(pubsub.subscribe, "scan-complete")
     log.info("pubsub_subscribed", extra={"context": {"channel": "scan-complete"}})
@@ -87,6 +94,10 @@ async def _listen_scan_complete(redis_conn: redis.Redis) -> None:
                         "client_id": payload.get("client_id"),
                         "status": payload.get("status"),
                     }})
+                    # Interpret + compose in a thread to avoid blocking
+                    await asyncio.to_thread(
+                        _handle_scan_complete, payload, result_store, messages_dir,
+                    )
                 except (json.JSONDecodeError, TypeError) as exc:
                     log.warning("scan_complete_parse_error", extra={"context": {"error": str(exc)}})
             await asyncio.sleep(0.1)
@@ -98,11 +109,79 @@ async def _listen_scan_complete(redis_conn: redis.Redis) -> None:
         log.exception("pubsub_error")
 
 
+def _handle_scan_complete(
+    payload: dict,
+    result_store: ResultStore,
+    messages_dir: str,
+) -> None:
+    """Interpret findings and compose a Telegram message for a completed scan."""
+    client_id = payload.get("client_id", "")
+    domain = payload.get("domain", "")
+
+    # Validate path components from untrusted pub/sub data
+    if not _SAFE_NAME.match(client_id) or not _SAFE_NAME.match(domain):
+        log.warning("interpret_invalid_path", extra={"context": {
+            "client_id": client_id, "domain": domain,
+            "reason": "Invalid characters in client_id or domain from pub/sub",
+        }})
+        return
+
+    if payload.get("status") != "completed":
+        return
+
+    # Load the scan result
+    result = result_store.get_latest(client_id, domain)
+    if not result:
+        log.warning("interpret_no_result", extra={"context": {
+            "client_id": client_id, "domain": domain,
+        }})
+        return
+
+    brief = result.get("brief")
+    if not brief:
+        log.warning("interpret_no_brief", extra={"context": {
+            "client_id": client_id, "domain": domain,
+        }})
+        return
+
+    # Interpret
+    try:
+        interpreted = interpret_brief(brief)
+    except InterpreterError as exc:
+        log.error("interpret_failed", extra={"context": {
+            "client_id": client_id, "domain": domain, "error": str(exc),
+        }})
+        return
+
+    # Compose for Telegram
+    messages = compose_telegram(interpreted)
+
+    # Write to disk for Sprint 4.1 (Telegram delivery)
+    out_dir = Path(messages_dir) / client_id / domain
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / "message.json"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump({
+            "domain": domain,
+            "client_id": client_id,
+            "interpreted": interpreted,
+            "telegram_messages": messages,
+        }, f, indent=2, ensure_ascii=False)
+
+    log.info("message_composed", extra={"context": {
+        "client_id": client_id,
+        "domain": domain,
+        "message_count": len(messages),
+        "message_chars": sum(len(m) for m in messages),
+        "path": str(out_path),
+    }})
+
+
 # ---------------------------------------------------------------------------
 # App factory
 # ---------------------------------------------------------------------------
 
-def create_app(redis_url: str, results_dir: str) -> FastAPI:
+def create_app(redis_url: str, results_dir: str, messages_dir: str = "/data/messages") -> FastAPI:
     """Build and return the FastAPI application."""
 
     @asynccontextmanager
@@ -114,7 +193,9 @@ def create_app(redis_url: str, results_dir: str) -> FastAPI:
             redis_conn = redis.Redis.from_url(redis_url, decode_responses=True)
             redis_conn.ping()  # Sync call OK — runs once at startup only
             app.state.redis = redis_conn
-            app.state.pubsub_task = asyncio.create_task(_listen_scan_complete(redis_conn))
+            app.state.pubsub_task = asyncio.create_task(
+                _listen_scan_complete(redis_conn, app.state.result_store, messages_dir),
+            )
         except Exception:
             log.warning("redis_unavailable", extra={"context": {"url": redis_url}})
 

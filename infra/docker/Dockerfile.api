@@ -21,7 +21,7 @@ RUN groupadd --gid 1000 heimdall \
  && useradd --uid 1000 --gid 1000 --create-home heimdall
 
 # Create data directories the volumes will mount into
-RUN mkdir -p /data/clients /data/results /config \
+RUN mkdir -p /data/clients /data/results /data/messages /config \
  && chown -R heimdall:heimdall /data /config
 
 WORKDIR /app
@@ -30,8 +30,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application code and config
 COPY src/ ./src/
+COPY config/ ./config/
 
 # Own everything by non-root user
 RUN chown -R heimdall:heimdall /app

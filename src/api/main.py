@@ -50,6 +50,11 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
         default=os.environ.get("LOG_LEVEL", "INFO"),
         help="Log level (default: INFO)",
     )
+    parser.add_argument(
+        "--messages-dir",
+        default=os.environ.get("MESSAGES_DIR", "/data/messages"),
+        help="Directory for composed messages (default: /data/messages)",
+    )
     return parser.parse_args(argv)
 
 
@@ -62,6 +67,7 @@ def main(argv: Optional[list] = None) -> None:
     app = create_app(
         redis_url=args.redis_url,
         results_dir=args.results_dir,
+        messages_dir=args.messages_dir,
     )
     uvicorn.run(app, host=args.host, port=args.port, log_config=None)
 
