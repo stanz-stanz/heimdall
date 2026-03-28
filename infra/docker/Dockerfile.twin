@@ -1,0 +1,37 @@
+# =============================================================================
+# Heimdall Digital Twin — Serves WordPress-like responses for scan testing
+# Resource budget: 256 MB RAM, 0.25 CPU
+# =============================================================================
+
+FROM python:3.11-slim
+
+LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
+LABEL description="Digital twin — local website mimicking prospect tech stack for scan testing"
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends openssl \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd --gid 1000 heimdall \
+ && useradd --uid 1000 --gid 1000 --create-home heimdall
+
+# Generate self-signed cert at build time (non-root user can't write at runtime)
+RUN mkdir -p /home/heimdall/.certs \
+ && openssl req -x509 -newkey rsa:2048 \
+      -keyout /home/heimdall/.certs/key.pem \
+      -out /home/heimdall/.certs/cert.pem \
+      -days 365 -nodes -subj "/CN=twin.local" \
+ && chown -R heimdall:heimdall /home/heimdall/.certs
+
+WORKDIR /app
+COPY tools/ ./tools/
+
+RUN chown -R heimdall:heimdall /app
+USER heimdall
+
+EXPOSE 9080 9443
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:9080/healthz')" || exit 1
+
+ENTRYPOINT ["python", "-m", "tools.twin.twin_server"]

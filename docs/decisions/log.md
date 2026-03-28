@@ -5,6 +5,29 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-28 — Digital twin: brief-to-website generator
+
+**Decided**
+- Digital twin tool reads prospect brief JSON, spins up a local Docker container that replicates the prospect's tech stack (WordPress version, plugin versions, missing headers, exposed endpoints)
+- Lives in `tools/twin/`, Dockerfile at `infra/docker/Dockerfile.twin`, compose profile `["twin"]`
+- Legal: scanning the twin is scanning our own infrastructure — Straffeloven §263 does not apply. Consent framework only applies to the prospect's actual servers. Validated by Valdí agent.
+- Key use case: Layer 2 tools (Nuclei, WPScan) can run against the twin without prospect consent, surfacing specific CVEs and vulnerability matches from Level 0 passive data. This is a significant competitive advantage — vulnerability-grade findings without a signed agreement.
+- Six documented use cases: Layer 2 without consent, pre-consent sales reports, pipeline regression testing, new tool onboarding, remediation verification, interpreter training. See `docs/digital-twin-use-cases.md`.
+- DevOps review: Dockerfile in `infra/docker/` (convention), ports 9080/9443 (avoids Dozzle conflict), compose profile pattern (matches ct-backfill), cert at build time, health check
+- Network Security review: slug normalization table (Yoast SEO → `wordpress-seo`), added `/readme.html`, `/favicon.ico`, `X-Powered-By`, `Link`, `X-Pingback` headers, ~50KB HTML with Danish filler, response jitter
+
+**Rejected**
+- Separate repository for the twin — no independent users, no separate release cycle, sole input format is our brief JSON
+- nginx/Apache container — over-engineered for what is purely HTTP response simulation; stdlib `http.server` keeps it simple and dependency-free
+- Generate Dockerfiles per-brief — unnecessary complexity; a single server reads the brief at startup
+
+**Unresolved**
+- Twin-derived findings should be labelled as "derived from passive fingerprinting" in output — not yet implemented in the brief generator
+- Automated pipeline extension (Layer 1 brief → twin → Layer 2 scan → enriched brief) — future sprint work
+- Non-WordPress CMS support (Shopify, Drupal, Joomla) — extensible by adding CMS-specific template modules
+
+---
+
 ## 2026-03-28 — Sprint 3 increments 3.0, 3.1, 3.3, 3.2 planned
 
 **Decided**
