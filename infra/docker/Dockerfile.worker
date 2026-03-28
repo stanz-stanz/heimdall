@@ -50,13 +50,20 @@ RUN mkdir -p /opt/nuclei-templates /home/heimdall \
  && nuclei -update-templates -ud /opt/nuclei-templates \
  && test -n "$(find /opt/nuclei-templates -name '*.yaml' | head -1)"
 
+# CMSeek — pure Python, git clone (no pip package available)
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git \
+ && git clone --depth 1 https://github.com/Tuhinshubhra/CMSeeK.git /opt/cmseek \
+ && apt-get purge -y --auto-remove git \
+ && rm -rf /var/lib/apt/lists/* /opt/cmseek/.git
+
 # Create non-root user
 RUN groupadd --gid 1000 heimdall \
  && useradd --uid 1000 --gid 1000 --create-home heimdall
 
 # Create data directories the volumes will mount into
 RUN mkdir -p /data/valdi /data/results /data/cache /config \
- && chown -R heimdall:heimdall /data /config /opt/nuclei-templates /home/heimdall
+ && chown -R heimdall:heimdall /data /config /opt/nuclei-templates /opt/cmseek /home/heimdall
 
 WORKDIR /app
 

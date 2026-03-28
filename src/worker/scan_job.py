@@ -29,6 +29,7 @@ from src.prospecting.scanner import (
     _query_grayhatwarfare,
     _run_dnsx,
     _run_httpx,
+    _run_cmseek,
     _run_nuclei,
     _run_subfinder,
     _run_webanalyze,
@@ -287,8 +288,15 @@ def execute_scan_job(
         if isinstance(nuclei_results, dict):
             nuclei_data = nuclei_results.get(domain, {"findings": [], "finding_count": 0})
 
+        cmseek_results = _cached_or_run("cmseek", _run_cmseek, [domain])
+
+        cmseek_data: dict = {}
+        if isinstance(cmseek_results, dict):
+            cmseek_data = cmseek_results.get(domain, {})
+
         level1_scan_result = {
             "nuclei": nuclei_data,
+            "cmseek": cmseek_data,
         }
 
         log.info(

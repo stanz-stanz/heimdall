@@ -393,6 +393,7 @@ class TestInitScanTypeMap:
             "certificate_transparency_query",
             "cloud_storage_index_query",
             "nuclei_vulnerability_scan",
+            "cmseek_cms_deep_scan",
         }
         assert set(_SCAN_TYPE_FUNCTIONS.keys()) == expected
 
