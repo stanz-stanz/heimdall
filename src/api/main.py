@@ -55,6 +55,11 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
         default=os.environ.get("MESSAGES_DIR", "/data/messages"),
         help="Directory for composed messages (default: /data/messages)",
     )
+    parser.add_argument(
+        "--briefs-dir",
+        default=os.environ.get("BRIEFS_DIR", "data/output/briefs"),
+        help="Directory for prospect brief files (default: data/output/briefs)",
+    )
     return parser.parse_args(argv)
 
 
@@ -68,6 +73,7 @@ def main(argv: Optional[list] = None) -> None:
         redis_url=args.redis_url,
         results_dir=args.results_dir,
         messages_dir=args.messages_dir,
+        briefs_dir=args.briefs_dir,
     )
     uvicorn.run(app, host=args.host, port=args.port, log_config=None)
 

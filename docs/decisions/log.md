@@ -29,6 +29,33 @@ Running record of architectural decisions, rejections, and reasoning made during
 
 ---
 
+## 2026-03-28 — Sprint 3.2 Level 1 scan types shipped (Nuclei, WPScan, CMSeek)
+
+**Decided**
+- Nuclei: Go binary in worker image, 12,763 templates baked at build. Safety flags: `-exclude-tags rce,exploit,intrusive,dos`, `-no-interactsh`, `-disable-redirects`. Verified on Pi5 ARM64 (v3.7.1)
+- WPScan: Ruby sidecar container (`ruby:3.2-alpine`) — NOT embedded in worker image. Redis request-response delegation pattern (LPUSH queue:wpscan → BRPOP result). Security-reviewed: fixed UA, no TLS bypass, no user enum, API token via env var only. Verified on Pi5 ARM64 (v3.8.28)
+- CMSeek: Pure Python, git clone in worker image (`/opt/cmseek`). File-based output adapter (reads `Result/<domain>/cms.json`, cleans up). Path traversal guard (regex + realpath). Verified on Pi5 ARM64
+- Level-gated registry: `_LEVEL0_SCAN_FUNCTIONS` (9 types) / `_LEVEL1_SCAN_FUNCTIONS` (3 types) with `WORKER_MAX_LEVEL` env var. Workers only validate tokens for their level
+- Re-queue with cap: Level 0 workers re-queue Level 1 jobs max 5 times, then drop with error log
+- Full stack verified on Pi5: 3 workers + WPScan sidecar + Redis all healthy, Valdí tokens validated
+
+**Rejected**
+- WPScan embedded in worker image — 250-350 MB Ruby bloat, 200-400 MB runtime RAM, ARM64 gem compilation risk. Sidecar is lighter (single 150 MB container vs Ruby in 3 workers)
+- `wpscanteam/wpscan` upstream Docker image — likely no ARM64 support. Built our own from `ruby:3.2-alpine`
+- `--random-user-agent` for WPScan — evasion concern under Danish law
+- `--disable-tls-checks` for WPScan — weakens forensic chain
+- `u1-3` user enumeration for WPScan — may exceed consent scope
+- `--api-token` on CLI — token visible in process list. WPScan reads from env natively
+
+**Unresolved**
+- WPScan commercial API pricing (Automattic quote still pending)
+- CMSeek git clone has no version pin — supply chain risk (MEDIUM, deferred)
+- CMSeek cache TTL 7d may be too long for version data (security-relevant)
+- Digital twin for end-to-end Level 1 testing without real targets
+- Orphan monitoring containers on Pi5 (prometheus, cadvisor, grafana) need cleanup or integration into compose
+
+---
+
 ## 2026-03-28 — Sprint 3 increments 3.0, 3.1, 3.3, 3.2 planned
 
 **Decided**
