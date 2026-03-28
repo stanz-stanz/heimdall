@@ -27,7 +27,7 @@ import redis
 
 from src.prospecting.config import ENRICHMENT_RETRY_LIMIT
 from src.prospecting.logging_config import setup_logging
-from src.prospecting.scanner import _init_scan_type_map, _run_subfinder, _validate_approval_tokens
+from src.prospecting.scanner import _init_scan_type_map, _LEVEL1_SCAN_FUNCTIONS, _run_subfinder, _validate_approval_tokens
 from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
 from src.consent.validator import check_consent
@@ -81,6 +81,12 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
         "--client-data-dir",
         default=os.environ.get("CLIENT_DATA_DIR", "/data/clients"),
         help="Base directory for client authorisation data (default: /data/clients)",
+    )
+    parser.add_argument(
+        "--max-level",
+        type=int,
+        default=int(os.environ.get("WORKER_MAX_LEVEL", "0")),
+        help="Maximum scan level this worker handles (0=passive only, 1=active probing). Default: 0",
     )
     return parser.parse_args(argv)
 
@@ -255,12 +261,13 @@ def main(argv: Optional[list] = None) -> None:
     # ------------------------------------------------------------------
     # 1. Validate Valdi approval tokens (fail-fast)
     # ------------------------------------------------------------------
+    max_level = args.max_level
     _init_scan_type_map()
-    approvals = _validate_approval_tokens()
+    approvals = _validate_approval_tokens(max_level=max_level)
     if approvals is None:
         log.error("BLOCKED — Valdi approval token validation failed. Worker refusing to start.")
         sys.exit(1)
-    log.info("Valdi approval tokens validated successfully")
+    log.info("Valdi approval tokens validated (max_level=%d)", max_level)
 
     # ------------------------------------------------------------------
     # 2. Connect to Redis
@@ -409,6 +416,34 @@ def main(argv: Optional[list] = None) -> None:
                     "client_id": client_id, "reason": consent.reason,
                 }},
             )
+            continue
+
+        # Level mismatch: re-queue if this worker can't handle the job's level
+        if job_level > max_level:
+            requeue_count = job.get("_requeue_count", 0) + 1
+            if requeue_count > 5:
+                log.error(
+                    "level_mismatch_dropped — exceeded requeue limit",
+                    extra={"context": {
+                        "job_id": job_id, "domain": domain,
+                        "job_level": job_level, "requeue_count": requeue_count,
+                    }},
+                )
+                continue
+
+            log.info(
+                "level_mismatch_requeue",
+                extra={"context": {
+                    "job_id": job_id, "domain": domain,
+                    "job_level": job_level, "worker_max_level": max_level,
+                    "requeue_count": requeue_count,
+                }},
+            )
+            try:
+                job["_requeue_count"] = requeue_count
+                redis_conn.lpush("queue:scan", json.dumps(job))
+            except (redis.ConnectionError, redis.TimeoutError) as exc:
+                log.error("Failed to re-queue level-%d job %s: %s", job_level, job_id, exc)
             continue
 
         try:

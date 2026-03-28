@@ -380,7 +380,7 @@ class TestValidateApprovalTokens:
 
 
 class TestInitScanTypeMap:
-    def test_registers_all_nine_types(self):
+    def test_registers_all_scan_types(self):
         _init_scan_type_map()
         expected = {
             "ssl_certificate_check",
@@ -392,6 +392,7 @@ class TestInitScanTypeMap:
             "dns_enrichment",
             "certificate_transparency_query",
             "cloud_storage_index_query",
+            "nuclei_vulnerability_scan",
         }
         assert set(_SCAN_TYPE_FUNCTIONS.keys()) == expected
 

@@ -484,13 +484,125 @@ def _query_grayhatwarfare(domains: list[str]) -> dict[str, list[dict]]:
     return results
 
 
-# Map scan type IDs to their implementing functions (populated after all functions are defined)
+# ---------------------------------------------------------------------------
+# Nuclei — Level 1 (active vulnerability scanning, requires written consent)
+# ---------------------------------------------------------------------------
+
+# Pi5 constraints: limit concurrency and rate to stay within 1 GB memory budget
+NUCLEI_RATE_LIMIT = 50
+NUCLEI_CONCURRENCY = 5
+NUCLEI_TIMEOUT = 300  # seconds
+
+
+def _run_nuclei(domains: list[str]) -> dict[str, dict]:
+    """Layer 2 / Level 1 — Template-based vulnerability scanning via Nuclei.
+
+    Sends crafted requests to test for specific vulnerabilities. Requires
+    written consent (Level 1) before execution.
+
+    Returns ``{domain: {"findings": [...], "template_count": N}}``.
+    """
+    if not shutil.which("nuclei"):
+        log.warning("nuclei not found in PATH — skipping vulnerability scan")
+        return {}
+
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
+        f.write("\n".join(domains))
+        input_file = f.name
+
+    # Template directory: baked into Docker image at build time
+    templates_dir = os.environ.get("NUCLEI_TEMPLATES_DIR", "/opt/nuclei-templates")
+
+    try:
+        result = subprocess.run(
+            [
+                "nuclei",
+                "-l", input_file,
+                "-jsonl",
+                "-silent",
+                "-rate-limit", str(NUCLEI_RATE_LIMIT),
+                "-c", str(NUCLEI_CONCURRENCY),
+                "-severity", "low,medium,high,critical",
+                "-no-update-check",
+                "-ud", templates_dir,
+                "-no-interactsh",
+                "-disable-redirects",
+                "-exclude-tags", "rce,exploit,intrusive,dos",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=NUCLEI_TIMEOUT,
+        )
+
+        if result.returncode != 0 and result.stderr:
+            log.warning("nuclei exited with code %d: %s", result.returncode, result.stderr[:500])
+
+        results: dict[str, dict] = {}
+        for line in result.stdout.strip().split("\n"):
+            if not line:
+                continue
+            try:
+                data = json.loads(line)
+                host = data.get("host", "").lower().strip()
+                # Normalize host: strip protocol and trailing slash/path
+                if "://" in host:
+                    host = host.split("://", 1)[1]
+                host = host.split("/")[0].split(":")[0]
+
+                if not host:
+                    log.warning("nuclei finding dropped — unparseable host: %s (template: %s)",
+                                data.get("host", ""), data.get("template-id", "unknown"))
+                    continue
+
+                if host not in results:
+                    results[host] = {"findings": [], "finding_count": 0}
+
+                results[host]["findings"].append({
+                    "template_id": data.get("template-id", data.get("templateID", "")),
+                    "severity": data.get("info", {}).get("severity", "unknown"),
+                    "name": data.get("info", {}).get("name", ""),
+                    "matched_at": data.get("matched-at", data.get("matched_at", "")),
+                    "type": data.get("type", ""),
+                })
+                results[host]["finding_count"] += 1
+            except json.JSONDecodeError:
+                continue
+
+        log.info(
+            "nuclei: scanned %d domains, found %d total findings",
+            len(domains),
+            sum(r["finding_count"] for r in results.values()),
+        )
+        return results
+
+    except subprocess.TimeoutExpired:
+        log.warning("nuclei timed out after %ds", NUCLEI_TIMEOUT)
+        return {}
+    except FileNotFoundError:
+        log.warning("nuclei binary not found")
+        return {}
+    finally:
+        os.unlink(input_file)
+
+
+# ---------------------------------------------------------------------------
+# Scan type registry — split by level
+# ---------------------------------------------------------------------------
+
+# Level 0: passive observation only (Layer 1)
+_LEVEL0_SCAN_FUNCTIONS: dict[str, callable] = {}
+
+# Level 1: active probing (Layer 2), requires written consent
+_LEVEL1_SCAN_FUNCTIONS: dict[str, callable] = {}
+
+# Combined view for backward compatibility
 _SCAN_TYPE_FUNCTIONS: dict[str, callable] = {}
 
 
 def _init_scan_type_map() -> None:
-    """Populate the scan type function map. Called once at module load."""
-    _SCAN_TYPE_FUNCTIONS.update({
+    """Populate the scan type function maps. Called once at module load."""
+    _LEVEL0_SCAN_FUNCTIONS.clear()
+    _LEVEL0_SCAN_FUNCTIONS.update({
         "ssl_certificate_check": _check_ssl,
         "homepage_meta_extraction": _extract_page_meta,
         "httpx_tech_fingerprint": _run_httpx,
@@ -502,9 +614,22 @@ def _init_scan_type_map() -> None:
         "cloud_storage_index_query": _query_grayhatwarfare,
     })
 
+    _LEVEL1_SCAN_FUNCTIONS.clear()
+    _LEVEL1_SCAN_FUNCTIONS.update({
+        "nuclei_vulnerability_scan": _run_nuclei,
+    })
 
-def _validate_approval_tokens() -> dict | None:
-    """Validate all scan types have current approval tokens with matching function hashes.
+    # Backward-compat: combined view
+    _SCAN_TYPE_FUNCTIONS.clear()
+    _SCAN_TYPE_FUNCTIONS.update(_LEVEL0_SCAN_FUNCTIONS)
+    _SCAN_TYPE_FUNCTIONS.update(_LEVEL1_SCAN_FUNCTIONS)
+
+
+def _validate_approval_tokens(max_level: int = 0) -> dict | None:
+    """Validate scan types have current approval tokens with matching function hashes.
+
+    Only validates functions at or below *max_level*. A Level 0 worker does
+    not need approval tokens for Level 1 scan types.
 
     Returns the approvals dict on success, None on failure.
     """
@@ -519,7 +644,13 @@ def _validate_approval_tokens() -> dict | None:
 
     approvals = {a["scan_type_id"]: a for a in data.get("approvals", [])}
 
-    for scan_type_id, func in _SCAN_TYPE_FUNCTIONS.items():
+    # Build set of functions that need validation at this level
+    required_functions: dict[str, callable] = {}
+    required_functions.update(_LEVEL0_SCAN_FUNCTIONS)
+    if max_level >= 1:
+        required_functions.update(_LEVEL1_SCAN_FUNCTIONS)
+
+    for scan_type_id, func in required_functions.items():
         approval = approvals.get(scan_type_id)
         if not approval:
             log.error("No approval token for scan type: %s", scan_type_id)
@@ -549,7 +680,7 @@ def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
     check = {
         "scan_request_id": f"req-{now.strftime('%Y%m%d-%H%M%S')}",
         "batch_type": "prospect-scan-level0",
-        "scan_types": list(_SCAN_TYPE_FUNCTIONS.keys()),
+        "scan_types": list(_LEVEL0_SCAN_FUNCTIONS.keys()),
         "scan_layer": 1,
         "target_level": 0,
         "checks": {

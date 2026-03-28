@@ -110,5 +110,22 @@
       "function_hash": "sha256:8d9dfd94653dc3bec726ca04749e9e0da26032566412763a0dd4fff6bc9ac641",
       "hash_method": "inspect.getsource"
     }
+    ,
+    {
+      "id": "nuclei_vulnerability_scan",
+      "description": "Template-based vulnerability scanning via Nuclei — sends crafted requests to test for specific vulnerabilities. Requires Level 1 (written consent).",
+      "layer": 2,
+      "level_required": 1,
+      "tools": ["nuclei"],
+      "paths_accessed": ["various — template-dependent"],
+      "handles_robots_txt_denial": false,
+      "robots_txt_note": "robots.txt enforcement delegated to worker Gate 2 consent check",
+      "current_approval_token": "12022029-69a9-46a7-9b6b-dbe126e578f4",
+      "last_validated": "2026-03-28T14:00:00Z",
+      "function_file": "src/prospecting/scanner.py",
+      "function_name": "_run_nuclei",
+      "function_hash": "sha256:4addb4f2a7256546f8a954c8eba5706e129e118d1e0ad7a37290ab04e5c4efe9",
+      "hash_method": "inspect.getsource"
+    }
   ]
 }

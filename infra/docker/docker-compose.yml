@@ -93,6 +93,9 @@ services:
       - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
       - CT_DB_PATH=/data/ct/certificates.db
+      - WORKER_MAX_LEVEL=${WORKER_MAX_LEVEL:-0}
+      - WPSCAN_API_TOKEN=${WPSCAN_API_TOKEN:-}
+      - NUCLEI_TEMPLATES_DIR=/opt/nuclei-templates
     volumes:
       - valdi-data:/data/valdi
       - client-data:/data/clients:ro

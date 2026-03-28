@@ -26,6 +26,7 @@ from src.prospecting.scanner import (
     _query_grayhatwarfare,
     _run_dnsx,
     _run_httpx,
+    _run_nuclei,
     _run_subfinder,
     _run_webanalyze,
 )
@@ -233,6 +234,32 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
         scan.exposed_cloud_storage = ghw_results.get(domain, [])
 
     # ------------------------------------------------------------------
+    # 3b. Level 1 scans (active probing — only when job.level >= 1)
+    # ------------------------------------------------------------------
+    level1_scan_result: Optional[dict] = None
+    job_level = job.get("level", 0)
+
+    if isinstance(job_level, int) and not isinstance(job_level, bool) and job_level >= 1:
+        nuclei_results = _cached_or_run("nuclei", _run_nuclei, [domain])
+
+        nuclei_data: dict = {}
+        if isinstance(nuclei_results, dict):
+            nuclei_data = nuclei_results.get(domain, {"findings": [], "template_count": 0})
+
+        level1_scan_result = {
+            "nuclei": nuclei_data,
+        }
+
+        log.info(
+            "level1_scans_complete",
+            extra={"context": {
+                "domain": domain,
+                "job_id": job_id,
+                "nuclei_findings": len(nuclei_data.get("findings", [])),
+            }},
+        )
+
+    # ------------------------------------------------------------------
     # 4. Derive CMS and hosting (same logic as scanner.py)
     # ------------------------------------------------------------------
     for tech in scan.tech_stack:
@@ -289,7 +316,7 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
         },
     )
 
-    return {
+    result = {
         "domain": domain,
         "job_id": job_id,
         "status": "completed",
@@ -298,3 +325,6 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
         "timing": timing_ms,
         "cache_stats": {"hits": job_hits, "misses": job_misses},
     }
+    if level1_scan_result is not None:
+        result["level1_scan_result"] = level1_scan_result
+    return result
