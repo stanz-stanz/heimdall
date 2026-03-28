@@ -1,0 +1,13 @@
+{
+  "backend": "anthropic",
+  "model": "claude-sonnet-4-6",
+  "max_output_tokens": 1024,
+  "temperature": 0.3,
+  "tone": "balanced",
+  "language": "da",
+  "tone_descriptions": {
+    "concise": "Brief and direct. 1-2 sentences per finding. No analogies. Action-focused.",
+    "balanced": "Friendly professional. Connect related findings. One short paragraph per key issue. Light on jargon, clear actions.",
+    "detailed": "Thorough explanations with analogies. Full context for non-technical readers. Step-by-step remediation."
+  }
+}
