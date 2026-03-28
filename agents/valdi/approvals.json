@@ -119,6 +119,16 @@
       "function_hash": "sha256:4addb4f2a7256546f8a954c8eba5706e129e118d1e0ad7a37290ab04e5c4efe9",
       "log_file": "agents/valdi/logs/2026-03-28_14-00-00_nuclei_vulnerability_scan.md",
       "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "wpscan_wordpress_scan",
+      "token": "c9c5d87c-5500-4840-a737-d071287d072c",
+      "approved_at": "2026-03-28T15:00:00Z",
+      "level": 1,
+      "layer": 2,
+      "function_hash": "sha256:6943393dd053eb15ad074b777e65c264222d3579421e8e8ce2dacd295444635c",
+      "log_file": "agents/valdi/logs/2026-03-28_15-00-00_wpscan_wordpress_scan.md",
+      "hash_method": "inspect.getsource"
     }
   ]
 }

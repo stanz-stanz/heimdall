@@ -586,6 +586,145 @@ def _run_nuclei(domains: list[str]) -> dict[str, dict]:
 
 
 # ---------------------------------------------------------------------------
+# WPScan — Level 1 (WordPress vulnerability scanning, requires written consent)
+# ---------------------------------------------------------------------------
+
+WPSCAN_TIMEOUT = 120  # seconds per domain
+
+
+def _run_wpscan(domains: list[str]) -> dict[str, dict]:
+    """Layer 2 / Level 1 — WordPress vulnerability and plugin scanning via WPScan.
+
+    Probes WordPress-specific paths (wp-admin, wp-login, plugin/theme
+    version files) and cross-references against the WPScan vulnerability
+    database.  Requires written consent (Level 1) before execution.
+
+    Runs with or without ``WPSCAN_API_TOKEN``.  Without the token, WPScan
+    still detects WP version, themes, and plugins — but cannot cross-reference
+    the vulnerability database.  A warning is logged.
+
+    Returns ``{domain: {"vulnerabilities": [...], "wordpress": {...},
+    "plugins": [...], "themes": [...]}}``.
+    """
+    if not shutil.which("wpscan"):
+        log.warning("wpscan not found in PATH — skipping WordPress vulnerability scan")
+        return {}
+
+    api_token = os.environ.get("WPSCAN_API_TOKEN", "")
+    if not api_token:
+        log.warning("WPSCAN_API_TOKEN not set — running in limited mode (no vuln DB cross-reference)")
+
+    results: dict[str, dict] = {}
+
+    for domain in domains:
+        url = f"https://{domain}/"
+        cmd = [
+            "wpscan",
+            "--url", url,
+            "--format", "json",
+            "--no-banner",
+            "--random-user-agent",
+            "--disable-tls-checks",
+            "--enumerate", "vp,vt,u1-3",  # vulnerable plugins, themes, first 3 users
+        ]
+        if api_token:
+            cmd.extend(["--api-token", api_token])
+
+        try:
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=WPSCAN_TIMEOUT,
+            )
+
+            if result.returncode not in (0, 5):
+                # 0 = no vulns, 5 = vulns found. Anything else is an error.
+                log.warning(
+                    "wpscan exited with code %d for %s: %s",
+                    result.returncode, domain, result.stderr[:500],
+                )
+                continue
+
+            try:
+                data = json.loads(result.stdout)
+            except json.JSONDecodeError:
+                log.warning("wpscan produced invalid JSON for %s", domain)
+                continue
+
+            # Extract structured results
+            wp_version = data.get("version", {})
+            plugins = data.get("plugins", {})
+            themes = data.get("main_theme", {})
+            vulns = []
+
+            # Collect vulnerabilities from all sections
+            if wp_version and isinstance(wp_version, dict):
+                for v in wp_version.get("vulnerabilities", []):
+                    vulns.append({
+                        "title": v.get("title", ""),
+                        "type": "wordpress_core",
+                        "fixed_in": v.get("fixed_in", ""),
+                        "references": v.get("references", {}),
+                    })
+
+            for plugin_name, plugin_data in plugins.items():
+                if not isinstance(plugin_data, dict):
+                    continue
+                for v in plugin_data.get("vulnerabilities", []):
+                    vulns.append({
+                        "title": v.get("title", ""),
+                        "type": "plugin",
+                        "plugin": plugin_name,
+                        "fixed_in": v.get("fixed_in", ""),
+                    })
+
+            if isinstance(themes, dict):
+                for v in themes.get("vulnerabilities", []):
+                    vulns.append({
+                        "title": v.get("title", ""),
+                        "type": "theme",
+                        "fixed_in": v.get("fixed_in", ""),
+                    })
+
+            results[domain] = {
+                "vulnerabilities": vulns,
+                "wordpress": {
+                    "version": wp_version.get("number", "") if isinstance(wp_version, dict) else "",
+                    "status": wp_version.get("status", "") if isinstance(wp_version, dict) else "",
+                },
+                "plugins": [
+                    {
+                        "name": name,
+                        "version": pd.get("version", {}).get("number", "") if isinstance(pd.get("version"), dict) else "",
+                        "outdated": pd.get("outdated", False),
+                        "vuln_count": len(pd.get("vulnerabilities", [])),
+                    }
+                    for name, pd in plugins.items()
+                    if isinstance(pd, dict)
+                ],
+                "themes": [],
+            }
+
+            log.info(
+                "wpscan: %s — %d vulns, %d plugins detected",
+                domain, len(vulns), len(plugins),
+            )
+
+        except subprocess.TimeoutExpired:
+            log.warning("wpscan timed out after %ds for %s", WPSCAN_TIMEOUT, domain)
+        except FileNotFoundError:
+            log.warning("wpscan binary not found")
+            return results
+
+    log.info(
+        "wpscan: scanned %d/%d domains",
+        len(results), len(domains),
+    )
+    return results
+
+
+# ---------------------------------------------------------------------------
 # Scan type registry — split by level
 # ---------------------------------------------------------------------------
 
@@ -617,6 +756,7 @@ def _init_scan_type_map() -> None:
     _LEVEL1_SCAN_FUNCTIONS.clear()
     _LEVEL1_SCAN_FUNCTIONS.update({
         "nuclei_vulnerability_scan": _run_nuclei,
+        "wpscan_wordpress_scan": _run_wpscan,
     })
 
     # Backward-compat: combined view

@@ -29,12 +29,19 @@ FROM python:3.11-slim AS runtime
 LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
 LABEL description="Heimdall scan worker — executes Layer 1 scan jobs from Redis queue"
 
-# System deps needed by Go binaries and Python packages
+# System deps needed by Go binaries, Ruby/WPScan, and Python packages
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
- && rm -rf /var/lib/apt/lists/*
+        ruby \
+        ruby-dev \
+        build-essential \
+        libcurl4-openssl-dev \
+        zlib1g-dev \
+ && gem install wpscan --no-document \
+ && apt-get purge -y --auto-remove build-essential ruby-dev \
+ && rm -rf /var/lib/apt/lists/* /root/.gem
 
 # Copy Go binaries from builder stage
 COPY --from=go-builder /go/tools/httpx       /usr/local/bin/httpx

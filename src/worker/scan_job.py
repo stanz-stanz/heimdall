@@ -29,6 +29,7 @@ from src.prospecting.scanner import (
     _run_nuclei,
     _run_subfinder,
     _run_webanalyze,
+    _run_wpscan,
 )
 from src.ct_collector.db import open_readonly, query_certificates
 
@@ -241,13 +242,19 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
 
     if isinstance(job_level, int) and not isinstance(job_level, bool) and job_level >= 1:
         nuclei_results = _cached_or_run("nuclei", _run_nuclei, [domain])
+        wpscan_results = _cached_or_run("wpscan", _run_wpscan, [domain])
 
         nuclei_data: dict = {}
         if isinstance(nuclei_results, dict):
-            nuclei_data = nuclei_results.get(domain, {"findings": [], "template_count": 0})
+            nuclei_data = nuclei_results.get(domain, {"findings": [], "finding_count": 0})
+
+        wpscan_data: dict = {}
+        if isinstance(wpscan_results, dict):
+            wpscan_data = wpscan_results.get(domain, {"vulnerabilities": [], "wordpress": {}, "plugins": [], "themes": []})
 
         level1_scan_result = {
             "nuclei": nuclei_data,
+            "wpscan": wpscan_data,
         }
 
         log.info(
@@ -256,6 +263,8 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
                 "domain": domain,
                 "job_id": job_id,
                 "nuclei_findings": len(nuclei_data.get("findings", [])),
+                "wpscan_vulns": len(wpscan_data.get("vulnerabilities", [])),
+                "wpscan_plugins": len(wpscan_data.get("plugins", [])),
             }},
         )
 
