@@ -447,7 +447,7 @@ def main(argv: Optional[list] = None) -> None:
             continue
 
         try:
-            result = execute_scan_job(job, cache)
+            result = execute_scan_job(job, cache, redis_conn=redis_conn)
         except Exception:
             log.exception("Unhandled error processing job for %s", domain)
             continue

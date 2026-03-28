@@ -7,11 +7,14 @@ scan data, timing breakdown, and cache statistics.
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import time
 from dataclasses import asdict
 from typing import Any, Dict, List, Optional, Tuple
+
+import redis
 
 from src.prospecting.brief_generator import generate_brief, _determine_gdpr_sensitivity
 from src.prospecting.bucketer import classify
@@ -73,7 +76,45 @@ def _timed(fn: Any, *args: Any, **kwargs: Any) -> Tuple[Any, float]:
     return result, time.monotonic() - t0
 
 
-def execute_scan_job(job: dict, cache: ScanCache) -> dict:
+def _request_wpscan(redis_conn: redis.Redis, domain: str, job_id: str) -> Optional[dict]:
+    """Delegate WPScan to the sidecar container via Redis request-response.
+
+    Pushes a job to ``queue:wpscan`` and blocks on the per-job response key
+    (``wpscan:result:{job_id}``) with a 300-second timeout.
+
+    Returns the parsed result dict, or None on timeout / error.
+    """
+    wpscan_job_id = f"wpscan-{job_id}"
+    payload = json.dumps({"job_id": wpscan_job_id, "domain": domain})
+
+    try:
+        redis_conn.lpush("queue:wpscan", payload)
+    except (redis.ConnectionError, redis.TimeoutError) as exc:
+        log.warning("Failed to enqueue WPScan job for %s: %s", domain, exc)
+        return None
+
+    try:
+        result = redis_conn.brpop(f"wpscan:result:{wpscan_job_id}", timeout=300)
+    except (redis.ConnectionError, redis.TimeoutError) as exc:
+        log.warning("Redis error waiting for WPScan result for %s: %s", domain, exc)
+        return None
+
+    if result is None:
+        log.warning("wpscan_timeout", extra={"context": {"domain": domain, "job_id": job_id}})
+        return None
+
+    try:
+        return json.loads(result[1])
+    except (json.JSONDecodeError, TypeError, IndexError) as exc:
+        log.warning("Invalid WPScan response for %s: %s", domain, exc)
+        return None
+
+
+def execute_scan_job(
+    job: dict,
+    cache: ScanCache,
+    redis_conn: Optional[redis.Redis] = None,
+) -> dict:
     """Execute all Layer 1 scan types for a single domain.
 
     Parameters
@@ -244,14 +285,14 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
 
         nuclei_data: dict = {}
         if isinstance(nuclei_results, dict):
-            nuclei_data = nuclei_results.get(domain, {"findings": [], "template_count": 0})
+            nuclei_data = nuclei_results.get(domain, {"findings": [], "finding_count": 0})
 
         level1_scan_result = {
             "nuclei": nuclei_data,
         }
 
         log.info(
-            "level1_scans_complete",
+            "level1_nuclei_complete",
             extra={"context": {
                 "domain": domain,
                 "job_id": job_id,
@@ -275,6 +316,18 @@ def execute_scan_job(job: dict, cache: ScanCache) -> dict:
         if hint in combined and provider:
             scan.hosting = provider
             break
+
+    # ------------------------------------------------------------------
+    # 4b. WPScan — WordPress domains only, delegated to sidecar via Redis
+    # ------------------------------------------------------------------
+    if level1_scan_result is not None and scan.cms == "WordPress" and redis_conn is not None:
+        wpscan_data = cache.get("wpscan", domain)
+        if wpscan_data is None:
+            wpscan_result = _request_wpscan(redis_conn, domain, job_id)
+            if wpscan_result is not None:
+                wpscan_data = wpscan_result.get("wpscan", {})
+                cache.set("wpscan", domain, wpscan_result)
+        level1_scan_result["wpscan"] = wpscan_data or {}
 
     # ------------------------------------------------------------------
     # 5. Generate findings + GDPR determination

@@ -126,6 +126,22 @@
       "function_name": "_run_nuclei",
       "function_hash": "sha256:4addb4f2a7256546f8a954c8eba5706e129e118d1e0ad7a37290ab04e5c4efe9",
       "hash_method": "inspect.getsource"
+    },
+    {
+      "id": "wpscan_wordpress_scan",
+      "description": "WordPress vulnerability + plugin scanning via WPScan sidecar container. Worker delegates via Redis queue; sidecar runs wpscan CLI with --enumerate vp,vt. Requires Level 1.",
+      "layer": 2,
+      "level_required": 1,
+      "tools": ["wpscan (sidecar container)"],
+      "paths_accessed": ["/wp-admin/", "/wp-login.php", "/wp-content/plugins/", "/wp-content/themes/", "/readme.html"],
+      "handles_robots_txt_denial": false,
+      "robots_txt_note": "robots.txt enforcement delegated to worker Gate 2 consent check",
+      "current_approval_token": "df32303b-6291-4eea-a3a3-a53ba93d3350",
+      "last_validated": "2026-03-28T16:00:00Z",
+      "function_file": "src/worker/scan_job.py",
+      "function_name": "_request_wpscan",
+      "function_hash": "sha256:8a3ae86aab66d4722c24be5ce0de5209af7523a3df9aabd38098e8ec71be4874",
+      "hash_method": "inspect.getsource"
     }
   ]
 }
