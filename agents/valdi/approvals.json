@@ -109,6 +109,16 @@
       "function_hash": "sha256:89d8d25b2fb360cecde97db47a5fa14385d81c5c9dbd1485bdbd9a24e4d9a422",
       "log_file": "agents/valdi/logs/2026-03-26_17-03-00_cloud_storage_index_query.md",
       "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "nuclei_vulnerability_scan",
+      "token": "12022029-69a9-46a7-9b6b-dbe126e578f4",
+      "approved_at": "2026-03-28T14:00:00Z",
+      "level": 1,
+      "layer": 2,
+      "function_hash": "sha256:4addb4f2a7256546f8a954c8eba5706e129e118d1e0ad7a37290ab04e5c4efe9",
+      "log_file": "agents/valdi/logs/2026-03-28_14-00-00_nuclei_vulnerability_scan.md",
+      "hash_method": "inspect.getsource"
     }
   ]
 }

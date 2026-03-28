@@ -19,6 +19,7 @@ RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@lates
 RUN GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@latest
 RUN GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 RUN GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 
 # ---------------------------------------------------------------------------
 # Stage 2: Runtime image
@@ -40,6 +41,14 @@ COPY --from=go-builder /go/tools/httpx       /usr/local/bin/httpx
 COPY --from=go-builder /go/tools/webanalyze  /usr/local/bin/webanalyze
 COPY --from=go-builder /go/tools/subfinder   /usr/local/bin/subfinder
 COPY --from=go-builder /go/tools/dnsx        /usr/local/bin/dnsx
+COPY --from=go-builder /go/tools/nuclei      /usr/local/bin/nuclei
+
+# Bake nuclei templates at build time (no runtime internet needed)
+# HOME set so nuclei config lands in a user-accessible location
+ENV HOME=/home/heimdall
+RUN mkdir -p /opt/nuclei-templates /home/heimdall \
+ && nuclei -update-templates -ud /opt/nuclei-templates \
+ && test -n "$(find /opt/nuclei-templates -name '*.yaml' | head -1)"
 
 # Create non-root user
 RUN groupadd --gid 1000 heimdall \
@@ -47,7 +56,7 @@ RUN groupadd --gid 1000 heimdall \
 
 # Create data directories the volumes will mount into
 RUN mkdir -p /data/valdi /data/results /data/cache /config \
- && chown -R heimdall:heimdall /data /config
+ && chown -R heimdall:heimdall /data /config /opt/nuclei-templates /home/heimdall
 
 WORKDIR /app
 

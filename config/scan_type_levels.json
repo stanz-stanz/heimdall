@@ -1,0 +1,14 @@
+{
+  "scan_type_levels": {
+    "ssl_certificate_check": 0,
+    "homepage_meta_extraction": 0,
+    "httpx_tech_fingerprint": 0,
+    "webanalyze_cms_detection": 0,
+    "response_header_check": 0,
+    "subdomain_enumeration_passive": 0,
+    "dns_enrichment": 0,
+    "certificate_transparency_query": 0,
+    "cloud_storage_index_query": 0,
+    "nuclei_vulnerability_scan": 1
+  }
+}
