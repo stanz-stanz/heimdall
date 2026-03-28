@@ -109,6 +109,7 @@
   let demoStartTime = 0;
   let totalScans = 0;
   let completedScans = 0;
+  let demoMode = 'replay'; // 'replay' or 'live'
 
   async function loadBriefs() {
     try {
@@ -128,7 +129,13 @@
       grid.innerHTML = '<div class="empty-state"><svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>No targets available</p></div>';
       return;
     }
-    grid.innerHTML = briefs.map((b) => `
+    // Mode toggle
+    const toggleHtml = `
+      <div class="demo-mode-toggle">
+        <button class="mode-btn active" data-mode="replay">Replay</button>
+        <button class="mode-btn" data-mode="live">Live Twin</button>
+      </div>`;
+    grid.innerHTML = toggleHtml + briefs.map((b) => `
       <div class="brief-card" data-domain="${esc(b.domain)}">
         <div class="brief-domain">${esc(b.domain)}</div>
         <div class="brief-company">${esc(b.company_name)}</div>
@@ -138,6 +145,14 @@
           <span>${b.findings_count} findings</span>
         </div>
       </div>`).join('');
+
+    grid.querySelectorAll('.mode-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        grid.querySelectorAll('.mode-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        demoMode = btn.dataset.mode;
+      });
+    });
 
     grid.querySelectorAll('.brief-card').forEach((card) => {
       card.addEventListener('click', () => startDemo(card.dataset.domain));
@@ -152,7 +167,7 @@
       const resp = await fetch('/console/demo/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ domain }),
+        body: JSON.stringify({ domain, mode: demoMode }),
       });
       if (!resp.ok) {
         alert('Failed to start demo');

@@ -397,6 +397,37 @@ body::before {
   gap: 12px;
 }
 
+/* Demo mode toggle */
+.demo-mode-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px;
+  width: fit-content;
+  margin: 0 auto 16px;
+}
+.mode-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 18px;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.mode-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+.mode-btn[data-mode="live"].active {
+  background: var(--success);
+}
+
 .brief-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
