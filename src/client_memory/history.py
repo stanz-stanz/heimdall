@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 import uuid
-from datetime import date, datetime, timezone
+from datetime import date
 from typing import Optional
 
 from .delta import DeltaDetector
@@ -57,6 +57,10 @@ class ClientHistory:
 
         Returns the DeltaResult for downstream consumers (interpreter, composer).
         """
+        with self.store.lock(client_id):
+            return self._record_scan_locked(client_id, brief)
+
+    def _record_scan_locked(self, client_id: str, brief: dict) -> DeltaResult:
         history = self.load_history(client_id)
         today = date.today().isoformat()
         scan_id = f"scan-{today}-{uuid.uuid4().hex[:8]}"
@@ -169,15 +173,17 @@ class ClientHistory:
             if record:
                 record.last_detected = today
 
-        # RESOLVED findings → mark as resolved
-        for record in delta.resolved:
-            record.status = "resolved"
-            record.resolved_date = today
-            record.status_history.append({
-                "status": "resolved",
-                "date": today,
-                "source": f"scan:{scan_id}",
-            })
+        # RESOLVED findings → mark as resolved (explicit lookup by ID)
+        for record_ref in delta.resolved:
+            record = records_by_id.get(record_ref.finding_id)
+            if record:
+                record.status = "resolved"
+                record.resolved_date = today
+                record.status_history.append({
+                    "status": "resolved",
+                    "date": today,
+                    "source": f"scan:{scan_id}",
+                })
 
         return list(records_by_id.values())
 
@@ -211,6 +217,7 @@ class ClientHistory:
 
     def record_message(self, client_id: str, message_record: dict) -> None:
         """Append a message record to history."""
-        history = self.load_history(client_id)
-        history["messages"].append(message_record)
-        self.store.write_json(history, client_id, "history.json")
+        with self.store.lock(client_id):
+            history = self.load_history(client_id)
+            history["messages"].append(message_record)
+            self.store.write_json(history, client_id, "history.json")

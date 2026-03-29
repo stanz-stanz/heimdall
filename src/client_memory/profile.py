@@ -62,6 +62,11 @@ class ClientProfile:
         if profile is None:
             raise FileNotFoundError(f"No profile found for {client_id}")
 
+        _IMMUTABLE = {"client_id", "domain", "onboarded_date"}
+        for key in _IMMUTABLE:
+            if key in updates:
+                raise ValueError(f"Cannot update immutable field: {key}")
+
         if "tier" in updates and updates["tier"] not in _VALID_TIERS:
             raise ValueError(f"Invalid tier '{updates['tier']}'")
 
