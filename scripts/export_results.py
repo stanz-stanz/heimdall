@@ -2,10 +2,11 @@
 """Export worker scan results to prospect CSV + standalone brief files.
 
 Reads from: data/results/{client_id}/{domain}/{date}.json (worker output)
+Joins with: data/input/CVR-extract.xlsx (for contactable, industry_code)
 Writes to:  data/output/prospects-list.csv + data/output/briefs/{domain}.json
 
 Usage:
-    python -m scripts.export_results [--results-dir DIR] [--output-dir DIR]
+    python3 scripts/export_results.py [--results-dir DIR] [--output-dir DIR] [--cvr-file PATH]
 
 Run after workers complete a scan batch to produce the deliverables.
 """
@@ -16,13 +17,55 @@ import argparse
 import csv
 import json
 import logging
-import sys
 from pathlib import Path
 
 log = logging.getLogger(__name__)
 
 DEFAULT_RESULTS_DIR = "data/results"
 DEFAULT_OUTPUT_DIR = "data/output"
+DEFAULT_CVR_FILE = "data/input/CVR-extract.xlsx"
+
+
+def _load_cvr_lookup(cvr_path: str) -> dict:
+    """Load CVR extract and build a domain → company lookup.
+
+    Returns a dict keyed by derived domain with contactable, industry_code, etc.
+    """
+    cvr_file = Path(cvr_path)
+    if not cvr_file.is_file():
+        log.warning("CVR file not found: %s — contactable field will be empty", cvr_path)
+        return {}
+
+    try:
+        import openpyxl
+    except ImportError:
+        log.warning("openpyxl not installed — contactable field will be empty")
+        return {}
+
+    try:
+        from src.prospecting.cvr import read_companies
+        from src.prospecting.config import FREE_WEBMAIL
+
+        companies = read_companies(cvr_file)
+        lookup = {}
+        for c in companies:
+            # Derive domain the same way the pipeline does
+            if not c.email or "@" not in c.email:
+                continue
+            email_domain = c.email.split("@", 1)[1].strip().lower()
+            if email_domain in FREE_WEBMAIL:
+                continue
+            lookup[email_domain] = {
+                "cvr_number": c.cvr,
+                "industry_code": c.industry_code,
+                "contactable": not c.ad_protected,
+                "company_name": c.name,
+            }
+        log.info("Loaded %d companies from CVR extract", len(lookup))
+        return lookup
+    except Exception as exc:
+        log.warning("Failed to load CVR data: %s", exc)
+        return {}
 
 
 def _find_latest_result(domain_dir: Path) -> dict | None:
@@ -37,7 +80,7 @@ def _find_latest_result(domain_dir: Path) -> dict | None:
         return None
 
 
-def export(results_dir: str, output_dir: str) -> dict:
+def export(results_dir: str, output_dir: str, cvr_file: str = DEFAULT_CVR_FILE) -> dict:
     """Read all worker results and produce CSV + brief files.
 
     Returns a summary dict with counts.
@@ -47,11 +90,13 @@ def export(results_dir: str, output_dir: str) -> dict:
     briefs_path = output_path / "briefs"
     briefs_path.mkdir(parents=True, exist_ok=True)
 
+    # Load CVR data for contactable/industry_code enrichment
+    cvr_lookup = _load_cvr_lookup(cvr_file)
+
     csv_rows = []
     brief_count = 0
     skipped = 0
 
-    # Walk all client_id directories
     if not results_path.is_dir():
         log.error("Results directory not found: %s", results_path)
         return {"domains": 0, "briefs": 0, "skipped": 0}
@@ -59,7 +104,6 @@ def export(results_dir: str, output_dir: str) -> dict:
     for client_dir in sorted(results_path.iterdir()):
         if not client_dir.is_dir():
             continue
-        client_id = client_dir.name
 
         for domain_dir in sorted(client_dir.iterdir()):
             if not domain_dir.is_dir():
@@ -82,20 +126,22 @@ def export(results_dir: str, output_dir: str) -> dict:
                 json.dump(brief, f, indent=2, ensure_ascii=False)
             brief_count += 1
 
-            # Build CSV row
+            # Enrich with CVR data
+            cvr_data = cvr_lookup.get(domain, {})
+
             tech = brief.get("technology", {})
             ssl = tech.get("ssl", {})
             subs = brief.get("subdomains", {})
 
             csv_rows.append({
-                "cvr_number": brief.get("cvr", ""),
-                "company_name": brief.get("company_name", ""),
+                "cvr_number": cvr_data.get("cvr_number", brief.get("cvr", "")),
+                "company_name": brief.get("company_name", "") or cvr_data.get("company_name", ""),
                 "website": brief.get("domain", domain),
                 "bucket": brief.get("bucket", ""),
-                "industry_code": "",  # Not in brief, from CVR
+                "industry_code": cvr_data.get("industry_code", ""),
                 "industry_name": brief.get("industry", ""),
                 "gdpr_sensitive": brief.get("gdpr_sensitive", False),
-                "contactable": "",  # Not in brief, from CVR
+                "contactable": cvr_data.get("contactable", ""),
                 "cms": tech.get("cms", ""),
                 "hosting": tech.get("hosting", ""),
                 "ssl_valid": ssl.get("valid", ""),
@@ -122,6 +168,7 @@ def export(results_dir: str, output_dir: str) -> dict:
         "briefs": brief_count,
         "skipped": skipped,
         "csv_path": str(csv_path),
+        "cvr_enriched": sum(1 for r in csv_rows if r["contactable"] != ""),
     }
     log.info("export_complete", extra={"context": summary})
     return summary
@@ -133,10 +180,12 @@ def main():
     parser = argparse.ArgumentParser(description="Export worker results to CSV + briefs")
     parser.add_argument("--results-dir", default=DEFAULT_RESULTS_DIR)
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument("--cvr-file", default=DEFAULT_CVR_FILE)
     args = parser.parse_args()
 
-    summary = export(args.results_dir, args.output_dir)
+    summary = export(args.results_dir, args.output_dir, args.cvr_file)
     print(f"\nExported {summary['domains']} domains, {summary['briefs']} briefs, {summary['skipped']} skipped")
+    print(f"CVR-enriched: {summary.get('cvr_enriched', 0)}")
     print(f"CSV: {summary['csv_path']}")
 
 
