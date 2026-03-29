@@ -208,6 +208,64 @@ class TestTwinScanModule:
         assert "twin_scan_date" in result
         assert isinstance(result["findings"], list)
 
+    def test_wpscan_response_parsing(self):
+        """Verify _request_twin_wpscan parses the sidecar's restructured format."""
+        from src.worker.twin_scan import _request_twin_wpscan, _wpscan_severity
+        from unittest.mock import MagicMock
+
+        # Simulate sidecar response in its actual format
+        sidecar_response = json.dumps({
+            "job_id": "twin-wpscan-test123",
+            "domain": "http://container:9080",
+            "status": "completed",
+            "wpscan": {
+                "vulnerabilities": [
+                    {"title": "WordPress < 6.9.5 - XSS", "type": "wordpress_core", "fixed_in": "6.9.5"},
+                    {"title": "CF7 < 5.8 - RCE", "type": "plugin", "plugin": "contact-form-7", "fixed_in": "5.8"},
+                ],
+                "wordpress": {"version": "6.9.4", "status": "insecure"},
+                "plugins": [
+                    {"name": "contact-form-7", "version": "5.7", "outdated": True, "vuln_count": 1},
+                    {"name": "elementor", "version": "3.18", "outdated": False, "vuln_count": 0},
+                ],
+            },
+            "exit_code": 5,
+            "duration_ms": 6000,
+        })
+
+        mock_redis = MagicMock()
+        mock_redis.rpush.return_value = 1
+        mock_redis.brpop.return_value = ("wpscan:result:twin-wpscan-test123", sidecar_response)
+
+        findings = _request_twin_wpscan(mock_redis, "container", 9080)
+
+        # Should find 2 vulns + 1 outdated plugin = 3 findings
+        assert len(findings) == 3
+        assert any("XSS" in f["description"] for f in findings)
+        assert any("RCE" in f["description"] for f in findings)
+        assert any("Outdated" in f["description"] for f in findings)
+        assert all(f["provenance"] == "twin-derived" for f in findings)
+
+    def test_wpscan_not_wordpress_response(self):
+        """Exit code 4 (not WordPress) should produce 0 findings."""
+        from src.worker.twin_scan import _request_twin_wpscan
+        from unittest.mock import MagicMock
+
+        sidecar_response = json.dumps({
+            "job_id": "twin-wpscan-test456",
+            "domain": "http://container:9080",
+            "status": "not_wordpress",
+            "wpscan": {},
+            "exit_code": 4,
+        })
+
+        mock_redis = MagicMock()
+        mock_redis.rpush.return_value = 1
+        mock_redis.brpop.return_value = ("key", sidecar_response)
+
+        findings = _request_twin_wpscan(mock_redis, "container", 9080)
+        assert findings == []
+
     def test_twin_scan_findings_have_provenance(self, wordpress_brief):
         """Any findings from twin scan must have provenance markers."""
         from src.worker.twin_scan import run_twin_scan

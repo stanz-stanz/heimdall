@@ -174,32 +174,53 @@ def _request_twin_wpscan(
         return []
 
     wpscan_data = data.get("wpscan", data)
+    if not wpscan_data or not isinstance(wpscan_data, dict):
+        return []
+
     findings = []
 
-    for vuln_source in ["main_theme", "plugins", "version"]:
-        source_data = wpscan_data.get(vuln_source, {})
-        if isinstance(source_data, dict):
-            vulns = source_data.get("vulnerabilities", [])
-            if isinstance(vulns, list):
-                for v in vulns:
-                    cve = ""
-                    refs = v.get("references", {})
-                    cves = refs.get("cve", [])
-                    if cves:
-                        cve = f"CVE-{cves[0]}"
+    # The sidecar restructures WPScan output into a flat format:
+    #   {"vulnerabilities": [...], "wordpress": {...}, "plugins": [{...}]}
+    # Read the flat vulnerabilities list directly.
+    vulns = wpscan_data.get("vulnerabilities", [])
+    if isinstance(vulns, list):
+        for v in vulns:
+            cve = ""
+            refs = v.get("references", {})
+            cves = refs.get("cve", [])
+            if cves:
+                cve = f"CVE-{cves[0]}"
 
-                    findings.append({
-                        "severity": _wpscan_severity(v),
-                        "description": v.get("title", "Unknown vulnerability"),
-                        "risk": f"{cve + ': ' if cve else ''}{v.get('title', '')}",
-                        "provenance": "twin-derived",
-                        "provenance_detail": {
-                            "source_layer": 1,
-                            "twin_scan_tool": "wpscan",
-                            "template_id": cve or v.get("wpvulndb", ""),
-                            "confidence": "high-inference",
-                        },
-                    })
+            findings.append({
+                "severity": _wpscan_severity(v),
+                "description": v.get("title", "Unknown vulnerability"),
+                "risk": f"{cve + ': ' if cve else ''}{v.get('title', '')}",
+                "provenance": "twin-derived",
+                "provenance_detail": {
+                    "source_layer": 1,
+                    "twin_scan_tool": "wpscan",
+                    "template_id": cve or v.get("wpvulndb", ""),
+                    "confidence": "high-inference",
+                },
+            })
+
+    # Also check plugin-level data for outdated plugins (no CVE, but still a finding)
+    plugins = wpscan_data.get("plugins", [])
+    if isinstance(plugins, list):
+        for p in plugins:
+            if p.get("outdated"):
+                findings.append({
+                    "severity": "medium",
+                    "description": f"Outdated plugin: {p.get('name', 'unknown')} v{p.get('version', '?')}",
+                    "risk": f"Plugin {p.get('name', '')} is outdated and may contain known vulnerabilities.",
+                    "provenance": "twin-derived",
+                    "provenance_detail": {
+                        "source_layer": 1,
+                        "twin_scan_tool": "wpscan",
+                        "template_id": "",
+                        "confidence": "high-inference",
+                    },
+                })
 
     return findings
 
