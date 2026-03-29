@@ -5,6 +5,26 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-29 — Late session: concurrent scheduler fix, twin WPScan, OpenClaw
+
+**Decided**
+- Concurrent scheduler fix: scheduler moved to Docker Compose profile `["run"]` (not started by `docker compose up`), Redis lock (`scheduler:lock`, NX, 1h TTL) prevents double execution, flush now clears enrichment counters
+- Twin WPScan format mismatch fixed: `_request_twin_wpscan` now reads sidecar's flat `vulnerabilities` list instead of raw WPScan format. Two regression tests added with mocked sidecar responses.
+- Queue labels: `heimdall-queue` now shows `scan: N`, `enrichment: N`, `wpscan: N`
+- OpenClaw is the core runtime for Heimdall — not optional, not "worth exploring." Telegram delivery, cron scheduling, agent coordination all go through OpenClaw. Sprint 4 starts with OpenClaw installation on Pi5.
+
+**Rejected**
+- Building a custom Telegram bot for Sprint 4.1 — OpenClaw has built-in Telegram channel integration
+- Treating OpenClaw as optional infrastructure — it's been in the architecture from day 1
+
+**Unresolved**
+- Twin WPScan exit code 4: WPScan likely doesn't recognize the twin as WordPress. Sidecar logging deployed but exit codes not yet verified. Twin WordPress emulation may need improvement.
+- Subfinder times out at 300s for 68-domain batches — batch size vs timeout mismatch
+- Industry names not flowing from CVR extract to briefs
+- Agency detection producing no results
+
+---
+
 ## 2026-03-29 — Sprint 3.5 hardening + pipeline operations + marketing strategy
 
 **Decided**
