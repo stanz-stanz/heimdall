@@ -99,7 +99,7 @@ services:
     volumes:
       - valdi-data:/data/valdi
       - client-data:/data/clients:ro
-      - result-data:/data/results
+      - ../../data/results:/data/results
       - cache-data:/data/cache
       - config-data:/config:ro
       - ct-data:/data/ct:ro
@@ -131,7 +131,7 @@ services:
       - BRIEFS_DIR=/data/briefs
     volumes:
       - client-data:/data/clients:ro
-      - result-data:/data/results:ro
+      - ../../data/results:/data/results:ro
       - message-data:/data/messages
       - config-data:/config:ro
       - ../../data/output/briefs:/data/briefs:ro
@@ -207,7 +207,6 @@ volumes:
   redis-data:
   client-data:
   valdi-data:
-  result-data:
   cache-data:
   config-data:
   message-data:
