@@ -381,3 +381,5 @@ Items with no sprint assignment yet.
 - [ ] Dashboard-vs-Telegram visual mockup for SIRI pitch deck
 - [ ] Katana, FeroxBuster, SecretFinder, CloudEnum integration (Level 1 tools)
 - [ ] Marketing sub-agent — translate technical findings to business-impact language
+- [ ] Remote access to mobile console — Tailscale VPN or reverse proxy so the console is reachable from outside the home network (Pi Connect gives shell only, not HTTP). Critical for on-the-road monitoring and sales demos.
+- [ ] Docker smoke test — container-level test that verifies Go binaries (httpx, webanalyze, subfinder, dnsx, nuclei) are executable after pip install. Catches dependency overwrites like the httpx binary incident.
