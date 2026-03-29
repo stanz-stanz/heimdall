@@ -80,6 +80,7 @@ def _patch_all_scans_with_nuclei():
         patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
         patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
         patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
+        patch("src.worker.twin_scan.run_twin_scan", return_value=None),
     ]
 
 
@@ -288,8 +289,8 @@ class TestLevel1Execution:
             result = execute_scan_job(job, cache)
             assert result["status"] == "completed"
             assert "level1_scan_result" not in result
-            # nuclei mock is the last one
-            nuclei_mock = mocks[-1]
+            # nuclei mock is second-to-last (last is run_twin_scan)
+            nuclei_mock = mocks[-3]
             nuclei_mock.assert_not_called()
         finally:
             for p in patches:
@@ -362,6 +363,7 @@ class TestWPScanDelegation:
             patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
             patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.worker.twin_scan.run_twin_scan", return_value=None),
         ]
         for p in patches:
             p.start()
@@ -400,6 +402,7 @@ class TestWPScanDelegation:
             patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
             patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.worker.twin_scan.run_twin_scan", return_value=None),
         ]
         for p in patches:
             p.start()
