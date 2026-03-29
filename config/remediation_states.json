@@ -1,0 +1,13 @@
+{
+  "transitions": {
+    "open": ["acknowledged"],
+    "acknowledged": ["in_progress"],
+    "in_progress": ["completed"],
+    "completed": ["verified"],
+    "verified": ["resolved"]
+  },
+  "regression_target": "open",
+  "escalation_threshold_days": 14,
+  "fuzzy_match_threshold": 0.85,
+  "valid_sources": ["scan", "client_reply", "operator", "api"]
+}

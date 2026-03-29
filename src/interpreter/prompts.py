@@ -24,6 +24,7 @@ RULES:
 - NEVER give environment-specific instructions (file paths, server config) — you do not know their setup
 - Keep it short. The owner will read this on their phone.
 - When a finding has provenance "twin-derived", it was inferred from the detected software version, not confirmed by direct testing. Frame these as: "Based on the detected version of [software], this version is known to have [vulnerability]." Use "is known to be affected by", "is associated with", or "may be affected by" — never present twin-derived findings as confirmed vulnerabilities.
+- When delta context is provided (comparison to previous scan): NEW findings should be introduced as "New since last scan:". RECURRING findings that have been open >14 days should mention the duration with increased urgency. RESOLVED findings should be celebrated briefly ("Good news: [issue] is now fixed").
 
 OUTPUT FORMAT: Return valid JSON with this exact structure:
 {{
@@ -70,7 +71,7 @@ def build_system_prompt(
     )
 
 
-def build_user_prompt(brief: dict) -> str:
+def build_user_prompt(brief: dict, delta_context: dict = None) -> str:
     """Build the user prompt from a scan brief dict."""
     tech = brief.get("technology", {})
     ssl = tech.get("ssl", {})
@@ -95,6 +96,22 @@ def build_user_prompt(brief: dict) -> str:
         findings_lines.append(line)
     findings_text = "\n\n".join(findings_lines) if findings_lines else "No findings."
 
+    # Delta section (if comparing to previous scan)
+    delta_text = ""
+    if delta_context:
+        delta_parts = []
+        if delta_context.get("resolved"):
+            resolved_descs = [f"- {r['description']}" for r in delta_context["resolved"]]
+            delta_parts.append("RESOLVED since last scan (good news):\n" + "\n".join(resolved_descs))
+        if delta_context.get("new"):
+            new_descs = [f"- [{n['severity'].upper()}] {n['description']}" for n in delta_context["new"]]
+            delta_parts.append("NEW since last scan:\n" + "\n".join(new_descs))
+        if delta_context.get("recurring"):
+            rec_descs = [f"- [{r['severity'].upper()}] {r['description']}" for r in delta_context["recurring"]]
+            delta_parts.append("Still open (recurring):\n" + "\n".join(rec_descs))
+        if delta_parts:
+            delta_text = "\n\nDelta since last scan:\n" + "\n\n".join(delta_parts)
+
     return USER_PROMPT.format(
         company_name=brief.get("company_name", "Unknown"),
         domain=brief.get("domain", "unknown"),
@@ -109,4 +126,4 @@ def build_user_prompt(brief: dict) -> str:
         gdpr_sensitive=brief.get("gdpr_sensitive", False),
         gdpr_reasons=gdpr_str,
         findings_text=findings_text,
-    )
+    ) + delta_text

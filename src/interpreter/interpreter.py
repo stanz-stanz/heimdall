@@ -21,6 +21,7 @@ def interpret_brief(
     brief: dict,
     tone: Optional[str] = None,
     language: Optional[str] = None,
+    delta_context: Optional[dict] = None,
 ) -> dict:
     """Interpret a scan brief into a client-ready report.
 
@@ -58,7 +59,7 @@ def interpret_brief(
         tone_description=tone_description,
         language=language,
     )
-    user = build_user_prompt(brief)
+    user = build_user_prompt(brief, delta_context=delta_context)
 
     t0 = time.monotonic()
     try:
