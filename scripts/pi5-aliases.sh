@@ -33,6 +33,9 @@ alias heimdall-queue="docker compose -f $COMPOSE_FILE exec redis redis-cli LLEN 
 # Results: count completed scans
 alias heimdall-count="find $HEIMDALL_DIR/data/results -name '*.json' -type f 2>/dev/null | wc -l"
 
+# Analyze: full pipeline output breakdown
+alias heimdall-analyze="cd $HEIMDALL_DIR && python3 scripts/analyze_pipeline.py"
+
 # Stop everything
 alias heimdall-stop="docker compose -f $COMPOSE_FILE -f $COMPOSE_MON down"
 
