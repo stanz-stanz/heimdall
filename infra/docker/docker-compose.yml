@@ -23,6 +23,7 @@ services:
       context: ../..
       dockerfile: infra/docker/Dockerfile.scheduler
     command: ["--mode", "prospect", "--confirmed"]
+    profiles: ["run"]  # Only runs via: docker compose run --rm scheduler
     environment:
       - REDIS_URL=redis://redis:6379/0
       - CLIENT_DATA_DIR=/data/clients

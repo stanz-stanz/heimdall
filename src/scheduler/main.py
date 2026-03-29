@@ -85,6 +85,12 @@ def main(argv: list[str] | None = None) -> int:
 
     creator = JobCreator(redis_url=args.redis_url)
 
+    # Prevent concurrent schedulers (deploy scheduler + pipeline scheduler)
+    lock_acquired = creator._conn.set("scheduler:lock", "1", nx=True, ex=3600)
+    if not lock_acquired:
+        log.error("Another scheduler is already running — aborting to prevent duplicate jobs")
+        return 1
+
     try:
         # Phase 1: Extract domains
         domains = creator.extract_prospect_domains(args.input, args.filters)
@@ -114,6 +120,8 @@ def main(argv: list[str] | None = None) -> int:
     except Exception:
         log.exception("Failed to create prospect jobs")
         return 1
+    finally:
+        creator._conn.delete("scheduler:lock")
 
     log.info("Done — %d jobs pushed to Redis", count)
     return count
