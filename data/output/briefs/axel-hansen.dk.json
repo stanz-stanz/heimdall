@@ -3,20 +3,20 @@
   "cvr": "prospect",
   "company_name": "axel-hansen.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": false,
       "issuer": "",
       "expiry": "",
       "days_remaining": -1
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,17 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "LiteSpeed",
+    "MySQL",
+    "Orbit Slider",
+    "PHP",
+    "WordPress:6.9.4",
+    "imagesLoaded:4.1.4",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "wpBakery"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -37,8 +47,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.onlinemail.io",
-      "mx2.onlinemail.io"
+      "mx2.onlinemail.io",
+      "mx1.onlinemail.io"
     ],
     "ns": [
       "ns1.curanet.dk",
@@ -74,6 +84,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

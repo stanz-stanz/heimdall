@@ -3,20 +3,22 @@
   "cvr": "prospect",
   "company_name": "skousen.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-08",
       "days_remaining": 71
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +27,16 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Contentful",
+    "Google Tag Manager",
+    "HSTS",
+    "Next.js",
+    "Node.js",
+    "React",
+    "Webpack"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -36,8 +47,8 @@
       "104.18.28.7"
     ],
     "aaaa": [
-      "2606:4700::6812:1d07",
-      "2606:4700::6812:1c07"
+      "2606:4700::6812:1c07",
+      "2606:4700::6812:1d07"
     ],
     "cname": [],
     "mx": [
@@ -48,12 +59,12 @@
       "donna.ns.cloudflare.com"
     ],
     "txt": [
-      "facebook-domain-verification=9konaw5hqp3in68oi8n906exasgo9l",
       "atlassian-domain-verification=NuCGYH5GY2nTFg4r7FR/cSD0AXpWc0lqY5tz437zZS11BTE3cPcUpk1XwHNnuTrz",
-      "google-site-verification=6CdrRmMWRzEsB7QVjq2GjRZD7I9zRCMD9LxhNjAxIBU",
-      "v=spf1 include:_spf16390.spfprotect.com -all",
-      "klaviyo-site-verification=UCMFk9",
       "detectify-verification=eecfaa6bd857a97c06fbdffdd1357939",
+      "facebook-domain-verification=9konaw5hqp3in68oi8n906exasgo9l",
+      "google-site-verification=6CdrRmMWRzEsB7QVjq2GjRZD7I9zRCMD9LxhNjAxIBU",
+      "klaviyo-site-verification=UCMFk9",
+      "v=spf1 include:_spf16390.spfprotect.com -all",
       "apple-domain-verification=edUbZ7cy9uvhbTDg"
     ]
   },
@@ -68,6 +79,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Node.js",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

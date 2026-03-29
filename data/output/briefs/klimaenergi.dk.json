@@ -3,14 +3,16 @@
   "cvr": "prospect",
   "company_name": "klimaenergi.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce"
+    "Data-handling plugins: Contact Form 7, Woocommerce",
+    "E-commerce plugin: WooCommerce:9.4.5",
+    "Visitor tracking: Google Analytics, Google Tag Manager, Google Tag Manager for WordPress:1.20.3"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,23 +20,23 @@
       "expiry": "2026-06-05",
       "days_remaining": 68
     },
-    "server": "",
+    "server": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
     "detected_plugins": [
-      "Wt Import Export For Woo",
       "Contact Form 7",
-      "Ws Keberegner 2023",
-      "Woocommerce",
-      "Trustpilot Reviews",
-      "Oxygen",
-      "Ws Fix Styles",
-      "Google Site Kit",
-      "Duracelltomi Google Tag Manager",
-      "Location Weather Pro",
       "Content Protector",
+      "Ws Keberegner 2023",
       "Pixelyoursite Pro",
-      "Wp Smushit",
+      "Oxygen",
+      "Trustpilot Reviews",
       "Lightbox Popup",
-      "Solax Dashboard"
+      "Duracelltomi Google Tag Manager",
+      "Google Site Kit",
+      "Wt Import Export For Woo",
+      "Solax Dashboard",
+      "Ws Fix Styles",
+      "Woocommerce",
+      "Location Weather Pro",
+      "Wp Smushit"
     ],
     "headers": {
       "x_frame_options": false,
@@ -43,7 +45,31 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server:2.4.62",
+    "Chart.js",
+    "Contact Form 7:6.0.1",
+    "Google Analytics",
+    "Google Tag Manager",
+    "Google Tag Manager for WordPress:1.20.3",
+    "HSTS",
+    "Lead Forensics",
+    "Lightbox",
+    "MySQL",
+    "OpenSSL:3.4.1",
+    "Oxygen",
+    "PHP",
+    "Raphael",
+    "Site Kit:1.155.0",
+    "Swiper",
+    "UNIX",
+    "WPMU DEV Smush:3.16.6",
+    "WooCommerce:9.4.5",
+    "WordPress",
+    "Yoast SEO:24.0",
+    "jQuery",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -63,8 +89,8 @@
       "ns6.dns-123.net"
     ],
     "txt": [
-      "google-site-verification=NwwQH9DAFpC1vSHJaql-sxGP8c4gmWDuDbWN-9O9o-0",
-      "v=spf1 a mx include:_spf.serverpark.dk include:spf.protection.outlook.com ~all"
+      "v=spf1 a mx include:_spf.serverpark.dk include:spf.protection.outlook.com ~all",
+      "google-site-verification=NwwQH9DAFpC1vSHJaql-sxGP8c4gmWDuDbWN-9O9o-0"
     ]
   },
   "cloud_exposure": [],
@@ -86,6 +112,11 @@
     },
     {
       "severity": "medium",
+      "description": "WordPress version 1.20.3 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
       "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
@@ -93,6 +124,11 @@
       "severity": "info",
       "description": "15 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

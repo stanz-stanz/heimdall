@@ -3,12 +3,12 @@
   "cvr": "prospect",
   "company_name": "lcd.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,19 +16,19 @@
       "expiry": "2026-05-02",
       "days_remaining": 34
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
+      "Weglot",
+      "Elementor",
+      "Elementor Pro",
       "Jet Elements",
-      "Pixelyoursite",
       "Wp Rocket",
+      "Pixelyoursite",
+      "Jet Tricks",
       "Jet Blocks",
       "Jet Tabs",
       "Premium Addons For Elementor",
-      "Jet Tricks",
-      "Weglot",
-      "Elementor",
-      "Jetformbuilder",
-      "Elementor Pro"
+      "Jetformbuilder"
     ],
     "headers": {
       "x_frame_options": false,
@@ -37,7 +37,21 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Elementor:3.35.9",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "PixelYourSite",
+    "Swiper",
+    "WP Rocket",
+    "WordPress Block Editor",
+    "WordPress:6.9.4",
+    "Yoast SEO:27.2",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -56,8 +70,8 @@
       "ns2.123hotel.dk"
     ],
     "txt": [
-      "MS=ms51330977",
-      "v=spf1 ip4:188.228.42.174 include:spf.protection.outlook.com ip4:212.98.70.178 ip4:188.228.71.171 -all"
+      "v=spf1 ip4:188.228.42.174 include:spf.protection.outlook.com ip4:212.98.70.178 ip4:188.228.71.171 -all",
+      "MS=ms51330977"
     ]
   },
   "cloud_exposure": [],
@@ -78,9 +92,19 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "11 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

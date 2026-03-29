@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "bjarnemadsen.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -25,7 +27,12 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Google Analytics",
+    "Microsoft ASP.NET",
+    "iubenda",
+    "jQuery:1.12.2"
+  ],
   "subdomains": {
     "count": 0,
     "list": []

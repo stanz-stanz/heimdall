@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "vejlespildevand.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -25,7 +25,14 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Adobe Fonts",
+    "Cookie Script",
+    "Google Maps",
+    "Microsoft Ajax Content Delivery Network",
+    "Typekit",
+    "jQuery:3.1.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []

@@ -3,14 +3,15 @@
   "cvr": "prospect",
   "company_name": "skovadvokater.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Gravityforms"
+    "Data-handling plugins: Gravityforms",
+    "Visitor tracking: Google Analytics, reCAPTCHA"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,12 +19,12 @@
       "expiry": "2026-04-30",
       "days_remaining": 31
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Pixelyoursite Pro",
-      "Sitepress Multilingual Cms",
       "Popup Maker",
-      "Gravityforms"
+      "Gravityforms",
+      "Sitepress Multilingual Cms",
+      "Pixelyoursite Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -32,7 +33,21 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Cookiebot",
+    "Google Analytics",
+    "Gravity Forms:2.5.6",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "WPML:4.7.4",
+    "WordPress",
+    "Yoast SEO:25.1",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,19 +59,19 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "skovadvokater.dk-tld.mx3-dk.mailanyone.net",
       "skovadvokater.dk-tld.mx2-dk.mailanyone.net",
-      "skovadvokater.dk-tld.mx1-dk.mailanyone.net"
+      "skovadvokater.dk-tld.mx1-dk.mailanyone.net",
+      "skovadvokater.dk-tld.mx3-dk.mailanyone.net"
     ],
     "ns": [
       "ns.scannet2.dk",
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "debbie-domain-verification=c6f943ac-be51-4e9c-aa3b-1d54c0849668",
-      "MS=ms37796667",
       "bcgf13z43wyvhtpnshxqww5qmnfqjscr",
       "4qnlkc5hxvgj2l008j6y2w6hld85ytx0",
+      "debbie-domain-verification=c6f943ac-be51-4e9c-aa3b-1d54c0849668",
+      "MS=ms37796667",
       "v=spf1 ip4:94.231.109.238 ip4:185.116.10.28 include:signflow.dk include:spf.mailanyone.net include:spf.protection.outlook.com include:_spf.debbiecollect.com -all"
     ]
   },
@@ -78,6 +93,11 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Gravityforms",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -86,6 +106,11 @@
       "severity": "info",
       "description": "4 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

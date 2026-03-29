@@ -3,24 +3,26 @@
   "cvr": "prospect",
   "company_name": "edrmedeso.com",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-26",
       "days_remaining": 58
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [
       "Popup Maker",
-      "Wp Rocket",
-      "Complianz Gdpr"
+      "Complianz Gdpr",
+      "Wp Rocket"
     ],
     "headers": {
       "x_frame_options": false,
@@ -29,15 +31,32 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Cloudflare Bot Management",
+    "Complianz",
+    "Google Tag Manager",
+    "HTTP/3",
+    "LottieFiles",
+    "MySQL",
+    "PHP",
+    "Popup Maker",
+    "WP Engine",
+    "WP Rocket",
+    "WordPress",
+    "Yoast SEO:27.2",
+    "jQuery",
+    "jQuery UI:1.11.3",
+    "mobile-detect.js:1.3.3"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "141.193.213.20",
-      "141.193.213.21"
+      "141.193.213.21",
+      "141.193.213.20"
     ],
     "aaaa": [],
     "cname": [],
@@ -49,13 +68,13 @@
       "ns2.dnshost.net"
     ],
     "txt": [
+      "pardot1023941=9161e666e3f6fa622d56cfaf9cf348ca764eb27d00e95dec1ce32fd37ab75fbd",
       "pardot1023941=f2035524c68931301b162b8094ab6f32ad551d53835d378bba5811d001760cb2",
-      "MS=ms73715014",
-      "sending_domain1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032",
-      "v=spf1 include:spf.protection.outlook.com include:aspmx.pardot.com -all",
       "pardot857013=5e048c8325813040a3135fecc29abc5cd5e5f264ce1fc6afa36964c774c3b4cd",
-      "pardot1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032",
-      "pardot1023941=9161e666e3f6fa622d56cfaf9cf348ca764eb27d00e95dec1ce32fd37ab75fbd"
+      "MS=ms73715014",
+      "v=spf1 include:spf.protection.outlook.com include:aspmx.pardot.com -all",
+      "sending_domain1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032",
+      "pardot1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032"
     ]
   },
   "cloud_exposure": [],
@@ -81,9 +100,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "info",
       "description": "3 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

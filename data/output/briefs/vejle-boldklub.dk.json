@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "vejle-boldklub.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -16,7 +18,7 @@
       "expiry": "2026-05-10",
       "days_remaining": 41
     },
-    "server": "",
+    "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +27,14 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cookie Script",
+    "Google Analytics",
+    "IIS:10.0",
+    "Microsoft ASP.NET",
+    "Windows Server",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []

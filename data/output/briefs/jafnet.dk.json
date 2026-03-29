@@ -3,20 +3,22 @@
   "cvr": "prospect",
   "company_name": "jafnet.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: reCAPTCHA"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-11",
       "days_remaining": 43
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [
       "Jetpack"
     ],
@@ -27,19 +29,30 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Divi:4.13.1",
+    "HTTP/3",
+    "Jetpack",
+    "MySQL",
+    "PHP:7.4.25",
+    "WordPress:5.8.13",
+    "jQuery",
+    "jQuery Migrate:3.3.2",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "172.67.146.74",
-      "104.21.73.168"
+      "104.21.73.168",
+      "172.67.146.74"
     ],
     "aaaa": [
-      "2606:4700:3035::ac43:924a",
-      "2606:4700:3036::6815:49a8"
+      "2606:4700:3036::6815:49a8",
+      "2606:4700:3035::ac43:924a"
     ],
     "cname": [],
     "mx": [
@@ -51,8 +64,8 @@
     ],
     "txt": [
       "ppkey-02155c7ff51f387e070c4dfe47678300",
-      "v=spf1 redirect=_spf-customer.dk-tv.net",
       "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1dNhmu0uvunX/lLifXyExSo0+eQIIiQZ8HyWqOW/O7JTl9ZSvNj9WvbfrxJ/Evvg7biYKlHFqYoyj3zp9nwP4ZJ8uUCGtvWV91RogfTYNATY47/7TBtlEhAShanhRJmBb8Me4Nu45Snzi6ZCzIk0b4MuMRj8QEtvyaQb3lOXIsQIDAQAB",
+      "v=spf1 redirect=_spf-customer.dk-tv.net",
       "v=DMARC1;\\\" \\\"p=none;\\\" \\\"sp=none;\\\" \\\"fo=1;\\\" \\\"ri=3600;\\\" \\\"pct=100;\\\" \\\"rua=mailto:postmaster@danskkabeltv.dk"
     ]
   },
@@ -79,9 +92,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 5.8.13 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "1 WordPress plugin detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:7.4.25",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

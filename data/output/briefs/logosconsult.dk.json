@@ -3,38 +3,40 @@
   "cvr": "prospect",
   "company_name": "logosconsult.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce"
+    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "E-commerce plugin: WooCommerce:10.3.8",
+    "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-23",
-      "days_remaining": 86
+      "days_remaining": 85
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Astra Addon",
       "Woocommerce Category Accordion",
       "Pixelyoursite Pro",
+      "Duracelltomi Google Tag Manager",
       "Dynamicconditions",
-      "Contact Form 7",
-      "Elementor Pro",
-      "Cleantalk Spam Protect",
-      "Elementor",
-      "Pixelyoursite Super Pack",
       "Woocommerce",
       "Ultimate Elementor",
+      "Pixelyoursite Super Pack",
+      "Contact Form 7",
+      "Wpcf7 Redirect",
+      "Elementor",
+      "Astra Addon",
+      "Elementor Pro",
       "Wpb Accordion Menu Or Category",
       "Ele Custom Skin",
-      "Wpcf7 Redirect",
-      "Duracelltomi Google Tag Manager"
+      "Cleantalk Spam Protect"
     ],
     "headers": {
       "x_frame_options": false,
@@ -43,7 +45,18 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Google Tag Manager",
+    "HTTP/3",
+    "LiteSpeed",
+    "LiteSpeed Cache",
+    "Litespeed Cache",
+    "MySQL",
+    "NitroPack",
+    "PHP",
+    "WooCommerce:10.3.8",
+    "WordPress:6.8.3"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -55,21 +68,21 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx6.comendosystems.net",
+      "ms62888999.msv1.invalid",
       "mx12.comendosystems.com",
-      "ms62888999.msv1.invalid"
+      "mx6.comendosystems.net"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 a mx include:_spf.xtracon.dk ip4:93.167.247.10 ip4:93.167.247.11 ip4:94.231.103.41 ip4:217.116.227.136 include:_custspf.one.com include:mailanyone.net include:spf.curanet.dk ~all",
-      "MS=ms62888999",
-      "MS=D3FEC7A0E2895C583B7B86E3335722BB7D8EBECE",
       "MS=ms75597561",
+      "MS=D3FEC7A0E2895C583B7B86E3335722BB7D8EBECE",
+      "MS=ms62888999",
+      "MS=ms97344771",
       "facebook-domain-verification=q7klis9jzj6vqhz71of3gh9gj65iae",
-      "MS=ms97344771"
+      "v=spf1 a mx include:_spf.xtracon.dk ip4:93.167.247.10 ip4:93.167.247.11 ip4:94.231.103.41 ip4:217.116.227.136 include:_custspf.one.com include:mailanyone.net include:spf.curanet.dk ~all"
     ]
   },
   "cloud_exposure": [],
@@ -96,13 +109,23 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "WordPress version 6.8.3 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
       "description": "15 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

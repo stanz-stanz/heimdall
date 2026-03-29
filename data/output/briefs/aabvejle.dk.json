@@ -3,18 +3,18 @@
   "cvr": "prospect",
   "company_name": "aabvejle.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
-      "days_remaining": 58
+      "days_remaining": 57
     },
     "server": "",
     "detected_plugins": [],
@@ -25,7 +25,19 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "AngularJS",
+    "Bootstrap",
+    "Cloudflare",
+    "D3",
+    "Google Maps",
+    "HSTS",
+    "NVD3",
+    "OWL Carousel",
+    "cdnjs",
+    "jQuery",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -45,11 +57,11 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "MS=311C80293BA6B047AF2234E4E3B02C8A51D0BFE8",
       "_1fpq7058jzah1gihekkvui1iygferpc",
+      "MS=ms48859027",
       "v=spf1 mx a a:mail.aabvejle.dk include:spf.incom-it.dk include:spf.protection.outlook.com ~all",
-      "apple-domain-verification=ZU3HRySOcrUKNoBc",
-      "MS=ms48859027"
+      "MS=311C80293BA6B047AF2234E4E3B02C8A51D0BFE8",
+      "apple-domain-verification=ZU3HRySOcrUKNoBc"
     ]
   },
   "cloud_exposure": [],

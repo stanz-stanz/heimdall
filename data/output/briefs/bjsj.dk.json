@@ -3,24 +3,26 @@
   "cvr": "prospect",
   "company_name": "bjsj.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager, Google Tag Manager for WordPress:1.22.3, reCAPTCHA"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-11",
       "days_remaining": 43
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
       "Powerpack Elements",
-      "Elementor Pro",
       "Elementor",
+      "Elementor Pro",
       "Duracelltomi Google Tag Manager"
     ],
     "headers": {
@@ -30,7 +32,23 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Adobe Fonts",
+    "Elementor:3.35.3",
+    "Google Tag Manager",
+    "Google Tag Manager for WordPress:1.22.3",
+    "HTTP/3",
+    "LiteSpeed",
+    "MySQL",
+    "PHP",
+    "Swiper",
+    "Typekit",
+    "WP Fastest Cache",
+    "WordPress:6.9.4",
+    "Yoast SEO:26.9",
+    "jQuery",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -43,9 +61,9 @@
     "cname": [],
     "mx": [
       "dk.mx3.mailanyone.net",
-      "dk.mx4.mx25.net",
       "dk.mx1.mailanyone.net",
-      "dk.mx2.mx25.net"
+      "dk.mx2.mx25.net",
+      "dk.mx4.mx25.net"
     ],
     "ns": [
       "mitch.ns.cloudflare.com",
@@ -78,9 +96,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 1.22.3 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "4 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

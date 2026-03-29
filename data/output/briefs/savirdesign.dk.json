@@ -3,14 +3,16 @@
   "cvr": "prospect",
   "company_name": "savirdesign.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce"
+    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "E-commerce plugin: WooCommerce:9.8.7",
+    "Visitor tracking: Google Analytics"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,17 +20,17 @@
       "expiry": "2026-06-21",
       "days_remaining": 83
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Google Site Kit",
-      "Contact Form 7",
-      "Simple Post Redirect",
       "Woocommerce",
-      "Revslider",
-      "Broken Link Notifier",
       "Weglot",
+      "Contact Form 7",
+      "Broken Link Notifier",
       "Js_Composer",
-      "Edgtf Core"
+      "Google Site Kit",
+      "Revslider",
+      "Edgtf Core",
+      "Simple Post Redirect"
     ],
     "headers": {
       "x_frame_options": false,
@@ -37,7 +39,34 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Chart.js",
+    "Contact Form 7:6.0.6",
+    "Cookiebot",
+    "Easy Pie Chart",
+    "Elementor:3.28.4",
+    "Google Analytics",
+    "Google Sign-in",
+    "HTTP/3",
+    "Modernizr",
+    "MySQL",
+    "OWL Carousel",
+    "PHP",
+    "Site Kit:1.175.0",
+    "Slider Revolution:6.1.2",
+    "W3 Total Cache",
+    "Weglot",
+    "WooCommerce:9.8.7",
+    "WordPress:6.8.5",
+    "Yoast SEO:27.2",
+    "YouTube",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "parallax.js:6.8.5",
+    "waitForImages",
+    "wpBakery"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -79,13 +108,23 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "WordPress version 6.8.5 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
       "description": "9 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

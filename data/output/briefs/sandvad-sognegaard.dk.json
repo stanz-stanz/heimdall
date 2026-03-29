@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "sandvad-sognegaard.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager, reCAPTCHA"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -16,7 +18,7 @@
       "expiry": "2026-05-17",
       "days_remaining": 49
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +27,17 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cookie Script",
+    "Google Analytics",
+    "Google Maps",
+    "Google Tag Manager",
+    "HSTS",
+    "Nginx",
+    "PHP",
+    "ZURB Foundation",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -37,11 +49,11 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "alt1.aspmx.l.google.com",
-      "alt4.aspmx.l.google.com",
       "alt2.aspmx.l.google.com",
+      "alt1.aspmx.l.google.com",
       "aspmx.l.google.com",
-      "alt3.aspmx.l.google.com"
+      "alt3.aspmx.l.google.com",
+      "alt4.aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -50,5 +62,11 @@
     "txt": []
   },
   "cloud_exposure": [],
-  "findings": []
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
 }

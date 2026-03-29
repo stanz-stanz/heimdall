@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "osterbo.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -25,7 +25,12 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Azure",
+    "Azure Edge Network",
+    "HSTS",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -37,8 +42,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "osterbo-dk.mx1.comendosystems.com",
-      "osterbo-dk.mx2.comendosystems.net"
+      "osterbo-dk.mx2.comendosystems.net",
+      "osterbo-dk.mx1.comendosystems.com"
     ],
     "ns": [
       "ns01.one.com",

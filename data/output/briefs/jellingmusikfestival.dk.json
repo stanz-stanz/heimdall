@@ -3,20 +3,22 @@
   "cvr": "prospect",
   "company_name": "jellingmusikfestival.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager, reCAPTCHA"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-10",
       "days_remaining": 41
     },
-    "server": "",
+    "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +27,20 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Bootstrap:5.3.2",
+    "Cloudflare",
+    "Cookie Script",
+    "Font Awesome",
+    "Google Analytics",
+    "Google Tag Manager",
+    "IIS:10.0",
+    "Microsoft ASP.NET",
+    "Windows Server",
+    "cdnjs",
+    "jQuery:3.6.0",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,9 +59,9 @@
       "ns2.curanet.dk"
     ],
     "txt": [
+      "google-site-verification=8nBMAPJ6VGReE4mwr2YmKvEkCbFUb6bWArm30BGqOzs",
       "mandrill_verify.ivNUEOfrZNb6BNzB_7AOFg",
-      "v=spf1 a a:selfcare.jellingmusikfestival.dk include:spf.curanet.dk include:spf.protection.outlook.com ip4:81.95.247.0/24 include:spf.mandrillapp.com  ip4:89.188.72.21 -all",
-      "google-site-verification=8nBMAPJ6VGReE4mwr2YmKvEkCbFUb6bWArm30BGqOzs"
+      "v=spf1 a a:selfcare.jellingmusikfestival.dk include:spf.curanet.dk include:spf.protection.outlook.com ip4:81.95.247.0/24 include:spf.mandrillapp.com  ip4:89.188.72.21 -all"
     ]
   },
   "cloud_exposure": [],

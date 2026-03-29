@@ -3,14 +3,16 @@
   "cvr": "prospect",
   "company_name": "bsmarmor.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce"
+    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "E-commerce plugin: WooCommerce:10.6.1",
+    "Visitor tracking: reCAPTCHA"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,22 +20,22 @@
       "expiry": "2026-04-28",
       "days_remaining": 29
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Google Site Kit",
-      "Icegram",
-      "Shortcodes Ultimate",
-      "Elementor Pro",
-      "Easy Modal",
-      "Contact Form 7",
-      "Akismet",
-      "Mystickymenu",
-      "Complianz Gdpr",
-      "Elementor",
-      "Easy Fancybox",
       "Woocommerce",
+      "Elementor",
+      "Elementor Pro",
+      "Icegram",
+      "Contact Form 7",
+      "Complianz Gdpr",
+      "Google Site Kit",
+      "Akismet",
       "Shiftnav Pro",
-      "Advanced Woo Search"
+      "Shortcodes Ultimate",
+      "Easy Fancybox",
+      "Mystickymenu",
+      "Advanced Woo Search",
+      "Easy Modal"
     ],
     "headers": {
       "x_frame_options": false,
@@ -42,7 +44,34 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Akismet",
+    "Apache HTTP Server",
+    "Bootstrap",
+    "Complianz",
+    "Contact Form 7:6.1.5",
+    "Elementor:3.19.4",
+    "HTTP/3",
+    "Icegram:0",
+    "Kadence WP Blocks",
+    "Kadence WP Virtue:3.4.14",
+    "Lightbox",
+    "Morphext:2.8.7",
+    "MySQL",
+    "PHP",
+    "Redis",
+    "Redis Object Cache",
+    "Site Kit:1.175.0",
+    "WooCommerce:10.6.1",
+    "WordPress",
+    "WordPress Block Editor",
+    "WordPress Super Cache",
+    "Yoast SEO:27.2",
+    "imagesLoaded:5.0.0",
+    "jQuery Migrate:3.4.1",
+    "jQuery:1.5.4",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -87,14 +116,24 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
       "description": "14 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

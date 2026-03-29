@@ -3,12 +3,12 @@
   "cvr": "prospect",
   "company_name": "foodwithyou.com",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,20 +16,20 @@
       "expiry": "2026-05-19",
       "days_remaining": 50
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Astra Addon",
+      "Complianz Gdpr",
+      "Essential Addons For Elementor Lite",
+      "Elementor",
+      "Wp Seopress Pro",
+      "Bdthemes Element Pack",
+      "Sitepress Multilingual Cms",
       "Elementor Pro",
       "Dynamicconditions",
-      "Wp Seopress Pro",
-      "Sitepress Multilingual Cms",
-      "3D Flipbook Dflip Lite",
-      "Elementor",
-      "Complianz Gdpr",
-      "Ultimate Elementor",
-      "Bdthemes Element Pack",
       "Elementskit Lite",
-      "Essential Addons For Elementor Lite"
+      "Astra Addon",
+      "Ultimate Elementor",
+      "3D Flipbook Dflip Lite"
     ],
     "headers": {
       "x_frame_options": false,
@@ -38,7 +38,22 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Complianz",
+    "Dynamic Conditions:1.7.5",
+    "Elementor:3.35.9",
+    "Essential Addons for Elementor",
+    "MySQL",
+    "PHP:8.4.19",
+    "UIKit",
+    "Varnish",
+    "WP Rocket",
+    "WPML:4.9.2",
+    "WordPress:6.9.4",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -85,9 +100,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "12 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.4.19",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

@@ -3,27 +3,29 @@
   "cvr": "prospect",
   "company_name": "besma.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-10-04",
       "days_remaining": 189
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Pixelyoursite",
-      "Cookie Law Info",
-      "Supreme Mega Menu",
       "Divi Pixel",
+      "Pixelyoursite",
+      "Facebook Page Feed Graph Api",
       "Activecampaign Subscription Forms",
-      "Facebook Page Feed Graph Api"
+      "Cookie Law Info",
+      "Supreme Mega Menu"
     ],
     "headers": {
       "x_frame_options": false,
@@ -32,7 +34,26 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "ActiveCampaign",
+    "CookieYes",
+    "Divi:5.1.0",
+    "FitVids.JS:5.1.0",
+    "Google Tag Manager",
+    "HTTP/3",
+    "LiteSpeed",
+    "LiteSpeed Cache",
+    "Litespeed Cache",
+    "MySQL",
+    "PHP",
+    "PixelYourSite",
+    "Popper",
+    "WordPress",
+    "Yoast SEO:27.2",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "jQuery Mobile:5.1.0"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -51,8 +72,8 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "MS=ms96853519",
-      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all"
+      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all",
+      "MS=ms96853519"
     ]
   },
   "cloud_exposure": [],
@@ -78,9 +99,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "info",
       "description": "6 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

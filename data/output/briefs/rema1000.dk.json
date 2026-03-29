@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "rema1000.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -25,7 +25,12 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Amazon ALB",
+    "Amazon Web Services",
+    "HSTS",
+    "Vue.js"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -48,22 +53,22 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "ffv4ps2c7dpd2345s499grbsqg",
-      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG",
-      "apple-domain-verification=3LxaeflBDAoKRGeu",
       "MS=ms89040986",
-      "ms=msDFT7657H1",
-      "i715i0pqsbkhgkiabra2l3q6sh",
       "MS=ms60485509",
-      "ms=msDFT-765-7H1",
-      "DFT-765-7H1",
-      "MS=ms51825705",
-      "v=spf1 include:_spf72550.spf-protect.dk -all",
-      "OzWfORhp0DDQiTypvEtr+iSU1XdSGOHzXpGPxwvE3aHomyLbszKpUeG3mnyaMPZI5VzaBMbbaOzX1jSPlZR0Zw==",
       "S5A1RgSS/yYfbZYKxnyUH9v0bhYWNecwh8aOotw2NRGTKnPyexSB/UTFgB3mGHx3rnoSBi6y0rsILx6yJ4bXFQ==",
-      "facebook-domain-verification=ieg3gntlt9pojlsxgf0o7zifaumije",
       "google-site-verification=-nbtrE-a_tS-4RLp6LnfYplbFPgCvcrSwh5-0bfsFhc",
-      "MS=ms58013434"
+      "apple-domain-verification=3LxaeflBDAoKRGeu",
+      "OzWfORhp0DDQiTypvEtr+iSU1XdSGOHzXpGPxwvE3aHomyLbszKpUeG3mnyaMPZI5VzaBMbbaOzX1jSPlZR0Zw==",
+      "MS=ms58013434",
+      "i715i0pqsbkhgkiabra2l3q6sh",
+      "facebook-domain-verification=ieg3gntlt9pojlsxgf0o7zifaumije",
+      "ms=msDFT7657H1",
+      "DFT-765-7H1",
+      "ffv4ps2c7dpd2345s499grbsqg",
+      "MS=ms51825705",
+      "ms=msDFT-765-7H1",
+      "v=spf1 include:_spf72550.spf-protect.dk -all",
+      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG"
     ]
   },
   "cloud_exposure": [],

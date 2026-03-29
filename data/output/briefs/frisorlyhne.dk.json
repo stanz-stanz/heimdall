@@ -3,14 +3,14 @@
   "cvr": "prospect",
   "company_name": "frisorlyhne.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
     "Data-handling plugins: Contact Form 7"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,11 +18,11 @@
       "expiry": "2026-05-19",
       "days_remaining": 50
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
       "Contact Form 7",
-      "Ut Shortcodes",
       "Revslider",
+      "Ut Shortcodes",
       "Js_Composer",
       "Ut Portfolio"
     ],
@@ -33,7 +33,20 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Contact Form 7:6.1.5",
+    "Modernizr",
+    "MySQL",
+    "PHP:8.0.30",
+    "Slider Revolution:6.7.37",
+    "Varnish",
+    "WordPress Super Cache",
+    "WordPress:6.9.4",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "wpBakery"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -82,6 +95,11 @@
     },
     {
       "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
       "description": "Data-handling plugin detected: Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
@@ -89,6 +107,11 @@
       "severity": "info",
       "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.0.30",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

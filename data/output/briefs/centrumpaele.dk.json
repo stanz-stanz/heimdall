@@ -3,14 +3,15 @@
   "cvr": "prospect",
   "company_name": "centrumpaele.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Formidable"
+    "Data-handling plugins: Formidable",
+    "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,12 +19,12 @@
       "expiry": "2026-06-07",
       "days_remaining": 69
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [
-      "Formidable Pro",
       "Formidable",
+      "Sitepress Multilingual Cms",
       "Wp Rocket",
-      "Sitepress Multilingual Cms"
+      "Formidable Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -32,7 +33,16 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Google Tag Manager",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "WP Rocket",
+    "WPML:4.8.6",
+    "WordPress",
+    "Yoast SEO:27.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -51,9 +61,9 @@
       "b.portsdns.net"
     ],
     "txt": [
+      "v=spf1 include:aarsleff.com ~all",
       "autodesk-domain-verification=gFJWEyb99SkpUm_7wVnr",
-      "MS=ms96524149",
-      "v=spf1 include:aarsleff.com ~all"
+      "MS=ms96524149"
     ]
   },
   "cloud_exposure": [],
@@ -79,6 +89,11 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Formidable",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -87,6 +102,11 @@
       "severity": "info",
       "description": "4 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

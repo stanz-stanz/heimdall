@@ -3,12 +3,14 @@
   "cvr": "prospect",
   "company_name": "imb.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: MailChimp, MailChimp for WordPress:4.12.0"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,11 +18,11 @@
       "expiry": "2026-06-19",
       "days_remaining": 81
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
       "Mailchimp For Wp",
-      "Pixelyoursite",
-      "Bozai Faq Assistant"
+      "Bozai Faq Assistant",
+      "Pixelyoursite"
     ],
     "headers": {
       "x_frame_options": false,
@@ -29,7 +31,21 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Cookiebot",
+    "HTTP/3",
+    "MailChimp",
+    "MailChimp for WordPress:4.12.0",
+    "MySQL",
+    "PHP",
+    "PixelYourSite",
+    "Slick",
+    "WordPress",
+    "Yoast SEO:27.2",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -41,11 +57,11 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx.l.google.com",
-      "aspmx3.googlemail.com",
-      "aspmx2.googlemail.com",
       "alt2.aspmx.l.google.com",
-      "alt1.aspmx.l.google.com"
+      "aspmx2.googlemail.com",
+      "aspmx3.googlemail.com",
+      "alt1.aspmx.l.google.com",
+      "aspmx.l.google.com"
     ],
     "ns": [
       "ns1.simply.com",
@@ -53,8 +69,8 @@
       "ns3.simply.com"
     ],
     "txt": [
-      "facebook-domain-verification=1p38k8jii3sgnyf124czjypzesb4b0",
       "v=spf1 include:_spf.google.com include:spf.simply.com include:spf.mandrillapp.com include:dedicated.mysmtp.com ~all",
+      "facebook-domain-verification=1p38k8jii3sgnyf124czjypzesb4b0",
       "google-site-verification=eNzUHlPCNEYxq5l_jn5W4lq-D3XYIojAvw3gx1ya_kk"
     ]
   },
@@ -76,9 +92,19 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 4.12.0 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "3 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

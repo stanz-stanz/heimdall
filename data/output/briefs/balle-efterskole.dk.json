@@ -3,30 +3,32 @@
   "cvr": "prospect",
   "company_name": "balle-efterskole.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-04",
-      "days_remaining": 36
+      "days_remaining": 35
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Ultimate Elementor",
+      "Astra Addon",
+      "Elementor",
       "Elementor Pro",
       "Cleantalk Spam Protect",
-      "Modern Events Calendar Lite",
-      "Instagram Feed",
       "Wp Rocket",
-      "Elementor",
+      "Instagram Feed",
       "Pixelyoursite",
-      "Astra Addon"
+      "Ultimate Elementor",
+      "Modern Events Calendar Lite"
     ],
     "headers": {
       "x_frame_options": false,
@@ -35,7 +37,27 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cookiebot",
+    "Elementor:3.35.8",
+    "Font Awesome",
+    "Google Tag Manager",
+    "HTTP/3",
+    "Instagram Feed for WordPress:6.10.1",
+    "LiteSpeed",
+    "MySQL",
+    "OWL Carousel",
+    "PHP",
+    "PixelYourSite",
+    "Smash Balloon Instagram Feed",
+    "Swiper",
+    "WP Rocket",
+    "WordPress:6.9.4",
+    "Yoast SEO:24.8.1",
+    "imagesLoaded:5.0.0",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -57,8 +79,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:_spf.google.com include:_custspf.one.com include:web.shared.mysmtp.com ~all",
-      "google-site-verification=0CYMUVawarvJrnGdCGoTghjxA-ucvczgBZA5PuhV-MQ"
+      "google-site-verification=0CYMUVawarvJrnGdCGoTghjxA-ucvczgBZA5PuhV-MQ",
+      "v=spf1 include:_spf.google.com include:_custspf.one.com include:web.shared.mysmtp.com ~all"
     ]
   },
   "cloud_exposure": [],
@@ -84,9 +106,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.10.1 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "9 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

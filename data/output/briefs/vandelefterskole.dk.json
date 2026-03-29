@@ -3,12 +3,14 @@
   "cvr": "prospect",
   "company_name": "vandelefterskole.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,11 +18,11 @@
       "expiry": "2026-05-12",
       "days_remaining": 44
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [
+      "Flickr Justified Gallery",
       "Youtube Embed Plus",
-      "Instagram Feed",
-      "Flickr Justified Gallery"
+      "Instagram Feed"
     ],
     "headers": {
       "x_frame_options": false,
@@ -29,7 +31,24 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Bootstrap",
+    "Cookiebot",
+    "EmbedPlus:14.2.5",
+    "FitVids.JS:14.2.5",
+    "Google Tag Manager",
+    "HSTS",
+    "Instagram Feed for WordPress:6.10.0",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "Smash Balloon Instagram Feed",
+    "WordPress Block Editor",
+    "WordPress:6.9.4",
+    "Yoast SEO:27.1.1",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -48,9 +67,9 @@
       "brian.ns.cloudflare.com"
     ],
     "txt": [
+      "MS=ms66185992",
       "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
       "spf2.0/pra",
-      "MS=ms66185992",
       "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all"
     ]
   },
@@ -67,9 +86,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.10.0 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "3 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

@@ -3,30 +3,32 @@
   "cvr": "prospect",
   "company_name": "hotncold.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce"
+    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "E-commerce plugin: WooCommerce:10.4.4",
+    "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-15",
-      "days_remaining": 78
+      "days_remaining": 77
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Wpconsent Cookies Banner Privacy Suite",
-      "Contact Form 7",
-      "So Widgets Bundle",
       "Woocommerce",
       "Siteorigin Premium",
+      "Contact Form 7",
+      "Siteorigin Panels",
       "Wow Modal Windows Pro",
-      "Siteorigin Panels"
+      "Wpconsent Cookies Banner Privacy Suite",
+      "So Widgets Bundle"
     ],
     "headers": {
       "x_frame_options": false,
@@ -35,7 +37,23 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Contact Form 7:6.1.4",
+    "FitVids.JS:1.1",
+    "Google Tag Manager",
+    "HTTP/3",
+    "LiteSpeed",
+    "MySQL",
+    "PHP",
+    "SiteOrigin Page Builder:2.33.5",
+    "SiteOrigin Widgets Bundle:1.70.4",
+    "Slick",
+    "WooCommerce:10.4.4",
+    "WordPress:6.9.4",
+    "Yoast SEO:26.8",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -82,13 +100,23 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
       "description": "7 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

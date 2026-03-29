@@ -3,26 +3,28 @@
   "cvr": "prospect",
   "company_name": "givesco.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-23",
       "days_remaining": 54
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [
-      "Email Encoder Bundle",
-      "Tablepress",
       "Elementor",
       "Elementor Pro",
-      "Translatepress Multilingual"
+      "Tablepress",
+      "Translatepress Multilingual",
+      "Email Encoder Bundle"
     ],
     "headers": {
       "x_frame_options": false,
@@ -31,7 +33,21 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Cloudflare Bot Management",
+    "CookieYes",
+    "Elementor:3.34.1",
+    "Font Awesome",
+    "Google Analytics",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "WP Engine",
+    "WordPress",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -77,9 +93,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "info",
       "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

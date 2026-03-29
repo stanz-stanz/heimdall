@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "puratos.com",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -25,7 +27,19 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Adobe Experience Manager",
+    "Amazon S3",
+    "Amazon Web Services",
+    "Azure",
+    "Azure Front Door",
+    "Font Awesome",
+    "Google Tag Manager",
+    "HSTS",
+    "Java",
+    "React",
+    "jQuery"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -45,6 +59,12 @@
       "ns4.combell.net"
     ],
     "txt": [
+      "pexip-ms-tenant-domain-verification=885fa8cf-7523-4ca8-a869-24d0e8c2df69",
+      "successfactors-site-verification=OGYzZmRmYTU3YTNkN2JmZGJlYWJkYmU2NDBlYmM4YjQ5NjZmNTlhN2YyOTNjNzYxYmI4OTdiNjA1MzBlOWVkMQ==",
+      "teamviewer-sso-verification=f39ea99fded14e169c083b5a12bd53be",
+      "ti85tm99u2hbv9osubmtav81i9",
+      "v=spf1 ip4:193.108.17.5 ip4:193.108.17.252 ip4:52.155.176.32 include:spf.protection.outlook.com include:spfa.cpmails.com -all",
+      "workplace-domain-verification=hVZn4vX88KXWSOHHKn8lkrJw4y43Id",
       "*dfgbvfrs*",
       "HL+7HL0arSSZa0l8J3FOn+85W7hTkyoSOibq9O9oYuejsEDo66pYFBr1vOCdv7nzJiJ2unU9w2Gemd8x5lwNiw==",
       "MS=ms53246628",
@@ -62,15 +82,15 @@
       "df2f65fc-a249-4dbb-b092-9cacd477a958",
       "facebook-domain-verification=zcgh2am7xe1vtt4tk0615ds2vl732s",
       "google-site-verification=ZrCVmI93lmi08Ya715iD0M6fLpSmGkDC2JphkIeIg7A",
-      "mindmanager-verification=6dadffb2c7385d7b07cec4aebb1ad09c30c9ca01c5c946b4ca7b23f47641b1dc",
-      "pexip-ms-tenant-domain-verification=885fa8cf-7523-4ca8-a869-24d0e8c2df69",
-      "successfactors-site-verification=OGYzZmRmYTU3YTNkN2JmZGJlYWJkYmU2NDBlYmM4YjQ5NjZmNTlhN2YyOTNjNzYxYmI4OTdiNjA1MzBlOWVkMQ==",
-      "teamviewer-sso-verification=f39ea99fded14e169c083b5a12bd53be",
-      "ti85tm99u2hbv9osubmtav81i9",
-      "v=spf1 ip4:193.108.17.5 ip4:193.108.17.252 ip4:52.155.176.32 include:spf.protection.outlook.com include:spfa.cpmails.com -all",
-      "workplace-domain-verification=hVZn4vX88KXWSOHHKn8lkrJw4y43Id"
+      "mindmanager-verification=6dadffb2c7385d7b07cec4aebb1ad09c30c9ca01c5c946b4ca7b23f47641b1dc"
     ]
   },
   "cloud_exposure": [],
-  "findings": []
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Java",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
 }

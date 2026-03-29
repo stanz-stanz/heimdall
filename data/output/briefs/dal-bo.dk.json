@@ -3,25 +3,26 @@
   "cvr": "prospect",
   "company_name": "dal-bo.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7"
+    "Data-handling plugins: Contact Form 7",
+    "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-25",
-      "days_remaining": 88
+      "days_remaining": 87
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [
-      "Contact Form 7",
-      "Sitepress Multilingual Cms"
+      "Sitepress Multilingual Cms",
+      "Contact Form 7"
     ],
     "headers": {
       "x_frame_options": false,
@@ -30,7 +31,26 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Bootstrap",
+    "Cloudflare",
+    "Google Maps",
+    "Google Tag Manager",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "Popper:2",
+    "Tiny Slider:2.9.2",
+    "Unpkg",
+    "WPML:4.9.2",
+    "WordPress",
+    "Yoast SEO:27.2",
+    "cdnjs",
+    "iubenda",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -42,9 +62,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1-dk.centerasecurity.dk",
       "mx2-dk.centerasecurity.dk",
-      "mx3-dk.centerasecurity.dk"
+      "mx3-dk.centerasecurity.dk",
+      "mx1-dk.centerasecurity.dk"
     ],
     "ns": [
       "ns01.one.com",
@@ -74,6 +94,11 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -82,6 +107,11 @@
       "severity": "info",
       "description": "2 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

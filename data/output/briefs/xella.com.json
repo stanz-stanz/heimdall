@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "xella.com",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -16,7 +16,7 @@
       "expiry": "2026-04-05",
       "days_remaining": 6
     },
-    "server": "",
+    "server": "AmazonS3",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,13 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Amazon CloudFront",
+    "Amazon S3",
+    "Amazon Web Services",
+    "HSTS",
+    "Linkedin Ads"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -46,15 +52,15 @@
       "ns6.netnames.net"
     ],
     "txt": [
-      "google-site-verification=RijntcYDCpouUg0iOYp0JNBJNCRjsmjUtudggMbOCe8",
-      "atlassian-domain-verification=SvSCQZgWZdNDbaVWHgDTUtkap21k0TAvkBAvah/uVDW/qny1UNgoIdWtP693PWKm",
-      "cisco-ci-domain-verification=7ba55339d2c23740434a1cad4d082e0c974f08b888ff07d4c46157b3d0bdef1a",
-      "pexip-portal-domain-verification=74079c53-53bd-417d-9edf-0e4852e0f888",
-      "v=spf1 include:_spf.retarus.com include:stspg-customer.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.senders.scnem.com include:spf.afas.online ip4:3.68.129.51 ip4:3.123.206.219 ip4:40.107.13.74 ip4:52.157.235.73 -all",
-      "MS=ms76169065",
-      "zone-ownership-verification-398368471267c736707a27276fba5731da7ba439f317ecb05f9f423a864a4966",
+      "D-TRUST=5LVDFQVI9WN3JKGXMY7N56M",
       "apple-domain-verification=S91a2luiMRvhAEE5",
-      "D-TRUST=5LVDFQVI9WN3JKGXMY7N56M"
+      "google-site-verification=RijntcYDCpouUg0iOYp0JNBJNCRjsmjUtudggMbOCe8",
+      "pexip-portal-domain-verification=74079c53-53bd-417d-9edf-0e4852e0f888",
+      "zone-ownership-verification-398368471267c736707a27276fba5731da7ba439f317ecb05f9f423a864a4966",
+      "cisco-ci-domain-verification=7ba55339d2c23740434a1cad4d082e0c974f08b888ff07d4c46157b3d0bdef1a",
+      "atlassian-domain-verification=SvSCQZgWZdNDbaVWHgDTUtkap21k0TAvkBAvah/uVDW/qny1UNgoIdWtP693PWKm",
+      "v=spf1 include:_spf.retarus.com include:stspg-customer.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.senders.scnem.com include:spf.afas.online ip4:3.68.129.51 ip4:3.123.206.219 ip4:40.107.13.74 ip4:52.157.235.73 -all",
+      "MS=ms76169065"
     ]
   },
   "cloud_exposure": [],

@@ -3,12 +3,12 @@
   "cvr": "prospect",
   "company_name": "artwork-systems.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,10 +16,10 @@
       "expiry": "2026-05-16",
       "days_remaining": 48
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Elementor",
-      "Elementor Pro"
+      "Elementor Pro",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -28,7 +28,17 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Elementor:3.35.9",
+    "MySQL",
+    "PHP:8.2.30",
+    "Swiper",
+    "Varnish",
+    "WordPress:6.9.4",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -42,11 +52,11 @@
     ],
     "cname": [],
     "mx": [
-      "mx2.mailhop.us",
+      "mx2.mailhop.co.uk",
       "a747459.mx.mailhop.org",
       "mail.artwork-systems.dk",
       "mx2.mailhop.co",
-      "mx2.mailhop.co.uk"
+      "mx2.mailhop.us"
     ],
     "ns": [
       "ns01.one.com",
@@ -81,9 +91,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "2 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.2.30",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

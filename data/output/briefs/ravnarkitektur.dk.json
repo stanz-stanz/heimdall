@@ -3,12 +3,12 @@
   "cvr": "prospect",
   "company_name": "ravnarkitektur.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,7 +16,7 @@
       "expiry": "2026-11-24",
       "days_remaining": 240
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,19 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Bootstrap",
+    "Font Awesome",
+    "Google Hosted Libraries",
+    "Magnific Popup",
+    "MySQL",
+    "PHP:8.2.30",
+    "Responsive Nav",
+    "WordPress",
+    "bxSlider",
+    "jQuery:1.10.0"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,10 +56,10 @@
       "ns02.one.com"
     ],
     "txt": [
-      "autodesk-domain-verification=5OH7w_4ITLXI7vhVL8pD",
-      "v=spf1 include:spf.protection.outlook.com ip4:152.115.67.130 -all",
+      "_globalsign-domain-verification=RFmkQDfW7BaxLClnrzSpK_UB1b2E0fV8nR9xt36oA3",
       "MS=ms79594142",
-      "_globalsign-domain-verification=RFmkQDfW7BaxLClnrzSpK_UB1b2E0fV8nR9xt36oA3"
+      "v=spf1 include:spf.protection.outlook.com ip4:152.115.67.130 -all",
+      "autodesk-domain-verification=5OH7w_4ITLXI7vhVL8pD"
     ]
   },
   "cloud_exposure": [],
@@ -71,6 +83,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.2.30",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

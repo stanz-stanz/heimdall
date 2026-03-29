@@ -3,20 +3,20 @@
   "cvr": "prospect",
   "company_name": "3f.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-06",
       "days_remaining": 37
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +25,11 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "HSTS",
+    "Vue.js"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -36,8 +40,8 @@
       "172.66.43.7"
     ],
     "aaaa": [
-      "2606:4700:3108::ac42:28f9",
-      "2606:4700:3108::ac42:2b07"
+      "2606:4700:3108::ac42:2b07",
+      "2606:4700:3108::ac42:28f9"
     ],
     "cname": [],
     "mx": [
@@ -49,14 +53,14 @@
     ],
     "txt": [
       "mindmanager-verification=79b0e23d95d2d253211befb91a68fa41f6edbf5a8bbe869976831f0fddb0cff4",
-      "9b57k4tmyw99cxyd647lkst0bb5yl9nt",
+      "_nn3od9bbc7n791yym1ek0m8rat2giko",
       "google-site-verification=H1dyJKnjA-UgTyLq-I0XYAE3oTlg-syy-_vdRs7IbnM",
-      "v=spf1 ip4:52.232.5.115 ip4:77.66.57.123 ip4:168.245.61.203 ip4:168.245.67.108 ip4:193.163.134.0/24 ip4:159.183.35.2 include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.mph1.com include:spf.hatteland.com -all",
       "facebook-domain-verification=cx1i1lglcowp198g4bgigvaes4baeo",
       "MS=ms12157205",
+      "v=spf1 ip4:52.232.5.115 ip4:77.66.57.123 ip4:168.245.61.203 ip4:168.245.67.108 ip4:193.163.134.0/24 ip4:159.183.35.2 include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.mph1.com include:spf.hatteland.com -all",
+      "9b57k4tmyw99cxyd647lkst0bb5yl9nt",
       "google-site-verification=ZT0IrlPw0Or4SHyagAvP5ye8oJGI4c2PPuDBVrluaAo",
-      "apple-domain-verification=I7NcqCXHmBPnQvA3",
-      "_nn3od9bbc7n791yym1ek0m8rat2giko"
+      "apple-domain-verification=I7NcqCXHmBPnQvA3"
     ]
   },
   "cloud_exposure": [],

@@ -3,20 +3,22 @@
   "cvr": "prospect",
   "company_name": "supersellers.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "C",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "E-commerce platform: Shopify"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "Shopify",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "SSL Corporation",
       "expiry": "2026-04-29",
       "days_remaining": 31
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,21 +27,27 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "HSTS",
+    "HTTP/3",
+    "Klaviyo",
+    "Shopify"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
+      "172.67.69.179",
       "104.26.6.29",
-      "104.26.7.29",
-      "172.67.69.179"
+      "104.26.7.29"
     ],
     "aaaa": [
-      "2606:4700:20::681a:61d",
+      "2606:4700:20::ac43:45b3",
       "2606:4700:20::681a:71d",
-      "2606:4700:20::ac43:45b3"
+      "2606:4700:20::681a:61d"
     ],
     "cname": [],
     "mx": [
@@ -50,10 +58,10 @@
       "wesley.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=OQDwW9PxqfSEH_UBq7UWfjXzdf6oTMm2Q1TFNlh8mT4",
       "klaviyo-site-verification=QZabHA",
       "v=spf1 a ip4:135.181.115.119 ip4:217.182.33.13 ip4:79.137.1.162 include:web.shared.mysmtp.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.consignor.com ~all",
-      "MS=ms98420429"
+      "MS=ms98420429",
+      "google-site-verification=OQDwW9PxqfSEH_UBq7UWfjXzdf6oTMm2Q1TFNlh8mT4"
     ]
   },
   "cloud_exposure": [],

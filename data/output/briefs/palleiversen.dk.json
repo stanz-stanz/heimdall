@@ -3,26 +3,26 @@
   "cvr": "prospect",
   "company_name": "palleiversen.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
     "Data-handling plugins: Contact Form 7"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-10",
       "days_remaining": 72
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
+      "Vfb Pro",
       "Easy Fancybox",
-      "Contact Form 7",
-      "Vfb Pro"
+      "Contact Form 7"
     ],
     "headers": {
       "x_frame_options": true,
@@ -31,7 +31,25 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "AngularJS",
+    "Apache HTTP Server",
+    "Bootstrap",
+    "Cloudflare",
+    "Google Hosted Libraries",
+    "HTTP/3",
+    "Less",
+    "MySQL",
+    "PHP",
+    "WPML:4.2.0",
+    "WordPress",
+    "Yoast SEO:22.9",
+    "cdnjs",
+    "jQuery CDN",
+    "jQuery Migrate:3.4.1",
+    "jQuery:1.11.1",
+    "spin.js"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -51,10 +69,10 @@
       "ns03.athena-hosting.dk"
     ],
     "txt": [
-      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw==",
-      "This DNS Service is hosted by Munk IT A/S - Driftscentret",
       "MS=ms31760263",
-      "v=spf1 include:_spf.stejtech.net include:spf.protection.outlook.com ip4:194.255.169.138 ip4:91.215.162.220 -all"
+      "v=spf1 include:_spf.stejtech.net include:spf.protection.outlook.com ip4:194.255.169.138 ip4:91.215.162.220 -all",
+      "This DNS Service is hosted by Munk IT A/S - Driftscentret",
+      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw=="
     ]
   },
   "cloud_exposure": [],
@@ -70,6 +88,11 @@
       "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -78,6 +101,11 @@
       "severity": "info",
       "description": "3 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

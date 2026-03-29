@@ -3,24 +3,26 @@
   "cvr": "prospect",
   "company_name": "lind-kruse.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager, reCAPTCHA"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
       "days_remaining": 58
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Wp Rocket",
       "Search Filter Pro",
       "Forminator",
+      "Wp Rocket",
       "Diviflash"
     ],
     "headers": {
@@ -30,7 +32,24 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Chosen:2.5.21",
+    "Cookiebot",
+    "Divi",
+    "Google Tag Manager",
+    "HTTP/3",
+    "LiteSpeed",
+    "Moment.js",
+    "MySQL",
+    "PHP",
+    "Popper",
+    "WP Rocket",
+    "WordPress:6.9.4",
+    "bxSlider:1.4.14",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -50,9 +69,9 @@
     ],
     "txt": [
       "MS=ms36146539",
-      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms16795991",
       "google-site-verification=T39X4CRqJPZVXoRMsSLkkOwZ0GUZ5-RUFyxSIjp0rQQ",
-      "MS=ms16795991"
+      "v=spf1 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],
@@ -78,9 +97,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "4 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

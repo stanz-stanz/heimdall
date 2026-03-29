@@ -46,8 +46,8 @@
     ],
     "txt": [
       "v=spf1 include:spf.protection.outlook.com -all",
-      "apple-domain-verification=0BwTqQDNIHHJGSSN",
-      "MS=ms48606195"
+      "MS=ms48606195",
+      "apple-domain-verification=0BwTqQDNIHHJGSSN"
     ]
   },
   "cloud_exposure": [],

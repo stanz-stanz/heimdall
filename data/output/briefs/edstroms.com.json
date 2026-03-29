@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "edstroms.com",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -16,7 +18,7 @@
       "expiry": "2026-12-04",
       "days_remaining": 250
     },
-    "server": "",
+    "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +27,14 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cookiebot",
+    "Google Tag Manager",
+    "IIS:10.0",
+    "Microsoft ASP.NET",
+    "Optimizely Content Management",
+    "Windows Server"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -37,25 +46,25 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "se.mx4.mx25.net",
-      "edstroms-com.mx1.staysecuregroup.com",
-      "edstroms-com.mx2.staysecuregroup.net",
+      "se.mx2.mx25.net",
       "se.mx3.mailanyone.net",
       "se.mx1.mailanyone.net",
-      "se.mx2.mx25.net"
+      "edstroms-com.mx2.staysecuregroup.net",
+      "se.mx4.mx25.net",
+      "edstroms-com.mx1.staysecuregroup.com"
     ],
     "ns": [
       "ns.invid.se",
       "ns3.invid.se"
     ],
     "txt": [
-      "MS=0AD99D8F9491F55D71B873DB71C289DD01E15062",
-      "v=spf1 mx ip4:80.244.195.198 ip4:80.244.195.194 include:spf.protection.outlook.com include:spf.mailanyone.net -all",
+      " _tgts5i3sq57w9ksu6x2tnyqdhio097p",
       "MS=ms32653899",
+      "MS=0AD99D8F9491F55D71B873DB71C289DD01E15062",
       " _cvy2ng33vjbdwb8xfyf8i38lgz3480s",
       "google-site-verification=mNCPHpUNwOf-jFRXakv2frMzUFRUcAAxBwcUinawUfw",
       "rj9flpxdrfqtlvtxnh7tkhp5jg72kh79",
-      " _tgts5i3sq57w9ksu6x2tnyqdhio097p"
+      "v=spf1 mx ip4:80.244.195.198 ip4:80.244.195.194 include:spf.protection.outlook.com include:spf.mailanyone.net -all"
     ]
   },
   "cloud_exposure": [],

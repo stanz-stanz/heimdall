@@ -3,35 +3,37 @@
   "cvr": "prospect",
   "company_name": "hhcare.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce"
+    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "E-commerce plugin: WooCommerce:10.5.3",
+    "Visitor tracking: Google Tag Manager, Google Tag Manager for WordPress:1.22.1, MailChimp, MailChimp for WooCommerce:5.5.1.07"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
       "days_remaining": 44
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Bambora Online Classic",
-      "Duracelltomi Google Tag Manager",
-      "Woo Discount Rules",
-      "Contact Form 7",
-      "Viabill Woocommerce",
       "Woocommerce",
       "Mailchimp For Woocommerce",
-      "Advanced Free Flat Shipping Woocommerce Pro",
-      "Pluginsdk Gls Shipping",
       "Product Badges For Woocommerce",
+      "Contact Form 7",
+      "Advanced Free Flat Shipping Woocommerce Pro",
+      "Pixelyoursite",
       "Woo Discount Rules Pro",
-      "Pixelyoursite"
+      "Bambora Online Classic",
+      "Pluginsdk Gls Shipping",
+      "Woo Discount Rules",
+      "Viabill Woocommerce",
+      "Duracelltomi Google Tag Manager"
     ],
     "headers": {
       "x_frame_options": false,
@@ -40,7 +42,27 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Contact Form 7:6.1.5",
+    "Cookiebot",
+    "Distributor",
+    "Google Maps",
+    "Google Tag Manager",
+    "Google Tag Manager for WordPress:1.22.1",
+    "HTTP/3",
+    "LiteSpeed",
+    "MailChimp",
+    "MailChimp for WooCommerce:5.5.1.07",
+    "MySQL",
+    "PHP",
+    "PixelYourSite",
+    "WooCommerce:10.5.3",
+    "WordPress",
+    "Yoast SEO:26.3",
+    "hCaptcha:1",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -59,9 +81,9 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "google-site-verification=ixq23rWx1PMMwtQKwTH50MGoHqjSA4lTxeivxoca9Tw",
       "MS=ms19687733",
-      "v=spf1 include:spf.protection.outlook.com include:_spf.powerhosting.dk include:spf.curanet.dk a mx  -all"
+      "v=spf1 include:spf.protection.outlook.com include:_spf.powerhosting.dk include:spf.curanet.dk a mx  -all",
+      "google-site-verification=ixq23rWx1PMMwtQKwTH50MGoHqjSA4lTxeivxoca9Tw"
     ]
   },
   "cloud_exposure": [],
@@ -88,13 +110,23 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "WordPress version 1.22.1 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
       "description": "12 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

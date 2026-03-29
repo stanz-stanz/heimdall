@@ -3,29 +3,30 @@
   "cvr": "prospect",
   "company_name": "skybrands.net",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7"
+    "Data-handling plugins: Contact Form 7",
+    "Visitor tracking: reCAPTCHA"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-23",
       "days_remaining": 55
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Metform",
       "Contact Form 7",
-      "Elementskit Lite",
-      "Jetpack",
+      "Metform",
       "Elementor",
-      "Elementor Pro"
+      "Elementor Pro",
+      "Elementskit Lite",
+      "Jetpack"
     ],
     "headers": {
       "x_frame_options": false,
@@ -34,7 +35,22 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Contact Form 7:6.1.5",
+    "Elementor:3.35.9",
+    "Font Awesome",
+    "HTTP/3",
+    "LiteSpeed",
+    "LiteSpeed Cache",
+    "Litespeed Cache",
+    "MySQL",
+    "PHP",
+    "Swiper",
+    "WordPress:6.9.4",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -53,8 +69,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "MS=ms52947522",
-      "v=spf1 a:www.skybrands.net include:spf.protection.outlook.com include:spf.mandrillapp.com include:spf.curanet.dk -all"
+      "v=spf1 a:www.skybrands.net include:spf.protection.outlook.com include:spf.mandrillapp.com include:spf.curanet.dk -all",
+      "MS=ms52947522"
     ]
   },
   "cloud_exposure": [],
@@ -81,6 +97,11 @@
     },
     {
       "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
       "description": "Data-handling plugin detected: Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
@@ -88,6 +109,11 @@
       "severity": "info",
       "description": "6 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

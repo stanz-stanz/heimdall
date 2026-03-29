@@ -3,34 +3,36 @@
   "cvr": "prospect",
   "company_name": "skolenfor.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce"
+    "Data-handling plugins: Woocommerce",
+    "E-commerce plugin: WooCommerce:10.6.1",
+    "Visitor tracking: Google Analytics, Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
       "days_remaining": 68
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Google Site Kit",
-      "Elementor Pro",
-      "Elementor",
       "Unlimited Elements For Elementor Premium",
-      "Woocommerce",
       "All In One Seo Pack",
       "Jetpack",
-      "Weglot",
-      "Wp Consent Api",
+      "Google Site Kit",
       "Cookiebot",
-      "Essential Addons For Elementor Lite"
+      "Wp Consent Api",
+      "Woocommerce",
+      "Essential Addons For Elementor Lite",
+      "Weglot",
+      "Elementor Pro",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -39,7 +41,32 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "All in One SEO Pack:4.9.5.1",
+    "All in One SEO:4.9.5.1",
+    "Elementor:3.35.7",
+    "Google Analytics",
+    "Google Tag Manager",
+    "HTTP/3",
+    "Jetpack",
+    "Lightbox",
+    "LiteSpeed",
+    "LiteSpeed Cache",
+    "Litespeed Cache",
+    "Magnific Popup:4.1.3",
+    "MySQL",
+    "Onsen UI",
+    "PHP",
+    "Site Kit:1.174.0",
+    "Underscore.js:1.13.7",
+    "Usercentrics",
+    "Weglot",
+    "WooCommerce:10.6.1",
+    "WordPress",
+    "imagesLoaded:5.0.0",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -84,6 +111,11 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -92,6 +124,11 @@
       "severity": "info",
       "description": "11 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

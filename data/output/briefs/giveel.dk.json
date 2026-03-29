@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "giveel.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -25,7 +25,11 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Bootstrap",
+    "HSTS",
+    "jQuery:1.11.3"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -37,8 +41,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.onlinemail.io",
-      "mx2.onlinemail.io"
+      "mx2.onlinemail.io",
+      "mx1.onlinemail.io"
     ],
     "ns": [
       "ns1.curanet.dk",

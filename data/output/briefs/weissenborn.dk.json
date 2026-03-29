@@ -3,14 +3,14 @@
   "cvr": "prospect",
   "company_name": "weissenborn.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
     "Data-handling plugins: Formidable"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,15 +18,15 @@
       "expiry": "2026-06-09",
       "days_remaining": 71
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Divi Toolbox",
-      "Sitepress Multilingual Cms",
       "Formidable",
+      "Divi Toolbox",
       "Cleantalk Spam Protect",
-      "Borlabs Cookie",
+      "Sitepress Multilingual Cms",
+      "Wpdatatables",
       "Bold Timeline",
-      "Wpdatatables"
+      "Borlabs Cookie"
     ],
     "headers": {
       "x_frame_options": false,
@@ -35,7 +35,24 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "DataTables",
+    "Divi",
+    "Easy Pie Chart",
+    "FitVids.JS:4.27.6",
+    "HSTS",
+    "Magnific Popup:4.27.6",
+    "MySQL",
+    "PHP",
+    "WP Rocket",
+    "WPML:4.8.6",
+    "WordPress",
+    "Yoast SEO:27.0",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "jQuery Mobile:4.27.6"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -56,8 +73,8 @@
     ],
     "txt": [
       "MS=ms36735068",
-      "321",
-      "v=spf1 ip4:193.201.39.116 ip4:193.201.39.110 include:spf.protection.outlook.com -all"
+      "v=spf1 ip4:193.201.39.116 ip4:193.201.39.110 include:spf.protection.outlook.com -all",
+      "321"
     ]
   },
   "cloud_exposure": [],
@@ -78,6 +95,11 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Formidable",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -86,6 +108,11 @@
       "severity": "info",
       "description": "7 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

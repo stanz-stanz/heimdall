@@ -3,12 +3,14 @@
   "cvr": "prospect",
   "company_name": "hetek.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,11 +18,11 @@
       "expiry": "2026-05-07",
       "days_remaining": 38
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [
-      "Elementor Pro",
+      "Elementor",
       "Sg Cachepress",
-      "Elementor"
+      "Elementor Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -29,7 +31,18 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Elementor:3.35.7",
+    "Google Tag Manager",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "Swiper",
+    "WordPress",
+    "Yoast SEO:27.1.1",
+    "jQuery",
+    "jQuery Migrate"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -50,10 +63,10 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "brevo-code:f9163c9125c8d16d81bc5976a83c80d0",
-      "k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDeMVIzrCa3T14JsNY0IRv5/2V1/v2itlviLQBwXsa7shBD6TrBkswsFUToPyMRWC9tbR/5ey0nRBH0ZVxp+lsmTxid2Y2z+FApQ6ra2VsXfbJP3HE6wAO0YTVEJt1TmeczhEd2Jiz/fcabIISgXEdSpTYJhb0ct0VJRxcg4c8c7wIDAQAB",
       "v=spf1 include:spf.protection.outlook.com include:spf.sendinblue.com -all",
-      "Sendinblue-code:a852e1be4b0ca6e91c1aec2a0c93577e"
+      "Sendinblue-code:a852e1be4b0ca6e91c1aec2a0c93577e",
+      "k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDeMVIzrCa3T14JsNY0IRv5/2V1/v2itlviLQBwXsa7shBD6TrBkswsFUToPyMRWC9tbR/5ey0nRBH0ZVxp+lsmTxid2Y2z+FApQ6ra2VsXfbJP3HE6wAO0YTVEJt1TmeczhEd2Jiz/fcabIISgXEdSpTYJhb0ct0VJRxcg4c8c7wIDAQAB",
+      "brevo-code:f9163c9125c8d16d81bc5976a83c80d0"
     ]
   },
   "cloud_exposure": [],
@@ -79,9 +92,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "info",
       "description": "3 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

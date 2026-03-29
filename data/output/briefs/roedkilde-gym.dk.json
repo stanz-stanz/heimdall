@@ -3,12 +3,14 @@
   "cvr": "prospect",
   "company_name": "roedkilde-gym.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,7 +18,7 @@
       "expiry": "2026-05-22",
       "days_remaining": 54
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +27,18 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Adobe Fonts",
+    "Alpine.js",
+    "Font Awesome",
+    "Google Tag Manager",
+    "HSTS",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "Typekit",
+    "WordPress"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,10 +57,21 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "v=spf1 ip4:83.91.91.2 include:spf.esis.dk include:_spf.google.com -all",
-      "apple-domain-verification=w4li6KyymawpyJ2V"
+      "apple-domain-verification=w4li6KyymawpyJ2V",
+      "v=spf1 ip4:83.91.91.2 include:spf.esis.dk include:_spf.google.com -all"
     ]
   },
   "cloud_exposure": [],
-  "findings": []
+  "findings": [
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
 }

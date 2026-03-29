@@ -3,14 +3,15 @@
   "cvr": "prospect",
   "company_name": "somandsmissionen.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7"
+    "Data-handling plugins: Contact Form 7",
+    "Visitor tracking: Google Analytics"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,17 +19,17 @@
       "expiry": "2026-05-29",
       "days_remaining": 60
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Astra Addon",
-      "Translatepress Multilingual",
-      "Astra Sites",
+      "Elementor",
       "Elementor Pro",
       "Contact Form 7",
       "Spotlight Social Photo Feeds",
-      "Elementor",
+      "Essential Addons For Elementor Lite",
       "Google Analytics For Wordpress",
-      "Essential Addons For Elementor Lite"
+      "Astra Sites",
+      "Translatepress Multilingual",
+      "Astra Addon"
     ],
     "headers": {
       "x_frame_options": false,
@@ -37,7 +38,23 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Contact Form 7:6.1.5",
+    "Elementor:3.35.9",
+    "Font Awesome",
+    "Google Analytics",
+    "HTTP/3",
+    "MonsterInsights:10.1.1",
+    "MySQL",
+    "PHP",
+    "Swiper",
+    "WordPress:6.9.4",
+    "Yoast SEO:27.2",
+    "imagesLoaded:5.0.0",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -57,8 +74,8 @@
       "ns3.simply.com"
     ],
     "txt": [
-      "MS=ms57108138",
-      "v=spf1 include:spf.protection.outlook.com include:dedicated.mysmtp.com -all"
+      "v=spf1 include:spf.protection.outlook.com include:dedicated.mysmtp.com -all",
+      "MS=ms57108138"
     ]
   },
   "cloud_exposure": [],
@@ -80,6 +97,11 @@
     },
     {
       "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
       "description": "Data-handling plugin detected: Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
@@ -87,6 +109,11 @@
       "severity": "info",
       "description": "9 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

@@ -3,12 +3,14 @@
   "cvr": "prospect",
   "company_name": "hoejgaardinstallation.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,13 +18,13 @@
       "expiry": "2026-05-20",
       "days_remaining": 51
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
+      "Cookie Notice",
       "Wp Rocket",
-      "Elementor Pro",
       "Elementor",
       "Ultimate Member",
-      "Cookie Notice"
+      "Elementor Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -31,7 +33,23 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Cookie Notice:2.0.4",
+    "Elementor:3.1.1",
+    "Google Tag Manager",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "Swiper",
+    "Underscore.js:1.13.7",
+    "WP Rocket",
+    "WordPress:6.9.4",
+    "Yoast SEO:16.2",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "pickadate.js:3.6.2"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -71,9 +89,19 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

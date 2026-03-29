@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "addedvalues.eu",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager, MailChimp"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -14,9 +16,9 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-03",
-      "days_remaining": 35
+      "days_remaining": 34
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +27,16 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Amazon S3",
+    "Amazon Web Services",
+    "Cookie Script",
+    "Google Tag Manager",
+    "HSTS",
+    "MailChimp",
+    "Nginx",
+    "PHP"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -49,5 +60,11 @@
     ]
   },
   "cloud_exposure": [],
-  "findings": []
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
 }

@@ -3,12 +3,12 @@
   "cvr": "prospect",
   "company_name": "alivestyle.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "C",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "Squarespace",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,7 +16,7 @@
       "expiry": "2026-05-26",
       "days_remaining": 58
     },
-    "server": "",
+    "server": "Squarespace",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,17 +25,25 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Adobe Fonts",
+    "HSTS",
+    "Squarespace",
+    "Squarespace Commerce",
+    "Stimulus",
+    "Typekit",
+    "parallax.js"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "198.49.23.144",
+      "198.185.159.145",
       "198.49.23.145",
       "198.185.159.144",
-      "198.185.159.145"
+      "198.49.23.144"
     ],
     "aaaa": [],
     "cname": [],

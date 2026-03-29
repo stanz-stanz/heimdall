@@ -3,14 +3,16 @@
   "cvr": "prospect",
   "company_name": "tinnetgaard.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce"
+    "Data-handling plugins: Woocommerce",
+    "E-commerce plugin: WooCommerce:10.6.0",
+    "Visitor tracking: Google Analytics, MailChimp, MailChimp for WordPress:4.12.0, reCAPTCHA"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,22 +20,22 @@
       "expiry": "2026-06-02",
       "days_remaining": 64
     },
-    "server": "",
+    "server": "hcdn",
     "detected_plugins": [
-      "Google Site Kit",
-      "Mailchimp For Wp",
-      "Elementor Pro",
-      "The Events Calendar",
-      "Elementor",
-      "Woocommerce Product Addon",
       "Pakkelabels For Woocommerce",
-      "Woocommerce",
+      "Pw Woocommerce Gift Cards",
       "Google Analytics For Wordpress",
       "Woocommerce Payments",
-      "Pw Woocommerce Gift Cards",
-      "Ova Brw",
+      "Smart Woocommerce Search",
+      "The Events Calendar",
+      "Google Site Kit",
+      "Mailchimp For Wp",
+      "Woocommerce Product Addon",
+      "Woocommerce",
+      "Elementor Pro",
+      "Elementor",
       "Woocommerce Gateway Stripe",
-      "Smart Woocommerce Search"
+      "Ova Brw"
     ],
     "headers": {
       "x_frame_options": true,
@@ -42,19 +44,42 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Elementor:3.35.7",
+    "Google Analytics",
+    "HSTS",
+    "HTTP/3",
+    "Hostinger",
+    "Hostinger CDN",
+    "MailChimp",
+    "MailChimp for WordPress:4.12.0",
+    "Moment.js",
+    "MonsterInsights:10.0.3",
+    "MySQL",
+    "OWL Carousel",
+    "PHP:8.2.29",
+    "Popper",
+    "Site Kit:1.174.0",
+    "Swiper",
+    "The Events Calendar",
+    "WooCommerce:10.6.0",
+    "WordPress:6.9.4",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "92.113.23.0",
-      "92.113.16.76"
+      "92.113.16.93",
+      "92.113.23.47"
     ],
     "aaaa": [
-      "2a02:4780:45:a2b9:dbf8:19ac:5e85:546e",
-      "2a02:4780:43:7b5:9b1a:32a2:7c32:1323"
+      "2a02:4780:42:6f8b:57ec:1ae4:cff1:81a0",
+      "2a02:4780:45:6232:3fb0:21b6:c4ca:8ad4"
     ],
     "cname": [],
     "mx": [
@@ -72,6 +97,11 @@
   "findings": [
     {
       "severity": "medium",
+      "description": "WordPress version 4.12.0 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
       "description": "Data-handling plugin detected: Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
@@ -79,6 +109,11 @@
       "severity": "info",
       "description": "14 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.2.29",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

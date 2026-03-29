@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "gundtoft.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -16,7 +18,7 @@
       "expiry": "2026-05-01",
       "days_remaining": 33
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +27,15 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cabin",
+    "Google Hosted Libraries",
+    "Google Tag Manager",
+    "Klaviyo",
+    "Nginx",
+    "PHP:7.0.33",
+    "jQuery:2.1.4"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -70,6 +80,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP:7.0.33",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

@@ -3,20 +3,22 @@
   "cvr": "prospect",
   "company_name": "holstsko.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "C",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "E-commerce platform: Shopify"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "Shopify",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-03",
       "days_remaining": 66
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +27,18 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Google Maps",
+    "HSTS",
+    "HTTP/3",
+    "Klaviyo",
+    "Returnflows",
+    "Shopify",
+    "cdnjs",
+    "jQuery:3.6.4",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,8 +57,8 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all",
-      "google-site-verification=iR6qnQWWUX3ZmWl28nzwgcdG6lTVtOQ8qIEDooq0UQk"
+      "google-site-verification=iR6qnQWWUX3ZmWl28nzwgcdG6lTVtOQ8qIEDooq0UQk",
+      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
     ]
   },
   "cloud_exposure": [],

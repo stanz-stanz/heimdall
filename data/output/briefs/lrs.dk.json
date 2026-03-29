@@ -3,20 +3,22 @@
   "cvr": "prospect",
   "company_name": "lrs.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-20",
       "days_remaining": 83
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +27,13 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Azure",
+    "Cloudflare",
+    "Cloudflare Bot Management",
+    "Google Tag Manager",
+    "HTTP/3"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,11 +52,11 @@
       "ns02.one.com"
     ],
     "txt": [
-      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg==",
       "_globalsign-domain-verification=3uTpsAdLmbS_WRpikrAEfyIJottedVDre-F4iSzyMW",
-      "google-site-verification=vwfJj0u0WjUabtlkIHLp8VCAhRRMSoP6TWaEpvzyY8o",
-      "v=spf1 ip4:80.63.33.64 ip4:167.89.100.223 ip4:167.89.106.69 ip4:185.40.44.230 include:spf.mailanyone.net include:spf.protection.outlook.com -all",
       "MS=ms15107593",
+      "v=spf1 ip4:80.63.33.64 ip4:167.89.100.223 ip4:167.89.106.69 ip4:185.40.44.230 include:spf.mailanyone.net include:spf.protection.outlook.com -all",
+      "google-site-verification=vwfJj0u0WjUabtlkIHLp8VCAhRRMSoP6TWaEpvzyY8o",
+      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg==",
       "apple-domain-verification=KrBwHezVBrsNkrMu"
     ]
   },

@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "sportspharma.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -14,7 +16,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-07",
-      "days_remaining": 70
+      "days_remaining": 69
     },
     "server": "",
     "detected_plugins": [],
@@ -25,7 +27,13 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cookiebot",
+    "Dynamicweb:9",
+    "Google Tag Manager",
+    "Handlebars:4.0.12",
+    "Microsoft ASP.NET"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -45,9 +53,9 @@
     ],
     "txt": [
       "v=spf1 include:spf.protection.outlook.com include:_spf.scanmailx.com -all",
+      "facebook-domain-verification=rlejmrkx4b6w5avnrzox1e8on7hjwo",
       "mandrill_verify.4HkjHzbQFMLrTACUwmQ2Yw",
-      "google-site-verification=Mfd1RgD3ILE5EhAYOd8nbGESzLF7zHccIX21UG3JPp4",
-      "facebook-domain-verification=rlejmrkx4b6w5avnrzox1e8on7hjwo"
+      "google-site-verification=Mfd1RgD3ILE5EhAYOd8nbGESzLF7zHccIX21UG3JPp4"
     ]
   },
   "cloud_exposure": [],

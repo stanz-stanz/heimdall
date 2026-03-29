@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "worklivestay.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -16,7 +18,7 @@
       "expiry": "2026-04-30",
       "days_remaining": 32
     },
-    "server": "",
+    "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +27,12 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Google Tag Manager",
+    "IIS:10.0",
+    "Microsoft ASP.NET",
+    "Windows Server"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -37,8 +44,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "worklivestay-dk.mail.protection.outlook.com",
       "ms44777181.msv1.invalid.outlook.com",
+      "worklivestay-dk.mail.protection.outlook.com",
       "worklivestay-dk.mail.eo.outlook.com"
     ],
     "ns": [
@@ -48,8 +55,8 @@
     ],
     "txt": [
       "facebook-domain-verification=mevksiizi3iaov0exzl2iqelobevol",
-      "google-site-verification=mG5bhkvCalNODMsNyxG5qr3yLtAUIgZESW9jUfcnLGQ",
       "v=include:spf.protection.outlook.com -all include:8303921.spf06.hubspotemail.net",
+      "google-site-verification=mG5bhkvCalNODMsNyxG5qr3yLtAUIgZESW9jUfcnLGQ",
       "v=spf1 include:8303921.spf06.hubspotemail.net"
     ]
   },

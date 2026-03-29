@@ -3,13 +3,15 @@
   "cvr": "prospect",
   "company_name": "brejning.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
@@ -25,7 +27,14 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Google Tag Manager",
+    "HSTS",
+    "Tiny Slider:2.9.2",
+    "YouTube",
+    "cdnjs"
+  ],
   "subdomains": {
     "count": 0,
     "list": []

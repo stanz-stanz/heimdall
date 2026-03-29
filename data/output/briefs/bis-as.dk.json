@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "bis-as.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -14,9 +14,9 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-17",
-      "days_remaining": 49
+      "days_remaining": 48
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,13 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Google Hosted Libraries",
+    "HSTS",
+    "Nginx",
+    "PHP:8.2.30",
+    "jQuery:1.7.2"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -46,8 +52,8 @@
       "auth34.ns.sonnit.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com -all",
-      "MS=ms17476594"
+      "MS=ms17476594",
+      "v=spf1 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],
@@ -66,6 +72,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP:8.2.30",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

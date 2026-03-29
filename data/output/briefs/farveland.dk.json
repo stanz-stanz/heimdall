@@ -3,32 +3,34 @@
   "cvr": "prospect",
   "company_name": "farveland.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-05",
       "days_remaining": 37
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Bdthemes Element Pack",
-      "Uicore Framework",
-      "Elementor Pro",
-      "Easy Table Of Contents",
-      "Klaviyo",
-      "Uicore Animate",
-      "3D Flipbook Dflip Lite",
       "Elementor",
       "Fluentform",
+      "Easy Table Of Contents",
+      "Bdthemes Element Pack",
+      "Elementor Pro",
+      "Klaviyo",
+      "Wp_Glossary",
+      "3D Flipbook Dflip Lite",
       "Marquee Addons For Elementor",
-      "Wp_Glossary"
+      "Uicore Animate",
+      "Uicore Framework"
     ],
     "headers": {
       "x_frame_options": false,
@@ -37,7 +39,25 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Elementor:3.27.7",
+    "Google Tag Manager",
+    "HSTS",
+    "HTTP/3",
+    "Klaviyo",
+    "LiteSpeed",
+    "LiteSpeed Cache",
+    "Litespeed Cache",
+    "Mixitup",
+    "MySQL",
+    "PHP",
+    "Swiper",
+    "UIKit",
+    "WordPress",
+    "Yoast SEO:24.6",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -56,9 +76,9 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "google-site-verification=kGqgvA8KEr8_KkeW5XYVuQ5tWW57P_BLBP5AbCLvgCs",
       "MS=ms58274488",
       "v=spf1 ip4:168.119.73.188 include:spf.curanet.dk include:spf.protection.outlook.com a:mail.npkhosting.dk include:spf.azehosting.net ~all",
+      "google-site-verification=kGqgvA8KEr8_KkeW5XYVuQ5tWW57P_BLBP5AbCLvgCs",
       "klaviyo-site-verification=W9TFT9"
     ]
   },
@@ -80,9 +100,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "info",
       "description": "11 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

@@ -3,14 +3,14 @@
   "cvr": "prospect",
   "company_name": "vejlefriskole.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
     "Data-handling plugins: Contact Form 7"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -18,16 +18,16 @@
       "expiry": "2026-05-17",
       "days_remaining": 48
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
-      "Wpconsent Cookies Banner Privacy Suite",
-      "Simple Banner",
-      "Essential Grid",
       "Contact Form 7",
-      "Cornerstone",
+      "Simple Banner",
       "Team Members Pro",
+      "Cornerstone",
+      "Ajax Search Lite",
       "Block Options",
-      "Ajax Search Lite"
+      "Essential Grid",
+      "Wpconsent Cookies Banner Privacy Suite"
     ],
     "headers": {
       "x_frame_options": false,
@@ -36,7 +36,21 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Contact Form 7:6.1.5",
+    "Cornerstone:7.8.3",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "W3 Total Cache",
+    "WordPress",
+    "WordPress Block Editor",
+    "Yoast SEO:27.2",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -57,10 +71,10 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "",
-      "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCaOBNl/iGOmFOyJAykbVq/bgAneIbfIGoJXFU0F1WgtPahHaxNMcE4qTu6UpynIbGXp9a0nHY ZgOTYRiitCsww4ahCO+cDsjOiVwxiNCTR406MPpqAYA/HBAMlFh38isZhmsDuN39dd3xfwFtsr6jvwgNp/vsH3EiPzgRSZiV65wIDAQAB",
       "MS=ms41079324",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCaOBNl/iGOmFOyJAykbVq/bgAneIbfIGoJXFU0F1WgtPahHaxNMcE4qTu6UpynIbGXp9a0nHY ZgOTYRiitCsww4ahCO+cDsjOiVwxiNCTR406MPpqAYA/HBAMlFh38isZhmsDuN39dd3xfwFtsr6jvwgNp/vsH3EiPzgRSZiV65wIDAQAB",
+      "v=spf1 include:spf.protection.outlook.com -all",
+      ""
     ]
   },
   "cloud_exposure": [],
@@ -81,6 +95,11 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -89,6 +108,11 @@
       "severity": "info",
       "description": "8 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

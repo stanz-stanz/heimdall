@@ -3,26 +3,26 @@
   "cvr": "prospect",
   "company_name": "jellingfriskole.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-26",
       "days_remaining": 89
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Honeypot",
-      "Wp Rocket",
-      "Ultimate Elementor",
       "Elementor",
-      "Elementor Pro"
+      "Elementor Pro",
+      "Wp Rocket",
+      "Honeypot",
+      "Ultimate Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -31,7 +31,16 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Elementor:3.35.5",
+    "HTTP/3",
+    "LiteSpeed",
+    "MySQL",
+    "PHP",
+    "WP Rocket",
+    "WordPress",
+    "Yoast SEO:27.2"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -43,8 +52,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.hc1805-70.eu.iphmx.com",
-      "mx1.hc1805-70.eu.iphmx.com"
+      "mx1.hc1805-70.eu.iphmx.com",
+      "mx2.hc1805-70.eu.iphmx.com"
     ],
     "ns": [
       "mimer.deic.dk",
@@ -52,9 +61,9 @@
       "ns-soa.darenet.dk"
     ],
     "txt": [
+      "MS=ms13861176",
       "SOA=1728380514",
-      "v=spf1 ip4:23.90.111.221 ip4:194.165.192.197 include:spf.protection.outlook.com include:spf.defgo.com -all",
-      "MS=ms13861176"
+      "v=spf1 ip4:23.90.111.221 ip4:194.165.192.197 include:spf.protection.outlook.com include:spf.defgo.com -all"
     ]
   },
   "cloud_exposure": [],
@@ -80,9 +89,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "info",
       "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

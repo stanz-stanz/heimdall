@@ -3,20 +3,20 @@
   "cvr": "prospect",
   "company_name": "dansk-gastronomi.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": false,
       "issuer": "",
       "expiry": "",
       "days_remaining": -1
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,9 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "LiteSpeed"
+  ],
   "subdomains": {
     "count": 0,
     "list": []

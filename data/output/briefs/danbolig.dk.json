@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "danbolig.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -25,15 +25,18 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Azure",
+    "Azure Front Door"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "13.107.226.44",
-      "13.107.253.44"
+      "13.107.253.44",
+      "13.107.226.44"
     ],
     "aaaa": [
       "2620:1ec:48:1::45",
@@ -48,21 +51,21 @@
       "ursula.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=j4xlUHwNdpJzo_QM5I55v4bcYqnFL2w0aZR7AbZaJ9I",
-      "_globalsign-domain-verification=gp8z3vbJpaVRcMTEopGNQbc-B9swq3V47ZgAcOU2jb",
-      "facebook-domain-verification=c6gsjqqy45zoqanes4xcwk05hcyqv4",
-      "_globalsign-domain-verification=QaojpIoUSoySHGFFVB7Bi5PdoozWEA6iA_rRJOgOTN",
       "v=spf1 ip4:91.189.120.3 ip4:91.189.122.132 ip4:193.104.202.15 ip4:193.104.202.23 ip4:77.247.67.98 include:spf.hosit.dk include:spf.protection.outlook.com include:spf.web.mindworking.dk -all",
-      "h9lICf1V6nJS6zwETY+wGgwX5M11h6nP36RUA6Pm6m/TF0a5KOV0+lHmeES3cPwZ9J5M4ztt5tBoTx9veQKlZQ==",
-      "_globalsign-domain-verification=O9--HbROP2PCM24dBpIT9QDDrIWJVmldTzmk3E3ADD",
-      "google-site-verification=FrBZ2MBTOYDEdVZgfVZprjGiuF6o3BJDLxrfaeppV6Q",
-      "MS=ms92209341",
-      "google-site-verification=BJjUW5TxsGz_8YPe4GWjhuzPe-93ivvl66DK_Bmnvzo",
-      "google-site-verification=LG_SryWNG5tOdCphQOyfWyeXcJIW6cRDAlIPP5ijL88",
-      "google-site-verification=6kG_dI_j3y8Pou5BxUnJQ5Qb9bfm0iUuiR9A1EEbHW0",
       "MS=ms77674462",
+      "MS=ms92209341",
+      "_globalsign-domain-verification=O9--HbROP2PCM24dBpIT9QDDrIWJVmldTzmk3E3ADD",
+      "_globalsign-domain-verification=QaojpIoUSoySHGFFVB7Bi5PdoozWEA6iA_rRJOgOTN",
+      "_globalsign-domain-verification=gp8z3vbJpaVRcMTEopGNQbc-B9swq3V47ZgAcOU2jb",
       "ca3-1bb93dfefc4f499cbaaff1f4b3738c66",
-      "google-site-verification=YZKgj-Kih3fjDT-SlQZi8Dqmf4uvet28SDU4hiaA77U"
+      "facebook-domain-verification=c6gsjqqy45zoqanes4xcwk05hcyqv4",
+      "google-site-verification=6kG_dI_j3y8Pou5BxUnJQ5Qb9bfm0iUuiR9A1EEbHW0",
+      "google-site-verification=BJjUW5TxsGz_8YPe4GWjhuzPe-93ivvl66DK_Bmnvzo",
+      "google-site-verification=FrBZ2MBTOYDEdVZgfVZprjGiuF6o3BJDLxrfaeppV6Q",
+      "google-site-verification=LG_SryWNG5tOdCphQOyfWyeXcJIW6cRDAlIPP5ijL88",
+      "google-site-verification=YZKgj-Kih3fjDT-SlQZi8Dqmf4uvet28SDU4hiaA77U",
+      "google-site-verification=j4xlUHwNdpJzo_QM5I55v4bcYqnFL2w0aZR7AbZaJ9I",
+      "h9lICf1V6nJS6zwETY+wGgwX5M11h6nP36RUA6Pm6m/TF0a5KOV0+lHmeES3cPwZ9J5M4ztt5tBoTx9veQKlZQ=="
     ]
   },
   "cloud_exposure": [],

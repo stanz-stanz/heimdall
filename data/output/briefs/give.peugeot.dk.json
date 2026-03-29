@@ -39,8 +39,8 @@
     ],
     "ns": [],
     "txt": [
-      "MS=ms59857842",
-      "v=spf1 include:spf.protection.outlook.com include:_spf.keyloop.io -all"
+      "v=spf1 include:spf.protection.outlook.com include:_spf.keyloop.io -all",
+      "MS=ms59857842"
     ]
   },
   "cloud_exposure": [],

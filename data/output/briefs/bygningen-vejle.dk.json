@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-24",
-      "days_remaining": 56
+      "days_remaining": 55
     },
     "server": "",
     "detected_plugins": [],

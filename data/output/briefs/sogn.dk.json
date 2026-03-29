@@ -3,12 +3,12 @@
   "cvr": "prospect",
   "company_name": "sogn.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "B",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "TYPO3",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,7 +16,7 @@
       "expiry": "2026-05-23",
       "days_remaining": 54
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,14 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Cookiebot",
+    "PHP",
+    "Siteimprove",
+    "TYPO3 CMS",
+    "Varnish:5.2"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,9 +51,9 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "google-site-verification=RQapdMLuOA50aQFMS0nM4yeSu9ctw3vnZGT9-A8GH6M",
       "MS=ms40336891",
-      "v=spf1 ip4:92.43.124.146 ip4:91.195.58.208 include:spf.protection.outlook.com include:amazonses.com include:mail.zendesk.com include:o._spf.hostedsepo.dk  -all"
+      "v=spf1 ip4:92.43.124.146 ip4:91.195.58.208 include:spf.protection.outlook.com include:amazonses.com include:mail.zendesk.com include:o._spf.hostedsepo.dk  -all",
+      "google-site-verification=RQapdMLuOA50aQFMS0nM4yeSu9ctw3vnZGT9-A8GH6M"
     ]
   },
   "cloud_exposure": [],
@@ -70,6 +77,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

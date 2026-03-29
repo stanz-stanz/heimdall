@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "multivac.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -25,7 +27,13 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Adobe Experience Manager",
+    "Google Tag Manager",
+    "HSTS",
+    "Java",
+    "Usercentrics"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,12 +52,12 @@
       "ns2.dns.speedkom.net"
     ],
     "txt": [
-      "v=spf1 mx include:spf.protection.outlook.com include:spf.exclaimer.net ~all",
-      "apple-domain-verification=c750lMlVHCyZa29V",
-      "atlassian-domain-verification=C75o8XyM34JPEY9df2czwlFQmRgLRBxHe6SFU0iGyvzqL7oUUMaJptBuLKaDug/m",
       "teamviewer-sso-verification=2cad3a1864194e08b6b0a816cc4c3607",
+      "MS=ms25424441",
+      "apple-domain-verification=c750lMlVHCyZa29V",
+      "v=spf1 mx include:spf.protection.outlook.com include:spf.exclaimer.net ~all",
       "kM7qPy9RkGwrJtetCcEN6lGr7v/p8YGy0rDNmuJm4Vk4je8v5lOALA8XkEgpqBR/C7w+mHMMTVF7ZmOyYy1/dA==",
-      "MS=ms25424441"
+      "atlassian-domain-verification=C75o8XyM34JPEY9df2czwlFQmRgLRBxHe6SFU0iGyvzqL7oUUMaJptBuLKaDug/m"
     ]
   },
   "cloud_exposure": [],
@@ -78,6 +86,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Java",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

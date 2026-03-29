@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "moelholm-varmevaerk.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -25,7 +25,12 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Azure",
+    "Azure Edge Network",
+    "HSTS",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,12 +49,12 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
+      "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY",
       "v=spf1 a mx include:spf.mailanyone.net include:spf.protection.outlook.com -all",
-      "MS=ms86289017",
-      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM",
       "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
-      "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY"
+      "MS=ms86289017",
+      "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
+      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM"
     ]
   },
   "cloud_exposure": [],

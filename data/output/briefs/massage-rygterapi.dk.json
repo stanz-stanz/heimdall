@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "massage-rygterapi.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -14,9 +14,9 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-14",
-      "days_remaining": 46
+      "days_remaining": 45
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,10 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Varnish"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -40,8 +43,8 @@
     "cname": [],
     "mx": [
       "mx3.pub.mailpod12-cph3.one.com",
-      "mx2.pub.mailpod12-cph3.one.com",
       "mx4.pub.mailpod12-cph3.one.com",
+      "mx2.pub.mailpod12-cph3.one.com",
       "mx1.pub.mailpod12-cph3.one.com"
     ],
     "ns": [

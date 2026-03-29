@@ -3,20 +3,22 @@
   "cvr": "prospect",
   "company_name": "tuba.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-16",
       "days_remaining": 48
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +27,16 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Google Analytics",
+    "HSTS",
+    "HTTP/3",
+    "YouTube",
+    "cdnjs",
+    "jQuery:3.5.1",
+    "jsDelivr"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,10 +55,10 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:spf.solutio.dk include:servers.mcsv.net include:spf.comendosystems.com include:dedicated.mysmtp.com ip4:212.237.249.36 ~all",
-      "google-site-verification=L6XZAX0WKT-13yPVv28wtUytP1Nb-xi_JfK4lIKc55c",
       "google-site-verification=RalyDeTM7oP0KIFOIZnLhONujA4VdLy_vNENEFZ06yI",
-      "MS=ms95814845"
+      "MS=ms95814845",
+      "google-site-verification=L6XZAX0WKT-13yPVv28wtUytP1Nb-xi_JfK4lIKc55c",
+      "v=spf1 include:spf.protection.outlook.com include:spf.solutio.dk include:servers.mcsv.net include:spf.comendosystems.com include:dedicated.mysmtp.com ip4:212.237.249.36 ~all"
     ]
   },
   "cloud_exposure": [],

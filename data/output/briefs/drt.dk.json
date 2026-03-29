@@ -44,8 +44,8 @@
       "ns2.123hotel.dk"
     ],
     "txt": [
-      "MS=ms78363925",
-      "v=spf1 ip4:91.215.162.220 include:spf.protection.outlook.com -all"
+      "v=spf1 ip4:91.215.162.220 include:spf.protection.outlook.com -all",
+      "MS=ms78363925"
     ]
   },
   "cloud_exposure": [],

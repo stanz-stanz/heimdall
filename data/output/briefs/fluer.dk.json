@@ -3,9 +3,11 @@
   "cvr": "prospect",
   "company_name": "fluer.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
     "cms": "",
@@ -16,7 +18,7 @@
       "expiry": "2026-05-13",
       "days_remaining": 45
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,7 +27,16 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "DanDomain",
+    "Google Analytics",
+    "Google Tag Manager",
+    "HSTS",
+    "Klaviyo",
+    "Nginx",
+    "PHP",
+    "SmartWeb"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -37,8 +48,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx.simply.com",
-      "mx.mailcluster.dk"
+      "mx.mailcluster.dk",
+      "mx.simply.com"
     ],
     "ns": [
       "ns1.simply.com",
@@ -46,12 +57,18 @@
       "ns3.simply.com"
     ],
     "txt": [
-      "_globalsign-domain-verification=oczQaD46VMcKI-nQ84KFO1MBYF6JInd28OcuqTPUJd",
-      "amazonses: lKQoV4+iSgcToD5LOdpx21lLCz6w6k+KLVamRu+Vg2M=",
       "v=spf1 include:servers.mcsv.net include:spf.smart-web.dk include:amazonses.com include:include:spf.simply.com -all",
-      "klaviyo-site-verification=RpZ9WB"
+      "amazonses: lKQoV4+iSgcToD5LOdpx21lLCz6w6k+KLVamRu+Vg2M=",
+      "klaviyo-site-verification=RpZ9WB",
+      "_globalsign-domain-verification=oczQaD46VMcKI-nQ84KFO1MBYF6JInd28OcuqTPUJd"
     ]
   },
   "cloud_exposure": [],
-  "findings": []
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
 }

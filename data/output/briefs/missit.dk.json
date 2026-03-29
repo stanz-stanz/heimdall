@@ -3,33 +3,35 @@
   "cvr": "prospect",
   "company_name": "missit.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce"
+    "Data-handling plugins: Woocommerce",
+    "E-commerce plugin: WooCommerce:10.6.1",
+    "Visitor tracking: Google Analytics"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 51
+      "days_remaining": 50
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Epay Payment",
-      "Bambora Online Classic",
-      "Woo Discount Rules",
-      "Gdpr Cookie Compliance Addon",
       "Pakkelabels For Woocommerce",
-      "Woocommerce",
-      "Woocommerce Google Analytics Integration",
       "Wp Menu Cart Pro",
       "Gdpr Cookie Compliance",
-      "Woo Discount Rules Pro"
+      "Epay Payment",
+      "Woocommerce Google Analytics Integration",
+      "Gdpr Cookie Compliance Addon",
+      "Woo Discount Rules",
+      "Woocommerce",
+      "Woo Discount Rules Pro",
+      "Bambora Online Classic"
     ],
     "headers": {
       "x_frame_options": false,
@@ -38,7 +40,21 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Elfsight",
+    "Google Analytics",
+    "HSTS",
+    "HTTP/3",
+    "LiteSpeed",
+    "MySQL",
+    "PHP",
+    "UIKit",
+    "WooCommerce:10.6.1",
+    "WordPress:6.9.4",
+    "Yoast SEO:27.1.1",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -79,6 +95,11 @@
     },
     {
       "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
       "description": "Data-handling plugin detected: Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
@@ -86,6 +107,11 @@
       "severity": "info",
       "description": "10 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

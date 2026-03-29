@@ -3,23 +3,25 @@
   "cvr": "prospect",
   "company_name": "frontpeople.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-07",
-      "days_remaining": 39
+      "days_remaining": 38
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Wp Rocket",
-      "Sitepress Multilingual Cms"
+      "Sitepress Multilingual Cms",
+      "Wp Rocket"
     ],
     "headers": {
       "x_frame_options": false,
@@ -28,7 +30,23 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cookiebot",
+    "Divi",
+    "Google Analytics",
+    "Google Tag Manager",
+    "HTTP/3",
+    "Linkedin Ads",
+    "LiteSpeed",
+    "MySQL",
+    "PHP",
+    "WP Rocket",
+    "WPML:4.8.2",
+    "WordPress:6.9.4",
+    "Yoast SEO:26.1",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -49,10 +67,10 @@
       "ns4.bdm.microsoftonline.com"
     ],
     "txt": [
-      "google-site-verification=y7hkIhyZe9uhZsfZJ4PWt6GRtftt76gL-4e0w7nKdbM",
+      "v=spf1 ip4:13.80.77.98 ip4:52.236.181.21 ip4:93.176.77.58 ip4:188.180.173.10 ip4:185.21.42.106 ip4:5.9.88.241 ip4:5.9.88.208 ip4:52.233.138.221 include:spf.protection.outlook.com include:emsd1.com -all",
       "MS=ms46409551",
-      "mscid=ywwnBejCcKNsQuLhmd4DIEZLR8tNBJnesvu4Vm4lwQnJYkBb/hQpJBpbF7VAeCp++XGBdlQVvHoMpwMlloLQeQ==",
-      "v=spf1 ip4:13.80.77.98 ip4:52.236.181.21 ip4:93.176.77.58 ip4:188.180.173.10 ip4:185.21.42.106 ip4:5.9.88.241 ip4:5.9.88.208 ip4:52.233.138.221 include:spf.protection.outlook.com include:emsd1.com -all"
+      "google-site-verification=y7hkIhyZe9uhZsfZJ4PWt6GRtftt76gL-4e0w7nKdbM",
+      "mscid=ywwnBejCcKNsQuLhmd4DIEZLR8tNBJnesvu4Vm4lwQnJYkBb/hQpJBpbF7VAeCp++XGBdlQVvHoMpwMlloLQeQ=="
     ]
   },
   "cloud_exposure": [],
@@ -78,9 +96,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "2 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

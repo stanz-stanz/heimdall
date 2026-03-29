@@ -3,12 +3,14 @@
   "cvr": "prospect",
   "company_name": "ulf.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager, MailChimp"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,11 +18,11 @@
       "expiry": "2026-06-08",
       "days_remaining": 70
     },
-    "server": "",
+    "server": "Apache",
     "detected_plugins": [
+      "Wp Consent Api",
       "Google Site Kit",
-      "Cookie Law Info",
-      "Wp Consent Api"
+      "Cookie Law Info"
     ],
     "headers": {
       "x_frame_options": false,
@@ -29,7 +31,23 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Amazon S3",
+    "Amazon Web Services",
+    "Apache HTTP Server",
+    "CookieYes:3.3.9.1",
+    "Google Analytics",
+    "Google Hosted Libraries",
+    "Google Tag Manager",
+    "HTTP/3",
+    "MailChimp",
+    "MySQL",
+    "Onsen UI",
+    "PHP",
+    "Site Kit:1.175.0",
+    "WordPress",
+    "jQuery:1.11.3"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -49,9 +67,9 @@
       "ns3.simply.com"
     ],
     "txt": [
-      "MS=ms52326756",
       "v=spf1 include:spf.protection.outlook.com include:spf.simply.com include:dedicated.mysmtp.com -all",
-      "google-site-verification=w5j8YOgEwwb5_OI0hLEGkCDcse4L1K1qDnxsVwV818M"
+      "google-site-verification=w5j8YOgEwwb5_OI0hLEGkCDcse4L1K1qDnxsVwV818M",
+      "MS=ms52326756"
     ]
   },
   "cloud_exposure": [],
@@ -72,9 +90,19 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "info",
       "description": "3 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

@@ -3,20 +3,20 @@
   "cvr": "prospect",
   "company_name": "bca.com",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "",
-    "hosting": "Unknown",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-16",
       "days_remaining": 78
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": true,
@@ -25,19 +25,22 @@
       "x_content_type_options": true
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cloudflare",
+    "Cloudflare Bot Management"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "172.64.146.145",
-      "104.18.41.111"
+      "104.18.41.111",
+      "172.64.146.145"
     ],
     "aaaa": [
-      "2a06:98c1:3104::ac40:9291",
-      "2606:4700:4404::6812:296f"
+      "2606:4700:4404::6812:296f",
+      "2a06:98c1:3104::ac40:9291"
     ],
     "cname": [],
     "mx": [
@@ -49,31 +52,31 @@
       "ns2.bca.com"
     ],
     "txt": [
-      "amazonses:Mt7c0brhnGth0wcmhk47IH/knQVn5EfOXyXhOifo/wE=",
-      "apple-domain-verification=61HOSJskwKSYhix8",
-      "apple-domain-verification=bLDKcTIW6W195FKj",
       "atlassian-domain-verification=/jwIloTuZZhxBynlCwZxBQz09tjsPZFkxtZIMe14fJYZfjP9yCTc/5LJMgRs4Uzb",
-      "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
+      "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca",
+      "urfl02k8ghn962jqjsc7cj12lu",
+      "vmware-cloud-verification-c5b733a6-2a48-408c-8af7-80bdb6499190",
+      "uvhh8ih2hlm78fbfn10n78cfke",
+      "apple-domain-verification=bLDKcTIW6W195FKj",
+      "tktoosntbv43kfeoou8mti6sid",
+      "adobe-idp-site-verification=1d029db73b9070784feaadfdea3ffdb1cbece813da1bcb5dcbf0e26b4bb6590e",
       "dpp1dsv7u93pl9vprerh3gr70b",
-      "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
-      "fgbo4gnbmsupeqmjgjilfda4aq",
       "gilj8s5m909qkampc34s4ohk8l",
       "google-site-verification=P93STc9plMaBjqpI3odbkeU_4lyfx6ubNVhAk3wyxGQ",
-      "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
-      "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca",
-      "nnlbm4qar4av3b67r2ban3s4ao",
-      "tktoosntbv43kfeoou8mti6sid",
-      "urfl02k8ghn962jqjsc7cj12lu",
-      "uvhh8ih2hlm78fbfn10n78cfke",
-      "v=spf1 include:spf1.bca.com include:spf2.bca.com -all",
-      "v=verifydomain MS=4090703",
-      "vacd7bralmplgs12t03lmgga33",
-      "vmware-cloud-verification-c5b733a6-2a48-408c-8af7-80bdb6499190",
       "1password-site-verification=R5IQVHQGD5AHTAQPSEFBXIV4ZQ",
-      "670cfa950j66omo25t35g26gr7",
-      "a28atsbeobu2vobi2kggvongkc",
+      "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
+      "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
       "access-domain-verification=84182c45906b98291e631728981308ccc7ef4c8e7c8e50967620a921fac3587e",
-      "adobe-idp-site-verification=1d029db73b9070784feaadfdea3ffdb1cbece813da1bcb5dcbf0e26b4bb6590e"
+      "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
+      "nnlbm4qar4av3b67r2ban3s4ao",
+      "apple-domain-verification=61HOSJskwKSYhix8",
+      "670cfa950j66omo25t35g26gr7",
+      "fgbo4gnbmsupeqmjgjilfda4aq",
+      "a28atsbeobu2vobi2kggvongkc",
+      "v=verifydomain MS=4090703",
+      "amazonses:Mt7c0brhnGth0wcmhk47IH/knQVn5EfOXyXhOifo/wE=",
+      "v=spf1 include:spf1.bca.com include:spf2.bca.com -all",
+      "vacd7bralmplgs12t03lmgga33"
     ]
   },
   "cloud_exposure": [],

@@ -3,7 +3,7 @@
   "cvr": "prospect",
   "company_name": "bizbrains.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
@@ -16,7 +16,7 @@
       "expiry": "",
       "days_remaining": -1
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [],
     "headers": {
       "x_frame_options": false,
@@ -25,7 +25,10 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "HSTS",
+    "Nginx"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -52,12 +55,12 @@
       "dns44.cloudns.net"
     ],
     "txt": [
-      "9cszpslhk81hmdt7l3lmjtn6nxck89fz",
+      "MS=ms68468985",
+      "v=spf1 mx include:spf.protection.outlook.com include:spf.bizbrains.dk include:2971994.spf03.hubspotemail.net include:spf.mentor-it.dk include:_spf.atlassian.net include:spf-westeu.emailsignatures365.com -all",
+      "_axor72z804v4ei847yuxoo099ia4sj7",
       "atlassian-domain-verification=5lHRHak4Eukg1GeUm281ftNa0AgL1tIKcEHqtHMylJAaLCbT52Btdha61K0/f4Ui",
       "google-site-verification=XdSMCBjR_FgIcCLwkvWAkK1EINKEfnOTnExGufTfPlk",
-      "_axor72z804v4ei847yuxoo099ia4sj7",
-      "v=spf1 mx include:spf.protection.outlook.com include:spf.bizbrains.dk include:2971994.spf03.hubspotemail.net include:spf.mentor-it.dk include:_spf.atlassian.net include:spf-westeu.emailsignatures365.com -all",
-      "MS=ms68468985"
+      "9cszpslhk81hmdt7l3lmjtn6nxck89fz"
     ]
   },
   "cloud_exposure": [],

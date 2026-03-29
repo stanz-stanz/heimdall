@@ -3,12 +3,14 @@
   "cvr": "prospect",
   "company_name": "megawash.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
@@ -16,18 +18,18 @@
       "expiry": "2026-05-01",
       "days_remaining": 33
     },
-    "server": "",
+    "server": "nginx",
     "detected_plugins": [
-      "Ultimate_Vc_Addons",
-      "Forminator",
-      "Wp Rocket",
-      "Sitepress Multilingual Cms",
       "Easy Tables Vc",
       "Tablepress",
+      "Gp Premium",
+      "Wp Rocket",
+      "Sitepress Multilingual Cms",
       "Wp Statistics",
-      "Revslider",
+      "Forminator",
       "Js_Composer",
-      "Gp Premium"
+      "Revslider",
+      "Ultimate_Vc_Addons"
     ],
     "headers": {
       "x_frame_options": false,
@@ -36,7 +38,22 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cleave.js:1.28.0",
+    "Google Tag Manager",
+    "MySQL",
+    "Nginx",
+    "PHP:8.4.19",
+    "Slider Revolution:6.6.14",
+    "WP Rocket",
+    "WPML:4.6.8",
+    "WordPress Block Editor",
+    "WordPress:6.7.5",
+    "Yoast SEO:21.6",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "wpBakery"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -58,8 +75,8 @@
     ],
     "txt": [
       "93o66rsm6etfvckp9vm2qfp1d1",
-      "v=spf1 include:spf.curanet.dk include:spf.protection.outlook.com a:my.online.megawash.dk ~all",
-      "t9uq6ujt86ebhoi6rlh9dj2877"
+      "t9uq6ujt86ebhoi6rlh9dj2877",
+      "v=spf1 include:spf.curanet.dk include:spf.protection.outlook.com a:my.online.megawash.dk ~all"
     ]
   },
   "cloud_exposure": [],
@@ -85,9 +102,19 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "medium",
+      "description": "WordPress version 6.7.5 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "10 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.4.19",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

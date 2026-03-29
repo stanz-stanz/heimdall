@@ -3,35 +3,37 @@
   "cvr": "prospect",
   "company_name": "gas.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce"
+    "Data-handling plugins: Woocommerce",
+    "E-commerce plugin: WooCommerce:10.4.4",
+    "Visitor tracking: Google Tag Manager, Google Tag Manager for WordPress:1.22.3, MailChimp, MailChimp for WooCommerce:5.5.1.07, reCAPTCHA"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-14",
       "days_remaining": 45
     },
-    "server": "",
+    "server": "LiteSpeed",
     "detected_plugins": [
-      "Powerpack Elements",
-      "Gtm Server Side",
       "E2Pdf",
-      "Elementor Pro",
-      "Elementor",
-      "Connect Polylang Elementor",
-      "Woocommerce",
-      "Tablepress",
-      "Jet Engine",
-      "Mailchimp For Woocommerce",
+      "Powerpack Elements",
       "Elementskit Lite",
-      "Duracelltomi Google Tag Manager"
+      "Gtm Server Side",
+      "Tablepress",
+      "Mailchimp For Woocommerce",
+      "Connect Polylang Elementor",
+      "Jet Engine",
+      "Duracelltomi Google Tag Manager",
+      "Woocommerce",
+      "Elementor Pro",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -40,7 +42,25 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Cookiebot",
+    "Elementor:3.33.4",
+    "Google Tag Manager",
+    "Google Tag Manager for WordPress:1.22.3",
+    "HTTP/3",
+    "LiteSpeed",
+    "MailChimp",
+    "MailChimp for WooCommerce:5.5.1.07",
+    "MySQL",
+    "PHP",
+    "Swiper",
+    "WP Fastest Cache",
+    "WooCommerce:10.4.4",
+    "WordPress:6.9.4",
+    "Yoast SEO:26.6",
+    "jQuery",
+    "reCAPTCHA"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
@@ -88,6 +108,11 @@
     },
     {
       "severity": "medium",
+      "description": "WordPress version 1.22.3 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
       "description": "Data-handling plugin detected: Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
@@ -95,6 +120,11 @@
       "severity": "info",
       "description": "12 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

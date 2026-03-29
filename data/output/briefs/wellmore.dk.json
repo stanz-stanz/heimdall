@@ -3,36 +3,38 @@
   "cvr": "prospect",
   "company_name": "wellmore.dk",
   "scan_date": "2026-03-29",
-  "bucket": "D",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce"
+    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "E-commerce plugin: WooCommerce:10.5.2",
+    "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-24",
       "days_remaining": 56
     },
-    "server": "",
+    "server": "cloudflare",
     "detected_plugins": [
-      "Wd Shop",
       "Gtm Server Side",
-      "Wp Contact Form 7 Spam Blocker",
       "Facebook For Woocommerce",
-      "Contact Form 7",
-      "Workdigital",
-      "Workdigital Slider",
-      "Woocommerce",
-      "Review Display",
-      "Cookie Law Info",
-      "Wp Staging Pro",
       "Flexible Shipping",
-      "Ewww Image Optimizer"
+      "Review Display",
+      "Workdigital",
+      "Wp Staging Pro",
+      "Wd Shop",
+      "Woocommerce",
+      "Contact Form 7",
+      "Ewww Image Optimizer",
+      "Cookie Law Info",
+      "Wp Contact Form 7 Spam Blocker",
+      "Workdigital Slider"
     ],
     "headers": {
       "x_frame_options": false,
@@ -41,19 +43,41 @@
       "x_content_type_options": false
     }
   },
-  "tech_stack": [],
+  "tech_stack": [
+    "Amazon S3",
+    "Amazon Web Services",
+    "Bootstrap:5",
+    "Cloudflare",
+    "Contact Form 7",
+    "CookieYes",
+    "EWWW Image Optimizer",
+    "Google Tag Manager",
+    "HSTS",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "Plesk",
+    "Trustpilot",
+    "WooCommerce:10.5.2",
+    "WordPress Block Editor",
+    "WordPress:6.9.4",
+    "Yoast SEO:27.0",
+    "ZURB Foundation",
+    "jQuery",
+    "jQuery Migrate"
+  ],
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "172.67.185.88",
-      "104.21.92.28"
+      "104.21.92.28",
+      "172.67.185.88"
     ],
     "aaaa": [
-      "2606:4700:3034::ac43:b958",
-      "2606:4700:3036::6815:5c1c"
+      "2606:4700:3036::6815:5c1c",
+      "2606:4700:3034::ac43:b958"
     ],
     "cname": [],
     "mx": [
@@ -64,8 +88,8 @@
       "joselyn.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=Hez-QvAOZIN1-cPnNaB7bt8xBj_yvA5qk0Jr7v1jjCk",
-      "v=spf1 a mx include:_spf.serverpark.dk include:emsd1.com include:spf.protection.outlook.com include:dedicated.mysmtp.com ~all"
+      "v=spf1 a mx include:_spf.serverpark.dk include:emsd1.com include:spf.protection.outlook.com include:dedicated.mysmtp.com ~all",
+      "google-site-verification=Hez-QvAOZIN1-cPnNaB7bt8xBj_yvA5qk0Jr7v1jjCk"
     ]
   },
   "cloud_exposure": [],
@@ -87,13 +111,23 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
       "description": "13 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }
