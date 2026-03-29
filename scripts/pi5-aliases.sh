@@ -18,3 +18,4 @@ alias heimdall-count="find $HEIMDALL_DIR/data/results -name '*.json' -type f 2>/
 alias heimdall-stop="docker compose -f $COMPOSE_FILE -f $COMPOSE_MON down"
 alias heimdall-flush="docker compose -f $COMPOSE_FILE exec -T redis redis-cli DEL queue:scan queue:enrichment queue:wpscan"
 alias heimdall-pipeline="heimdall-flush && docker compose -f $COMPOSE_FILE run --rm scheduler"
+alias heimdall-audit="cd $HEIMDALL_DIR && python3 scripts/audit.py"
