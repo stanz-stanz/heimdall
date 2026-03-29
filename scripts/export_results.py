@@ -43,10 +43,10 @@ def _load_cvr_lookup(cvr_path: str) -> dict:
         return {}
 
     try:
-        from src.prospecting.cvr import read_companies
+        from src.prospecting.cvr import read_excel
         from src.prospecting.config import FREE_WEBMAIL
 
-        companies = read_companies(cvr_file)
+        companies = read_excel(cvr_file)
         lookup = {}
         for c in companies:
             # Derive domain the same way the pipeline does
