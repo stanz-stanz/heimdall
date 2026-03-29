@@ -7,7 +7,7 @@ COMPOSE_FILE="$HEIMDALL_DIR/infra/docker/docker-compose.yml"
 COMPOSE_MON="$HEIMDALL_DIR/infra/docker/docker-compose.monitoring.yml"
 
 alias heimdall-deploy="cd $HEIMDALL_DIR && git pull && docker compose -f $COMPOSE_FILE -f $COMPOSE_MON up -d --build"
-alias heimdall-export="cd $HEIMDALL_DIR && python3 scripts/export_results.py --results-dir data/results --output-dir data/output"
+alias heimdall-export="cd $HEIMDALL_DIR && PYTHONPATH=$HEIMDALL_DIR python3 scripts/export_results.py --results-dir data/results --output-dir data/output"
 alias heimdall-analyze="cd $HEIMDALL_DIR && python3 scripts/analyze_pipeline.py"
 alias heimdall-status="docker compose -f $COMPOSE_FILE -f $COMPOSE_MON ps"
 alias heimdall-logs="docker compose -f $COMPOSE_FILE logs --tail 30"
