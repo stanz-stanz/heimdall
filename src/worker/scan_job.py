@@ -361,7 +361,7 @@ def execute_scan_job(
     if scan.cms == "WordPress" and brief.get("tech_stack"):
         try:
             from .twin_scan import run_twin_scan
-            twin_result = run_twin_scan(brief)
+            twin_result = run_twin_scan(brief, redis_conn=redis_conn)
             if twin_result and twin_result.get("findings"):
                 for finding in twin_result["findings"]:
                     finding["provenance"] = "twin-derived"

@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import logging
 import shutil
+import socket
 import subprocess
 import threading
 import time
@@ -23,6 +24,8 @@ from datetime import date
 from http.server import HTTPServer
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+import redis
 
 log = logging.getLogger(__name__)
 
@@ -56,7 +59,8 @@ def _start_twin_server(brief: dict, slug_map: dict) -> tuple:
     TwinHandler.login_cookie = f"domain={domain}"
     TwinHandler.jitter = False  # No jitter for pipeline scans
 
-    server = HTTPServer(("127.0.0.1", 0), TwinHandler)
+    # Bind to 0.0.0.0 so the WPScan sidecar container can reach the twin
+    server = HTTPServer(("0.0.0.0", 0), TwinHandler)
     port = server.server_address[1]
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -125,50 +129,54 @@ def _run_nuclei_against_twin(port: int) -> List[dict]:
     return findings
 
 
-def _run_wpscan_against_twin(port: int) -> List[dict]:
-    """Run WPScan against the twin on loopback.
+def _request_twin_wpscan(
+    redis_conn: redis.Redis,
+    hostname: str,
+    port: int,
+) -> List[dict]:
+    """Run WPScan against the twin via the Redis sidecar.
 
-    Returns a list of finding dicts.
+    The twin is bound to 0.0.0.0 so the sidecar container can reach it
+    at ``http://{hostname}:{port}``. Uses the same request-response
+    pattern as the regular pipeline WPScan integration.
+
+    The domain field is passed as a full ``http://`` URL so the sidecar
+    does not prepend ``https://`` (which would fail against the plain
+    HTTP twin server).
     """
-    if not shutil.which("wpscan"):
-        log.info("twin_wpscan_skipped: wpscan binary not found")
-        return []
-
-    target = f"http://127.0.0.1:{port}"
-    cmd = [
-        "wpscan",
-        "--url", target,
-        "--format", "json",
-        "--no-update",
-        "--disable-tls-checks",
-    ]
-
-    # Add API token if available
-    import os
-    api_token = os.environ.get("WPSCAN_API_TOKEN")
-    if api_token:
-        cmd.extend(["--api-token", api_token])
+    import uuid
+    wpscan_job_id = f"twin-wpscan-{uuid.uuid4().hex[:8]}"
+    # Pass full http:// URL so sidecar doesn't prepend https://
+    target_url = f"http://{hostname}:{port}"
+    payload = json.dumps({"job_id": wpscan_job_id, "domain": target_url})
 
     try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=120,
-        )
-    except (subprocess.TimeoutExpired, FileNotFoundError):
-        log.info("twin_wpscan_skipped: wpscan not available or timed out")
+        redis_conn.lpush("queue:wpscan", payload)
+    except (redis.ConnectionError, redis.TimeoutError) as exc:
+        log.warning("twin_wpscan_enqueue_failed: %s", exc)
         return []
 
+    try:
+        result = redis_conn.brpop(f"wpscan:result:{wpscan_job_id}", timeout=120)
+    except (redis.ConnectionError, redis.TimeoutError) as exc:
+        log.warning("twin_wpscan_wait_failed: %s", exc)
+        return []
+
+    if result is None:
+        log.warning("twin_wpscan_timeout")
+        return []
+
+    try:
+        data = json.loads(result[1])
+    except (json.JSONDecodeError, TypeError, IndexError) as exc:
+        log.warning("twin_wpscan_invalid_response: %s", exc)
+        return []
+
+    wpscan_data = data.get("wpscan", data)
     findings = []
-    try:
-        data = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return findings
 
-    # Extract vulnerability findings from WPScan JSON
     for vuln_source in ["main_theme", "plugins", "version"]:
-        source_data = data.get(vuln_source, {})
+        source_data = wpscan_data.get(vuln_source, {})
         if isinstance(source_data, dict):
             vulns = source_data.get("vulnerabilities", [])
             if isinstance(vulns, list):
@@ -205,11 +213,22 @@ def _wpscan_severity(vuln: dict) -> str:
     return "medium"
 
 
-def run_twin_scan(brief: dict) -> Optional[dict]:
+def run_twin_scan(brief: dict, redis_conn: Optional[redis.Redis] = None) -> Optional[dict]:
     """Run Layer 2 tools against a digital twin built from the brief.
+
+    Parameters
+    ----------
+    brief : dict
+        The scan brief (from brief_generator).
+    redis_conn : redis.Redis, optional
+        Redis connection for WPScan sidecar delegation. If None,
+        WPScan is skipped.
 
     Returns a dict with ``findings``, ``scan_tools``, ``duration_ms``,
     and ``twin_scan_date``, or None if the twin could not be started.
+
+    Note: not safe for concurrent use — TwinHandler uses class-level
+    attributes that would be overwritten by a parallel call.
     """
     slug_map = _load_slug_map()
     t0 = time.monotonic()
@@ -232,10 +251,14 @@ def run_twin_scan(brief: dict) -> Optional[dict]:
             findings.extend(nuclei_findings)
             scan_tools.append("nuclei")
 
-        # WPScan (WordPress only)
+        # WPScan via sidecar (WordPress only)
         cms = brief.get("technology", {}).get("cms", "")
-        if cms and cms.lower() == "wordpress":
-            wpscan_findings = _run_wpscan_against_twin(port)
+        if cms and cms.lower() == "wordpress" and redis_conn is not None:
+            hostname = socket.gethostname()
+            log.info("twin_wpscan_target", extra={"context": {
+                "hostname": hostname, "port": port,
+            }})
+            wpscan_findings = _request_twin_wpscan(redis_conn, hostname, port)
             if wpscan_findings:
                 findings.extend(wpscan_findings)
                 scan_tools.append("wpscan")

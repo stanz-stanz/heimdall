@@ -59,7 +59,11 @@ def _run_wpscan(domain: str) -> dict:
     Returns a dict with keys: status, domain, wpscan (parsed output),
     exit_code, duration_ms.
     """
-    url = f"https://{domain}/"
+    # Support both plain domains (https://) and explicit URLs (http://host:port)
+    if domain.startswith("http://") or domain.startswith("https://"):
+        url = domain if domain.endswith("/") else f"{domain}/"
+    else:
+        url = f"https://{domain}/"
     cmd = [
         "wpscan",
         "--url", url,
