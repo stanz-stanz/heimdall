@@ -42,8 +42,9 @@ docs/
 .DS_Store
 Thumbs.db
 
-# Claude artifacts
-.claude/
+# Claude artifacts — but keep agents (approval tokens needed by worker)
+.claude/*
+!.claude/agents/
 
 # Infrastructure (not needed inside images)
 infra/
