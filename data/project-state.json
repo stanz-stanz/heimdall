@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-03-28T12:00:00Z",
-  "phase": "sprint-3",
+  "last_updated": "2026-03-29T14:00:00Z",
+  "phase": "sprint-3-hardening",
   "current_sprint": {
-    "name": "Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning)",
-    "started": "2026-03-28",
-    "target_end": "2026-04-23",
+    "name": "Sprint 3.5 — Deployment Hardening (Blocking Pilot)",
+    "started": "2026-03-29",
+    "target_end": "2026-04-02",
     "status": "in-progress"
   },
   "completed_sprints": [
@@ -16,76 +16,98 @@
     {
       "name": "Sprint 2 — Docker Architecture (Pi5)",
       "status": "complete",
-      "notes": "204 domains in 8.5 min (9x improvement). Subfinder batch enrichment, local CT database, observability stack. 217 tests. API deferred to Sprint 3."
+      "notes": "204 domains in 8.5 min (9x improvement). Subfinder batch enrichment, local CT database, observability stack. 217 tests."
+    },
+    {
+      "name": "Sprint 3 — Level 1 Pipeline (3.0-3.4)",
+      "status": "complete",
+      "notes": "Results API, consent management, Level 1 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory, digital twin, mobile console. 482 tests. Shipped 5 days early."
     }
   ],
   "milestones": [
     {
-      "id": "M11",
-      "name": "Full Vejle run on Docker (Sprint 2, Increment 2.5)",
-      "target_date": "2026-03-27",
-      "status": "complete",
-      "owner_agent": "prospecting",
-      "blockers": [],
-      "notes": "204 domains, 203 completed, 8.5 min total, 100% cache hit rate. API deferred to Sprint 3."
-    },
-    {
-      "id": "M12",
-      "name": "Results API (moved from Sprint 2)",
-      "target_date": "2026-04-02",
-      "status": "complete",
-      "completed_date": "2026-03-28",
-      "owner_agent": "application-architect",
-      "blockers": [],
-      "notes": "FastAPI: /health, /results/{domain}. First task of Sprint 3."
-    },
-    {
-      "id": "M13",
-      "name": "Consent management + Valdí Level 1 (Sprint 3, Increment 3.1)",
-      "target_date": "2026-04-09",
-      "status": "complete",
-      "completed_date": "2026-03-28",
-      "owner_agent": "valdi",
-      "blockers": [],
-      "notes": "Client authorization template, consent registry, Valdí Gate 2 for Level 1"
-    },
-    {
       "id": "M14",
       "name": "Level 1 scan types (Sprint 3, Increment 3.2)",
       "target_date": "2026-04-16",
-      "status": "pending",
-      "owner_agent": "network-security",
-      "blockers": ["M13"],
-      "notes": "WPScan, CMSeek, Nuclei. Requires consent management."
-    },
-    {
-      "id": "M15",
-      "name": "Finding Interpreter + Message Composer (Sprint 3, Increment 3.3)",
-      "target_date": "2026-04-16",
       "status": "complete",
       "completed_date": "2026-03-28",
-      "owner_agent": "finding-interpreter",
+      "owner_agent": "network-security",
       "blockers": [],
-      "notes": "Claude API interpretation, Telegram formatting"
+      "notes": "WPScan (Redis sidecar), CMSeek (git clone), Nuclei (Go binary + 12,763 templates). All verified on Pi5 ARM64."
     },
     {
       "id": "M16",
       "name": "Client Memory + Remediation workflow (Sprint 3, Increment 3.4)",
       "target_date": "2026-04-23",
-      "status": "pending",
+      "status": "complete",
+      "completed_date": "2026-03-29",
       "owner_agent": "client-memory",
-      "blockers": ["M15"],
-      "notes": "Delta detection, remediation state machine"
+      "blockers": [],
+      "notes": "Delta detection, remediation state machine, 56 tests. PR #13 merged."
+    },
+    {
+      "id": "M20",
+      "name": "Docker smoke test (Sprint 3.5 — Hardening)",
+      "target_date": "2026-04-02",
+      "status": "pending",
+      "owner_agent": "devops",
+      "blockers": [],
+      "notes": "Verify Go binaries survive pip install. Prevent httpx-style overwrites."
+    },
+    {
+      "id": "M21",
+      "name": "Export script tests (Sprint 3.5 — Hardening)",
+      "target_date": "2026-04-02",
+      "status": "pending",
+      "owner_agent": "python-expert",
+      "blockers": [],
+      "notes": "Test CVR enrichment, contactable field, CSV schema, graceful fallbacks."
+    },
+    {
+      "id": "M22",
+      "name": "Pin dependencies (Sprint 3.5 — Hardening)",
+      "target_date": "2026-04-01",
+      "status": "pending",
+      "owner_agent": "devops",
+      "blockers": [],
+      "notes": "Pin CMSeek commit hash, Nuclei v3.7.1. Install openpyxl on Pi5."
+    },
+    {
+      "id": "M30",
+      "name": "Telegram delivery (Sprint 4)",
+      "target_date": "2026-04-30",
+      "status": "pending",
+      "owner_agent": "message-composer",
+      "blockers": ["M20", "M21", "M22"],
+      "notes": "Bot setup, human-in-the-loop approval, message delivery."
+    },
+    {
+      "id": "M31",
+      "name": "Client onboarding — first 5 Vejle businesses (Sprint 4)",
+      "target_date": "2026-04-30",
+      "status": "pending",
+      "owner_agent": "project-coordinator",
+      "blockers": ["M30"],
+      "notes": "Real clients, real scans, real messages. Free first month."
+    },
+    {
+      "id": "M32",
+      "name": "Tailscale remote access (Sprint 4)",
+      "target_date": "2026-04-16",
+      "status": "pending",
+      "owner_agent": "devops",
+      "blockers": [],
+      "notes": "Remote console, Grafana, Dozzle access. Soft dependency — doesn't block pilot."
     }
   ],
   "external_deadlines": [
     {
       "name": "Startup Denmark application",
       "date": "TBD",
-      "status": "drafting",
+      "status": "drafting — strong (digital twin + Valdí featured)",
       "owner_agent": "grant-funding",
       "dependency_type": "soft",
-      "notes": "Benefits from pilot data but never blocks product roadmap."
+      "notes": "Benefits from pilot data but never blocks product roadmap. Lawyer meeting week of 2026-03-31."
     },
     {
       "name": "NCC-DK grant application",
@@ -101,15 +123,29 @@
     "onboarded": 0,
     "scanned": 0
   },
+  "pipeline_run": {
+    "last_run": "2026-03-29",
+    "domains_scanned": 203,
+    "bucket_a": 85,
+    "bucket_b": 7,
+    "wordpress": 85,
+    "gdpr_sensitive": 107,
+    "total_findings": 980,
+    "twin_enriched": 0,
+    "notes": "httpx fixed, tools/ in image. Twin enrichment pending re-run verification."
+  },
   "blockers": [],
   "next_actions": [
-    "Sprint 3.2: Level 1 scan types — Nuclei integration (requires M13 consent management, now complete)",
-    "Sprint 3.4: Client Memory + Remediation workflow (delta detection, state machine)"
+    "Sprint 3.5: Docker smoke test (M20)",
+    "Sprint 3.5: Export script tests (M21)",
+    "Sprint 3.5: Pin CMSeek + Nuclei versions (M22)",
+    "Verify twin enrichment works on next Pi5 run",
+    "Lawyer meeting — outreach legal questions (week of 2026-03-31)"
   ],
   "follow_ups": [
     "CT backfill from crt.sh (one-time, before next production run)",
     "Subfinder API keys for better subdomain coverage",
     "Grafana custom dashboards for Heimdall runs",
-    "cgroup_enable=memory on Pi5 (added to cmdline.txt, needs verification)"
+    "Marketing strategy finalization (post legal consultation)"
   ]
 }

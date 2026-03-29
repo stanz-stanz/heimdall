@@ -194,7 +194,7 @@ Package everything into containers. Validate on local Docker, then Pi5.
 
 ---
 
-## Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning) [NEXT]
+## Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning) [COMPLETE + HARDENING]
 
 Build the paid-service scanning pipeline. Requires written client consent (Level 1).
 
@@ -239,11 +239,11 @@ Build the paid-service scanning pipeline. Requires written client consent (Level
 | Benchmark | Level 1 scan time per domain (additional over Level 0) |
 
 **Definition of Done:**
-- [ ] Each Level 1 tool has Valdí approval token with function hash
-- [ ] Workers execute Level 1 tools only when job.level == 1 and consent is valid
-- [ ] Unit tests for each tool with mocked responses
-- [ ] Benchmark: Level 1 adds < 60s per domain over Level 0
-- [ ] Forensic logs written for every Level 1 scan execution
+- [x] Each Level 1 tool has Valdí approval token with function hash
+- [x] Workers execute Level 1 tools only when job.level == 1 and consent is valid
+- [x] Unit tests for each tool with mocked responses
+- [x] Benchmark: Level 1 adds < 60s per domain over Level 0
+- [x] Forensic logs written for every Level 1 scan execution
 
 ### Increment 3.3 — Finding Interpreter + Message Composer
 
@@ -271,11 +271,31 @@ Build the paid-service scanning pipeline. Requires written client consent (Level
 | Tests | Test delta detection, remediation state transitions |
 
 **Definition of Done:**
-- [ ] Client profile stores scan history, last notification, remediation state
-- [ ] Delta detection correctly identifies: new finding, resolved finding, unchanged
-- [ ] Remediation workflow: request → in-progress → completed → verified
-- [ ] Unit tests for all state transitions
-- [ ] Logs: delta summary per client, remediation state changes
+- [x] Client profile stores scan history, last notification, remediation state
+- [x] Delta detection correctly identifies: new finding, resolved finding, unchanged
+- [x] Remediation workflow: request → in-progress → completed → verified
+- [x] Unit tests for all state transitions
+- [x] Logs: delta summary per client, remediation state changes
+
+### Increment 3.5 — Deployment Hardening (BLOCKING PILOT)
+
+Prevent the class of deployment bugs found on 2026-03-29 (httpx binary overwrite, missing tools/, stale Redis queues, missing openpyxl). Must pass before Sprint 4 pilot launch.
+
+| Item | Description |
+|------|-------------|
+| Docker smoke test | `tests/test_docker_smoke.py` — verify Go binaries (httpx, webanalyze, subfinder, dnsx, nuclei) are executable in the built worker image, not overwritten by pip |
+| Export script tests | `tests/test_export_results.py` — verify CSV output, CVR enrichment (contactable field), graceful fallback when openpyxl missing |
+| Pin CMSeek commit | Dockerfile.worker line 56 — pin `CMSeeK.git` to a specific commit hash (supply chain risk) |
+| Pin Nuclei version | Dockerfile.worker line 22 — pin `nuclei/v3` to `@v3.7.1` instead of `@latest` |
+| openpyxl on Pi5 | `sudo apt install python3-openpyxl` on Pi5 host (export script dependency) |
+
+**Definition of Done:**
+- [ ] `test_docker_smoke.py` verifies all 5 Go binaries executable at `/opt/go-tools/`
+- [ ] `test_export_results.py` covers: normal export, missing CVR, missing openpyxl, contactable field
+- [ ] CMSeek pinned to specific commit in Dockerfile
+- [ ] Nuclei pinned to v3.7.1 in Dockerfile
+- [ ] `heimdall-audit` shows 0 issues
+- [ ] Full pipeline run on Pi5 produces valid CSV with contactable field populated
 
 ---
 
@@ -382,4 +402,3 @@ Items with no sprint assignment yet.
 - [ ] Katana, FeroxBuster, SecretFinder, CloudEnum integration (Level 1 tools)
 - [ ] Marketing sub-agent — translate technical findings to business-impact language
 - [ ] Remote access to mobile console — Tailscale VPN or reverse proxy so the console is reachable from outside the home network (Pi Connect gives shell only, not HTTP). Critical for on-the-road monitoring and sales demos.
-- [ ] Docker smoke test — container-level test that verifies Go binaries (httpx, webanalyze, subfinder, dnsx, nuclei) are executable after pip install. Catches dependency overwrites like the httpx binary incident.
