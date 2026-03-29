@@ -1,5 +1,5 @@
 #!/bin/bash
-# Heimdall Pi5 aliases — source this from ~/.bashrc or ~/.zshrc:
+# Heimdall Pi5 commands — source this from ~/.bashrc:
 #   echo 'source ~/heimdall/scripts/pi5-aliases.sh' >> ~/.bashrc
 
 HEIMDALL_DIR="$HOME/heimdall"
@@ -7,44 +7,40 @@ COMPOSE_FILE="$HEIMDALL_DIR/infra/docker/docker-compose.yml"
 COMPOSE_MON="$HEIMDALL_DIR/infra/docker/docker-compose.monitoring.yml"
 
 # Deploy: pull + build + start everything
-alias heimdall-deploy="cd $HEIMDALL_DIR && git pull && docker compose -f $COMPOSE_FILE -f $COMPOSE_MON up -d --build"
+heimdall-deploy() { cd "$HEIMDALL_DIR" && git pull && docker compose -f "$COMPOSE_FILE" -f "$COMPOSE_MON" up -d --build; }
 
-# Run the prospecting pipeline (flush stale jobs first, then schedule)
+# Run the prospecting pipeline (flush stale jobs first)
 heimdall-pipeline() {
     echo "Flushing stale Redis queues..."
-    docker compose -f $COMPOSE_FILE exec -T redis redis-cli DEL queue:scan queue:enrichment queue:wpscan > /dev/null
+    docker compose -f "$COMPOSE_FILE" exec -T redis redis-cli DEL queue:scan queue:enrichment queue:wpscan > /dev/null
     echo "Starting pipeline..."
-    docker compose -f $COMPOSE_FILE run --rm scheduler
+    docker compose -f "$COMPOSE_FILE" run --rm scheduler
 }
 
-# Export results to CSV + briefs after a pipeline run
-alias heimdall-export="cd $HEIMDALL_DIR && python3 scripts/export_results.py --results-dir data/results --output-dir data/output"
+# Export results to CSV + briefs
+heimdall-export() { cd "$HEIMDALL_DIR" && python3 scripts/export_results.py --results-dir data/results --output-dir data/output; }
+
+# Analyze pipeline output
+heimdall-analyze() { cd "$HEIMDALL_DIR" && python3 scripts/analyze_pipeline.py; }
 
 # Status: show all containers
-alias heimdall-status="docker compose -f $COMPOSE_FILE -f $COMPOSE_MON ps"
+heimdall-status() { docker compose -f "$COMPOSE_FILE" -f "$COMPOSE_MON" ps; }
 
-# Logs: recent worker logs
-alias heimdall-logs="docker compose -f $COMPOSE_FILE logs --tail 30"
+# Logs
+heimdall-logs() { docker compose -f "$COMPOSE_FILE" logs --tail 30; }
+heimdall-worker-logs() { docker compose -f "$COMPOSE_FILE" logs worker --tail 50; }
+heimdall-scheduler-logs() { docker compose -f "$COMPOSE_FILE" logs scheduler --tail 30; }
 
-# Worker logs specifically
-alias heimdall-worker-logs="docker compose -f $COMPOSE_FILE logs worker --tail 50"
+# Queue depths
+heimdall-queue() { docker compose -f "$COMPOSE_FILE" exec -T redis redis-cli LLEN queue:scan && docker compose -f "$COMPOSE_FILE" exec -T redis redis-cli LLEN queue:enrichment && docker compose -f "$COMPOSE_FILE" exec -T redis redis-cli LLEN queue:wpscan; }
 
-# Scheduler logs
-alias heimdall-scheduler-logs="docker compose -f $COMPOSE_FILE logs scheduler --tail 30"
-
-# Queue depths: check what's pending
-alias heimdall-queue="docker compose -f $COMPOSE_FILE exec redis redis-cli LLEN queue:scan && docker compose -f $COMPOSE_FILE exec redis redis-cli LLEN queue:enrichment && docker compose -f $COMPOSE_FILE exec redis redis-cli LLEN queue:wpscan"
-
-# Results: count completed scans
-alias heimdall-count="find $HEIMDALL_DIR/data/results -name '*.json' -type f 2>/dev/null | wc -l"
-
-# Analyze: full pipeline output breakdown
-alias heimdall-analyze="cd $HEIMDALL_DIR && python3 scripts/analyze_pipeline.py"
+# Results count
+heimdall-count() { find "$HEIMDALL_DIR/data/results" -name '*.json' -type f 2>/dev/null | wc -l; }
 
 # Stop everything
-alias heimdall-stop="docker compose -f $COMPOSE_FILE -f $COMPOSE_MON down"
+heimdall-stop() { docker compose -f "$COMPOSE_FILE" -f "$COMPOSE_MON" down; }
 
-# Full run: deploy + pipeline + wait + export
+# Full run: deploy + pipeline + wait + export + analyze
 heimdall-full-run() {
     echo "=== Deploying ==="
     heimdall-deploy
@@ -54,7 +50,7 @@ heimdall-full-run() {
     echo ""
     echo "=== Waiting for workers to drain queue ==="
     while true; do
-        remaining=$(docker compose -f $COMPOSE_FILE exec -T redis redis-cli LLEN queue:scan 2>/dev/null | tr -d '[:space:]')
+        remaining=$(docker compose -f "$COMPOSE_FILE" exec -T redis redis-cli LLEN queue:scan 2>/dev/null | tr -d '[:space:]')
         if [ "$remaining" = "0" ] || [ -z "$remaining" ]; then
             break
         fi
@@ -65,4 +61,7 @@ heimdall-full-run() {
     echo ""
     echo "=== Exporting results ==="
     heimdall-export
+    echo ""
+    echo "=== Analysis ==="
+    heimdall-analyze
 }
