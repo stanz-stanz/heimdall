@@ -5,8 +5,8 @@ data/output/briefs/*.json
 # Benchmark results (local only)
 data/benchmarks/*.json
 
-# Pipeline input data (local only)
-data/input/CVR-extract.xlsx
+# Pipeline input data — committed so it deploys with the repo
+# data/input/CVR-extract.xlsx
 
 # Valdí compliance logs (regenerated on each run)
 .claude/agents/valdi/compliance/
