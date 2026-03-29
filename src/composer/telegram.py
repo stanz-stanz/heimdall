@@ -16,7 +16,7 @@ TELEGRAM_MAX_CHARS = 4096
 _MESSAGE_BUDGET = TELEGRAM_MAX_CHARS - 50
 
 
-def compose_telegram(interpreted: dict) -> list[str]:
+def compose_telegram(interpreted: dict, delta_context: dict = None) -> list[str]:
     """Format an interpreted brief into Telegram message(s).
 
     Parameters
@@ -48,6 +48,11 @@ def compose_telegram(interpreted: dict) -> list[str]:
     if good_news:
         good_lines = "\n".join(f"  + {item}" for item in good_news)
         sections.append(good_lines)
+
+    # Resolved findings (delta context)
+    if delta_context and delta_context.get("resolved"):
+        resolved_lines = [f"  + Fixed: {r['description']}" for r in delta_context["resolved"]]
+        sections.append("Fixed since last scan:\n" + "\n".join(resolved_lines))
 
     # Findings — split into confirmed and twin-derived groups
     findings = interpreted.get("findings", [])

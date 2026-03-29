@@ -17,6 +17,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 from starlette.staticfiles import StaticFiles
 
+from src.client_memory import AtomicFileStore, ClientHistory, ClientProfile, DeltaDetector, RemediationTracker
 from src.interpreter.interpreter import InterpreterError, interpret_brief
 from src.composer.telegram import compose_telegram
 
@@ -81,6 +82,8 @@ async def _listen_scan_complete(
     redis_conn: redis.Redis,
     result_store: ResultStore,
     messages_dir: str,
+    client_history: ClientHistory = None,
+    client_profile: ClientProfile = None,
 ) -> None:
     """Subscribe to scan-complete and process events. Auto-reconnects on failure."""
     reconnect_count = 0
@@ -109,6 +112,7 @@ async def _listen_scan_complete(
                         }})
                         await asyncio.to_thread(
                             _handle_scan_complete, payload, result_store, messages_dir,
+                            client_history, client_profile,
                         )
                     except (json.JSONDecodeError, TypeError) as exc:
                         log.warning("scan_complete_parse_error", extra={"context": {"error": str(exc)}})
@@ -140,6 +144,8 @@ def _handle_scan_complete(
     payload: dict,
     result_store: ResultStore,
     messages_dir: str,
+    client_history: ClientHistory = None,
+    client_profile: ClientProfile = None,
 ) -> None:
     """Interpret findings and compose a Telegram message for a completed scan."""
     client_id = payload.get("client_id", "")
@@ -171,9 +177,28 @@ def _handle_scan_complete(
         }})
         return
 
+    # Delta detection (if client memory available)
+    delta_context = None
+    if client_history and client_id != "prospect":
+        try:
+            delta_result = client_history.record_scan(client_id, brief)
+            delta_context = {
+                "new": [{"description": f.get("description", ""), "severity": f.get("severity", "")} for f in delta_result.new],
+                "recurring": [{"description": f.get("description", ""), "severity": f.get("severity", "")} for f in delta_result.recurring],
+                "resolved": [{"description": r.description, "severity": r.severity} for r in delta_result.resolved],
+            }
+            if client_profile:
+                client_profile.update_profile(client_id, {
+                    "last_scan_date": brief.get("scan_date"),
+                })
+        except Exception:
+            log.warning("client_memory_error", extra={"context": {
+                "client_id": client_id, "domain": domain,
+            }}, exc_info=True)
+
     # Interpret
     try:
-        interpreted = interpret_brief(brief)
+        interpreted = interpret_brief(brief, delta_context=delta_context)
     except InterpreterError as exc:
         log.error("interpret_failed", extra={"context": {
             "client_id": client_id, "domain": domain, "error": str(exc),
@@ -181,7 +206,7 @@ def _handle_scan_complete(
         return
 
     # Compose for Telegram
-    messages = compose_telegram(interpreted)
+    messages = compose_telegram(interpreted, delta_context=delta_context)
 
     # Write to disk for Sprint 4.1 (Telegram delivery)
     out_dir = Path(messages_dir) / client_id / domain
@@ -213,6 +238,7 @@ def create_app(
     results_dir: str,
     messages_dir: str = "/data/messages",
     briefs_dir: str = "data/output/briefs",
+    clients_dir: str = "/data/clients",
 ) -> FastAPI:
     """Build and return the FastAPI application."""
 
@@ -226,7 +252,10 @@ def create_app(
             redis_conn.ping()  # Sync call OK — runs once at startup only
             app.state.redis = redis_conn
             app.state.pubsub_task = asyncio.create_task(
-                _listen_scan_complete(redis_conn, app.state.result_store, messages_dir),
+                _listen_scan_complete(
+                    redis_conn, app.state.result_store, messages_dir,
+                    app.state.client_history, app.state.client_profile,
+                ),
             )
         except Exception:
             log.warning("redis_unavailable", extra={"context": {"url": redis_url}})
@@ -253,6 +282,13 @@ def create_app(
     )
     app.state.results_dir = results_dir
     app.state.result_store = ResultStore(results_dir)
+
+    # Client Memory — delta detection and remediation tracking
+    client_store = AtomicFileStore(clients_dir)
+    app.state.client_history = ClientHistory(
+        client_store, DeltaDetector(), RemediationTracker(),
+    )
+    app.state.client_profile = ClientProfile(client_store)
     app.state.briefs_dir = briefs_dir
 
     app.add_middleware(RequestLoggingMiddleware)
