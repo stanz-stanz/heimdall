@@ -1,0 +1,63 @@
+{
+  "domain": "crossmind.dk",
+  "cvr": "prospect",
+  "company_name": "crossmind.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-11",
+      "days_remaining": 73
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.21.40.9"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "crossmind-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "MS=ms33896379",
+      "google-site-verification=m8NDyAHC4S-1iS1m7G9iRXhEkCVDcibw0jjvqUyqVlY",
+      "MS=ms73391653",
+      "v=spf1 include:_spf.mlsend.com ip4:91.133.33.15 mx include:spf.protection.outlook.com include:crosscloud.dk include:crossmind.dk ip4:94.231.109.248 ~all",
+      "google-site-verification=3iPUAPt0BM7APA8ZhuSZdPYAbsIaOtSrwYdc09GxDQo",
+      "google-site-verification=44ywrvmhlflw8oOIvlPjWXlhQRvaVIjsYMjJyvbhu7A"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

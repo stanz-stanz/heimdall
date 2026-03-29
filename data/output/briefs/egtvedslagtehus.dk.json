@@ -1,0 +1,53 @@
+{
+  "domain": "egtvedslagtehus.dk",
+  "cvr": "prospect",
+  "company_name": "egtvedslagtehus.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-15",
+      "days_remaining": 47
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.221.38.72"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx2.wannafind.dk",
+      "mx1.wannafind.dk"
+    ],
+    "ns": [
+      "ns1.wannafind.dk",
+      "ns2.wannafind.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.wannafind.dk ?all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

@@ -1,0 +1,74 @@
+{
+  "domain": "edstroms.com",
+  "cvr": "prospect",
+  "company_name": "edstroms.com",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "DigiCert Inc",
+      "expiry": "2026-12-04",
+      "days_remaining": 250
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "45.14.116.165"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "se.mx4.mx25.net",
+      "edstroms-com.mx1.staysecuregroup.com",
+      "edstroms-com.mx2.staysecuregroup.net",
+      "se.mx3.mailanyone.net",
+      "se.mx1.mailanyone.net",
+      "se.mx2.mx25.net"
+    ],
+    "ns": [
+      "ns.invid.se",
+      "ns3.invid.se"
+    ],
+    "txt": [
+      "MS=0AD99D8F9491F55D71B873DB71C289DD01E15062",
+      "v=spf1 mx ip4:80.244.195.198 ip4:80.244.195.194 include:spf.protection.outlook.com include:spf.mailanyone.net -all",
+      "MS=ms32653899",
+      " _cvy2ng33vjbdwb8xfyf8i38lgz3480s",
+      "google-site-verification=mNCPHpUNwOf-jFRXakv2frMzUFRUcAAxBwcUinawUfw",
+      "rj9flpxdrfqtlvtxnh7tkhp5jg72kh79",
+      " _tgts5i3sq57w9ksu6x2tnyqdhio097p"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    }
+  ]
+}

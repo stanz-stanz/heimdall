@@ -1,0 +1,89 @@
+{
+  "domain": "edrmedeso.com",
+  "cvr": "prospect",
+  "company_name": "edrmedeso.com",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-05-26",
+      "days_remaining": 58
+    },
+    "server": "",
+    "detected_plugins": [
+      "Popup Maker",
+      "Wp Rocket",
+      "Complianz Gdpr"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "141.193.213.20",
+      "141.193.213.21"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "edrmedeso-com.mail.eo.outlook.com"
+    ],
+    "ns": [
+      "ns1.dnshost.net",
+      "ns2.dnshost.net"
+    ],
+    "txt": [
+      "pardot1023941=f2035524c68931301b162b8094ab6f32ad551d53835d378bba5811d001760cb2",
+      "MS=ms73715014",
+      "sending_domain1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032",
+      "v=spf1 include:spf.protection.outlook.com include:aspmx.pardot.com -all",
+      "pardot857013=5e048c8325813040a3135fecc29abc5cd5e5f264ce1fc6afa36964c774c3b4cd",
+      "pardot1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032",
+      "pardot1023941=9161e666e3f6fa622d56cfaf9cf348ca764eb27d00e95dec1ce32fd37ab75fbd"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "info",
+      "description": "3 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    }
+  ]
+}

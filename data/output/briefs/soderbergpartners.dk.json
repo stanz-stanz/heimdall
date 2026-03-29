@@ -1,0 +1,59 @@
+{
+  "domain": "soderbergpartners.dk",
+  "cvr": "prospect",
+  "company_name": "soderbergpartners.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-06-24",
+      "days_remaining": 87
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "217.114.94.2"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "soderbergpartners-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1-05.azure-dns.com",
+      "ns2-05.azure-dns.net",
+      "ns3-05.azure-dns.org",
+      "ns4-05.azure-dns.info"
+    ],
+    "txt": [
+      "v=spf1 ip4:87.253.236.133 include:_spf-a.soderbergpartners.dk include:_spf-b.soderbergpartners.dk include:spf.protection.outlook.com -all",
+      "1t9dsc64xlmydpxm7js2f3wv5653hjk8",
+      "google-site-verification=ZH3X0YxOiiG8ebTkh7aGnvB-40uARNCqG9Vlv1EuuRs",
+      "anthropic-domain-verification-79n3e9=sbmSogcND4i90Hw1bXoeAXtID",
+      "_globalsign-domain-verification=x62H2zjk6XxLNprhNO4Uw4nXReI4utnf__gotGCKit",
+      "spexternalweb4cf23557prod.azurewebsites.net"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

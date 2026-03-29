@@ -1,0 +1,91 @@
+{
+  "domain": "roestnielsen.dk",
+  "cvr": "prospect",
+  "company_name": "roestnielsen.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Contact Form 7"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-09",
+      "days_remaining": 40
+    },
+    "server": "",
+    "detected_plugins": [
+      "Contact Form 7",
+      "Cookie Notice",
+      "Jetpack",
+      "Download Monitor",
+      "Megamenu",
+      "Download Manager"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.31.76.91"
+    ],
+    "aaaa": [
+      "2a00:b920:2:1337::91"
+    ],
+    "cname": [],
+    "mx": [
+      "roestnielsen-dk.mx1-dk.mailanyone.net",
+      "roestnielsen-dk.mx3-dk.mailanyone.net",
+      "roestnielsen-dk.mx2-dk.mailanyone.net"
+    ],
+    "ns": [
+      "ns1.powerhosting.dk",
+      "ns2.powerhosting.dk",
+      "ns3.powerhosting.dk",
+      "ns4.powerhosting.dk",
+      "ns5.powerhosting.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.mailanyone.net include:_spf.powerhosting.dk include:spf.protection.outlook.com -all",
+      "MS=ms52466876",
+      "vpe=bfb38e01"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Contact Form 7",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "6 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    }
+  ]
+}

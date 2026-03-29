@@ -1,0 +1,53 @@
+{
+  "domain": "addedvalues.eu",
+  "cvr": "prospect",
+  "company_name": "addedvalues.eu",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-03",
+      "days_remaining": 35
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "128.140.28.110"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "addedvalues-eu.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.netsite.dk",
+      "ns2.netsite.eu",
+      "ns3.netsite.se"
+    ],
+    "txt": [
+      "v=spf1 ip4:51.77.64.230 include:spf.protection.outlook.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

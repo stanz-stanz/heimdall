@@ -1,0 +1,75 @@
+{
+  "domain": "vandelefterskole.dk",
+  "cvr": "prospect",
+  "company_name": "vandelefterskole.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-12",
+      "days_remaining": 44
+    },
+    "server": "",
+    "detected_plugins": [
+      "Youtube Embed Plus",
+      "Instagram Feed",
+      "Flickr Justified Gallery"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.31.76.90"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "vandelefterskole-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "sky.ns.cloudflare.com",
+      "brian.ns.cloudflare.com"
+    ],
+    "txt": [
+      "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
+      "spf2.0/pra",
+      "MS=ms66185992",
+      "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "info",
+      "description": "3 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    }
+  ]
+}

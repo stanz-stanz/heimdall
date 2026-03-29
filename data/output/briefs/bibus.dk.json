@@ -1,0 +1,67 @@
+{
+  "domain": "bibus.dk",
+  "cvr": "prospect",
+  "company_name": "bibus.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-02",
+      "days_remaining": 65
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "159.100.249.239"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "bibus-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "helium.ns.hetzner.de",
+      "oxygen.ns.hetzner.com",
+      "hydrogen.ns.hetzner.com"
+    ],
+    "txt": [
+      "KwzX++5jx5MLPIRE47DMkPJzFkl7EIOg3BBCja6Tko/wwqFwtOy6riUSRTOlip4Ukp6LYMjinHPy3Lyp1ZkdUw==",
+      "knowbe4-site-verification=a777c77dba0766e21794fae569f873ae",
+      "MS=ms91743509",
+      "v=spf1 ip4:212.243.131.192/27 ip4:85.199.173.190 ip4:134.119.2.158 ip4:94.231.103.195 ip4:94.231.103.178 ip4:94.231.103.177 a:kantlister.dk a:websmtp.simply.com include:servers.mcsv.net include:_spf.psm.knowbe4.com include:spf.protection.outlook.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    }
+  ]
+}

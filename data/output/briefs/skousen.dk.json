@@ -1,0 +1,73 @@
+{
+  "domain": "skousen.dk",
+  "cvr": "prospect",
+  "company_name": "skousen.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-06-08",
+      "days_remaining": 71
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "104.18.29.7",
+      "104.18.28.7"
+    ],
+    "aaaa": [
+      "2606:4700::6812:1d07",
+      "2606:4700::6812:1c07"
+    ],
+    "cname": [],
+    "mx": [
+      "skousen-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "tony.ns.cloudflare.com",
+      "donna.ns.cloudflare.com"
+    ],
+    "txt": [
+      "facebook-domain-verification=9konaw5hqp3in68oi8n906exasgo9l",
+      "atlassian-domain-verification=NuCGYH5GY2nTFg4r7FR/cSD0AXpWc0lqY5tz437zZS11BTE3cPcUpk1XwHNnuTrz",
+      "google-site-verification=6CdrRmMWRzEsB7QVjq2GjRZD7I9zRCMD9LxhNjAxIBU",
+      "v=spf1 include:_spf16390.spfprotect.com -all",
+      "klaviyo-site-verification=UCMFk9",
+      "detectify-verification=eecfaa6bd857a97c06fbdffdd1357939",
+      "apple-domain-verification=edUbZ7cy9uvhbTDg"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    }
+  ]
+}

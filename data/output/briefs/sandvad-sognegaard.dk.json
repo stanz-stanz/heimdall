@@ -1,0 +1,54 @@
+{
+  "domain": "sandvad-sognegaard.dk",
+  "cvr": "prospect",
+  "company_name": "sandvad-sognegaard.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-17",
+      "days_remaining": 49
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "128.140.28.110"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "alt1.aspmx.l.google.com",
+      "alt4.aspmx.l.google.com",
+      "alt2.aspmx.l.google.com",
+      "aspmx.l.google.com",
+      "alt3.aspmx.l.google.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": []
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

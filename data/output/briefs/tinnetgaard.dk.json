@@ -1,0 +1,84 @@
+{
+  "domain": "tinnetgaard.dk",
+  "cvr": "prospect",
+  "company_name": "tinnetgaard.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-02",
+      "days_remaining": 64
+    },
+    "server": "",
+    "detected_plugins": [
+      "Google Site Kit",
+      "Mailchimp For Wp",
+      "Elementor Pro",
+      "The Events Calendar",
+      "Elementor",
+      "Woocommerce Product Addon",
+      "Pakkelabels For Woocommerce",
+      "Woocommerce",
+      "Google Analytics For Wordpress",
+      "Woocommerce Payments",
+      "Pw Woocommerce Gift Cards",
+      "Ova Brw",
+      "Woocommerce Gateway Stripe",
+      "Smart Woocommerce Search"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "92.113.23.0",
+      "92.113.16.76"
+    ],
+    "aaaa": [
+      "2a02:4780:45:a2b9:dbf8:19ac:5e85:546e",
+      "2a02:4780:43:7b5:9b1a:32a2:7c32:1323"
+    ],
+    "cname": [],
+    "mx": [
+      "tinnetgaard-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.dns-parking.com",
+      "ns2.dns-parking.com"
+    ],
+    "txt": [
+      "v=spf1 include:spf.protection.outlook.com include:spf.ubivox.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "14 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    }
+  ]
+}

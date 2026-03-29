@@ -1,0 +1,61 @@
+{
+  "domain": "kudsk-dahl.dk",
+  "cvr": "prospect",
+  "company_name": "kudsk-dahl.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-04-29",
+      "days_remaining": 31
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "193.8.37.84"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mxb-003d1a02.gslb.pphosted.com",
+      "mxa-003d1a02.gslb.pphosted.com"
+    ],
+    "ns": [
+      "ns1.eurodns.com",
+      "ns2.eurodns.com",
+      "ns3.eurodns.com",
+      "ns4.eurodns.com"
+    ],
+    "txt": [
+      "NOcY1eM0ybmvQ6CPfZMACtuzT6CRMILYN8IOpit3890+oexrupZyooQRtzVPw+clibw3oB8TtHhXFlYRfGOGsw==",
+      "v=spf1 include:%{ir}.%{v}.%{d}.spf.has.pphosted.com -all",
+      "as=1594822707",
+      "sophos-domain-verification=a1028ceedeee474f1ee7f22692b3b5a399aa7914436c75da4127b988e27799bd",
+      "docusign=13c4027d-1233-4a24-bdd0-ad086bf6a875",
+      "MS=ms54763344",
+      "Sendinblue-code:3d05bf7fb6055fbf7a7fe8be454a8791"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

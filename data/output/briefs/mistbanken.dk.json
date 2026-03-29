@@ -1,0 +1,53 @@
+{
+  "domain": "mistbanken.dk",
+  "cvr": "prospect",
+  "company_name": "mistbanken.dk",
+  "scan_date": "2026-03-29",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-05",
+      "days_remaining": 68
+    },
+    "server": "",
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [],
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "195.47.247.18"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mistbanken-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "v=spf1 ipv4:188.228.30.91 include:spf.protection.outlook.com include:_custspf.one.com -all",
+      "v=spf1 include:spf.protection.outlook.com include:_custspf.one.com -ll"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}
