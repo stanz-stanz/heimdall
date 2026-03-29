@@ -9,8 +9,13 @@ COMPOSE_MON="$HEIMDALL_DIR/infra/docker/docker-compose.monitoring.yml"
 # Deploy: pull + build + start everything
 alias heimdall-deploy="cd $HEIMDALL_DIR && git pull && docker compose -f $COMPOSE_FILE -f $COMPOSE_MON up -d --build"
 
-# Run the prospecting pipeline (scheduler creates jobs, workers process them)
-alias heimdall-pipeline="docker compose -f $COMPOSE_FILE run --rm scheduler"
+# Run the prospecting pipeline (flush stale jobs first, then schedule)
+heimdall-pipeline() {
+    echo "Flushing stale Redis queues..."
+    docker compose -f $COMPOSE_FILE exec -T redis redis-cli DEL queue:scan queue:enrichment queue:wpscan > /dev/null
+    echo "Starting pipeline..."
+    docker compose -f $COMPOSE_FILE run --rm scheduler
+}
 
 # Export results to CSV + briefs after a pipeline run
 alias heimdall-export="cd $HEIMDALL_DIR && python3 scripts/export_results.py --results-dir data/results --output-dir data/output"
