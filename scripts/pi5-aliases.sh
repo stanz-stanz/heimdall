@@ -13,7 +13,7 @@ alias heimdall-deploy="cd $HEIMDALL_DIR && git pull && docker compose -f $COMPOS
 alias heimdall-pipeline="docker compose -f $COMPOSE_FILE run --rm scheduler"
 
 # Export results to CSV + briefs after a pipeline run
-alias heimdall-export="docker compose -f $COMPOSE_FILE exec worker python -m scripts.export_results --results-dir /data/results --output-dir /data/output"
+alias heimdall-export="cd $HEIMDALL_DIR && python3 scripts/export_results.py --results-dir data/results --output-dir data/output"
 
 # Status: show all containers
 alias heimdall-status="docker compose -f $COMPOSE_FILE -f $COMPOSE_MON ps"
