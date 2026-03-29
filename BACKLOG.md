@@ -194,7 +194,7 @@ Package everything into containers. Validate on local Docker, then Pi5.
 
 ---
 
-## Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning) [COMPLETE + HARDENING]
+## Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning) [COMPLETE]
 
 Build the paid-service scanning pipeline. Requires written client consent (Level 1).
 
@@ -290,12 +290,12 @@ Prevent the class of deployment bugs found on 2026-03-29 (httpx binary overwrite
 | openpyxl on Pi5 | `sudo apt install python3-openpyxl` on Pi5 host (export script dependency) |
 
 **Definition of Done:**
-- [ ] `test_docker_smoke.py` verifies all 5 Go binaries executable at `/opt/go-tools/`
-- [ ] `test_export_results.py` covers: normal export, missing CVR, missing openpyxl, contactable field
-- [ ] CMSeek pinned to specific commit in Dockerfile
-- [ ] Nuclei pinned to v3.7.1 in Dockerfile
-- [ ] `heimdall-audit` shows 0 issues
-- [ ] Full pipeline run on Pi5 produces valid CSV with contactable field populated
+- [x] `test_docker_smoke.py` verifies all 5 Go binaries executable at `/opt/go-tools/`
+- [x] `test_export_results.py` covers: normal export, missing CVR, missing openpyxl, contactable field
+- [x] CMSeek pinned to specific commit in Dockerfile
+- [x] Nuclei pinned to v3.7.1 in Dockerfile
+- [x] `heimdall-audit` shows 0 issues
+- [x] Full pipeline run on Pi5 produces valid CSV with contactable field populated
 
 ---
 

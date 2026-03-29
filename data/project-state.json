@@ -1,11 +1,11 @@
 {
-  "last_updated": "2026-03-29T14:00:00Z",
-  "phase": "sprint-3-hardening",
+  "last_updated": "2026-03-29T18:00:00Z",
+  "phase": "sprint-4-staging",
   "current_sprint": {
-    "name": "Sprint 3.5 — Deployment Hardening (Blocking Pilot)",
-    "started": "2026-03-29",
-    "target_end": "2026-04-02",
-    "status": "in-progress"
+    "name": "Sprint 4 — Pilot Launch (Vejle, 5 clients)",
+    "started": "2026-03-30",
+    "target_end": "2026-04-30",
+    "status": "not-started"
   },
   "completed_sprints": [
     {
@@ -19,71 +19,48 @@
       "notes": "204 domains in 8.5 min (9x improvement). Subfinder batch enrichment, local CT database, observability stack. 217 tests."
     },
     {
-      "name": "Sprint 3 — Level 1 Pipeline (3.0-3.4)",
+      "name": "Sprint 3 — Level 1 Pipeline (3.0-3.5)",
       "status": "complete",
-      "notes": "Results API, consent management, Level 1 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory, digital twin, mobile console. 482 tests. Shipped 5 days early."
+      "notes": "Results API, consent management, Level 1 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory, digital twin, mobile console, deployment hardening. 500 tests. All versions pinned. Smoke test integrated into pipeline command."
     }
   ],
   "milestones": [
     {
-      "id": "M14",
-      "name": "Level 1 scan types (Sprint 3, Increment 3.2)",
-      "target_date": "2026-04-16",
-      "status": "complete",
-      "completed_date": "2026-03-28",
-      "owner_agent": "network-security",
-      "blockers": [],
-      "notes": "WPScan (Redis sidecar), CMSeek (git clone), Nuclei (Go binary + 12,763 templates). All verified on Pi5 ARM64."
-    },
-    {
-      "id": "M16",
-      "name": "Client Memory + Remediation workflow (Sprint 3, Increment 3.4)",
-      "target_date": "2026-04-23",
+      "id": "M20",
+      "name": "Docker smoke test (Sprint 3.5)",
       "status": "complete",
       "completed_date": "2026-03-29",
-      "owner_agent": "client-memory",
-      "blockers": [],
-      "notes": "Delta detection, remediation state machine, 56 tests. PR #13 merged."
-    },
-    {
-      "id": "M20",
-      "name": "Docker smoke test (Sprint 3.5 — Hardening)",
-      "target_date": "2026-04-02",
-      "status": "pending",
       "owner_agent": "devops",
-      "blockers": [],
-      "notes": "Verify Go binaries survive pip install. Prevent httpx-style overwrites."
+      "notes": "19 checks: Go binaries, templates, CMSeek, app code, imports. Integrated into heimdall-pipeline."
     },
     {
       "id": "M21",
-      "name": "Export script tests (Sprint 3.5 — Hardening)",
-      "target_date": "2026-04-02",
-      "status": "pending",
+      "name": "Export script tests (Sprint 3.5)",
+      "status": "complete",
+      "completed_date": "2026-03-29",
       "owner_agent": "python-expert",
-      "blockers": [],
-      "notes": "Test CVR enrichment, contactable field, CSV schema, graceful fallbacks."
+      "notes": "11 tests: CSV schema, CVR enrichment, contactable field, graceful fallbacks."
     },
     {
       "id": "M22",
-      "name": "Pin dependencies (Sprint 3.5 — Hardening)",
-      "target_date": "2026-04-01",
-      "status": "pending",
+      "name": "Version pinning (Sprint 3.5)",
+      "status": "complete",
+      "completed_date": "2026-03-29",
       "owner_agent": "devops",
-      "blockers": [],
-      "notes": "Pin CMSeek commit hash, Nuclei v3.7.1. Install openpyxl on Pi5."
+      "notes": "CMSeek commit 20f9780, Nuclei v3.7.1, httpx v1.9.0, webanalyze v0.4.1, subfinder v2.13.0, dnsx v1.2.3."
     },
     {
       "id": "M30",
-      "name": "Telegram delivery (Sprint 4)",
+      "name": "Telegram delivery (Sprint 4, Increment 4.1)",
       "target_date": "2026-04-30",
       "status": "pending",
       "owner_agent": "message-composer",
-      "blockers": ["M20", "M21", "M22"],
+      "blockers": [],
       "notes": "Bot setup, human-in-the-loop approval, message delivery."
     },
     {
       "id": "M31",
-      "name": "Client onboarding — first 5 Vejle businesses (Sprint 4)",
+      "name": "Client onboarding — first 5 Vejle businesses (Sprint 4, Increment 4.2)",
       "target_date": "2026-04-30",
       "status": "pending",
       "owner_agent": "project-coordinator",
@@ -97,17 +74,24 @@
       "status": "pending",
       "owner_agent": "devops",
       "blockers": [],
-      "notes": "Remote console, Grafana, Dozzle access. Soft dependency — doesn't block pilot."
+      "notes": "Remote console, Grafana, Dozzle access. Soft dependency."
     }
   ],
   "external_deadlines": [
     {
-      "name": "Startup Denmark application",
+      "name": "Lawyer consultation — outreach legal questions",
+      "date": "2026-03-31",
+      "status": "scheduled",
+      "owner_agent": "project-coordinator",
+      "notes": "8 questions prepared in docs/legal/legal-briefing-outreach-2026-03-29.md"
+    },
+    {
+      "name": "Startup Denmark (SIRI) application",
       "date": "TBD",
       "status": "drafting — strong (digital twin + Valdí featured)",
       "owner_agent": "grant-funding",
       "dependency_type": "soft",
-      "notes": "Benefits from pilot data but never blocks product roadmap. Lawyer meeting week of 2026-03-31."
+      "notes": "Ready for final review and submission."
     },
     {
       "name": "NCC-DK grant application",
@@ -115,7 +99,7 @@
       "status": "blocked (no CVR)",
       "owner_agent": "grant-funding",
       "dependency_type": "soft",
-      "notes": "Requires CVR from SIRI approval. Product continues regardless."
+      "notes": "Requires CVR from SIRI approval."
     }
   ],
   "clients": {
@@ -129,23 +113,25 @@
     "bucket_a": 85,
     "bucket_b": 7,
     "wordpress": 85,
-    "gdpr_sensitive": 107,
-    "total_findings": 980,
+    "gdpr_sensitive": 108,
+    "total_findings": 979,
+    "cvr_enriched": 203,
     "twin_enriched": 0,
-    "notes": "httpx fixed, tools/ in image. Twin enrichment pending re-run verification."
+    "notes": "Full pipeline operational. CMS detection, CVR enrichment, smoke test passing. Twin runs but Nuclei templates don't match simplified responses (design limitation). WPScan sidecar integration pending verification."
   },
+  "test_count": 500,
   "blockers": [],
   "next_actions": [
-    "Sprint 3.5: Docker smoke test (M20)",
-    "Sprint 3.5: Export script tests (M21)",
-    "Sprint 3.5: Pin CMSeek + Nuclei versions (M22)",
-    "Verify twin enrichment works on next Pi5 run",
+    "Verify current Pi5 run — check twin WPScan sidecar logs",
+    "Tailscale setup for remote monitoring",
+    "Telegram bot + human-in-the-loop approval (Sprint 4.1)",
+    "Onboard first 5 Vejle clients (Sprint 4.2)",
     "Lawyer meeting — outreach legal questions (week of 2026-03-31)"
   ],
   "follow_ups": [
-    "CT backfill from crt.sh (one-time, before next production run)",
-    "Subfinder API keys for better subdomain coverage",
+    "Marketing strategy finalization (post legal consultation)",
+    "Threat feed integration: abuse.ch URLhaus + WHOIS domain age (Sprint 4+)",
     "Grafana custom dashboards for Heimdall runs",
-    "Marketing strategy finalization (post legal consultation)"
+    "Professional indemnity insurance quote"
   ]
 }
