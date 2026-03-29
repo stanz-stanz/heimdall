@@ -1,6 +1,6 @@
 {
   "domain": "apomail.dk",
-  "job_id": "scan-2026-03-29-732908aa",
+  "job_id": "scan-2026-03-29-67debd10",
   "status": "completed",
   "scan_result": {
     "domain": "apomail.dk",
@@ -177,19 +177,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 192,
-    "ssl": 69,
-    "headers": 208,
-    "meta": 249,
-    "httpx": 1916,
-    "webanalyze": 4,
-    "dnsx": 725,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3370
+    "robots_txt": 188,
+    "total_ms": 189
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

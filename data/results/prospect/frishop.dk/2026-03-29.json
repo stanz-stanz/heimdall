@@ -1,6 +1,6 @@
 {
   "domain": "frishop.dk",
-  "job_id": "scan-2026-03-29-5d9432b2",
+  "job_id": "scan-2026-03-29-0f39e98f",
   "status": "completed",
   "scan_result": {
     "domain": "frishop.dk",
@@ -187,19 +187,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 240,
-    "ssl": 76,
-    "headers": 624,
-    "meta": 854,
-    "httpx": 3511,
-    "webanalyze": 4,
-    "dnsx": 735,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 6052
+    "robots_txt": 283,
+    "total_ms": 284
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

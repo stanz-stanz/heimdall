@@ -1,6 +1,6 @@
 {
   "domain": "staalservice.dk",
-  "job_id": "scan-2026-03-29-d75d4b6e",
+  "job_id": "scan-2026-03-29-eb740756",
   "status": "completed",
   "scan_result": {
     "domain": "staalservice.dk",
@@ -169,19 +169,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 87,
-    "ssl": 78,
-    "headers": 89,
-    "meta": 92,
-    "httpx": 1663,
-    "webanalyze": 2,
-    "dnsx": 789,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2811
+    "robots_txt": 90,
+    "total_ms": 92
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

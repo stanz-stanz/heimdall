@@ -1,6 +1,6 @@
 {
   "domain": "ls-elvarme.dk",
-  "job_id": "scan-2026-03-29-0f4d3e36",
+  "job_id": "scan-2026-03-29-61f7ef0e",
   "status": "completed",
   "scan_result": {
     "domain": "ls-elvarme.dk",
@@ -242,19 +242,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 515,
-    "ssl": 96,
-    "headers": 457,
-    "meta": 755,
-    "httpx": 3944,
-    "webanalyze": 4,
-    "dnsx": 784,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 18182
+    "robots_txt": 457,
+    "total_ms": 11455
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

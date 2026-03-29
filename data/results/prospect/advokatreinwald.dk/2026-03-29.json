@@ -1,6 +1,6 @@
 {
   "domain": "advokatreinwald.dk",
-  "job_id": "scan-2026-03-29-a577e318",
+  "job_id": "scan-2026-03-29-a54db06d",
   "status": "completed",
   "scan_result": {
     "domain": "advokatreinwald.dk",
@@ -268,19 +268,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 1964,
-    "ssl": 96,
-    "headers": 1619,
-    "meta": 1770,
-    "httpx": 4184,
-    "webanalyze": 2,
-    "dnsx": 718,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 16689
+    "robots_txt": 1792,
+    "total_ms": 8081
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

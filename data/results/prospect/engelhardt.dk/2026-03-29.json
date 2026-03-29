@@ -1,6 +1,6 @@
 {
   "domain": "engelhardt.dk",
-  "job_id": "scan-2026-03-29-b5feea40",
+  "job_id": "scan-2026-03-29-b1a0dbb3",
   "status": "completed",
   "scan_result": {
     "domain": "engelhardt.dk",
@@ -207,19 +207,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 80,
-    "ssl": 69,
-    "headers": 82,
-    "meta": 92,
-    "httpx": 1828,
-    "webanalyze": 4,
-    "dnsx": 832,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 9374
+    "robots_txt": 104,
+    "total_ms": 11493
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

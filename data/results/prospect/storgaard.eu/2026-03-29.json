@@ -1,6 +1,6 @@
 {
   "domain": "storgaard.eu",
-  "job_id": "scan-2026-03-29-dbdccc14",
+  "job_id": "scan-2026-03-29-82962023",
   "status": "completed",
   "scan_result": {
     "domain": "storgaard.eu",
@@ -163,19 +163,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 137,
-    "ssl": 121,
-    "headers": 325,
-    "meta": 93,
-    "httpx": 2019,
-    "webanalyze": 4,
-    "dnsx": 839,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3547
+    "robots_txt": 118,
+    "total_ms": 119
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

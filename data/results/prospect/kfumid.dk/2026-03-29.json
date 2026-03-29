@@ -1,6 +1,6 @@
 {
   "domain": "kfumid.dk",
-  "job_id": "scan-2026-03-29-05ba4d87",
+  "job_id": "scan-2026-03-29-abad5916",
   "status": "completed",
   "scan_result": {
     "domain": "kfumid.dk",
@@ -172,19 +172,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 68,
-    "ssl": 61,
-    "headers": 55,
-    "meta": 66,
-    "httpx": 2998,
-    "webanalyze": 2,
-    "dnsx": 735,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3994
+    "robots_txt": 79,
+    "total_ms": 81
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

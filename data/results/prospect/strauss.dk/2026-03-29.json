@@ -1,6 +1,6 @@
 {
   "domain": "strauss.dk",
-  "job_id": "scan-2026-03-29-c453e7f1",
+  "job_id": "scan-2026-03-29-d14a108a",
   "status": "completed",
   "scan_result": {
     "domain": "strauss.dk",
@@ -236,19 +236,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 1152,
-    "ssl": 71,
-    "headers": 235,
-    "meta": 124,
-    "httpx": 2713,
-    "webanalyze": 4,
-    "dnsx": 759,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 15379
+    "robots_txt": 677,
+    "total_ms": 11483
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

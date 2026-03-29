@@ -1,6 +1,6 @@
 {
   "domain": "vejleport.dk",
-  "job_id": "scan-2026-03-29-5e33e5b8",
+  "job_id": "scan-2026-03-29-eb083fee",
   "status": "completed",
   "scan_result": {
     "domain": "vejleport.dk",
@@ -228,19 +228,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 724,
-    "ssl": 64,
-    "headers": 751,
-    "meta": 1043,
-    "httpx": 3515,
-    "webanalyze": 4,
-    "dnsx": 637,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 16061
+    "robots_txt": 777,
+    "total_ms": 11596
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

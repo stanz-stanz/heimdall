@@ -1,6 +1,6 @@
 {
   "domain": "vejle-boldklub.dk",
-  "job_id": "scan-2026-03-29-186267b0",
+  "job_id": "scan-2026-03-29-c71325e8",
   "status": "completed",
   "scan_result": {
     "domain": "vejle-boldklub.dk",
@@ -187,19 +187,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 88,
-    "ssl": 68,
-    "headers": 141,
-    "meta": 136,
-    "httpx": 2238,
-    "webanalyze": 2,
-    "dnsx": 658,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3341
+    "robots_txt": 81,
+    "total_ms": 82
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

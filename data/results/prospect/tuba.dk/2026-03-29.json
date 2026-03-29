@@ -1,6 +1,6 @@
 {
   "domain": "tuba.dk",
-  "job_id": "scan-2026-03-29-1c59ca9e",
+  "job_id": "scan-2026-03-29-9a3f922f",
   "status": "completed",
   "scan_result": {
     "domain": "tuba.dk",
@@ -190,18 +190,10 @@
   },
   "timing": {
     "robots_txt": 411,
-    "ssl": 74,
-    "headers": 443,
-    "meta": 437,
-    "httpx": 5067,
-    "webanalyze": 3,
-    "dnsx": 720,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 7165
+    "total_ms": 412
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

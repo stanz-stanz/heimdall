@@ -1,6 +1,6 @@
 {
   "domain": "pj-huse.dk",
-  "job_id": "scan-2026-03-29-bead1784",
+  "job_id": "scan-2026-03-29-98de9c00",
   "status": "completed",
   "scan_result": {
     "domain": "pj-huse.dk",
@@ -222,19 +222,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 59,
-    "ssl": 58,
-    "headers": 54,
-    "meta": 61,
-    "httpx": 3649,
-    "webanalyze": 4,
-    "dnsx": 731,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 16110
+    "robots_txt": 68,
+    "total_ms": 11476
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

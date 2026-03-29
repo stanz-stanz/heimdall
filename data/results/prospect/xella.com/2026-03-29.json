@@ -1,6 +1,6 @@
 {
   "domain": "xella.com",
-  "job_id": "scan-2026-03-29-3d8bd011",
+  "job_id": "scan-2026-03-29-1efe0a05",
   "status": "completed",
   "scan_result": {
     "domain": "xella.com",
@@ -180,19 +180,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 264,
-    "ssl": 84,
-    "headers": 305,
-    "meta": 372,
-    "httpx": 1878,
-    "webanalyze": 4,
-    "dnsx": 713,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3630
+    "robots_txt": 296,
+    "total_ms": 297
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

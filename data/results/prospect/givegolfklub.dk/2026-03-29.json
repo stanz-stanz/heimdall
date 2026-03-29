@@ -1,6 +1,6 @@
 {
   "domain": "givegolfklub.dk",
-  "job_id": "scan-2026-03-29-5ae98e7b",
+  "job_id": "scan-2026-03-29-5f7316de",
   "status": "completed",
   "scan_result": {
     "domain": "givegolfklub.dk",
@@ -195,19 +195,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 105,
-    "ssl": 70,
-    "headers": 327,
-    "meta": 149,
-    "httpx": 1986,
-    "webanalyze": 4,
-    "dnsx": 4338,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 6991
+    "robots_txt": 90,
+    "total_ms": 92
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

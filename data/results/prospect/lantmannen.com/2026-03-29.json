@@ -1,6 +1,6 @@
 {
   "domain": "lantmannen.com",
-  "job_id": "scan-2026-03-29-510b7549",
+  "job_id": "scan-2026-03-29-19ddf3f5",
   "status": "completed",
   "scan_result": {
     "domain": "lantmannen.com",
@@ -207,19 +207,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 404,
-    "ssl": 213,
-    "headers": 525,
-    "meta": 534,
-    "httpx": 3913,
-    "webanalyze": 4,
-    "dnsx": 732,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 6334
+    "robots_txt": 462,
+    "total_ms": 464
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

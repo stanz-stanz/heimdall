@@ -1,6 +1,6 @@
 {
   "domain": "km.dk",
-  "job_id": "scan-2026-03-29-682d9517",
+  "job_id": "scan-2026-03-29-bc7fdcff",
   "status": "completed",
   "scan_result": {
     "domain": "km.dk",
@@ -192,19 +192,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 116,
-    "ssl": 95,
-    "headers": 115,
-    "meta": 425,
-    "httpx": 2378,
-    "webanalyze": 4,
-    "dnsx": 740,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3883
+    "robots_txt": 121,
+    "total_ms": 123
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

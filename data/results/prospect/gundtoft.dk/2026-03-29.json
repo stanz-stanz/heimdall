@@ -1,6 +1,6 @@
 {
   "domain": "gundtoft.dk",
-  "job_id": "scan-2026-03-29-d12e139e",
+  "job_id": "scan-2026-03-29-fc37bad8",
   "status": "completed",
   "scan_result": {
     "domain": "gundtoft.dk",
@@ -188,18 +188,10 @@
   },
   "timing": {
     "robots_txt": 206,
-    "ssl": 85,
-    "headers": 625,
-    "meta": 573,
-    "httpx": 3055,
-    "webanalyze": 4,
-    "dnsx": 738,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 5296
+    "total_ms": 208
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

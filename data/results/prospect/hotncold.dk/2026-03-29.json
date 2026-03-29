@@ -1,6 +1,6 @@
 {
   "domain": "hotncold.dk",
-  "job_id": "scan-2026-03-29-fff37ca8",
+  "job_id": "scan-2026-03-29-a17d6c36",
   "status": "completed",
   "scan_result": {
     "domain": "hotncold.dk",
@@ -260,19 +260,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 90,
-    "ssl": 73,
-    "headers": 499,
-    "meta": 497,
-    "httpx": 4352,
-    "webanalyze": 2,
-    "dnsx": 763,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 13597
+    "robots_txt": 99,
+    "total_ms": 11500
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

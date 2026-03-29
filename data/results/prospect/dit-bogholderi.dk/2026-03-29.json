@@ -1,6 +1,6 @@
 {
   "domain": "dit-bogholderi.dk",
-  "job_id": "scan-2026-03-29-a6f7f2e6",
+  "job_id": "scan-2026-03-29-6343bc7a",
   "status": "completed",
   "scan_result": {
     "domain": "dit-bogholderi.dk",
@@ -163,19 +163,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 111,
-    "ssl": 78,
-    "headers": 94,
-    "meta": 97,
-    "httpx": 2107,
-    "webanalyze": 4,
-    "dnsx": 751,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3251
+    "robots_txt": 99,
+    "total_ms": 100
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "vis-performance.dk",
-  "job_id": "scan-2026-03-29-02e2e733",
+  "job_id": "scan-2026-03-29-e7635dd8",
   "status": "completed",
   "scan_result": {
     "domain": "vis-performance.dk",
@@ -278,19 +278,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 361,
-    "ssl": 60,
-    "headers": 83,
-    "meta": 94,
-    "httpx": 3664,
-    "webanalyze": 2,
-    "dnsx": 768,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 14497
+    "robots_txt": 374,
+    "total_ms": 11288
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

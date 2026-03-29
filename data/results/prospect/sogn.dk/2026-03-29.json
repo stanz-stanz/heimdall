@@ -1,6 +1,6 @@
 {
   "domain": "sogn.dk",
-  "job_id": "scan-2026-03-29-664e292a",
+  "job_id": "scan-2026-03-29-2a489656",
   "status": "completed",
   "scan_result": {
     "domain": "sogn.dk",
@@ -186,19 +186,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 175,
-    "ssl": 130,
-    "headers": 178,
-    "meta": 209,
-    "httpx": 2185,
-    "webanalyze": 5,
-    "dnsx": 769,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3664
+    "robots_txt": 168,
+    "total_ms": 170
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

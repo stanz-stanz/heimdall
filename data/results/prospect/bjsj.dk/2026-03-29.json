@@ -1,6 +1,6 @@
 {
   "domain": "bjsj.dk",
-  "job_id": "scan-2026-03-29-b3fe49f6",
+  "job_id": "scan-2026-03-29-60e7b8df",
   "status": "completed",
   "scan_result": {
     "domain": "bjsj.dk",
@@ -250,19 +250,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 226,
-    "ssl": 69,
-    "headers": 83,
-    "meta": 107,
-    "httpx": 3692,
-    "webanalyze": 4,
-    "dnsx": 663,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11131
+    "robots_txt": 264,
+    "total_ms": 10740
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

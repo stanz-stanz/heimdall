@@ -1,6 +1,6 @@
 {
   "domain": "addedvalues.eu",
-  "job_id": "scan-2026-03-29-70d3b511",
+  "job_id": "scan-2026-03-29-5f1791fa",
   "status": "completed",
   "scan_result": {
     "domain": "addedvalues.eu",
@@ -163,19 +163,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 140,
-    "ssl": 101,
-    "headers": 304,
-    "meta": 360,
-    "httpx": 2183,
-    "webanalyze": 4,
-    "dnsx": 768,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3876
+    "robots_txt": 138,
+    "total_ms": 142
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

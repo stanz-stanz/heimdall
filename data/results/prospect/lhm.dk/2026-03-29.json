@@ -1,6 +1,6 @@
 {
   "domain": "lhm.dk",
-  "job_id": "scan-2026-03-29-2bfe55f4",
+  "job_id": "scan-2026-03-29-3af32b98",
   "status": "completed",
   "scan_result": {
     "domain": "lhm.dk",
@@ -165,19 +165,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 236,
-    "ssl": 83,
-    "headers": 2272,
-    "meta": 2138,
-    "httpx": 4609,
-    "webanalyze": 3,
-    "dnsx": 767,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 10117
+    "robots_txt": 193,
+    "total_ms": 195
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "eaton.com",
-  "job_id": "scan-2026-03-29-6ddd7064",
+  "job_id": "scan-2026-03-29-2567e71f",
   "status": "completed",
   "scan_result": {
     "domain": "eaton.com",
@@ -153,19 +153,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 15919,
-    "ssl": 429,
-    "headers": 15662,
-    "meta": 15794,
-    "httpx": 21389,
-    "webanalyze": 4,
-    "dnsx": 947,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 70153
+    "robots_txt": 15910,
+    "total_ms": 15911
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

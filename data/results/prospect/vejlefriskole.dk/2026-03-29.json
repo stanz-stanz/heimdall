@@ -1,6 +1,6 @@
 {
   "domain": "vejlefriskole.dk",
-  "job_id": "scan-2026-03-29-a9e8a9fa",
+  "job_id": "scan-2026-03-29-06d68664",
   "status": "completed",
   "scan_result": {
     "domain": "vejlefriskole.dk",
@@ -264,19 +264,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 691,
-    "ssl": 69,
-    "headers": 413,
-    "meta": 434,
-    "httpx": 2998,
-    "webanalyze": 3,
-    "dnsx": 745,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11675
+    "robots_txt": 1245,
+    "total_ms": 9072
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

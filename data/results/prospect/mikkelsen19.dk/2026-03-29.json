@@ -1,6 +1,6 @@
 {
   "domain": "mikkelsen19.dk",
-  "job_id": "scan-2026-03-29-71a223fb",
+  "job_id": "scan-2026-03-29-c2122801",
   "status": "completed",
   "scan_result": {
     "domain": "mikkelsen19.dk",
@@ -161,19 +161,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 82,
-    "ssl": 68,
-    "headers": 67,
-    "meta": 60,
-    "httpx": 1553,
-    "webanalyze": 5,
-    "dnsx": 787,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2632
+    "robots_txt": 76,
+    "total_ms": 78
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

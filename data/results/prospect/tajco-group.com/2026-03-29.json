@@ -1,6 +1,6 @@
 {
   "domain": "tajco-group.com",
-  "job_id": "scan-2026-03-29-04beac2d",
+  "job_id": "scan-2026-03-29-aa6878da",
   "status": "completed",
   "scan_result": {
     "domain": "tajco-group.com",
@@ -189,19 +189,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 201,
-    "ssl": 130,
-    "headers": 327,
-    "meta": 391,
-    "httpx": 6445,
-    "webanalyze": 3,
-    "dnsx": 639,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 8148
+    "robots_txt": 217,
+    "total_ms": 218
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

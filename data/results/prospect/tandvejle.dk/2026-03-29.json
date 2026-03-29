@@ -1,6 +1,6 @@
 {
   "domain": "tandvejle.dk",
-  "job_id": "scan-2026-03-29-49754de7",
+  "job_id": "scan-2026-03-29-32b69e9d",
   "status": "completed",
   "scan_result": {
     "domain": "tandvejle.dk",
@@ -184,19 +184,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 87,
-    "ssl": 73,
-    "headers": 161,
-    "meta": 152,
-    "httpx": 2498,
-    "webanalyze": 4,
-    "dnsx": 663,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3646
+    "robots_txt": 107,
+    "total_ms": 109
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

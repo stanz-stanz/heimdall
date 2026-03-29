@@ -1,6 +1,6 @@
 {
   "domain": "rema1000.dk",
-  "job_id": "scan-2026-03-29-37797967",
+  "job_id": "scan-2026-03-29-91e4b0d0",
   "status": "completed",
   "scan_result": {
     "domain": "rema1000.dk",
@@ -213,19 +213,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 152,
-    "ssl": 115,
-    "headers": 673,
-    "meta": 773,
-    "httpx": 2985,
-    "webanalyze": 4,
-    "dnsx": 746,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 5459
+    "robots_txt": 140,
+    "total_ms": 141
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "mariasplads.onmicrosoft.com",
-  "job_id": "scan-2026-03-29-72bee56e",
+  "job_id": "scan-2026-03-29-a7ca73d1",
   "status": "completed",
   "scan_result": {
     "domain": "mariasplads.onmicrosoft.com",
@@ -112,19 +112,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 25,
-    "ssl": 28,
-    "headers": 17,
-    "meta": 16,
-    "httpx": 2236,
-    "webanalyze": 3,
-    "dnsx": 624,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2957
+    "robots_txt": 19,
+    "total_ms": 21
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

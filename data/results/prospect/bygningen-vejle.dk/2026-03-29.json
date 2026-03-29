@@ -1,6 +1,6 @@
 {
   "domain": "bygningen-vejle.dk",
-  "job_id": "scan-2026-03-29-7b870b3b",
+  "job_id": "scan-2026-03-29-cef87bec",
   "status": "completed",
   "scan_result": {
     "domain": "bygningen-vejle.dk",
@@ -145,19 +145,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 99,
-    "ssl": 87,
-    "headers": 99,
-    "meta": 99,
-    "httpx": 1505,
-    "webanalyze": 3,
-    "dnsx": 777,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2679
+    "robots_txt": 103,
+    "total_ms": 105
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

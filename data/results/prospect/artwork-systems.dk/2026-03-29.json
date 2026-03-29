@@ -1,6 +1,6 @@
 {
   "domain": "artwork-systems.dk",
-  "job_id": "scan-2026-03-29-5429d7cd",
+  "job_id": "scan-2026-03-29-ab39218e",
   "status": "completed",
   "scan_result": {
     "domain": "artwork-systems.dk",
@@ -242,19 +242,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 201,
-    "ssl": 71,
-    "headers": 179,
-    "meta": 204,
-    "httpx": 2548,
-    "webanalyze": 4,
-    "dnsx": 723,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 13761
+    "robots_txt": 175,
+    "total_ms": 11477
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

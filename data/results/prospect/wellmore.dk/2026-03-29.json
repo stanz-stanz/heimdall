@@ -1,6 +1,6 @@
 {
   "domain": "wellmore.dk",
-  "job_id": "scan-2026-03-29-d8d50145",
+  "job_id": "scan-2026-03-29-85a0a6f0",
   "status": "completed",
   "scan_result": {
     "domain": "wellmore.dk",
@@ -302,19 +302,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 892,
-    "ssl": 76,
-    "headers": 1163,
-    "meta": 1213,
-    "httpx": 4241,
-    "webanalyze": 2,
-    "dnsx": 659,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 16382
+    "robots_txt": 904,
+    "total_ms": 9727
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

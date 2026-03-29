@@ -1,6 +1,6 @@
 {
   "domain": "autoproff.dk",
-  "job_id": "scan-2026-03-29-602d8f15",
+  "job_id": "scan-2026-03-29-f47eea90",
   "status": "completed",
   "scan_result": {
     "domain": "autoproff.dk",
@@ -191,19 +191,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 128,
-    "ssl": 87,
-    "headers": 263,
-    "meta": 314,
-    "httpx": 5280,
-    "webanalyze": 4,
-    "dnsx": 854,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 6941
+    "robots_txt": 146,
+    "total_ms": 147
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

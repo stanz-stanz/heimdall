@@ -1,6 +1,6 @@
 {
   "domain": "ktlarsen.dk",
-  "job_id": "scan-2026-03-29-16f1ad5e",
+  "job_id": "scan-2026-03-29-670cfc3e",
   "status": "completed",
   "scan_result": {
     "domain": "ktlarsen.dk",
@@ -118,19 +118,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 25,
-    "ssl": 24,
-    "headers": 18,
-    "meta": 18,
-    "httpx": 2224,
-    "webanalyze": 5,
-    "dnsx": 761,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3083
+    "robots_txt": 28,
+    "total_ms": 29
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "givesco.dk",
-  "job_id": "scan-2026-03-29-e9874a1f",
+  "job_id": "scan-2026-03-29-c891720f",
   "status": "completed",
   "scan_result": {
     "domain": "givesco.dk",
@@ -249,19 +249,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 173,
-    "ssl": 73,
-    "headers": 251,
-    "meta": 155,
-    "httpx": 2499,
-    "webanalyze": 2,
-    "dnsx": 789,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11971
+    "robots_txt": 120,
+    "total_ms": 11711
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "vandelefterskole.dk",
-  "job_id": "scan-2026-03-29-1b41f83c",
+  "job_id": "scan-2026-03-29-79684065",
   "status": "completed",
   "scan_result": {
     "domain": "vandelefterskole.dk",
@@ -239,19 +239,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 274,
-    "ssl": 96,
-    "headers": 398,
-    "meta": 396,
-    "httpx": 2766,
-    "webanalyze": 4,
-    "dnsx": 733,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 13055
+    "robots_txt": 277,
+    "total_ms": 5785
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

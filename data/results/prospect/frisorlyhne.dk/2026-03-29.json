@@ -1,6 +1,6 @@
 {
   "domain": "frisorlyhne.dk",
-  "job_id": "scan-2026-03-29-451f7654",
+  "job_id": "scan-2026-03-29-8b800120",
   "status": "completed",
   "scan_result": {
     "domain": "frisorlyhne.dk",
@@ -239,19 +239,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 468,
-    "ssl": 68,
-    "headers": 191,
-    "meta": 213,
-    "httpx": 4928,
-    "webanalyze": 4,
-    "dnsx": 747,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 16412
+    "robots_txt": 640,
+    "total_ms": 11537
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

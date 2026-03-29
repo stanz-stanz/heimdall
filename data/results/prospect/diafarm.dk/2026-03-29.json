@@ -1,6 +1,6 @@
 {
   "domain": "diafarm.dk",
-  "job_id": "scan-2026-03-29-79842746",
+  "job_id": "scan-2026-03-29-3b627356",
   "status": "completed",
   "scan_result": {
     "domain": "diafarm.dk",
@@ -229,19 +229,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 218,
-    "ssl": 60,
-    "headers": 239,
-    "meta": 440,
-    "httpx": 2879,
-    "webanalyze": 3,
-    "dnsx": 781,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 10850
+    "robots_txt": 235,
+    "total_ms": 150530
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

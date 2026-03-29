@@ -1,6 +1,6 @@
 {
   "domain": "vejlekrisecenter.dk",
-  "job_id": "scan-2026-03-29-addff4c5",
+  "job_id": "scan-2026-03-29-76d8c2fd",
   "status": "completed",
   "scan_result": {
     "domain": "vejlekrisecenter.dk",
@@ -232,19 +232,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 123,
-    "ssl": 87,
-    "headers": 254,
-    "meta": 259,
-    "httpx": 2793,
-    "webanalyze": 4,
-    "dnsx": 734,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 13151
+    "robots_txt": 136,
+    "total_ms": 23104
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

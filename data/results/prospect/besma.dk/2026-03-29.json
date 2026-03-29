@@ -1,6 +1,6 @@
 {
   "domain": "besma.dk",
-  "job_id": "scan-2026-03-29-84e94d50",
+  "job_id": "scan-2026-03-29-fc5db3d0",
   "status": "completed",
   "scan_result": {
     "domain": "besma.dk",
@@ -257,19 +257,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 83,
-    "ssl": 66,
-    "headers": 92,
-    "meta": 113,
-    "httpx": 4694,
-    "webanalyze": 3,
-    "dnsx": 801,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 20887
+    "robots_txt": 94,
+    "total_ms": 11399
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

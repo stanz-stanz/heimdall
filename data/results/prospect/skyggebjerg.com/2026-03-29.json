@@ -1,6 +1,6 @@
 {
   "domain": "skyggebjerg.com",
-  "job_id": "scan-2026-03-29-3e710cb3",
+  "job_id": "scan-2026-03-29-9c1510c5",
   "status": "completed",
   "scan_result": {
     "domain": "skyggebjerg.com",
@@ -160,19 +160,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 76,
-    "ssl": 85,
-    "headers": 63,
-    "meta": 68,
-    "httpx": 1652,
-    "webanalyze": 4,
-    "dnsx": 749,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2710
+    "robots_txt": 67,
+    "total_ms": 68
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

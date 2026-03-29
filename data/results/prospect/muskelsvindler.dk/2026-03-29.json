@@ -1,6 +1,6 @@
 {
   "domain": "muskelsvindler.dk",
-  "job_id": "scan-2026-03-29-a29a0b88",
+  "job_id": "scan-2026-03-29-ff35875f",
   "status": "completed",
   "scan_result": {
     "domain": "muskelsvindler.dk",
@@ -163,19 +163,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 91,
-    "ssl": 64,
-    "headers": 89,
-    "meta": 83,
-    "httpx": 1537,
-    "webanalyze": 7,
-    "dnsx": 767,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2651
+    "robots_txt": 184,
+    "total_ms": 186
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "dal-bo.dk",
-  "job_id": "scan-2026-03-29-77652420",
+  "job_id": "scan-2026-03-29-a091ed2e",
   "status": "completed",
   "scan_result": {
     "domain": "dal-bo.dk",
@@ -255,19 +255,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 354,
-    "ssl": 78,
-    "headers": 665,
-    "meta": 347,
-    "httpx": 3144,
-    "webanalyze": 4,
-    "dnsx": 696,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11811
+    "robots_txt": 348,
+    "total_ms": 11511
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "daltec.com",
-  "job_id": "scan-2026-03-29-ca9541cf",
+  "job_id": "scan-2026-03-29-857a1c72",
   "status": "completed",
   "scan_result": {
     "domain": "daltec.com",
@@ -285,19 +285,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 429,
-    "ssl": 67,
-    "headers": 610,
-    "meta": 846,
-    "httpx": 3732,
-    "webanalyze": 3,
-    "dnsx": 760,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 12706
+    "robots_txt": 314,
+    "total_ms": 11483
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

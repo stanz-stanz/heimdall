@@ -1,6 +1,6 @@
 {
   "domain": "vejlespildevand.dk",
-  "job_id": "scan-2026-03-29-fddf632f",
+  "job_id": "scan-2026-03-29-61dc4bd0",
   "status": "completed",
   "scan_result": {
     "domain": "vejlespildevand.dk",
@@ -178,19 +178,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 180,
-    "ssl": 64,
-    "headers": 177,
-    "meta": 183,
-    "httpx": 2371,
-    "webanalyze": 4,
-    "dnsx": 757,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3747
+    "robots_txt": 178,
+    "total_ms": 179
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

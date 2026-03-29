@@ -1,6 +1,6 @@
 {
   "domain": "dankoel.dk",
-  "job_id": "scan-2026-03-29-019e89dc",
+  "job_id": "scan-2026-03-29-41864392",
   "status": "completed",
   "scan_result": {
     "domain": "dankoel.dk",
@@ -104,19 +104,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 226,
-    "ssl": 207,
-    "headers": 221,
-    "meta": 215,
-    "httpx": 2756,
-    "webanalyze": 4,
-    "dnsx": 781,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4418
+    "robots_txt": 210,
+    "total_ms": 211
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

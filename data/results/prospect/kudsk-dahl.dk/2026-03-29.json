@@ -1,6 +1,6 @@
 {
   "domain": "kudsk-dahl.dk",
-  "job_id": "scan-2026-03-29-c6c174ab",
+  "job_id": "scan-2026-03-29-841206dd",
   "status": "completed",
   "scan_result": {
     "domain": "kudsk-dahl.dk",
@@ -168,19 +168,11 @@
     "findings": []
   },
   "timing": {
-    "robots_txt": 127,
-    "ssl": 96,
-    "headers": 468,
-    "meta": 343,
-    "httpx": 3100,
-    "webanalyze": 4,
-    "dnsx": 699,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4849
+    "robots_txt": 115,
+    "total_ms": 116
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

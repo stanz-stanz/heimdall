@@ -1,6 +1,6 @@
 {
   "domain": "godmail.dk",
-  "job_id": "scan-2026-03-29-f8f1e62d",
+  "job_id": "scan-2026-03-29-fdeeb8ae",
   "status": "completed",
   "scan_result": {
     "domain": "godmail.dk",
@@ -184,19 +184,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 307,
-    "ssl": 117,
-    "headers": 277,
-    "meta": 275,
-    "httpx": 1917,
-    "webanalyze": 4,
-    "dnsx": 730,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3642
+    "robots_txt": 259,
+    "total_ms": 261
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

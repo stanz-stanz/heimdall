@@ -1,6 +1,6 @@
 {
   "domain": "vorting.dk",
-  "job_id": "scan-2026-03-29-d94b5176",
+  "job_id": "scan-2026-03-29-12757566",
   "status": "completed",
   "scan_result": {
     "domain": "vorting.dk",
@@ -176,19 +176,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 88,
-    "ssl": 73,
-    "headers": 196,
-    "meta": 220,
-    "httpx": 2085,
-    "webanalyze": 4,
-    "dnsx": 785,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3460
+    "robots_txt": 87,
+    "total_ms": 88
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

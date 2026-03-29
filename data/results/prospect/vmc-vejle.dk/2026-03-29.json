@@ -1,6 +1,6 @@
 {
   "domain": "vmc-vejle.dk",
-  "job_id": "scan-2026-03-29-44afaf95",
+  "job_id": "scan-2026-03-29-eb8c926b",
   "status": "completed",
   "scan_result": {
     "domain": "vmc-vejle.dk",
@@ -191,19 +191,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 246,
-    "ssl": 161,
-    "headers": 623,
-    "meta": 826,
-    "httpx": 3078,
-    "webanalyze": 3,
-    "dnsx": 789,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 5735
+    "robots_txt": 240,
+    "total_ms": 241
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

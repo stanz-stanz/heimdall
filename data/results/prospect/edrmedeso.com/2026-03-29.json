@@ -1,6 +1,6 @@
 {
   "domain": "edrmedeso.com",
-  "job_id": "scan-2026-03-29-c0f4bc06",
+  "job_id": "scan-2026-03-29-33447885",
   "status": "completed",
   "scan_result": {
     "domain": "edrmedeso.com",
@@ -256,19 +256,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 157,
-    "ssl": 70,
-    "headers": 182,
-    "meta": 160,
-    "httpx": 3130,
-    "webanalyze": 4,
-    "dnsx": 718,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 10724
+    "robots_txt": 138,
+    "total_ms": 7405
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

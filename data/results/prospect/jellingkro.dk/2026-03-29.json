@@ -1,6 +1,6 @@
 {
   "domain": "jellingkro.dk",
-  "job_id": "scan-2026-03-29-de91c601",
+  "job_id": "scan-2026-03-29-9bd944ed",
   "status": "completed",
   "scan_result": {
     "domain": "jellingkro.dk",
@@ -289,19 +289,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 96,
-    "ssl": 69,
-    "headers": 96,
-    "meta": 99,
-    "httpx": 3576,
-    "webanalyze": 4,
-    "dnsx": 713,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11185
+    "robots_txt": 99,
+    "total_ms": 10088
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

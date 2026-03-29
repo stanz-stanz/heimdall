@@ -1,6 +1,6 @@
 {
   "domain": "holstsko.dk",
-  "job_id": "scan-2026-03-29-e55b6660",
+  "job_id": "scan-2026-03-29-cab6e069",
   "status": "completed",
   "scan_result": {
     "domain": "holstsko.dk",
@@ -170,19 +170,11 @@
     "findings": []
   },
   "timing": {
-    "robots_txt": 182,
-    "ssl": 72,
-    "headers": 720,
-    "meta": 429,
-    "httpx": 5940,
-    "webanalyze": 4,
-    "dnsx": 777,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 8131
+    "robots_txt": 196,
+    "total_ms": 198
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

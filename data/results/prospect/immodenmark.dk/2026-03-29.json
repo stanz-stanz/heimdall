@@ -1,6 +1,6 @@
 {
   "domain": "immodenmark.dk",
-  "job_id": "scan-2026-03-29-eab28dd2",
+  "job_id": "scan-2026-03-29-89c868af",
   "status": "completed",
   "scan_result": {
     "domain": "immodenmark.dk",
@@ -242,19 +242,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 1672,
-    "ssl": 76,
-    "headers": 118,
-    "meta": 137,
-    "httpx": 2542,
-    "webanalyze": 4,
-    "dnsx": 783,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11942
+    "robots_txt": 527,
+    "total_ms": 10887
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

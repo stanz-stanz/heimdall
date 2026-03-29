@@ -1,6 +1,6 @@
 {
   "domain": "megawash.dk",
-  "job_id": "scan-2026-03-29-d2f24459",
+  "job_id": "scan-2026-03-29-97eccf48",
   "status": "completed",
   "scan_result": {
     "domain": "megawash.dk",
@@ -277,19 +277,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 97,
-    "ssl": 69,
-    "headers": 144,
-    "meta": 138,
-    "httpx": 3100,
-    "webanalyze": 4,
-    "dnsx": 804,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11093
+    "robots_txt": 83,
+    "total_ms": 10847
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

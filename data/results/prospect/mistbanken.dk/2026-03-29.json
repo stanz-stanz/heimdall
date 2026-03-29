@@ -1,6 +1,6 @@
 {
   "domain": "mistbanken.dk",
-  "job_id": "scan-2026-03-29-63ed5f11",
+  "job_id": "scan-2026-03-29-d4ed1cf9",
   "status": "completed",
   "scan_result": {
     "domain": "mistbanken.dk",
@@ -139,19 +139,11 @@
     "findings": []
   },
   "timing": {
-    "robots_txt": 339,
-    "ssl": 78,
-    "headers": 272,
-    "meta": 284,
-    "httpx": 1704,
-    "webanalyze": 4,
-    "dnsx": 726,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3417
+    "robots_txt": 306,
+    "total_ms": 307
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

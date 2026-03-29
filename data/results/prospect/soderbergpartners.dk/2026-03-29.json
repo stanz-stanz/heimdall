@@ -1,6 +1,6 @@
 {
   "domain": "soderbergpartners.dk",
-  "job_id": "scan-2026-03-29-36d72e01",
+  "job_id": "scan-2026-03-29-b34a88da",
   "status": "completed",
   "scan_result": {
     "domain": "soderbergpartners.dk",
@@ -170,19 +170,11 @@
     "findings": []
   },
   "timing": {
-    "robots_txt": 343,
-    "ssl": 76,
-    "headers": 343,
-    "meta": 382,
-    "httpx": 3832,
-    "webanalyze": 4,
-    "dnsx": 657,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 5647
+    "robots_txt": 352,
+    "total_ms": 354
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "gas.dk",
-  "job_id": "scan-2026-03-29-55039cf3",
+  "job_id": "scan-2026-03-29-cc1ace26",
   "status": "completed",
   "scan_result": {
     "domain": "gas.dk",
@@ -294,19 +294,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 4055,
-    "ssl": 66,
-    "headers": 926,
-    "meta": 1040,
-    "httpx": 3823,
-    "webanalyze": 3,
-    "dnsx": 742,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 17180
+    "robots_txt": 4344,
+    "total_ms": 11444
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "profibermail.dk",
-  "job_id": "scan-2026-03-29-6eda4830",
+  "job_id": "scan-2026-03-29-eda17fdb",
   "status": "completed",
   "scan_result": {
     "domain": "profibermail.dk",
@@ -168,19 +168,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 15036,
-    "ssl": 15039,
-    "headers": 15033,
-    "meta": 15033,
-    "httpx": 11760,
-    "webanalyze": 10,
-    "dnsx": 745,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 72665
+    "robots_txt": 15023,
+    "total_ms": 15025
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

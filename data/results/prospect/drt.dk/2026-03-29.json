@@ -1,6 +1,6 @@
 {
   "domain": "drt.dk",
-  "job_id": "scan-2026-03-29-0e6adcfc",
+  "job_id": "scan-2026-03-29-7b93ec13",
   "status": "completed",
   "scan_result": {
     "domain": "drt.dk",
@@ -124,19 +124,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 15040,
-    "ssl": 15052,
-    "headers": 15026,
-    "meta": 15022,
-    "httpx": 21316,
-    "webanalyze": 2,
-    "dnsx": 772,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 82239
+    "robots_txt": 15041,
+    "total_ms": 15046
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

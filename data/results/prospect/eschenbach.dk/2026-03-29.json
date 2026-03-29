@@ -1,6 +1,6 @@
 {
   "domain": "eschenbach.dk",
-  "job_id": "scan-2026-03-29-66b59ef0",
+  "job_id": "scan-2026-03-29-950bfc50",
   "status": "completed",
   "scan_result": {
     "domain": "eschenbach.dk",
@@ -104,19 +104,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 21,
-    "ssl": 22,
-    "headers": 23,
-    "meta": 19,
-    "httpx": 2327,
-    "webanalyze": 4,
-    "dnsx": 796,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3223
+    "robots_txt": 18,
+    "total_ms": 20
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

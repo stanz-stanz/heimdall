@@ -1,6 +1,6 @@
 {
   "domain": "danbolig.dk",
-  "job_id": "scan-2026-03-29-15b4673a",
+  "job_id": "scan-2026-03-29-252c973d",
   "status": "completed",
   "scan_result": {
     "domain": "danbolig.dk",
@@ -194,19 +194,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 129,
-    "ssl": 96,
-    "headers": 147,
-    "meta": 154,
-    "httpx": 1993,
-    "webanalyze": 4,
-    "dnsx": 723,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3254
+    "robots_txt": 425,
+    "total_ms": 427
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

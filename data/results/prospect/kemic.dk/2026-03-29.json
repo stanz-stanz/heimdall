@@ -1,6 +1,6 @@
 {
   "domain": "kemic.dk",
-  "job_id": "scan-2026-03-29-762df9d1",
+  "job_id": "scan-2026-03-29-3c543496",
   "status": "completed",
   "scan_result": {
     "domain": "kemic.dk",
@@ -257,19 +257,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 1021,
-    "ssl": 97,
-    "headers": 1034,
-    "meta": 1424,
-    "httpx": 3841,
-    "webanalyze": 4,
-    "dnsx": 762,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 17497
+    "robots_txt": 968,
+    "total_ms": 11587
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

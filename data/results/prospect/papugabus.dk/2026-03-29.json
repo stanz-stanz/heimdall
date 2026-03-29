@@ -1,6 +1,6 @@
 {
   "domain": "papugabus.dk",
-  "job_id": "scan-2026-03-29-f7016cab",
+  "job_id": "scan-2026-03-29-a2a735fb",
   "status": "completed",
   "scan_result": {
     "domain": "papugabus.dk",
@@ -104,19 +104,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 246,
-    "ssl": 227,
-    "headers": 213,
-    "meta": 233,
-    "httpx": 3247,
-    "webanalyze": 3,
-    "dnsx": 1412,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 5589
+    "robots_txt": 219,
+    "total_ms": 221
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

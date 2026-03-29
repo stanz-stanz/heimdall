@@ -1,6 +1,6 @@
 {
   "domain": "cdk.com",
-  "job_id": "scan-2026-03-29-081b7849",
+  "job_id": "scan-2026-03-29-bcd719cd",
   "status": "completed",
   "scan_result": {
     "domain": "cdk.com",
@@ -261,18 +261,10 @@
   },
   "timing": {
     "robots_txt": 432,
-    "ssl": 288,
-    "headers": 280,
-    "meta": 279,
-    "httpx": 4763,
-    "webanalyze": 4,
-    "dnsx": 1824,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 7877
+    "total_ms": 433
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

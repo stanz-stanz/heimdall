@@ -1,6 +1,6 @@
 {
   "domain": "ryansfisk.dk",
-  "job_id": "scan-2026-03-29-43c8d10c",
+  "job_id": "scan-2026-03-29-49b96d67",
   "status": "completed",
   "scan_result": {
     "domain": "ryansfisk.dk",
@@ -192,19 +192,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 182,
-    "ssl": 120,
-    "headers": 332,
-    "meta": 378,
-    "httpx": 4486,
-    "webanalyze": 4,
-    "dnsx": 791,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 6301
+    "robots_txt": 187,
+    "total_ms": 188
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

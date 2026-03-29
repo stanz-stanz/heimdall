@@ -1,6 +1,6 @@
 {
   "domain": "logosconsult.dk",
-  "job_id": "scan-2026-03-29-daa4c77a",
+  "job_id": "scan-2026-03-29-33015edb",
   "status": "completed",
   "scan_result": {
     "domain": "logosconsult.dk",
@@ -288,19 +288,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 101,
-    "ssl": 63,
-    "headers": 81,
-    "meta": 117,
-    "httpx": 4231,
-    "webanalyze": 3,
-    "dnsx": 748,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 17734
+    "robots_txt": 91,
+    "total_ms": 11794
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

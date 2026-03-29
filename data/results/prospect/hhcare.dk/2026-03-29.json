@@ -1,6 +1,6 @@
 {
   "domain": "hhcare.dk",
-  "job_id": "scan-2026-03-29-a916cfeb",
+  "job_id": "scan-2026-03-29-31737951",
   "status": "completed",
   "scan_result": {
     "domain": "hhcare.dk",
@@ -289,19 +289,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 336,
-    "ssl": 75,
-    "headers": 368,
-    "meta": 603,
-    "httpx": 3851,
-    "webanalyze": 2,
-    "dnsx": 822,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 12618
+    "robots_txt": 2490,
+    "total_ms": 10848
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "savirdesign.dk",
-  "job_id": "scan-2026-03-29-f53ab6eb",
+  "job_id": "scan-2026-03-29-0edd7b5f",
   "status": "completed",
   "scan_result": {
     "domain": "savirdesign.dk",
@@ -291,19 +291,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 3513,
-    "ssl": 63,
-    "headers": 86,
-    "meta": 103,
-    "httpx": 3179,
-    "webanalyze": 4,
-    "dnsx": 753,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 17473
+    "robots_txt": 1698,
+    "total_ms": 11573
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

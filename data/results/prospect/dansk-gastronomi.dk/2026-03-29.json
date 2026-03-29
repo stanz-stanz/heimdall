@@ -1,6 +1,6 @@
 {
   "domain": "dansk-gastronomi.dk",
-  "job_id": "scan-2026-03-29-3a6a21c4",
+  "job_id": "scan-2026-03-29-6965bae0",
   "status": "completed",
   "scan_result": {
     "domain": "dansk-gastronomi.dk",
@@ -165,19 +165,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 70,
-    "ssl": 57,
-    "headers": 69,
-    "meta": 63,
-    "httpx": 1541,
-    "webanalyze": 3,
-    "dnsx": 873,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2685
+    "robots_txt": 61,
+    "total_ms": 62
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

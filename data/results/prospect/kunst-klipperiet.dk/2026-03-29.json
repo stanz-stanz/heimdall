@@ -1,6 +1,6 @@
 {
   "domain": "kunst-klipperiet.dk",
-  "job_id": "scan-2026-03-29-a4363a92",
+  "job_id": "scan-2026-03-29-d7c822d6",
   "status": "completed",
   "scan_result": {
     "domain": "kunst-klipperiet.dk",
@@ -104,19 +104,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 23,
-    "ssl": 30,
-    "headers": 16,
-    "meta": 15,
-    "httpx": 2452,
-    "webanalyze": 4,
-    "dnsx": 803,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3352
+    "robots_txt": 21,
+    "total_ms": 23
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

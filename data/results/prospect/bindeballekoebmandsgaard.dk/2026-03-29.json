@@ -1,6 +1,6 @@
 {
   "domain": "bindeballekoebmandsgaard.dk",
-  "job_id": "scan-2026-03-29-7068c1d4",
+  "job_id": "scan-2026-03-29-96f0f6e6",
   "status": "completed",
   "scan_result": {
     "domain": "bindeballekoebmandsgaard.dk",
@@ -167,19 +167,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 65,
-    "ssl": 85,
-    "headers": 64,
-    "meta": 56,
-    "httpx": 1650,
-    "webanalyze": 4,
-    "dnsx": 757,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 2692
+    "robots_txt": 66,
+    "total_ms": 67
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

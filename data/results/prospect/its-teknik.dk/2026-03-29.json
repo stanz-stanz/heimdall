@@ -1,6 +1,6 @@
 {
   "domain": "its-teknik.dk",
-  "job_id": "scan-2026-03-29-d3a6ec5a",
+  "job_id": "scan-2026-03-29-f15001a3",
   "status": "completed",
   "scan_result": {
     "domain": "its-teknik.dk",
@@ -268,19 +268,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 2840,
-    "ssl": 70,
-    "headers": 1970,
-    "meta": 723,
-    "httpx": 3380,
-    "webanalyze": 7,
-    "dnsx": 768,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 16249
+    "robots_txt": 495,
+    "total_ms": 11287
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "massage-rygterapi.dk",
-  "job_id": "scan-2026-03-29-a219a69c",
+  "job_id": "scan-2026-03-29-f7b440ce",
   "status": "completed",
   "scan_result": {
     "domain": "massage-rygterapi.dk",
@@ -165,19 +165,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 104,
-    "ssl": 76,
-    "headers": 93,
-    "meta": 93,
-    "httpx": 1903,
-    "webanalyze": 5,
-    "dnsx": 719,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3003
+    "robots_txt": 87,
+    "total_ms": 88
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

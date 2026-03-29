@@ -1,6 +1,6 @@
 {
   "domain": "fiberpartner.com",
-  "job_id": "scan-2026-03-29-414c1748",
+  "job_id": "scan-2026-03-29-1bb12f23",
   "status": "completed",
   "scan_result": {
     "domain": "fiberpartner.com",
@@ -240,19 +240,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 159,
-    "ssl": 73,
-    "headers": 276,
-    "meta": 169,
-    "httpx": 2539,
-    "webanalyze": 2,
-    "dnsx": 725,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 18003
+    "robots_txt": 140,
+    "total_ms": 11494
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "worklivestay.dk",
-  "job_id": "scan-2026-03-29-0527c7f4",
+  "job_id": "scan-2026-03-29-50f9580e",
   "status": "completed",
   "scan_result": {
     "domain": "worklivestay.dk",
@@ -180,19 +180,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 197,
-    "ssl": 84,
-    "headers": 187,
-    "meta": 193,
-    "httpx": 1776,
-    "webanalyze": 4,
-    "dnsx": 829,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3286
+    "robots_txt": 194,
+    "total_ms": 196
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

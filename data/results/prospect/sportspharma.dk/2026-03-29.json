@@ -1,6 +1,6 @@
 {
   "domain": "sportspharma.dk",
-  "job_id": "scan-2026-03-29-2c06aa25",
+  "job_id": "scan-2026-03-29-2c58db0a",
   "status": "completed",
   "scan_result": {
     "domain": "sportspharma.dk",
@@ -172,19 +172,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 106,
-    "ssl": 90,
-    "headers": 533,
-    "meta": 490,
-    "httpx": 2849,
-    "webanalyze": 5,
-    "dnsx": 788,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4870
+    "robots_txt": 97,
+    "total_ms": 99
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

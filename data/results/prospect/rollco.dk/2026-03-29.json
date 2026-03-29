@@ -1,6 +1,6 @@
 {
   "domain": "rollco.dk",
-  "job_id": "scan-2026-03-29-09ec7d45",
+  "job_id": "scan-2026-03-29-4b22e18f",
   "status": "completed",
   "scan_result": {
     "domain": "rollco.dk",
@@ -198,19 +198,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 233,
-    "ssl": 72,
-    "headers": 232,
-    "meta": 248,
-    "httpx": 2258,
-    "webanalyze": 4,
-    "dnsx": 730,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3790
+    "robots_txt": 226,
+    "total_ms": 228
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

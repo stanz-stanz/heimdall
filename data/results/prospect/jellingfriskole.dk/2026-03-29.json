@@ -1,6 +1,6 @@
 {
   "domain": "jellingfriskole.dk",
-  "job_id": "scan-2026-03-29-b484e6f5",
+  "job_id": "scan-2026-03-29-62621bbf",
   "status": "completed",
   "scan_result": {
     "domain": "jellingfriskole.dk",
@@ -230,19 +230,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 1848,
-    "ssl": 69,
-    "headers": 92,
-    "meta": 115,
-    "httpx": 2717,
-    "webanalyze": 4,
-    "dnsx": 736,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 12389
+    "robots_txt": 1830,
+    "total_ms": 11309
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

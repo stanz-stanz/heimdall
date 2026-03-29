@@ -1,6 +1,6 @@
 {
   "domain": "3f.dk",
-  "job_id": "scan-2026-03-29-8c5a65ec",
+  "job_id": "scan-2026-03-29-424127c3",
   "status": "completed",
   "scan_result": {
     "domain": "3f.dk",
@@ -198,19 +198,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 274,
-    "ssl": 79,
-    "headers": 640,
-    "meta": 657,
-    "httpx": 3519,
-    "webanalyze": 4,
-    "dnsx": 690,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 5872
+    "robots_txt": 303,
+    "total_ms": 304
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

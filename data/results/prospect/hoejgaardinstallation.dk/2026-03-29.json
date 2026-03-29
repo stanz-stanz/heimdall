@@ -1,6 +1,6 @@
 {
   "domain": "hoejgaardinstallation.dk",
-  "job_id": "scan-2026-03-29-93e6f7c0",
+  "job_id": "scan-2026-03-29-89dda889",
   "status": "completed",
   "scan_result": {
     "domain": "hoejgaardinstallation.dk",
@@ -248,19 +248,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 925,
-    "ssl": 65,
-    "headers": 291,
-    "meta": 287,
-    "httpx": 3137,
-    "webanalyze": 4,
-    "dnsx": 805,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11861
+    "robots_txt": 1595,
+    "total_ms": 11597
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

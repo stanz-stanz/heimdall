@@ -1,6 +1,6 @@
 {
   "domain": "bommerhaven.dk",
-  "job_id": "scan-2026-03-29-806e5c37",
+  "job_id": "scan-2026-03-29-244097e6",
   "status": "completed",
   "scan_result": {
     "domain": "bommerhaven.dk",
@@ -180,19 +180,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 469,
-    "ssl": 66,
-    "headers": 331,
-    "meta": 396,
-    "httpx": 2530,
-    "webanalyze": 2,
-    "dnsx": 700,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4502
+    "robots_txt": 444,
+    "total_ms": 445
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

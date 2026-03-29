@@ -1,6 +1,6 @@
 {
   "domain": "bizbrains.dk",
-  "job_id": "scan-2026-03-29-d22c163a",
+  "job_id": "scan-2026-03-29-c2e0ee5d",
   "status": "completed",
   "scan_result": {
     "domain": "bizbrains.dk",
@@ -198,19 +198,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 95,
-    "ssl": 105,
-    "headers": 98,
-    "meta": 92,
-    "httpx": 2773,
-    "webanalyze": 3,
-    "dnsx": 715,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3889
+    "robots_txt": 92,
+    "total_ms": 93
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

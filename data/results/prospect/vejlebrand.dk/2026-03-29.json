@@ -1,6 +1,6 @@
 {
   "domain": "vejlebrand.dk",
-  "job_id": "scan-2026-03-29-84ad24e4",
+  "job_id": "scan-2026-03-29-9588e6ff",
   "status": "completed",
   "scan_result": {
     "domain": "vejlebrand.dk",
@@ -182,19 +182,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 232,
-    "ssl": 83,
-    "headers": 240,
-    "meta": 245,
-    "httpx": 1915,
-    "webanalyze": 3,
-    "dnsx": 680,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3406
+    "robots_txt": 214,
+    "total_ms": 215
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

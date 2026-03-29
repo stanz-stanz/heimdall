@@ -1,6 +1,6 @@
 {
   "domain": "tinnetgaard.dk",
-  "job_id": "scan-2026-03-29-baf71056",
+  "job_id": "scan-2026-03-29-9f99298f",
   "status": "completed",
   "scan_result": {
     "domain": "tinnetgaard.dk",
@@ -314,19 +314,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 172,
-    "ssl": 103,
-    "headers": 2129,
-    "meta": 2009,
-    "httpx": 12382,
-    "webanalyze": 4,
-    "dnsx": 737,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 26870
+    "robots_txt": 1815,
+    "total_ms": 11616
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

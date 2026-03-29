@@ -1,6 +1,6 @@
 {
   "domain": "casinomunkebjerg.dk",
-  "job_id": "scan-2026-03-29-9f62a687",
+  "job_id": "scan-2026-03-29-27d6cc72",
   "status": "completed",
   "scan_result": {
     "domain": "casinomunkebjerg.dk",
@@ -185,19 +185,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 103,
-    "ssl": 94,
-    "headers": 188,
-    "meta": 172,
-    "httpx": 2290,
-    "webanalyze": 4,
-    "dnsx": 715,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3575
+    "robots_txt": 121,
+    "total_ms": 123
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

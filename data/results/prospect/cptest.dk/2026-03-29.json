@@ -1,6 +1,6 @@
 {
   "domain": "cptest.dk",
-  "job_id": "scan-2026-03-29-c541223b",
+  "job_id": "scan-2026-03-29-a40e6fc9",
   "status": "completed",
   "scan_result": {
     "domain": "cptest.dk",
@@ -251,19 +251,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 277,
-    "ssl": 73,
-    "headers": 184,
-    "meta": 449,
-    "httpx": 5766,
-    "webanalyze": 4,
-    "dnsx": 908,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 19426
+    "robots_txt": 1704,
+    "total_ms": 11865
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

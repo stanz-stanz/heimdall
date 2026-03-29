@@ -1,6 +1,6 @@
 {
   "domain": "bvsk.dk",
-  "job_id": "scan-2026-03-29-1ba79fb2",
+  "job_id": "scan-2026-03-29-eec5909e",
   "status": "completed",
   "scan_result": {
     "domain": "bvsk.dk",
@@ -242,19 +242,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 92,
-    "ssl": 71,
-    "headers": 86,
-    "meta": 112,
-    "httpx": 3189,
-    "webanalyze": 4,
-    "dnsx": 769,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11985
+    "robots_txt": 88,
+    "total_ms": 11426
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "minkobmand.dk",
-  "job_id": "scan-2026-03-29-96534fe2",
+  "job_id": "scan-2026-03-29-1ff8941b",
   "status": "completed",
   "scan_result": {
     "domain": "minkobmand.dk",
@@ -237,19 +237,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 102,
-    "ssl": 89,
-    "headers": 76,
-    "meta": 84,
-    "httpx": 3834,
-    "webanalyze": 2,
-    "dnsx": 699,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4895
+    "robots_txt": 98,
+    "total_ms": 101
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

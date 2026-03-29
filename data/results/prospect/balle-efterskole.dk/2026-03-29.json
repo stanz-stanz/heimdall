@@ -1,6 +1,6 @@
 {
   "domain": "balle-efterskole.dk",
-  "job_id": "scan-2026-03-29-ad5a52e8",
+  "job_id": "scan-2026-03-29-4fb211bd",
   "status": "completed",
   "scan_result": {
     "domain": "balle-efterskole.dk",
@@ -276,19 +276,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 488,
-    "ssl": 74,
-    "headers": 91,
-    "meta": 112,
-    "httpx": 3510,
-    "webanalyze": 3,
-    "dnsx": 724,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 11395
+    "robots_txt": 483,
+    "total_ms": 10858
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

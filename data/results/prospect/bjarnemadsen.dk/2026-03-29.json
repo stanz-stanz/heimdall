@@ -1,6 +1,6 @@
 {
   "domain": "bjarnemadsen.dk",
-  "job_id": "scan-2026-03-29-a31b2934",
+  "job_id": "scan-2026-03-29-d0c81586",
   "status": "completed",
   "scan_result": {
     "domain": "bjarnemadsen.dk",
@@ -165,19 +165,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 121,
-    "ssl": 102,
-    "headers": 230,
-    "meta": 218,
-    "httpx": 2772,
-    "webanalyze": 3,
-    "dnsx": 769,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4224
+    "robots_txt": 112,
+    "total_ms": 114
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

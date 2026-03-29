@@ -1,6 +1,6 @@
 {
   "domain": "bca.com",
-  "job_id": "scan-2026-03-29-291bc955",
+  "job_id": "scan-2026-03-29-317632aa",
   "status": "completed",
   "scan_result": {
     "domain": "bca.com",
@@ -229,19 +229,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 170,
-    "ssl": 78,
-    "headers": 112,
-    "meta": 137,
-    "httpx": 2339,
-    "webanalyze": 2,
-    "dnsx": 773,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3622
+    "robots_txt": 191,
+    "total_ms": 193
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

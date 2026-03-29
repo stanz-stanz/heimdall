@@ -1,6 +1,6 @@
 {
   "domain": "somandsmissionen.dk",
-  "job_id": "scan-2026-03-29-ac1a5a9e",
+  "job_id": "scan-2026-03-29-1527d80c",
   "status": "completed",
   "scan_result": {
     "domain": "somandsmissionen.dk",
@@ -268,19 +268,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 290,
-    "ssl": 70,
-    "headers": 214,
-    "meta": 563,
-    "httpx": 4101,
-    "webanalyze": 4,
-    "dnsx": 776,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 12309
+    "robots_txt": 198,
+    "total_ms": 11288
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

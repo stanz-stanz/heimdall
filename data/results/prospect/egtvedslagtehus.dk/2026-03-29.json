@@ -1,6 +1,6 @@
 {
   "domain": "egtvedslagtehus.dk",
-  "job_id": "scan-2026-03-29-a6563f26",
+  "job_id": "scan-2026-03-29-b9470bef",
   "status": "completed",
   "scan_result": {
     "domain": "egtvedslagtehus.dk",
@@ -168,19 +168,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 93,
-    "ssl": 67,
-    "headers": 239,
-    "meta": 235,
-    "httpx": 2326,
-    "webanalyze": 4,
-    "dnsx": 789,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3763
+    "robots_txt": 112,
+    "total_ms": 115
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

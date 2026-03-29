@@ -1,6 +1,6 @@
 {
   "domain": "bibus.dk",
-  "job_id": "scan-2026-03-29-4f25ddda",
+  "job_id": "scan-2026-03-29-052ab2ab",
   "status": "completed",
   "scan_result": {
     "domain": "bibus.dk",
@@ -202,19 +202,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 290,
-    "ssl": 117,
-    "headers": 242,
-    "meta": 252,
-    "httpx": 2700,
-    "webanalyze": 4,
-    "dnsx": 720,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4335
+    "robots_txt": 452,
+    "total_ms": 453
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

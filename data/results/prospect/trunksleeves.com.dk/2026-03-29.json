@@ -1,6 +1,6 @@
 {
   "domain": "trunksleeves.com.dk",
-  "job_id": "scan-2026-03-29-415acedb",
+  "job_id": "scan-2026-03-29-edfbcc16",
   "status": "completed",
   "scan_result": {
     "domain": "trunksleeves.com.dk",
@@ -104,19 +104,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 26,
-    "ssl": 30,
-    "headers": 14,
-    "meta": 22,
-    "httpx": 2514,
-    "webanalyze": 2,
-    "dnsx": 903,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3519
+    "robots_txt": 24,
+    "total_ms": 25
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "brejning.dk",
-  "job_id": "scan-2026-03-29-e51454d7",
+  "job_id": "scan-2026-03-29-23443de7",
   "status": "completed",
   "scan_result": {
     "domain": "brejning.dk",
@@ -171,19 +171,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 243,
-    "ssl": 79,
-    "headers": 258,
-    "meta": 296,
-    "httpx": 2727,
-    "webanalyze": 3,
-    "dnsx": 727,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 4345
+    "robots_txt": 246,
+    "total_ms": 248
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

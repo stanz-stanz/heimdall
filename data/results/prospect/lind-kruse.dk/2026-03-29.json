@@ -1,6 +1,6 @@
 {
   "domain": "lind-kruse.dk",
-  "job_id": "scan-2026-03-29-2351415c",
+  "job_id": "scan-2026-03-29-eef66615",
   "status": "completed",
   "scan_result": {
     "domain": "lind-kruse.dk",
@@ -253,19 +253,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 406,
-    "ssl": 77,
-    "headers": 176,
-    "meta": 212,
-    "httpx": 5126,
-    "webanalyze": 4,
-    "dnsx": 753,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 14758
+    "robots_txt": 422,
+    "total_ms": 11652
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

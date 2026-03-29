@@ -1,6 +1,6 @@
 {
   "domain": "hetek.dk",
-  "job_id": "scan-2026-03-29-66dc7380",
+  "job_id": "scan-2026-03-29-c5203934",
   "status": "completed",
   "scan_result": {
     "domain": "hetek.dk",
@@ -239,19 +239,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 176,
-    "ssl": 129,
-    "headers": 458,
-    "meta": 179,
-    "httpx": 2463,
-    "webanalyze": 4,
-    "dnsx": 747,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 17301
+    "robots_txt": 156,
+    "total_ms": 11483
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

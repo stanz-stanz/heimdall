@@ -1,6 +1,6 @@
 {
   "domain": "moelholm-varmevaerk.dk",
-  "job_id": "scan-2026-03-29-fecb3dbe",
+  "job_id": "scan-2026-03-29-9c96d54e",
   "status": "completed",
   "scan_result": {
     "domain": "moelholm-varmevaerk.dk",
@@ -165,19 +165,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 197,
-    "ssl": 143,
-    "headers": 181,
-    "meta": 188,
-    "httpx": 2006,
-    "webanalyze": 4,
-    "dnsx": 761,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3490
+    "robots_txt": 205,
+    "total_ms": 207
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

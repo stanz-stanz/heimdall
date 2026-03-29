@@ -1,6 +1,6 @@
 {
   "domain": "ipnetcom.dk",
-  "job_id": "scan-2026-03-29-faa7bfbc",
+  "job_id": "scan-2026-03-29-14301afb",
   "status": "completed",
   "scan_result": {
     "domain": "ipnetcom.dk",
@@ -255,19 +255,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 97,
-    "ssl": 81,
-    "headers": 826,
-    "meta": 458,
-    "httpx": 3551,
-    "webanalyze": 4,
-    "dnsx": 757,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 21521
+    "robots_txt": 94,
+    "total_ms": 11518
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

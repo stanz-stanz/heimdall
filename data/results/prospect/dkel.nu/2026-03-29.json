@@ -1,6 +1,6 @@
 {
   "domain": "dkel.nu",
-  "job_id": "scan-2026-03-29-b87a86f4",
+  "job_id": "scan-2026-03-29-4f2fcd81",
   "status": "completed",
   "scan_result": {
     "domain": "dkel.nu",
@@ -171,19 +171,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 131,
-    "ssl": 71,
-    "headers": 195,
-    "meta": 175,
-    "httpx": 2082,
-    "webanalyze": 4,
-    "dnsx": 805,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 3477
+    "robots_txt": 116,
+    "total_ms": 117
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

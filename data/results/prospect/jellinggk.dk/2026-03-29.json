@@ -1,6 +1,6 @@
 {
   "domain": "jellinggk.dk",
-  "job_id": "scan-2026-03-29-defecc21",
+  "job_id": "scan-2026-03-29-00cf7da6",
   "status": "completed",
   "scan_result": {
     "domain": "jellinggk.dk",
@@ -249,19 +249,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 2409,
-    "ssl": 104,
-    "headers": 636,
-    "meta": 860,
-    "httpx": 3764,
-    "webanalyze": 2,
-    "dnsx": 689,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 14257
+    "robots_txt": 2388,
+    "total_ms": 9395
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

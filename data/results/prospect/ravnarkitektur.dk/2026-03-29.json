@@ -1,6 +1,6 @@
 {
   "domain": "ravnarkitektur.dk",
-  "job_id": "scan-2026-03-29-90571829",
+  "job_id": "scan-2026-03-29-f8c74675",
   "status": "completed",
   "scan_result": {
     "domain": "ravnarkitektur.dk",
@@ -198,19 +198,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 338,
-    "ssl": 113,
-    "headers": 429,
-    "meta": 395,
-    "httpx": 2148,
-    "webanalyze": 4,
-    "dnsx": 775,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 10478
+    "robots_txt": 394,
+    "total_ms": 180590
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

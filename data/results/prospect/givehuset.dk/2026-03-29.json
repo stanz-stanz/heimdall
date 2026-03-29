@@ -1,6 +1,6 @@
 {
   "domain": "givehuset.dk",
-  "job_id": "scan-2026-03-29-8e77cc27",
+  "job_id": "scan-2026-03-29-014d2747",
   "status": "completed",
   "scan_result": {
     "domain": "givehuset.dk",
@@ -250,19 +250,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 1854,
-    "ssl": 95,
-    "headers": 298,
-    "meta": 521,
-    "httpx": 3146,
-    "webanalyze": 4,
-    "dnsx": 2314,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 14589
+    "robots_txt": 1802,
+    "total_ms": 11599
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

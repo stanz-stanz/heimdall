@@ -1,6 +1,6 @@
 {
   "domain": "aagaardjensenas.dk",
-  "job_id": "scan-2026-03-29-bf5f9fc9",
+  "job_id": "scan-2026-03-29-0f024135",
   "status": "completed",
   "scan_result": {
     "domain": "aagaardjensenas.dk",
@@ -227,19 +227,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 137,
-    "ssl": 97,
-    "headers": 115,
-    "meta": 158,
-    "httpx": 2442,
-    "webanalyze": 4,
-    "dnsx": 802,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 14169
+    "robots_txt": 149,
+    "total_ms": 11576
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "dan-egtved.dk",
-  "job_id": "scan-2026-03-29-6a309ccd",
+  "job_id": "scan-2026-03-29-90e3db2a",
   "status": "completed",
   "scan_result": {
     "domain": "dan-egtved.dk",
@@ -286,18 +286,10 @@
   },
   "timing": {
     "robots_txt": 115,
-    "ssl": 85,
-    "headers": 176,
-    "meta": 191,
-    "httpx": 3230,
-    "webanalyze": 3,
-    "dnsx": 763,
-    "crtsh": 0,
-    "ghw": 0,
-    "total_ms": 10753
+    "total_ms": 11493
   },
   "cache_stats": {
-    "hits": 1,
-    "misses": 8
+    "hits": 9,
+    "misses": 0
   }
 }
