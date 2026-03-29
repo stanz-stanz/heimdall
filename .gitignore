@@ -1,6 +1,6 @@
-# Pipeline output data (regenerated on each run)
-data/output/*.csv
-data/output/briefs/*.json
+# Pipeline output data — committed for now so it syncs between laptop and Pi5
+# data/output/*.csv
+# data/output/briefs/*.json
 
 # Benchmark results (local only)
 data/benchmarks/*.json
