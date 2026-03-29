@@ -8,16 +8,18 @@ Heimdall uses specialised Claude Code agents, each with a defined role, toolset,
 
 | Agent | Folder | Role |
 |-------|--------|------|
-| Project Coordinator | `project-coordinator/` | Roadmap, milestones, deadlines, cross-agent orchestration |
-| Application Architect | `application-architect/` | System design, code structure, architectural decisions |
+| TPMO | `tpmo/` | Roadmap, milestones, deadlines, cross-agent orchestration |
+| Architect | `architect/` | System design, code structure, architectural decisions |
 | Network Security | `network-security/` | Scan configuration, tool chain execution, raw output |
 | Finding Interpreter | `finding-interpreter/` | Raw scan → plain-language findings via Claude API |
 | Message Composer | `message-composer/` | Findings → channel-formatted messages (Telegram/WhatsApp) |
 | Prospecting | `prospecting/` | Lead generation pipeline, CVR data, Layer 1 scanning |
-| Legal Compliance | `legal-compliance/` | Scanning consent verification, Layer classification, GDPR checks |
+| Legal Compliance (Valdí) | `valdi/` | Scanning consent verification, Layer classification, GDPR checks |
 | Grant & Funding | `grant-funding/` | Startup Denmark (SIRI) application, grant drafting, budget tables, consortium materials |
 | Client Memory | `client-memory/` | Per-client persistent state, scan history, remediation tracking |
 | DevOps | `devops/` | Infrastructure config, Docker, deployment, monitoring |
+| Marketing | `marketing/` | Outreach strategy, channel rules, prospect communication |
+| Fullstack Guy | `fullstack-guy/` | Real-time FastAPI + frontend patterns, WebSocket, CSS animations |
 
 ## Chain Architecture
 
@@ -34,8 +36,9 @@ Legal Compliance  Client Memory      Client Memory        Client Memory
 - **Finding Interpreter** translates raw output into plain-language findings
 - **Message Composer** formats and delivers via the client's preferred channel
 - **Client Memory** is queried by Interpreter and Composer for personalisation
-- **Project Coordinator** monitors the entire pipeline and flags blockers
-- **Application Architect** is consulted before any structural code change
+- **TPMO** monitors the entire pipeline and flags blockers
+- **Architect** is consulted before any structural code change
+- **Marketing** governs outreach channels and prospect communication
 - **Grant & Funding** operates in parallel, pulling from the briefing and business case
 - **DevOps** maintains the infrastructure all agents run on
 

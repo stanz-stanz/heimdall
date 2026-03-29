@@ -5,6 +5,34 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-29 — Sprint 3.5 hardening + pipeline operations + marketing strategy
+
+**Decided**
+- Deployment hardening (Sprint 3.5): Docker smoke test (bash, not pytest — no test framework in prod image), export script tests, all Go tool versions pinned (httpx v1.9.0, webanalyze v0.4.1, subfinder v2.13.0, dnsx v1.2.3, nuclei v3.7.1), CMSeek pinned to commit 20f9780
+- Pi5 operational aliases: heimdall-pipeline (smoke → flush → schedule), heimdall-export, heimdall-analyze, heimdall-deep, heimdall-audit, heimdall-smoke
+- Pipeline results: bind-mount data/results to host (not Docker named volume), CVR extract tracked in git, pipeline output tracked in git — enables laptop/Pi5 sync
+- Twin WPScan: route through Redis sidecar (rpush for priority), sidecar handles http:// URLs
+- PerimeterIQ evaluated by architect, docker-expert, network-security: cherry-pick threat feeds into Heimdall, don't build as separate product
+- Marketing strategy: LinkedIn irrelevant for SMB target segment (<20 employees). Primary channels: phone, physical letters, Facebook, in-person. Legal briefing prepared (8 questions for lawyer meeting week of 2026-03-31)
+- Threat feed integration planned (Sprint 4+): abuse.ch URLhaus + WHOIS domain age first, PhishTank/CrowdSec/GreyNoise deferred (rate limits)
+- Deep analysis script: contactable breakdown, industry, timing, outreach prioritization matrix
+
+**Rejected**
+- PerimeterIQ as standalone product — no recurring revenue model, fleet management nightmare, architecturally incompatible with Heimdall
+- PerimeterIQ as Heimdall tier — scope creep, DNS filtering catches ~40% of threats, SMBs won't understand "DNS anomaly"
+- LinkedIn for end-customer outreach — target customers (restaurants, physios, barbershops) are not on LinkedIn
+- pytest inside Docker container — production image shouldn't ship test framework
+- Disposable inline analysis scripts — all analysis now in reusable scripts/analyze_pipeline.py
+
+**Unresolved**
+- Twin Nuclei produces 0 findings — templates don't match simplified twin responses (design limitation, not bug)
+- Twin WPScan sidecar — jobs received but no completion logs visible. Needs debugging with better sidecar logging (added but not yet verified on Pi5)
+- Industry names not flowing from CVR to briefs — empty in pipeline output
+- Agency detection producing no results — meta_author/footer_credit empty in briefs
+- 6 consecutive broken alias pushes — need better pre-push testing for infrastructure changes
+
+---
+
 ## 2026-03-28 — Mobile console PWA + live twin demo mode
 
 **Decided**
