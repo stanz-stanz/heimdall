@@ -151,13 +151,14 @@ def _request_twin_wpscan(
     payload = json.dumps({"job_id": wpscan_job_id, "domain": target_url})
 
     try:
-        redis_conn.lpush("queue:wpscan", payload)
+        # Use priority queue so twin jobs are processed before regular pipeline jobs
+        redis_conn.rpush("queue:wpscan", payload)
     except (redis.ConnectionError, redis.TimeoutError) as exc:
         log.warning("twin_wpscan_enqueue_failed: %s", exc)
         return []
 
     try:
-        result = redis_conn.brpop(f"wpscan:result:{wpscan_job_id}", timeout=120)
+        result = redis_conn.brpop(f"wpscan:result:{wpscan_job_id}", timeout=180)
     except (redis.ConnectionError, redis.TimeoutError) as exc:
         log.warning("twin_wpscan_wait_failed: %s", exc)
         return []

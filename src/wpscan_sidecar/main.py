@@ -243,7 +243,15 @@ def _process_job(job: dict, conn: redis_lib.Redis) -> None:
             pass  # Cache corrupt — run fresh scan
 
     # Run WPScan
+    log.info("wpscan_running", extra={"context": {"job_id": job_id, "domain": domain}})
     scan_result = _run_wpscan(domain)
+    log.info("wpscan_finished", extra={"context": {
+        "job_id": job_id, "domain": domain,
+        "status": scan_result.get("status", "unknown"),
+        "exit_code": scan_result.get("exit_code", ""),
+        "duration_ms": scan_result.get("duration_ms", ""),
+        "error": scan_result.get("error", ""),
+    }})
 
     # Build response
     result = {
