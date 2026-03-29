@@ -15,11 +15,12 @@ ENV GOTOOLCHAIN=auto
 
 # Install Go CLI tools one at a time (easier to debug failures).
 RUN mkdir -p /go/tools
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@latest
-RUN GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@latest
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+# Pinned versions — update deliberately, not silently via @latest
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@v1.9.0
+RUN GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@v0.4.1
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.13.0
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@v1.2.3
+RUN GOBIN=/go/tools go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@v3.7.1
 
 # ---------------------------------------------------------------------------
 # Stage 2: Runtime image
@@ -56,7 +57,8 @@ RUN mkdir -p /opt/nuclei-templates /home/heimdall \
 # CMSeek — pure Python, git clone (no pip package available)
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git \
- && git clone --depth 1 https://github.com/Tuhinshubhra/CMSeeK.git /opt/cmseek \
+ && git clone https://github.com/Tuhinshubhra/CMSeeK.git /opt/cmseek \
+ && cd /opt/cmseek && git checkout 20f9780d2e682874be959cfd487045c92e3c73f4 \
  && apt-get purge -y --auto-remove git \
  && rm -rf /var/lib/apt/lists/* /opt/cmseek/.git
 

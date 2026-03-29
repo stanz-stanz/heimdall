@@ -36,6 +36,14 @@ def audit_dockerfile() -> int:
     _check("/opt/go-tools in PATH", "/opt/go-tools" in df) or fails.__add__(1)
     _check("nuclei templates baked", "nuclei-templates" in df) or fails.__add__(1)
     _check("CMSeek cloned", "cmseek" in df.lower()) or fails.__add__(1)
+    # Version pinning
+    latest_lines = [l.strip() for l in df.splitlines() if "@latest" in l and l.strip().startswith("RUN")]
+    if not _check("No @latest tags (all Go tools pinned)", len(latest_lines) == 0):
+        for l in latest_lines:
+            print(f"    ^ {l}")
+        fails += 1
+    if not _check("CMSeek commit pinned (git checkout)", "git checkout" in df):
+        fails += 1
     return fails
 
 
@@ -183,14 +191,10 @@ def audit_backlog() -> int:
     """Check for known unresolved items."""
     print("\n  KNOWN GAPS (from backlog + this session)")
     gaps = [
-        ("Tailscale VPN for remote console access", "BACKLOG"),
-        ("Docker smoke test (Go binary verification)", "BACKLOG"),
-        ("test_docker_smoke.py", "NOT BUILT"),
-        ("test_export_results.py", "NOT BUILT"),
-        ("Twin-enriched briefs (0 in last run — tools/ was missing)", "FIXED — needs re-run"),
-        ("CVR contactable field in export", "FIXED — needs openpyxl on Pi5"),
-        ("Stale Redis queue flush before pipeline", "FIXED"),
-        ("Remote monitoring from phone", "NOT BUILT"),
+        ("Tailscale VPN for remote console access", "BACKLOG (Sprint 4)"),
+        ("Remote monitoring from phone", "BACKLOG (Sprint 4, depends on Tailscale)"),
+        ("Twin Nuclei templates don't match simplified twin responses", "DESIGN LIMITATION"),
+        ("Twin WPScan sidecar — needs verification on next Pi5 run", "PENDING VERIFICATION"),
     ]
     for desc, status in gaps:
         marker = "OK" if "FIXED" in status else "TODO"
