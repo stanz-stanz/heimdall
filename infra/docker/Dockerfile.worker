@@ -36,18 +36,21 @@ RUN apt-get update \
         curl \
  && rm -rf /var/lib/apt/lists/*
 
-# Copy Go binaries from builder stage
-COPY --from=go-builder /go/tools/httpx       /usr/local/bin/httpx
-COPY --from=go-builder /go/tools/webanalyze  /usr/local/bin/webanalyze
-COPY --from=go-builder /go/tools/subfinder   /usr/local/bin/subfinder
-COPY --from=go-builder /go/tools/dnsx        /usr/local/bin/dnsx
-COPY --from=go-builder /go/tools/nuclei      /usr/local/bin/nuclei
+# Copy Go binaries from builder stage to /opt/go-tools/ (not /usr/local/bin/)
+# to avoid pip overwriting them (Python httpx package installs a CLI wrapper
+# at /usr/local/bin/httpx that shadows the Go binary)
+COPY --from=go-builder /go/tools/httpx       /opt/go-tools/httpx
+COPY --from=go-builder /go/tools/webanalyze  /opt/go-tools/webanalyze
+COPY --from=go-builder /go/tools/subfinder   /opt/go-tools/subfinder
+COPY --from=go-builder /go/tools/dnsx        /opt/go-tools/dnsx
+COPY --from=go-builder /go/tools/nuclei      /opt/go-tools/nuclei
+ENV PATH="/opt/go-tools:${PATH}"
 
 # Bake nuclei templates at build time (no runtime internet needed)
 # HOME set so nuclei config lands in a user-accessible location
 ENV HOME=/home/heimdall
 RUN mkdir -p /opt/nuclei-templates /home/heimdall \
- && nuclei -update-templates -ud /opt/nuclei-templates \
+ && /opt/go-tools/nuclei -update-templates -ud /opt/nuclei-templates \
  && test -n "$(find /opt/nuclei-templates -name '*.yaml' | head -1)"
 
 # CMSeek — pure Python, git clone (no pip package available)
