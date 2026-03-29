@@ -1,5 +1,5 @@
 ---
-name: project-coordinator
+name: tpmo
 description: >
   Project Coordinator agent for Heimdall. Tracks roadmap, milestones, deadlines, and
   orchestrates work across agents. Use this agent when: checking project status; asking

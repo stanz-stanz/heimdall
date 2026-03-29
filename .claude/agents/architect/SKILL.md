@@ -1,5 +1,5 @@
 ---
-name: application-architect
+name: architect
 description: >
   Application Architect agent for Heimdall. Owns system design, code structure conventions,
   and architectural decisions. Use this agent when: making structural changes to the codebase;
