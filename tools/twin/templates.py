@@ -157,6 +157,7 @@ def build_index_html(brief: dict, plugins: dict[str, str]) -> str:
 <meta name="generator" content="WordPress {wp_version}" />
 <title>{domain}</title>
 <link rel="https://api.w.org/" href="/wp-json/" />
+<link rel="alternate" type="application/json+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F{domain}%2F" />
 <link rel="stylesheet" href="/wp-content/themes/flavor/style.css?ver={wp_version}" />
 {chr(10).join(plugin_links)}
 {wp_rocket_block}<script src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
@@ -180,11 +181,13 @@ window._wpemojiSettings = {{"baseUrl":"https:\\/\\/s.w.org\\/images\\/core\\/emo
 </div>
 </article>
 </main>
+<!-- This site is optimized with the Yoast SEO plugin v26.9 - https://yoast.com/wordpress/plugins/seo/ -->
 <footer id="colophon" class="site-footer">
 <div class="site-info">
 <p>&copy; 2026 {brief.get("company_name", domain)}. Alle rettigheder forbeholdes.</p>
 </div>
 </footer>
+<!-- / Yoast SEO plugin. -->
 {chr(10).join(plugin_scripts)}
 </body>
 </html>"""
@@ -281,6 +284,28 @@ def build_readme_html(version: str) -> str:
 <p>Semantic personal publishing platform.</p>
 </body>
 </html>"""
+
+
+def build_rss_feed(domain: str, wp_version: str) -> str:
+    """WordPress RSS 2.0 feed with generator tag for version detection."""
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
+<channel>
+    <title>{domain}</title>
+    <link>https://{domain}</link>
+    <description></description>
+    <lastBuildDate>Sat, 29 Mar 2026 12:00:00 +0000</lastBuildDate>
+    <language>da</language>
+    <sy:updatePeriod>hourly</sy:updatePeriod>
+    <sy:updateFrequency>1</sy:updateFrequency>
+    <generator>https://wordpress.org/?v={wp_version}</generator>
+    <atom:link href="https://{domain}/feed/" rel="self" type="application/rss+xml" />
+</channel>
+</rss>"""
 
 
 def build_theme_style_css() -> str:

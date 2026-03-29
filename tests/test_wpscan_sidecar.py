@@ -51,6 +51,38 @@ _WPSCAN_JSON = json.dumps({
 class TestRunWPScan:
 
     @patch("src.wpscan_sidecar.main.subprocess.run")
+    def test_command_includes_force_flag(self, mock_run):
+        mock_run.return_value = MagicMock(stdout=_WPSCAN_JSON, returncode=0)
+        _run_wpscan("example.dk")
+        cmd = mock_run.call_args[0][0]
+        assert "--force" in cmd, "WPScan command must include --force for twin compatibility"
+
+    @patch("src.wpscan_sidecar.main.subprocess.run")
+    def test_command_includes_disable_tls_checks(self, mock_run):
+        mock_run.return_value = MagicMock(stdout=_WPSCAN_JSON, returncode=0)
+        _run_wpscan("example.dk")
+        cmd = mock_run.call_args[0][0]
+        assert "--disable-tls-checks" in cmd, "WPScan command must include --disable-tls-checks"
+
+    @patch("src.wpscan_sidecar.main.subprocess.run")
+    def test_http_url_preserved(self, mock_run):
+        """When domain starts with http://, sidecar must NOT prepend https://."""
+        mock_run.return_value = MagicMock(stdout=_WPSCAN_JSON, returncode=0)
+        _run_wpscan("http://worker-abc:45000")
+        cmd = mock_run.call_args[0][0]
+        url_arg = cmd[cmd.index("--url") + 1]
+        assert url_arg.startswith("http://"), f"Expected http:// URL, got: {url_arg}"
+
+    @patch("src.wpscan_sidecar.main.subprocess.run")
+    def test_api_token_passed_when_set(self, mock_run):
+        mock_run.return_value = MagicMock(stdout=_WPSCAN_JSON, returncode=0)
+        with patch.dict("os.environ", {"WPSCAN_API_TOKEN": "test-token-123"}):
+            _run_wpscan("example.dk")
+        cmd = mock_run.call_args[0][0]
+        assert "--api-token" in cmd
+        assert "test-token-123" in cmd
+
+    @patch("src.wpscan_sidecar.main.subprocess.run")
     def test_parses_valid_json(self, mock_run):
         mock_run.return_value = MagicMock(stdout=_WPSCAN_JSON, returncode=0)
         result = _run_wpscan("example.dk")

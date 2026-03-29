@@ -70,8 +70,13 @@ def _run_wpscan(domain: str) -> dict:
         "--format", "json",
         "--no-banner",
         "--enumerate", "vp,vt",
+        "--force",  # Scan even if WordPress detection is inconclusive
+        "--disable-tls-checks",  # Accept self-signed certs (twin, staging)
         "--user-agent", WPSCAN_USER_AGENT,
     ]
+    api_token = os.environ.get("WPSCAN_API_TOKEN", "")
+    if api_token:
+        cmd.extend(["--api-token", api_token])
 
     t0 = time.monotonic()
 
@@ -91,9 +96,12 @@ def _run_wpscan(domain: str) -> dict:
 
     elapsed_ms = int((time.monotonic() - t0) * 1000)
 
-    # Exit code 4 = not WordPress — expected, not an error
+    # Exit code 4 = not WordPress (should not happen with --force)
     if result.returncode == 4:
-        log.debug("wpscan: %s is not a WordPress site", domain)
+        log.warning(
+            "wpscan: %s not recognised as WordPress (exit 4 despite --force): %s",
+            domain, result.stderr[:500],
+        )
         return {
             "status": "not_wordpress",
             "domain": domain,

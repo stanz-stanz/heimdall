@@ -61,6 +61,9 @@ class TwinHandler(BaseHTTPRequestHandler):
     login_cookie: str = ""
     jitter: bool = True
 
+    # Use HTTP/1.1 — WPScan uses libcurl which expects 1.1
+    protocol_version = "HTTP/1.1"
+
     # Suppress BaseHTTPRequestHandler's default Server header
     server_version = ""
     sys_version = ""
@@ -79,6 +82,11 @@ class TwinHandler(BaseHTTPRequestHandler):
             time.sleep(random.uniform(0.05, 0.2))
 
         route = self.routes.get(path)
+
+        # Slash-agnostic fallback: /wp-json → /wp-json/ and vice versa
+        if route is None:
+            alt = path.rstrip("/") + "/" if not path.endswith("/") else path.rstrip("/")
+            route = self.routes.get(alt)
 
         # Try prefix matching for dynamic paths
         if route is None:
@@ -102,6 +110,8 @@ class TwinHandler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             for k, v in self.common_headers.items():
+                if k == "Server":
+                    continue
                 self.send_header(k, v)
             self.end_headers()
             if include_body:
@@ -119,6 +129,9 @@ class TwinHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", content_type)
 
         for k, v in self.common_headers.items():
+            # Server header is already emitted by send_response() via version_string()
+            if k == "Server":
+                continue
             self.send_header(k, v)
 
         # Login page cookie
@@ -180,6 +193,11 @@ def _build_routes(brief: dict, slug_map: dict) -> dict:
     routes["/wp-cron.php"] = ("", "text/html; charset=utf-8", 200)
     routes["/favicon.ico"] = (_WP_FAVICON, "image/x-icon", 200)
     routes["/healthz"] = (json.dumps({"status": "ok"}), "application/json", 200)
+
+    # RSS feed — WPScan checks /feed/ for version detection
+    routes["/feed/"] = (
+        templates.build_rss_feed(domain, wp_version), "application/rss+xml; charset=utf-8", 200
+    )
 
     # Theme
     routes["/wp-content/themes/flavor/style.css"] = (

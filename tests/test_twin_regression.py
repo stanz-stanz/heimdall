@@ -191,6 +191,107 @@ class TestTwinLiveHTTP:
         assert "wp/v2" in data["namespaces"]
 
 
+# --- WPScan detection signals ---
+
+
+class TestWPScanDetectionSignals:
+    """Verify the twin serves all signals WPScan uses for WordPress detection.
+
+    WPScan checks the homepage for these patterns (any one is sufficient):
+    1. <link>/<script> URIs matching /wp-content/(themes|plugins|uploads)/ or /wp-includes/
+    2. <link> URIs matching /wp-json/oembed/
+    3. <meta name="generator"> with "wordpress" (case-insensitive)
+    4. HTML comments containing "wordpress"
+    5. Inline scripts referencing /wp-admin/admin-ajax.php
+    """
+
+    def test_wp_content_in_link_tags(self, wordpress_brief, slug_map):
+        """WPScan Check 1: <link> tags with wp-content paths."""
+        plugins = templates.parse_tech_stack(wordpress_brief, slug_map)
+        html = templates.build_index_html(wordpress_brief, plugins)
+        wp_pattern = re.compile(r'/(?:wp-content/(?:themes|plugins|uploads)|wp-includes)/')
+        links = re.findall(r'<link[^>]+href="([^"]*)"', html)
+        matching = [u for u in links if wp_pattern.search(u)]
+        assert len(matching) >= 2, f"Expected >=2 wp-content/wp-includes links, got: {matching}"
+
+    def test_wp_includes_in_script_tags(self, wordpress_brief, slug_map):
+        """WPScan Check 1: <script> tags with wp-includes paths."""
+        plugins = templates.parse_tech_stack(wordpress_brief, slug_map)
+        html = templates.build_index_html(wordpress_brief, plugins)
+        scripts = re.findall(r'<script[^>]+src="([^"]*)"', html)
+        wp_includes = [s for s in scripts if "/wp-includes/" in s]
+        assert len(wp_includes) >= 1, f"Expected wp-includes scripts, got: {scripts}"
+
+    def test_oembed_link_tag(self, wordpress_brief, slug_map):
+        """WPScan Check 2: oEmbed discovery link."""
+        plugins = templates.parse_tech_stack(wordpress_brief, slug_map)
+        html = templates.build_index_html(wordpress_brief, plugins)
+        assert "/wp-json/oembed/" in html
+
+    def test_meta_generator_wordpress(self, wordpress_brief, slug_map):
+        """WPScan Check 3: meta generator tag."""
+        plugins = templates.parse_tech_stack(wordpress_brief, slug_map)
+        html = templates.build_index_html(wordpress_brief, plugins)
+        gen = re.search(r'<meta[^>]+name="generator"[^>]+content="([^"]*)"', html)
+        assert gen is not None
+        assert "wordpress" in gen.group(1).lower()
+
+    def test_html_comment_wordpress(self, wordpress_brief, slug_map):
+        """WPScan Check 4: HTML comments containing 'wordpress'."""
+        plugins = templates.parse_tech_stack(wordpress_brief, slug_map)
+        html = templates.build_index_html(wordpress_brief, plugins)
+        comments = re.findall(r'<!--(.*?)-->', html, re.DOTALL)
+        wp_comments = [c for c in comments if "wordpress" in c.lower()]
+        assert len(wp_comments) >= 1, "Expected at least one HTML comment with 'wordpress'"
+
+    def test_rss_feed_has_generator(self, wordpress_brief):
+        """WPScan version detection: RSS feed generator tag."""
+        wp_version = templates._extract_wp_version(wordpress_brief)
+        feed = templates.build_rss_feed(wordpress_brief["domain"], wp_version)
+        assert f"?v={wp_version}" in feed
+        assert "wordpress.org" in feed
+
+
+@pytest.mark.integration
+class TestWPScanDetectionLiveHTTP:
+    """Live HTTP tests for WPScan detection — verify slash-agnostic routing."""
+
+    def test_wp_json_without_trailing_slash(self, twin_server):
+        """WPScan may request /wp-json without trailing slash."""
+        import urllib.request
+        port, _ = twin_server
+        resp = urllib.request.urlopen(f"http://127.0.0.1:{port}/wp-json")
+        data = json.loads(resp.read())
+        assert "namespaces" in data
+
+    def test_feed_returns_rss(self, twin_server):
+        """WPScan checks /feed/ for version detection."""
+        import urllib.request
+        port, _ = twin_server
+        resp = urllib.request.urlopen(f"http://127.0.0.1:{port}/feed/")
+        body = resp.read().decode()
+        assert "wordpress.org" in body
+        assert "<generator>" in body
+
+    def test_homepage_no_duplicate_server_header(self, twin_server):
+        """Server header should appear exactly once."""
+        import urllib.request
+        port, _ = twin_server
+        resp = urllib.request.urlopen(f"http://127.0.0.1:{port}/")
+        server_headers = resp.headers.get_all("Server")
+        assert len(server_headers) == 1, f"Expected 1 Server header, got {len(server_headers)}: {server_headers}"
+
+    def test_homepage_is_http11(self, twin_server):
+        """Twin should respond with HTTP/1.1."""
+        import http.client
+        port, _ = twin_server
+        conn = http.client.HTTPConnection("127.0.0.1", port)
+        conn.request("GET", "/")
+        resp = conn.getresponse()
+        assert resp.version == 11, f"Expected HTTP/1.1 (11), got {resp.version}"
+        conn.close()
+
+
 # --- Twin scan module ---
 
 
