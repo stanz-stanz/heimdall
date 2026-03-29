@@ -15,10 +15,12 @@ import redis
 from fastapi import FastAPI, HTTPException, Query, Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
+from starlette.staticfiles import StaticFiles
 
 from src.interpreter.interpreter import InterpreterError, interpret_brief
 from src.composer.telegram import compose_telegram
 
+from .console import router as console_router
 from .result_store import ResultStore
 
 log = logging.getLogger(__name__)
@@ -206,7 +208,12 @@ def _handle_scan_complete(
 # App factory
 # ---------------------------------------------------------------------------
 
-def create_app(redis_url: str, results_dir: str, messages_dir: str = "/data/messages") -> FastAPI:
+def create_app(
+    redis_url: str,
+    results_dir: str,
+    messages_dir: str = "/data/messages",
+    briefs_dir: str = "data/output/briefs",
+) -> FastAPI:
     """Build and return the FastAPI application."""
 
     @asynccontextmanager
@@ -246,8 +253,15 @@ def create_app(redis_url: str, results_dir: str, messages_dir: str = "/data/mess
     )
     app.state.results_dir = results_dir
     app.state.result_store = ResultStore(results_dir)
+    app.state.briefs_dir = briefs_dir
 
     app.add_middleware(RequestLoggingMiddleware)
+
+    # Console router + static PWA files
+    app.include_router(console_router)
+    static_dir = Path(__file__).parent / "static"
+    if static_dir.is_dir():
+        app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
     # -------------------------------------------------------------------
     # Routes

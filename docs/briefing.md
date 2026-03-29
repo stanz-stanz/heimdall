@@ -332,6 +332,8 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 
 The prospecting scan (Layer 1) costs nothing to run and produces real findings: outdated CMS versions, expiring SSL certificates, missing security headers, detectable technology stack. The digital twin system takes this further — by reconstructing the prospect's CMS environment locally, Heimdall can surface CVE-level vulnerability findings (with `provenance: "twin-derived"` markers) in the initial outreach, without requiring consent. This data powers a free-sample sales motion — show the prospect a real, specific finding on their actual website before asking for money.
 
+The mobile console PWA (`/static/index.html`) provides a theatrical demo mode for in-person sales meetings: the operator selects a pre-scanned prospect, and the console animates a 30-second scan replay with real findings. A "Live Twin" mode can run real Nuclei/WPScan scans against a digital twin in real-time, streaming findings to the screen as they are discovered.
+
 ### Agency Pitch (Bonus)
 
 Scan all sites built by a specific local agency (identifiable from footer credits, meta author tags, common templates). Approach the agency with: "I scanned 35 of your client sites. 22 have at least one issue. Your name is on the footer." The agency becomes a white-label partner.
