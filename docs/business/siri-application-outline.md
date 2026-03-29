@@ -153,7 +153,7 @@ Mandatory for Startup Denmark. Explains why Denmark is the right place to build 
 - **GDPR-first strategy:** Building in Denmark means building for the strictest data protection regime. The compliance framework translates to all 27 EU member states.
 - **SMB density:** 200,000+ Danish SMBs with websites. High digital adoption + high regulatory requirements = ideal first market.
 - **Danish marketing law as moat:** Markedsføringsloven forces high-trust local acquisition. This rewards physical presence in Denmark and creates a barrier to remote-first competitors.
-- **Founder's existing presence:** Already in Vejle since 2019, embedded in Danish business environment, tested the pipeline against 353 local domains.
+- **Founder's existing presence:** Already in Vejle since 2019, embedded in Danish business environment, tested the pipeline against 203 local domains.
 - **Talent and partnerships:** Danish universities (AAU, SDU, DTU) as research and consortium partners. Strong tech ecosystem.
 
 ### 13. Team & Execution Capability (1.5 pages) — C4
@@ -166,7 +166,7 @@ Directly addresses SIRI Criterion 4.
   - Prior: JYSK, LEGO (via Hays), Medtronic (via IBM), Deloitte — across Denmark, USA, Mexico, Barbados, Colombia, Argentina
   - Led team of ~30 SAP CRM consultants at Grupo Bancolombia (via Deloitte), managing 170+ developments
   - Technical: Python, REST APIs, cloud platforms (SAP BTP, Cloud Foundry), CI/CD, test automation, data pipelines (Databricks)
-  - Built Heimdall's entire codebase: 14-module Python pipeline, 10 agent specifications, Valdí compliance system, legal risk assessment, 353-domain test run
+  - Built Heimdall's entire codebase: 14-module Python pipeline, 10 agent specifications, Valdí compliance system, legal risk assessment, 203-domain test run
   - Entrepreneurial: Fjordleather brand (leather goods — separate business)
   - Education: Computer Systems Analyst
   - Languages: Spanish (native), English (professional)
@@ -178,7 +178,7 @@ Directly addresses SIRI Criterion 4.
   - Valdí legal compliance system with two-gate validation and forensic logging
   - Complete legal risk assessment of Danish scanning law under §263
   - Post-incident report and remediation for a compliance boundary violation
-  - Prospecting pipeline tested against 353 live Vejle-area domains
+  - Prospecting pipeline tested against 203 live Vejle-area domains
 
 - **Network security partner:** Domain expertise, technical credibility, operational support
 - **Claude Code as force multiplier:** Solo developer with AI tooling operates at output level of a small team

@@ -37,7 +37,7 @@ Forty percent of Danish small and medium businesses do not have a security level
 
 **Business model:** Three subscription tiers at 199, 399, and 799 kr./month — Watchman is cheaper than every competitor's entry tier. Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~10 paying clients.
 
-**Current state:** The product is being built. The lead generation pipeline is operational — 14 Python modules, a 10-agent architecture, a programmatic legal compliance system (Valdí) with two-gate validation and forensic logging, and a complete legal risk assessment of Danish scanning law. The pipeline has been tested against 353 live Vejle-area domains.
+**Current state:** The product is being built. The lead generation pipeline is operational — 14 Python modules, a 10-agent architecture, a programmatic legal compliance system (Valdí) with two-gate validation and forensic logging, and a complete legal risk assessment of Danish scanning law. The pipeline has been tested against 203 live Vejle-area domains.
 
 **Why Denmark:** Denmark's cybersecurity investment, GDPR-first regulatory environment, dense SMB market, and grant ecosystem create the ideal conditions for this business. The founder has been based in Vejle since 2019 and has already tested the pipeline against local domains.
 
@@ -554,7 +554,7 @@ Markedsføringsloven prohibits unsolicited electronic marketing. This forces a h
 
 ### 12.6 Founder's Existing Presence
 
-Federico has been based in Vejle since 2019 — seven years in Denmark by the time of this application. He has worked at LEGO and JYSK, is embedded in the local business environment, and has already tested the Heimdall pipeline against 353 Vejle-area domains. The product is being built here, for this market.
+Federico has been based in Vejle since 2019 — seven years in Denmark by the time of this application. He has worked at LEGO and JYSK, is embedded in the local business environment, and has already tested the Heimdall pipeline against 203 Vejle-area domains. The product is being built here, for this market.
 
 ---
 
@@ -594,7 +594,7 @@ This is not a slide deck. The product is being built:
 - Valdí legal compliance system with two-gate validation and forensic logging
 - Complete legal risk assessment of Danish scanning law under §263
 - Post-incident report and remediation for a compliance boundary violation
-- Prospecting pipeline tested against 353 live Vejle-area domains
+- Prospecting pipeline tested against 203 live Vejle-area domains
 
 ### 13.3 Network Security Partner
 
