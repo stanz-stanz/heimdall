@@ -53,8 +53,8 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "v=spf1 ip4:62.242.43.19 a:smtp14.zitcom.dk include:spf.protection.outlook.com -all",
-      "MS=ms81467681"
+      "MS=ms81467681",
+      "v=spf1 ip4:62.242.43.19 a:smtp14.zitcom.dk include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

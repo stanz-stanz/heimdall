@@ -13,8 +13,8 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-06-09",
-      "days_remaining": 72
+      "expiry": "2026-06-14",
+      "days_remaining": 76
     },
     "server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/8.2.10",
     "detected_plugins": [],

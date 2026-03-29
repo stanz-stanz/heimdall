@@ -1,0 +1,299 @@
+{
+  "domain": "foodwithyou.com",
+  "job_id": "scan-2026-03-29-9ce8f77f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "foodwithyou.com",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-19",
+    "ssl_days_remaining": 50,
+    "detected_plugins": [
+      "dynamicconditions",
+      "essential-addons-for-elementor-lite",
+      "elementor-pro",
+      "wp-seopress-pro",
+      "elementskit-lite",
+      "astra-addon",
+      "sitepress-multilingual-cms",
+      "ultimate-elementor",
+      "3d-flipbook-dflip-lite",
+      "bdthemes-element-pack",
+      "complianz-gdpr",
+      "elementor"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Complianz",
+      "Dynamic Conditions:1.7.5",
+      "Elementor:3.35.9",
+      "Essential Addons for Elementor",
+      "MySQL",
+      "PHP:8.4.19",
+      "UIKit",
+      "Varnish",
+      "WP Rocket",
+      "WPML:4.9.2",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:24:01.314758773Z",
+      "port": "443",
+      "url": "https://foodwithyou.com",
+      "input": "foodwithyou.com",
+      "title": "Wholesale Seafood for Retail- & Foodservice chains",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "foodwithyou.com",
+      "host_ip": "46.30.213.33",
+      "path": "/",
+      "final_url": "https://www.foodwithyou.com/",
+      "time": "912.372223ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "46.30.213.33"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10a:8008:89e2:4fd1:6418"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Complianz",
+        "Dynamic Conditions:1.7.5",
+        "Elementor:3.35.9",
+        "Essential Addons for Elementor",
+        "MySQL",
+        "PHP:8.4.19",
+        "UIKit",
+        "Varnish",
+        "WP Rocket",
+        "WPML:4.9.2",
+        "WordPress:6.9.4",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 24837,
+      "lines": 2548,
+      "status_code": 200,
+      "content_length": 2145455,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "n8n",
+          "vendor": "n8n",
+          "cpe": "cpe:2.3:a:n8n:n8n:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "zpan",
+          "vendor": "saltbo",
+          "cpe": "cpe:2.3:a:saltbo:zpan:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "sitepress-multilingual-cms",
+          "complianz-gdpr",
+          "3d-flipbook-dflip-lite",
+          "elementor",
+          "essential-addons-for-elementor-lite",
+          "elementskit-lite",
+          "dynamicconditions"
+        ],
+        "themes": [
+          "astra"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.30.213.33"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10a:8008:89e2:4fd1:6418"
+      ],
+      "cname": [],
+      "mx": [
+        "foodwithyou-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:5fcvcorw78.powerspf.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "foodwithyou.com",
+    "cvr": "prospect",
+    "company_name": "foodwithyou.com",
+    "scan_date": "2026-03-29",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-19",
+        "days_remaining": 50
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Dynamicconditions",
+        "Essential Addons For Elementor Lite",
+        "Elementor Pro",
+        "Wp Seopress Pro",
+        "Elementskit Lite",
+        "Astra Addon",
+        "Sitepress Multilingual Cms",
+        "Ultimate Elementor",
+        "3D Flipbook Dflip Lite",
+        "Bdthemes Element Pack",
+        "Complianz Gdpr",
+        "Elementor"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Complianz",
+      "Dynamic Conditions:1.7.5",
+      "Elementor:3.35.9",
+      "Essential Addons for Elementor",
+      "MySQL",
+      "PHP:8.4.19",
+      "UIKit",
+      "Varnish",
+      "WP Rocket",
+      "WPML:4.9.2",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.30.213.33"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10a:8008:89e2:4fd1:6418"
+      ],
+      "cname": [],
+      "mx": [
+        "foodwithyou-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:5fcvcorw78.powerspf.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "12 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.4.19",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1456,
+    "ssl": 75,
+    "headers": 794,
+    "meta": 743,
+    "httpx": 10826,
+    "webanalyze": 4,
+    "dnsx": 722,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 23987
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

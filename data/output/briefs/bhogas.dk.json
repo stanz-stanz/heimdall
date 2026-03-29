@@ -20,14 +20,14 @@
     },
     "server": "nginx",
     "detected_plugins": [
-      "Tablepress Responsive Tables",
-      "Tablepress",
-      "Gp Premium",
-      "Wp Rocket",
       "Wp Statistics",
-      "Js_Composer",
+      "Tablepress Responsive Tables",
       "Revslider",
-      "Ultimate_Vc_Addons"
+      "Wp Rocket",
+      "Js_Composer",
+      "Gp Premium",
+      "Ultimate_Vc_Addons",
+      "Tablepress"
     ],
     "headers": {
       "x_frame_options": false,

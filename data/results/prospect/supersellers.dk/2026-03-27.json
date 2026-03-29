@@ -1,0 +1,284 @@
+{
+  "domain": "supersellers.dk",
+  "job_id": "scan-2026-03-27-a40b31f4",
+  "status": "completed",
+  "scan_result": {
+    "domain": "supersellers.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "SSL Corporation",
+    "ssl_expiry": "2026-04-29",
+    "ssl_days_remaining": 32,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T17:41:15.659651577Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://supersellers.dk",
+      "input": "supersellers.dk",
+      "title": "Butiksindretning og inventar. 1-2 dags levering. ⭐ SE mere HER – SuperSellerS",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "supersellers.dk",
+      "host_ip": "104.26.6.29",
+      "path": "/",
+      "final_url": "https://www.supersellers.dk/",
+      "time": "870.071618ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "104.26.7.29",
+        "172.67.69.179",
+        "104.26.6.29"
+      ],
+      "aaaa": [
+        "2606:4700:20::ac43:45b3",
+        "2606:4700:20::681a:61d",
+        "2606:4700:20::681a:71d"
+      ],
+      "tech": [
+        "Cloudflare",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo",
+        "Shopify"
+      ],
+      "words": 232256,
+      "lines": 14541,
+      "status_code": 200,
+      "content_length": 986420,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.26.6.29",
+        "104.26.7.29",
+        "172.67.69.179"
+      ],
+      "aaaa": [
+        "2606:4700:20::ac43:45b3",
+        "2606:4700:20::681a:71d",
+        "2606:4700:20::681a:61d"
+      ],
+      "cname": [],
+      "mx": [
+        "supersellers-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "harlee.ns.cloudflare.com",
+        "wesley.ns.cloudflare.com"
+      ],
+      "txt": [
+        "google-site-verification=OQDwW9PxqfSEH_UBq7UWfjXzdf6oTMm2Q1TFNlh8mT4",
+        "klaviyo-site-verification=QZabHA",
+        "v=spf1 a ip4:135.181.115.119 ip4:217.182.33.13 ip4:79.137.1.162 include:web.shared.mysmtp.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.consignor.com ~all",
+        "MS=ms98420429"
+      ]
+    },
+    "ct_certificates": [
+      {
+        "common_name": "ss.supersellers.dk",
+        "issuer_name": "C=US, O=Let's Encrypt, CN=R13",
+        "not_before": "2026-03-16T13:27:54",
+        "not_after": "2026-06-14T13:27:53"
+      },
+      {
+        "common_name": "supersellers.dk",
+        "issuer_name": "C=US, O=Let's Encrypt, CN=E7",
+        "not_before": "2026-03-01T18:36:08",
+        "not_after": "2026-05-30T18:36:07"
+      },
+      {
+        "common_name": "m2.supersellers.dk",
+        "issuer_name": "C=US, O=Let's Encrypt, CN=R13",
+        "not_before": "2026-02-09T05:44:18",
+        "not_after": "2026-05-10T05:44:17"
+      },
+      {
+        "common_name": "shop.supersellers.dk",
+        "issuer_name": "C=US, O=Let's Encrypt, CN=E8",
+        "not_before": "2026-02-05T10:16:36",
+        "not_after": "2026-05-06T10:16:35"
+      },
+      {
+        "common_name": "www.supersellers.dk",
+        "issuer_name": "C=US, O=SSL Corporation, CN=Cloudflare TLS Issuing RSA CA 3",
+        "not_before": "2026-01-29T13:20:53",
+        "not_after": "2026-04-29T11:44:08"
+      },
+      {
+        "common_name": "upgrade.supersellers.dk",
+        "issuer_name": "C=US, O=Let's Encrypt, CN=R13",
+        "not_before": "2026-01-27T20:59:34",
+        "not_after": "2026-04-27T20:59:33"
+      },
+      {
+        "common_name": "sst.supersellers.dk",
+        "issuer_name": "C=US, O=Let's Encrypt, CN=R11",
+        "not_before": "2025-08-17T04:32:37",
+        "not_after": "2025-11-15T04:32:36"
+      },
+      {
+        "common_name": "supersellers.de",
+        "issuer_name": "C=US, O=Let's Encrypt, CN=R10",
+        "not_before": "2024-07-24T01:05:51",
+        "not_after": "2024-10-22T01:05:50"
+      },
+      {
+        "common_name": "super2.supersellers.dk",
+        "issuer_name": "C=US, O=\"GeoTrust, Inc.\", CN=RapidSSL CA",
+        "not_before": "2011-06-25T14:42:35",
+        "not_after": "2013-07-27T15:01:47"
+      },
+      {
+        "common_name": "gate.supersellers.dk",
+        "issuer_name": "C=US, O=\"GeoTrust, Inc.\", CN=RapidSSL CA",
+        "not_before": "2013-07-24T17:58:04",
+        "not_after": "2015-07-27T12:19:45"
+      },
+      {
+        "common_name": "super1.supersellers.dk",
+        "issuer_name": "C=US, O=Equifax, OU=Equifax Secure Certificate Authority",
+        "not_before": "2009-10-27T08:46:33",
+        "not_after": "2011-10-29T01:40:16"
+      }
+    ],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "supersellers.dk",
+    "cvr": "prospect",
+    "company_name": "supersellers.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "SSL Corporation",
+        "expiry": "2026-04-29",
+        "days_remaining": 32
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.26.6.29",
+        "104.26.7.29",
+        "172.67.69.179"
+      ],
+      "aaaa": [
+        "2606:4700:20::ac43:45b3",
+        "2606:4700:20::681a:71d",
+        "2606:4700:20::681a:61d"
+      ],
+      "cname": [],
+      "mx": [
+        "supersellers-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "harlee.ns.cloudflare.com",
+        "wesley.ns.cloudflare.com"
+      ],
+      "txt": [
+        "google-site-verification=OQDwW9PxqfSEH_UBq7UWfjXzdf6oTMm2Q1TFNlh8mT4",
+        "klaviyo-site-verification=QZabHA",
+        "v=spf1 a ip4:135.181.115.119 ip4:217.182.33.13 ip4:79.137.1.162 include:web.shared.mysmtp.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.consignor.com ~all",
+        "MS=ms98420429"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 83,
+    "total_ms": 84
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

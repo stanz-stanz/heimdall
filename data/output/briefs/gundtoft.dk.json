@@ -54,9 +54,9 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com mx include:sendgrid.net ip4:195.190.30.45 ~all",
       "klaviyo-site-verification=Yxxtmh",
-      "MS=ms46342002"
+      "MS=ms46342002",
+      "v=spf1 include:spf.protection.outlook.com mx include:sendgrid.net ip4:195.190.30.45 ~all"
     ]
   },
   "cloud_exposure": [],

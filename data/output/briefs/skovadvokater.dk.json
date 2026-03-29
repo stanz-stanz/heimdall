@@ -21,10 +21,10 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Popup Maker",
-      "Gravityforms",
+      "Pixelyoursite Pro",
       "Sitepress Multilingual Cms",
-      "Pixelyoursite Pro"
+      "Popup Maker",
+      "Gravityforms"
     ],
     "headers": {
       "x_frame_options": false,
@@ -59,9 +59,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "skovadvokater.dk-tld.mx2-dk.mailanyone.net",
+      "skovadvokater.dk-tld.mx3-dk.mailanyone.net",
       "skovadvokater.dk-tld.mx1-dk.mailanyone.net",
-      "skovadvokater.dk-tld.mx3-dk.mailanyone.net"
+      "skovadvokater.dk-tld.mx2-dk.mailanyone.net"
     ],
     "ns": [
       "ns.scannet2.dk",

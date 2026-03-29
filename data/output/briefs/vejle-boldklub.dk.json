@@ -55,10 +55,10 @@
       "ns4-03.azure-dns.info"
     ],
     "txt": [
+      "v=spf1 ip4:176.22.118.73 ip4:176.22.118.74 ip4:185.116.8.90 include:send.heyloyalty.com include:spf.protection.outlook.com include:spf.mailanyone.net -all",
       "mw8xtps0w7tgkk5hwqzwj0tdhxmw6zpq",
       "google-site-verification=E_w5ESnQa-j-B2x27iiS4Ki4Zt1ToQVMZnvvQG8lq3Y",
-      "MS=ms72902751",
-      "v=spf1 ip4:176.22.118.73 ip4:176.22.118.74 ip4:185.116.8.90 include:send.heyloyalty.com include:spf.protection.outlook.com include:spf.mailanyone.net -all"
+      "MS=ms72902751"
     ]
   },
   "cloud_exposure": [],

@@ -15,8 +15,8 @@
     "ssl": {
       "valid": true,
       "issuer": "SSL Corporation",
-      "expiry": "2026-04-29",
-      "days_remaining": 31
+      "expiry": "2026-06-27",
+      "days_remaining": 89
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -40,14 +40,14 @@
   },
   "dns": {
     "a": [
-      "172.67.69.179",
+      "104.26.7.29",
       "104.26.6.29",
-      "104.26.7.29"
+      "172.67.69.179"
     ],
     "aaaa": [
+      "2606:4700:20::681a:61d",
       "2606:4700:20::ac43:45b3",
-      "2606:4700:20::681a:71d",
-      "2606:4700:20::681a:61d"
+      "2606:4700:20::681a:71d"
     ],
     "cname": [],
     "mx": [
@@ -58,10 +58,10 @@
       "wesley.ns.cloudflare.com"
     ],
     "txt": [
+      "google-site-verification=OQDwW9PxqfSEH_UBq7UWfjXzdf6oTMm2Q1TFNlh8mT4",
       "klaviyo-site-verification=QZabHA",
       "v=spf1 a ip4:135.181.115.119 ip4:217.182.33.13 ip4:79.137.1.162 include:web.shared.mysmtp.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.consignor.com ~all",
-      "MS=ms98420429",
-      "google-site-verification=OQDwW9PxqfSEH_UBq7UWfjXzdf6oTMm2Q1TFNlh8mT4"
+      "MS=ms98420429"
     ]
   },
   "cloud_exposure": [],

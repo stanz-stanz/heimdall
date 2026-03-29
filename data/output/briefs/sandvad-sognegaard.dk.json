@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-17",
-      "days_remaining": 49
+      "days_remaining": 48
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -49,11 +49,11 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "alt2.aspmx.l.google.com",
+      "alt3.aspmx.l.google.com",
       "alt1.aspmx.l.google.com",
       "aspmx.l.google.com",
-      "alt3.aspmx.l.google.com",
-      "alt4.aspmx.l.google.com"
+      "alt4.aspmx.l.google.com",
+      "alt2.aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",

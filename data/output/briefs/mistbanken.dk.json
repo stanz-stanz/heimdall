@@ -26,10 +26,7 @@
     }
   },
   "tech_stack": [
-    "HSTS",
-    "Nginx",
-    "jQuery Migrate",
-    "jQuery:3.7.0"
+    "Nginx"
   ],
   "subdomains": {
     "count": 0,

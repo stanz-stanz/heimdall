@@ -14,15 +14,15 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-26",
-      "days_remaining": 89
+      "days_remaining": 88
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Elementor",
-      "Elementor Pro",
       "Wp Rocket",
+      "Elementor Pro",
       "Honeypot",
-      "Ultimate Elementor"
+      "Ultimate Elementor",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -52,8 +52,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.hc1805-70.eu.iphmx.com",
-      "mx2.hc1805-70.eu.iphmx.com"
+      "mx2.hc1805-70.eu.iphmx.com",
+      "mx1.hc1805-70.eu.iphmx.com"
     ],
     "ns": [
       "mimer.deic.dk",
@@ -61,8 +61,8 @@
       "ns-soa.darenet.dk"
     ],
     "txt": [
-      "MS=ms13861176",
       "SOA=1728380514",
+      "MS=ms13861176",
       "v=spf1 ip4:23.90.111.221 ip4:194.165.192.197 include:spf.protection.outlook.com include:spf.defgo.com -all"
     ]
   },

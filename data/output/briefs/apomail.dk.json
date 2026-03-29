@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 51
+      "days_remaining": 50
     },
     "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
@@ -49,8 +49,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "MS=ms99067119",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms99067119"
     ]
   },
   "cloud_exposure": [],

@@ -1,0 +1,189 @@
+{
+  "domain": "givesco.dk",
+  "job_id": "scan-2026-03-27-1d8b205f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "givesco.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-23",
+    "ssl_days_remaining": 56,
+    "detected_plugins": [
+      "email-encoder-bundle",
+      "translatepress-multilingual",
+      "tablepress",
+      "elementor-pro",
+      "elementor"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HTTP/3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T17:52:34.389994609Z",
+      "port": "443",
+      "url": "https://givesco.dk",
+      "input": "givesco.dk",
+      "title": "Just a moment...",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "givesco.dk",
+      "host_ip": "141.193.213.11",
+      "path": "/",
+      "time": "138.893702ms",
+      "a": [
+        "141.193.213.10",
+        "141.193.213.11"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "HTTP/3"
+      ],
+      "words": 103,
+      "lines": 1,
+      "status_code": 403,
+      "content_length": 8744,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "141.193.213.10",
+        "141.193.213.11"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "givesco-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "givesco.dk",
+    "cvr": "prospect",
+    "company_name": "givesco.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-23",
+        "days_remaining": 56
+      },
+      "server": "cloudflare",
+      "detected_plugins": [
+        "Email Encoder Bundle",
+        "Translatepress Multilingual",
+        "Tablepress",
+        "Elementor Pro",
+        "Elementor"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HTTP/3"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "141.193.213.10",
+        "141.193.213.11"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "givesco-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "info",
+        "description": "5 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 150,
+    "total_ms": 151
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

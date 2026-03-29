@@ -20,17 +20,17 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Theme My Login",
-      "Elementor",
-      "Elementor Pro",
       "Dynamicconditions",
-      "Page Links To",
-      "Bbp Style Pack",
+      "Elementor",
       "Wp Rocket",
-      "Bbpress",
+      "Elementor Pro",
+      "Bbp Style Pack",
+      "Page Links To",
       "Ultimate Elementor",
+      "Bbpress",
       "Sitepress Multilingual Cms",
-      "Astra Addon"
+      "Astra Addon",
+      "Theme My Login"
     ],
     "headers": {
       "x_frame_options": false,
@@ -77,8 +77,8 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:7606712.spf05.hubspotemail.net -all",
-      "MS=ms15284044"
+      "MS=ms15284044",
+      "v=spf1 include:spf.protection.outlook.com include:7606712.spf05.hubspotemail.net -all"
     ]
   },
   "cloud_exposure": [],

@@ -18,11 +18,11 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Elementor",
-      "Elementor Pro",
       "Ocean Sticky Header",
+      "Elementor Pro",
       "Ocean Extra",
-      "Wp Smushit"
+      "Wp Smushit",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -70,8 +70,8 @@
     ],
     "txt": [
       "v=spf1 include:spf.protection.outlook.com -all",
-      "MS=ms61189504",
-      "google-site-verification=ptQJMLtNwbYwxRl6D-RG4QJTiNRwcOLWCnchD4eKZIc"
+      "google-site-verification=ptQJMLtNwbYwxRl6D-RG4QJTiNRwcOLWCnchD4eKZIc",
+      "MS=ms61189504"
     ]
   },
   "cloud_exposure": [],

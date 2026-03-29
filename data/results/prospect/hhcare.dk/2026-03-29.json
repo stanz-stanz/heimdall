@@ -1,0 +1,307 @@
+{
+  "domain": "hhcare.dk",
+  "job_id": "scan-2026-03-29-a916cfeb",
+  "status": "completed",
+  "scan_result": {
+    "domain": "hhcare.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-12",
+    "ssl_days_remaining": 43,
+    "detected_plugins": [
+      "bambora-online-classic",
+      "advanced-free-flat-shipping-woocommerce-pro",
+      "contact-form-7",
+      "product-badges-for-woocommerce",
+      "viabill-woocommerce",
+      "woocommerce",
+      "pluginsdk-gls-shipping",
+      "woo-discount-rules-pro",
+      "mailchimp-for-woocommerce",
+      "pixelyoursite",
+      "woo-discount-rules",
+      "duracelltomi-google-tag-manager"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Contact Form 7:6.1.5",
+      "Cookiebot",
+      "Distributor",
+      "Google Maps",
+      "Google Tag Manager",
+      "Google Tag Manager for WordPress:1.22.1",
+      "HTTP/3",
+      "LiteSpeed",
+      "MailChimp",
+      "MailChimp for WooCommerce:5.5.1.07",
+      "MySQL",
+      "PHP",
+      "PixelYourSite",
+      "WooCommerce:10.5.3",
+      "WordPress",
+      "Yoast SEO:26.3",
+      "hCaptcha:1",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:26:50.918688757Z",
+      "port": "443",
+      "url": "https://hhcare.dk",
+      "input": "hhcare.dk",
+      "title": "Alt til din hest hos HH Care – Stort udvalg af foder, tilskud & pleje",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "hhcare.dk",
+      "host_ip": "94.231.106.21",
+      "path": "/",
+      "time": "569.399018ms",
+      "a": [
+        "94.231.106.21"
+      ],
+      "tech": [
+        "Contact Form 7:6.1.5",
+        "Cookiebot",
+        "Distributor",
+        "Google Maps",
+        "Google Tag Manager",
+        "Google Tag Manager for WordPress:1.22.1",
+        "HTTP/3",
+        "LiteSpeed",
+        "MailChimp",
+        "MailChimp for WooCommerce:5.5.1.07",
+        "MySQL",
+        "PHP",
+        "PixelYourSite",
+        "WooCommerce:10.5.3",
+        "WordPress",
+        "Yoast SEO:26.3",
+        "hCaptcha:1",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 9157,
+      "lines": 1892,
+      "status_code": 200,
+      "content_length": 172919,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "storefront",
+          "vendor": "wordpress",
+          "cpe": "cpe:2.3:a:wordpress:storefront:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "woocommerce",
+          "product-badges-for-woocommerce",
+          "contact-form-7",
+          "bambora-online-classic",
+          "viabill-woocommerce",
+          "pixelyoursite",
+          "woo-discount-rules",
+          "duracelltomi-google-tag-manager",
+          "mailchimp-for-woocommerce"
+        ],
+        "themes": [
+          "storefront"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.106.21"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "hhcare-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms19687733",
+        "v=spf1 include:spf.protection.outlook.com include:_spf.powerhosting.dk include:spf.curanet.dk a mx  -all",
+        "google-site-verification=ixq23rWx1PMMwtQKwTH50MGoHqjSA4lTxeivxoca9Tw"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "hhcare.dk",
+    "cvr": "prospect",
+    "company_name": "hhcare.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Contact Form 7, Woocommerce",
+      "E-commerce plugin: WooCommerce:10.5.3",
+      "Visitor tracking: Google Tag Manager, Google Tag Manager for WordPress:1.22.1, MailChimp, MailChimp for WooCommerce:5.5.1.07"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-12",
+        "days_remaining": 43
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Bambora Online Classic",
+        "Advanced Free Flat Shipping Woocommerce Pro",
+        "Contact Form 7",
+        "Product Badges For Woocommerce",
+        "Viabill Woocommerce",
+        "Woocommerce",
+        "Pluginsdk Gls Shipping",
+        "Woo Discount Rules Pro",
+        "Mailchimp For Woocommerce",
+        "Pixelyoursite",
+        "Woo Discount Rules",
+        "Duracelltomi Google Tag Manager"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Contact Form 7:6.1.5",
+      "Cookiebot",
+      "Distributor",
+      "Google Maps",
+      "Google Tag Manager",
+      "Google Tag Manager for WordPress:1.22.1",
+      "HTTP/3",
+      "LiteSpeed",
+      "MailChimp",
+      "MailChimp for WooCommerce:5.5.1.07",
+      "MySQL",
+      "PHP",
+      "PixelYourSite",
+      "WooCommerce:10.5.3",
+      "WordPress",
+      "Yoast SEO:26.3",
+      "hCaptcha:1",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.106.21"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "hhcare-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms19687733",
+        "v=spf1 include:spf.protection.outlook.com include:_spf.powerhosting.dk include:spf.curanet.dk a mx  -all",
+        "google-site-verification=ixq23rWx1PMMwtQKwTH50MGoHqjSA4lTxeivxoca9Tw"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 1.22.1 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "12 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 336,
+    "ssl": 75,
+    "headers": 368,
+    "meta": 603,
+    "httpx": 3851,
+    "webanalyze": 2,
+    "dnsx": 822,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 12618
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -22,21 +22,21 @@
     },
     "server": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
     "detected_plugins": [
-      "Contact Form 7",
-      "Content Protector",
-      "Ws Keberegner 2023",
       "Pixelyoursite Pro",
       "Oxygen",
-      "Trustpilot Reviews",
       "Lightbox Popup",
-      "Duracelltomi Google Tag Manager",
-      "Google Site Kit",
-      "Wt Import Export For Woo",
-      "Solax Dashboard",
       "Ws Fix Styles",
+      "Contact Form 7",
+      "Solax Dashboard",
+      "Wt Import Export For Woo",
       "Woocommerce",
+      "Trustpilot Reviews",
       "Location Weather Pro",
-      "Wp Smushit"
+      "Google Site Kit",
+      "Wp Smushit",
+      "Content Protector",
+      "Duracelltomi Google Tag Manager",
+      "Ws Keberegner 2023"
     ],
     "headers": {
       "x_frame_options": false,
@@ -89,8 +89,8 @@
       "ns6.dns-123.net"
     ],
     "txt": [
-      "v=spf1 a mx include:_spf.serverpark.dk include:spf.protection.outlook.com ~all",
-      "google-site-verification=NwwQH9DAFpC1vSHJaql-sxGP8c4gmWDuDbWN-9O9o-0"
+      "google-site-verification=NwwQH9DAFpC1vSHJaql-sxGP8c4gmWDuDbWN-9O9o-0",
+      "v=spf1 a mx include:_spf.serverpark.dk include:spf.protection.outlook.com ~all"
     ]
   },
   "cloud_exposure": [],

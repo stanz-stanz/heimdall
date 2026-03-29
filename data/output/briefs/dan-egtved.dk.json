@@ -22,17 +22,17 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Pluginsdk Gls Shipping",
-      "Duracelltomi Google Tag Manager",
       "Advanced Woo Search",
-      "Sitepress Multilingual Cms",
-      "Woocommerce Cvr Payment Gateway",
-      "Pixelyoursite",
       "Woocommerce",
-      "Woocommerce Google Adwords Conversion Tracking Tag",
-      "Wp Media Folder",
+      "Pluginsdk Gls Shipping",
+      "Sitepress Multilingual Cms",
+      "Duracelltomi Google Tag Manager",
       "Woocommerce Multilingual",
-      "Wp Sort Order"
+      "Woocommerce Google Adwords Conversion Tracking Tag",
+      "Woocommerce Cvr Payment Gateway",
+      "Wp Media Folder",
+      "Wp Sort Order",
+      "Pixelyoursite"
     ],
     "headers": {
       "x_frame_options": false,
@@ -75,10 +75,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx3-dk.centerasecurity.dk",
-      "mx.mentor-it.dk",
+      "mx2-dk.centerasecurity.dk",
       "mx1-dk.centerasecurity.dk",
-      "mx2-dk.centerasecurity.dk"
+      "mx3-dk.centerasecurity.dk",
+      "mx.mentor-it.dk"
     ],
     "ns": [
       "ns1.curanet.dk",
@@ -86,8 +86,8 @@
     ],
     "txt": [
       "cvoj5ith80ga5i5bd60nv48ugd",
-      "qdtct3ustsqlvkvu0r2cibi2a8",
-      "v=spf1 include:mailgun.org include:_spf48190.spfprotect.com  include:_spf.centerasecurity.dk -all"
+      "v=spf1 include:mailgun.org include:_spf48190.spfprotect.com  include:_spf.centerasecurity.dk -all",
+      "qdtct3ustsqlvkvu0r2cibi2a8"
     ]
   },
   "cloud_exposure": [],

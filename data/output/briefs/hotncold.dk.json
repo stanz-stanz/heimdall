@@ -6,7 +6,7 @@
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "Data-handling plugins: Contact Form 7, Woocommerce",
     "E-commerce plugin: WooCommerce:10.4.4",
     "Visitor tracking: Google Tag Manager"
   ],
@@ -22,13 +22,13 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Woocommerce",
-      "Siteorigin Premium",
       "Contact Form 7",
-      "Siteorigin Panels",
       "Wow Modal Windows Pro",
+      "Siteorigin Premium",
+      "Woocommerce",
       "Wpconsent Cookies Banner Privacy Suite",
-      "So Widgets Bundle"
+      "So Widgets Bundle",
+      "Siteorigin Panels"
     ],
     "headers": {
       "x_frame_options": false,
@@ -105,7 +105,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
+      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

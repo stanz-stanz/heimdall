@@ -58,11 +58,11 @@
     ],
     "txt": [
       "google-site-verification=44ywrvmhlflw8oOIvlPjWXlhQRvaVIjsYMjJyvbhu7A",
-      "v=spf1 include:_spf.mlsend.com ip4:91.133.33.15 mx include:spf.protection.outlook.com include:crosscloud.dk include:crossmind.dk ip4:94.231.109.248 ~all",
-      "google-site-verification=3iPUAPt0BM7APA8ZhuSZdPYAbsIaOtSrwYdc09GxDQo",
-      "google-site-verification=m8NDyAHC4S-1iS1m7G9iRXhEkCVDcibw0jjvqUyqVlY",
       "MS=ms33896379",
-      "MS=ms73391653"
+      "google-site-verification=m8NDyAHC4S-1iS1m7G9iRXhEkCVDcibw0jjvqUyqVlY",
+      "MS=ms73391653",
+      "google-site-verification=3iPUAPt0BM7APA8ZhuSZdPYAbsIaOtSrwYdc09GxDQo",
+      "v=spf1 include:_spf.mlsend.com ip4:91.133.33.15 mx include:spf.protection.outlook.com include:crosscloud.dk include:crossmind.dk ip4:94.231.109.248 ~all"
     ]
   },
   "cloud_exposure": [],

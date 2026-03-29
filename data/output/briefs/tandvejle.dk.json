@@ -47,16 +47,16 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx.simply.com",
-      "tandvejle-dk.mail.protection.outlook.com"
+      "tandvejle-dk.mail.protection.outlook.com",
+      "mx.simply.com"
     ],
     "ns": [
       "isla.ns.cloudflare.com",
       "alfred.ns.cloudflare.com"
     ],
     "txt": [
-      "MS=ms28714536",
-      "v=spf1 include:spf.protection.outlook.com include:web.shared.mysmtp.com -all"
+      "v=spf1 include:spf.protection.outlook.com include:web.shared.mysmtp.com -all",
+      "MS=ms28714536"
     ]
   },
   "cloud_exposure": [],

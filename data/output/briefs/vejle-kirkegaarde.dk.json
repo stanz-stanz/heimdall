@@ -52,8 +52,8 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "MS=ms80095422",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms80095422"
     ]
   },
   "cloud_exposure": [],

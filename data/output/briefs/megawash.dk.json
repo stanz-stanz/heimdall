@@ -16,20 +16,20 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-01",
-      "days_remaining": 33
+      "days_remaining": 32
     },
     "server": "nginx",
     "detected_plugins": [
-      "Easy Tables Vc",
-      "Tablepress",
-      "Gp Premium",
-      "Wp Rocket",
+      "Ultimate_Vc_Addons",
       "Sitepress Multilingual Cms",
-      "Wp Statistics",
       "Forminator",
+      "Gp Premium",
       "Js_Composer",
+      "Wp Statistics",
+      "Wp Rocket",
+      "Easy Tables Vc",
       "Revslider",
-      "Ultimate_Vc_Addons"
+      "Tablepress"
     ],
     "headers": {
       "x_frame_options": false,
@@ -74,8 +74,8 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "93o66rsm6etfvckp9vm2qfp1d1",
       "t9uq6ujt86ebhoi6rlh9dj2877",
+      "93o66rsm6etfvckp9vm2qfp1d1",
       "v=spf1 include:spf.curanet.dk include:spf.protection.outlook.com a:my.online.megawash.dk ~all"
     ]
   },

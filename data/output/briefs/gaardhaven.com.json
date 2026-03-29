@@ -22,10 +22,10 @@
     "server": "Apache",
     "detected_plugins": [
       "The Grid",
-      "Cornerstone",
-      "Contact Form 7",
+      "Embed Any Document",
       "Events Manager",
-      "Embed Any Document"
+      "Contact Form 7",
+      "Cornerstone"
     ],
     "headers": {
       "x_frame_options": false,
@@ -62,10 +62,10 @@
     ],
     "cname": [],
     "mx": [
-      "mx3.pub.mailpod12-cph3.one.com",
       "mx2.pub.mailpod12-cph3.one.com",
       "mx1.pub.mailpod12-cph3.one.com",
-      "mx4.pub.mailpod12-cph3.one.com"
+      "mx4.pub.mailpod12-cph3.one.com",
+      "mx3.pub.mailpod12-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",

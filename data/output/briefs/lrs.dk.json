@@ -52,12 +52,12 @@
       "ns02.one.com"
     ],
     "txt": [
+      "apple-domain-verification=KrBwHezVBrsNkrMu",
       "_globalsign-domain-verification=3uTpsAdLmbS_WRpikrAEfyIJottedVDre-F4iSzyMW",
+      "google-site-verification=vwfJj0u0WjUabtlkIHLp8VCAhRRMSoP6TWaEpvzyY8o",
       "MS=ms15107593",
       "v=spf1 ip4:80.63.33.64 ip4:167.89.100.223 ip4:167.89.106.69 ip4:185.40.44.230 include:spf.mailanyone.net include:spf.protection.outlook.com -all",
-      "google-site-verification=vwfJj0u0WjUabtlkIHLp8VCAhRRMSoP6TWaEpvzyY8o",
-      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg==",
-      "apple-domain-verification=KrBwHezVBrsNkrMu"
+      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg=="
     ]
   },
   "cloud_exposure": [],

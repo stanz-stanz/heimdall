@@ -1,0 +1,249 @@
+{
+  "domain": "vandelefterskole.dk",
+  "job_id": "scan-2026-03-27-0a960271",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vandelefterskole.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-12",
+    "ssl_days_remaining": 46,
+    "detected_plugins": [
+      "youtube-embed-plus",
+      "instagram-feed",
+      "flickr-justified-gallery"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Cookiebot",
+      "EmbedPlus:14.2.5",
+      "FitVids.JS:14.2.5",
+      "Google Tag Manager",
+      "HSTS",
+      "Instagram Feed for WordPress:6.10.0",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "Smash Balloon Instagram Feed",
+      "WordPress Block Editor",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:43:06.62002959Z",
+      "port": "443",
+      "url": "https://vandelefterskole.dk",
+      "input": "vandelefterskole.dk",
+      "title": "Tag på efterskole i Jylland nær Vejle I Vandel Efterskole »",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vandelefterskole.dk",
+      "host_ip": "185.31.76.90",
+      "path": "/",
+      "final_url": "https://www.vandelefterskole.dk/",
+      "time": "434.117227ms",
+      "chain_status_codes": [
+        301,
+        301,
+        200
+      ],
+      "a": [
+        "185.31.76.90"
+      ],
+      "tech": [
+        "Bootstrap",
+        "Cookiebot",
+        "EmbedPlus:14.2.5",
+        "FitVids.JS:14.2.5",
+        "Google Tag Manager",
+        "HSTS",
+        "Instagram Feed for WordPress:6.10.0",
+        "MySQL",
+        "Nginx",
+        "PHP",
+        "Smash Balloon Instagram Feed",
+        "WordPress Block Editor",
+        "WordPress:6.9.4",
+        "Yoast SEO:27.1.1",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 4583,
+      "lines": 874,
+      "status_code": 200,
+      "content_length": 136306,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "instagram-feed",
+          "flickr-justified-gallery",
+          "youtube-embed-plus"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.31.76.90"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vandelefterskole-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "sky.ns.cloudflare.com",
+        "brian.ns.cloudflare.com"
+      ],
+      "txt": [
+        "MS=ms66185992",
+        "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
+        "spf2.0/pra",
+        "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vandelefterskole.dk",
+    "cvr": "prospect",
+    "company_name": "vandelefterskole.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-12",
+        "days_remaining": 46
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Youtube Embed Plus",
+        "Instagram Feed",
+        "Flickr Justified Gallery"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Cookiebot",
+      "EmbedPlus:14.2.5",
+      "FitVids.JS:14.2.5",
+      "Google Tag Manager",
+      "HSTS",
+      "Instagram Feed for WordPress:6.10.0",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "Smash Balloon Instagram Feed",
+      "WordPress Block Editor",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.31.76.90"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vandelefterskole-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "sky.ns.cloudflare.com",
+        "brian.ns.cloudflare.com"
+      ],
+      "txt": [
+        "MS=ms66185992",
+        "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
+        "spf2.0/pra",
+        "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.10.0 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "3 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 284,
+    "total_ms": 285
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

@@ -21,10 +21,10 @@
     "server": "Apache",
     "detected_plugins": [
       "Cookie Notice",
-      "Wp Rocket",
-      "Elementor",
       "Ultimate Member",
-      "Elementor Pro"
+      "Wp Rocket",
+      "Elementor Pro",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,

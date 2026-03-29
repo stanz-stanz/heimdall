@@ -1,0 +1,197 @@
+{
+  "domain": "frishop.dk",
+  "job_id": "scan-2026-03-27-12894cfa",
+  "status": "completed",
+  "scan_result": {
+    "domain": "frishop.dk",
+    "cms": "",
+    "server": "nginx/1.28.2",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-12",
+    "ssl_days_remaining": 45,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Amazon CloudFront",
+      "Amazon Web Services",
+      "Cloudflare",
+      "Nginx:1.28.2",
+      "cdnjs"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:22:06.381314152Z",
+      "port": "443",
+      "url": "https://frishop.dk",
+      "input": "frishop.dk",
+      "title": "Frishop - Dit online byggemarked",
+      "scheme": "https",
+      "webserver": "nginx/1.28.2",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "frishop.dk",
+      "host_ip": "77.111.240.159",
+      "path": "/",
+      "final_url": "https://www.frishop.dk/",
+      "time": "364.326825ms",
+      "chain_status_codes": [
+        302,
+        200
+      ],
+      "a": [
+        "77.111.240.159"
+      ],
+      "tech": [
+        "Amazon CloudFront",
+        "Amazon Web Services",
+        "Cloudflare",
+        "Nginx:1.28.2",
+        "cdnjs"
+      ],
+      "words": 8309,
+      "lines": 72,
+      "status_code": 200,
+      "content_length": 477822,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "element",
+          "vendor": "matrix",
+          "cpe": "cpe:2.3:a:matrix:element:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "77.111.240.159"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "frishop-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "globalsign-domain-verification=yggG85euBtIps327v_FG5o2RnGi2weV9ZPIrjoERId",
+        "MS=ms98312112",
+        "klaviyo-site-verification=Tfwk75",
+        "facebook-domain-verification=lv972v9l2byuymy1r8sn6s3gy3mdzb",
+        "google-site-verification=PyAr8p3KKoXAsNs5eMYe1YVf0u4B_xvNZcheQa0LxbM",
+        "v=spf1 include:spf.protection.outlook.com include:spf.scannet.dk include:sendgrid.net include:_custspf.one.com include:send.heyloyalty.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "frishop.dk",
+    "cvr": "prospect",
+    "company_name": "frishop.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-12",
+        "days_remaining": 45
+      },
+      "server": "nginx/1.28.2",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Amazon CloudFront",
+      "Amazon Web Services",
+      "Cloudflare",
+      "Nginx:1.28.2",
+      "cdnjs"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "77.111.240.159"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "frishop-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "globalsign-domain-verification=yggG85euBtIps327v_FG5o2RnGi2weV9ZPIrjoERId",
+        "MS=ms98312112",
+        "klaviyo-site-verification=Tfwk75",
+        "facebook-domain-verification=lv972v9l2byuymy1r8sn6s3gy3mdzb",
+        "google-site-verification=PyAr8p3KKoXAsNs5eMYe1YVf0u4B_xvNZcheQa0LxbM",
+        "v=spf1 include:spf.protection.outlook.com include:spf.scannet.dk include:sendgrid.net include:_custspf.one.com include:send.heyloyalty.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 257,
+    "total_ms": 259
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

@@ -20,9 +20,9 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Wp Stats Manager",
       "Formidable",
-      "Complianz Gdpr Premium"
+      "Complianz Gdpr Premium",
+      "Wp Stats Manager"
     ],
     "headers": {
       "x_frame_options": false,

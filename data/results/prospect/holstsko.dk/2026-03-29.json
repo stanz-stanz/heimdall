@@ -1,0 +1,188 @@
+{
+  "domain": "holstsko.dk",
+  "job_id": "scan-2026-03-29-e55b6660",
+  "status": "completed",
+  "scan_result": {
+    "domain": "holstsko.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-03",
+    "ssl_days_remaining": 66,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Maps",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Returnflows",
+      "Shopify",
+      "cdnjs",
+      "jQuery:3.6.4",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:24:12.650213225Z",
+      "port": "443",
+      "url": "https://holstsko.dk",
+      "input": "holstsko.dk",
+      "title": "Holstsko",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "holstsko.dk",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "time": "212.17672ms",
+      "a": [
+        "23.227.38.65"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Google Maps",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo",
+        "Returnflows",
+        "Shopify",
+        "cdnjs",
+        "jQuery:3.6.4",
+        "jsDelivr"
+      ],
+      "words": 177433,
+      "lines": 11986,
+      "status_code": 200,
+      "content_length": 662340,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "23.227.38.65"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "holstsko-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=iR6qnQWWUX3ZmWl28nzwgcdG6lTVtOQ8qIEDooq0UQk",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "holstsko.dk",
+    "cvr": "prospect",
+    "company_name": "holstsko.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-03",
+        "days_remaining": 66
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Maps",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Returnflows",
+      "Shopify",
+      "cdnjs",
+      "jQuery:3.6.4",
+      "jsDelivr"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "23.227.38.65"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "holstsko-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=iR6qnQWWUX3ZmWl28nzwgcdG6lTVtOQ8qIEDooq0UQk",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 182,
+    "ssl": 72,
+    "headers": 720,
+    "meta": 429,
+    "httpx": 5940,
+    "webanalyze": 4,
+    "dnsx": 777,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 8131
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

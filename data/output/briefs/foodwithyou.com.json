@@ -18,18 +18,18 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Complianz Gdpr",
-      "Essential Addons For Elementor Lite",
-      "Elementor",
-      "Wp Seopress Pro",
-      "Bdthemes Element Pack",
-      "Sitepress Multilingual Cms",
-      "Elementor Pro",
       "Dynamicconditions",
+      "Essential Addons For Elementor Lite",
+      "Elementor Pro",
+      "Wp Seopress Pro",
       "Elementskit Lite",
       "Astra Addon",
+      "Sitepress Multilingual Cms",
       "Ultimate Elementor",
-      "3D Flipbook Dflip Lite"
+      "3D Flipbook Dflip Lite",
+      "Bdthemes Element Pack",
+      "Complianz Gdpr",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,

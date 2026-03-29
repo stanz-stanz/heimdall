@@ -50,11 +50,11 @@
     ],
     "txt": [
       "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY",
-      "v=spf1 a mx include:spf.mailanyone.net include:spf.protection.outlook.com -all",
-      "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
-      "MS=ms86289017",
       "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
-      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM"
+      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM",
+      "MS=ms86289017",
+      "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
+      "v=spf1 a mx include:spf.mailanyone.net include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

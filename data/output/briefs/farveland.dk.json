@@ -21,14 +21,14 @@
     "server": "LiteSpeed",
     "detected_plugins": [
       "Elementor",
-      "Fluentform",
-      "Easy Table Of Contents",
-      "Bdthemes Element Pack",
-      "Elementor Pro",
-      "Klaviyo",
       "Wp_Glossary",
       "3D Flipbook Dflip Lite",
+      "Elementor Pro",
+      "Fluentform",
       "Marquee Addons For Elementor",
+      "Easy Table Of Contents",
+      "Klaviyo",
+      "Bdthemes Element Pack",
       "Uicore Animate",
       "Uicore Framework"
     ],
@@ -76,10 +76,10 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "MS=ms58274488",
-      "v=spf1 ip4:168.119.73.188 include:spf.curanet.dk include:spf.protection.outlook.com a:mail.npkhosting.dk include:spf.azehosting.net ~all",
       "google-site-verification=kGqgvA8KEr8_KkeW5XYVuQ5tWW57P_BLBP5AbCLvgCs",
-      "klaviyo-site-verification=W9TFT9"
+      "MS=ms58274488",
+      "klaviyo-site-verification=W9TFT9",
+      "v=spf1 ip4:168.119.73.188 include:spf.curanet.dk include:spf.protection.outlook.com a:mail.npkhosting.dk include:spf.azehosting.net ~all"
     ]
   },
   "cloud_exposure": [],

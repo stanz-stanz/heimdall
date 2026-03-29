@@ -50,13 +50,13 @@
     ],
     "cname": [],
     "mx": [
+      "aspmx2.googlemail.com",
       "alt1.aspmx.l.google.com",
       "alt2.aspmx.l.google.com",
-      "aspmx2.googlemail.com",
-      "aspmx3.googlemail.com",
-      "aspmx4.googlemail.com",
+      "aspmx.l.google.com",
       "aspmx5.googlemail.com",
-      "aspmx.l.google.com"
+      "aspmx4.googlemail.com",
+      "aspmx3.googlemail.com"
     ],
     "ns": [
       "alla.ns.cloudflare.com",

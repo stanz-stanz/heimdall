@@ -52,12 +52,12 @@
       "ns4-05.azure-dns.info"
     ],
     "txt": [
-      "google-site-verification=ZH3X0YxOiiG8ebTkh7aGnvB-40uARNCqG9Vlv1EuuRs",
-      "anthropic-domain-verification-79n3e9=sbmSogcND4i90Hw1bXoeAXtID",
       "_globalsign-domain-verification=x62H2zjk6XxLNprhNO4Uw4nXReI4utnf__gotGCKit",
       "spexternalweb4cf23557prod.azurewebsites.net",
       "v=spf1 ip4:87.253.236.133 include:_spf-a.soderbergpartners.dk include:_spf-b.soderbergpartners.dk include:spf.protection.outlook.com -all",
-      "1t9dsc64xlmydpxm7js2f3wv5653hjk8"
+      "1t9dsc64xlmydpxm7js2f3wv5653hjk8",
+      "google-site-verification=ZH3X0YxOiiG8ebTkh7aGnvB-40uARNCqG9Vlv1EuuRs",
+      "anthropic-domain-verification-79n3e9=sbmSogcND4i90Hw1bXoeAXtID"
     ]
   },
   "cloud_exposure": [],

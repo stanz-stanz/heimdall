@@ -45,10 +45,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "ALT4.ASPMX.L.GOOGLE.COM",
-      "ASPMX.L.GOOGLE.COM",
       "ALT1.ASPMX.L.GOOGLE.COM",
+      "ASPMX.L.GOOGLE.COM",
       "ALT2.ASPMX.L.GOOGLE.COM",
+      "ALT4.ASPMX.L.GOOGLE.COM",
       "ALT3.ASPMX.L.GOOGLE.COM"
     ],
     "ns": [
@@ -57,12 +57,12 @@
       "ns-soa.darenet.dk"
     ],
     "txt": [
-      "MS=ms74008384",
       "SOA=1700669646",
-      "Grejs Friskole, Vejle",
-      "google-site-verification=asteXkt_CdWr_sY018Ozer-ItNl_rvnpeYL2afteNao",
       "MS=ms20750190",
-      "inst=Grejs Friskole"
+      "google-site-verification=asteXkt_CdWr_sY018Ozer-ItNl_rvnpeYL2afteNao",
+      "inst=Grejs Friskole",
+      "Grejs Friskole, Vejle",
+      "MS=ms74008384"
     ]
   },
   "cloud_exposure": [],

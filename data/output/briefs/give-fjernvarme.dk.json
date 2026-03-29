@@ -48,21 +48,21 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "dff-edb-dk.mx1.mailanyone.net",
-      "dff-edb-dk.mx3.mailanyone.net"
+      "dff-edb-dk.mx3.mailanyone.net",
+      "dff-edb-dk.mx1.mailanyone.net"
     ],
     "ns": [
       "ns1.curanet.dk",
       "ns2.curanet.dk"
     ],
     "txt": [
-      "_globalsign-domain-verification=3w0OJQu1c6RikTdRZO6cm5KQQ9FKmq6cTvu571r8Yx",
-      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM",
       "v=spf1 mx include:spf.mailanyone.net include:spf.protection.outlook.com -all",
-      "MS=ms68349820",
-      "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
       "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY",
-      "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48"
+      "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
+      "_globalsign-domain-verification=3w0OJQu1c6RikTdRZO6cm5KQQ9FKmq6cTvu571r8Yx",
+      "MS=ms68349820",
+      "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
+      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM"
     ]
   },
   "cloud_exposure": [],

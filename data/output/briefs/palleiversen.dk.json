@@ -21,8 +21,8 @@
     "server": "Apache",
     "detected_plugins": [
       "Vfb Pro",
-      "Easy Fancybox",
-      "Contact Form 7"
+      "Contact Form 7",
+      "Easy Fancybox"
     ],
     "headers": {
       "x_frame_options": true,
@@ -69,10 +69,10 @@
       "ns03.athena-hosting.dk"
     ],
     "txt": [
-      "MS=ms31760263",
-      "v=spf1 include:_spf.stejtech.net include:spf.protection.outlook.com ip4:194.255.169.138 ip4:91.215.162.220 -all",
+      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw==",
       "This DNS Service is hosted by Munk IT A/S - Driftscentret",
-      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw=="
+      "v=spf1 include:_spf.stejtech.net include:spf.protection.outlook.com ip4:194.255.169.138 ip4:91.215.162.220 -all",
+      "MS=ms31760263"
     ]
   },
   "cloud_exposure": [],

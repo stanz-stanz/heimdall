@@ -1,0 +1,193 @@
+{
+  "domain": "danbolig.dk",
+  "job_id": "scan-2026-03-27-80e04df0",
+  "status": "completed",
+  "scan_result": {
+    "domain": "danbolig.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "DigiCert Inc",
+    "ssl_expiry": "2026-08-25",
+    "ssl_days_remaining": 151,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Front Door"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T17:49:29.225894297Z",
+      "cdn_name": "azure",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://danbolig.dk",
+      "input": "danbolig.dk",
+      "title": "Service unavailable",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "danbolig.dk",
+      "host_ip": "13.107.253.44",
+      "path": "/",
+      "time": "155.262084ms",
+      "a": [
+        "13.107.226.44",
+        "13.107.253.44"
+      ],
+      "aaaa": [
+        "2620:1ec:29:1::44",
+        "2620:1ec:48:1::44"
+      ],
+      "tech": [
+        "Azure",
+        "Azure Front Door"
+      ],
+      "words": 524,
+      "lines": 64,
+      "status_code": 403,
+      "content_length": 1484,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "13.107.253.44",
+        "13.107.226.44"
+      ],
+      "aaaa": [
+        "2620:1ec:48:1::45",
+        "2620:1ec:29:1::45"
+      ],
+      "cname": [],
+      "mx": [
+        "danbolig-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "jim.ns.cloudflare.com",
+        "ursula.ns.cloudflare.com"
+      ],
+      "txt": [
+        "MS=ms77674462",
+        "MS=ms92209341",
+        "_globalsign-domain-verification=O9--HbROP2PCM24dBpIT9QDDrIWJVmldTzmk3E3ADD",
+        "_globalsign-domain-verification=QaojpIoUSoySHGFFVB7Bi5PdoozWEA6iA_rRJOgOTN",
+        "_globalsign-domain-verification=gp8z3vbJpaVRcMTEopGNQbc-B9swq3V47ZgAcOU2jb",
+        "ca3-1bb93dfefc4f499cbaaff1f4b3738c66",
+        "facebook-domain-verification=c6gsjqqy45zoqanes4xcwk05hcyqv4",
+        "google-site-verification=6kG_dI_j3y8Pou5BxUnJQ5Qb9bfm0iUuiR9A1EEbHW0",
+        "google-site-verification=BJjUW5TxsGz_8YPe4GWjhuzPe-93ivvl66DK_Bmnvzo",
+        "google-site-verification=FrBZ2MBTOYDEdVZgfVZprjGiuF6o3BJDLxrfaeppV6Q",
+        "google-site-verification=LG_SryWNG5tOdCphQOyfWyeXcJIW6cRDAlIPP5ijL88",
+        "google-site-verification=YZKgj-Kih3fjDT-SlQZi8Dqmf4uvet28SDU4hiaA77U",
+        "google-site-verification=j4xlUHwNdpJzo_QM5I55v4bcYqnFL2w0aZR7AbZaJ9I",
+        "h9lICf1V6nJS6zwETY+wGgwX5M11h6nP36RUA6Pm6m/TF0a5KOV0+lHmeES3cPwZ9J5M4ztt5tBoTx9veQKlZQ==",
+        "v=spf1 ip4:91.189.120.3 ip4:91.189.122.132 ip4:193.104.202.15 ip4:193.104.202.23 ip4:77.247.67.98 include:spf.hosit.dk include:spf.protection.outlook.com include:spf.web.mindworking.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "danbolig.dk",
+    "cvr": "prospect",
+    "company_name": "danbolig.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "DigiCert Inc",
+        "expiry": "2026-08-25",
+        "days_remaining": 151
+      },
+      "server": "",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Front Door"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "13.107.253.44",
+        "13.107.226.44"
+      ],
+      "aaaa": [
+        "2620:1ec:48:1::45",
+        "2620:1ec:29:1::45"
+      ],
+      "cname": [],
+      "mx": [
+        "danbolig-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "jim.ns.cloudflare.com",
+        "ursula.ns.cloudflare.com"
+      ],
+      "txt": [
+        "MS=ms77674462",
+        "MS=ms92209341",
+        "_globalsign-domain-verification=O9--HbROP2PCM24dBpIT9QDDrIWJVmldTzmk3E3ADD",
+        "_globalsign-domain-verification=QaojpIoUSoySHGFFVB7Bi5PdoozWEA6iA_rRJOgOTN",
+        "_globalsign-domain-verification=gp8z3vbJpaVRcMTEopGNQbc-B9swq3V47ZgAcOU2jb",
+        "ca3-1bb93dfefc4f499cbaaff1f4b3738c66",
+        "facebook-domain-verification=c6gsjqqy45zoqanes4xcwk05hcyqv4",
+        "google-site-verification=6kG_dI_j3y8Pou5BxUnJQ5Qb9bfm0iUuiR9A1EEbHW0",
+        "google-site-verification=BJjUW5TxsGz_8YPe4GWjhuzPe-93ivvl66DK_Bmnvzo",
+        "google-site-verification=FrBZ2MBTOYDEdVZgfVZprjGiuF6o3BJDLxrfaeppV6Q",
+        "google-site-verification=LG_SryWNG5tOdCphQOyfWyeXcJIW6cRDAlIPP5ijL88",
+        "google-site-verification=YZKgj-Kih3fjDT-SlQZi8Dqmf4uvet28SDU4hiaA77U",
+        "google-site-verification=j4xlUHwNdpJzo_QM5I55v4bcYqnFL2w0aZR7AbZaJ9I",
+        "h9lICf1V6nJS6zwETY+wGgwX5M11h6nP36RUA6Pm6m/TF0a5KOV0+lHmeES3cPwZ9J5M4ztt5tBoTx9veQKlZQ==",
+        "v=spf1 ip4:91.189.120.3 ip4:91.189.122.132 ip4:193.104.202.15 ip4:193.104.202.23 ip4:77.247.67.98 include:spf.hosit.dk include:spf.protection.outlook.com include:spf.web.mindworking.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 123,
+    "total_ms": 124
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

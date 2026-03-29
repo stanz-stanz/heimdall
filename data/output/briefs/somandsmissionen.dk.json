@@ -21,15 +21,15 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Elementor",
-      "Elementor Pro",
-      "Contact Form 7",
-      "Spotlight Social Photo Feeds",
-      "Essential Addons For Elementor Lite",
-      "Google Analytics For Wordpress",
-      "Astra Sites",
       "Translatepress Multilingual",
-      "Astra Addon"
+      "Spotlight Social Photo Feeds",
+      "Contact Form 7",
+      "Essential Addons For Elementor Lite",
+      "Astra Addon",
+      "Astra Sites",
+      "Google Analytics For Wordpress",
+      "Elementor Pro",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,

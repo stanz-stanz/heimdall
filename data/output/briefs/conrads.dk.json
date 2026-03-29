@@ -6,7 +6,7 @@
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Booketbord, Gravityforms",
+    "Data-handling plugins: Gravityforms, Booketbord",
     "Visitor tracking: Google Tag Manager, reCAPTCHA"
   ],
   "industry": "",
@@ -21,10 +21,10 @@
     },
     "server": "cloudflare",
     "detected_plugins": [
-      "Popups For Divi",
-      "Booketbord",
       "Gravityforms",
-      "Gravityformsrecaptcha"
+      "Gravityformsrecaptcha",
+      "Popups For Divi",
+      "Booketbord"
     ],
     "headers": {
       "x_frame_options": false,
@@ -104,7 +104,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Booketbord, Gravityforms",
+      "description": "Data-handling plugins detected: Gravityforms, Booketbord",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

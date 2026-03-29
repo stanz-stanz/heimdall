@@ -51,8 +51,8 @@
       "ns2.dnsserver.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 ip4:194.150.112.83 -all",
-      "MS=ms35890836"
+      "MS=ms35890836",
+      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 ip4:194.150.112.83 -all"
     ]
   },
   "cloud_exposure": [],

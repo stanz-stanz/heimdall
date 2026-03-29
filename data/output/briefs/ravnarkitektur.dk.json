@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "GlobalSign nv-sa",
       "expiry": "2026-11-24",
-      "days_remaining": 240
+      "days_remaining": 239
     },
     "server": "Apache",
     "detected_plugins": [],
@@ -56,10 +56,10 @@
       "ns02.one.com"
     ],
     "txt": [
-      "_globalsign-domain-verification=RFmkQDfW7BaxLClnrzSpK_UB1b2E0fV8nR9xt36oA3",
       "MS=ms79594142",
+      "autodesk-domain-verification=5OH7w_4ITLXI7vhVL8pD",
       "v=spf1 include:spf.protection.outlook.com ip4:152.115.67.130 -all",
-      "autodesk-domain-verification=5OH7w_4ITLXI7vhVL8pD"
+      "_globalsign-domain-verification=RFmkQDfW7BaxLClnrzSpK_UB1b2E0fV8nR9xt36oA3"
     ]
   },
   "cloud_exposure": [],

@@ -52,9 +52,9 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com ip4:31.208.18.69 ip4:31.208.18.70 ip4:31.208.18.73 include:_spf.stejtech.net include:mail.techosting.dk -all",
       "F4C8D3AF9E521886BA93E4FB06A8EC4C295A7D3551C9E4E26B596B8FD7945788",
-      "MS=ms25478469"
+      "MS=ms25478469",
+      "v=spf1 include:spf.protection.outlook.com ip4:31.208.18.69 ip4:31.208.18.70 ip4:31.208.18.73 include:_spf.stejtech.net include:mail.techosting.dk -all"
     ]
   },
   "cloud_exposure": [],

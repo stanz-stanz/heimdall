@@ -17,13 +17,13 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
-      "days_remaining": 58
+      "days_remaining": 57
     },
     "server": "LiteSpeed",
     "detected_plugins": [
       "Gravityforms",
-      "Gtranslate",
-      "Gutenslider"
+      "Gutenslider",
+      "Gtranslate"
     ],
     "headers": {
       "x_frame_options": false,
@@ -66,8 +66,8 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com -all",
-      "MS=ms22866624"
+      "MS=ms22866624",
+      "v=spf1 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

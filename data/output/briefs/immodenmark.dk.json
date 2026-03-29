@@ -22,12 +22,12 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Woocommerce",
-      "Woocommerce Multilingual",
-      "Divi Builder",
-      "Wp Rocket",
       "Mtm Dashboard",
-      "Sitepress Multilingual Cms"
+      "Woocommerce",
+      "Sitepress Multilingual Cms",
+      "Woocommerce Multilingual",
+      "Wp Rocket",
+      "Divi Builder"
     ],
     "headers": {
       "x_frame_options": false,

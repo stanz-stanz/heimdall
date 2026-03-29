@@ -21,8 +21,8 @@
     "server": "LiteSpeed",
     "detected_plugins": [
       "Safe Svg",
-      "Complianz Gdpr",
-      "Litespeed Cache"
+      "Litespeed Cache",
+      "Complianz Gdpr"
     ],
     "headers": {
       "x_frame_options": false,

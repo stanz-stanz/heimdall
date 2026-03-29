@@ -18,10 +18,10 @@
     },
     "server": "nginx",
     "detected_plugins": [
-      "Dk Pdf",
-      "Elementor",
       "Ocean Extra",
-      "Elementor Pro"
+      "Dk Pdf",
+      "Elementor Pro",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": true,

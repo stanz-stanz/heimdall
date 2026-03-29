@@ -1,0 +1,268 @@
+{
+  "domain": "skovadvokater.dk",
+  "job_id": "scan-2026-03-29-62981eec",
+  "status": "completed",
+  "scan_result": {
+    "domain": "skovadvokater.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-04-30",
+    "ssl_days_remaining": 31,
+    "detected_plugins": [
+      "pixelyoursite-pro",
+      "sitepress-multilingual-cms",
+      "popup-maker",
+      "gravityforms"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Google Analytics",
+      "Gravity Forms:2.5.6",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "WPML:4.7.4",
+      "WordPress",
+      "Yoast SEO:25.1",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:25:11.837184002Z",
+      "port": "443",
+      "url": "https://skovadvokater.dk",
+      "input": "skovadvokater.dk",
+      "title": "Advokat i Vejle » Få professionel rådgivning til dine behov",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "skovadvokater.dk",
+      "host_ip": "94.231.109.238",
+      "path": "/",
+      "time": "569.228924ms",
+      "a": [
+        "94.231.109.238"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Cookiebot",
+        "Google Analytics",
+        "Gravity Forms:2.5.6",
+        "HTTP/3",
+        "MySQL",
+        "PHP",
+        "WPML:4.7.4",
+        "WordPress",
+        "Yoast SEO:25.1",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "reCAPTCHA"
+      ],
+      "words": 19325,
+      "lines": 3776,
+      "status_code": 200,
+      "content_length": 250269,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "popup_maker",
+          "vendor": "code-atlantic",
+          "cpe": "cpe:2.3:a:code-atlantic:popup_maker:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "sitepress-multilingual-cms",
+          "popup-maker"
+        ],
+        "themes": [
+          "flatsome"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.109.238"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "skovadvokater.dk-tld.mx3-dk.mailanyone.net",
+        "skovadvokater.dk-tld.mx1-dk.mailanyone.net",
+        "skovadvokater.dk-tld.mx2-dk.mailanyone.net"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "bcgf13z43wyvhtpnshxqww5qmnfqjscr",
+        "4qnlkc5hxvgj2l008j6y2w6hld85ytx0",
+        "debbie-domain-verification=c6f943ac-be51-4e9c-aa3b-1d54c0849668",
+        "MS=ms37796667",
+        "v=spf1 ip4:94.231.109.238 ip4:185.116.10.28 include:signflow.dk include:spf.mailanyone.net include:spf.protection.outlook.com include:_spf.debbiecollect.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "skovadvokater.dk",
+    "cvr": "prospect",
+    "company_name": "skovadvokater.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Gravityforms",
+      "Visitor tracking: Google Analytics, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-04-30",
+        "days_remaining": 31
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Pixelyoursite Pro",
+        "Sitepress Multilingual Cms",
+        "Popup Maker",
+        "Gravityforms"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Google Analytics",
+      "Gravity Forms:2.5.6",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "WPML:4.7.4",
+      "WordPress",
+      "Yoast SEO:25.1",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "reCAPTCHA"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.109.238"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "skovadvokater.dk-tld.mx3-dk.mailanyone.net",
+        "skovadvokater.dk-tld.mx1-dk.mailanyone.net",
+        "skovadvokater.dk-tld.mx2-dk.mailanyone.net"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "bcgf13z43wyvhtpnshxqww5qmnfqjscr",
+        "4qnlkc5hxvgj2l008j6y2w6hld85ytx0",
+        "debbie-domain-verification=c6f943ac-be51-4e9c-aa3b-1d54c0849668",
+        "MS=ms37796667",
+        "v=spf1 ip4:94.231.109.238 ip4:185.116.10.28 include:signflow.dk include:spf.mailanyone.net include:spf.protection.outlook.com include:_spf.debbiecollect.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Gravityforms",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "4 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 380,
+    "ssl": 69,
+    "headers": 340,
+    "meta": 542,
+    "httpx": 3897,
+    "webanalyze": 4,
+    "dnsx": 792,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 14601
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

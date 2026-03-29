@@ -22,18 +22,18 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "E2Pdf",
-      "Powerpack Elements",
-      "Elementskit Lite",
-      "Gtm Server Side",
-      "Tablepress",
-      "Mailchimp For Woocommerce",
-      "Connect Polylang Elementor",
       "Jet Engine",
-      "Duracelltomi Google Tag Manager",
+      "E2Pdf",
+      "Mailchimp For Woocommerce",
       "Woocommerce",
+      "Elementskit Lite",
+      "Duracelltomi Google Tag Manager",
       "Elementor Pro",
-      "Elementor"
+      "Gtm Server Side",
+      "Elementor",
+      "Connect Polylang Elementor",
+      "Powerpack Elements",
+      "Tablepress"
     ],
     "headers": {
       "x_frame_options": false,

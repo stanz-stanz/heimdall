@@ -21,13 +21,13 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Go_Pricing",
-      "Dt The7 Core",
       "Recent Tweets Widget",
-      "Contact Form 7",
       "Js_Composer",
+      "Contact Form 7",
+      "Dt The7 Core",
+      "Ultimate_Vc_Addons",
       "Revslider",
-      "Ultimate_Vc_Addons"
+      "Go_Pricing"
     ],
     "headers": {
       "x_frame_options": false,

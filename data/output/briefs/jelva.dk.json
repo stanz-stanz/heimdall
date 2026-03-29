@@ -48,8 +48,8 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "MS=ms74239252",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms74239252"
     ]
   },
   "cloud_exposure": [],

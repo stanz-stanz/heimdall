@@ -17,15 +17,15 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-23",
-      "days_remaining": 55
+      "days_remaining": 54
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Contact Form 7",
-      "Metform",
+      "Elementskit Lite",
       "Elementor",
       "Elementor Pro",
-      "Elementskit Lite",
+      "Metform",
+      "Contact Form 7",
       "Jetpack"
     ],
     "headers": {
@@ -69,8 +69,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 a:www.skybrands.net include:spf.protection.outlook.com include:spf.mandrillapp.com include:spf.curanet.dk -all",
-      "MS=ms52947522"
+      "MS=ms52947522",
+      "v=spf1 a:www.skybrands.net include:spf.protection.outlook.com include:spf.mandrillapp.com include:spf.curanet.dk -all"
     ]
   },
   "cloud_exposure": [],

@@ -1,0 +1,303 @@
+{
+  "domain": "dan-egtved.dk",
+  "job_id": "scan-2026-03-29-6a309ccd",
+  "status": "completed",
+  "scan_result": {
+    "domain": "dan-egtved.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-26",
+    "ssl_days_remaining": 89,
+    "detected_plugins": [
+      "advanced-woo-search",
+      "woocommerce",
+      "pluginsdk-gls-shipping",
+      "sitepress-multilingual-cms",
+      "duracelltomi-google-tag-manager",
+      "woocommerce-multilingual",
+      "woocommerce-google-adwords-conversion-tracking-tag",
+      "woocommerce-cvr-payment-gateway",
+      "wp-media-folder",
+      "wp-sort-order",
+      "pixelyoursite"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Easy Pie Chart",
+      "FitVids.JS:1773741672",
+      "Google Tag Manager",
+      "Google Tag Manager for WordPress",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "Magnific Popup",
+      "MySQL",
+      "PHP",
+      "PixelYourSite",
+      "WP Rocket",
+      "WPML:4.8.6",
+      "WooCommerce Multilingual:5.5.3.1",
+      "WooCommerce:10.5.2",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "jQuery Mobile:1773741672",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:22:07.584233993Z",
+      "port": "443",
+      "url": "https://dan-egtved.dk",
+      "input": "dan-egtved.dk",
+      "title": "Staldinventar - Alt i staldinventar og staldindretning til køer og heste",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "dan-egtved.dk",
+      "host_ip": "116.202.130.105",
+      "path": "/",
+      "time": "220.004753ms",
+      "a": [
+        "116.202.130.105"
+      ],
+      "tech": [
+        "Easy Pie Chart",
+        "FitVids.JS:1773741672",
+        "Google Tag Manager",
+        "Google Tag Manager for WordPress",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "Magnific Popup",
+        "MySQL",
+        "PHP",
+        "PixelYourSite",
+        "WP Rocket",
+        "WPML:4.8.6",
+        "WooCommerce Multilingual:5.5.3.1",
+        "WooCommerce:10.5.2",
+        "WordPress:6.9.4",
+        "Yoast SEO:27.0",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "jQuery Mobile:1773741672",
+        "reCAPTCHA"
+      ],
+      "words": 6388,
+      "lines": 1402,
+      "status_code": 200,
+      "content_length": 153287,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "advanced-woo-search",
+          "woocommerce-multilingual",
+          "woocommerce",
+          "woocommerce-google-adwords-conversion-tracking-tag",
+          "pixelyoursite",
+          "wp-sort-order",
+          "sitepress-multilingual-cms",
+          "duracelltomi-google-tag-manager"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "116.202.130.105"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2-dk.centerasecurity.dk",
+        "mx1-dk.centerasecurity.dk",
+        "mx3-dk.centerasecurity.dk",
+        "mx.mentor-it.dk"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "cvoj5ith80ga5i5bd60nv48ugd",
+        "v=spf1 include:mailgun.org include:_spf48190.spfprotect.com  include:_spf.centerasecurity.dk -all",
+        "qdtct3ustsqlvkvu0r2cibi2a8"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "dan-egtved.dk",
+    "cvr": "prospect",
+    "company_name": "dan-egtved.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce",
+      "E-commerce plugin: WooCommerce:10.5.2",
+      "Visitor tracking: Google Tag Manager, Google Tag Manager for WordPress, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-26",
+        "days_remaining": 89
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Advanced Woo Search",
+        "Woocommerce",
+        "Pluginsdk Gls Shipping",
+        "Sitepress Multilingual Cms",
+        "Duracelltomi Google Tag Manager",
+        "Woocommerce Multilingual",
+        "Woocommerce Google Adwords Conversion Tracking Tag",
+        "Woocommerce Cvr Payment Gateway",
+        "Wp Media Folder",
+        "Wp Sort Order",
+        "Pixelyoursite"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Easy Pie Chart",
+      "FitVids.JS:1773741672",
+      "Google Tag Manager",
+      "Google Tag Manager for WordPress",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "Magnific Popup",
+      "MySQL",
+      "PHP",
+      "PixelYourSite",
+      "WP Rocket",
+      "WPML:4.8.6",
+      "WooCommerce Multilingual:5.5.3.1",
+      "WooCommerce:10.5.2",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "jQuery Mobile:1773741672",
+      "reCAPTCHA"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "116.202.130.105"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2-dk.centerasecurity.dk",
+        "mx1-dk.centerasecurity.dk",
+        "mx3-dk.centerasecurity.dk",
+        "mx.mentor-it.dk"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "cvoj5ith80ga5i5bd60nv48ugd",
+        "v=spf1 include:mailgun.org include:_spf48190.spfprotect.com  include:_spf.centerasecurity.dk -all",
+        "qdtct3ustsqlvkvu0r2cibi2a8"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "11 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 115,
+    "ssl": 85,
+    "headers": 176,
+    "meta": 191,
+    "httpx": 3230,
+    "webanalyze": 3,
+    "dnsx": 763,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 10753
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

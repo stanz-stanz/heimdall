@@ -40,12 +40,12 @@
   },
   "dns": {
     "a": [
-      "104.21.17.36",
-      "172.67.220.131"
+      "172.67.220.131",
+      "104.21.17.36"
     ],
     "aaaa": [
-      "2606:4700:3033::ac43:dc83",
-      "2606:4700:3032::6815:1124"
+      "2606:4700:3032::6815:1124",
+      "2606:4700:3033::ac43:dc83"
     ],
     "cname": [],
     "mx": [
@@ -56,8 +56,8 @@
       "simon.ns.cloudflare.com"
     ],
     "txt": [
-      "v=spf1 ip4:62.242.33.164 include:spf.protection.outlook.com include:send.heyloyalty.com -all include:_spf.jupiter.salesmanago.pl -all",
-      "smv=bd1d62b9747c01ee"
+      "smv=bd1d62b9747c01ee",
+      "v=spf1 ip4:62.242.33.164 include:spf.protection.outlook.com include:send.heyloyalty.com -all include:_spf.jupiter.salesmanago.pl -all"
     ]
   },
   "cloud_exposure": [],

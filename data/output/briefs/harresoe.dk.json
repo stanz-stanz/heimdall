@@ -18,10 +18,10 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Ewww Image Optimizer",
       "Cookie Notice",
-      "Elementor",
-      "Elementor Pro"
+      "Ewww Image Optimizer",
+      "Elementor Pro",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,

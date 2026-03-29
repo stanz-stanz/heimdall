@@ -52,8 +52,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "MS=ms89493526",
-      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all",
+      "MS=ms89493526"
     ]
   },
   "cloud_exposure": [],

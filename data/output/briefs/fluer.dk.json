@@ -59,8 +59,8 @@
     "txt": [
       "v=spf1 include:servers.mcsv.net include:spf.smart-web.dk include:amazonses.com include:include:spf.simply.com -all",
       "amazonses: lKQoV4+iSgcToD5LOdpx21lLCz6w6k+KLVamRu+Vg2M=",
-      "klaviyo-site-verification=RpZ9WB",
-      "_globalsign-domain-verification=oczQaD46VMcKI-nQ84KFO1MBYF6JInd28OcuqTPUJd"
+      "_globalsign-domain-verification=oczQaD46VMcKI-nQ84KFO1MBYF6JInd28OcuqTPUJd",
+      "klaviyo-site-verification=RpZ9WB"
     ]
   },
   "cloud_exposure": [],

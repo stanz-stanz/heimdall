@@ -6,7 +6,7 @@
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "Data-handling plugins: Contact Form 7, Woocommerce",
     "E-commerce plugin: WooCommerce:10.5.3",
     "Visitor tracking: Google Tag Manager, Google Tag Manager for WordPress:1.22.1, MailChimp, MailChimp for WooCommerce:5.5.1.07"
   ],
@@ -18,21 +18,21 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 44
+      "days_remaining": 43
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Woocommerce",
-      "Mailchimp For Woocommerce",
-      "Product Badges For Woocommerce",
-      "Contact Form 7",
-      "Advanced Free Flat Shipping Woocommerce Pro",
-      "Pixelyoursite",
-      "Woo Discount Rules Pro",
       "Bambora Online Classic",
-      "Pluginsdk Gls Shipping",
-      "Woo Discount Rules",
+      "Advanced Free Flat Shipping Woocommerce Pro",
+      "Contact Form 7",
+      "Product Badges For Woocommerce",
       "Viabill Woocommerce",
+      "Woocommerce",
+      "Pluginsdk Gls Shipping",
+      "Woo Discount Rules Pro",
+      "Mailchimp For Woocommerce",
+      "Pixelyoursite",
+      "Woo Discount Rules",
       "Duracelltomi Google Tag Manager"
     ],
     "headers": {
@@ -115,7 +115,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
+      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

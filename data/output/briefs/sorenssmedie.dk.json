@@ -45,10 +45,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.pub.mailpod14-cph3.one.com",
-      "mx2.pub.mailpod14-cph3.one.com",
       "mx3.pub.mailpod14-cph3.one.com",
-      "mx4.pub.mailpod14-cph3.one.com"
+      "mx2.pub.mailpod14-cph3.one.com",
+      "mx4.pub.mailpod14-cph3.one.com",
+      "mx1.pub.mailpod14-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",

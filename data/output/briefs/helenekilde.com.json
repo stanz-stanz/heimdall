@@ -21,12 +21,12 @@
     },
     "server": "nginx",
     "detected_plugins": [
-      "Bbh Multisite Language",
-      "Gravityforms",
+      "Wpnordic Cookie Care",
       "Wp Rocket",
       "Wpnordic Snapnote",
       "Gp Premium",
-      "Wpnordic Cookie Care"
+      "Gravityforms",
+      "Bbh Multisite Language"
     ],
     "headers": {
       "x_frame_options": false,

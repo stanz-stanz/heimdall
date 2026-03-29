@@ -1,0 +1,251 @@
+{
+  "domain": "jafnet.dk",
+  "job_id": "scan-2026-03-29-cb955f22",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jafnet.dk",
+    "cms": "WordPress",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-11",
+    "ssl_days_remaining": 43,
+    "detected_plugins": [
+      "jetpack"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Divi:4.13.1",
+      "HTTP/3",
+      "Jetpack",
+      "MySQL",
+      "PHP:7.4.25",
+      "WordPress:5.8.13",
+      "jQuery",
+      "jQuery Migrate:3.3.2",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:29:24.112956491Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://jafnet.dk",
+      "input": "jafnet.dk",
+      "title": "Juelsminde Antenneforening | Information til nye og kommende medlemmer",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jafnet.dk",
+      "host_ip": "172.67.146.74",
+      "path": "/",
+      "final_url": "https://www.jafnet.dk/",
+      "time": "802.117782ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "104.21.73.168",
+        "172.67.146.74"
+      ],
+      "aaaa": [
+        "2606:4700:3035::ac43:924a",
+        "2606:4700:3036::6815:49a8"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Divi:4.13.1",
+        "HTTP/3",
+        "Jetpack",
+        "MySQL",
+        "PHP:7.4.25",
+        "WordPress:5.8.13",
+        "jQuery",
+        "jQuery Migrate:3.3.2",
+        "reCAPTCHA"
+      ],
+      "words": 2012,
+      "lines": 522,
+      "status_code": 200,
+      "content_length": 46389,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "wordpress": {
+        "plugins": [
+          "jetpack"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.21.73.168",
+        "172.67.146.74"
+      ],
+      "aaaa": [
+        "2606:4700:3036::6815:49a8",
+        "2606:4700:3035::ac43:924a"
+      ],
+      "cname": [],
+      "mx": [
+        "mx.foreningsmail.dk"
+      ],
+      "ns": [
+        "dora.ns.cloudflare.com",
+        "rick.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=DMARC1;\\\" \\\"p=none;\\\" \\\"sp=none;\\\" \\\"fo=1;\\\" \\\"ri=3600;\\\" \\\"pct=100;\\\" \\\"rua=mailto:postmaster@danskkabeltv.dk",
+        "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1dNhmu0uvunX/lLifXyExSo0+eQIIiQZ8HyWqOW/O7JTl9ZSvNj9WvbfrxJ/Evvg7biYKlHFqYoyj3zp9nwP4ZJ8uUCGtvWV91RogfTYNATY47/7TBtlEhAShanhRJmBb8Me4Nu45Snzi6ZCzIk0b4MuMRj8QEtvyaQb3lOXIsQIDAQAB",
+        "ppkey-02155c7ff51f387e070c4dfe47678300",
+        "v=spf1 redirect=_spf-customer.dk-tv.net"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jafnet.dk",
+    "cvr": "prospect",
+    "company_name": "jafnet.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-11",
+        "days_remaining": 43
+      },
+      "server": "cloudflare",
+      "detected_plugins": [
+        "Jetpack"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Divi:4.13.1",
+      "HTTP/3",
+      "Jetpack",
+      "MySQL",
+      "PHP:7.4.25",
+      "WordPress:5.8.13",
+      "jQuery",
+      "jQuery Migrate:3.3.2",
+      "reCAPTCHA"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.21.73.168",
+        "172.67.146.74"
+      ],
+      "aaaa": [
+        "2606:4700:3036::6815:49a8",
+        "2606:4700:3035::ac43:924a"
+      ],
+      "cname": [],
+      "mx": [
+        "mx.foreningsmail.dk"
+      ],
+      "ns": [
+        "dora.ns.cloudflare.com",
+        "rick.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=DMARC1;\\\" \\\"p=none;\\\" \\\"sp=none;\\\" \\\"fo=1;\\\" \\\"ri=3600;\\\" \\\"pct=100;\\\" \\\"rua=mailto:postmaster@danskkabeltv.dk",
+        "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1dNhmu0uvunX/lLifXyExSo0+eQIIiQZ8HyWqOW/O7JTl9ZSvNj9WvbfrxJ/Evvg7biYKlHFqYoyj3zp9nwP4ZJ8uUCGtvWV91RogfTYNATY47/7TBtlEhAShanhRJmBb8Me4Nu45Snzi6ZCzIk0b4MuMRj8QEtvyaQb3lOXIsQIDAQAB",
+        "ppkey-02155c7ff51f387e070c4dfe47678300",
+        "v=spf1 redirect=_spf-customer.dk-tv.net"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 5.8.13 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "1 WordPress plugin detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:7.4.25",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 778,
+    "ssl": 75,
+    "headers": 499,
+    "meta": 775,
+    "httpx": 2866,
+    "webanalyze": 4,
+    "dnsx": 750,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 12012
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

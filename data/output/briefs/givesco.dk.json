@@ -20,11 +20,11 @@
     },
     "server": "cloudflare",
     "detected_plugins": [
-      "Elementor",
       "Elementor Pro",
       "Tablepress",
+      "Email Encoder Bundle",
       "Translatepress Multilingual",
-      "Email Encoder Bundle"
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,

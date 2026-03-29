@@ -22,11 +22,11 @@
     "server": "LiteSpeed",
     "detected_plugins": [
       "Contact Form 7",
-      "Dt The7 Core",
-      "Revslider",
-      "Wp Contact Form 7 Spam Blocker",
-      "Akismet",
       "Ultimate_Vc_Addons",
+      "Wp Contact Form 7 Spam Blocker",
+      "Revslider",
+      "Akismet",
+      "Dt The7 Core",
       "Js_Composer"
     ],
     "headers": {
@@ -67,9 +67,9 @@
     ],
     "cname": [],
     "mx": [
-      "dk.mx3.mailanyone.net",
-      "dk.mx1.mailanyone.net",
       "dk.mx2.mx25.net",
+      "dk.mx1.mailanyone.net",
+      "dk.mx3.mailanyone.net",
       "dk.mx4.mx25.net"
     ],
     "ns": [

@@ -53,8 +53,8 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "MS=ms72062015",
-      "v=spf1 a include:spf.wannafind.dk ~all"
+      "v=spf1 a include:spf.wannafind.dk ~all",
+      "MS=ms72062015"
     ]
   },
   "cloud_exposure": [],

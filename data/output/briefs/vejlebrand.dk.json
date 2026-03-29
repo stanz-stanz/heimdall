@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "GlobalSign nv-sa",
       "expiry": "2026-09-30",
-      "days_remaining": 185
+      "days_remaining": 184
     },
     "server": "",
     "detected_plugins": [],
@@ -51,15 +51,15 @@
       "emerson.ns.cloudflare.com"
     ],
     "txt": [
-      "s0GEQz2eUq7j1KAurIVVTm+byZKltLinKez+ff0TlRWWOkAozn/kDESM/y2GhDG4oM61yw/xqBx8RTI+DIMv1Q==",
-      "sophos-domain-verification=6a64ff56a86ea1981087cbbf4f3323e0ecc79f5551db57fb2d252fa21e4c0499",
-      "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHwSG661cCcmQLlf/HsAHOpMFZbp00xBjvnXqSr7RW3QbtdK+eauZqqvN/6J3YRW1ARPkz1OPzNrU3P0Uy3Y48MRi7NJGzYaeQyWQ3G841S6+8c/yZv7iYoDemreT2zTji/7zjexhea6DZ3ltmcAWU92oYD+0nr12qhApnNtVCPwIDAQAB",
       "v=spf1 include:_spf9110.spfprotect.com -all",
-      "zoho-verification=zb15777170.zmverify.zoho.eu",
       "MS=C8A7D53FFEFE5A1B30E9A1BA8417EC75A41E1A4A",
-      "_globalsign-domain-verification=8nxTFDBnAPJASFu5Li6eFBxFXmZ8AYQ3bgb0kqBLaC",
+      "s0GEQz2eUq7j1KAurIVVTm+byZKltLinKez+ff0TlRWWOkAozn/kDESM/y2GhDG4oM61yw/xqBx8RTI+DIMv1Q==",
+      "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHwSG661cCcmQLlf/HsAHOpMFZbp00xBjvnXqSr7RW3QbtdK+eauZqqvN/6J3YRW1ARPkz1OPzNrU3P0Uy3Y48MRi7NJGzYaeQyWQ3G841S6+8c/yZv7iYoDemreT2zTji/7zjexhea6DZ3ltmcAWU92oYD+0nr12qhApnNtVCPwIDAQAB",
       "apple-domain-verification=0UZK9lbEem6LuYbu",
-      "atlassian-domain-verification=wefEeRDuERHtUSba27BP6lkcYcDQZ8641P8p5mBaat3JCy9enyK4EThuhEfV3110"
+      "_globalsign-domain-verification=8nxTFDBnAPJASFu5Li6eFBxFXmZ8AYQ3bgb0kqBLaC",
+      "sophos-domain-verification=6a64ff56a86ea1981087cbbf4f3323e0ecc79f5551db57fb2d252fa21e4c0499",
+      "atlassian-domain-verification=wefEeRDuERHtUSba27BP6lkcYcDQZ8641P8p5mBaat3JCy9enyK4EThuhEfV3110",
+      "zoho-verification=zb15777170.zmverify.zoho.eu"
     ]
   },
   "cloud_exposure": [],

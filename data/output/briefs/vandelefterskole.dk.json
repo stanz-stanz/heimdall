@@ -20,8 +20,8 @@
     },
     "server": "nginx",
     "detected_plugins": [
-      "Flickr Justified Gallery",
       "Youtube Embed Plus",
+      "Flickr Justified Gallery",
       "Instagram Feed"
     ],
     "headers": {
@@ -68,8 +68,8 @@
     ],
     "txt": [
       "MS=ms66185992",
-      "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
       "spf2.0/pra",
+      "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
       "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all"
     ]
   },

@@ -44,9 +44,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "ms44777181.msv1.invalid.outlook.com",
       "worklivestay-dk.mail.protection.outlook.com",
-      "worklivestay-dk.mail.eo.outlook.com"
+      "worklivestay-dk.mail.eo.outlook.com",
+      "ms44777181.msv1.invalid.outlook.com"
     ],
     "ns": [
       "ns1.simply.com",
@@ -54,10 +54,10 @@
       "ns3.simply.com"
     ],
     "txt": [
-      "facebook-domain-verification=mevksiizi3iaov0exzl2iqelobevol",
       "v=include:spf.protection.outlook.com -all include:8303921.spf06.hubspotemail.net",
-      "google-site-verification=mG5bhkvCalNODMsNyxG5qr3yLtAUIgZESW9jUfcnLGQ",
-      "v=spf1 include:8303921.spf06.hubspotemail.net"
+      "facebook-domain-verification=mevksiizi3iaov0exzl2iqelobevol",
+      "v=spf1 include:8303921.spf06.hubspotemail.net",
+      "google-site-verification=mG5bhkvCalNODMsNyxG5qr3yLtAUIgZESW9jUfcnLGQ"
     ]
   },
   "cloud_exposure": [],

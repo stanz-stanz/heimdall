@@ -1,0 +1,14 @@
+{
+  "domain": "kfumsoc.dk",
+  "job_id": "scan-2026-03-27-5079c5c5",
+  "status": "skipped",
+  "skip_reason": "robots.txt denied",
+  "scan_result": null,
+  "timing": {
+    "robots_txt": 0.1959
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 0
+  }
+}

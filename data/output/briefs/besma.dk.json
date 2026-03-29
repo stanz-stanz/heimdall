@@ -20,12 +20,12 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Divi Pixel",
-      "Pixelyoursite",
-      "Facebook Page Feed Graph Api",
       "Activecampaign Subscription Forms",
+      "Supreme Mega Menu",
+      "Facebook Page Feed Graph Api",
+      "Pixelyoursite",
       "Cookie Law Info",
-      "Supreme Mega Menu"
+      "Divi Pixel"
     ],
     "headers": {
       "x_frame_options": false,
@@ -72,8 +72,8 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all",
-      "MS=ms96853519"
+      "MS=ms96853519",
+      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all"
     ]
   },
   "cloud_exposure": [],

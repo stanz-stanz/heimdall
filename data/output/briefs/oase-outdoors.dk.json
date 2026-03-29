@@ -49,8 +49,8 @@
     ],
     "txt": [
       "v=spf1 ip4:93.176.83.162 include:spf.comendosystems.com include:spf.protection.outlook.com include:mailgun.org -all",
-      "have-i-been-pwned-verification=dweb_5in1lzgk0qh7ych9axtrndss",
-      "MS=ms54366785"
+      "MS=ms54366785",
+      "have-i-been-pwned-verification=dweb_5in1lzgk0qh7ych9axtrndss"
     ]
   },
   "cloud_exposure": [],

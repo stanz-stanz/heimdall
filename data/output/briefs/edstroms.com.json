@@ -31,7 +31,7 @@
     "Cookiebot",
     "Google Tag Manager",
     "IIS:10.0",
-    "Microsoft ASP.NET",
+    "Microsoft ASP.NET:4.0.30319",
     "Optimizely Content Management",
     "Windows Server"
   ],
@@ -46,25 +46,25 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "se.mx2.mx25.net",
-      "se.mx3.mailanyone.net",
-      "se.mx1.mailanyone.net",
       "edstroms-com.mx2.staysecuregroup.net",
+      "se.mx2.mx25.net",
+      "edstroms-com.mx1.staysecuregroup.com",
       "se.mx4.mx25.net",
-      "edstroms-com.mx1.staysecuregroup.com"
+      "se.mx3.mailanyone.net",
+      "se.mx1.mailanyone.net"
     ],
     "ns": [
       "ns.invid.se",
       "ns3.invid.se"
     ],
     "txt": [
-      " _tgts5i3sq57w9ksu6x2tnyqdhio097p",
-      "MS=ms32653899",
       "MS=0AD99D8F9491F55D71B873DB71C289DD01E15062",
       " _cvy2ng33vjbdwb8xfyf8i38lgz3480s",
       "google-site-verification=mNCPHpUNwOf-jFRXakv2frMzUFRUcAAxBwcUinawUfw",
       "rj9flpxdrfqtlvtxnh7tkhp5jg72kh79",
-      "v=spf1 mx ip4:80.244.195.198 ip4:80.244.195.194 include:spf.protection.outlook.com include:spf.mailanyone.net -all"
+      "v=spf1 mx ip4:80.244.195.198 ip4:80.244.195.194 include:spf.protection.outlook.com include:spf.mailanyone.net -all",
+      " _tgts5i3sq57w9ksu6x2tnyqdhio097p",
+      "MS=ms32653899"
     ]
   },
   "cloud_exposure": [],

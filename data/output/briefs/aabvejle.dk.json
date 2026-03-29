@@ -49,17 +49,17 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "cluster4.eu.messagelabs.com",
-      "cluster4a.eu.messagelabs.com"
+      "cluster4a.eu.messagelabs.com",
+      "cluster4.eu.messagelabs.com"
     ],
     "ns": [
       "ns.scannet2.dk",
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "_1fpq7058jzah1gihekkvui1iygferpc",
       "MS=ms48859027",
       "v=spf1 mx a a:mail.aabvejle.dk include:spf.incom-it.dk include:spf.protection.outlook.com ~all",
+      "_1fpq7058jzah1gihekkvui1iygferpc",
       "MS=311C80293BA6B047AF2234E4E3B02C8A51D0BFE8",
       "apple-domain-verification=ZU3HRySOcrUKNoBc"
     ]

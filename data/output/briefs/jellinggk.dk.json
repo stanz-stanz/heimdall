@@ -21,11 +21,11 @@
     "server": "LiteSpeed",
     "detected_plugins": [
       "Contact Form 7",
-      "Dt The7 Core",
-      "Revslider",
       "Ultimate_Vc_Addons",
-      "Js_Composer",
-      "Wp Media Folder"
+      "Wp Media Folder",
+      "Revslider",
+      "Dt The7 Core",
+      "Js_Composer"
     ],
     "headers": {
       "x_frame_options": false,

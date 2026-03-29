@@ -52,19 +52,19 @@
     ],
     "cname": [],
     "mx": [
-      "mx2.mailhop.co.uk",
+      "mx2.mailhop.us",
       "a747459.mx.mailhop.org",
-      "mail.artwork-systems.dk",
+      "mx2.mailhop.co.uk",
       "mx2.mailhop.co",
-      "mx2.mailhop.us"
+      "mail.artwork-systems.dk"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 ip4:78.153.186.163 include:servers.mcsv.net include:_spf.webmercs.com include:one.zoho.eu custspf.one.com -all",
       "v=DKIM1;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0MLR0DE7ARLVihcyjPKr6v0qkxsgzkGbhDh5ij/TsVdyT3Lml8mIUJ53t4Jg4CzVd+H0YkeyJUTmQIne+nGumHyDRKV/+FFaGFu31T9GJVt9WdkR/HG4EI/uegouFH1Mq4tJ+IO4vHTQJfDff2UdgzmYuGXYO91UGTtl4YY8+bfkTlCRZy3jTiB9d15a/sM3JyHX2iivLX6e4hS8e9s3XMTd8EaOWqfhPSGeUogcX2Cz+77IM+U/hUhWkN5ZDj1lYXDOwn2TCF/1vq99KcHLcOJuIX+SGRRprnZADCrcc4NpqLpNML4bshsQlT4zupM2fwTjOn/sgKkAtBycWzspKwIDAQAB",
+      "v=spf1 ip4:78.153.186.163 include:servers.mcsv.net include:_spf.webmercs.com include:one.zoho.eu custspf.one.com -all",
       "MS=ms45843240"
     ]
   },

@@ -1,0 +1,259 @@
+{
+  "domain": "strauss.dk",
+  "job_id": "scan-2026-03-27-14b40f18",
+  "status": "completed",
+  "scan_result": {
+    "domain": "strauss.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-23",
+    "ssl_days_remaining": 87,
+    "detected_plugins": [
+      "wp-staging-pro",
+      "bookly-responsive-appointment-booking-tool",
+      "bookly-addon-pro"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bookly:21.8",
+      "Bootstrap",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HTTP/3",
+      "Hammer.js",
+      "Moment.js",
+      "MySQL",
+      "PHP",
+      "W3 Total Cache",
+      "WordPress:6.2.9",
+      "Yoast SEO:20.10",
+      "jQuery",
+      "jQuery Migrate:3.4.0",
+      "spin.js:21.8"
+    ],
+    "meta_author": "",
+    "footer_credit": "CS",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:12:03.785225154Z",
+      "port": "443",
+      "url": "https://strauss.dk",
+      "input": "strauss.dk",
+      "title": "Strauss Skrædderi - Landsdækkende skrædder siden 1997",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "strauss.dk",
+      "host_ip": "185.20.205.15",
+      "path": "/",
+      "final_url": "https://www.strauss.dk/",
+      "time": "390.013337ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "20.50.2.94",
+        "185.20.205.15"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Bookly:21.8",
+        "Bootstrap",
+        "Google Analytics",
+        "Google Tag Manager",
+        "HTTP/3",
+        "Hammer.js",
+        "Moment.js",
+        "MySQL",
+        "PHP",
+        "W3 Total Cache",
+        "WordPress:6.2.9",
+        "Yoast SEO:20.10",
+        "jQuery",
+        "jQuery Migrate:3.4.0",
+        "spin.js:21.8"
+      ],
+      "words": 4342,
+      "lines": 496,
+      "status_code": 200,
+      "content_length": 87350,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "bookly-responsive-appointment-booking-tool"
+        ],
+        "themes": [
+          "enfold"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "20.50.2.94",
+        "185.20.205.15"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx4.pub.mailpod9-cph3.one.com",
+        "mx2.pub.mailpod9-cph3.one.com",
+        "mx1.pub.mailpod9-cph3.one.com",
+        "mx3.pub.mailpod9-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "google-site-verification=cFgJpbKFS5wNbg1mwerfB1Buj5AmSaatH8Ges_1OVIA",
+        "v=spf1 a:smtp.scanditek.dk a mx include:_custspf.one.com ip4:94.231.103.98 include:spf.simply.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "strauss.dk",
+    "cvr": "prospect",
+    "company_name": "strauss.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-23",
+        "days_remaining": 87
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Wp Staging Pro",
+        "Bookly Responsive Appointment Booking Tool",
+        "Bookly Addon Pro"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bookly:21.8",
+      "Bootstrap",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HTTP/3",
+      "Hammer.js",
+      "Moment.js",
+      "MySQL",
+      "PHP",
+      "W3 Total Cache",
+      "WordPress:6.2.9",
+      "Yoast SEO:20.10",
+      "jQuery",
+      "jQuery Migrate:3.4.0",
+      "spin.js:21.8"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "20.50.2.94",
+        "185.20.205.15"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx4.pub.mailpod9-cph3.one.com",
+        "mx2.pub.mailpod9-cph3.one.com",
+        "mx1.pub.mailpod9-cph3.one.com",
+        "mx3.pub.mailpod9-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "google-site-verification=cFgJpbKFS5wNbg1mwerfB1Buj5AmSaatH8Ges_1OVIA",
+        "v=spf1 a:smtp.scanditek.dk a mx include:_custspf.one.com ip4:94.231.103.98 include:spf.simply.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.2.9 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "3 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1629,
+    "total_ms": 1631
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

@@ -47,16 +47,16 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "damkjaergaard-dk.mx2.comendosystems.net",
-      "damkjaergaard-dk.mx1.comendosystems.com"
+      "damkjaergaard-dk.mx1.comendosystems.com",
+      "damkjaergaard-dk.mx2.comendosystems.net"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:spf.comendosystems.com include:web.shared.mysmtp.com -all",
-      "MS=ms81813761"
+      "MS=ms81813761",
+      "v=spf1 include:spf.protection.outlook.com include:spf.comendosystems.com include:web.shared.mysmtp.com -all"
     ]
   },
   "cloud_exposure": [],

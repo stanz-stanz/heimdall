@@ -1,0 +1,206 @@
+{
+  "domain": "crossmind.dk",
+  "job_id": "scan-2026-03-29-37615daf",
+  "status": "completed",
+  "scan_result": {
+    "domain": "crossmind.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-11",
+    "ssl_days_remaining": 73,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cloudflare",
+      "HSTS",
+      "MailerLite",
+      "Microsoft ASP.NET",
+      "Typekit",
+      "cdnjs",
+      "jQuery:3.6.4",
+      "jsDelivr",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:32:07.425587392Z",
+      "port": "443",
+      "url": "https://crossmind.dk",
+      "input": "crossmind.dk",
+      "title": "CrossMind - Ekstern Marketingafdeling og Reklamebureau",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "crossmind.dk",
+      "host_ip": "185.21.40.9",
+      "path": "/",
+      "final_url": "https://www.crossmind.dk/",
+      "time": "405.804016ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "185.21.40.9"
+      ],
+      "tech": [
+        "Adobe Fonts",
+        "Cloudflare",
+        "HSTS",
+        "MailerLite",
+        "Microsoft ASP.NET",
+        "Typekit",
+        "cdnjs",
+        "jQuery:3.6.4",
+        "jsDelivr",
+        "reCAPTCHA"
+      ],
+      "words": 22043,
+      "lines": 1270,
+      "status_code": 200,
+      "content_length": 77498,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.40.9"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "crossmind-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=44ywrvmhlflw8oOIvlPjWXlhQRvaVIjsYMjJyvbhu7A",
+        "MS=ms33896379",
+        "google-site-verification=m8NDyAHC4S-1iS1m7G9iRXhEkCVDcibw0jjvqUyqVlY",
+        "MS=ms73391653",
+        "google-site-verification=3iPUAPt0BM7APA8ZhuSZdPYAbsIaOtSrwYdc09GxDQo",
+        "v=spf1 include:_spf.mlsend.com ip4:91.133.33.15 mx include:spf.protection.outlook.com include:crosscloud.dk include:crossmind.dk ip4:94.231.109.248 ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "crossmind.dk",
+    "cvr": "prospect",
+    "company_name": "crossmind.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-11",
+        "days_remaining": 73
+      },
+      "server": "",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cloudflare",
+      "HSTS",
+      "MailerLite",
+      "Microsoft ASP.NET",
+      "Typekit",
+      "cdnjs",
+      "jQuery:3.6.4",
+      "jsDelivr",
+      "reCAPTCHA"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.40.9"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "crossmind-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=44ywrvmhlflw8oOIvlPjWXlhQRvaVIjsYMjJyvbhu7A",
+        "MS=ms33896379",
+        "google-site-verification=m8NDyAHC4S-1iS1m7G9iRXhEkCVDcibw0jjvqUyqVlY",
+        "MS=ms73391653",
+        "google-site-verification=3iPUAPt0BM7APA8ZhuSZdPYAbsIaOtSrwYdc09GxDQo",
+        "v=spf1 include:_spf.mlsend.com ip4:91.133.33.15 mx include:spf.protection.outlook.com include:crosscloud.dk include:crossmind.dk ip4:94.231.109.248 ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 204,
+    "ssl": 76,
+    "headers": 259,
+    "meta": 261,
+    "httpx": 2402,
+    "webanalyze": 2,
+    "dnsx": 781,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 3996
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

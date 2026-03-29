@@ -1,0 +1,265 @@
+{
+  "domain": "bhogas.dk",
+  "job_id": "scan-2026-03-27-6d434239",
+  "status": "completed",
+  "scan_result": {
+    "domain": "bhogas.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-04",
+    "ssl_days_remaining": 38,
+    "detected_plugins": [
+      "Ultimate_VC_Addons",
+      "tablepress-responsive-tables",
+      "wp-statistics",
+      "gp-premium",
+      "wp-rocket",
+      "js_composer",
+      "revslider",
+      "tablepress"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "MySQL",
+      "Nginx",
+      "PHP:8.4.19",
+      "Slider Revolution:6.6.14",
+      "WP Rocket",
+      "WordPress:6.5.8",
+      "Yoast SEO:22.5",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "wpBakery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:10:22.130554644Z",
+      "port": "443",
+      "url": "https://bhogas.dk",
+      "input": "bhogas.dk",
+      "title": "Anlægsgartner i Vejle: Haveservice & beskæring af træer",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "bhogas.dk",
+      "host_ip": "193.8.38.8",
+      "path": "/",
+      "time": "147.204115ms",
+      "a": [
+        "193.8.38.8"
+      ],
+      "tech": [
+        "Google Tag Manager",
+        "MySQL",
+        "Nginx",
+        "PHP:8.4.19",
+        "Slider Revolution:6.6.14",
+        "WP Rocket",
+        "WordPress:6.5.8",
+        "Yoast SEO:22.5",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "wpBakery"
+      ],
+      "words": 8157,
+      "lines": 2535,
+      "status_code": 200,
+      "content_length": 217207,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "wp_statistics",
+          "vendor": "veronalabs",
+          "cpe": "cpe:2.3:a:veronalabs:wp_statistics:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "gp-premium",
+          "vendor": "generatepress",
+          "cpe": "cpe:2.3:a:generatepress:gp-premium:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "tablepress",
+          "vendor": "wordpress",
+          "cpe": "cpe:2.3:a:wordpress:tablepress:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "tablepress",
+          "wp-statistics"
+        ],
+        "themes": [
+          "generatepress"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.8.38.8"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bhogas-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms70653354",
+        "v=spf1 mx a include:spf.curanet.dk include:spf.simply.com Include:postfilter.dk include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "bhogas.dk",
+    "cvr": "prospect",
+    "company_name": "bhogas.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-04",
+        "days_remaining": 38
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Ultimate_Vc_Addons",
+        "Tablepress Responsive Tables",
+        "Wp Statistics",
+        "Gp Premium",
+        "Wp Rocket",
+        "Js_Composer",
+        "Revslider",
+        "Tablepress"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "MySQL",
+      "Nginx",
+      "PHP:8.4.19",
+      "Slider Revolution:6.6.14",
+      "WP Rocket",
+      "WordPress:6.5.8",
+      "Yoast SEO:22.5",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "wpBakery"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.8.38.8"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bhogas-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms70653354",
+        "v=spf1 mx a include:spf.curanet.dk include:spf.simply.com Include:postfilter.dk include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.5.8 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "8 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.4.19",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 87,
+    "total_ms": 88
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

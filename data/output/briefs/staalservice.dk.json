@@ -50,8 +50,8 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "google-site-verification=nwnWvruwUA-_VR1ySS0jW3NEvb8zY_hrL8FhENST6hE",
       "v=spf1 ip4:176.22.66.130 include:spf.protection.outlook.com ~all",
+      "google-site-verification=nwnWvruwUA-_VR1ySS0jW3NEvb8zY_hrL8FhENST6hE",
       "MS=ms12482900"
     ]
   },

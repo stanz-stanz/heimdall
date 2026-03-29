@@ -17,13 +17,13 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-04",
-      "days_remaining": 36
+      "days_remaining": 35
     },
     "server": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
     "detected_plugins": [
       "Column Shortcodes",
-      "Contact Form 7",
-      "Js_Composer"
+      "Js_Composer",
+      "Contact Form 7"
     ],
     "headers": {
       "x_frame_options": false,

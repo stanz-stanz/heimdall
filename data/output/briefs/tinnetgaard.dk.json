@@ -22,20 +22,20 @@
     },
     "server": "hcdn",
     "detected_plugins": [
-      "Pakkelabels For Woocommerce",
-      "Pw Woocommerce Gift Cards",
-      "Google Analytics For Wordpress",
       "Woocommerce Payments",
-      "Smart Woocommerce Search",
+      "Woocommerce Gateway Stripe",
+      "Pakkelabels For Woocommerce",
       "The Events Calendar",
-      "Google Site Kit",
-      "Mailchimp For Wp",
-      "Woocommerce Product Addon",
       "Woocommerce",
+      "Smart Woocommerce Search",
+      "Pw Woocommerce Gift Cards",
+      "Ova Brw",
+      "Google Site Kit",
+      "Google Analytics For Wordpress",
       "Elementor Pro",
       "Elementor",
-      "Woocommerce Gateway Stripe",
-      "Ova Brw"
+      "Mailchimp For Wp",
+      "Woocommerce Product Addon"
     ],
     "headers": {
       "x_frame_options": true,
@@ -74,12 +74,12 @@
   },
   "dns": {
     "a": [
-      "92.113.16.93",
-      "92.113.23.47"
+      "88.222.222.136",
+      "84.32.84.133"
     ],
     "aaaa": [
-      "2a02:4780:42:6f8b:57ec:1ae4:cff1:81a0",
-      "2a02:4780:45:6232:3fb0:21b6:c4ca:8ad4"
+      "2a02:4780:42:d25a:5c09:49c8:56b4:a842",
+      "2a02:4780:44:aba6:fe22:94fb:bb80:c4db"
     ],
     "cname": [],
     "mx": [

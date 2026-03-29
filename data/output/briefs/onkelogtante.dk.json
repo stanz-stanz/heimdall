@@ -18,14 +18,14 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Addon Elements For Elementor Page Builder",
-      "Ultimate Elementor",
-      "Make Column Clickable Elementor",
-      "Astra Addon",
+      "Wp Rocket",
       "Elementor Pro",
-      "Elementor",
+      "Make Column Clickable Elementor",
+      "Addon Elements For Elementor Page Builder",
       "Honeypot",
-      "Wp Rocket"
+      "Ultimate Elementor",
+      "Astra Addon",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -59,8 +59,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.onlinemail.io",
-      "mx2.onlinemail.io"
+      "mx2.onlinemail.io",
+      "mx1.onlinemail.io"
     ],
     "ns": [
       "ns1.aveo.dk",

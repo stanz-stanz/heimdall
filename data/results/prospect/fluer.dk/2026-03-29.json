@@ -1,0 +1,201 @@
+{
+  "domain": "fluer.dk",
+  "job_id": "scan-2026-03-29-20e88820",
+  "status": "completed",
+  "scan_result": {
+    "domain": "fluer.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Sectigo Limited",
+    "ssl_expiry": "2026-05-13",
+    "ssl_days_remaining": 45,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "DanDomain",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Klaviyo",
+      "Nginx",
+      "PHP",
+      "SmartWeb"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:31:34.663690995Z",
+      "port": "443",
+      "url": "https://fluer.dk",
+      "input": "fluer.dk",
+      "title": "Køb billigt fiskegrej & fiskeudstyr af høj kvalitet",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "fluer.dk",
+      "host_ip": "185.221.38.8",
+      "path": "/",
+      "time": "360.965225ms",
+      "a": [
+        "185.221.38.8"
+      ],
+      "tech": [
+        "DanDomain",
+        "Google Analytics",
+        "Google Tag Manager",
+        "HSTS",
+        "Klaviyo",
+        "Nginx",
+        "PHP",
+        "SmartWeb"
+      ],
+      "words": 147355,
+      "lines": 5324,
+      "status_code": 200,
+      "content_length": 408306,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.8"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.mailcluster.dk",
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:servers.mcsv.net include:spf.smart-web.dk include:amazonses.com include:include:spf.simply.com -all",
+        "amazonses: lKQoV4+iSgcToD5LOdpx21lLCz6w6k+KLVamRu+Vg2M=",
+        "_globalsign-domain-verification=oczQaD46VMcKI-nQ84KFO1MBYF6JInd28OcuqTPUJd",
+        "klaviyo-site-verification=RpZ9WB"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "fluer.dk",
+    "cvr": "prospect",
+    "company_name": "fluer.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Sectigo Limited",
+        "expiry": "2026-05-13",
+        "days_remaining": 45
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "DanDomain",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Klaviyo",
+      "Nginx",
+      "PHP",
+      "SmartWeb"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.8"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.mailcluster.dk",
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:servers.mcsv.net include:spf.smart-web.dk include:amazonses.com include:include:spf.simply.com -all",
+        "amazonses: lKQoV4+iSgcToD5LOdpx21lLCz6w6k+KLVamRu+Vg2M=",
+        "_globalsign-domain-verification=oczQaD46VMcKI-nQ84KFO1MBYF6JInd28OcuqTPUJd",
+        "klaviyo-site-verification=RpZ9WB"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 81,
+    "ssl": 75,
+    "headers": 295,
+    "meta": 361,
+    "httpx": 3867,
+    "webanalyze": 4,
+    "dnsx": 744,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 5437
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

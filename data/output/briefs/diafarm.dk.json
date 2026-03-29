@@ -18,9 +18,9 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Revslider",
       "Layerslider",
       "Uncode Privacy",
+      "Revslider",
       "Uncode Daves Wordpress Live Search"
     ],
     "headers": {

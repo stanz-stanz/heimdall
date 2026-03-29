@@ -37,8 +37,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.dandomain.dk",
-      "mx1.dandomain.dk"
+      "mx1.dandomain.dk",
+      "mx2.dandomain.dk"
     ],
     "ns": [
       "ns.dandomain.dk",

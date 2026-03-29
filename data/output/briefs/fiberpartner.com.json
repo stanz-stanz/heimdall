@@ -53,8 +53,8 @@
   },
   "dns": {
     "a": [
-      "141.193.213.11",
-      "141.193.213.10"
+      "141.193.213.10",
+      "141.193.213.11"
     ],
     "aaaa": [],
     "cname": [],
@@ -66,11 +66,11 @@
       "ns02.one.com"
     ],
     "txt": [
-      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875",
-      "openai-domain-verification=dv-SKeOSBzNFAMTRJ2eXbZMdZWu",
       "apple-domain-verification=YutEd8q18z3lg73z",
+      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875",
       "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:emsd1.com include:146389209.spf01.hubspotemail.net -all",
-      "google-site-verification=Leri6_VHo-YTg8Kkd9tcFq4a1_KgsOSZI-FSLi4oPIs"
+      "google-site-verification=Leri6_VHo-YTg8Kkd9tcFq4a1_KgsOSZI-FSLi4oPIs",
+      "openai-domain-verification=dv-SKeOSBzNFAMTRJ2eXbZMdZWu"
     ]
   },
   "cloud_exposure": [],

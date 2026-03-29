@@ -16,14 +16,14 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-11",
-      "days_remaining": 43
+      "days_remaining": 42
     },
     "server": "LiteSpeed",
     "detected_plugins": [
       "Powerpack Elements",
-      "Elementor",
       "Elementor Pro",
-      "Duracelltomi Google Tag Manager"
+      "Duracelltomi Google Tag Manager",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -60,10 +60,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "dk.mx3.mailanyone.net",
-      "dk.mx1.mailanyone.net",
       "dk.mx2.mx25.net",
-      "dk.mx4.mx25.net"
+      "dk.mx3.mailanyone.net",
+      "dk.mx4.mx25.net",
+      "dk.mx1.mailanyone.net"
     ],
     "ns": [
       "mitch.ns.cloudflare.com",

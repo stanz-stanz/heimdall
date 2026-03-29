@@ -21,13 +21,13 @@
     },
     "server": "nginx",
     "detected_plugins": [
-      "Google Analytics For Wordpress",
+      "Revslider",
+      "Js_Composer",
       "Cookie Notice",
+      "Smart Thw Main",
       "Contact Form 7",
       "Sitepress Multilingual Cms",
-      "Js_Composer",
-      "Revslider",
-      "Smart Thw Main"
+      "Google Analytics For Wordpress"
     ],
     "headers": {
       "x_frame_options": false,
@@ -73,9 +73,9 @@
       "ns2.dlx.dk"
     ],
     "txt": [
+      "MS=ms11861459",
       "v=spf1 include:spf.jlhosting.dk include:web.shared.mysmtp.com -all",
-      "google-site-verification=FKxlBi9gM8Plff2Qvk-hR09TqBy-FRXEtLh8CFX2SyM",
-      "MS=ms11861459"
+      "google-site-verification=FKxlBi9gM8Plff2Qvk-hR09TqBy-FRXEtLh8CFX2SyM"
     ]
   },
   "cloud_exposure": [],

@@ -1,0 +1,181 @@
+{
+  "domain": "addedvalues.eu",
+  "job_id": "scan-2026-03-29-70d3b511",
+  "status": "completed",
+  "scan_result": {
+    "domain": "addedvalues.eu",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-03",
+    "ssl_days_remaining": 34,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Cookie Script",
+      "Google Tag Manager",
+      "HSTS",
+      "MailChimp",
+      "Nginx",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:20:35.834213376Z",
+      "port": "443",
+      "url": "https://addedvalues.eu",
+      "input": "addedvalues.eu",
+      "title": "Rådgivning indenfor energiproduktion - Added Values",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "addedvalues.eu",
+      "host_ip": "128.140.28.110",
+      "path": "/",
+      "time": "444.584276ms",
+      "a": [
+        "128.140.28.110"
+      ],
+      "tech": [
+        "Amazon S3",
+        "Amazon Web Services",
+        "Cookie Script",
+        "Google Tag Manager",
+        "HSTS",
+        "MailChimp",
+        "Nginx",
+        "PHP"
+      ],
+      "words": 1819,
+      "lines": 777,
+      "status_code": 200,
+      "content_length": 32213,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "128.140.28.110"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "AddedValues-eu.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.netsite.dk",
+        "ns2.netsite.eu",
+        "ns3.netsite.se"
+      ],
+      "txt": [
+        "v=spf1 ip4:51.77.64.230 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "addedvalues.eu",
+    "cvr": "prospect",
+    "company_name": "addedvalues.eu",
+    "scan_date": "2026-03-29",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager, MailChimp"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-03",
+        "days_remaining": 34
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Cookie Script",
+      "Google Tag Manager",
+      "HSTS",
+      "MailChimp",
+      "Nginx",
+      "PHP"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "128.140.28.110"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "AddedValues-eu.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.netsite.dk",
+        "ns2.netsite.eu",
+        "ns3.netsite.se"
+      ],
+      "txt": [
+        "v=spf1 ip4:51.77.64.230 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 140,
+    "ssl": 101,
+    "headers": 304,
+    "meta": 360,
+    "httpx": 2183,
+    "webanalyze": 4,
+    "dnsx": 768,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 3876
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

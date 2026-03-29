@@ -71,8 +71,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:_spf4190.spfprotect.com -all",
       "google-site-verification=BqTB3Snt6exlXRjZJZqUe3AYSteFxBE2TZ2Q6Qf0BYI",
+      "v=spf1 include:_spf4190.spfprotect.com -all",
       "MS=ms17565177"
     ]
   },

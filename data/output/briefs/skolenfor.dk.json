@@ -18,20 +18,20 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 68
+      "days_remaining": 67
     },
     "server": "LiteSpeed",
     "detected_plugins": [
+      "Essential Addons For Elementor Lite",
+      "Wp Consent Api",
+      "Elementor Pro",
+      "Cookiebot",
       "Unlimited Elements For Elementor Premium",
+      "Weglot",
+      "Woocommerce",
+      "Google Site Kit",
       "All In One Seo Pack",
       "Jetpack",
-      "Google Site Kit",
-      "Cookiebot",
-      "Wp Consent Api",
-      "Woocommerce",
-      "Essential Addons For Elementor Lite",
-      "Weglot",
-      "Elementor Pro",
       "Elementor"
     ],
     "headers": {

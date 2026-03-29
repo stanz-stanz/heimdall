@@ -13,8 +13,8 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-06-03",
-      "days_remaining": 66
+      "expiry": "2026-05-03",
+      "days_remaining": 35
     },
     "server": "",
     "detected_plugins": [],
@@ -57,12 +57,12 @@
     ],
     "txt": [
       "apple-domain-verification=f5BG8qipLq4LN19a",
-      "google-site-verification=corVgJEGzuUT9kZIhuVv1PUucaqFwL-lZcC5eYyHklA",
-      "NaQWDVcIXurZQQ3Dm5fr8AxckBnq5Qljjhmleh0FFDkaqrpVW6SRxWUYPigPnDQaVPmxRttJRTJP2o/PTFQWrQ==",
-      "v=spf1 a mx include:spf1.vejle.dk include:spf2.vejle.dk include:spf3.vejle.dk include:spf4.vejle.dk include:spf5.vejle.dk include:spf6.vejle.dk include:spf.protection.outlook.com include:spfa.cpmails.com ~all",
-      "zllwb305byn2dhffq6yf14zfmg63v65r",
       "google-site-verification=eUu2nJqPbkcQIWk7MeXq1yZJ1jAH38kMbP9ZWL8D9b8",
+      "google-site-verification=corVgJEGzuUT9kZIhuVv1PUucaqFwL-lZcC5eYyHklA",
+      "v=spf1 a mx include:spf1.vejle.dk include:spf2.vejle.dk include:spf3.vejle.dk include:spf4.vejle.dk include:spf5.vejle.dk include:spf6.vejle.dk include:spf.protection.outlook.com include:spfa.cpmails.com ~all",
+      "NaQWDVcIXurZQQ3Dm5fr8AxckBnq5Qljjhmleh0FFDkaqrpVW6SRxWUYPigPnDQaVPmxRttJRTJP2o/PTFQWrQ==",
       "hzsflhbf09wxdbjlhx55gth3bqs6z7n8",
+      "zllwb305byn2dhffq6yf14zfmg63v65r",
       "4/yOFCXv5ALjgJGKBywnrso1F6Zqgvt9vDKcd5Cpf2pi/1IEararitkk6ytDlKiytFSAdS/f+omnSlLPbzNOTQ=="
     ]
   },

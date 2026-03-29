@@ -20,13 +20,13 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Elementor",
+      "Jet Engine",
+      "Jet Blocks",
       "Jet Elements",
       "Elementor Pro",
+      "Elementor",
       "Formidable",
-      "Connect Polylang Elementor",
-      "Jet Engine",
-      "Jet Blocks"
+      "Connect Polylang Elementor"
     ],
     "headers": {
       "x_frame_options": false,

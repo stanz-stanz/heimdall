@@ -23,8 +23,8 @@
     "detected_plugins": [
       "Formidable",
       "Sitepress Multilingual Cms",
-      "Wp Rocket",
-      "Formidable Pro"
+      "Formidable Pro",
+      "Wp Rocket"
     ],
     "headers": {
       "x_frame_options": false,

@@ -20,12 +20,12 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Elementor",
-      "Make Column Clickable Elementor",
-      "Elementor Extras",
       "Elementor Pro",
+      "Make Column Clickable Elementor",
+      "Elemental Menu",
+      "Elementor Extras",
       "Ultimate Elementor",
-      "Elemental Menu"
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,

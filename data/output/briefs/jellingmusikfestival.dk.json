@@ -59,8 +59,8 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "google-site-verification=8nBMAPJ6VGReE4mwr2YmKvEkCbFUb6bWArm30BGqOzs",
       "mandrill_verify.ivNUEOfrZNb6BNzB_7AOFg",
+      "google-site-verification=8nBMAPJ6VGReE4mwr2YmKvEkCbFUb6bWArm30BGqOzs",
       "v=spf1 a a:selfcare.jellingmusikfestival.dk include:spf.curanet.dk include:spf.protection.outlook.com ip4:81.95.247.0/24 include:spf.mandrillapp.com  ip4:89.188.72.21 -all"
     ]
   },

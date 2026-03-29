@@ -6,7 +6,7 @@
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "Data-handling plugins: Contact Form 7, Woocommerce",
     "E-commerce plugin: WooCommerce:9.8.7",
     "Visitor tracking: Google Analytics"
   ],
@@ -22,15 +22,15 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Woocommerce",
-      "Weglot",
       "Contact Form 7",
+      "Weglot",
+      "Woocommerce",
+      "Simple Post Redirect",
+      "Edgtf Core",
       "Broken Link Notifier",
-      "Js_Composer",
       "Google Site Kit",
       "Revslider",
-      "Edgtf Core",
-      "Simple Post Redirect"
+      "Js_Composer"
     ],
     "headers": {
       "x_frame_options": false,
@@ -113,7 +113,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
+      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

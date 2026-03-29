@@ -6,7 +6,7 @@
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce",
+    "Data-handling plugins: Woocommerce, Contact Form 7",
     "E-commerce plugin: WooCommerce:9.6.4"
   ],
   "industry": "",
@@ -21,14 +21,14 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Contact Form 7",
+      "Instagram Feed",
       "Cozystay Core",
       "Elementor",
-      "Instagram Feed",
-      "Custom Facebook Feed",
-      "Gs Envato Portfolio",
       "Woocommerce",
-      "Cookie Law Info"
+      "Cookie Law Info",
+      "Contact Form 7",
+      "Gs Envato Portfolio",
+      "Custom Facebook Feed"
     ],
     "headers": {
       "x_frame_options": false,
@@ -78,8 +78,8 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "MS=ms89482174",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms89482174"
     ]
   },
   "cloud_exposure": [],
@@ -111,7 +111,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

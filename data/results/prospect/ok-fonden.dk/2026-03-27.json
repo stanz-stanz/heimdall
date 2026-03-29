@@ -1,0 +1,255 @@
+{
+  "domain": "ok-fonden.dk",
+  "job_id": "scan-2026-03-27-b125d0ae",
+  "status": "completed",
+  "scan_result": {
+    "domain": "ok-fonden.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Sectigo Limited",
+    "ssl_expiry": "2026-07-30",
+    "ssl_days_remaining": 125,
+    "detected_plugins": [
+      "wp-statistics",
+      "responsive-lightbox",
+      "wpforms-form-locker"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "HTTP/3",
+      "Infinite Scroll:4.0.1",
+      "Lightbox",
+      "MySQL",
+      "PHP",
+      "Responsive Lightbox & Gallery:2.5.5",
+      "Underscore.js:1.13.7",
+      "W3 Total Cache",
+      "WordPress:6.9",
+      "Yoast SEO:26.6",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:41:58.867031853Z",
+      "port": "443",
+      "url": "https://ok-fonden.dk",
+      "input": "ok-fonden.dk",
+      "title": "Livet skal leves - hele livet - OK-Fonden",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "ok-fonden.dk",
+      "host_ip": "93.191.156.22",
+      "path": "/",
+      "time": "106.376471ms",
+      "a": [
+        "93.191.156.22"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "HTTP/3",
+        "Infinite Scroll:4.0.1",
+        "Lightbox",
+        "MySQL",
+        "PHP",
+        "Responsive Lightbox & Gallery:2.5.5",
+        "Underscore.js:1.13.7",
+        "W3 Total Cache",
+        "WordPress:6.9",
+        "Yoast SEO:26.6",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 1807,
+      "lines": 539,
+      "status_code": 200,
+      "content_length": 60877,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "wp_statistics",
+          "vendor": "veronalabs",
+          "cpe": "cpe:2.3:a:veronalabs:wp_statistics:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "responsive-lightbox",
+          "wp-statistics"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "93.191.156.22"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "okfonden-dk0e.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns07.sac-it.dk",
+        "ns08.sac-it.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:188.244.75.75 include:o._spf.hostedsepo.dk include:spf.protection.outlook.com include:_spf-hosting.eg.dk -all",
+        "MS=ms36686336",
+        "google-site-verification=GDISuP0KOMAw0iIe8elzcCz0f7fDamQUIQxKoCcKb5c",
+        "_globalsign-domain-verification=10Sihf4TQBiUY83AVh7AjP-Wvry6wZuUuDpa8sp3rm",
+        "apple-domain-verification=s1wJNrvxfl7wfE9P",
+        "apple-domain-verification=fqnHSEz7ruTyRjst",
+        "478Tew/RN/rONgr8p4rNI3W8qSgc4OkF957h1bx8KUBpuAJcggzhlFtQWPw1i5gBiGQyMnCJ54zLkd//i2Lq4g==",
+        "_globalsign-domain-verification=75iEHuIlsRn2yJ9rkMR_x09v7owmlTIon338Ubvw5q",
+        "_globalsign-domain-verification=9Ard1OfN57fg2TKPZRdpf4jUnoFxBrkom1aibMxnD3",
+        "DiCsQLFHHgrD0t9rW8WGkEDULH5j8Ek82Is7LgXJQmgxC7Q+mDlpxk4mtxwc61PPMRSFRcLFa1T62sXgw9AkiQ==",
+        "_globalsign-domain-verification=ZLDOLiUET71CxJBKTpr3Oq8Ydp6kdfnlEZc0UklhEg"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "ok-fonden.dk",
+    "cvr": "prospect",
+    "company_name": "ok-fonden.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Sectigo Limited",
+        "expiry": "2026-07-30",
+        "days_remaining": 125
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Wp Statistics",
+        "Responsive Lightbox",
+        "Wpforms Form Locker"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "HTTP/3",
+      "Infinite Scroll:4.0.1",
+      "Lightbox",
+      "MySQL",
+      "PHP",
+      "Responsive Lightbox & Gallery:2.5.5",
+      "Underscore.js:1.13.7",
+      "W3 Total Cache",
+      "WordPress:6.9",
+      "Yoast SEO:26.6",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "93.191.156.22"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "okfonden-dk0e.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns07.sac-it.dk",
+        "ns08.sac-it.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:188.244.75.75 include:o._spf.hostedsepo.dk include:spf.protection.outlook.com include:_spf-hosting.eg.dk -all",
+        "MS=ms36686336",
+        "google-site-verification=GDISuP0KOMAw0iIe8elzcCz0f7fDamQUIQxKoCcKb5c",
+        "_globalsign-domain-verification=10Sihf4TQBiUY83AVh7AjP-Wvry6wZuUuDpa8sp3rm",
+        "apple-domain-verification=s1wJNrvxfl7wfE9P",
+        "apple-domain-verification=fqnHSEz7ruTyRjst",
+        "478Tew/RN/rONgr8p4rNI3W8qSgc4OkF957h1bx8KUBpuAJcggzhlFtQWPw1i5gBiGQyMnCJ54zLkd//i2Lq4g==",
+        "_globalsign-domain-verification=75iEHuIlsRn2yJ9rkMR_x09v7owmlTIon338Ubvw5q",
+        "_globalsign-domain-verification=9Ard1OfN57fg2TKPZRdpf4jUnoFxBrkom1aibMxnD3",
+        "DiCsQLFHHgrD0t9rW8WGkEDULH5j8Ek82Is7LgXJQmgxC7Q+mDlpxk4mtxwc61PPMRSFRcLFa1T62sXgw9AkiQ==",
+        "_globalsign-domain-verification=ZLDOLiUET71CxJBKTpr3Oq8Ydp6kdfnlEZc0UklhEg"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "3 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1122,
+    "total_ms": 1124
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

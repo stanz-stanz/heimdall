@@ -1,0 +1,247 @@
+{
+  "domain": "bca.com",
+  "job_id": "scan-2026-03-29-291bc955",
+  "status": "completed",
+  "scan_result": {
+    "domain": "bca.com",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-16",
+    "ssl_days_remaining": 78,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:20:41.746996298Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://bca.com",
+      "input": "bca.com",
+      "title": "Just a moment...",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "bca.com",
+      "host_ip": "172.64.146.145",
+      "path": "/",
+      "time": "157.028074ms",
+      "a": [
+        "172.64.146.145",
+        "104.18.41.111"
+      ],
+      "aaaa": [
+        "2a06:98c1:3104::ac40:9291",
+        "2606:4700:4404::6812:296f"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management"
+      ],
+      "words": 435,
+      "lines": 37,
+      "status_code": 403,
+      "content_length": 255833,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "zpan",
+          "vendor": "saltbo",
+          "cpe": "cpe:2.3:a:saltbo:zpan:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "n8n",
+          "vendor": "n8n",
+          "cpe": "cpe:2.3:a:n8n:n8n:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.18.41.111",
+        "172.64.146.145"
+      ],
+      "aaaa": [
+        "2a06:98c1:3104::ac40:9291",
+        "2606:4700:4404::6812:296f"
+      ],
+      "cname": [],
+      "mx": [
+        "mxb-001c1001.gslb.pphosted.com",
+        "mxa-001c1001.gslb.pphosted.com"
+      ],
+      "ns": [
+        "ns1.bca.com",
+        "ns2.bca.com"
+      ],
+      "txt": [
+        "nnlbm4qar4av3b67r2ban3s4ao",
+        "tktoosntbv43kfeoou8mti6sid",
+        "urfl02k8ghn962jqjsc7cj12lu",
+        "uvhh8ih2hlm78fbfn10n78cfke",
+        "v=spf1 include:spf1.bca.com include:spf2.bca.com -all",
+        "v=verifydomain MS=4090703",
+        "vacd7bralmplgs12t03lmgga33",
+        "vmware-cloud-verification-c5b733a6-2a48-408c-8af7-80bdb6499190",
+        "1password-site-verification=R5IQVHQGD5AHTAQPSEFBXIV4ZQ",
+        "670cfa950j66omo25t35g26gr7",
+        "a28atsbeobu2vobi2kggvongkc",
+        "access-domain-verification=84182c45906b98291e631728981308ccc7ef4c8e7c8e50967620a921fac3587e",
+        "adobe-idp-site-verification=1d029db73b9070784feaadfdea3ffdb1cbece813da1bcb5dcbf0e26b4bb6590e",
+        "amazonses:Mt7c0brhnGth0wcmhk47IH/knQVn5EfOXyXhOifo/wE=",
+        "apple-domain-verification=61HOSJskwKSYhix8",
+        "apple-domain-verification=bLDKcTIW6W195FKj",
+        "atlassian-domain-verification=/jwIloTuZZhxBynlCwZxBQz09tjsPZFkxtZIMe14fJYZfjP9yCTc/5LJMgRs4Uzb",
+        "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
+        "dpp1dsv7u93pl9vprerh3gr70b",
+        "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
+        "fgbo4gnbmsupeqmjgjilfda4aq",
+        "gilj8s5m909qkampc34s4ohk8l",
+        "google-site-verification=P93STc9plMaBjqpI3odbkeU_4lyfx6ubNVhAk3wyxGQ",
+        "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
+        "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "bca.com",
+    "cvr": "prospect",
+    "company_name": "bca.com",
+    "scan_date": "2026-03-29",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-16",
+        "days_remaining": 78
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.18.41.111",
+        "172.64.146.145"
+      ],
+      "aaaa": [
+        "2a06:98c1:3104::ac40:9291",
+        "2606:4700:4404::6812:296f"
+      ],
+      "cname": [],
+      "mx": [
+        "mxb-001c1001.gslb.pphosted.com",
+        "mxa-001c1001.gslb.pphosted.com"
+      ],
+      "ns": [
+        "ns1.bca.com",
+        "ns2.bca.com"
+      ],
+      "txt": [
+        "nnlbm4qar4av3b67r2ban3s4ao",
+        "tktoosntbv43kfeoou8mti6sid",
+        "urfl02k8ghn962jqjsc7cj12lu",
+        "uvhh8ih2hlm78fbfn10n78cfke",
+        "v=spf1 include:spf1.bca.com include:spf2.bca.com -all",
+        "v=verifydomain MS=4090703",
+        "vacd7bralmplgs12t03lmgga33",
+        "vmware-cloud-verification-c5b733a6-2a48-408c-8af7-80bdb6499190",
+        "1password-site-verification=R5IQVHQGD5AHTAQPSEFBXIV4ZQ",
+        "670cfa950j66omo25t35g26gr7",
+        "a28atsbeobu2vobi2kggvongkc",
+        "access-domain-verification=84182c45906b98291e631728981308ccc7ef4c8e7c8e50967620a921fac3587e",
+        "adobe-idp-site-verification=1d029db73b9070784feaadfdea3ffdb1cbece813da1bcb5dcbf0e26b4bb6590e",
+        "amazonses:Mt7c0brhnGth0wcmhk47IH/knQVn5EfOXyXhOifo/wE=",
+        "apple-domain-verification=61HOSJskwKSYhix8",
+        "apple-domain-verification=bLDKcTIW6W195FKj",
+        "atlassian-domain-verification=/jwIloTuZZhxBynlCwZxBQz09tjsPZFkxtZIMe14fJYZfjP9yCTc/5LJMgRs4Uzb",
+        "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
+        "dpp1dsv7u93pl9vprerh3gr70b",
+        "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
+        "fgbo4gnbmsupeqmjgjilfda4aq",
+        "gilj8s5m909qkampc34s4ohk8l",
+        "google-site-verification=P93STc9plMaBjqpI3odbkeU_4lyfx6ubNVhAk3wyxGQ",
+        "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
+        "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 170,
+    "ssl": 78,
+    "headers": 112,
+    "meta": 137,
+    "httpx": 2339,
+    "webanalyze": 2,
+    "dnsx": 773,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 3622
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

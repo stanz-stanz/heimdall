@@ -37,8 +37,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx01.dandomain.dk",
-      "kssvejle-dk.mail.protection.outlook.com"
+      "kssvejle-dk.mail.protection.outlook.com",
+      "mx01.dandomain.dk"
     ],
     "ns": [
       "ns.dandomain.dk",

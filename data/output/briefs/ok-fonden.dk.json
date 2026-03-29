@@ -19,8 +19,8 @@
     "server": "Apache",
     "detected_plugins": [
       "Wpforms Form Locker",
-      "Responsive Lightbox",
-      "Wp Statistics"
+      "Wp Statistics",
+      "Responsive Lightbox"
     ],
     "headers": {
       "x_frame_options": false,
@@ -62,17 +62,17 @@
       "ns08.sac-it.dk"
     ],
     "txt": [
-      "_globalsign-domain-verification=10Sihf4TQBiUY83AVh7AjP-Wvry6wZuUuDpa8sp3rm",
-      "MS=ms36686336",
-      "v=spf1 ip4:188.244.75.75 include:o._spf.hostedsepo.dk include:spf.protection.outlook.com include:_spf-hosting.eg.dk -all",
-      "_globalsign-domain-verification=9Ard1OfN57fg2TKPZRdpf4jUnoFxBrkom1aibMxnD3",
-      "478Tew/RN/rONgr8p4rNI3W8qSgc4OkF957h1bx8KUBpuAJcggzhlFtQWPw1i5gBiGQyMnCJ54zLkd//i2Lq4g==",
-      "google-site-verification=GDISuP0KOMAw0iIe8elzcCz0f7fDamQUIQxKoCcKb5c",
       "DiCsQLFHHgrD0t9rW8WGkEDULH5j8Ek82Is7LgXJQmgxC7Q+mDlpxk4mtxwc61PPMRSFRcLFa1T62sXgw9AkiQ==",
-      "_globalsign-domain-verification=75iEHuIlsRn2yJ9rkMR_x09v7owmlTIon338Ubvw5q",
+      "MS=ms36686336",
+      "google-site-verification=GDISuP0KOMAw0iIe8elzcCz0f7fDamQUIQxKoCcKb5c",
+      "_globalsign-domain-verification=10Sihf4TQBiUY83AVh7AjP-Wvry6wZuUuDpa8sp3rm",
+      "apple-domain-verification=s1wJNrvxfl7wfE9P",
       "apple-domain-verification=fqnHSEz7ruTyRjst",
       "_globalsign-domain-verification=ZLDOLiUET71CxJBKTpr3Oq8Ydp6kdfnlEZc0UklhEg",
-      "apple-domain-verification=s1wJNrvxfl7wfE9P"
+      "_globalsign-domain-verification=9Ard1OfN57fg2TKPZRdpf4jUnoFxBrkom1aibMxnD3",
+      "478Tew/RN/rONgr8p4rNI3W8qSgc4OkF957h1bx8KUBpuAJcggzhlFtQWPw1i5gBiGQyMnCJ54zLkd//i2Lq4g==",
+      "_globalsign-domain-verification=75iEHuIlsRn2yJ9rkMR_x09v7owmlTIon338Ubvw5q",
+      "v=spf1 ip4:188.244.75.75 include:o._spf.hostedsepo.dk include:spf.protection.outlook.com include:_spf-hosting.eg.dk -all"
     ]
   },
   "cloud_exposure": [],

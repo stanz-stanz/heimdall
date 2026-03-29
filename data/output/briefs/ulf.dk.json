@@ -20,9 +20,9 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Wp Consent Api",
       "Google Site Kit",
-      "Cookie Law Info"
+      "Cookie Law Info",
+      "Wp Consent Api"
     ],
     "headers": {
       "x_frame_options": false,
@@ -67,9 +67,9 @@
       "ns3.simply.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:spf.simply.com include:dedicated.mysmtp.com -all",
       "google-site-verification=w5j8YOgEwwb5_OI0hLEGkCDcse4L1K1qDnxsVwV818M",
-      "MS=ms52326756"
+      "MS=ms52326756",
+      "v=spf1 include:spf.protection.outlook.com include:spf.simply.com include:dedicated.mysmtp.com -all"
     ]
   },
   "cloud_exposure": [],

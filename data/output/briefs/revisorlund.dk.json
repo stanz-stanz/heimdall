@@ -39,8 +39,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.onlinemail.io",
-      "mx2.onlinemail.io"
+      "mx2.onlinemail.io",
+      "mx1.onlinemail.io"
     ],
     "ns": [
       "ns1.curanet.dk",

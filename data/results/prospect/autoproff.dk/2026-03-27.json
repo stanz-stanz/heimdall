@@ -1,0 +1,201 @@
+{
+  "domain": "autoproff.dk",
+  "job_id": "scan-2026-03-27-4277b051",
+  "status": "completed",
+  "scan_result": {
+    "domain": "autoproff.dk",
+    "cms": "Squarespace",
+    "server": "Squarespace",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-01",
+    "ssl_days_remaining": 65,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Font Awesome",
+      "Google Tag Manager",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "jsDelivr",
+      "parallax.js"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:24:34.901946188Z",
+      "port": "443",
+      "url": "https://autoproff.dk",
+      "input": "autoproff.dk",
+      "title": "Velkommen til AutoProff – Køb & Sælg Brugte Biler",
+      "scheme": "https",
+      "webserver": "Squarespace",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "autoproff.dk",
+      "host_ip": "198.185.159.145",
+      "path": "/",
+      "final_url": "https://www.autoproff.dk/",
+      "time": "376.977724ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "198.49.23.144",
+        "198.49.23.145",
+        "198.185.159.144",
+        "198.185.159.145"
+      ],
+      "tech": [
+        "Font Awesome",
+        "Google Tag Manager",
+        "HSTS",
+        "Squarespace",
+        "Squarespace Commerce",
+        "Stimulus",
+        "jsDelivr",
+        "parallax.js"
+      ],
+      "words": 115526,
+      "lines": 7820,
+      "status_code": 200,
+      "content_length": 789910,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "198.49.23.144",
+        "198.49.23.145",
+        "198.185.159.144",
+        "198.185.159.145"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "autoproff-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.lemarit.de",
+        "ns1.lemarit.net",
+        "ns2.lemarit.de",
+        "ns2.lemarit.net",
+        "ns3.lemarit.de"
+      ],
+      "txt": [
+        "google-site-verification=M1wHhQhhd8n-etNyZZ31VXrR12Q6-cJh9C4CxoNqfeM",
+        "figma-domain-verification=47f6d0f6d8ca28b2b17e723e76ebdf7ab52effb135b148d30651208af5b392a0-1742826626",
+        "v=spf1 a mx ip4:49.233.132.13 include:spf.protection.outlook.com include:amazonses.com include:spf.autoproff.dk include:mailmailmail.net -all",
+        "atlassian-domain-verification=5UA7dtMyHtmmOaAC8YD8hfTPYkhXQGAl00HAlMAwzs0KqWnrrtEd5UDSdPptISEV",
+        "MS=ms77543900",
+        "apple-domain-verification=HdGSbEBB6byDwLaG"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "autoproff.dk",
+    "cvr": "prospect",
+    "company_name": "autoproff.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Squarespace",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-01",
+        "days_remaining": 65
+      },
+      "server": "Squarespace",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Font Awesome",
+      "Google Tag Manager",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "jsDelivr",
+      "parallax.js"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "198.49.23.144",
+        "198.49.23.145",
+        "198.185.159.144",
+        "198.185.159.145"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "autoproff-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.lemarit.de",
+        "ns1.lemarit.net",
+        "ns2.lemarit.de",
+        "ns2.lemarit.net",
+        "ns3.lemarit.de"
+      ],
+      "txt": [
+        "google-site-verification=M1wHhQhhd8n-etNyZZ31VXrR12Q6-cJh9C4CxoNqfeM",
+        "figma-domain-verification=47f6d0f6d8ca28b2b17e723e76ebdf7ab52effb135b148d30651208af5b392a0-1742826626",
+        "v=spf1 a mx ip4:49.233.132.13 include:spf.protection.outlook.com include:amazonses.com include:spf.autoproff.dk include:mailmailmail.net -all",
+        "atlassian-domain-verification=5UA7dtMyHtmmOaAC8YD8hfTPYkhXQGAl00HAlMAwzs0KqWnrrtEd5UDSdPptISEV",
+        "MS=ms77543900",
+        "apple-domain-verification=HdGSbEBB6byDwLaG"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 230,
+    "total_ms": 232
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

@@ -20,8 +20,8 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Sitepress Multilingual Cms",
-      "Wp Rocket"
+      "Wp Rocket",
+      "Sitepress Multilingual Cms"
     ],
     "headers": {
       "x_frame_options": false,
@@ -67,10 +67,10 @@
       "ns4.bdm.microsoftonline.com"
     ],
     "txt": [
-      "v=spf1 ip4:13.80.77.98 ip4:52.236.181.21 ip4:93.176.77.58 ip4:188.180.173.10 ip4:185.21.42.106 ip4:5.9.88.241 ip4:5.9.88.208 ip4:52.233.138.221 include:spf.protection.outlook.com include:emsd1.com -all",
-      "MS=ms46409551",
+      "mscid=ywwnBejCcKNsQuLhmd4DIEZLR8tNBJnesvu4Vm4lwQnJYkBb/hQpJBpbF7VAeCp++XGBdlQVvHoMpwMlloLQeQ==",
       "google-site-verification=y7hkIhyZe9uhZsfZJ4PWt6GRtftt76gL-4e0w7nKdbM",
-      "mscid=ywwnBejCcKNsQuLhmd4DIEZLR8tNBJnesvu4Vm4lwQnJYkBb/hQpJBpbF7VAeCp++XGBdlQVvHoMpwMlloLQeQ=="
+      "MS=ms46409551",
+      "v=spf1 ip4:13.80.77.98 ip4:52.236.181.21 ip4:93.176.77.58 ip4:188.180.173.10 ip4:185.21.42.106 ip4:5.9.88.241 ip4:5.9.88.208 ip4:52.233.138.221 include:spf.protection.outlook.com include:emsd1.com -all"
     ]
   },
   "cloud_exposure": [],

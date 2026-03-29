@@ -6,7 +6,7 @@
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "Data-handling plugins: Contact Form 7, Woocommerce",
     "E-commerce plugin: WooCommerce:10.6.1",
     "Visitor tracking: reCAPTCHA"
   ],
@@ -22,20 +22,20 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Woocommerce",
-      "Elementor",
-      "Elementor Pro",
-      "Icegram",
-      "Contact Form 7",
-      "Complianz Gdpr",
-      "Google Site Kit",
       "Akismet",
-      "Shiftnav Pro",
-      "Shortcodes Ultimate",
-      "Easy Fancybox",
+      "Elementor Pro",
+      "Contact Form 7",
+      "Elementor",
+      "Woocommerce",
+      "Google Site Kit",
       "Mystickymenu",
+      "Shortcodes Ultimate",
+      "Easy Modal",
       "Advanced Woo Search",
-      "Easy Modal"
+      "Shiftnav Pro",
+      "Easy Fancybox",
+      "Icegram",
+      "Complianz Gdpr"
     ],
     "headers": {
       "x_frame_options": false,
@@ -122,7 +122,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
+      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

@@ -19,9 +19,9 @@
     "server": "LiteSpeed",
     "detected_plugins": [
       "Cookie Notice",
-      "Simple Social Icons",
+      "Genesis Responsive Slider",
       "Genesis Columns Advanced",
-      "Genesis Responsive Slider"
+      "Simple Social Icons"
     ],
     "headers": {
       "x_frame_options": false,

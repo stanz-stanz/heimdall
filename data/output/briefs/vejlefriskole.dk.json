@@ -20,14 +20,14 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Contact Form 7",
       "Simple Banner",
-      "Team Members Pro",
-      "Cornerstone",
-      "Ajax Search Lite",
       "Block Options",
+      "Contact Form 7",
       "Essential Grid",
-      "Wpconsent Cookies Banner Privacy Suite"
+      "Cornerstone",
+      "Wpconsent Cookies Banner Privacy Suite",
+      "Team Members Pro",
+      "Ajax Search Lite"
     ],
     "headers": {
       "x_frame_options": false,

@@ -17,16 +17,16 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-13",
-      "days_remaining": 45
+      "days_remaining": 44
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Woocommerce",
+      "Cleantalk Spam Protect",
       "Elementor",
       "Elementor Pro",
-      "Cleantalk Spam Protect",
-      "Complianz Gdpr",
-      "Ultimate Elementor"
+      "Woocommerce",
+      "Ultimate Elementor",
+      "Complianz Gdpr"
     ],
     "headers": {
       "x_frame_options": false,
@@ -60,8 +60,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.onlinemail.io",
-      "mx1.onlinemail.io"
+      "mx1.onlinemail.io",
+      "mx2.onlinemail.io"
     ],
     "ns": [
       "ns1.curanet.dk",

@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 68
+      "days_remaining": 67
     },
     "server": "Apache",
     "detected_plugins": [],
@@ -49,9 +49,9 @@
       "ns02.one.com"
     ],
     "txt": [
-      "tpn48b0lkiirdcg3jbrs4fmtp",
+      "v=spf1 include:spf.protection.outlook.com -all",
       "p5gepoqpjjo7t30d71fcre215f",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "tpn48b0lkiirdcg3jbrs4fmtp"
     ]
   },
   "cloud_exposure": [],

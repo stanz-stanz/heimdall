@@ -1,0 +1,188 @@
+{
+  "domain": "soderbergpartners.dk",
+  "job_id": "scan-2026-03-29-36d72e01",
+  "status": "completed",
+  "scan_result": {
+    "domain": "soderbergpartners.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-24",
+    "ssl_days_remaining": 87,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Azure",
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "React"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:23:02.408390647Z",
+      "port": "443",
+      "url": "https://soderbergpartners.dk",
+      "input": "soderbergpartners.dk",
+      "title": "Jeres uafhængige mægler | Firmapension og erhvervsforsikring",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "soderbergpartners.dk",
+      "host_ip": "217.114.94.2",
+      "path": "/",
+      "final_url": "https://www.soderbergpartners.dk/",
+      "time": "457.201036ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "217.114.94.2"
+      ],
+      "tech": [
+        "Azure",
+        "Cloudflare",
+        "HSTS",
+        "HTTP/3",
+        "React"
+      ],
+      "words": 16938,
+      "lines": 1377,
+      "status_code": 200,
+      "content_length": 360250,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "217.114.94.2"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "soderbergpartners-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1-05.azure-dns.com",
+        "ns2-05.azure-dns.net",
+        "ns3-05.azure-dns.org",
+        "ns4-05.azure-dns.info"
+      ],
+      "txt": [
+        "_globalsign-domain-verification=x62H2zjk6XxLNprhNO4Uw4nXReI4utnf__gotGCKit",
+        "spexternalweb4cf23557prod.azurewebsites.net",
+        "v=spf1 ip4:87.253.236.133 include:_spf-a.soderbergpartners.dk include:_spf-b.soderbergpartners.dk include:spf.protection.outlook.com -all",
+        "1t9dsc64xlmydpxm7js2f3wv5653hjk8",
+        "google-site-verification=ZH3X0YxOiiG8ebTkh7aGnvB-40uARNCqG9Vlv1EuuRs",
+        "anthropic-domain-verification-79n3e9=sbmSogcND4i90Hw1bXoeAXtID"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "soderbergpartners.dk",
+    "cvr": "prospect",
+    "company_name": "soderbergpartners.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-24",
+        "days_remaining": 87
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Azure",
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "React"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "217.114.94.2"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "soderbergpartners-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1-05.azure-dns.com",
+        "ns2-05.azure-dns.net",
+        "ns3-05.azure-dns.org",
+        "ns4-05.azure-dns.info"
+      ],
+      "txt": [
+        "_globalsign-domain-verification=x62H2zjk6XxLNprhNO4Uw4nXReI4utnf__gotGCKit",
+        "spexternalweb4cf23557prod.azurewebsites.net",
+        "v=spf1 ip4:87.253.236.133 include:_spf-a.soderbergpartners.dk include:_spf-b.soderbergpartners.dk include:spf.protection.outlook.com -all",
+        "1t9dsc64xlmydpxm7js2f3wv5653hjk8",
+        "google-site-verification=ZH3X0YxOiiG8ebTkh7aGnvB-40uARNCqG9Vlv1EuuRs",
+        "anthropic-domain-verification-79n3e9=sbmSogcND4i90Hw1bXoeAXtID"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 343,
+    "ssl": 76,
+    "headers": 343,
+    "meta": 382,
+    "httpx": 3832,
+    "webanalyze": 4,
+    "dnsx": 657,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 5647
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

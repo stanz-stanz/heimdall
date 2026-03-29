@@ -20,11 +20,11 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Contact Form 7",
       "Revslider",
-      "Ut Shortcodes",
       "Js_Composer",
-      "Ut Portfolio"
+      "Ut Portfolio",
+      "Ut Shortcodes",
+      "Contact Form 7"
     ],
     "headers": {
       "x_frame_options": false,
@@ -61,8 +61,8 @@
     "cname": [],
     "mx": [
       "mx2.pub.mailpod12-cph3.one.com",
-      "mx3.pub.mailpod12-cph3.one.com",
       "mx4.pub.mailpod12-cph3.one.com",
+      "mx3.pub.mailpod12-cph3.one.com",
       "mx1.pub.mailpod12-cph3.one.com"
     ],
     "ns": [

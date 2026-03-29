@@ -52,8 +52,8 @@
     ],
     "txt": [
       "MS=ms40336891",
-      "v=spf1 ip4:92.43.124.146 ip4:91.195.58.208 include:spf.protection.outlook.com include:amazonses.com include:mail.zendesk.com include:o._spf.hostedsepo.dk  -all",
-      "google-site-verification=RQapdMLuOA50aQFMS0nM4yeSu9ctw3vnZGT9-A8GH6M"
+      "google-site-verification=RQapdMLuOA50aQFMS0nM4yeSu9ctw3vnZGT9-A8GH6M",
+      "v=spf1 ip4:92.43.124.146 ip4:91.195.58.208 include:spf.protection.outlook.com include:amazonses.com include:mail.zendesk.com include:o._spf.hostedsepo.dk  -all"
     ]
   },
   "cloud_exposure": [],

@@ -20,12 +20,12 @@
     },
     "server": "nginx",
     "detected_plugins": [
+      "Ocean Extra",
       "Elementor",
-      "Elementor Pro",
-      "Contact Form 7",
-      "Stackable Ultimate Gutenberg Blocks",
       "Kenzap Team Members Gutenberg Blocks",
-      "Ocean Extra"
+      "Elementor Pro",
+      "Stackable Ultimate Gutenberg Blocks",
+      "Contact Form 7"
     ],
     "headers": {
       "x_frame_options": true,

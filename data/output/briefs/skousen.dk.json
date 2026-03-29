@@ -43,8 +43,8 @@
   },
   "dns": {
     "a": [
-      "104.18.29.7",
-      "104.18.28.7"
+      "104.18.28.7",
+      "104.18.29.7"
     ],
     "aaaa": [
       "2606:4700::6812:1c07",
@@ -59,13 +59,13 @@
       "donna.ns.cloudflare.com"
     ],
     "txt": [
-      "atlassian-domain-verification=NuCGYH5GY2nTFg4r7FR/cSD0AXpWc0lqY5tz437zZS11BTE3cPcUpk1XwHNnuTrz",
-      "detectify-verification=eecfaa6bd857a97c06fbdffdd1357939",
       "facebook-domain-verification=9konaw5hqp3in68oi8n906exasgo9l",
       "google-site-verification=6CdrRmMWRzEsB7QVjq2GjRZD7I9zRCMD9LxhNjAxIBU",
       "klaviyo-site-verification=UCMFk9",
       "v=spf1 include:_spf16390.spfprotect.com -all",
-      "apple-domain-verification=edUbZ7cy9uvhbTDg"
+      "apple-domain-verification=edUbZ7cy9uvhbTDg",
+      "atlassian-domain-verification=NuCGYH5GY2nTFg4r7FR/cSD0AXpWc0lqY5tz437zZS11BTE3cPcUpk1XwHNnuTrz",
+      "detectify-verification=eecfaa6bd857a97c06fbdffdd1357939"
     ]
   },
   "cloud_exposure": [],

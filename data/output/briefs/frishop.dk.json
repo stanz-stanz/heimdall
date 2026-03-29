@@ -50,11 +50,11 @@
       "ns02.one.com"
     ],
     "txt": [
-      "MS=ms98312112",
-      "globalsign-domain-verification=yggG85euBtIps327v_FG5o2RnGi2weV9ZPIrjoERId",
-      "klaviyo-site-verification=Tfwk75",
       "v=spf1 include:spf.protection.outlook.com include:spf.scannet.dk include:sendgrid.net include:_custspf.one.com include:send.heyloyalty.com -all",
+      "klaviyo-site-verification=Tfwk75",
+      "MS=ms98312112",
       "facebook-domain-verification=lv972v9l2byuymy1r8sn6s3gy3mdzb",
+      "globalsign-domain-verification=yggG85euBtIps327v_FG5o2RnGi2weV9ZPIrjoERId",
       "google-site-verification=PyAr8p3KKoXAsNs5eMYe1YVf0u4B_xvNZcheQa0LxbM"
     ]
   },

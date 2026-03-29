@@ -6,7 +6,7 @@
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Woocommerce, Contact Form 7",
+    "Data-handling plugins: Contact Form 7, Woocommerce",
     "E-commerce plugin: WooCommerce:10.5.2",
     "Visitor tracking: Google Tag Manager"
   ],
@@ -22,19 +22,19 @@
     },
     "server": "cloudflare",
     "detected_plugins": [
-      "Gtm Server Side",
-      "Facebook For Woocommerce",
-      "Flexible Shipping",
       "Review Display",
-      "Workdigital",
-      "Wp Staging Pro",
-      "Wd Shop",
-      "Woocommerce",
-      "Contact Form 7",
       "Ewww Image Optimizer",
+      "Facebook For Woocommerce",
+      "Contact Form 7",
       "Cookie Law Info",
+      "Workdigital",
+      "Woocommerce",
+      "Wp Staging Pro",
+      "Workdigital Slider",
+      "Flexible Shipping",
       "Wp Contact Form 7 Spam Blocker",
-      "Workdigital Slider"
+      "Gtm Server Side",
+      "Wd Shop"
     ],
     "headers": {
       "x_frame_options": false,
@@ -76,8 +76,8 @@
       "172.67.185.88"
     ],
     "aaaa": [
-      "2606:4700:3036::6815:5c1c",
-      "2606:4700:3034::ac43:b958"
+      "2606:4700:3034::ac43:b958",
+      "2606:4700:3036::6815:5c1c"
     ],
     "cname": [],
     "mx": [
@@ -116,7 +116,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
+      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

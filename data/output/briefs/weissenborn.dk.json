@@ -20,13 +20,13 @@
     },
     "server": "Apache",
     "detected_plugins": [
-      "Formidable",
       "Divi Toolbox",
-      "Cleantalk Spam Protect",
+      "Borlabs Cookie",
       "Sitepress Multilingual Cms",
       "Wpdatatables",
       "Bold Timeline",
-      "Borlabs Cookie"
+      "Formidable",
+      "Cleantalk Spam Protect"
     ],
     "headers": {
       "x_frame_options": false,

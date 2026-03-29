@@ -63,10 +63,10 @@
       "rick.ns.cloudflare.com"
     ],
     "txt": [
-      "ppkey-02155c7ff51f387e070c4dfe47678300",
+      "v=DMARC1;\\\" \\\"p=none;\\\" \\\"sp=none;\\\" \\\"fo=1;\\\" \\\"ri=3600;\\\" \\\"pct=100;\\\" \\\"rua=mailto:postmaster@danskkabeltv.dk",
       "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1dNhmu0uvunX/lLifXyExSo0+eQIIiQZ8HyWqOW/O7JTl9ZSvNj9WvbfrxJ/Evvg7biYKlHFqYoyj3zp9nwP4ZJ8uUCGtvWV91RogfTYNATY47/7TBtlEhAShanhRJmBb8Me4Nu45Snzi6ZCzIk0b4MuMRj8QEtvyaQb3lOXIsQIDAQAB",
-      "v=spf1 redirect=_spf-customer.dk-tv.net",
-      "v=DMARC1;\\\" \\\"p=none;\\\" \\\"sp=none;\\\" \\\"fo=1;\\\" \\\"ri=3600;\\\" \\\"pct=100;\\\" \\\"rua=mailto:postmaster@danskkabeltv.dk"
+      "ppkey-02155c7ff51f387e070c4dfe47678300",
+      "v=spf1 redirect=_spf-customer.dk-tv.net"
     ]
   },
   "cloud_exposure": [],

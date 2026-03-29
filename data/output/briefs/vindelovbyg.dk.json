@@ -44,8 +44,8 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "MS=ms76112445",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms76112445"
     ]
   },
   "cloud_exposure": [],

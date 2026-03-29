@@ -55,10 +55,10 @@
       "hydrogen.ns.hetzner.com"
     ],
     "txt": [
-      "MS=ms91743509",
-      "knowbe4-site-verification=a777c77dba0766e21794fae569f873ae",
+      "KwzX++5jx5MLPIRE47DMkPJzFkl7EIOg3BBCja6Tko/wwqFwtOy6riUSRTOlip4Ukp6LYMjinHPy3Lyp1ZkdUw==",
       "v=spf1 ip4:212.243.131.192/27 ip4:85.199.173.190 ip4:134.119.2.158 ip4:94.231.103.195 ip4:94.231.103.178 ip4:94.231.103.177 a:kantlister.dk a:websmtp.simply.com include:servers.mcsv.net include:_spf.psm.knowbe4.com include:spf.protection.outlook.com -all",
-      "KwzX++5jx5MLPIRE47DMkPJzFkl7EIOg3BBCja6Tko/wwqFwtOy6riUSRTOlip4Ukp6LYMjinHPy3Lyp1ZkdUw=="
+      "MS=ms91743509",
+      "knowbe4-site-verification=a777c77dba0766e21794fae569f873ae"
     ]
   },
   "cloud_exposure": [],

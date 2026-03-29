@@ -55,10 +55,10 @@
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=RalyDeTM7oP0KIFOIZnLhONujA4VdLy_vNENEFZ06yI",
+      "v=spf1 include:spf.protection.outlook.com include:spf.solutio.dk include:servers.mcsv.net include:spf.comendosystems.com include:dedicated.mysmtp.com ip4:212.237.249.36 ~all",
       "MS=ms95814845",
-      "google-site-verification=L6XZAX0WKT-13yPVv28wtUytP1Nb-xi_JfK4lIKc55c",
-      "v=spf1 include:spf.protection.outlook.com include:spf.solutio.dk include:servers.mcsv.net include:spf.comendosystems.com include:dedicated.mysmtp.com ip4:212.237.249.36 ~all"
+      "google-site-verification=RalyDeTM7oP0KIFOIZnLhONujA4VdLy_vNENEFZ06yI",
+      "google-site-verification=L6XZAX0WKT-13yPVv28wtUytP1Nb-xi_JfK4lIKc55c"
     ]
   },
   "cloud_exposure": [],

@@ -20,12 +20,12 @@
     },
     "server": "nginx",
     "detected_plugins": [
-      "Jetpack",
       "Contact Form 7",
-      "Download Manager",
+      "Jetpack",
+      "Cookie Notice",
       "Download Monitor",
-      "Megamenu",
-      "Cookie Notice"
+      "Download Manager",
+      "Megamenu"
     ],
     "headers": {
       "x_frame_options": false,
@@ -76,9 +76,9 @@
       "ns5.powerhosting.dk"
     ],
     "txt": [
-      "MS=ms52466876",
       "vpe=bfb38e01",
-      "v=spf1 include:spf.mailanyone.net include:_spf.powerhosting.dk include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.mailanyone.net include:_spf.powerhosting.dk include:spf.protection.outlook.com -all",
+      "MS=ms52466876"
     ]
   },
   "cloud_exposure": [],

@@ -59,6 +59,10 @@
       "ns4.combell.net"
     ],
     "txt": [
+      "df2f65fc-a249-4dbb-b092-9cacd477a958",
+      "facebook-domain-verification=zcgh2am7xe1vtt4tk0615ds2vl732s",
+      "google-site-verification=ZrCVmI93lmi08Ya715iD0M6fLpSmGkDC2JphkIeIg7A",
+      "mindmanager-verification=6dadffb2c7385d7b07cec4aebb1ad09c30c9ca01c5c946b4ca7b23f47641b1dc",
       "pexip-ms-tenant-domain-verification=885fa8cf-7523-4ca8-a869-24d0e8c2df69",
       "successfactors-site-verification=OGYzZmRmYTU3YTNkN2JmZGJlYWJkYmU2NDBlYmM4YjQ5NjZmNTlhN2YyOTNjNzYxYmI4OTdiNjA1MzBlOWVkMQ==",
       "teamviewer-sso-verification=f39ea99fded14e169c083b5a12bd53be",
@@ -78,11 +82,7 @@
       "apple-domain-verification=VEtEcU63mcQfz9dn",
       "apple-domain-verification=fTeIDJ0EgFYaKbz9",
       "atlassian-domain-verification=GNcYKGUMbEvPh/lF1pBgXYq61aWYcxAlknbwdCD5VIkXxNCCmZmwco6mJNpebxiy",
-      "cisco-ci-domain-verification=29918dbd0f5835de393b5a84b2321811c2b74e512ee42cf42acb33d338b3a147",
-      "df2f65fc-a249-4dbb-b092-9cacd477a958",
-      "facebook-domain-verification=zcgh2am7xe1vtt4tk0615ds2vl732s",
-      "google-site-verification=ZrCVmI93lmi08Ya715iD0M6fLpSmGkDC2JphkIeIg7A",
-      "mindmanager-verification=6dadffb2c7385d7b07cec4aebb1ad09c30c9ca01c5c946b4ca7b23f47641b1dc"
+      "cisco-ci-domain-verification=29918dbd0f5835de393b5a84b2321811c2b74e512ee42cf42acb33d338b3a147"
     ]
   },
   "cloud_exposure": [],

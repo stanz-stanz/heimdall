@@ -1,0 +1,208 @@
+{
+  "domain": "3f.dk",
+  "job_id": "scan-2026-03-27-d96ef098",
+  "status": "completed",
+  "scan_result": {
+    "domain": "3f.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-06",
+    "ssl_days_remaining": 39,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "Vue.js"
+    ],
+    "meta_author": "3F – Fagligt F&#230;lles Forbund",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:53:55.504667089Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://3f.dk",
+      "input": "3f.dk",
+      "title": "3F fagforening og a-kasse - 3F",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "3f.dk",
+      "host_ip": "172.66.43.7",
+      "path": "/",
+      "final_url": "https://www.3f.dk/",
+      "time": "1.592937897s",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "172.66.40.249",
+        "172.66.43.7"
+      ],
+      "aaaa": [
+        "2606:4700:3108::ac42:28f9",
+        "2606:4700:3108::ac42:2b07"
+      ],
+      "tech": [
+        "Cloudflare",
+        "HSTS",
+        "Vue.js"
+      ],
+      "words": 35393,
+      "lines": 2771,
+      "status_code": 200,
+      "content_length": 291153,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "172.66.43.7",
+        "172.66.40.249"
+      ],
+      "aaaa": [
+        "2606:4700:3108::ac42:28f9",
+        "2606:4700:3108::ac42:2b07"
+      ],
+      "cname": [],
+      "mx": [
+        "3f-dk.f-v1.mx.microsoft"
+      ],
+      "ns": [
+        "max.ns.cloudflare.com",
+        "lisa.ns.cloudflare.com"
+      ],
+      "txt": [
+        "_nn3od9bbc7n791yym1ek0m8rat2giko",
+        "google-site-verification=H1dyJKnjA-UgTyLq-I0XYAE3oTlg-syy-_vdRs7IbnM",
+        "mindmanager-verification=79b0e23d95d2d253211befb91a68fa41f6edbf5a8bbe869976831f0fddb0cff4",
+        "v=spf1 ip4:52.232.5.115 ip4:77.66.57.123 ip4:168.245.61.203 ip4:168.245.67.108 ip4:193.163.134.0/24 ip4:159.183.35.2 include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.mph1.com include:spf.hatteland.com -all",
+        "google-site-verification=ZT0IrlPw0Or4SHyagAvP5ye8oJGI4c2PPuDBVrluaAo",
+        "MS=ms12157205",
+        "facebook-domain-verification=cx1i1lglcowp198g4bgigvaes4baeo",
+        "9b57k4tmyw99cxyd647lkst0bb5yl9nt",
+        "apple-domain-verification=I7NcqCXHmBPnQvA3"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "3f.dk",
+    "cvr": "prospect",
+    "company_name": "3f.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-06",
+        "days_remaining": 39
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "Vue.js"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "172.66.43.7",
+        "172.66.40.249"
+      ],
+      "aaaa": [
+        "2606:4700:3108::ac42:28f9",
+        "2606:4700:3108::ac42:2b07"
+      ],
+      "cname": [],
+      "mx": [
+        "3f-dk.f-v1.mx.microsoft"
+      ],
+      "ns": [
+        "max.ns.cloudflare.com",
+        "lisa.ns.cloudflare.com"
+      ],
+      "txt": [
+        "_nn3od9bbc7n791yym1ek0m8rat2giko",
+        "google-site-verification=H1dyJKnjA-UgTyLq-I0XYAE3oTlg-syy-_vdRs7IbnM",
+        "mindmanager-verification=79b0e23d95d2d253211befb91a68fa41f6edbf5a8bbe869976831f0fddb0cff4",
+        "v=spf1 ip4:52.232.5.115 ip4:77.66.57.123 ip4:168.245.61.203 ip4:168.245.67.108 ip4:193.163.134.0/24 ip4:159.183.35.2 include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.mph1.com include:spf.hatteland.com -all",
+        "google-site-verification=ZT0IrlPw0Or4SHyagAvP5ye8oJGI4c2PPuDBVrluaAo",
+        "MS=ms12157205",
+        "facebook-domain-verification=cx1i1lglcowp198g4bgigvaes4baeo",
+        "9b57k4tmyw99cxyd647lkst0bb5yl9nt",
+        "apple-domain-verification=I7NcqCXHmBPnQvA3"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 283,
+    "total_ms": 285
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

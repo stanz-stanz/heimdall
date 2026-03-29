@@ -16,15 +16,15 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-14",
-      "days_remaining": 77
+      "days_remaining": 76
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Ultimate Elementor",
+      "Wp Rocket",
       "Elementor Pro",
-      "Elementor",
       "Honeypot",
-      "Wp Rocket"
+      "Ultimate Elementor",
+      "Elementor"
     ],
     "headers": {
       "x_frame_options": false,
@@ -65,8 +65,8 @@
       "ns3.dns.services"
     ],
     "txt": [
-      "MS=ms94955924",
-      "v=spf1 a mx include:spf.protection.outlook.com ip4:185.21.40.25 ip4:94.231.108.82 a:smarthost.datalogik.dk a:filter.datalogik.dk a:filter2.datalogik.dk include:spf.curanet.dk -all"
+      "v=spf1 a mx include:spf.protection.outlook.com ip4:185.21.40.25 ip4:94.231.108.82 a:smarthost.datalogik.dk a:filter.datalogik.dk a:filter2.datalogik.dk include:spf.curanet.dk -all",
+      "MS=ms94955924"
     ]
   },
   "cloud_exposure": [],

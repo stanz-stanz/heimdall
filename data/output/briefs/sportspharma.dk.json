@@ -52,10 +52,10 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
+      "google-site-verification=Mfd1RgD3ILE5EhAYOd8nbGESzLF7zHccIX21UG3JPp4",
       "v=spf1 include:spf.protection.outlook.com include:_spf.scanmailx.com -all",
-      "facebook-domain-verification=rlejmrkx4b6w5avnrzox1e8on7hjwo",
       "mandrill_verify.4HkjHzbQFMLrTACUwmQ2Yw",
-      "google-site-verification=Mfd1RgD3ILE5EhAYOd8nbGESzLF7zHccIX21UG3JPp4"
+      "facebook-domain-verification=rlejmrkx4b6w5avnrzox1e8on7hjwo"
     ]
   },
   "cloud_exposure": [],

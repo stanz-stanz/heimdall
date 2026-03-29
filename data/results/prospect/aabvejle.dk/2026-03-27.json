@@ -1,0 +1,187 @@
+{
+  "domain": "aabvejle.dk",
+  "job_id": "scan-2026-03-27-d658413c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "aabvejle.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-26",
+    "ssl_days_remaining": 59,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "AngularJS",
+      "Bootstrap",
+      "Cloudflare",
+      "D3",
+      "Google Maps",
+      "HSTS",
+      "NVD3",
+      "OWL Carousel",
+      "cdnjs",
+      "jQuery",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-27T18:48:51.11792309Z",
+      "port": "443",
+      "url": "https://aabvejle.dk",
+      "input": "aabvejle.dk",
+      "title": "Forside",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "aabvejle.dk",
+      "host_ip": "185.154.243.151",
+      "path": "/",
+      "time": "109.216552ms",
+      "a": [
+        "185.154.243.151"
+      ],
+      "tech": [
+        "AngularJS",
+        "Bootstrap",
+        "Cloudflare",
+        "D3",
+        "Google Maps",
+        "HSTS",
+        "NVD3",
+        "OWL Carousel",
+        "cdnjs",
+        "jQuery",
+        "jsDelivr"
+      ],
+      "words": 1848,
+      "lines": 255,
+      "status_code": 200,
+      "content_length": 9666,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.154.243.151"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "cluster4.eu.messagelabs.com",
+        "cluster4a.eu.messagelabs.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "_1fpq7058jzah1gihekkvui1iygferpc",
+        "MS=ms48859027",
+        "apple-domain-verification=ZU3HRySOcrUKNoBc",
+        "MS=311C80293BA6B047AF2234E4E3B02C8A51D0BFE8",
+        "v=spf1 mx a a:mail.aabvejle.dk include:spf.incom-it.dk include:spf.protection.outlook.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "aabvejle.dk",
+    "cvr": "prospect",
+    "company_name": "aabvejle.dk",
+    "scan_date": "2026-03-27",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-26",
+        "days_remaining": 59
+      },
+      "server": "",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "AngularJS",
+      "Bootstrap",
+      "Cloudflare",
+      "D3",
+      "Google Maps",
+      "HSTS",
+      "NVD3",
+      "OWL Carousel",
+      "cdnjs",
+      "jQuery",
+      "jsDelivr"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.154.243.151"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "cluster4.eu.messagelabs.com",
+        "cluster4a.eu.messagelabs.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "_1fpq7058jzah1gihekkvui1iygferpc",
+        "MS=ms48859027",
+        "apple-domain-verification=ZU3HRySOcrUKNoBc",
+        "MS=311C80293BA6B047AF2234E4E3B02C8A51D0BFE8",
+        "v=spf1 mx a a:mail.aabvejle.dk include:spf.incom-it.dk include:spf.protection.outlook.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 102,
+    "total_ms": 104
+  },
+  "cache_stats": {
+    "hits": 9,
+    "misses": 0
+  }
+}

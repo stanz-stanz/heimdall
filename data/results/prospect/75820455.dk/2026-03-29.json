@@ -1,0 +1,262 @@
+{
+  "domain": "75820455.dk",
+  "job_id": "scan-2026-03-29-48f29379",
+  "status": "completed",
+  "scan_result": {
+    "domain": "75820455.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-14",
+    "ssl_days_remaining": 76,
+    "detected_plugins": [
+      "ocean-extra",
+      "elementor",
+      "kenzap-team-members-gutenberg-blocks",
+      "elementor-pro",
+      "stackable-ultimate-gutenberg-blocks",
+      "contact-form-7"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Contact Form 7:5.1.9",
+      "Elementor:2.8.4",
+      "HSTS",
+      "Lightbox",
+      "Magnific Popup:1.7.4",
+      "MySQL",
+      "Nginx",
+      "PHP:7.3.33",
+      "Swiper",
+      "WordPress Block Editor",
+      "WordPress:5.3.21",
+      "imagesLoaded:3.2.0",
+      "jQuery",
+      "jQuery Migrate:1.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:20:10.05113678Z",
+      "port": "443",
+      "url": "https://75820455.dk",
+      "input": "75820455.dk",
+      "title": "Lægerne ved Havnen",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "75820455.dk",
+      "host_ip": "185.21.40.103",
+      "path": "/",
+      "time": "470.746242ms",
+      "a": [
+        "185.21.40.103"
+      ],
+      "tech": [
+        "Contact Form 7:5.1.9",
+        "Elementor:2.8.4",
+        "HSTS",
+        "Lightbox",
+        "Magnific Popup:1.7.4",
+        "MySQL",
+        "Nginx",
+        "PHP:7.3.33",
+        "Swiper",
+        "WordPress Block Editor",
+        "WordPress:5.3.21",
+        "imagesLoaded:3.2.0",
+        "jQuery",
+        "jQuery Migrate:1.4.1"
+      ],
+      "words": 6138,
+      "lines": 1221,
+      "status_code": 200,
+      "content_length": 155700,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "oceanwp",
+          "vendor": "developer",
+          "cpe": "cpe:2.3:a:developer:oceanwp:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "kenzap-team-members-gutenberg-blocks",
+          "stackable-ultimate-gutenberg-blocks",
+          "contact-form-7",
+          "elementor",
+          "ocean-extra"
+        ],
+        "themes": [
+          "oceanwp"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.40.103"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "75820455-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms87994242"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "75820455.dk",
+    "cvr": "prospect",
+    "company_name": "75820455.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Contact Form 7"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-14",
+        "days_remaining": 76
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Ocean Extra",
+        "Elementor",
+        "Kenzap Team Members Gutenberg Blocks",
+        "Elementor Pro",
+        "Stackable Ultimate Gutenberg Blocks",
+        "Contact Form 7"
+      ],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Contact Form 7:5.1.9",
+      "Elementor:2.8.4",
+      "HSTS",
+      "Lightbox",
+      "Magnific Popup:1.7.4",
+      "MySQL",
+      "Nginx",
+      "PHP:7.3.33",
+      "Swiper",
+      "WordPress Block Editor",
+      "WordPress:5.3.21",
+      "imagesLoaded:3.2.0",
+      "jQuery",
+      "jQuery Migrate:1.4.1"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.40.103"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "75820455-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms87994242"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 5.3.21 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Contact Form 7",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "6 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:7.3.33",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 104,
+    "ssl": 99,
+    "headers": 199,
+    "meta": 475,
+    "httpx": 3303,
+    "webanalyze": 4,
+    "dnsx": 766,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 20762
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

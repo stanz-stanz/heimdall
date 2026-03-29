@@ -1,0 +1,190 @@
+{
+  "domain": "sportspharma.dk",
+  "job_id": "scan-2026-03-29-2c06aa25",
+  "status": "completed",
+  "scan_result": {
+    "domain": "sportspharma.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-07",
+    "ssl_days_remaining": 69,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Dynamicweb:9",
+      "Google Tag Manager",
+      "Handlebars:4.0.12",
+      "Microsoft ASP.NET"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:25:45.66321295Z",
+      "port": "443",
+      "url": "https://sportspharma.dk",
+      "input": "sportspharma.dk",
+      "title": "Sports Pharma - hjælper dig med fortsat at være aktiv",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "sportspharma.dk",
+      "host_ip": "81.95.249.142",
+      "path": "/",
+      "time": "500.339935ms",
+      "a": [
+        "81.95.249.142"
+      ],
+      "tech": [
+        "Cookiebot",
+        "Dynamicweb:9",
+        "Google Tag Manager",
+        "Handlebars:4.0.12",
+        "Microsoft ASP.NET"
+      ],
+      "words": 29851,
+      "lines": 2246,
+      "status_code": 200,
+      "content_length": 123698,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "81.95.249.142"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "sportspharma-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "google-site-verification=Mfd1RgD3ILE5EhAYOd8nbGESzLF7zHccIX21UG3JPp4",
+        "v=spf1 include:spf.protection.outlook.com include:_spf.scanmailx.com -all",
+        "mandrill_verify.4HkjHzbQFMLrTACUwmQ2Yw",
+        "facebook-domain-verification=rlejmrkx4b6w5avnrzox1e8on7hjwo"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "sportspharma.dk",
+    "cvr": "prospect",
+    "company_name": "sportspharma.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-07",
+        "days_remaining": 69
+      },
+      "server": "",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Dynamicweb:9",
+      "Google Tag Manager",
+      "Handlebars:4.0.12",
+      "Microsoft ASP.NET"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "81.95.249.142"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "sportspharma-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "google-site-verification=Mfd1RgD3ILE5EhAYOd8nbGESzLF7zHccIX21UG3JPp4",
+        "v=spf1 include:spf.protection.outlook.com include:_spf.scanmailx.com -all",
+        "mandrill_verify.4HkjHzbQFMLrTACUwmQ2Yw",
+        "facebook-domain-verification=rlejmrkx4b6w5avnrzox1e8on7hjwo"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 106,
+    "ssl": 90,
+    "headers": 533,
+    "meta": 490,
+    "httpx": 2849,
+    "webanalyze": 5,
+    "dnsx": 788,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 4870
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

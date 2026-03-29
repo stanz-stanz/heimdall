@@ -57,17 +57,17 @@
       "ns4.eurodns.com"
     ],
     "txt": [
-      "google-site-verification=9-6_XmZ4hdsyEYD1Zf9AnvZBSZafcmiFbaONclFB114",
-      "tjs8f5gngsabrlrsf58e6r1gjj",
-      "hopeqt2f0vbkdia1vskubs03t3",
-      "b7qltttcq41td56m0i42i0d222",
-      "v=spf1 include:spf.protection.outlook.com include:_spf.google.com include:_spf.easycruit.com include:_spf.salesforce.com include:mail.zendesk.com include:spf.logicalware.com ip4:194.255.122.145 ip4:109.123.121.107 ip4:37.123.114.36 -all",
-      "MS=ms60996601",
-      "_globalsign-domain-verification=bRsLsfi-Kj3rwyidHxA_7IIrZsi1R9GksLlBU2ahIp",
       "hosting-site=minkobmand-c36d5",
       "8ru7friv9fogj0gc0qpgf5tr4",
+      "v=spf1 include:spf.protection.outlook.com include:_spf.google.com include:_spf.easycruit.com include:_spf.salesforce.com include:mail.zendesk.com include:spf.logicalware.com ip4:194.255.122.145 ip4:109.123.121.107 ip4:37.123.114.36 -all",
+      "_globalsign-domain-verification=bRsLsfi-Kj3rwyidHxA_7IIrZsi1R9GksLlBU2ahIp",
+      "SFMC-cT4QDyhzXRrUP6m-HiiZJ2GeLNr8rGGy7Oj4PYbs",
+      "tjs8f5gngsabrlrsf58e6r1gjj",
+      "google-site-verification=9-6_XmZ4hdsyEYD1Zf9AnvZBSZafcmiFbaONclFB114",
+      "hopeqt2f0vbkdia1vskubs03t3",
+      "b7qltttcq41td56m0i42i0d222",
       "34VD891SKEKQ00MR89QHJQCOUV",
-      "SFMC-cT4QDyhzXRrUP6m-HiiZJ2GeLNr8rGGy7Oj4PYbs"
+      "MS=ms60996601"
     ]
   },
   "cloud_exposure": [],

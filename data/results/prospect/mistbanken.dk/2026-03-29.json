@@ -1,0 +1,157 @@
+{
+  "domain": "mistbanken.dk",
+  "job_id": "scan-2026-03-29-63ed5f11",
+  "status": "completed",
+  "scan_result": {
+    "domain": "mistbanken.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-05",
+    "ssl_days_remaining": 68,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Nginx"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-03-29T12:28:09.889399996Z",
+      "port": "443",
+      "url": "https://mistbanken.dk",
+      "input": "mistbanken.dk",
+      "title": "403 Forbidden",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "mistbanken.dk",
+      "host_ip": "195.47.247.18",
+      "path": "/",
+      "final_url": "http://www.vaksthuset.dk",
+      "time": "294.434368ms",
+      "chain_status_codes": [
+        307,
+        403
+      ],
+      "a": [
+        "195.47.247.18"
+      ],
+      "tech": [
+        "Nginx"
+      ],
+      "words": 2,
+      "lines": 1,
+      "status_code": 403,
+      "content_length": 125,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "195.47.247.18"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mistbanken-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ipv4:188.228.30.91 include:spf.protection.outlook.com include:_custspf.one.com -all",
+        "v=spf1 include:spf.protection.outlook.com include:_custspf.one.com -ll"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "mistbanken.dk",
+    "cvr": "prospect",
+    "company_name": "mistbanken.dk",
+    "scan_date": "2026-03-29",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-05",
+        "days_remaining": 68
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Nginx"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "195.47.247.18"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mistbanken-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ipv4:188.228.30.91 include:spf.protection.outlook.com include:_custspf.one.com -all",
+        "v=spf1 include:spf.protection.outlook.com include:_custspf.one.com -ll"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 339,
+    "ssl": 78,
+    "headers": 272,
+    "meta": 284,
+    "httpx": 1704,
+    "webanalyze": 4,
+    "dnsx": 726,
+    "crtsh": 0,
+    "ghw": 0,
+    "total_ms": 3417
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

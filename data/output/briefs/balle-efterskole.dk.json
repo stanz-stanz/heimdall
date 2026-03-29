@@ -20,15 +20,15 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Astra Addon",
-      "Elementor",
-      "Elementor Pro",
-      "Cleantalk Spam Protect",
-      "Wp Rocket",
       "Instagram Feed",
-      "Pixelyoursite",
+      "Cleantalk Spam Protect",
+      "Elementor",
+      "Wp Rocket",
+      "Elementor Pro",
+      "Modern Events Calendar Lite",
       "Ultimate Elementor",
-      "Modern Events Calendar Lite"
+      "Pixelyoursite",
+      "Astra Addon"
     ],
     "headers": {
       "x_frame_options": false,
@@ -69,18 +69,18 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.pub.mailpod11-cph3.one.com",
       "mx2.pub.mailpod11-cph3.one.com",
+      "mx4.pub.mailpod11-cph3.one.com",
       "mx3.pub.mailpod11-cph3.one.com",
-      "mx4.pub.mailpod11-cph3.one.com"
+      "mx1.pub.mailpod11-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=0CYMUVawarvJrnGdCGoTghjxA-ucvczgBZA5PuhV-MQ",
-      "v=spf1 include:_spf.google.com include:_custspf.one.com include:web.shared.mysmtp.com ~all"
+      "v=spf1 include:_spf.google.com include:_custspf.one.com include:web.shared.mysmtp.com ~all",
+      "google-site-verification=0CYMUVawarvJrnGdCGoTghjxA-ucvczgBZA5PuhV-MQ"
     ]
   },
   "cloud_exposure": [],
