@@ -1,6 +1,6 @@
 {
   "domain": "bsmarmor.dk",
-  "job_id": "scan-2026-03-29-70729cd1",
+  "job_id": "scan-2026-03-29-82e66fd5",
   "status": "completed",
   "scan_result": {
     "domain": "bsmarmor.dk",
@@ -328,8 +328,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 97,
-    "total_ms": 11518
+    "robots_txt": 98,
+    "total_ms": 11411
   },
   "cache_stats": {
     "hits": 9,

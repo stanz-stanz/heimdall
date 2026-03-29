@@ -1,6 +1,6 @@
 {
   "domain": "markering.dk",
-  "job_id": "scan-2026-03-29-e86da328",
+  "job_id": "scan-2026-03-29-a2fd673e",
   "status": "completed",
   "scan_result": {
     "domain": "markering.dk",
@@ -158,8 +158,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 73,
-    "total_ms": 74
+    "robots_txt": 67,
+    "total_ms": 68
   },
   "cache_stats": {
     "hits": 9,

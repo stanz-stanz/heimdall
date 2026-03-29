@@ -1,6 +1,6 @@
 {
   "domain": "jelva.dk",
-  "job_id": "scan-2026-03-29-30a155fe",
+  "job_id": "scan-2026-03-29-d5c4aeea",
   "status": "completed",
   "scan_result": {
     "domain": "jelva.dk",
@@ -171,8 +171,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 77,
-    "total_ms": 79
+    "robots_txt": 59,
+    "total_ms": 60
   },
   "cache_stats": {
     "hits": 9,

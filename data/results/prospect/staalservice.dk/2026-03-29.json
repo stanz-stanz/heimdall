@@ -1,6 +1,6 @@
 {
   "domain": "staalservice.dk",
-  "job_id": "scan-2026-03-29-eb740756",
+  "job_id": "scan-2026-03-29-ee0a68e0",
   "status": "completed",
   "scan_result": {
     "domain": "staalservice.dk",
@@ -170,7 +170,7 @@
   },
   "timing": {
     "robots_txt": 90,
-    "total_ms": 92
+    "total_ms": 91
   },
   "cache_stats": {
     "hits": 9,

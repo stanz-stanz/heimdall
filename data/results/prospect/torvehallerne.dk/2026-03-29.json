@@ -1,6 +1,6 @@
 {
   "domain": "torvehallerne.dk",
-  "job_id": "scan-2026-03-29-67355ed0",
+  "job_id": "scan-2026-03-29-4531c9b2",
   "status": "completed",
   "scan_result": {
     "domain": "torvehallerne.dk",
@@ -185,7 +185,7 @@
     ]
   },
   "timing": {
-    "robots_txt": 861,
+    "robots_txt": 862,
     "total_ms": 863
   },
   "cache_stats": {

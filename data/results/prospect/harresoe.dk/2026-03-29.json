@@ -1,6 +1,6 @@
 {
   "domain": "harresoe.dk",
-  "job_id": "scan-2026-03-29-0e3a9f9d",
+  "job_id": "scan-2026-03-29-771b3b34",
   "status": "completed",
   "scan_result": {
     "domain": "harresoe.dk",
@@ -227,8 +227,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 1552,
-    "total_ms": 11515
+    "robots_txt": 1801,
+    "total_ms": 11417
   },
   "cache_stats": {
     "hits": 9,

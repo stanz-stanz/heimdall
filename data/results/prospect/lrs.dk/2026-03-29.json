@@ -1,6 +1,6 @@
 {
   "domain": "lrs.dk",
-  "job_id": "scan-2026-03-29-442547fe",
+  "job_id": "scan-2026-03-29-8b6ce996",
   "status": "completed",
   "scan_result": {
     "domain": "lrs.dk",
@@ -180,8 +180,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 180,
-    "total_ms": 182
+    "robots_txt": 178,
+    "total_ms": 180
   },
   "cache_stats": {
     "hits": 9,

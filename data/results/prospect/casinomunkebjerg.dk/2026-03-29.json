@@ -1,6 +1,6 @@
 {
   "domain": "casinomunkebjerg.dk",
-  "job_id": "scan-2026-03-29-27d6cc72",
+  "job_id": "scan-2026-03-29-41b7b768",
   "status": "completed",
   "scan_result": {
     "domain": "casinomunkebjerg.dk",
@@ -185,8 +185,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 121,
-    "total_ms": 123
+    "robots_txt": 118,
+    "total_ms": 120
   },
   "cache_stats": {
     "hits": 9,

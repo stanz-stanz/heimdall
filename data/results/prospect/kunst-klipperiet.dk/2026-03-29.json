@@ -1,6 +1,6 @@
 {
   "domain": "kunst-klipperiet.dk",
-  "job_id": "scan-2026-03-29-d7c822d6",
+  "job_id": "scan-2026-03-29-a17ffcd6",
   "status": "completed",
   "scan_result": {
     "domain": "kunst-klipperiet.dk",
@@ -104,8 +104,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 21,
-    "total_ms": 23
+    "robots_txt": 24,
+    "total_ms": 26
   },
   "cache_stats": {
     "hits": 9,

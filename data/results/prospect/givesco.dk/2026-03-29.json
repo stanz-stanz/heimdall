@@ -1,6 +1,6 @@
 {
   "domain": "givesco.dk",
-  "job_id": "scan-2026-03-29-c891720f",
+  "job_id": "scan-2026-03-29-cf2dde49",
   "status": "completed",
   "scan_result": {
     "domain": "givesco.dk",
@@ -249,8 +249,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 120,
-    "total_ms": 11711
+    "robots_txt": 105,
+    "total_ms": 11481
   },
   "cache_stats": {
     "hits": 9,

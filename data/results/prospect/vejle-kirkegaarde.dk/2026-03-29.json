@@ -1,6 +1,6 @@
 {
   "domain": "vejle-kirkegaarde.dk",
-  "job_id": "scan-2026-03-29-d58d33dc",
+  "job_id": "scan-2026-03-29-6db9e2ab",
   "status": "completed",
   "scan_result": {
     "domain": "vejle-kirkegaarde.dk",
@@ -177,7 +177,7 @@
   },
   "timing": {
     "robots_txt": 98,
-    "total_ms": 100
+    "total_ms": 99
   },
   "cache_stats": {
     "hits": 9,

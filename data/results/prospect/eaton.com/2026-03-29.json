@@ -1,6 +1,6 @@
 {
   "domain": "eaton.com",
-  "job_id": "scan-2026-03-29-2567e71f",
+  "job_id": "scan-2026-03-29-6f907ef3",
   "status": "completed",
   "scan_result": {
     "domain": "eaton.com",
@@ -153,8 +153,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 15910,
-    "total_ms": 15911
+    "robots_txt": 15908,
+    "total_ms": 15910
   },
   "cache_stats": {
     "hits": 9,

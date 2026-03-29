@@ -1,6 +1,6 @@
 {
   "domain": "daltec.com",
-  "job_id": "scan-2026-03-29-857a1c72",
+  "job_id": "scan-2026-03-29-6aca1a44",
   "status": "completed",
   "scan_result": {
     "domain": "daltec.com",
@@ -285,8 +285,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 314,
-    "total_ms": 11483
+    "robots_txt": 1520,
+    "total_ms": 81266
   },
   "cache_stats": {
     "hits": 9,

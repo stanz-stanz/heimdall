@@ -1,6 +1,6 @@
 {
   "domain": "75820455.dk",
-  "job_id": "scan-2026-03-29-f68eb53c",
+  "job_id": "scan-2026-03-29-021a04cd",
   "status": "completed",
   "scan_result": {
     "domain": "75820455.dk",
@@ -244,8 +244,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 109,
-    "total_ms": 6497
+    "robots_txt": 103,
+    "total_ms": 11474
   },
   "cache_stats": {
     "hits": 9,

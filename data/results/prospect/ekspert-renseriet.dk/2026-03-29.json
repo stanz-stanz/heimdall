@@ -1,6 +1,6 @@
 {
   "domain": "ekspert-renseriet.dk",
-  "job_id": "scan-2026-03-29-7d0e2f41",
+  "job_id": "scan-2026-03-29-3f9a8ca5",
   "status": "completed",
   "scan_result": {
     "domain": "ekspert-renseriet.dk",
@@ -173,8 +173,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 181,
-    "total_ms": 183
+    "robots_txt": 185,
+    "total_ms": 186
   },
   "cache_stats": {
     "hits": 9,

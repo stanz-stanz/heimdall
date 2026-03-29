@@ -1,6 +1,6 @@
 {
   "domain": "foodwithyou.com",
-  "job_id": "scan-2026-03-29-76098977",
+  "job_id": "scan-2026-03-29-05c1fcfb",
   "status": "completed",
   "scan_result": {
     "domain": "foodwithyou.com",
@@ -281,8 +281,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 4707,
-    "total_ms": 11500
+    "robots_txt": 5886,
+    "total_ms": 46731
   },
   "cache_stats": {
     "hits": 9,

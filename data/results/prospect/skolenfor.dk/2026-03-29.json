@@ -1,6 +1,6 @@
 {
   "domain": "skolenfor.dk",
-  "job_id": "scan-2026-03-29-0f5ef811",
+  "job_id": "scan-2026-03-29-1729937a",
   "status": "completed",
   "scan_result": {
     "domain": "skolenfor.dk",
@@ -303,8 +303,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 86,
-    "total_ms": 11237
+    "robots_txt": 102,
+    "total_ms": 11014
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "coface.com",
-  "job_id": "scan-2026-03-29-38ebb642",
+  "job_id": "scan-2026-03-29-29f4807a",
   "status": "completed",
   "scan_result": {
     "domain": "coface.com",
@@ -229,8 +229,8 @@
     "findings": []
   },
   "timing": {
-    "robots_txt": 232,
-    "total_ms": 234
+    "robots_txt": 230,
+    "total_ms": 231
   },
   "cache_stats": {
     "hits": 9,

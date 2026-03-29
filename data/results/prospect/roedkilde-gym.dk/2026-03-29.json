@@ -1,6 +1,6 @@
 {
   "domain": "roedkilde-gym.dk",
-  "job_id": "scan-2026-03-29-b39080da",
+  "job_id": "scan-2026-03-29-ff8c2214",
   "status": "completed",
   "scan_result": {
     "domain": "roedkilde-gym.dk",
@@ -186,8 +186,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 278,
-    "total_ms": 11426
+    "robots_txt": 272,
+    "total_ms": 11595
   },
   "cache_stats": {
     "hits": 9,

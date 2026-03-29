@@ -1,6 +1,6 @@
 {
   "domain": "haastrupgaard.dk",
-  "job_id": "scan-2026-03-29-0b8b19df",
+  "job_id": "scan-2026-03-29-afd7628b",
   "status": "completed",
   "scan_result": {
     "domain": "haastrupgaard.dk",
@@ -227,8 +227,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 451,
-    "total_ms": 10922
+    "robots_txt": 1601,
+    "total_ms": 11325
   },
   "cache_stats": {
     "hits": 9,

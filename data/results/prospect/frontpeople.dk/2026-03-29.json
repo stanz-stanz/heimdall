@@ -1,6 +1,6 @@
 {
   "domain": "frontpeople.dk",
-  "job_id": "scan-2026-03-29-93369a0a",
+  "job_id": "scan-2026-03-29-0bc77f9b",
   "status": "completed",
   "scan_result": {
     "domain": "frontpeople.dk",
@@ -240,8 +240,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 463,
-    "total_ms": 11272
+    "robots_txt": 433,
+    "total_ms": 11598
   },
   "cache_stats": {
     "hits": 9,

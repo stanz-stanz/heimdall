@@ -1,6 +1,6 @@
 {
   "domain": "ss-el.dk",
-  "job_id": "scan-2026-03-29-29164687",
+  "job_id": "scan-2026-03-29-53f1e8d2",
   "status": "completed",
   "scan_result": {
     "domain": "ss-el.dk",
@@ -166,8 +166,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 15029,
-    "total_ms": 15030
+    "robots_txt": 15036,
+    "total_ms": 15037
   },
   "cache_stats": {
     "hits": 9,

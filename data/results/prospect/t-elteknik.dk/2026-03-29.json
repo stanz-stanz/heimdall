@@ -1,6 +1,6 @@
 {
   "domain": "t-elteknik.dk",
-  "job_id": "scan-2026-03-29-2d036edb",
+  "job_id": "scan-2026-03-29-cad6dff9",
   "status": "completed",
   "scan_result": {
     "domain": "t-elteknik.dk",
@@ -240,8 +240,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 84,
-    "total_ms": 11212
+    "robots_txt": 68,
+    "total_ms": 11079
   },
   "cache_stats": {
     "hits": 9,

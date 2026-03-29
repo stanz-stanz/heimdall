@@ -1,6 +1,6 @@
 {
   "domain": "billeskovs-pc.dk",
-  "job_id": "scan-2026-03-29-4967fc12",
+  "job_id": "scan-2026-03-29-2d56217c",
   "status": "completed",
   "scan_result": {
     "domain": "billeskovs-pc.dk",
@@ -185,8 +185,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 127,
-    "total_ms": 128
+    "robots_txt": 87,
+    "total_ms": 88
   },
   "cache_stats": {
     "hits": 9,

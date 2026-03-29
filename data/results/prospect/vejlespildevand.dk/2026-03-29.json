@@ -1,6 +1,6 @@
 {
   "domain": "vejlespildevand.dk",
-  "job_id": "scan-2026-03-29-61dc4bd0",
+  "job_id": "scan-2026-03-29-d8936144",
   "status": "completed",
   "scan_result": {
     "domain": "vejlespildevand.dk",
@@ -179,7 +179,7 @@
   },
   "timing": {
     "robots_txt": 178,
-    "total_ms": 179
+    "total_ms": 180
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "hyundai-buch-vejle.dk",
-  "job_id": "scan-2026-03-29-27ce72a5",
+  "job_id": "scan-2026-03-29-d558b4c2",
   "status": "completed",
   "scan_result": {
     "domain": "hyundai-buch-vejle.dk",
@@ -104,8 +104,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 25,
-    "total_ms": 27
+    "robots_txt": 22,
+    "total_ms": 23
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "faldt.dk",
-  "job_id": "scan-2026-03-29-c949c67c",
+  "job_id": "scan-2026-03-29-9f1efeee",
   "status": "completed",
   "scan_result": {
     "domain": "faldt.dk",
@@ -236,8 +236,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 1374,
-    "total_ms": 11280
+    "robots_txt": 1530,
+    "total_ms": 11293
   },
   "cache_stats": {
     "hits": 9,

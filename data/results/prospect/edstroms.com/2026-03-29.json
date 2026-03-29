@@ -1,6 +1,6 @@
 {
   "domain": "edstroms.com",
-  "job_id": "scan-2026-03-29-b55aedc5",
+  "job_id": "scan-2026-03-29-81b9695f",
   "status": "completed",
   "scan_result": {
     "domain": "edstroms.com",
@@ -194,8 +194,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 233,
-    "total_ms": 236
+    "robots_txt": 236,
+    "total_ms": 238
   },
   "cache_stats": {
     "hits": 9,

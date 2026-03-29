@@ -1,6 +1,6 @@
 {
   "domain": "photocare.dk",
-  "job_id": "scan-2026-03-29-8b7ea00b",
+  "job_id": "scan-2026-03-29-22c85293",
   "status": "completed",
   "scan_result": {
     "domain": "photocare.dk",
@@ -154,8 +154,8 @@
     "findings": []
   },
   "timing": {
-    "robots_txt": 171,
-    "total_ms": 174
+    "robots_txt": 189,
+    "total_ms": 190
   },
   "cache_stats": {
     "hits": 9,

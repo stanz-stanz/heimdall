@@ -1,6 +1,6 @@
 {
   "domain": "its-teknik.dk",
-  "job_id": "scan-2026-03-29-f15001a3",
+  "job_id": "scan-2026-03-29-1e4db4ac",
   "status": "completed",
   "scan_result": {
     "domain": "its-teknik.dk",
@@ -268,8 +268,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 495,
-    "total_ms": 11287
+    "robots_txt": 2941,
+    "total_ms": 11192
   },
   "cache_stats": {
     "hits": 9,

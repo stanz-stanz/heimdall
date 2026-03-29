@@ -1,6 +1,6 @@
 {
   "domain": "ok-fonden.dk",
-  "job_id": "scan-2026-03-29-51b975be",
+  "job_id": "scan-2026-03-29-366685d2",
   "status": "completed",
   "scan_result": {
     "domain": "ok-fonden.dk",
@@ -245,8 +245,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 1783,
-    "total_ms": 10895
+    "robots_txt": 345,
+    "total_ms": 11369
   },
   "cache_stats": {
     "hits": 9,

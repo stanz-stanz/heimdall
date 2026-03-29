@@ -1,6 +1,6 @@
 {
   "domain": "vesterlund-efterskole.dk",
-  "job_id": "scan-2026-03-29-5ce09734",
+  "job_id": "scan-2026-03-29-7ca46895",
   "status": "completed",
   "scan_result": {
     "domain": "vesterlund-efterskole.dk",
@@ -196,8 +196,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 168,
-    "total_ms": 170
+    "robots_txt": 175,
+    "total_ms": 176
   },
   "cache_stats": {
     "hits": 9,

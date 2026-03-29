@@ -1,6 +1,6 @@
 {
   "domain": "ls-elvarme.dk",
-  "job_id": "scan-2026-03-29-61f7ef0e",
+  "job_id": "scan-2026-03-29-18f25720",
   "status": "completed",
   "scan_result": {
     "domain": "ls-elvarme.dk",
@@ -242,8 +242,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 457,
-    "total_ms": 11455
+    "robots_txt": 488,
+    "total_ms": 11675
   },
   "cache_stats": {
     "hits": 9,

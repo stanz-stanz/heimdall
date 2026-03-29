@@ -1,6 +1,6 @@
 {
   "domain": "sandvad-sognegaard.dk",
-  "job_id": "scan-2026-03-29-cbe11db1",
+  "job_id": "scan-2026-03-29-e22a23b0",
   "status": "completed",
   "scan_result": {
     "domain": "sandvad-sognegaard.dk",
@@ -168,8 +168,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 160,
-    "total_ms": 161
+    "robots_txt": 138,
+    "total_ms": 139
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "aabvejle.dk",
-  "job_id": "scan-2026-03-29-5cb588af",
+  "job_id": "scan-2026-03-29-57fffb18",
   "status": "completed",
   "scan_result": {
     "domain": "aabvejle.dk",
@@ -177,8 +177,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 108,
-    "total_ms": 109
+    "robots_txt": 97,
+    "total_ms": 98
   },
   "cache_stats": {
     "hits": 9,

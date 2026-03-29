@@ -1,6 +1,6 @@
 {
   "domain": "pj-huse.dk",
-  "job_id": "scan-2026-03-29-98de9c00",
+  "job_id": "scan-2026-03-29-d756eaa5",
   "status": "completed",
   "scan_result": {
     "domain": "pj-huse.dk",
@@ -222,8 +222,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 68,
-    "total_ms": 11476
+    "robots_txt": 72,
+    "total_ms": 52525
   },
   "cache_stats": {
     "hits": 9,

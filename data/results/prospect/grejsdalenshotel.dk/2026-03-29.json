@@ -1,6 +1,6 @@
 {
   "domain": "grejsdalenshotel.dk",
-  "job_id": "scan-2026-03-29-62811ed9",
+  "job_id": "scan-2026-03-29-0978c9ab",
   "status": "completed",
   "scan_result": {
     "domain": "grejsdalenshotel.dk",
@@ -165,8 +165,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 81,
-    "total_ms": 82
+    "robots_txt": 93,
+    "total_ms": 94
   },
   "cache_stats": {
     "hits": 9,

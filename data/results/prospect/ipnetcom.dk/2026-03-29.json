@@ -1,6 +1,6 @@
 {
   "domain": "ipnetcom.dk",
-  "job_id": "scan-2026-03-29-14301afb",
+  "job_id": "scan-2026-03-29-f2c2b8f2",
   "status": "completed",
   "scan_result": {
     "domain": "ipnetcom.dk",
@@ -255,8 +255,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 94,
-    "total_ms": 11518
+    "robots_txt": 102,
+    "total_ms": 11576
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "alivestyle.dk",
-  "job_id": "scan-2026-03-29-6062f64b",
+  "job_id": "scan-2026-03-29-2194d462",
   "status": "completed",
   "scan_result": {
     "domain": "alivestyle.dk",
@@ -174,8 +174,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 129,
-    "total_ms": 130
+    "robots_txt": 271,
+    "total_ms": 273
   },
   "cache_stats": {
     "hits": 9,

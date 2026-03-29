@@ -1,6 +1,6 @@
 {
   "domain": "drt.dk",
-  "job_id": "scan-2026-03-29-7b93ec13",
+  "job_id": "scan-2026-03-29-48a02ee5",
   "status": "completed",
   "scan_result": {
     "domain": "drt.dk",
@@ -124,8 +124,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 15041,
-    "total_ms": 15046
+    "robots_txt": 15028,
+    "total_ms": 15029
   },
   "cache_stats": {
     "hits": 9,

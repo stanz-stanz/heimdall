@@ -1,6 +1,6 @@
 {
   "domain": "osterbo.dk",
-  "job_id": "scan-2026-03-29-6d580228",
+  "job_id": "scan-2026-03-29-e6db14e4",
   "status": "completed",
   "scan_result": {
     "domain": "osterbo.dk",
@@ -150,8 +150,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 265,
-    "total_ms": 266
+    "robots_txt": 213,
+    "total_ms": 214
   },
   "cache_stats": {
     "hits": 9,

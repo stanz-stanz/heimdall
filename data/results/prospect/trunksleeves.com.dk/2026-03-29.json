@@ -1,6 +1,6 @@
 {
   "domain": "trunksleeves.com.dk",
-  "job_id": "scan-2026-03-29-edfbcc16",
+  "job_id": "scan-2026-03-29-84025630",
   "status": "completed",
   "scan_result": {
     "domain": "trunksleeves.com.dk",
@@ -104,8 +104,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 24,
-    "total_ms": 25
+    "robots_txt": 18,
+    "total_ms": 19
   },
   "cache_stats": {
     "hits": 9,

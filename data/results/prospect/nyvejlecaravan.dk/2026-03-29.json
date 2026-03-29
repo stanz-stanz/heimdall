@@ -1,6 +1,6 @@
 {
   "domain": "nyvejlecaravan.dk",
-  "job_id": "scan-2026-03-29-d220da17",
+  "job_id": "scan-2026-03-29-49e7f865",
   "status": "completed",
   "scan_result": {
     "domain": "nyvejlecaravan.dk",
@@ -184,8 +184,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 312,
-    "total_ms": 314
+    "robots_txt": 300,
+    "total_ms": 301
   },
   "cache_stats": {
     "hits": 9,

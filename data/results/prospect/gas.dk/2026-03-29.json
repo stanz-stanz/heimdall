@@ -1,6 +1,6 @@
 {
   "domain": "gas.dk",
-  "job_id": "scan-2026-03-29-cc1ace26",
+  "job_id": "scan-2026-03-29-ecccb963",
   "status": "completed",
   "scan_result": {
     "domain": "gas.dk",
@@ -294,8 +294,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 4344,
-    "total_ms": 11444
+    "robots_txt": 3688,
+    "total_ms": 11699
   },
   "cache_stats": {
     "hits": 9,

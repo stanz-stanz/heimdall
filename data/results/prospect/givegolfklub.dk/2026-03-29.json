@@ -1,6 +1,6 @@
 {
   "domain": "givegolfklub.dk",
-  "job_id": "scan-2026-03-29-5f7316de",
+  "job_id": "scan-2026-03-29-ea8758b0",
   "status": "completed",
   "scan_result": {
     "domain": "givegolfklub.dk",
@@ -195,8 +195,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 90,
-    "total_ms": 92
+    "robots_txt": 85,
+    "total_ms": 86
   },
   "cache_stats": {
     "hits": 9,

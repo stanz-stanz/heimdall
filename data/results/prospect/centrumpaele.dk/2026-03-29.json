@@ -1,6 +1,6 @@
 {
   "domain": "centrumpaele.dk",
-  "job_id": "scan-2026-03-29-e489e855",
+  "job_id": "scan-2026-03-29-cb9fdff2",
   "status": "completed",
   "scan_result": {
     "domain": "centrumpaele.dk",
@@ -224,8 +224,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 781,
-    "total_ms": 10294
+    "robots_txt": 859,
+    "total_ms": 15692
   },
   "cache_stats": {
     "hits": 9,

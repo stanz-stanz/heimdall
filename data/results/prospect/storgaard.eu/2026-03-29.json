@@ -1,6 +1,6 @@
 {
   "domain": "storgaard.eu",
-  "job_id": "scan-2026-03-29-82962023",
+  "job_id": "scan-2026-03-29-3a6de424",
   "status": "completed",
   "scan_result": {
     "domain": "storgaard.eu",
@@ -163,8 +163,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 118,
-    "total_ms": 119
+    "robots_txt": 128,
+    "total_ms": 130
   },
   "cache_stats": {
     "hits": 9,

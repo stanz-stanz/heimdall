@@ -1,6 +1,6 @@
 {
   "domain": "km.dk",
-  "job_id": "scan-2026-03-29-bc7fdcff",
+  "job_id": "scan-2026-03-29-4f6ce23b",
   "status": "completed",
   "scan_result": {
     "domain": "km.dk",
@@ -192,8 +192,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 121,
-    "total_ms": 123
+    "robots_txt": 118,
+    "total_ms": 120
   },
   "cache_stats": {
     "hits": 9,

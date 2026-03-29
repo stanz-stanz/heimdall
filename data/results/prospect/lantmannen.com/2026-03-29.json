@@ -1,6 +1,6 @@
 {
   "domain": "lantmannen.com",
-  "job_id": "scan-2026-03-29-19ddf3f5",
+  "job_id": "scan-2026-03-29-56855d44",
   "status": "completed",
   "scan_result": {
     "domain": "lantmannen.com",
@@ -207,8 +207,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 462,
-    "total_ms": 464
+    "robots_txt": 563,
+    "total_ms": 565
   },
   "cache_stats": {
     "hits": 9,

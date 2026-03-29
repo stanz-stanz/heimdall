@@ -1,6 +1,6 @@
 {
   "domain": "roestnielsen.dk",
-  "job_id": "scan-2026-03-29-48c22e70",
+  "job_id": "scan-2026-03-29-5b6ce963",
   "status": "completed",
   "scan_result": {
     "domain": "roestnielsen.dk",
@@ -279,8 +279,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 410,
-    "total_ms": 11434
+    "robots_txt": 398,
+    "total_ms": 11890
   },
   "cache_stats": {
     "hits": 9,

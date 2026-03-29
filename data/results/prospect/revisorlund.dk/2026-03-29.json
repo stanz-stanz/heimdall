@@ -1,6 +1,6 @@
 {
   "domain": "revisorlund.dk",
-  "job_id": "scan-2026-03-29-535a07c0",
+  "job_id": "scan-2026-03-29-b0a7b966",
   "status": "completed",
   "scan_result": {
     "domain": "revisorlund.dk",
@@ -160,8 +160,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 74,
-    "total_ms": 75
+    "robots_txt": 75,
+    "total_ms": 76
   },
   "cache_stats": {
     "hits": 9,

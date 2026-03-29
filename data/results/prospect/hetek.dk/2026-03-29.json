@@ -1,6 +1,6 @@
 {
   "domain": "hetek.dk",
-  "job_id": "scan-2026-03-29-c5203934",
+  "job_id": "scan-2026-03-29-638e2a5a",
   "status": "completed",
   "scan_result": {
     "domain": "hetek.dk",
@@ -240,7 +240,7 @@
   },
   "timing": {
     "robots_txt": 156,
-    "total_ms": 11483
+    "total_ms": 11795
   },
   "cache_stats": {
     "hits": 9,

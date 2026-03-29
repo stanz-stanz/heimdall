@@ -1,6 +1,6 @@
 {
   "domain": "tinnetgaard.dk",
-  "job_id": "scan-2026-03-29-9f99298f",
+  "job_id": "scan-2026-03-29-bf4d5ddf",
   "status": "completed",
   "scan_result": {
     "domain": "tinnetgaard.dk",
@@ -314,8 +314,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 1815,
-    "total_ms": 11616
+    "robots_txt": 1729,
+    "total_ms": 5235
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "bhogas.dk",
-  "job_id": "scan-2026-03-29-e629cd7f",
+  "job_id": "scan-2026-03-29-2405cf87",
   "status": "completed",
   "scan_result": {
     "domain": "bhogas.dk",
@@ -256,7 +256,7 @@
   },
   "timing": {
     "robots_txt": 88,
-    "total_ms": 11568
+    "total_ms": 11917
   },
   "cache_stats": {
     "hits": 9,

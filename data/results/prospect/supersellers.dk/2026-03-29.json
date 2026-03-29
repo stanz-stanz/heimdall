@@ -1,6 +1,6 @@
 {
   "domain": "supersellers.dk",
-  "job_id": "scan-2026-03-29-a06e71b5",
+  "job_id": "scan-2026-03-29-8b834266",
   "status": "completed",
   "scan_result": {
     "domain": "supersellers.dk",
@@ -207,8 +207,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 75,
-    "total_ms": 76
+    "robots_txt": 93,
+    "total_ms": 94
   },
   "cache_stats": {
     "hits": 9,

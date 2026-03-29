@@ -1,6 +1,6 @@
 {
   "domain": "gaardhaven.com",
-  "job_id": "scan-2026-03-29-00465ca2",
+  "job_id": "scan-2026-03-29-eb5e6d11",
   "status": "completed",
   "scan_result": {
     "domain": "gaardhaven.com",
@@ -256,8 +256,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 2063,
-    "total_ms": 11216
+    "robots_txt": 380,
+    "total_ms": 11451
   },
   "cache_stats": {
     "hits": 9,

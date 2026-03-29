@@ -1,6 +1,6 @@
 {
   "domain": "privat.dk",
-  "job_id": "scan-2026-03-29-a6f8fae6",
+  "job_id": "scan-2026-03-29-8446b779",
   "status": "completed",
   "scan_result": {
     "domain": "privat.dk",
@@ -159,8 +159,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 167,
-    "total_ms": 168
+    "robots_txt": 141,
+    "total_ms": 142
   },
   "cache_stats": {
     "hits": 9,

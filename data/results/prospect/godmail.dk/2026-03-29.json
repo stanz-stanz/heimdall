@@ -1,6 +1,6 @@
 {
   "domain": "godmail.dk",
-  "job_id": "scan-2026-03-29-fdeeb8ae",
+  "job_id": "scan-2026-03-29-ee9f6d08",
   "status": "completed",
   "scan_result": {
     "domain": "godmail.dk",
@@ -184,8 +184,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 259,
-    "total_ms": 261
+    "robots_txt": 269,
+    "total_ms": 270
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "dal-bo.dk",
-  "job_id": "scan-2026-03-29-a091ed2e",
+  "job_id": "scan-2026-03-29-0289ef98",
   "status": "completed",
   "scan_result": {
     "domain": "dal-bo.dk",
@@ -255,8 +255,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 348,
-    "total_ms": 11511
+    "robots_txt": 339,
+    "total_ms": 11611
   },
   "cache_stats": {
     "hits": 9,

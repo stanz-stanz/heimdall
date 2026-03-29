@@ -1,6 +1,6 @@
 {
   "domain": "palleiversen.dk",
-  "job_id": "scan-2026-03-29-d177ea39",
+  "job_id": "scan-2026-03-29-27bfb170",
   "status": "completed",
   "scan_result": {
     "domain": "palleiversen.dk",
@@ -247,8 +247,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 2169,
-    "total_ms": 11400
+    "robots_txt": 2174,
+    "total_ms": 11498
   },
   "cache_stats": {
     "hits": 9,

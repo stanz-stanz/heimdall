@@ -1,6 +1,6 @@
 {
   "domain": "give-fjernvarme.dk",
-  "job_id": "scan-2026-03-29-827aad2c",
+  "job_id": "scan-2026-03-29-02f4c8da",
   "status": "completed",
   "scan_result": {
     "domain": "give-fjernvarme.dk",
@@ -194,8 +194,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 200,
-    "total_ms": 202
+    "robots_txt": 193,
+    "total_ms": 195
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "damkjaergaard.dk",
-  "job_id": "scan-2026-03-29-e94c2d71",
+  "job_id": "scan-2026-03-29-a02f9f8e",
   "status": "completed",
   "scan_result": {
     "domain": "damkjaergaard.dk",
@@ -184,8 +184,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 106,
-    "total_ms": 108
+    "robots_txt": 97,
+    "total_ms": 98
   },
   "cache_stats": {
     "hits": 9,

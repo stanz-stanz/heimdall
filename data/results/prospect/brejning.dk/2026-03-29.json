@@ -1,6 +1,6 @@
 {
   "domain": "brejning.dk",
-  "job_id": "scan-2026-03-29-23443de7",
+  "job_id": "scan-2026-03-29-02fad00a",
   "status": "completed",
   "scan_result": {
     "domain": "brejning.dk",
@@ -171,8 +171,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 246,
-    "total_ms": 248
+    "robots_txt": 250,
+    "total_ms": 252
   },
   "cache_stats": {
     "hits": 9,

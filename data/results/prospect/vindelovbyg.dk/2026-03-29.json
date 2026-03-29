@@ -1,6 +1,6 @@
 {
   "domain": "vindelovbyg.dk",
-  "job_id": "scan-2026-03-29-f15fdaa3",
+  "job_id": "scan-2026-03-29-ed88a7f2",
   "status": "completed",
   "scan_result": {
     "domain": "vindelovbyg.dk",
@@ -152,8 +152,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 70,
-    "total_ms": 71
+    "robots_txt": 67,
+    "total_ms": 69
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "ryansfisk.dk",
-  "job_id": "scan-2026-03-29-49b96d67",
+  "job_id": "scan-2026-03-29-73bd4dd5",
   "status": "completed",
   "scan_result": {
     "domain": "ryansfisk.dk",
@@ -192,7 +192,7 @@
     ]
   },
   "timing": {
-    "robots_txt": 187,
+    "robots_txt": 186,
     "total_ms": 188
   },
   "cache_stats": {

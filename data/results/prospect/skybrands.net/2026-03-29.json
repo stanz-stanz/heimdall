@@ -1,6 +1,6 @@
 {
   "domain": "skybrands.net",
-  "job_id": "scan-2026-03-29-781dd4e0",
+  "job_id": "scan-2026-03-29-3eac14b6",
   "status": "completed",
   "scan_result": {
     "domain": "skybrands.net",
@@ -255,8 +255,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 86,
-    "total_ms": 11593
+    "robots_txt": 83,
+    "total_ms": 11122
   },
   "cache_stats": {
     "hits": 9,

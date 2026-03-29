@@ -1,6 +1,6 @@
 {
   "domain": "sorenssmedie.dk",
-  "job_id": "scan-2026-03-29-f7f91aa8",
+  "job_id": "scan-2026-03-29-148c5a21",
   "status": "completed",
   "scan_result": {
     "domain": "sorenssmedie.dk",
@@ -168,8 +168,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 135,
-    "total_ms": 137
+    "robots_txt": 173,
+    "total_ms": 175
   },
   "cache_stats": {
     "hits": 9,

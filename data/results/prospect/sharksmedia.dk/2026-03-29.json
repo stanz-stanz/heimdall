@@ -1,6 +1,6 @@
 {
   "domain": "sharksmedia.dk",
-  "job_id": "scan-2026-03-29-7d3b1955",
+  "job_id": "scan-2026-03-29-b0f67c25",
   "status": "completed",
   "scan_result": {
     "domain": "sharksmedia.dk",
@@ -210,8 +210,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 107,
-    "total_ms": 109
+    "robots_txt": 105,
+    "total_ms": 106
   },
   "cache_stats": {
     "hits": 9,

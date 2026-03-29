@@ -1,6 +1,6 @@
 {
   "domain": "weissenborn.dk",
-  "job_id": "scan-2026-03-29-7fc924e4",
+  "job_id": "scan-2026-03-29-28710a3f",
   "status": "completed",
   "scan_result": {
     "domain": "weissenborn.dk",
@@ -265,8 +265,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 663,
-    "total_ms": 11363
+    "robots_txt": 559,
+    "total_ms": 11333
   },
   "cache_stats": {
     "hits": 9,

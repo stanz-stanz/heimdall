@@ -1,6 +1,6 @@
 {
   "domain": "vgc.dk",
-  "job_id": "scan-2026-03-29-7cfc7940",
+  "job_id": "scan-2026-03-29-7af2e2a0",
   "status": "completed",
   "scan_result": {
     "domain": "vgc.dk",
@@ -158,8 +158,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 156,
-    "total_ms": 157
+    "robots_txt": 144,
+    "total_ms": 146
   },
   "cache_stats": {
     "hits": 9,

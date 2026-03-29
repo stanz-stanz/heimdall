@@ -1,6 +1,6 @@
 {
   "domain": "roenshauge.dk",
-  "job_id": "scan-2026-03-29-2da48d5a",
+  "job_id": "scan-2026-03-29-d45ee2c4",
   "status": "completed",
   "scan_result": {
     "domain": "roenshauge.dk",
@@ -245,8 +245,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 482,
-    "total_ms": 70085
+    "robots_txt": 506,
+    "total_ms": 11527
   },
   "cache_stats": {
     "hits": 9,

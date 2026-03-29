@@ -1,6 +1,6 @@
 {
   "domain": "jellingmusikfestival.dk",
-  "job_id": "scan-2026-03-29-3b2186b0",
+  "job_id": "scan-2026-03-29-100d2c6c",
   "status": "completed",
   "scan_result": {
     "domain": "jellingmusikfestival.dk",
@@ -194,8 +194,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 116,
-    "total_ms": 118
+    "robots_txt": 121,
+    "total_ms": 122
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "skousen.dk",
-  "job_id": "scan-2026-03-29-0a5cd901",
+  "job_id": "scan-2026-03-29-b38ac632",
   "status": "completed",
   "scan_result": {
     "domain": "skousen.dk",
@@ -231,8 +231,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 277,
-    "total_ms": 279
+    "robots_txt": 269,
+    "total_ms": 271
   },
   "cache_stats": {
     "hits": 9,

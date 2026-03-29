@@ -1,6 +1,6 @@
 {
   "domain": "imb.dk",
-  "job_id": "scan-2026-03-29-e5bd6901",
+  "job_id": "scan-2026-03-29-2505aef0",
   "status": "completed",
   "scan_result": {
     "domain": "imb.dk",
@@ -241,8 +241,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 380,
-    "total_ms": 11380
+    "robots_txt": 369,
+    "total_ms": 11307
   },
   "cache_stats": {
     "hits": 9,

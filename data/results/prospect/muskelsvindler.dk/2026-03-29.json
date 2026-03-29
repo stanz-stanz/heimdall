@@ -1,6 +1,6 @@
 {
   "domain": "muskelsvindler.dk",
-  "job_id": "scan-2026-03-29-ff35875f",
+  "job_id": "scan-2026-03-29-6ffde8e4",
   "status": "completed",
   "scan_result": {
     "domain": "muskelsvindler.dk",
@@ -163,8 +163,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 184,
-    "total_ms": 186
+    "robots_txt": 144,
+    "total_ms": 145
   },
   "cache_stats": {
     "hits": 9,

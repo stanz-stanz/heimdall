@@ -1,6 +1,6 @@
 {
   "domain": "romsdal.dk",
-  "job_id": "scan-2026-03-29-586f8b4d",
+  "job_id": "scan-2026-03-29-47ef14f6",
   "status": "completed",
   "scan_result": {
     "domain": "romsdal.dk",
@@ -160,8 +160,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 70,
-    "total_ms": 71
+    "robots_txt": 62,
+    "total_ms": 64
   },
   "cache_stats": {
     "hits": 9,

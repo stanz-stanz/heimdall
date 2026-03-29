@@ -1,6 +1,6 @@
 {
   "domain": "axel-hansen.dk",
-  "job_id": "scan-2026-03-29-9e23db26",
+  "job_id": "scan-2026-03-29-bc78ca12",
   "status": "completed",
   "scan_result": {
     "domain": "axel-hansen.dk",
@@ -204,8 +204,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 71,
-    "total_ms": 11595
+    "robots_txt": 70,
+    "total_ms": 11397
   },
   "cache_stats": {
     "hits": 9,

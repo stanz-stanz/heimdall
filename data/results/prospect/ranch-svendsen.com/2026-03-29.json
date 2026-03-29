@@ -1,6 +1,6 @@
 {
   "domain": "ranch-svendsen.com",
-  "job_id": "scan-2026-03-29-c8d224cf",
+  "job_id": "scan-2026-03-29-ea35df82",
   "status": "completed",
   "scan_result": {
     "domain": "ranch-svendsen.com",
@@ -254,8 +254,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 347,
-    "total_ms": 7874
+    "robots_txt": 231,
+    "total_ms": 8230
   },
   "cache_stats": {
     "hits": 9,

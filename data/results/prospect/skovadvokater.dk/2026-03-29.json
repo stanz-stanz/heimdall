@@ -1,6 +1,6 @@
 {
   "domain": "skovadvokater.dk",
-  "job_id": "scan-2026-03-29-8de202ca",
+  "job_id": "scan-2026-03-29-de3be33e",
   "status": "completed",
   "scan_result": {
     "domain": "skovadvokater.dk",
@@ -250,8 +250,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 427,
-    "total_ms": 11313
+    "robots_txt": 384,
+    "total_ms": 11465
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "dinafood.dk",
-  "job_id": "scan-2026-03-29-657c8e3d",
+  "job_id": "scan-2026-03-29-bdfeb749",
   "status": "completed",
   "scan_result": {
     "domain": "dinafood.dk",
@@ -160,8 +160,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 114,
-    "total_ms": 116
+    "robots_txt": 98,
+    "total_ms": 100
   },
   "cache_stats": {
     "hits": 9,

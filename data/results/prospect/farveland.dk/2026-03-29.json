@@ -1,6 +1,6 @@
 {
   "domain": "farveland.dk",
-  "job_id": "scan-2026-03-29-567ae58f",
+  "job_id": "scan-2026-03-29-5916b87a",
   "status": "completed",
   "scan_result": {
     "domain": "farveland.dk",
@@ -270,8 +270,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 120,
-    "total_ms": 11566
+    "robots_txt": 126,
+    "total_ms": 11519
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "crossmind.dk",
-  "job_id": "scan-2026-03-29-b95d25cb",
+  "job_id": "scan-2026-03-29-137b5535",
   "status": "completed",
   "scan_result": {
     "domain": "crossmind.dk",
@@ -188,8 +188,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 201,
-    "total_ms": 203
+    "robots_txt": 182,
+    "total_ms": 184
   },
   "cache_stats": {
     "hits": 9,

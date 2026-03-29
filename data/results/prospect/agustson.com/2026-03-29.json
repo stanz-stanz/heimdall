@@ -1,6 +1,6 @@
 {
   "domain": "agustson.com",
-  "job_id": "scan-2026-03-29-eb048d4b",
+  "job_id": "scan-2026-03-29-9674b0fd",
   "status": "completed",
   "scan_result": {
     "domain": "agustson.com",
@@ -222,8 +222,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 551,
-    "total_ms": 11128
+    "robots_txt": 354,
+    "total_ms": 11139
   },
   "cache_stats": {
     "hits": 9,

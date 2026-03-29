@@ -1,6 +1,6 @@
 {
   "domain": "cptest.dk",
-  "job_id": "scan-2026-03-29-a40e6fc9",
+  "job_id": "scan-2026-03-29-6036d0b6",
   "status": "completed",
   "scan_result": {
     "domain": "cptest.dk",
@@ -251,8 +251,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 1704,
-    "total_ms": 11865
+    "robots_txt": 1618,
+    "total_ms": 11719
   },
   "cache_stats": {
     "hits": 9,

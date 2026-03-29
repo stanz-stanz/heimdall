@@ -1,6 +1,6 @@
 {
   "domain": "triplecut.com",
-  "job_id": "scan-2026-03-29-2ae5fdf1",
+  "job_id": "scan-2026-03-29-e5f42aa1",
   "status": "completed",
   "scan_result": {
     "domain": "triplecut.com",
@@ -237,8 +237,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 656,
-    "total_ms": 11019
+    "robots_txt": 754,
+    "total_ms": 10598
   },
   "cache_stats": {
     "hits": 9,

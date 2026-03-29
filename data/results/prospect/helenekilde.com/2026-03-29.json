@@ -1,6 +1,6 @@
 {
   "domain": "helenekilde.com",
-  "job_id": "scan-2026-03-29-18d9ef6b",
+  "job_id": "scan-2026-03-29-ed4d123f",
   "status": "completed",
   "scan_result": {
     "domain": "helenekilde.com",
@@ -262,8 +262,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 752,
-    "total_ms": 11118
+    "robots_txt": 738,
+    "total_ms": 11199
   },
   "cache_stats": {
     "hits": 9,

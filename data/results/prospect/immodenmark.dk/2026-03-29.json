@@ -1,6 +1,6 @@
 {
   "domain": "immodenmark.dk",
-  "job_id": "scan-2026-03-29-89c868af",
+  "job_id": "scan-2026-03-29-c1a17309",
   "status": "completed",
   "scan_result": {
     "domain": "immodenmark.dk",
@@ -242,8 +242,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 527,
-    "total_ms": 10887
+    "robots_txt": 585,
+    "total_ms": 11093
   },
   "cache_stats": {
     "hits": 9,

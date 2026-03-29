@@ -1,6 +1,6 @@
 {
   "domain": "kasmirvejle.dk",
-  "job_id": "scan-2026-03-29-ee494044",
+  "job_id": "scan-2026-03-29-c3fc82c7",
   "status": "completed",
   "scan_result": {
     "domain": "kasmirvejle.dk",
@@ -124,8 +124,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 1446,
-    "total_ms": 1447
+    "robots_txt": 2212,
+    "total_ms": 2213
   },
   "cache_stats": {
     "hits": 9,

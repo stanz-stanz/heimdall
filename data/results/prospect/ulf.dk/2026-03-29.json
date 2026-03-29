@@ -1,6 +1,6 @@
 {
   "domain": "ulf.dk",
-  "job_id": "scan-2026-03-29-2d31a6b8",
+  "job_id": "scan-2026-03-29-d16738de",
   "status": "completed",
   "scan_result": {
     "domain": "ulf.dk",
@@ -240,8 +240,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 342,
-    "total_ms": 11493
+    "robots_txt": 349,
+    "total_ms": 92585
   },
   "cache_stats": {
     "hits": 9,

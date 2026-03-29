@@ -1,6 +1,6 @@
 {
   "domain": "pc.dk",
-  "job_id": "scan-2026-03-29-6ed9ec43",
+  "job_id": "scan-2026-03-29-b296a716",
   "status": "completed",
   "scan_result": {
     "domain": "pc.dk",
@@ -159,8 +159,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 148,
-    "total_ms": 150
+    "robots_txt": 152,
+    "total_ms": 154
   },
   "cache_stats": {
     "hits": 9,

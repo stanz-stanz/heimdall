@@ -1,6 +1,6 @@
 {
   "domain": "post6.tele.dk",
-  "job_id": "scan-2026-03-29-0a4509e6",
+  "job_id": "scan-2026-03-29-af6b7668",
   "status": "completed",
   "scan_result": {
     "domain": "post6.tele.dk",
@@ -116,8 +116,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 15042,
-    "total_ms": 15043
+    "robots_txt": 15038,
+    "total_ms": 15039
   },
   "cache_stats": {
     "hits": 9,

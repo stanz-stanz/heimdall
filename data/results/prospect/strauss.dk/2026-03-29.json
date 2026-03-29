@@ -1,6 +1,6 @@
 {
   "domain": "strauss.dk",
-  "job_id": "scan-2026-03-29-d14a108a",
+  "job_id": "scan-2026-03-29-e635edda",
   "status": "completed",
   "scan_result": {
     "domain": "strauss.dk",
@@ -236,8 +236,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 677,
-    "total_ms": 11483
+    "robots_txt": 1231,
+    "total_ms": 11391
   },
   "cache_stats": {
     "hits": 9,

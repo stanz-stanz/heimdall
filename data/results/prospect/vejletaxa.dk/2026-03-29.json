@@ -1,6 +1,6 @@
 {
   "domain": "vejletaxa.dk",
-  "job_id": "scan-2026-03-29-fed865b4",
+  "job_id": "scan-2026-03-29-73e5beb8",
   "status": "completed",
   "scan_result": {
     "domain": "vejletaxa.dk",
@@ -237,8 +237,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 306,
-    "total_ms": 11127
+    "robots_txt": 350,
+    "total_ms": 11491
   },
   "cache_stats": {
     "hits": 9,

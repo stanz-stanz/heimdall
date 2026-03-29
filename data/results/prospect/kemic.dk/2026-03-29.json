@@ -1,6 +1,6 @@
 {
   "domain": "kemic.dk",
-  "job_id": "scan-2026-03-29-3c543496",
+  "job_id": "scan-2026-03-29-dc799028",
   "status": "completed",
   "scan_result": {
     "domain": "kemic.dk",
@@ -257,8 +257,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 968,
-    "total_ms": 11587
+    "robots_txt": 1014,
+    "total_ms": 11688
   },
   "cache_stats": {
     "hits": 9,

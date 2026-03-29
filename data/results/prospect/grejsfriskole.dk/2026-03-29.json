@@ -1,6 +1,6 @@
 {
   "domain": "grejsfriskole.dk",
-  "job_id": "scan-2026-03-29-228901e5",
+  "job_id": "scan-2026-03-29-f92739e7",
   "status": "completed",
   "scan_result": {
     "domain": "grejsfriskole.dk",
@@ -208,8 +208,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 1225,
-    "total_ms": 11232
+    "robots_txt": 188,
+    "total_ms": 11725
   },
   "cache_stats": {
     "hits": 9,

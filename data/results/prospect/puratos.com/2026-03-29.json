@@ -1,6 +1,6 @@
 {
   "domain": "puratos.com",
-  "job_id": "scan-2026-03-29-a4f9ca9c",
+  "job_id": "scan-2026-03-29-c60f912e",
   "status": "completed",
   "scan_result": {
     "domain": "puratos.com",
@@ -229,8 +229,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 413,
-    "total_ms": 414
+    "robots_txt": 420,
+    "total_ms": 422
   },
   "cache_stats": {
     "hits": 9,

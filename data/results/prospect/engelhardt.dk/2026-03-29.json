@@ -1,6 +1,6 @@
 {
   "domain": "engelhardt.dk",
-  "job_id": "scan-2026-03-29-b1a0dbb3",
+  "job_id": "scan-2026-03-29-eca11f95",
   "status": "completed",
   "scan_result": {
     "domain": "engelhardt.dk",
@@ -207,8 +207,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 104,
-    "total_ms": 11493
+    "robots_txt": 95,
+    "total_ms": 11711
   },
   "cache_stats": {
     "hits": 9,

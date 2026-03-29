@@ -1,6 +1,6 @@
 {
   "domain": "giveel.dk",
-  "job_id": "scan-2026-03-29-deba1335",
+  "job_id": "scan-2026-03-29-74c8b9da",
   "status": "completed",
   "scan_result": {
     "domain": "giveel.dk",
@@ -160,8 +160,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 211,
-    "total_ms": 213
+    "robots_txt": 184,
+    "total_ms": 185
   },
   "cache_stats": {
     "hits": 9,

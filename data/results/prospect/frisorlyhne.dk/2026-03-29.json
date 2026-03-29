@@ -1,6 +1,6 @@
 {
   "domain": "frisorlyhne.dk",
-  "job_id": "scan-2026-03-29-8b800120",
+  "job_id": "scan-2026-03-29-9bfbedfd",
   "status": "completed",
   "scan_result": {
     "domain": "frisorlyhne.dk",
@@ -239,8 +239,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 640,
-    "total_ms": 11537
+    "robots_txt": 2840,
+    "total_ms": 11390
   },
   "cache_stats": {
     "hits": 9,

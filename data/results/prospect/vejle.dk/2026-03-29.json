@@ -1,6 +1,6 @@
 {
   "domain": "vejle.dk",
-  "job_id": "scan-2026-03-29-48b323f9",
+  "job_id": "scan-2026-03-29-19496168",
   "status": "completed",
   "scan_result": {
     "domain": "vejle.dk",
@@ -207,8 +207,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 310,
-    "total_ms": 313
+    "robots_txt": 314,
+    "total_ms": 316
   },
   "cache_stats": {
     "hits": 9,

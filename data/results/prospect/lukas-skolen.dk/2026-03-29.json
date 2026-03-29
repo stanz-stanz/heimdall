@@ -1,6 +1,6 @@
 {
   "domain": "lukas-skolen.dk",
-  "job_id": "scan-2026-03-29-6119e532",
+  "job_id": "scan-2026-03-29-ad71208d",
   "status": "completed",
   "scan_result": {
     "domain": "lukas-skolen.dk",
@@ -179,8 +179,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 409,
-    "total_ms": 411
+    "robots_txt": 420,
+    "total_ms": 421
   },
   "cache_stats": {
     "hits": 9,

@@ -1,6 +1,6 @@
 {
   "domain": "klimaenergi.dk",
-  "job_id": "scan-2026-03-29-acc15ec4",
+  "job_id": "scan-2026-03-29-d3c16f0c",
   "status": "completed",
   "scan_result": {
     "domain": "klimaenergi.dk",
@@ -293,8 +293,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 112,
-    "total_ms": 11273
+    "robots_txt": 124,
+    "total_ms": 11098
   },
   "cache_stats": {
     "hits": 9,

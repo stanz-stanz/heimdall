@@ -1,6 +1,6 @@
 {
   "domain": "bis-as.dk",
-  "job_id": "scan-2026-03-29-5c371648",
+  "job_id": "scan-2026-03-29-e86f4f1c",
   "status": "completed",
   "scan_result": {
     "domain": "bis-as.dk",
@@ -171,8 +171,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 127,
-    "total_ms": 128
+    "robots_txt": 131,
+    "total_ms": 132
   },
   "cache_stats": {
     "hits": 9,
