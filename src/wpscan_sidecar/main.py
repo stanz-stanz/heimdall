@@ -99,8 +99,8 @@ def _run_wpscan(domain: str) -> dict:
     # Exit code 4 = not WordPress (should not happen with --force)
     if result.returncode == 4:
         log.warning(
-            "wpscan: %s not recognised as WordPress (exit 4 despite --force): %s",
-            domain, result.stderr[:500],
+            "wpscan: %s exit 4 despite --force — stderr: %s — stdout: %s",
+            domain, result.stderr[:500], result.stdout[:500],
         )
         return {
             "status": "not_wordpress",
