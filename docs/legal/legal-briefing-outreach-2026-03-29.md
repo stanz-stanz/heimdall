@@ -157,7 +157,7 @@ We will bring the template to the meeting.
 
 1. This briefing
 2. Sample security notification (the proposed first-contact message)
-3. Scanning authorization template (for Level 1 client consent)
+3. Scanning authorization template (for consented clients)
 4. SCANNING_RULES.md (our internal compliance framework)
 5. Sample prospect brief (real scan output, anonymized)
 6. Valdí compliance log excerpt (demonstrating the audit trail)

@@ -12,7 +12,7 @@ Sprint 1 complete (merged to main). Sprint 2 code complete (cache, worker, sched
 
 **153 tests passing.** Structured JSON logging. Benchmark script with mock mode.
 
-**Next:** Deploy to Pi5 → full Vejle run → Sprint 3 (Level 1 scanning).
+**Next:** Deploy to Pi5 → full Vejle run → Sprint 3 (consent-gated scanning).
 
 ---
 
@@ -70,22 +70,22 @@ Week 2:
 
 ---
 
-## Sprint 3 — Level 1 Pipeline
+## Sprint 3 — Consent-Gated Pipeline
 
 **Target:** 2026-04-30
 **Goal:** Consent-gated scanning for paying clients.
 
 ```
 Week 1:
-├── 3.1 Consent management     → authorization template, consent registry, Valdí Level 1
-└── 3.2 Level 1 scan types     → WPScan, CMSeek, Nuclei, Valdí approvals
+├── 3.1 Consent management     → authorization template, consent registry, Valdí consent gate
+└── 3.2 Layer 2 scan types     → WPScan, CMSeek, Nuclei, Valdí approvals
 
 Week 2:
 ├── 3.3 Finding Interpreter    → Claude API translation, Message Composer, Telegram format
 └── 3.4 Client Memory          → Per-client state, delta detection, remediation workflow
 ```
 
-**Exit criteria:** Level 1 scan runs for a test client with consent, findings interpreted in Danish, message formatted for Telegram.
+**Exit criteria:** Consent-gated scan runs for a test client with written consent, findings interpreted in Danish, message formatted for Telegram.
 
 ---
 
@@ -118,14 +118,14 @@ Sprint 1                    Sprint 2                       Sprint 3             
 1.3 Bench ──┘               2.3 Scheduler ─────────────┘       │        ├─ 3.3 Interpreter
                                                            2.5 Vejle    │
                                                                 │       │
-                                                                └───────┼─ 3.2 Level 1 tools
+                                                                └───────┼─ 3.2 Layer 2 tools
                                                                         └─ 3.4 Client Memory
 ```
 
 **Soft dependencies** (nice to have, never blockers):
 - SIRI application benefits from pilot data, but product roadmap is never blocked by SIRI formalities
 - SIRI submission can happen at any point when Federico decides the evidence is strong enough
-- Client outreach can start with Level 0 briefs ("first finding free") in parallel with Sprint 3 development
+- Client outreach can start with prospecting briefs ("first finding free") in parallel with Sprint 3 development
 
 ---
 

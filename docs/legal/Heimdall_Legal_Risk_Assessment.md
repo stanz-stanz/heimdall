@@ -69,7 +69,7 @@ Heimdall's operations span multiple types of scanning. Their legal risk profiles
 
 ### Layer 2 — Active Vulnerability Probing
 
-**What it involves:** Sending crafted HTTP requests designed to detect specific vulnerabilities. Tools such as Nuclei (template-based vulnerability scanner), Nikto (web server scanner), and OWASP ZAP (dynamic application security testing) operate at this layer. These tools go beyond reading what the server voluntarily presents — they send requests specifically designed to test whether known vulnerabilities (CVEs) are exploitable.
+**What it involves:** Sending crafted HTTP requests designed to detect specific vulnerabilities. Tools such as Nuclei (template-based vulnerability scanner), WPScan (WordPress vulnerability scanner), Nikto (web server scanner), Nmap (port scanning and service detection), and CMSeek (CMS fingerprinting) operate at this layer. These tools go beyond reading what the server voluntarily presents — they send requests specifically designed to test whether known vulnerabilities (CVEs) are exploitable.
 
 **Legal risk assessment:** This is the gray zone. The ICLG commentary quoted above applies here. While these tools do not exploit vulnerabilities or extract data, they actively probe the system in ways the site owner did not invite. No Danish court ruling was found addressing this specific activity. However, the law is written broadly enough that a prosecutor could argue this constitutes gaining access to a data system without authorization.
 

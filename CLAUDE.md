@@ -37,20 +37,14 @@ If this file says something about scanning that contradicts `SCANNING_RULES.md`,
 
 ## Terminology
 
-This project uses two distinct terms for scanning classification. Do not conflate them.
-
 **Layer** describes the *type of activity*:
 - **Layer 1 (Passive):** Reading publicly served information (HTTP headers, HTML source, DNS, SSL certs, tech fingerprinting). What a normal browser visit would produce.
 - **Layer 2 (Active probing):** Sending crafted requests to test for specific vulnerabilities, probing paths not linked from public pages, port scanning.
 - **Layer 3 (Exploitation):** Exploiting discovered vulnerabilities. Always blocked.
 
-**Level** describes the *consent state* of a target:
-- **Level 0:** No written consent. Only Layer 1 activities are permitted.
-- **Level 1:** Written consent on file. Layer 1 and Layer 2 activities are permitted within the scope of the agreement.
+Without written consent, only Layer 1 activities are permitted. With written consent (Sentinel/Guardian clients), Layer 1 and Layer 2 activities are permitted within the agreed scope.
 
-The rule: a scan's Layer must not exceed what the target's Level permits.
-
-The complete definition of what is allowed and forbidden at each Layer/Level is in `SCANNING_RULES.md`. Do not rely on summaries elsewhere — read the source document.
+The complete definition of what is allowed and forbidden at each Layer and consent state is in `SCANNING_RULES.md`. Do not rely on summaries elsewhere — read the source document.
 
 ---
 
@@ -94,15 +88,15 @@ All scanning code must pass through Valdí before execution. The workflow is:
 5. **Federico reviews** Valdí's log entry and gives final go-ahead
 6. **Execute** the scan, referencing the approval token
 
-Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming the approval token is valid and the target's consent level permits the scan type's layer.
+Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming the approval token is valid and the target's consent state permits the scan type's layer.
 
 **No scanning code executes without a valid Valdí approval token.** This applies to new code and to all existing code (which must be backfilled through Valdí before further use).
 
 ---
 
-## Build Priority: Sprint 3 — Level 1 Pipeline
+## Build Priority: Sprint 3 — Consent-Gated Pipeline
 
-**Sprints 1-3 complete (500 tests). Sprint 4 staging — Telegram delivery, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Level 1 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning).
+**Sprints 1-3 complete (500 tests). Sprint 4 staging — Telegram delivery, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Layer 2 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning).
 
 Goal: consent-gated scanning for paying clients, AI-interpreted findings in Danish, Telegram delivery.
 
@@ -155,6 +149,8 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 - Do not modify code without running `git pull` first
 - Do not commit directly to `main` — create a feature branch and merge via pull request
 - Do not create large monolithic commits — commit logically grouped changes separately with descriptive messages
+- Do not add or remove a scanning tool without updating the tool table in `docs/briefing.md` in the same commit
+- Do not make business, architecture, or technical decisions — present options with trade-offs, Federico decides
 
 ---
 

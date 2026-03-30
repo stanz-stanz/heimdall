@@ -194,9 +194,9 @@ Package everything into containers. Validate on local Docker, then Pi5.
 
 ---
 
-## Sprint 3 — Level 1 Pipeline (Consent-Gated Scanning) [COMPLETE]
+## Sprint 3 — Consent-Gated Pipeline [COMPLETE]
 
-Build the paid-service scanning pipeline. Requires written client consent (Level 1).
+Build the paid-service scanning pipeline. Requires written client consent.
 
 ### Increment 3.0 — Results API (moved from Sprint 2)
 
@@ -212,38 +212,38 @@ Build the paid-service scanning pipeline. Requires written client consent (Level
 - [x] Unit tests with mocked results
 - [x] Logs: request latency, errors
 
-### Increment 3.1 — Consent management + Valdí Level 1
+### Increment 3.1 — Consent management + Valdí consent gate
 
 | Item | Description |
 |------|-------------|
 | Client authorization template | Legal document for client signature |
 | Consent registry | `.claude/agents/valdi/consent/{client_id}.json` with scope, dates, signatures |
-| Valdí Gate 2 for Level 1 | Verify consent exists and is current before Level 1 scan |
+| Valdí Gate 2 for consent | Verify consent exists and is current before Layer 2 scan |
 | Tests | Test consent validation: valid, expired, wrong scope, missing |
 
 **Definition of Done:**
 - [x] Consent registry schema documented
-- [x] Valdí blocks Level 1 scans for clients without valid consent
+- [x] Valdí blocks Layer 2 scans for clients without valid consent
 - [x] Unit tests cover all consent edge cases
 - [x] Logs: consent check result per client per scan
 
-### Increment 3.2 — Level 1 scan types
+### Increment 3.2 — Layer 2 scan types
 
 | Item | Description |
 |------|-------------|
 | WPScan integration | WordPress vulnerability scanning (requires commercial API) |
 | CMSeek integration | CMS admin panel detection |
 | Nuclei integration | Template-based vulnerability scanning |
-| Valdí Gate 1 approvals | Approval tokens + forensic logs for each Level 1 tool |
+| Valdí Gate 1 approvals | Approval tokens + forensic logs for each Layer 2 tool |
 | Tests | Test each tool with mocked output |
-| Benchmark | Level 1 scan time per domain (additional over Level 0) |
+| Benchmark | Layer 2 scan time per domain (additional over Layer 1 baseline) |
 
 **Definition of Done:**
-- [x] Each Level 1 tool has Valdí approval token with function hash
-- [x] Workers execute Level 1 tools only when job.level == 1 and consent is valid
+- [x] Each Layer 2 tool has Valdí approval token with function hash
+- [x] Workers execute Layer 2 tools only when written consent is on file
 - [x] Unit tests for each tool with mocked responses
-- [x] Benchmark: Level 1 adds < 60s per domain over Level 0
-- [x] Forensic logs written for every Level 1 scan execution
+- [x] Benchmark: Layer 2 adds < 60s per domain over Layer 1 baseline
+- [x] Forensic logs written for every Layer 2 scan execution
 
 ### Increment 3.3 — Finding Interpreter + Message Composer
 
@@ -399,6 +399,6 @@ Items with no sprint assignment yet.
 - [ ] NCC-DK grant application (post-CVR, post Startup Denmark approval)
 - [ ] Quarterly security report template (Guardian tier)
 - [ ] Dashboard-vs-Telegram visual mockup for SIRI pitch deck
-- [ ] Katana, FeroxBuster, SecretFinder, CloudEnum integration (Level 1 tools)
+- [ ] Katana, FeroxBuster, SecretFinder, CloudEnum integration (Layer 2 tools)
 - [ ] Marketing sub-agent — translate technical findings to business-impact language
 - [ ] Remote access to mobile console — Tailscale VPN or reverse proxy so the console is reachable from outside the home network (Pi Connect gives shell only, not HTTP). Critical for on-the-road monitoring and sales demos.

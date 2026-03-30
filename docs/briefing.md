@@ -82,7 +82,7 @@ The ICLG Cybersecurity Report 2026 (Denmark chapter) states: "Unsolicited penetr
 
 **Layer 1 — Passive observation (minimal risk):** Reading HTTP headers, HTML source, meta tags, DNS records, SSL certificates. This is information the server voluntarily sends to any visitor. Technology fingerprinting tools (Wappalyzer, webanalyze, httpx) operate here. Search engines and browsers do this at massive scale.
 
-**Layer 2 — Active vulnerability probing (gray zone):** Tools like Nuclei and Nikto send crafted requests to test for specific CVEs. This goes beyond passive observation. No Danish court ruling was found specifically addressing this activity, but the law is broad enough that a prosecutor could argue it triggers §263.
+**Layer 2 — Active vulnerability probing (gray zone):** Tools like Nuclei and WPScan send crafted requests to test for specific CVEs. This goes beyond passive observation. No Danish court ruling was found specifically addressing this activity, but the law is broad enough that a prosecutor could argue it triggers §263.
 
 **Layer 3 — Exploitation (clearly criminal without consent):** Actually exploiting a vulnerability. Outside Heimdall's scope entirely.
 
@@ -182,17 +182,19 @@ The digital twin runs as a Docker Compose service under profile `["twin"]`, expo
 
 ### Scanning Tools
 
-| Tool | Function | Source |
-|------|----------|--------|
-| Nuclei | Template-based vulnerability scanner | https://github.com/projectdiscovery/nuclei |
-| Nikto | Web server vulnerability scanner | https://github.com/sullo/nikto |
-| Nmap | Port scanning, service detection | https://github.com/nmap/nmap |
-| SSLyze | TLS/SSL configuration analysis | https://github.com/nabla-c0d3/sslyze |
-| testssl.sh | SSL/TLS testing | https://github.com/drwetter/testssl.sh |
-| WPScan | WordPress-specific scanner | https://github.com/wpscanteam/wpscan |
-| Subfinder | Subdomain enumeration | https://github.com/projectdiscovery/subfinder |
-| httpx | HTTP probing + tech fingerprinting | https://github.com/projectdiscovery/httpx |
-| webanalyze | Batch CMS detection (Wappalyzer port) | https://github.com/rverton/webanalyze |
+| Tool | Function | Layer | Source |
+|------|----------|-------|--------|
+| httpx | HTTP probing + tech fingerprinting | 1 | https://github.com/projectdiscovery/httpx |
+| webanalyze | Batch CMS detection (Wappalyzer port) | 1 | https://github.com/rverton/webanalyze |
+| subfinder | Subdomain enumeration (passive sources) | 1 | https://github.com/projectdiscovery/subfinder |
+| dnsx | DNS resolution and enrichment | 1 | https://github.com/projectdiscovery/dnsx |
+| CertStream | Certificate Transparency log monitoring | 1 | https://github.com/CaliDog/certstream-python |
+| GrayHatWarfare | Exposed cloud storage index search | 1 | https://grayhatwarfare.com |
+| Nuclei | Template-based vulnerability scanner | 2 | https://github.com/projectdiscovery/nuclei |
+| WPScan | WordPress-specific scanner | 2 | https://github.com/wpscanteam/wpscan |
+| CMSeek | CMS deep fingerprinting | 2 | https://github.com/Tuhinshubhra/CMSeeK |
+| Nikto | Web server vulnerability scanner | 2 | https://github.com/sullo/nikto |
+| Nmap | Port scanning, service detection | 2 | https://github.com/nmap/nmap |
 
 ### What the Infrastructure Cannot Do
 

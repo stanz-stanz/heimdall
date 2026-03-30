@@ -189,7 +189,7 @@ CVR Extract (manual) → Domain Derivation → robots.txt Check → Layer 1 Scan
 1. **Input:** Company data from the Danish CVR register (datacvr.virk.dk — public data).¹⁴ The pipeline does not scrape or access the CVR register directly.
 2. **Domain derivation:** Website domains are extracted from company email addresses. Free webmail providers are discarded.
 3. **robots.txt compliance:** If a target's robots.txt denies automated access, the target is skipped entirely. No exceptions.
-4. **Layer 1 scanning:** Passive observation using open-source tools — webanalyze (https://github.com/rverton/webanalyze), httpx (https://github.com/projectdiscovery/httpx), subfinder (https://github.com/projectdiscovery/subfinder) for subdomain enumeration via Certificate Transparency logs, dnsx (https://github.com/projectdiscovery/dnsx) for DNS enrichment, and sslyze for TLS analysis. Reads only what the server voluntarily sends to any visitor.
+4. **Layer 1 scanning:** Passive observation using open-source tools — webanalyze (https://github.com/rverton/webanalyze), httpx (https://github.com/projectdiscovery/httpx), subfinder (https://github.com/projectdiscovery/subfinder) for subdomain enumeration via Certificate Transparency logs, dnsx (https://github.com/projectdiscovery/dnsx) for DNS enrichment, and TLS certificate analysis via standard handshake (SSLyze integration deferred). Reads only what the server voluntarily sends to any visitor.
 5. **Bucketing:** Results are auto-classified by risk profile (A through E).
 6. **Brief generation:** Per-site JSON briefs containing CMS, hosting provider, SSL status, detected plugins, risk profile, and agency credits.
 

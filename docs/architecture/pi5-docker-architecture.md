@@ -41,7 +41,7 @@ Reads client configurations from `/data/clients/`. For each client, creates scan
 | Tier | Schedule | Scan types |
 |------|----------|------------|
 | Watchman | Weekly (Monday 06:00) | Layer 1 only |
-| Sentinel | Daily (06:00) | Layer 1 only (Layer 2 when Level 1 pipeline is built) |
+| Sentinel | Daily (06:00) | Layer 1 only (Layer 2 when consent-gated pipeline is built) |
 | Guardian | Daily (05:00) | Layer 1 + Layer 2 (with consent) |
 
 Also handles the prospecting pipeline with a two-phase approach:
@@ -199,5 +199,5 @@ The worker count is the only knob. Everything else scales linearly. The same doc
 - Forensic logs written to `/data/valdi/logs/` volume
 - Compliance checks written to `/data/valdi/compliance/` volume
 - robots.txt check runs before every domain scan, regardless of cache
-- No Level 1 scan types are registered in the approval file — workers cannot execute them
-- **Twin-targeted scans** still require Gate 1 approval tokens (tool validation) but bypass Gate 2 consent checks. Twins are registered in `config/synthetic_targets.json` (synthetic target registry); the consent validator recognises them and skips Level/consent verification. See the "Heimdall-Owned Test Infrastructure" section in `SCANNING_RULES.md` for the full compliance framework.
+- No Layer 2 scan types are registered in the approval file — workers cannot execute them
+- **Twin-targeted scans** still require Gate 1 approval tokens (tool validation) but bypass Gate 2 consent checks. Twins are registered in `config/synthetic_targets.json` (synthetic target registry); the consent validator recognises them and skips consent verification. See the "Heimdall-Owned Test Infrastructure" section in `SCANNING_RULES.md` for the full compliance framework.

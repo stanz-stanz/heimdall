@@ -81,8 +81,8 @@ This ensures any modification to scanning code — regardless of how minor — i
 Before any scan batch runs (even if the scan type is already approved), the scanner must call Valdí for a lightweight authorisation check:
 
 1. Confirm the scan type's approval token is valid and hash matches
-2. Look up the target domain's authorisation level (default: Level 0 if no file exists)
-3. Confirm the scan type's level does not exceed the target's level
+2. Look up the target domain's consent state (default: no consent on file if no file exists)
+3. Confirm the scan type's required Layer does not exceed what the target's consent state permits
 4. Log the check to `data/compliance/` as a `pre-scan-check.json`
 
 For a batch of targets using the same scan type at the same level, this is one check covering the batch — not one per target. The log entry notes the batch scope.
@@ -125,4 +125,4 @@ After each Valdí validation (Gate 1 or Gate 2), surface the result to Federico.
 
 - **Runtime request interception** — comes when you move to Pi infrastructure. For now, the control is pre-execution.
 - **Network-level enforcement (iptables)** — same, infrastructure-level control for later.
-- **Level 1 consent document management** — the authorisation registry structure exists in `SKILL.md`, but the workflow for collecting and storing signed consent documents is a separate task once pilot clients are onboarding.
+- **Consent document management** — the authorisation registry structure exists in `SKILL.md`, but the workflow for collecting and storing signed consent documents is a separate task once pilot clients are onboarding.

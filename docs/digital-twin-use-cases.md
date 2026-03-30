@@ -2,13 +2,13 @@
 
 The digital twin reads a prospect brief JSON and spins up a local website that replicates the prospect's technology stack: CMS version, plugin versions, missing security headers, exposed version strings. It runs as a Docker container on our infrastructure.
 
-**Legal foundation:** Scanning the twin is scanning our own infrastructure. Straffeloven §263 applies to unauthorized access to *another person's data system*. The twin is ours. The consent framework (Level 0 / Level 1) applies only when contacting the prospect's actual servers. Valdí Gate 1 scan-type validation still applies — the *tool* must be approved regardless of target.
+**Legal foundation:** Scanning the twin is scanning our own infrastructure. Straffeloven §263 applies to unauthorized access to *another person's data system*. The twin is ours. The consent framework applies only when contacting the prospect's actual servers. Valdí Gate 1 scan-type validation still applies — the *tool* must be approved regardless of target.
 
 ---
 
 ## Use Case 1: Layer 2 Scanning Without Consent
 
-**The problem:** Under Level 0 (no written consent), we can only run Layer 1 passive scans against a prospect's real website. This limits findings to missing headers, exposed versions, and plugin detection. The highest-value findings — specific CVEs, known vulnerable plugin versions, WordPress misconfigurations — require Layer 2 tools (Nuclei, WPScan) which require Level 1 consent.
+**The problem:** Without written consent, we can only run Layer 1 passive scans against a prospect's real website. This limits findings to missing headers, exposed versions, and plugin detection. The highest-value findings — specific CVEs, known vulnerable plugin versions, WordPress misconfigurations — require Layer 2 tools (Nuclei, WPScan) which require written consent.
 
 **The solution:** Build a twin from the Layer 1 brief. Run Nuclei and WPScan against the twin. The twin has the same WordPress version, the same plugin versions, the same missing headers. Layer 2 tools will surface the same CVEs and vulnerability matches they would find on the real site.
 

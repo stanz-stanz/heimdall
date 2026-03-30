@@ -3,7 +3,7 @@ name: network-security
 description: >
   Network Security agent for Heimdall. Configures, executes, and validates vulnerability
   scans against authorised targets. Use this agent when: configuring scan tools (Nuclei,
-  Nmap, WPScan, httpx, subfinder); executing Level 1 consent-gated scans; reviewing scan
+  Nmap, WPScan, httpx, subfinder); executing consent-gated scans; reviewing scan
   configurations; troubleshooting scan failures; evaluating new scanning tools; discussing
   scan methodology. Also use when the user mentions "scan configuration", "Nuclei templates",
   "vulnerability scan", "port scan", "tool configuration", "scan execution",
@@ -48,17 +48,39 @@ Before ANY scan execution, you MUST verify:
 
 ## Tool Chain
 
-| Tool | Purpose | Layer | Config Location |
-|------|---------|-------|-----------------|
-| httpx | HTTP probing, tech fingerprinting | 1 | `config/httpx.yaml` |
-| webanalyze | CMS/technology detection | 1 | `config/webanalyze.yaml` |
-| Subfinder | Subdomain enumeration | 1 | `config/subfinder.yaml` |
-| SSLyze | TLS/SSL configuration analysis | 1 | `config/sslyze.yaml` |
-| testssl.sh | SSL/TLS testing | 1 | `config/testssl.conf` |
-| Nmap | Port scanning, service detection | 2 | `config/nmap-profiles/` |
-| Nuclei | Template-based vulnerability scanning | 2 | `config/nuclei-templates/` |
-| Nikto | Web server vulnerability scanning | 2 | `config/nikto.conf` |
-| WPScan | WordPress-specific scanning | 2 | `config/wpscan.yaml` |
+### Layer 1 (Passive) — Active
+
+| Tool | Purpose | Version |
+|------|---------|---------|
+| httpx | HTTP probing, tech fingerprinting | v1.9.0 |
+| webanalyze | CMS/technology detection | v0.4.1 |
+| subfinder | Subdomain enumeration (passive sources) | v2.13.0 |
+| dnsx | DNS resolution and enrichment | v1.2.3 |
+| CertStream | Certificate Transparency log monitoring | local SQLite collector |
+| GrayHatWarfare API | Exposed cloud storage index search | API (key required) |
+| Python ssl module | TLS certificate validity, issuer, expiry | stdlib |
+
+### Layer 2 (Active) — Active
+
+| Tool | Purpose | Version |
+|------|---------|---------|
+| Nuclei | Template-based vulnerability scanning | v3.7.1 |
+| WPScan | WordPress-specific scanning (Redis sidecar) | 3.8.28 |
+| CMSeek | CMS deep fingerprinting | pinned commit 20f9780 |
+| Nikto | Web server vulnerability scanning | to be implemented |
+| Nmap | Port scanning, service detection | to be implemented |
+
+### Deferred
+
+| Tool | Reason |
+|------|--------|
+| SSLyze | Deeper TLS analysis — deferred to backlog. Current Python ssl module covers cert basics. |
+
+### Discarded
+
+| Tool | Reason |
+|------|--------|
+| testssl.sh | Overlaps with SSLyze, bash-based, harder to integrate into Python pipeline. |
 
 ## Inputs
 
@@ -80,7 +102,7 @@ Before ANY scan execution, you MUST verify:
   "target": "restaurant-nordlys.dk",
   "timestamp": "2026-03-21T09:00:00Z",
   "layer": 1,
-  "tools_used": ["httpx", "sslyze", "webanalyze"],
+  "tools_used": ["httpx", "webanalyze", "subfinder"],
   "duration_seconds": 45,
   "findings": [
     {
@@ -106,15 +128,18 @@ Before ANY scan execution, you MUST verify:
 ### Layer 1: Passive Reconnaissance (No consent required)
 - httpx probe: status codes, headers, technology detection
 - webanalyze: CMS identification, plugin detection
-- Subfinder: subdomain enumeration
-- SSLyze / testssl.sh: certificate validity, cipher suites, protocol versions
-- DNS record enumeration
+- subfinder: subdomain enumeration via passive sources
+- dnsx: DNS resolution and enrichment (A, AAAA, MX, TXT, CNAME, NS)
+- CertStream: Certificate Transparency log monitoring (local SQLite)
+- GrayHatWarfare: exposed cloud storage search (API key required)
+- Python ssl module: TLS certificate validity, issuer, expiry
 
 ### Layer 2: Active Vulnerability Probing (Written consent required)
 - Nuclei with curated template set (no DoS, no exploitation)
-- Nikto web server scan
-- Nmap service detection (SYN scan, version detection)
-- WPScan (WordPress targets only)
+- WPScan (WordPress targets only, via Redis sidecar)
+- CMSeek: CMS deep fingerprinting (admin paths, versions, plugins)
+- Nikto: web server vulnerability scanning (to be implemented)
+- Nmap: service detection, top-100 ports (to be implemented)
 
 ## Invocation Examples
 

@@ -5,6 +5,32 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-30 — Tool audit: align documentation with implementation reality
+
+**Context:** Briefing and SIRI application listed tools never implemented (SSLyze, testssl.sh). Tools actively used (dnsx, CMSeek, GrayHatWarfare, CertStream) were missing from docs. 22 documents referenced tools inconsistently.
+
+**Decided (by Federico)**
+- **Nikto**: Implement now — install in Docker, write `_run_nikto()`, add to Layer 2 pipeline.
+- **Nmap**: Implement now — install in Docker, write `_run_nmap()`, add to Layer 2 pipeline.
+- **SSLyze**: Defer — keep current Python ssl module for TLS checks. SSLyze goes to backlog for deeper analysis (cipher suites, protocol versions, HSTS, OCSP). Docs updated to reflect current state.
+- **testssl.sh**: Discard permanently — overlaps with SSLyze, bash-based, harder to integrate into Python pipeline.
+- Briefing tool table updated: 9 tools → 11 tools. Added dnsx, CMSeek, CertStream, GrayHatWarfare. Removed SSLyze, testssl.sh.
+- CLAUDE.md rule added: "Do not add or remove a scanning tool without updating the tool table in `docs/briefing.md` in the same commit"
+- CLAUDE.md rule added: "Do not make business, architecture, or technical decisions — present options with trade-offs, Federico decides"
+- "Level" terminology to be purged from all docs — replaced by Layer 1/2 for scan classification, Watchman/Sentinel/Guardian for plan tiers.
+
+**Rejected**
+- testssl.sh as part of the tool chain — overlaps with SSLyze, bash dependency, no Python integration path.
+
+**Unresolved**
+- Nikto and Nmap code implementation (Docker install, scanner functions, scan_job.py integration, tests)
+- "Level" terminology purge across all docs and code
+- SSLyze backlog milestone not yet assigned
+- GrayHatWarfare API key not configured — free tier evaluation pending
+- WPScan API pricing research for SIRI cost projections
+
+---
+
 ## 2026-03-29 — OpenClaw removal, twin WPScan fix, SIRI doc correction, backlog audit
 
 **Decided**

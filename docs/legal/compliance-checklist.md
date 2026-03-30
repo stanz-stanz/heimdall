@@ -25,13 +25,13 @@ Maintained by Valdi (Legal Compliance Agent). See `.claude/agents/valdi/SKILL.md
 ## Per-Scan Execution
 
 - [ ] Approval token for scan type is valid and current
-- [ ] Target domain's authorisation level determined
-- [ ] Scan type Layer does not exceed what target's Level permits
+- [ ] Target domain's consent state determined
+- [ ] Scan type Layer does not exceed what target's consent state permits
 - [ ] No Layer 3 activity in scan profile
 - [ ] robots.txt does not deny automated access for this target
 - [ ] Pre-scan check logged to `data/compliance/`
-- [ ] For Level 1: authorisation file exists, is not expired, and domain is in scope
-- [ ] For Level 1: consent document on file at referenced path
+- [ ] For consented targets: authorisation file exists, is not expired, and domain is in scope
+- [ ] For consented targets: consent document on file at referenced path
 
 ## Data Handling
 
