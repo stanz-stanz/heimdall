@@ -96,7 +96,7 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 ## Build Priority: Sprint 3 — Consent-Gated Pipeline
 
-**Sprints 1-3 complete (500 tests). Sprint 4 staging — Telegram delivery, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Layer 2 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning).
+**Sprints 1-3 complete (485 tests). Sprint 4 staging — Telegram delivery, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Layer 2 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning). Sprint 4 in progress: mid-scan bucket filter, CVR column fix, twin WPScan networking fix, tool audit (Nikto + Nmap implementation pending).
 
 Goal: consent-gated scanning for paying clients, AI-interpreted findings in Danish, Telegram delivery.
 
@@ -112,7 +112,7 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 2. Apply pre-scan filters from `config/filters.json` (industry_code, contactable) — see `.claude/agents/prospecting/SKILL.md` for filter config
 3. Derive website domains from company email addresses
 4. Resolve domains (check website exists + robots.txt compliance)
-5. Layer 1 scanning with Valdí-approved scan types (webanalyze, httpx, subfinder, dnsx, crt.sh, GrayHatWarfare)
+5. Layer 1 scanning with Valdí-approved scan types (httpx, webanalyze, subfinder, dnsx, CertStream, GrayHatWarfare)
 6. Bucket results: A > B > E > C > D (see `.claude/agents/prospecting/SKILL.md` for full bucketing logic)
 7. Apply post-scan filters from `filters.json` (bucket)
 8. Evidence-based GDPR sensitivity determination (from scan results + industry code)

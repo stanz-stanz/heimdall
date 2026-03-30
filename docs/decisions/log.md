@@ -5,6 +5,35 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-30 — Session wrap-up: twin networking, bucket filter, tool audit, terminology purge
+
+**Decided**
+- Twin WPScan networking fix: `socket.gethostname()` → `_get_container_ip()` (UDP socket trick to discover container IP on Docker bridge network). Sidecar was failing because container IDs aren't resolvable cross-container.
+- WPScan exit code 4 root cause identified: "Could not connect to server" (networking) + "HTTP Error 401" (missing API token). Both addressed.
+- Mid-scan bucket filter: worker classifies bucket after cheap CMS detection (httpx + webanalyze), returns early for filtered buckets. Skips expensive scans (subfinder, dnsx, nuclei, twin) for unwanted buckets.
+- CVR Excel column indices fixed: shifted by 2 (Startdato, Ophørsdato columns were missing). Industry code, email, and Reklamebeskyttet were all reading wrong columns.
+- `heimdall-deploy` alias sequenced: build worker first (heavy Go compilation), then lighter images, then `up -d`. Prevents OOM on Pi5.
+- `heimdall-pipeline` now flushes `cache:wpscan:*` keys alongside queue flush.
+- WPScan API token moved from hardcoded default to Docker Compose env var (`${WPSCAN_API_TOKEN:-}`).
+- "Level" terminology purged from all 15 active docs. Replaced with Layer 1/2 + consent state language + Watchman/Sentinel/Guardian plan names.
+- CLAUDE.md rules added: tool table must update with tool changes; no decisions without Federico.
+
+**Rejected**
+- Claude making tool scope decisions ("sufficient", "replaced by") — all decisions are Federico's.
+- "Level 0/1/2" as terminology — replaced by consent state descriptions.
+
+**Unresolved**
+- Twin WPScan still failing on Pi5 — networking fix deployed but WPScan API 401 errors need `.env` token on Pi5
+- Nikto implementation (decided: implement now, code not written)
+- Nmap implementation (decided: implement now, code not written)
+- "Level" terminology still in Python code (`job.level`, `_LEVEL0_SCAN_FUNCTIONS`, etc.) — code purge deferred
+- SSLyze backlog milestone not assigned
+- GrayHatWarfare API key not configured on Pi5
+- WPScan commercial API pricing research for SIRI cost projections
+- Subfinder 300s timeout for large batches
+
+---
+
 ## 2026-03-30 — Tool audit: align documentation with implementation reality
 
 **Context:** Briefing and SIRI application listed tools never implemented (SSLyze, testssl.sh). Tools actively used (dnsx, CMSeek, GrayHatWarfare, CertStream) were missing from docs. 22 documents referenced tools inconsistently.
