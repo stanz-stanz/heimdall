@@ -5,6 +5,37 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-03-29 — OpenClaw removal, twin WPScan fix, SIRI doc correction, backlog audit
+
+**Decided**
+- OpenClaw permanently removed from Heimdall architecture. Replaced by Claude API agent (Anthropic SDK tool_use + agentic loops) + python-telegram-bot. Reasons: 512 known vulns, plaintext API key storage, 1,184 malicious ClawHub skills, Node.js/Python runtime mismatch, zero integration code after 3+ sprints. OpenClaw references retained only where it appears as a scanning TARGET (exposed instance detection).
+- Human-in-the-loop message approval is pilot-only (5 clients). At scale the agent sends autonomously with confidence-gated escalation. "It is unthinkable that I can review hundreds of messages every week."
+- Twin WPScan fix: added `--force` (bypasses NotWordPress error), `--disable-tls-checks`, `--api-token` passthrough, HTTP/1.1, oEmbed link, RSS feed, slash-agnostic routing, WordPress HTML comments. 15 new tests, 484 total pass. Not yet verified on Pi5.
+- SIRI docs corrected: replaced "353 live Vejle-area domains" (the incident count) with "203" (actual clean pipeline output) in all achievement/metric contexts. 353 preserved only where it correctly describes the March 22 Layer 2 violation.
+- WPScan cache flush added to `heimdall-flush` alias (clears `cache:wpscan:*` keys that cached stale "not_wordpress" results for 24h).
+- Full backlog audit by TPMO + architect: identified 5 blockers, 6 high-priority items, 7 medium items for Sprint 4 readiness.
+
+**Rejected**
+- OpenClaw as Heimdall runtime — security posture incompatible with a security product. See above.
+- Claude Agent SDK (`claude-agent-sdk`) for the delivery agent — wraps Claude Code CLI with file/web/shell tools, wrong abstraction for domain-specific tools. Vanilla `anthropic` SDK with manual agentic loop is simpler and gives approval gates.
+- Single Telegram bot for both operator and client — separation of concerns requires two bots (operator: approve/reject/edit; client: receive reports, ask questions).
+
+**Unresolved**
+- Twin WPScan fix not verified on Pi5 — `heimdall-deploy` then `heimdall-pipeline` needed
+- Telegram bot does not exist — no bot created, no `python-telegram-bot` in requirements, no delivery code
+- Agent coordinator not built — Claude API agentic loop with tools for scan results, client memory, message composition, Telegram delivery
+- Cron scheduling not implemented — `src/scheduler/main.py` `--mode scheduled` returns error
+- Client onboarding workflow missing — no way to create client profile, link Telegram chat, set scan tier
+- Scanning authorization template missing — lawyer meeting (week of 2026-03-31) should produce this
+- Industry names empty for all 203 briefs — data flow issue from CVR extract
+- Agency detection producing no results — `meta_author`/`footer_credit` empty upstream
+- Subfinder 300s timeout for 68-domain batches
+- Video pitch script for SIRI — mandatory, unstarted
+- Project plan (`docs/plans/project-plan.md`) materially stale
+- `docs/briefing.md` last-updated header says March 22
+
+---
+
 ## 2026-03-29 — Late session: concurrent scheduler fix, twin WPScan, OpenClaw
 
 **Decided**

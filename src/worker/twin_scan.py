@@ -29,6 +29,22 @@ import redis
 
 log = logging.getLogger(__name__)
 
+
+def _get_container_ip() -> str:
+    """Get this container's IP on the Docker bridge network.
+
+    Falls back to the hostname if IP detection fails (e.g., local dev).
+    """
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("redis", 6379))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except Exception:
+        return socket.gethostname()
+
+
 # Slug map for plugin name normalisation
 _SLUG_MAP_PATH = Path(__file__).resolve().parent.parent.parent / "tools" / "twin" / "slug_map.json"
 
@@ -276,7 +292,7 @@ def run_twin_scan(brief: dict, redis_conn: Optional[redis.Redis] = None) -> Opti
         # WPScan via sidecar (WordPress only)
         cms = brief.get("technology", {}).get("cms", "")
         if cms and cms.lower() == "wordpress" and redis_conn is not None:
-            hostname = socket.gethostname()
+            hostname = _get_container_ip()
             log.info("twin_wpscan_target", extra={"context": {
                 "hostname": hostname, "port": port,
             }})
