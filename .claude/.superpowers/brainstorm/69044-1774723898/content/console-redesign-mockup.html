@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Heimdall Console — Redesign Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       Heimdall Console — Redesign with animations.md patterns
+       ============================================================ */
+
+    @property --num {
+      syntax: "<integer>";
+      initial-value: 0;
+      inherits: false;
+    }
+
+    :root {
+      --bg: #0b1120;
+      --bg-subtle: #0f172a;
+      --bg-card: rgba(15, 23, 42, 0.6);
+      --bg-card-hover: rgba(30, 41, 59, 0.7);
+      --bg-glass: rgba(15, 23, 42, 0.45);
+      --border: rgba(148, 163, 184, 0.08);
+      --border-light: rgba(148, 163, 184, 0.15);
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-dim: #64748b;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245, 158, 11, 0.15);
+      --accent-glow: rgba(245, 158, 11, 0.25);
+      --severity-high: #ef4444;
+      --severity-high-bg: rgba(239, 68, 68, 0.1);
+      --severity-medium: #f59e0b;
+      --severity-medium-bg: rgba(245, 158, 11, 0.1);
+      --severity-low: #3b82f6;
+      --severity-low-bg: rgba(59, 130, 246, 0.1);
+      --severity-info: #6366f1;
+      --severity-info-bg: rgba(99, 102, 241, 0.1);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.1);
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --skeleton-base: rgba(30, 41, 59, 0.6);
+      --skeleton-highlight: rgba(51, 65, 85, 0.6);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+      --font: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --shadow-glow: 0 0 40px rgba(245, 158, 11, 0.08);
+      /* Easing from animations.md */
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 50vh;
+      background: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ---- NEW: Connection status bar (from animations.md) ---- */
+    .connection-bar {
+      height: 3px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      transition: background-color 0.4s ease, opacity 0.4s ease;
+    }
+    .connection-bar.open { background: var(--green); opacity: 0; }
+    .connection-bar.connecting { background: var(--yellow); opacity: 1; animation: breathe 1s ease-in-out infinite; }
+    .connection-bar.closed { background: var(--red); opacity: 1; }
+
+    /* ---- Tabs ---- */
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+    }
+    .tabs-inner {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 0;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-dim);
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.3s var(--ease-snappy);
+    }
+    .tab-icon { width: 18px; height: 18px; }
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .view { display: none; padding: 20px 16px; position: relative; z-index: 1; }
+    .view.active { display: block; }
+    .hidden { display: none !important; }
+
+    /* ---- Monitor header ---- */
+    .monitor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 48px; height: 48px;
+      background: var(--accent-soft);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .brand-mark svg { width: 28px; height: 28px; }
+    .monitor-header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .brand-sub { font-size: 11px; color: var(--text-dim); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+    .status-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .timestamp {
+      font-size: 12px; color: var(--text-secondary);
+      font-family: var(--font-mono); font-weight: 500;
+    }
+
+    /* ---- Queue cards ---- */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex; align-items: center; gap: 14px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease;
+    }
+    .card-icon {
+      width: 36px; height: 36px; min-width: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-soft);
+      border-radius: var(--radius-sm);
+      color: var(--accent);
+    }
+    .card-icon svg { width: 18px; height: 18px; }
+    .card-label {
+      font-size: 11px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--text-dim); margin-top: 2px;
+    }
+    .card-value {
+      font-size: 24px; font-weight: 700;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums; /* animations.md rule 5 */
+      line-height: 1.2;
+      transition: color 0.3s, --num 0.6s var(--ease-smooth);
+      counter-reset: num var(--num);
+    }
+    .card-value::after { content: counter(num); }
+    .card-value.active { color: var(--yellow); }
+    .card-value.high { color: var(--red); }
+
+    /* NEW: Flash highlight on value change (from animations.md) */
+    @keyframes flash-highlight {
+      0%   { background-color: rgba(245, 158, 11, 0.12); }
+      100% { background-color: transparent; }
+    }
+    .flash-on-change {
+      animation: flash-highlight 0.8s ease-out;
+    }
+
+    /* NEW: Delta indicators (from animations.md) */
+    .card-delta {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .delta-up {
+      color: var(--red);
+      animation: bump-up 0.4s ease-out;
+    }
+    .delta-down {
+      color: var(--green);
+      animation: bump-down 0.4s ease-out;
+    }
+
+    /* ---- Skeleton loading (from animations.md) ---- */
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg,
+        var(--skeleton-base) 25%,
+        var(--skeleton-highlight) 50%,
+        var(--skeleton-base) 75%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      border-radius: 6px;
+    }
+    .skeleton-line {
+      height: 14px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+    }
+    .skeleton-line.short { width: 60%; }
+    .skeleton-line.medium { width: 80%; }
+    .skeleton-to-content {
+      animation: fade-in 0.4s ease-out both;
+    }
+
+    /* ---- Recent scans ---- */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px;
+    }
+    .section-header h2 { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
+    .section-count {
+      font-size: 12px; color: var(--text-dim);
+      font-family: var(--font-mono); font-weight: 500;
+    }
+    .scans-list { display: flex; flex-direction: column; gap: 8px; }
+    .scan-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      /* NEW: staggered entry from animations.md */
+      animation: slide-in-left 0.4s var(--ease-smooth) both;
+    }
+    .scan-domain { font-size: 14px; font-weight: 600; flex: 1; }
+    .scan-badge {
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px; border-radius: 8px; margin-left: 8px;
+      /* NEW: pop animation for badges */
+      animation: scale-pop 0.35s var(--ease-bounce) both;
+    }
+    .badge-high   { background: var(--severity-high-bg); color: var(--severity-high); }
+    .badge-medium { background: var(--severity-medium-bg); color: var(--severity-medium); }
+    .badge-low    { background: var(--severity-low-bg); color: var(--severity-low); }
+    .badge-ok     { background: var(--success-bg); color: var(--success); }
+
+    /* ---- Demo: scan timeline ---- */
+    .demo-phase { min-height: 50dvh; }
+    .selector-header { text-align: center; margin-bottom: 28px; }
+    .demo-title { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .demo-subtitle { font-size: 14px; color: var(--text-dim); }
+
+    .scan-hero {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 24px 0 32px; gap: 20px;
+    }
+    .radial-progress { position: relative; width: 140px; height: 140px; }
+    .radial-progress svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .radial-track { fill: none; stroke: var(--border-light); stroke-width: 4; }
+    .radial-fill {
+      fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round;
+      stroke-dasharray: 326.73; stroke-dashoffset: 326.73;
+      transition: stroke-dashoffset 0.6s var(--ease-smooth);
+      filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.3));
+    }
+    .radial-inner {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .radial-percent {
+      font-size: 28px; font-weight: 700;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .radial-label {
+      font-size: 11px; color: var(--text-dim); font-weight: 500;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .scan-hero-domain { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+    .scan-hero-timer { font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: var(--accent); }
+    .scan-hero-status { font-size: 13px; color: var(--text-dim); }
+
+    .scan-timeline { display: flex; flex-direction: column; gap: 6px; }
+    .timeline-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      animation: slide-in-left 0.4s var(--ease-smooth) both;
+    }
+    .timeline-indicator {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--text-dim); flex-shrink: 0;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .timeline-indicator.running {
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    .timeline-indicator.done { background: var(--success); animation: none; }
+    .timeline-label { font-size: 13px; font-weight: 500; flex: 1; color: var(--text-secondary); }
+    .timeline-duration { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text-dim); }
+
+    /* Tech badges */
+    .tech-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .tech-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      font-size: 13px; font-family: var(--font-mono); font-weight: 500;
+      color: var(--text-secondary);
+      animation: scale-pop 0.35s var(--ease-bounce) both;
+    }
+    .tech-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+    /* Finding cards */
+    .findings-list { display: flex; flex-direction: column; gap: 12px; }
+    .finding-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      border-left: 3px solid var(--text-dim);
+      animation: slide-in-up 0.35s var(--ease-smooth) both;
+    }
+    .finding-card.severity-high   { border-left-color: var(--severity-high); }
+    .finding-card.severity-medium { border-left-color: var(--severity-medium); }
+    .finding-card.severity-low    { border-left-color: var(--severity-low); }
+    .finding-card.severity-info   { border-left-color: var(--severity-info); }
+    .finding-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .finding-severity {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; padding: 3px 8px; border-radius: var(--radius-xs);
+    }
+    .finding-severity.high   { background: var(--severity-high-bg); color: var(--severity-high); }
+    .finding-severity.medium { background: var(--severity-medium-bg); color: var(--severity-medium); }
+    .finding-severity.low    { background: var(--severity-low-bg); color: var(--severity-low); }
+    .finding-severity.info   { background: var(--severity-info-bg); color: var(--severity-info); }
+    .finding-desc { font-size: 14px; font-weight: 600; }
+    .finding-risk { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .finding-risk.typing { border-right: 2px solid var(--accent); animation: blink-cursor 0.6s step-end infinite; }
+
+    .section-badge {
+      font-size: 11px; font-weight: 600; color: var(--accent);
+      padding: 4px 10px; background: var(--accent-soft); border-radius: 12px;
+    }
+
+    /* Summary */
+    .summary-card {
+      text-align: center; padding: 48px 24px;
+      animation: fade-in 0.6s ease-out;
+    }
+    .summary-shield {
+      width: 80px; height: 80px; margin: 0 auto 24px;
+      color: var(--success);
+      animation: shield-in 0.7s var(--ease-smooth);
+    }
+    .summary-shield svg { width: 100%; height: 100%; }
+    .summary-label {
+      font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--success); margin-bottom: 12px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: var(--bg); border: none;
+      border-radius: var(--radius-sm); padding: 14px 28px;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s var(--ease-snappy);
+    }
+    .btn:active { opacity: 0.85; transform: scale(0.97); }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ============================================================
+       ANIMATIONS — all from animations.md reference
+       ============================================================ */
+
+    /* Entry: slide + fade (the workhorse) */
+    @keyframes slide-in-left {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slide-in-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Entry: scale pop (badges, toasts) */
+    @keyframes scale-pop {
+      from { opacity: 0; transform: scale(0.85); }
+      60%  { transform: scale(1.03); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Presence: pulse */
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      50%      { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    }
+
+    /* Presence: breathing glow */
+    @keyframes breathe {
+      0%, 100% { opacity: 0.4; }
+      50%      { opacity: 1; }
+    }
+
+    /* Value change: directional bump */
+    @keyframes bump-up {
+      0%   { transform: translateY(0); }
+      40%  { transform: translateY(-3px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes bump-down {
+      0%   { transform: translateY(0); }
+      40%  { transform: translateY(3px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Misc */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink-cursor {
+      50% { border-color: transparent; }
+    }
+    @keyframes shield-in {
+      0%   { opacity: 0; transform: scale(0.5) translateY(20px); }
+      60%  { transform: scale(1.05) translateY(-2px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ============================================================
+       NEW: prefers-reduced-motion (from animations.md rule 2)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (min-width: 768px) {
+      .view { padding: 28px 32px; max-width: 960px; margin: 0 auto; }
+      .cards { grid-template-columns: repeat(4, 1fr); }
+      .scan-hero { flex-direction: row; text-align: left; gap: 36px; }
+    }
+
+    /* ============================================================
+       MOCKUP LABEL
+       ============================================================ */
+    .mockup-label {
+      position: fixed;
+      bottom: 16px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      z-index: 200;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .change-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 6px;
+      vertical-align: middle;
+      animation: scale-pop 0.35s var(--ease-bounce) both;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NEW: Connection status bar from animations.md -->
+  <div class="connection-bar open" id="connection-bar"></div>
+
+  <!-- Tab navigation -->
+  <nav class="tabs">
+    <div class="tabs-inner">
+      <button class="tab active" data-tab="monitor" id="tab-monitor">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Monitor
+      </button>
+      <button class="tab" data-tab="demo" id="tab-demo">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        Live Demo
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================================================================ -->
+  <!-- MONITOR MODE                                                     -->
+  <!-- ================================================================ -->
+  <main id="monitor" class="view active">
+    <header class="monitor-header">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <h1>Heimdall</h1>
+          <span class="brand-sub">Attack Surface Monitor</span>
+        </div>
+      </div>
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span class="timestamp" id="monitor-time">14:32:08</span>
+      </div>
+    </header>
+
+    <!-- Queue cards — start as skeletons, animate to content -->
+    <section class="cards" id="queue-cards">
+      <!-- These start as skeletons then transition -->
+    </section>
+
+    <section class="recent-scans">
+      <div class="section-header">
+        <h2>Recent Scans</h2>
+        <span class="section-count" id="scans-count"></span>
+      </div>
+      <div id="scans-list" class="scans-list">
+        <!-- Skeleton rows shown initially -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================ -->
+  <!-- DEMO MODE                                                        -->
+  <!-- ================================================================ -->
+  <main id="demo" class="view">
+    <section id="demo-scanning" class="demo-phase">
+      <div class="scan-hero">
+        <div class="radial-progress">
+          <svg viewBox="0 0 120 120">
+            <circle class="radial-track" cx="60" cy="60" r="52"/>
+            <circle class="radial-fill" cx="60" cy="60" r="52" id="radial-fill"/>
+          </svg>
+          <div class="radial-inner">
+            <div class="radial-percent" id="radial-percent">0%</div>
+            <div class="radial-label">Complete</div>
+          </div>
+        </div>
+        <div>
+          <div class="scan-hero-domain">example-restaurant.dk</div>
+          <div class="scan-hero-timer" id="demo-timer">0.0s</div>
+          <div class="scan-hero-status" id="demo-status">Scanning...</div>
+        </div>
+      </div>
+      <div id="scan-timeline" class="scan-timeline"></div>
+    </section>
+
+    <section id="demo-tech" class="demo-phase hidden">
+      <div class="section-header">
+        <h2>Technology Stack</h2>
+        <span class="section-badge">Detected</span>
+      </div>
+      <div id="tech-badges" class="tech-badges"></div>
+    </section>
+
+    <section id="demo-findings" class="demo-phase hidden">
+      <div class="section-header">
+        <h2>Security Findings</h2>
+        <span class="section-badge" id="findings-counter"></span>
+      </div>
+      <div id="findings-list" class="findings-list"></div>
+    </section>
+  </main>
+
+  <div class="mockup-label">Interactive Mockup — animations.md patterns</div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ---- Tab switching ----
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
+          if (tab.dataset.tab === 'demo') startDemoSequence();
+        });
+      });
+
+      // ============================================================
+      // MONITOR: Skeleton → content transition demo
+      // ============================================================
+
+      const queueData = [
+        { id: 'scan', label: 'Scan Queue', icon: 'shield', value: 12 },
+        { id: 'enrich', label: 'Enrichment', icon: 'pulse', value: 3 },
+        { id: 'wpscan', label: 'WPScan', icon: 'search', value: 0 },
+        { id: 'cache', label: 'Cache Keys', icon: 'db', value: 1847 },
+      ];
+
+      const icons = {
+        shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        pulse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+        search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+        db: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+      };
+
+      // Show skeletons first
+      const cardsContainer = document.getElementById('queue-cards');
+      cardsContainer.innerHTML = queueData.map(() => `
+        <div class="card">
+          <div class="skeleton" style="width:36px;height:36px;border-radius:10px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div class="skeleton skeleton-line" style="width:50%;height:20px;margin-bottom:4px"></div>
+            <div class="skeleton skeleton-line short" style="height:12px;margin:0;width:70%"></div>
+          </div>
+        </div>
+      `).join('');
+
+      // Show skeleton scan rows
+      const scansList = document.getElementById('scans-list');
+      scansList.innerHTML = Array(4).fill(0).map(() => `
+        <div class="scan-row" style="border:1px solid var(--border)">
+          <div class="skeleton skeleton-line medium" style="height:14px;margin:0"></div>
+        </div>
+      `).join('');
+
+      // After 1.5s, transition to real content
+      setTimeout(() => {
+        cardsContainer.innerHTML = queueData.map((q, i) => `
+          <div class="card skeleton-to-content" style="animation-delay:${i * 80}ms" id="card-${q.id}">
+            <div class="card-icon">${icons[q.icon]}</div>
+            <div class="card-content">
+              <div class="card-value" id="val-${q.id}" style="--num:${q.value}"></div>
+              <div class="card-label">${q.label}</div>
+              <div class="card-delta" id="delta-${q.id}"></div>
+            </div>
+          </div>
+        `).join('');
+
+        // Simulate value changes with flash + delta
+        setTimeout(() => simulateValueChange('scan', 12, 18), 2000);
+        setTimeout(() => simulateValueChange('enrich', 3, 1), 3500);
+        setTimeout(() => simulateValueChange('cache', 1847, 1853), 4200);
+        setTimeout(() => simulateValueChange('scan', 18, 14), 5500);
+        setTimeout(() => simulateValueChange('wpscan', 0, 2), 6800);
+      }, 1500);
+
+      // Load fake scan rows with staggered animation
+      setTimeout(() => {
+        const scans = [
+          { domain: 'restaurant-nordlys.dk', findings: 5, severity: 'medium' },
+          { domain: 'tandlaege-vejle.dk', findings: 8, severity: 'high' },
+          { domain: 'salon-bella.dk', findings: 0, severity: 'ok' },
+          { domain: 'byens-bageri.dk', findings: 2, severity: 'low' },
+          { domain: 'auto-hansen.dk', findings: 4, severity: 'medium' },
+        ];
+
+        document.getElementById('scans-count').textContent = `${scans.length} total`;
+        scansList.innerHTML = scans.map((s, i) => {
+          const badge = s.findings === 0 ? 'badge-ok' : s.findings <= 3 ? 'badge-low' : s.findings <= 6 ? 'badge-medium' : 'badge-high';
+          const text = s.findings === 0 ? 'Clean' : `${s.findings} findings`;
+          return `
+            <div class="scan-row" style="animation-delay:${i * 60}ms">
+              <span class="scan-domain">${s.domain}</span>
+              <span class="scan-badge ${badge}" style="animation-delay:${i * 60 + 200}ms">${text}</span>
+            </div>`;
+        }).join('');
+      }, 1800);
+
+      // Flash + delta animation
+      function simulateValueChange(id, oldVal, newVal) {
+        const card = document.getElementById(`card-${id}`);
+        const valEl = document.getElementById(`val-${id}`);
+        const deltaEl = document.getElementById(`delta-${id}`);
+        if (!card || !valEl) return;
+
+        // CSS @property number tick
+        valEl.style.setProperty('--num', newVal);
+
+        // Flash highlight
+        card.classList.remove('flash-on-change');
+        void card.offsetWidth;
+        card.classList.add('flash-on-change');
+
+        // Color based on value
+        valEl.className = 'card-value';
+        if (newVal > 100) valEl.classList.add('high');
+        else if (newVal > 0) valEl.classList.add('active');
+
+        // Delta indicator
+        const diff = newVal - oldVal;
+        if (diff !== 0 && deltaEl) {
+          deltaEl.className = 'card-delta ' + (diff > 0 ? 'delta-up' : 'delta-down');
+          deltaEl.textContent = (diff > 0 ? '+' : '') + diff;
+          // Clear after 3s
+          setTimeout(() => { deltaEl.textContent = ''; deltaEl.className = 'card-delta'; }, 3000);
+        }
+      }
+
+      // ============================================================
+      // DEMO: Automated scan sequence
+      // ============================================================
+
+      let demoStartTime = 0;
+      let demoTimerInterval = null;
+
+      function startDemoSequence() {
+        // Connection bar: show connecting → open
+        const bar = document.getElementById('connection-bar');
+        bar.className = 'connection-bar connecting';
+        setTimeout(() => { bar.className = 'connection-bar open'; }, 1200);
+
+        // Reset
+        document.getElementById('scan-timeline').innerHTML = '';
+        document.getElementById('demo-tech').classList.add('hidden');
+        document.getElementById('demo-findings').classList.add('hidden');
+        document.getElementById('tech-badges').innerHTML = '';
+        document.getElementById('findings-list').innerHTML = '';
+
+        const fill = document.getElementById('radial-fill');
+        fill.style.strokeDashoffset = 326.73;
+        document.getElementById('radial-percent').textContent = '0%';
+        document.getElementById('demo-status').textContent = 'Initializing scan...';
+
+        demoStartTime = performance.now();
+        if (demoTimerInterval) clearInterval(demoTimerInterval);
+        demoTimerInterval = setInterval(() => {
+          document.getElementById('demo-timer').textContent =
+            ((performance.now() - demoStartTime) / 1000).toFixed(1) + 's';
+        }, 100);
+
+        const scanTypes = [
+          { type: 'httpx', label: 'HTTP Probe', duration: 340 },
+          { type: 'webanalyze', label: 'Tech Detection', duration: 520 },
+          { type: 'subfinder', label: 'Subdomain Discovery', duration: 890 },
+          { type: 'dnsx', label: 'DNS Resolution', duration: 180 },
+          { type: 'tlsx', label: 'TLS Certificate', duration: 260 },
+          { type: 'headers', label: 'Security Headers', duration: 150 },
+          { type: 'crt_sh', label: 'CT Log Search', duration: 430 },
+          { type: 'robots', label: 'robots.txt Parse', duration: 80 },
+        ];
+
+        let delay = 1500;
+        scanTypes.forEach((scan, i) => {
+          setTimeout(() => {
+            addTimelineRow(scan.type, scan.label, 'running', i);
+            document.getElementById('demo-status').textContent = `Running ${scan.label}...`;
+          }, delay);
+
+          delay += 400 + Math.random() * 600;
+
+          setTimeout(() => {
+            completeTimelineRow(scan.type, scan.duration);
+            const pct = ((i + 1) / scanTypes.length) * 100;
+            updateProgress(pct);
+          }, delay);
+
+          delay += 200;
+        });
+
+        // Tech reveal
+        setTimeout(() => {
+          document.getElementById('demo-tech').classList.remove('hidden');
+          const techs = ['WordPress 6.4', 'PHP 8.1', 'Apache 2.4', 'jQuery 3.7', 'Yoast SEO', 'WooCommerce'];
+          const container = document.getElementById('tech-badges');
+          techs.forEach((tech, i) => {
+            const badge = document.createElement('span');
+            badge.className = 'tech-badge';
+            badge.innerHTML = `<span class="tech-dot"></span>${tech}`;
+            badge.style.animationDelay = `${i * 80}ms`;
+            container.appendChild(badge);
+          });
+        }, delay + 800);
+
+        // Findings
+        const findings = [
+          { severity: 'high', desc: 'Missing Content-Security-Policy', risk: 'Allows cross-site scripting (XSS) attacks. Attackers could inject malicious scripts.' },
+          { severity: 'high', desc: 'WordPress version exposed', risk: 'Version 6.4 is publicly visible, enabling targeted exploits for known vulnerabilities.' },
+          { severity: 'medium', desc: 'Missing X-Frame-Options', risk: 'Site can be embedded in iframes, enabling clickjacking attacks on logged-in users.' },
+          { severity: 'low', desc: 'Server signature disclosed', risk: 'Apache version visible in response headers. Minor information disclosure.' },
+        ];
+
+        setTimeout(() => {
+          document.getElementById('demo-findings').classList.remove('hidden');
+          findings.forEach((f, i) => {
+            setTimeout(() => {
+              document.getElementById('findings-counter').textContent = `${i + 1} of ${findings.length}`;
+              const card = document.createElement('div');
+              card.className = `finding-card severity-${f.severity}`;
+              card.style.animationDelay = '0ms';
+              card.innerHTML = `
+                <div class="finding-header">
+                  <span class="finding-severity ${f.severity}">${f.severity}</span>
+                  <span class="finding-desc">${f.desc}</span>
+                </div>
+                <div class="finding-risk" id="risk-demo-${i}"></div>`;
+              document.getElementById('findings-list').appendChild(card);
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              typewrite(`risk-demo-${i}`, f.risk);
+            }, i * 1200);
+          });
+        }, delay + 2000);
+
+        // Stop timer after everything
+        setTimeout(() => {
+          if (demoTimerInterval) clearInterval(demoTimerInterval);
+        }, delay + 2000 + findings.length * 1200 + 500);
+      }
+
+      function addTimelineRow(type, label, state, index) {
+        const timeline = document.getElementById('scan-timeline');
+        const row = document.createElement('div');
+        row.className = 'timeline-row';
+        row.id = `tl-${type}`;
+        row.style.animationDelay = `${index * 40}ms`;
+        row.innerHTML = `
+          <div class="timeline-indicator ${state}"></div>
+          <span class="timeline-label">${label}</span>
+          <span class="timeline-duration" id="tl-dur-${type}"></span>`;
+        timeline.appendChild(row);
+        row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function completeTimelineRow(type, ms) {
+        const ind = document.querySelector(`#tl-${type} .timeline-indicator`);
+        if (ind) { ind.classList.remove('running'); ind.classList.add('done'); }
+        const dur = document.getElementById(`tl-dur-${type}`);
+        if (dur) dur.textContent = `${ms}ms`;
+      }
+
+      function updateProgress(pct) {
+        const circumference = 2 * Math.PI * 52;
+        const offset = circumference - (pct / 100) * circumference;
+        document.getElementById('radial-fill').style.strokeDashoffset = offset;
+        document.getElementById('radial-percent').textContent = `${Math.round(pct)}%`;
+      }
+
+      function typewrite(id, text) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.add('typing');
+        let i = 0;
+        function tick() {
+          if (i < text.length) {
+            el.textContent += text[i]; i++;
+            setTimeout(tick, 15);
+          } else { el.classList.remove('typing'); }
+        }
+        tick();
+      }
+
+      // ---- Update clock ----
+      setInterval(() => {
+        document.getElementById('monitor-time').textContent =
+          new Date().toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      }, 1000);
+
+    })();
+  </script>
+</body>
+</html>

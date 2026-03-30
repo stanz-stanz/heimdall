@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Heimdall Console — Demo Section Redesign</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    @property --num {
+      syntax: "<integer>";
+      initial-value: 0;
+      inherits: false;
+    }
+
+    :root {
+      --bg: #0b1120;
+      --bg-subtle: #0f172a;
+      --bg-card: rgba(15, 23, 42, 0.6);
+      --bg-glass: rgba(15, 23, 42, 0.45);
+      --border: rgba(148, 163, 184, 0.08);
+      --border-light: rgba(148, 163, 184, 0.15);
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-dim: #64748b;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245, 158, 11, 0.15);
+      --severity-high: #ef4444;
+      --severity-high-bg: rgba(239, 68, 68, 0.1);
+      --severity-medium: #f59e0b;
+      --severity-medium-bg: rgba(245, 158, 11, 0.1);
+      --severity-low: #3b82f6;
+      --severity-low-bg: rgba(59, 130, 246, 0.1);
+      --severity-info: #6366f1;
+      --severity-info-bg: rgba(99, 102, 241, 0.1);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.1);
+      --green: #10b981;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --skeleton-base: rgba(30, 41, 59, 0.6);
+      --skeleton-highlight: rgba(51, 65, 85, 0.6);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+      --font: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 50vh;
+      background: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Connection bar */
+    .connection-bar {
+      height: 3px; width: 100%;
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      transition: background-color 0.4s ease, opacity 0.4s ease;
+    }
+    .connection-bar.open { background: var(--green); opacity: 0; }
+    .connection-bar.connecting { background: var(--yellow); opacity: 1; animation: breathe 1s ease-in-out infinite; }
+
+    /* Header bar */
+    .demo-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .demo-header-left {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .demo-header-icon {
+      width: 32px; height: 32px;
+      background: var(--accent-soft);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .demo-header-icon svg { width: 18px; height: 18px; }
+    .demo-header h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+    .demo-header-domain {
+      font-size: 13px; font-family: var(--font-mono); color: var(--accent); font-weight: 500;
+    }
+
+    /* ============================================================
+       PHASE 1: Split-panel scan view
+       Left: live log terminal    Right: progress + stats
+       ============================================================ */
+    .scan-container {
+      display: flex; flex-direction: column;
+      padding: 16px;
+      gap: 16px;
+      position: relative; z-index: 1;
+    }
+
+    /* Stats strip — horizontal row of key metrics */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .stat-cell {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .stat-value {
+      font-size: 20px; font-weight: 700;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      transition: --num 0.6s var(--ease-smooth);
+      counter-reset: num var(--num);
+    }
+    .stat-value::after { content: counter(num); }
+    .stat-value.accent { color: var(--accent); }
+    .stat-value.green { color: var(--green); }
+    .stat-value.red { color: var(--red); }
+    .stat-label {
+      font-size: 10px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--text-dim); margin-top: 4px;
+    }
+
+    /* Live terminal log */
+    .terminal {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      overflow: hidden;
+    }
+    .terminal-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid var(--border);
+    }
+    .terminal-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .terminal-dot.red { background: #ef4444; }
+    .terminal-dot.yellow { background: #f59e0b; }
+    .terminal-dot.green { background: #10b981; }
+    .terminal-title {
+      font-size: 11px; color: var(--text-dim); font-weight: 500;
+      margin-left: 4px;
+    }
+    .terminal-body {
+      padding: 12px 14px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .log-line {
+      opacity: 0;
+      animation: log-appear 0.25s var(--ease-smooth) forwards;
+      white-space: nowrap;
+    }
+    .log-time { color: var(--text-dim); }
+    .log-ok { color: var(--green); }
+    .log-warn { color: var(--yellow); }
+    .log-err { color: var(--red); }
+    .log-info { color: var(--text-secondary); }
+    .log-accent { color: var(--accent); }
+    .log-dim { color: var(--text-dim); }
+
+    @keyframes log-appear {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Progress bar (horizontal, replaces radial for inline feel) */
+    .progress-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      backdrop-filter: blur(8px);
+    }
+    .progress-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .progress-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+    .progress-pct {
+      font-size: 14px; font-weight: 700; font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums; color: var(--accent);
+    }
+    .progress-track {
+      width: 100%; height: 6px;
+      background: rgba(148, 163, 184, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #fbbf24);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.6s var(--ease-smooth);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Scan type chips inside progress section */
+    .scan-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .scan-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px; font-weight: 500;
+      font-family: var(--font-mono);
+      background: rgba(148, 163, 184, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      transition: all 0.3s var(--ease-smooth);
+    }
+    .scan-chip .chip-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--text-dim);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .scan-chip.running {
+      color: var(--accent);
+      border-color: rgba(245, 158, 11, 0.25);
+      background: var(--accent-soft);
+    }
+    .scan-chip.running .chip-dot {
+      background: var(--accent);
+      box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+      animation: breathe 1s ease-in-out infinite;
+    }
+    .scan-chip.done {
+      color: var(--green);
+      border-color: rgba(16, 185, 129, 0.2);
+      background: var(--success-bg);
+    }
+    .scan-chip.done .chip-dot {
+      background: var(--green);
+      animation: none;
+    }
+    .scan-chip .chip-ms {
+      font-size: 10px; color: var(--text-dim);
+    }
+
+    /* ============================================================
+       PHASE 2: Results — tech + findings in a single stream
+       ============================================================ */
+    .results-stream {
+      display: flex; flex-direction: column; gap: 12px;
+      padding: 0 16px 16px;
+      position: relative; z-index: 1;
+    }
+
+    /* Section divider */
+    .stream-divider {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0;
+      animation: slide-in-up 0.35s var(--ease-smooth) both;
+    }
+    .stream-divider::before, .stream-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border-light);
+    }
+    .stream-divider span {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--text-dim); white-space: nowrap;
+    }
+
+    /* Tech stack — compact inline grid */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+    }
+    .tech-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      animation: scale-pop 0.35s var(--ease-bounce) both;
+    }
+    .tech-item-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tech-item-dot.server { background: #3b82f6; }
+    .tech-item-dot.cms { background: #8b5cf6; }
+    .tech-item-dot.js { background: #f59e0b; }
+    .tech-item-dot.plugin { background: #10b981; }
+    .tech-item-name {
+      font-size: 12px; font-family: var(--font-mono); font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .tech-item-ver {
+      font-size: 10px; color: var(--text-dim); margin-left: auto;
+    }
+
+    /* Finding cards — redesigned with expandable detail */
+    .finding-card-v2 {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      animation: slide-in-up 0.4s var(--ease-smooth) both;
+      backdrop-filter: blur(8px);
+    }
+    .finding-card-v2-top {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px;
+    }
+    .finding-sev-bar {
+      width: 4px; height: 36px; border-radius: 2px; flex-shrink: 0;
+    }
+    .finding-sev-bar.high { background: var(--severity-high); }
+    .finding-sev-bar.medium { background: var(--severity-medium); }
+    .finding-sev-bar.low { background: var(--severity-low); }
+    .finding-sev-bar.info { background: var(--severity-info); }
+    .finding-card-v2-body { flex: 1; min-width: 0; }
+    .finding-card-v2-title {
+      font-size: 13px; font-weight: 600; color: var(--text);
+      margin-bottom: 2px;
+    }
+    .finding-card-v2-sev {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .finding-card-v2-sev.high { color: var(--severity-high); }
+    .finding-card-v2-sev.medium { color: var(--severity-medium); }
+    .finding-card-v2-sev.low { color: var(--severity-low); }
+    .finding-card-v2-sev.info { color: var(--severity-info); }
+
+    .finding-card-v2-detail {
+      padding: 0 16px 14px 32px;
+      font-size: 13px; color: var(--text-secondary); line-height: 1.6;
+    }
+    .finding-card-v2-detail.typing {
+      border-right: 2px solid var(--accent);
+      animation: blink-cursor 0.6s step-end infinite;
+      display: inline-block;
+    }
+
+    /* Summary banner */
+    .summary-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.02));
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      animation: slide-in-up 0.5s var(--ease-smooth) both;
+    }
+    .summary-banner-icon {
+      width: 48px; height: 48px; margin: 0 auto 12px;
+      color: var(--green);
+    }
+    .summary-banner-icon svg { width: 100%; height: 100%; }
+    .summary-banner h3 {
+      font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px;
+    }
+    .summary-banner p {
+      font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+    }
+    .summary-stats {
+      display: flex; justify-content: center; gap: 24px;
+      margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid rgba(16, 185, 129, 0.1);
+    }
+    .summary-stat {
+      text-align: center;
+    }
+    .summary-stat-val {
+      font-size: 20px; font-weight: 700; font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .summary-stat-val.high { color: var(--red); }
+    .summary-stat-val.medium { color: var(--yellow); }
+    .summary-stat-val.low { color: var(--severity-low); }
+    .summary-stat-label {
+      font-size: 10px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--text-dim); margin-top: 2px;
+    }
+
+    /* ============================================================
+       ANIMATIONS
+       ============================================================ */
+    @keyframes slide-in-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scale-pop {
+      from { opacity: 0; transform: scale(0.85); }
+      60%  { transform: scale(1.03); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.4; }
+      50%      { opacity: 1; }
+    }
+    @keyframes blink-cursor {
+      50% { border-color: transparent; }
+    }
+    @keyframes flash-highlight {
+      0%   { background-color: rgba(245, 158, 11, 0.12); }
+      100% { background-color: transparent; }
+    }
+    .flash-on-change { animation: flash-highlight 0.8s ease-out; }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .scan-container { padding: 20px 32px; max-width: 960px; margin: 0 auto; }
+      .results-stream { padding: 0 32px 32px; max-width: 960px; margin: 0 auto; }
+      .stats-strip { grid-template-columns: repeat(4, 1fr); }
+      .terminal-body { max-height: 280px; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+    .mockup-label {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      background: rgba(245, 158, 11, 0.15); color: var(--accent);
+      padding: 6px 16px; border-radius: 20px;
+      font-size: 11px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; z-index: 200;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="connection-bar connecting" id="connection-bar"></div>
+
+  <!-- Header -->
+  <div class="demo-header">
+    <div class="demo-header-left">
+      <div class="demo-header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <h1>Security Assessment</h1>
+        <div class="demo-header-domain" id="header-domain">restaurant-nordlys.dk</div>
+      </div>
+    </div>
+    <div style="font-size:12px;font-family:var(--font-mono);color:var(--text-dim)" id="elapsed-timer">0.0s</div>
+  </div>
+
+  <!-- Scan phase -->
+  <div class="scan-container">
+    <!-- Live stats strip -->
+    <div class="stats-strip" id="stats-strip">
+      <div class="stat-cell" id="stat-scans">
+        <div class="stat-value accent" id="stat-scans-val" style="--num:0"></div>
+        <div class="stat-label">Scans</div>
+      </div>
+      <div class="stat-cell" id="stat-subs">
+        <div class="stat-value green" id="stat-subs-val" style="--num:0"></div>
+        <div class="stat-label">Subdomains</div>
+      </div>
+      <div class="stat-cell" id="stat-techs">
+        <div class="stat-value" id="stat-techs-val" style="--num:0"></div>
+        <div class="stat-label">Tech Found</div>
+      </div>
+      <div class="stat-cell" id="stat-findings">
+        <div class="stat-value red" id="stat-findings-val" style="--num:0"></div>
+        <div class="stat-label">Findings</div>
+      </div>
+    </div>
+
+    <!-- Progress bar with scan chips -->
+    <div class="progress-section">
+      <div class="progress-header">
+        <span class="progress-label" id="progress-label">Initializing...</span>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="scan-chips" id="scan-chips"></div>
+    </div>
+
+    <!-- Terminal log -->
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">heimdall scan — live</span>
+      </div>
+      <div class="terminal-body" id="terminal-body"></div>
+    </div>
+  </div>
+
+  <!-- Results stream (appears after scans) -->
+  <div class="results-stream" id="results-stream"></div>
+
+  <div class="mockup-label">Demo Section v2 — Terminal + Chips + Stream</div>
+
+  <script>
+  (function() {
+    'use strict';
+
+    const startTime = performance.now();
+    const timerEl = document.getElementById('elapsed-timer');
+    const timerInterval = setInterval(() => {
+      timerEl.textContent = ((performance.now() - startTime) / 1000).toFixed(1) + 's';
+    }, 100);
+
+    // Connection bar
+    setTimeout(() => {
+      document.getElementById('connection-bar').className = 'connection-bar open';
+    }, 1200);
+
+    const scanTypes = [
+      { type: 'httpx', label: 'httpx', duration: 340 },
+      { type: 'webanalyze', label: 'webanalyze', duration: 520 },
+      { type: 'subfinder', label: 'subfinder', duration: 890 },
+      { type: 'dnsx', label: 'dnsx', duration: 180 },
+      { type: 'tlsx', label: 'tlsx', duration: 260 },
+      { type: 'headers', label: 'sec-headers', duration: 150 },
+      { type: 'crt_sh', label: 'crt.sh', duration: 430 },
+      { type: 'robots', label: 'robots.txt', duration: 80 },
+    ];
+
+    // Render all chips as pending
+    const chipsContainer = document.getElementById('scan-chips');
+    scanTypes.forEach(s => {
+      const chip = document.createElement('span');
+      chip.className = 'scan-chip';
+      chip.id = `chip-${s.type}`;
+      chip.innerHTML = `<span class="chip-dot"></span>${s.label}<span class="chip-ms"></span>`;
+      chipsContainer.appendChild(chip);
+    });
+
+    // Terminal log
+    const terminal = document.getElementById('terminal-body');
+    let logIndex = 0;
+
+    function log(parts) {
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      line.style.animationDelay = '0ms';
+      line.innerHTML = parts.map(([cls, text]) => `<span class="log-${cls}">${text}</span>`).join(' ');
+      terminal.appendChild(line);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function ts() {
+      const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+      return `[${elapsed.padStart(5)}s]`;
+    }
+
+    // Stats
+    function setStat(id, val) {
+      const el = document.getElementById(id);
+      const cell = el.closest('.stat-cell');
+      el.style.setProperty('--num', val);
+      cell.classList.remove('flash-on-change');
+      void cell.offsetWidth;
+      cell.classList.add('flash-on-change');
+    }
+
+    // Progress
+    function setProgress(pct, label) {
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-pct').textContent = Math.round(pct) + '%';
+      if (label) document.getElementById('progress-label').textContent = label;
+    }
+
+    // Chip state
+    function setChip(type, state, durationMs) {
+      const chip = document.getElementById(`chip-${type}`);
+      chip.className = `scan-chip ${state}`;
+      if (state === 'done' && durationMs) {
+        chip.querySelector('.chip-ms').textContent = durationMs + 'ms';
+      }
+    }
+
+    // ---- Orchestrate the demo ----
+
+    let delay = 800;
+
+    // Init logs
+    setTimeout(() => {
+      log([['time', ts()], ['info', 'heimdall'], ['dim', '—'], ['info', 'connecting to scan engine...']]);
+    }, delay);
+    delay += 600;
+
+    setTimeout(() => {
+      log([['time', ts()], ['ok', '✓'], ['info', 'engine ready'], ['dim', '— target:'], ['accent', 'restaurant-nordlys.dk']]);
+    }, delay);
+    delay += 400;
+
+    setTimeout(() => {
+      log([['time', ts()], ['info', 'resolving domain...']]);
+    }, delay);
+    delay += 500;
+
+    setTimeout(() => {
+      log([['time', ts()], ['ok', '✓'], ['info', 'DNS resolved'], ['dim', '— 104.21.32.187 (Cloudflare)']]);
+      log([['time', ts()], ['info', 'checking robots.txt...']]);
+    }, delay);
+    delay += 400;
+
+    setTimeout(() => {
+      log([['time', ts()], ['ok', '✓'], ['info', 'robots.txt allows scanning']]);
+      log([['time', ts()], ['dim', '────────────────────────────────']]);
+      log([['time', ts()], ['accent', '▸'], ['info', 'starting scan battery'], ['dim', `— ${scanTypes.length} modules`]]);
+    }, delay);
+    delay += 600;
+
+    // Run each scan
+    let completed = 0;
+    scanTypes.forEach((scan, i) => {
+      // Start
+      setTimeout(() => {
+        setChip(scan.type, 'running');
+        setProgress(((i) / scanTypes.length) * 100, `Running ${scan.label}...`);
+        log([['time', ts()], ['accent', '▸'], ['info', scan.label], ['dim', '— scanning...']]);
+      }, delay);
+
+      const scanDuration = 400 + Math.random() * 800;
+      delay += scanDuration;
+
+      // Complete
+      setTimeout(() => {
+        completed++;
+        setChip(scan.type, 'done', scan.duration);
+        setProgress((completed / scanTypes.length) * 100,
+          completed === scanTypes.length ? 'All scans complete' : `Running scans...`);
+        setStat('stat-scans-val', completed);
+
+        // Contextual log lines
+        if (scan.type === 'subfinder') {
+          setStat('stat-subs-val', 4);
+          log([['time', ts()], ['ok', '✓'], ['info', scan.label], ['dim', `— ${scan.duration}ms`], ['dim', '—'], ['accent', '4 subdomains found']]);
+        } else if (scan.type === 'webanalyze') {
+          setStat('stat-techs-val', 6);
+          log([['time', ts()], ['ok', '✓'], ['info', scan.label], ['dim', `— ${scan.duration}ms`], ['dim', '—'], ['accent', '6 technologies detected']]);
+        } else if (scan.type === 'headers') {
+          log([['time', ts()], ['warn', '⚠'], ['info', scan.label], ['dim', `— ${scan.duration}ms`], ['dim', '—'], ['warn', '3 missing headers']]);
+        } else {
+          log([['time', ts()], ['ok', '✓'], ['info', scan.label], ['dim', `— ${scan.duration}ms`]]);
+        }
+      }, delay);
+
+      delay += 200;
+    });
+
+    // ---- Results phase ----
+    delay += 600;
+
+    setTimeout(() => {
+      log([['time', ts()], ['dim', '────────────────────────────────']]);
+      log([['time', ts()], ['ok', '✓'], ['info', 'scan battery complete'], ['dim', '— analyzing results...']]);
+    }, delay);
+
+    delay += 1000;
+
+    // Tech reveal
+    setTimeout(() => {
+      const stream = document.getElementById('results-stream');
+
+      // Tech divider
+      const techDivider = document.createElement('div');
+      techDivider.className = 'stream-divider';
+      techDivider.innerHTML = '<span>Technology Stack</span>';
+      stream.appendChild(techDivider);
+
+      // Tech grid
+      const techs = [
+        { name: 'Apache', ver: '2.4', type: 'server' },
+        { name: 'WordPress', ver: '6.4', type: 'cms' },
+        { name: 'PHP', ver: '8.1', type: 'server' },
+        { name: 'jQuery', ver: '3.7', type: 'js' },
+        { name: 'Yoast SEO', ver: '21.x', type: 'plugin' },
+        { name: 'WooCommerce', ver: '8.4', type: 'plugin' },
+      ];
+      const grid = document.createElement('div');
+      grid.className = 'tech-grid';
+      techs.forEach((t, i) => {
+        const item = document.createElement('div');
+        item.className = 'tech-item';
+        item.style.animationDelay = `${i * 80}ms`;
+        item.innerHTML = `
+          <span class="tech-item-dot ${t.type}"></span>
+          <span class="tech-item-name">${t.name}</span>
+          <span class="tech-item-ver">${t.ver}</span>`;
+        grid.appendChild(item);
+      });
+      stream.appendChild(grid);
+
+      log([['time', ts()], ['accent', '▸'], ['info', 'technology stack identified'], ['dim', '— 6 components']]);
+    }, delay);
+
+    delay += 1200;
+
+    // Findings
+    const findings = [
+      { sev: 'high', title: 'Missing Content-Security-Policy', risk: 'No CSP header present. Cross-site scripting (XSS) attacks can inject and execute arbitrary scripts in the user\'s browser session.' },
+      { sev: 'high', title: 'WordPress version exposed', risk: 'Version 6.4 is publicly visible in page source and meta tags, enabling targeted exploitation of known CVEs.' },
+      { sev: 'medium', title: 'Missing X-Frame-Options', risk: 'Page can be embedded in iframes on any domain. Clickjacking attacks can trick authenticated users into unintended actions.' },
+      { sev: 'low', title: 'Server version disclosed', risk: 'Apache 2.4 version string visible in Server header. Minor information leak that aids reconnaissance.' },
+    ];
+
+    setTimeout(() => {
+      const stream = document.getElementById('results-stream');
+      const findingsDivider = document.createElement('div');
+      findingsDivider.className = 'stream-divider';
+      findingsDivider.innerHTML = `<span>Security Findings — ${findings.length} issues</span>`;
+      stream.appendChild(findingsDivider);
+
+      setStat('stat-findings-val', findings.length);
+
+      findings.forEach((f, i) => {
+        setTimeout(() => {
+          const card = document.createElement('div');
+          card.className = 'finding-card-v2';
+          card.innerHTML = `
+            <div class="finding-card-v2-top">
+              <div class="finding-sev-bar ${f.sev}"></div>
+              <div class="finding-card-v2-body">
+                <div class="finding-card-v2-title">${f.title}</div>
+                <div class="finding-card-v2-sev ${f.sev}">${f.sev}</div>
+              </div>
+            </div>
+            <div class="finding-card-v2-detail" id="finding-risk-${i}"></div>`;
+          stream.appendChild(card);
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+          // Typewriter
+          const riskEl = document.getElementById(`finding-risk-${i}`);
+          riskEl.classList.add('typing');
+          let ci = 0;
+          function tick() {
+            if (ci < f.risk.length) {
+              riskEl.textContent += f.risk[ci]; ci++;
+              setTimeout(tick, 12);
+            } else {
+              riskEl.classList.remove('typing');
+            }
+          }
+          tick();
+
+          const sevWord = f.sev === 'high' ? 'err' : f.sev === 'medium' ? 'warn' : 'info';
+          log([['time', ts()], [sevWord, f.sev.toUpperCase()], ['info', f.title]]);
+        }, i * 1400);
+      });
+
+      // Summary after all findings
+      setTimeout(() => {
+        clearInterval(timerInterval);
+
+        const banner = document.createElement('div');
+        banner.className = 'summary-banner';
+        const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+        banner.innerHTML = `
+          <div class="summary-banner-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M24 4L6 14v12c0 11 8 21 18 24 10-3 18-13 18-24V14L24 4z" fill="currentColor" opacity="0.08"/>
+              <path d="M18 24l4 4 8-8" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <h3>Assessment Complete</h3>
+          <p>restaurant-nordlys.dk scanned in ${elapsed}s</p>
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <div class="summary-stat-val high">2</div>
+              <div class="summary-stat-label">High</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat-val medium">1</div>
+              <div class="summary-stat-label">Medium</div>
+            </div>
+            <div class="summary-stat">
+              <div class="summary-stat-val low">1</div>
+              <div class="summary-stat-label">Low</div>
+            </div>
+          </div>`;
+        stream.appendChild(banner);
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        log([['time', ts()], ['dim', '────────────────────────────────']]);
+        log([['time', ts()], ['ok', '✓'], ['info', 'assessment complete'], ['dim', `— ${elapsed}s, ${findings.length} findings`]]);
+      }, findings.length * 1400 + 800);
+    }, delay);
+
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<h2>Framework Options for the Mobile Console</h2>
+<p class="subtitle">How far do you want to go from the current vanilla JS?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Svelte + Vite (Full Rewrite)</h3>
+      <p>Rewrite the console as a proper Svelte app with Vite build tooling. Component architecture, reactive stores for WebSocket state, built-in transitions for animations. The fullstack-guy's <code>svelte.md</code> patterns slot in directly.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Smallest bundle — compiles to vanilla JS, no runtime</li>
+          <li>Built-in transitions (<code>fly</code>, <code>fade</code>, <code>slide</code>) replace manual CSS</li>
+          <li><code>tweened</code> stores for smooth metric animations</li>
+          <li>Reactive WebSocket store pattern from references</li>
+          <li>Component isolation — each card/widget is its own .svelte file</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Requires build step (Vite dev server + build output)</li>
+          <li>Need to decide how to serve: static build output vs. Vite proxy to FastAPI</li>
+          <li>Full rewrite of ~1,700 lines</li>
+          <li>Smaller ecosystem than React (fewer off-the-shelf components)</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Svelte Components, Keep the Shell</h3>
+      <p>Keep the existing HTML shell and CSS but extract interactive pieces (queue cards, demo timeline, finding cards) into Svelte components mounted into the page. Incremental adoption — migrate one widget at a time.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Migrate gradually — no big-bang rewrite</li>
+          <li>Reuse existing CSS and layout</li>
+          <li>Each component is independently testable</li>
+          <li>Can stop halfway and still have a working app</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Still needs Vite build step for Svelte compilation</li>
+          <li>Two mental models (vanilla + Svelte) coexisting</li>
+          <li>WebSocket store benefits are limited if only some parts use it</li>
+          <li>Ends up as a hybrid — eventually want full migration anyway</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Vanilla JS + Structured Patterns</h3>
+      <p>Stay framework-free but apply the <em>architectural ideas</em> from the Svelte reference: a WebSocket manager class with reconnection/heartbeat, a reactive state layer, CSS transitions inspired by <code>animations.md</code>. No build step.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Zero build tooling — stays as static files served by FastAPI</li>
+          <li>No compilation, no node_modules, no dev server</li>
+          <li>Simplest deployment — just copy files</li>
+          <li>Smallest diff from current code</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Manual DOM updates — no reactivity, no component model</li>
+          <li>Animations stay hand-rolled CSS</li>
+          <li>Harder to maintain as features grow</li>
+          <li>Doesn't leverage the fullstack-guy's Svelte reference patterns</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</div>
