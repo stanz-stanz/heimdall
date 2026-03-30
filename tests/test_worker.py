@@ -68,6 +68,7 @@ def _patch_all_scans():
         patch("src.worker.scan_job._run_dnsx", return_value=_DNSX_RESULT),
         patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
         patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
+        patch("src.worker.scan_job._BUCKET_FILTER", None),
     ]
 
 
@@ -94,7 +95,8 @@ class TestColdCache:
             assert result["domain"] == _DOMAIN
             # All scan functions must have been called (robots + 9 scan types)
             for m in mocks:
-                m.assert_called()
+                if m is not None:  # attribute patches (e.g. _BUCKET_FILTER) return None
+                    m.assert_called()
             # All misses, no hits (robots is not cached)
             assert result["cache_stats"]["misses"] == 9
             assert result["cache_stats"]["hits"] == 0
@@ -299,3 +301,35 @@ class TestCMSDerivation:
 
             sr = result["scan_result"]
             assert sr["cms"] == ""
+
+
+class TestBucketFilterEarlyReturn:
+    """Verify bucket filter skips expensive scans for excluded buckets."""
+
+    def test_bucket_filter_skips_subfinder(self) -> None:
+        """When _BUCKET_FILTER excludes the domain's bucket, subfinder is NOT called."""
+        cache = _make_cache()
+
+        # Nginx + HTML5 only → no CMS → bucket E
+        httpx_no_cms = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["nginx", "HTML5"]}}
+
+        with patch("src.worker.scan_job._check_robots_txt", return_value=True), \
+             patch("src.worker.scan_job._check_ssl", return_value=_SSL_RESULT), \
+             patch("src.worker.scan_job._get_response_headers", return_value=_HEADERS_RESULT), \
+             patch("src.worker.scan_job._extract_page_meta", return_value=("", "", [])), \
+             patch("src.worker.scan_job._run_httpx", return_value=httpx_no_cms), \
+             patch("src.worker.scan_job._run_webanalyze", return_value={}), \
+             patch("src.worker.scan_job._run_subfinder") as mock_subfinder, \
+             patch("src.worker.scan_job._run_dnsx", return_value={}), \
+             patch("src.worker.scan_job._query_local_ct", return_value=(_DOMAIN, [])), \
+             patch("src.worker.scan_job._query_grayhatwarfare", return_value={}), \
+             patch("src.worker.scan_job._BUCKET_FILTER", {"A"}):
+
+            result = execute_scan_job(_BASE_JOB, cache)
+
+            assert result["status"] == "completed"
+            assert result["filtered"] == "bucket:E"
+            assert "brief" in result
+            assert "timing" in result
+            assert "total_ms" in result["timing"]
+            mock_subfinder.assert_not_called()

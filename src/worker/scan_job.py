@@ -18,8 +18,9 @@ import redis
 
 from src.prospecting.brief_generator import generate_brief, _determine_gdpr_sensitivity
 from src.prospecting.bucketer import classify
-from src.prospecting.config import CMS_KEYWORDS, HOSTING_PROVIDERS
+from src.prospecting.config import CMS_KEYWORDS, HOSTING_PROVIDERS, DEFAULT_FILTERS
 from src.prospecting.cvr import Company
+from src.prospecting.filters import load_filters
 from src.prospecting.scanner import (
     ScanResult,
     _check_robots_txt,
@@ -39,6 +40,13 @@ from src.ct_collector.db import open_readonly, query_certificates
 from .cache import ScanCache
 
 log = logging.getLogger(__name__)
+
+# Load bucket filter once at import time
+_filters = load_filters(DEFAULT_FILTERS)
+_BUCKET_FILTER = None
+_bucket_raw = _filters.get("bucket")
+if _bucket_raw:
+    _BUCKET_FILTER = {b.upper() for b in _bucket_raw}
 
 # Path to the local CT database (set via CT_DB_PATH env var or --ct-db arg)
 _CT_DB_PATH: str = os.environ.get("CT_DB_PATH", "/data/ct/certificates.db")
@@ -199,15 +207,9 @@ def execute_scan_job(
     else:
         meta_author, footer_credit, plugins = "", "", []
 
-    # --- batch-style tools called with single-domain list ---
+    # --- batch-style tools for tech detection (cheap) ---
     httpx_results = _cached_or_run("httpx", _run_httpx, [domain])
     webanalyze_results = _cached_or_run("webanalyze", _run_webanalyze, [domain])
-    subfinder_results = _cached_or_run("subfinder", _run_subfinder, [domain])
-    dnsx_results = _cached_or_run("dnsx", _run_dnsx, [domain])
-
-    # --- API queries ---
-    crtsh_raw = _cached_or_run("crtsh", _query_local_ct, domain)
-    ghw_results = _cached_or_run("ghw", _query_grayhatwarfare, [domain])
 
     # ------------------------------------------------------------------
     # 3. Assemble ScanResult
@@ -252,6 +254,71 @@ def execute_scan_job(
     # Deduplicate tech stack
     scan.tech_stack = list(dict.fromkeys(scan.tech_stack))
 
+    # ------------------------------------------------------------------
+    # 3b. Derive CMS and hosting (early — needed for bucket filter)
+    # ------------------------------------------------------------------
+    for tech in scan.tech_stack:
+        for keyword, cms_name in CMS_KEYWORDS.items():
+            if keyword in tech.lower():
+                scan.cms = cms_name
+                break
+        if scan.cms:
+            break
+
+    combined = (scan.server + " " + " ".join(scan.tech_stack)).lower()
+    for hint, provider in HOSTING_PROVIDERS.items():
+        if hint in combined and provider:
+            scan.hosting = provider
+            break
+
+    # ------------------------------------------------------------------
+    # 3c. Bucket filter — skip expensive scans for unwanted buckets
+    # ------------------------------------------------------------------
+    company = Company(
+        cvr=job.get("client_id", "prospect"),
+        name=job.get("company_name", domain),
+        address="", postcode="", city="",
+        company_form="", industry_code=job.get("industry_code", ""),
+        industry_name=job.get("industry_name", ""),
+        phone="", email="",
+        ad_protected=False,
+        website_domain=domain,
+        discard_reason="",
+    )
+    bucket = classify(company, scan)
+
+    if _BUCKET_FILTER and bucket not in _BUCKET_FILTER:
+        total_ms = int((time.monotonic() - job_t0) * 1000)
+        log.info(
+            "domain_filtered",
+            extra={"context": {
+                "domain": domain, "bucket": bucket,
+                "allowed_buckets": sorted(_BUCKET_FILTER),
+                "duration_ms": total_ms,
+            }},
+        )
+        brief = generate_brief(company, scan, bucket)
+        timing_ms = {k: int(v * 1000) if isinstance(v, float) else v for k, v in timing.items()}
+        timing_ms["total_ms"] = total_ms
+        return {
+            "domain": domain,
+            "job_id": job_id,
+            "status": "completed",
+            "scan_result": asdict(scan),
+            "brief": brief,
+            "timing": timing_ms,
+            "cache_stats": {"hits": job_hits, "misses": job_misses},
+            "filtered": f"bucket:{bucket}",
+        }
+
+    # ------------------------------------------------------------------
+    # 4. Expensive scans — only for domains that pass bucket filter
+    # ------------------------------------------------------------------
+    subfinder_results = _cached_or_run("subfinder", _run_subfinder, [domain])
+    dnsx_results = _cached_or_run("dnsx", _run_dnsx, [domain])
+    crtsh_raw = _cached_or_run("crtsh", _query_local_ct, domain)
+    ghw_results = _cached_or_run("ghw", _query_grayhatwarfare, [domain])
+
     # Subdomains
     if isinstance(subfinder_results, dict):
         scan.subdomains = subfinder_results.get(domain, [])
@@ -263,10 +330,8 @@ def execute_scan_job(
     # crt.sh — returns (domain, certs_list) or cached list
     if isinstance(crtsh_raw, (list, tuple)):
         if len(crtsh_raw) == 2 and isinstance(crtsh_raw[0], str):
-            # Fresh call: (domain, certs)
             scan.ct_certificates = crtsh_raw[1] if isinstance(crtsh_raw[1], list) else []
         else:
-            # Cached: already the list (was serialised as list from tuple)
             scan.ct_certificates = list(crtsh_raw)
     elif isinstance(crtsh_raw, dict):
         scan.ct_certificates = []
@@ -276,7 +341,7 @@ def execute_scan_job(
         scan.exposed_cloud_storage = ghw_results.get(domain, [])
 
     # ------------------------------------------------------------------
-    # 3b. Level 1 scans (active probing — only when job.level >= 1)
+    # 4b. Level 1 scans (active probing — only when job.level >= 1)
     # ------------------------------------------------------------------
     level1_scan_result: Optional[dict] = None
     job_level = job.get("level", 0)
@@ -309,24 +374,7 @@ def execute_scan_job(
         )
 
     # ------------------------------------------------------------------
-    # 4. Derive CMS and hosting (same logic as scanner.py)
-    # ------------------------------------------------------------------
-    for tech in scan.tech_stack:
-        for keyword, cms_name in CMS_KEYWORDS.items():
-            if keyword in tech.lower():
-                scan.cms = cms_name
-                break
-        if scan.cms:
-            break
-
-    combined = (scan.server + " " + " ".join(scan.tech_stack)).lower()
-    for hint, provider in HOSTING_PROVIDERS.items():
-        if hint in combined and provider:
-            scan.hosting = provider
-            break
-
-    # ------------------------------------------------------------------
-    # 4b. WPScan — WordPress domains only, delegated to sidecar via Redis
+    # 4c. WPScan — WordPress domains only, delegated to sidecar via Redis
     # ------------------------------------------------------------------
     if level1_scan_result is not None and scan.cms == "WordPress" and redis_conn is not None:
         wpscan_data = cache.get("wpscan", domain)
@@ -340,19 +388,6 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     # 5. Generate findings + GDPR determination
     # ------------------------------------------------------------------
-    # Build a minimal Company for brief generation
-    company = Company(
-        cvr=job.get("client_id", "prospect"),
-        name=job.get("company_name", domain),
-        address="", postcode="", city="",
-        company_form="", industry_code=job.get("industry_code", ""),
-        industry_name=job.get("industry_name", ""),
-        phone="", email="",
-        ad_protected=False,
-        website_domain=domain,
-        discard_reason="",
-    )
-    bucket = classify(company, scan)
     brief = generate_brief(company, scan, bucket)
 
     # ------------------------------------------------------------------

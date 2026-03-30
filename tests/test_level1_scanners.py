@@ -81,6 +81,7 @@ def _patch_all_scans_with_nuclei():
         patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
         patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
         patch("src.worker.twin_scan.run_twin_scan", return_value=None),
+        patch("src.worker.scan_job._BUCKET_FILTER", None),
     ]
 
 
@@ -403,6 +404,7 @@ class TestWPScanDelegation:
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
             patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
+            patch("src.worker.scan_job._BUCKET_FILTER", None),
         ]
         for p in patches:
             p.start()
