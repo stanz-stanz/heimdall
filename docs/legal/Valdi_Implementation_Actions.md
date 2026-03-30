@@ -2,7 +2,7 @@
 
 **Context:** Valdí is Heimdall's legal compliance agent. Its definition, forensic log format, approval token mechanism, and scan-type registry are specified in `SKILL.md`. This document lists the actions to request from Claude Code to make Valdí operational.
 
-**Environment:** Claude Code. Not OpenClaw, not Pi — those come later.
+**Environment:** Claude Code. Pi infrastructure comes later.
 
 ---
 
@@ -123,6 +123,6 @@ After each Valdí validation (Gate 1 or Gate 2), surface the result to Federico.
 
 ## What This Does NOT Cover (Yet)
 
-- **Runtime request interception** — comes when you move to Pi/OpenClaw infrastructure. For now, the control is pre-execution.
+- **Runtime request interception** — comes when you move to Pi infrastructure. For now, the control is pre-execution.
 - **Network-level enforcement (iptables)** — same, infrastructure-level control for later.
 - **Level 1 consent document management** — the authorisation registry structure exists in `SKILL.md`, but the workflow for collecting and storing signed consent documents is a separate task once pilot clients are onboarding.

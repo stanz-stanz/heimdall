@@ -2,7 +2,7 @@
   <img src="/docs/images/heimdall.png?raw=true" alt="Heimdall keeps watch for invaders"/>
 </p>
 
-## An OpenClaw-Powered Cybersecurity Service for Small Businesses
+## AI-Powered Cybersecurity Service for Small Businesses
 
 External Attack Surface Management (EASM) for Danish SMBs. Finds vulnerabilities, explains them in plain language, delivers via Telegram.
 

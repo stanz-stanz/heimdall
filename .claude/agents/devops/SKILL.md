@@ -42,9 +42,9 @@ You are the DevOps agent for Heimdall. You manage all infrastructure configurati
 - Raspberry Pi 5, 8 GB RAM
 - NVMe SSD via HAT
 - Raspberry Pi OS Lite (64-bit)
-- OpenClaw agent framework
+- Claude API agent (Anthropic SDK, Sonnet) for interpretation and delivery
+- python-telegram-bot for two-way client communication
 - Tailscale VPN (zero inbound ports)
-- Claude API (Sonnet) via HTTPS
 - Telegram Bot API via HTTPS
 - Cron-based scan scheduling
 
@@ -53,7 +53,7 @@ You are the DevOps agent for Heimdall. You manage all infrastructure configurati
 - Docker containerisation
 - Logical separation: scanning container ↔ communication container
 - Multi-node potential as client volume scales
-- Same OpenClaw skill architecture, different substrate
+- Same agent architecture (Claude API + tools), different substrate
 
 ## Inputs
 

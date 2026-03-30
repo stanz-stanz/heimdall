@@ -14,9 +14,9 @@ MANDATORY: Before performing any task, determine which agent(s) from `.claude/ag
 
 ## What This Repository Is
 
-Heimdall is an External Attack Surface Management (EASM) service for small businesses. It runs on OpenClaw, interprets findings via Claude API, and delivers plain-language results through Telegram. No client dashboard.
+Heimdall is an External Attack Surface Management (EASM) service for small businesses. It uses a Claude API agent (Anthropic SDK with tool use) to interpret findings in plain language and delivers results through Telegram. No client dashboard.
 
-This repository is in **Phase 0 — Lead Generation Pipeline**, building on the laptop via Claude Code. OpenClaw and Pi infrastructure come later.
+This repository is in **Phase 0 — Lead Generation Pipeline**, building on the laptop via Claude Code. Pi infrastructure comes later.
 
 ---
 

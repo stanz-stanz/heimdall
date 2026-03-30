@@ -7,7 +7,7 @@
 
 ## What Is Heimdall
 
-Heimdall is an External Attack Surface Management (EASM) service for small and medium businesses. It runs on OpenClaw (open-source AI agent framework) and continuously monitors the public-facing digital surface of client websites — discovering assets, detecting vulnerabilities, interpreting findings in plain language, and delivering them through messaging apps (Telegram, WhatsApp). Named after the Norse god who never sleeps and sees all threats approaching.
+Heimdall is an External Attack Surface Management (EASM) service for small and medium businesses. It uses a Claude API agent (Anthropic SDK with tool use and agentic loops) to continuously monitor the public-facing digital surface of client websites — discovering assets, detecting vulnerabilities, interpreting findings in plain language, and delivering them through Telegram. Named after the Norse god who never sleeps and sees all threats approaching.
 
 ### What Is EASM
 
@@ -164,10 +164,9 @@ The Pi is an implementation detail for the pilot, not a selling point. Clients c
 - Raspberry Pi 5, 8 GB RAM, NVMe SSD via HAT
 - Official 27W PSU, active cooler
 - Raspberry Pi OS Lite (64-bit, minimal attack surface)
-- OpenClaw as gateway/orchestrator
+- Claude API agent (Anthropic SDK, Sonnet) for finding interpretation and delivery orchestration
+- python-telegram-bot for two-way client communication
 - Tailscale VPN (no inbound ports)
-- Claude API (Sonnet) for finding interpretation
-- Telegram Bot for client delivery
 
 ### Production Migration Path (Post-Pilot)
 
@@ -175,7 +174,7 @@ The Pi is an implementation detail for the pilot, not a selling point. Clients c
 - Docker containerization for reproducibility
 - Separation of scanning infrastructure from client communication
 - Potential multi-node architecture as client volume grows
-- Same OpenClaw skill architecture, different substrate
+- Same agent architecture (Claude API + tools), different substrate
 
 ### Digital Twin Container (Testing Infrastructure)
 
@@ -356,7 +355,7 @@ Contingency    |~800–1.500 kr.
 
 ### Timeline
 
-**Week 1:** Build lead-gen pipeline in Claude Code on laptop. Implement Valdí compliance gates. Test scanning functions on own domains. Pi/OpenClaw setup comes after pipeline is validated.
+**Week 1:** Build lead-gen pipeline in Claude Code on laptop. Implement Valdí compliance gates. Test scanning functions on own domains. Pi setup comes after pipeline is validated.
 
 **Week 2–3:** Run prospecting scan across Vejle businesses. Recruit 5 pilot clients from Bucket A. Free first month. Get written scanning authorization.
 
@@ -387,7 +386,7 @@ Every finding ends with a clear "who should fix this" line. Sentinel and Guardia
 
 1. **heimdall-siri-application.md** — Startup Denmark (SIRI) application document, targeting the expert panel's four scoring criteria (Innovation, Market Potential, Scalability, Team)
 2. **Heimdall_Legal_Risk_Assessment.md** — legal research memo on §263 and scanning consent (with Valdí addendum)
-3. **OpenClaw_RPi5_Autonomous_Profit_Research.md** — original research on autonomous profit scenarios
+3. **OpenClaw_RPi5_Autonomous_Profit_Research.md** — original research on autonomous profit scenarios (historical — OpenClaw removed from Heimdall architecture 2026-03-29)
 4. **SCANNING_RULES.md** — authoritative constraint document for all scanning code (project root)
 5. **.claude/agents/valdi/SKILL.md** — Valdí legal compliance agent specification
 6. **docs/legal/Valdi_Implementation_Actions.md** — implementation checklist for the compliance system
