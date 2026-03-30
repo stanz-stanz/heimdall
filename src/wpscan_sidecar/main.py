@@ -98,9 +98,15 @@ def _run_wpscan(domain: str) -> dict:
 
     # Exit code 4 = not WordPress (should not happen with --force)
     if result.returncode == 4:
+        abort_reason = ""
+        try:
+            err_data = json.loads(result.stdout)
+            abort_reason = err_data.get("scan_aborted", str(err_data)[:500])
+        except (json.JSONDecodeError, TypeError):
+            abort_reason = result.stdout[:500].replace("\n", " ")
         log.warning(
-            "wpscan: %s exit 4 despite --force — stderr: %s — stdout: %s",
-            domain, result.stderr[:500], result.stdout[:500],
+            "wpscan: %s exit 4 despite --force — reason: %s",
+            domain, abort_reason,
         )
         return {
             "status": "not_wordpress",
