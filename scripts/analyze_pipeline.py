@@ -18,7 +18,34 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
+def load_briefs_from_results(results_dir: Path) -> list[dict]:
+    """Extract briefs from worker result files in data/results/."""
+    briefs = []
+    if not results_dir.is_dir():
+        return briefs
+    for client_dir in sorted(results_dir.iterdir()):
+        if not client_dir.is_dir():
+            continue
+        for domain_dir in sorted(client_dir.iterdir()):
+            if not domain_dir.is_dir():
+                continue
+            # Most recent result file per domain
+            json_files = sorted(domain_dir.glob("*.json"), reverse=True)
+            if not json_files:
+                continue
+            try:
+                with open(json_files[0]) as f:
+                    result = json.load(f)
+                brief = result.get("brief")
+                if brief:
+                    briefs.append(brief)
+            except (json.JSONDecodeError, OSError):
+                continue
+    return briefs
+
+
 def load_briefs(briefs_dir: Path) -> list[dict]:
+    """Load standalone brief files (legacy)."""
     briefs = []
     for f in sorted(briefs_dir.glob("*.json")):
         try:
@@ -369,13 +396,20 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
 
 def main():
     parser = argparse.ArgumentParser(description="Analyze Heimdall pipeline output")
-    parser.add_argument("--briefs-dir", default="data/output/briefs")
+    parser.add_argument("--briefs-dir", default="data/output/briefs",
+                        help="Legacy standalone briefs directory (fallback only)")
     parser.add_argument("--csv", default="data/output/prospects-list.csv")
     parser.add_argument("--results-dir", default="data/results")
     parser.add_argument("--deep", action="store_true", help="Run deep analysis with contactable, industry, timing, and outreach prioritization")
     args = parser.parse_args()
 
-    briefs = load_briefs(Path(args.briefs_dir))
+    # Primary: extract briefs from worker results. Fallback: legacy standalone briefs.
+    briefs = load_briefs_from_results(Path(args.results_dir))
+    if not briefs:
+        briefs = load_briefs(Path(args.briefs_dir))
+        if briefs:
+            print("  (using legacy briefs from data/output/briefs/)\n")
+
     csv_rows = load_csv(Path(args.csv))
 
     if args.deep:
