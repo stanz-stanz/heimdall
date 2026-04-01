@@ -1,4 +1,4 @@
-# Heimdall — Legal Risk Assessment: Vulnerability Scanning Without Consent in Denmark
+# Heimdall — Our own Legal Risk Assessment: Vulnerability Scanning Without Consent in Denmark
 
 **Research Memo — March 21, 2026**
 **Status: Preliminary research for review by legal counsel. This document does not constitute legal advice.**
@@ -79,13 +79,34 @@ Sources: Nmap legal guide (https://nmap.org/book/legal-issues.html), SCRIPTed jo
 
 **Relevance to Heimdall:** This layer covers the core vulnerability scanning service — the weekly/daily scans that detect specific CVEs, misconfigurations, and exploitable weaknesses.
 
-### Layer 3 — Exploitation / Penetration Testing
+### Layer 3 — Exploitation / Penetration Testing (Out of scope)
 
-**What it involves:** Attempting to actually exploit a vulnerability — SQL injection, authentication bypass, privilege escalation.
+#### Heimdall does not and will not perform neither active exploitation, nor penetration testing. This layer is outside scope.
 
-**Legal risk assessment:** Clearly criminal without consent under §263. No ambiguity.
+### Digital Twin — Scanning Heimdall's Own Infrastructure
 
-**Relevance to Heimdall:** Heimdall does not perform exploitation. This layer is outside scope.
+*Added March 28, 2026. See the Scanning Rules document, section "Heimdall-Owned Test Infrastructure", and the Digital Twin Use Cases document for full details.*
+
+**What it involves:** Heimdall constructs a replica ("digital twin") of a prospect's website on its own infrastructure. The twin is a Docker container that simulates the prospect's technology stack (WordPress version, plugin versions, missing headers, exposed endpoints) by replaying data collected during Layer 1 scanning. Layer 2 vulnerability scanners (Nuclei, WPScan) then run against this replica — never against the prospect's live server.
+
+**The legal argument:** Straffeloven §263, stk. 1 criminalizes unauthorized access to *"en andens datasystem"* (another person's data system). The digital twin is Heimdall's own system, built from lawfully obtained public data. Scanning it cannot constitute a §263 violation because the target system belongs to the scanner operator, not to a third party.
+
+**Legal risk assessment:** This is a novel argument with no known Danish precedent. The strengths are:
+
+- The twin is demonstrably Heimdall's infrastructure (Docker container on Heimdall's hardware, built from Heimdall's code)
+- The input data (Layer 1 scan results) was lawfully collected from publicly served information
+- No requests are ever sent to the prospect's live infrastructure beyond the initial passive observation
+- The approach is analogous to downloading a publicly available software version and testing it locally for known vulnerabilities
+
+The risks are:
+
+- A prosecutor could argue the twin was created *specifically* to circumvent the consent requirement — that the intent behind the twin is to perform what would otherwise be unauthorized scanning
+- Twin-derived findings are inferences from detected software versions, not confirmed observations. If shared with prospects, inaccurate findings (e.g., claiming a vulnerability exists when it does not) could create tort liability
+- No Danish court has evaluated this argument. The legal basis is doctrinal (interpreting "en andens datasystem" literally), not precedential
+
+**Compliance controls:** Twin-targeted scans require Valdí Gate 1 approval tokens (tool validation) but bypass Gate 2 consent checks via a synthetic target registry. The registry is fail-closed: if the file is missing or malformed, all targets are treated as external. Findings carry a mandatory `provenance: "twin-derived"` marker through the entire pipeline.
+
+**Relevance to Heimdall:** The twin is a significant competitive advantage — it enables CVE-level findings without a signed agreement. It is also the feature most likely to face legal scrutiny, because it deliberately operates Layer 2 tools without target consent. Counsel should evaluate the §263 interpretation and advise on acceptable framing for twin-derived findings in outreach materials. See legal briefing Q4, Q8.
 
 ---
 
@@ -97,6 +118,8 @@ The following would strengthen the legal analysis but were not identified in thi
 - Danish regulatory guidance explicitly permitting or prohibiting good-faith external vulnerability scanning
 - A Danish safe harbor provision for security research (comparable to the US DOJ's 2022 CFAA policy or the Dutch coordinated vulnerability disclosure framework)
 - Guidance from Datatilsynet (Danish Data Protection Authority) or the Danish Centre for Cyber Security on this specific topic
+
+These gaps have been formalized as Question 10 in the legal briefing (`docs/legal/legal-briefing-outreach-2026-03-29.md`) for counsel review.
 
 ---
 
@@ -122,13 +145,17 @@ When a web agency authorizes Heimdall to scan their clients' websites, the legal
 
 ## Recommended Next Steps
 
-1. **Engage a Danish IT/cybersecurity lawyer** to confirm the Layer 1 / Layer 2 distinction and its treatment under §263. Firms with relevant specialization include Plesner, Kromann Reumert, and Bech-Bruun.
+*Updated April 1, 2026. Items 1–3 are now in progress — see status notes.*
 
-2. **Have counsel draft or review a scanning authorization template** — a simple document the client signs before active scanning begins, granting explicit permission for Heimdall to perform external vulnerability scanning against specified domains.
+1. **Engage a Danish IT/cybersecurity lawyer** to confirm the Layer 1 / Layer 2 distinction and its treatment under §263. Firms with relevant specialization include Plesner, Kromann Reumert, and Bech-Bruun. *Status: meeting scheduled for week of 2026-03-31. Legal briefing with 17 questions prepared (`docs/legal/legal-briefing-outreach-2026-03-29.md`).*
 
-3. **Obtain legal guidance on agency delegation** — whether a web agency can authorize scanning of their clients' sites under their existing service agreements, or whether each end client must consent independently.
+2. **Have counsel draft or review a scanning authorization template** — a simple document the client signs before active scanning begins, granting explicit permission for Heimdall to perform external vulnerability scanning against specified domains. *Status: template to be brought to the meeting. See legal briefing Q7, Q15.*
+
+3. **Obtain legal guidance on agency delegation** — whether a web agency can authorize scanning of their clients' sites under their existing service agreements, or whether each end client must consent independently. *Status: formalized as legal briefing Q11.*
 
 4. **Monitor legislative developments.** The NIS2 Directive (implemented in Denmark via the Danish NIS Act, effective July 1, 2025) and ongoing EU cybersecurity regulatory evolution may clarify the status of authorized external scanning services.
+
+5. **Obtain guidance on the digital twin legal basis** — whether running Layer 2 scanners against a self-hosted replica built from publicly collected data constitutes unauthorized access under §263, and whether twin-derived findings can be shared with prospects. *Added March 28, 2026. Formalized as legal briefing Q4, Q8.*
 
 ---
 
@@ -140,7 +167,7 @@ Since this assessment was written, the following technical and procedural contro
 
 A programmatic compliance agent ("Valdí") now validates all scanning code before execution. Valdí operates at two gates:
 
-- **Gate 1 (scan-type validation):** Every scanning function is reviewed against a documented set of rules (`SCANNING_RULES.md`) before it can execute. Valdí classifies the function's activities by Layer, confirms they do not exceed what the target's consent Level permits, and issues an approval token. If the function violates any rule, it is blocked with a structured explanation. Each review — approval or rejection — produces a timestamped forensic log with the full function source, reasoning, and rule citations.
+- **Gate 1 (scan-type validation):** Every scanning function is reviewed against a documented set of rules (`SCANNING_RULES.md`) before it can execute. Valdí classifies the function's activities by Layer, confirms they do not exceed what the target's consent state permits, and issues an approval token. If the function violates any rule, it is blocked with a structured explanation. Each review — approval or rejection — produces a timestamped forensic log with the full function source, reasoning, and rule citations.
 
 - **Gate 2 (per-target authorisation):** Before each scan batch, Valdí confirms that the scan type has a valid approval token and that each target's consent level permits the scan's Layer. Targets without written consent are restricted to Layer 1.
 
@@ -148,7 +175,7 @@ Valdí's forensic logs are retained as evidence of due diligence. Rejection logs
 
 ### robots.txt Compliance
 
-A blanket rule has been adopted: if a target's `robots.txt` denies automated access, Heimdall skips the target entirely, regardless of Layer or consent Level. This goes beyond what §263 requires, but reduces friction and demonstrates respect for site operators' expressed preferences.
+A blanket rule has been adopted: if a target's `robots.txt` denies automated access, Heimdall skips the target entirely, regardless of Layer or consent state. This goes beyond what §263 requires, but reduces friction and demonstrates respect for site operators' expressed preferences.
 
 ### Relevance to Counsel Consultation
 
@@ -156,14 +183,17 @@ These controls are documented in three project files that should accompany this 
 
 | Document | Contents |
 |----------|----------|
-| `SCANNING_RULES.md` | Authoritative rules for what is allowed/forbidden at each Layer and Level |
-| `.claude/agents/valdi/SKILL.md` | Valdí's full specification — gates, forensic log format, approval tokens, consent registry |
-| `docs/legal/Valdi_Implementation_Actions.md` | Implementation checklist for the compliance system |
+| `docs/legal/legal-briefing-outreach-2026-03-29.md` | **Legal briefing with 17 consolidated questions for counsel** — outreach, scanning, consent, GDPR |
+| `SCANNING_RULES.md` | Authoritative rules for what is allowed/forbidden at each Layer and consent state |
+| Valdí specification document | Valdí's full specification — gates, forensic log format, approval tokens, consent registry |
+| Valdí implementation checklist | Implementation checklist for the compliance system |
 
 ### Additional Questions for Counsel (Arising from Implementation)
 
-5. Does the existence of a programmatic compliance layer (Valdí) with timestamped forensic logs reduce liability if an agent-generated scanning function inadvertently crosses the Layer 1 / Layer 2 boundary?
-6. What audit trail documentation would a Danish court or prosecutor expect to see to demonstrate due diligence in automated external scanning?
+*These questions are now consolidated in the legal briefing (`docs/legal/legal-briefing-outreach-2026-03-29.md`) as Q13 and Q14, with expanded context and source references.*
+
+5. Does the existence of a programmatic compliance layer (Valdí) with timestamped forensic logs reduce liability if an agent-generated scanning function inadvertently crosses the Layer 1 / Layer 2 boundary? → *Legal briefing Q12*
+6. What audit trail documentation would a Danish court or prosecutor expect to see to demonstrate due diligence in automated external scanning? → *Legal briefing Q13*
 
 ---
 

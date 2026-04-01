@@ -5,6 +5,27 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-01 — Session wrap-up: legal document package, SIRI quotes, channel decisions
+
+**Decided**
+- Physical letter removed as outreach channel — contradicts Heimdall's modern positioning. All remaining channels are electronic (email, contact form, Messenger).
+- Phone calls removed as outreach channel — will not happen.
+- Old Q3 (physical letter to Reklamebeskyttet) removed from legal briefing. 17 questions → 16, renumbered. Cross-references updated across 6 files.
+- Legal briefing trimmed for semantic economy (390 → 295 lines). Removed verbose reasoning, redundant context, source annotations.
+- Documents Attached cut from 7 to 2 (notification + template). Internal docs available on request — lawyer doesn't need to read scanning rules or compliance checklists.
+- Sample security notification reworked from physical letter to channel-neutral message template.
+- Incident details (March 22: dates, paths, domain counts, 5-step response) removed from all outward-facing documents. Incident described only as "a scanning function crossed the Layer 1 boundary undetected."
+- Valdí sections in SIRI application (4.3, 5.5) rewritten for persuasion: contrast framing, two-gate reasoning, rejection logs as key evidence, honest limitations, "pre-revenue startup with compliance system" positioning.
+- Three industry quotes added to SIRI application: McLoughlin (SMB mandates), Microsoft (71% shadow AI), ISO 42001 (governance frameworks). References 18–20 added.
+
+**Rejected**
+- Keeping all 7 legal documents as attachments — lawyer bills by the hour, most are internal docs already summarized in the briefing.
+- Aggressive trim of legal briefing (removing "Our reasoning" sections entirely) — moderate trim chosen instead, keeping the three-part structure.
+
+**Unresolved**
+- Compliance checklist "Open Questions" section (6 items) is now a stale subset of the 16-question briefing — consider updating or adding a pointer to the briefing.
+- Lawyer meeting outcome will determine which outreach channels are viable — decisions on Q1 (notification ≠ marketing) are now existential since physical mail and phone were removed.
+
 ## 2026-03-30 — Session wrap-up: twin networking, bucket filter, tool audit, terminology purge
 
 **Decided**
@@ -66,7 +87,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 - OpenClaw permanently removed from Heimdall architecture. Replaced by Claude API agent (Anthropic SDK tool_use + agentic loops) + python-telegram-bot. Reasons: 512 known vulns, plaintext API key storage, 1,184 malicious ClawHub skills, Node.js/Python runtime mismatch, zero integration code after 3+ sprints. OpenClaw references retained only where it appears as a scanning TARGET (exposed instance detection).
 - Human-in-the-loop message approval is pilot-only (5 clients). At scale the agent sends autonomously with confidence-gated escalation. "It is unthinkable that I can review hundreds of messages every week."
 - Twin WPScan fix: added `--force` (bypasses NotWordPress error), `--disable-tls-checks`, `--api-token` passthrough, HTTP/1.1, oEmbed link, RSS feed, slash-agnostic routing, WordPress HTML comments. 15 new tests, 484 total pass. Not yet verified on Pi5.
-- SIRI docs corrected: replaced "353 live Vejle-area domains" (the incident count) with "203" (actual clean pipeline output) in all achievement/metric contexts. 353 preserved only where it correctly describes the March 22 Layer 2 violation.
+- SIRI docs corrected: replaced "353 live Vejle-area domains" with "203" (actual clean pipeline output) in all achievement/metric contexts.
 - WPScan cache flush added to `heimdall-flush` alias (clears `cache:wpscan:*` keys that cached stale "not_wordpress" results for 24h).
 - Full backlog audit by TPMO + architect: identified 5 blockers, 6 high-priority items, 7 medium items for Sprint 4 readiness.
 

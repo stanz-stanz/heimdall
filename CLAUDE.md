@@ -70,7 +70,7 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/composer/telegram.py` | Message Composer — Telegram formatting with 4096-char auto-splitting |
 | `docs/digital-twin-use-cases.md` | Digital twin architecture, use cases, legal foundation |
 | `config/synthetic_targets.json` | Config: synthetic target registry for twin consent bypass |
-| `docs/legal/legal-briefing-outreach-2026-03-29.md` | Legal briefing for lawyer meeting — 8 questions on outreach, §10, Reklamebeskyttet, twin findings |
+| `docs/legal/legal-briefing-outreach-2026-03-29.md` | Legal briefing for lawyer meeting — 16 questions on outreach (§10, Reklamebeskyttet), scanning (§263), consent, and GDPR |
 | `docs/business/marketing-strategy-draft.md` | Marketing strategy draft — channels, legal constraints, outreach plan |
 | `scripts/analyze_pipeline.py` | Pipeline analysis (`--deep` for full breakdown with outreach prioritization) |
 | `scripts/audit.py` | Project audit — Dockerfile, compose, tests, configs, known gaps |

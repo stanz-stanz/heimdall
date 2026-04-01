@@ -53,6 +53,8 @@ According to Styrelsen for Samfundssikkerhed (the Danish Agency for Civil Protec
 
 This is not a theoretical risk. VikingCloud's 2026 report found that 60% of SMBs that suffer a major breach close within six months.⁵ The median cost of a data breach for small businesses exceeds $120,000.⁶
 
+The problem is structural, not just financial. As John McLoughlin, CEO of J2 Software, writes: "Prescriptive technical or procedural mandates that assume large budgets and deep specialist teams disadvantage smaller and mid-sized organisations that must prioritise limited resources."¹⁸ The tools exist — they were simply never built for this audience.
+
 ### 2.2 The Compliance Obligation
 
 GDPR Article 32 requires every organization handling personal data to implement "appropriate technical and organisational measures" to ensure a level of security appropriate to the risk.⁷ A restaurant collecting customer names, phone numbers, and email addresses through an online booking system is a data controller under GDPR. If that restaurant runs WordPress 5.8 on shared hosting with an expired SSL certificate and three unpatched plugins, it is not meeting Article 32. It simply does not know this.
@@ -123,7 +125,7 @@ This persistent memory also creates a natural switching cost — a new provider 
 
 ### 3.3 Shadow AI and Agent Detection
 
-As of March 2026, over 21,000 OpenClaw instances are publicly exposed on the internet, many running agent skills with access to internal tools and APIs.¹⁰ ¹¹ Kaspersky's security audit of OpenClaw identified 512 vulnerabilities in the platform.¹² No SMB-focused security tool currently scans for exposed AI agent infrastructure.
+As of March 2026, over 21,000 OpenClaw instances are publicly exposed on the internet, many running agent skills with access to internal tools and APIs.¹⁰ ¹¹ Kaspersky's security audit of OpenClaw identified 512 vulnerabilities in the platform.¹² Microsoft's 2025 research found that 71% of UK employees used unapproved AI tools at work.¹⁹ No SMB-focused security tool currently scans for exposed AI agent infrastructure.
 
 Heimdall detects:
 - Exposed OpenClaw instances and MCP servers
@@ -214,29 +216,29 @@ The critical design principle: **tools produce findings, the LLM interprets them
 
 ### 4.3 Valdí — The Compliance System
 
-Heimdall operates under Danish criminal law (Straffeloven §263), which criminalizes unauthorized access to data systems. The legal boundary between permitted passive observation and potentially criminal active probing is enforced programmatically by Valdí, the legal compliance agent.
+Heimdall operates under Danish criminal law (Straffeloven §263), which criminalizes unauthorized access to data systems. The legal boundary between permitted passive observation and potentially criminal active probing is not enforced by policy documents or good intentions — it is enforced programmatically by Valdí, the legal compliance agent.
 
-**Gate 1 — Scan Type Validation:** Every scanning function is reviewed against documented rules before it can execute. Valdí classifies the function's activities by Layer, confirms they do not exceed what the target's consent level permits, and issues an approval token. Rejected functions are blocked with structured reasoning. Every review — approval or rejection — produces a timestamped forensic log.
+Most compliance systems audit what already happened. Valdí blocks what is about to happen. No scanning function runs without passing through two gates first. The default state is "denied."
 
-**Gate 2 — Per-Target Authorization:** Before each scan batch, Valdí confirms that the scan type has a valid approval token and that each target's consent level permits the scan's Layer.
+**Gate 1 — Scan Type Validation:** Valdí reads the actual scanning function, identifies what requests it makes, and classifies each one by Layer. It applies a decision test derived from Danish law: "Would a normal browser visit produce this data?" If the answer is no, the function is blocked with structured reasoning, full rule citations, and a violation table. If it passes, Valdí issues an approval token. Every review — approval or rejection — produces a timestamped forensic log.
 
-**No scanning code executes without a valid Valdí approval token.**
+**Gate 2 — Per-Target Authorization:** Before each scan batch, Valdí confirms that the scan type has a valid approval token and that the specific target's consent state permits that scan's Layer. This separation matters: a function can be approved as a valid Layer 2 tool and still be blocked for a domain that has not consented. A consented tool cannot accidentally run against an unconsented target.
 
-Valdí constitutes **demonstrable due diligence** under Danish law. If Heimdall's scanning activities are ever questioned by regulators, the forensic log trail provides timestamped, machine-generated evidence of every scan type validated, every approval issued, every rejection recorded, and every pre-scan authorization check performed. This is not a retrospective compliance narrative — it is a live, auditable record that exists before any scan executes. For a company operating on the boundary defined by §263, this level of programmatic governance is a concrete legal asset.
+**Valdí logs rejections, not just approvals.** This is the subtlety that matters most. The rejection logs — with full reasoning, rule citations, and violation tables — are more valuable as evidence than the approvals. They prove the system catches things. They prove the gatekeeper has teeth. When a scanning function tried to probe admin paths and was declared as Layer 1, Valdí identified eight separate violations, blocked execution, and logged exactly why. That rejection entry is the single strongest piece of compliance evidence Heimdall has.
 
-### 4.4 Governance Maturity — The March 22 Incident
+"Without a documented, well-rehearsed AI governance framework, decisions get made on the fly, oversight slips through the cracks, and records end up incomplete. Those are exactly the weak spots regulators, auditors, and litigators are trained to find."²⁰ Valdí is that documented, well-rehearsed framework.
 
-On March 22, 2026, during early pipeline development, a function was written that probed specific admin paths (`/wp-admin/`, `/wp-login.php`, `/administrator/`) on target domains — active probing that crosses the Layer 1 boundary into Layer 2. The function was integrated into the pipeline and executed against 353 live domains before the violation was identified.
+What Valdí is not: a silver bullet. It is an LLM reviewing code against documented rules — it can be wrong. It is as good as the rules in `SCANNING_RULES.md` and the quality of the model's reasoning. That is why the forensic logs exist — so a human can review the reasoning and catch errors the system misses. The ambition is not perfection. It is demonstrable due diligence: a live, auditable record that the boundary was enforced before every scan, not reconstructed after an incident.
 
-The violation was caught by the project owner's manual review of pipeline output. The response was immediate and systematic:
+For a pre-revenue, single-founder startup that does not yet have a CVR number, this level of programmatic governance is unusual. Companies at this stage do not typically have compliance systems. They have a plan to figure out legal later. Heimdall has a two-gate automated compliance agent with forensic logging before it has its first paying client. That is a deliberate choice about what kind of company this is.
 
-1. **Detection:** The project owner challenged a sales hook ("Admin login page is publicly accessible") and identified that the underlying function constituted Layer 2 activity running without consent.
-2. **Containment:** The offending function was removed from the codebase. All tainted data — output files, briefs, and cached results containing the unauthorized findings — was scrubbed.
-3. **Verification:** A full code review of the entire scanning pipeline confirmed no other boundary violations existed.
-4. **Documentation:** A formal post-incident report was written, documenting the root cause (a classification error where admin path probing was treated as "checking publicly accessible URLs" rather than correctly identified as directed probing), the timeline, and the remediation steps.
-5. **Systemic response:** Valdí was designed and built as a direct result — a two-gate automated compliance system that makes this class of error structurally impossible going forward.
+### 4.4 Governance Maturity
 
-**This incident history is stronger evidence of governance maturity than a clean record.** Any organization can claim it has never had a compliance incident. Heimdall can demonstrate that when a boundary violation occurred, the system detected it, scrubbed all tainted data, documented the root cause, and built an automated gate to prevent recurrence. The correction mechanism is proven — not theoretical. This is precisely the kind of evidence that regulators and legal counsel assess when evaluating due diligence.
+During early pipeline development, a scanning function crossed the Layer 1 boundary undetected. The violation was caught by manual review. The response was immediate: the offending code was removed, all tainted data was scrubbed, and the root cause was documented.
+
+The systemic response was Valdí — designed and built as a direct result, to make this class of error structurally impossible going forward.
+
+**This is stronger evidence of governance maturity than a clean record.** Any organization can claim it has never had a compliance incident. Heimdall can demonstrate that when a boundary violation occurred, the system detected it, corrected it, and built an automated gate to prevent recurrence. The correction mechanism is proven — not theoretical.
 
 ---
 
@@ -279,7 +281,9 @@ Heimdall builds a longitudinal understanding of each client's infrastructure, fi
 
 ### 5.5 Programmatic Legal Compliance (Valdí)
 
-Automated governance of scanning operations using a two-gate validation system with forensic logging and approval tokens. Every scan type is validated against documented legal rules before execution. Every validation is logged. This was built in response to a real compliance incident, demonstrating a mature approach to governance.
+Heimdall operates on the boundary defined by Straffeloven §263. The distance between "reading a public webpage" and "unauthorized access to a data system" can be a single HTTP request to the wrong path. Most companies in this space manage that boundary with policy documents and training. Heimdall manages it with a programmatic gate that reads every scanning function, classifies its activities against documented legal rules, and blocks execution if it crosses the line — before anything touches a target.
+
+This was not designed in theory. During early development, a scanning function crossed the Layer 1 boundary undetected (see section 4.4). The response was not a policy update — it was Valdí: a two-gate automated compliance system with forensic logging that makes this class of error structurally impossible. The correction mechanism is proven, not theoretical.
 
 ### 5.6 AI-Powered Interpretation Chain
 
@@ -511,7 +515,7 @@ Confirmation of this legal interpretation is included in the planned legal couns
 
 ### 11.4 Valdí as Demonstrable Due Diligence
 
-The Valdí compliance system — two-gate validation, forensic logging, approval tokens, documented incident response — demonstrates due diligence under §263. Every scan type is validated before execution. Every validation is logged. The March 22, 2026 incident (Section 4.4) and Valdí's construction as a systemic response provide concrete evidence that the governance mechanism works: a boundary violation was detected, all tainted data was scrubbed, the root cause was documented, and an automated prevention system was built. If Heimdall is ever questioned by regulators, the forensic log trail provides timestamped evidence of what was scanned, approved, rejected, and why — including evidence that the system catches and corrects its own failures.
+The Valdí compliance system — two-gate validation, forensic logging, approval tokens — demonstrates due diligence under §263. Every scan type is validated before execution. Every validation is logged. Valdí was built as a systemic response to a real boundary violation during early development (Section 4.4), providing concrete evidence that the governance mechanism works. If Heimdall is ever questioned by regulators, the forensic log trail provides timestamped evidence of what was scanned, approved, rejected, and why.
 
 ### 11.5 Open Questions for Counsel
 
@@ -593,7 +597,7 @@ This is not a slide deck. The product is being built:
 - 10 agent specifications with documented boundaries and handoff protocols
 - Valdí legal compliance system with two-gate validation and forensic logging
 - Complete legal risk assessment of Danish scanning law under §263
-- Post-incident report and remediation for a compliance boundary violation
+- Valdí born from a real compliance boundary violation — correction mechanism proven
 - Prospecting pipeline tested against 203 live Vejle-area domains
 
 ### 13.3 Network Security Partner
@@ -700,6 +704,9 @@ These are excluded deliberately. The conservative case stands on subscription re
 15. Straffeloven §263 — Danish Penal Code hacking provision. https://danskelove.dk/straffeloven/263
 16. ICLG Cybersecurity Report 2026 — Denmark chapter. https://iclg.com/practice-areas/cybersecurity-laws-and-regulations/denmark
 17. Startup Denmark programme. https://www.nyidanmark.dk/en-GB/You-want-to-apply/Work/Start-up-Denmark
+18. McLoughlin, J. (2025) — "The Rules & Regulations That Make Us Less Safe." Cyber Security Intelligence. https://www.cybersecurityintelligence.com/blog/the-rules-and-regulations-that-make-us-less-safe-8796.html
+19. Microsoft UK (2025) — Shadow AI research: 71% of UK employees used unapproved AI tools at work. Cited via Cyber Security Intelligence. https://www.cybersecurityintelligence.com/blog/ai-adoption-in-law---the-case-for-stronger-accountability-9127.html
+20. Cyber Security Intelligence (2025) — "Can The EU AI Act & ISO 42001 Bring Order To The Digital Wild West?" https://www.cybersecurityintelligence.com/blog/the-eu-ai-act-and-iso42001-bring-order-to-the-digital-wild-west-8733.html
 
 ---
 
