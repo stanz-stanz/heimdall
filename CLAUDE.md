@@ -74,6 +74,8 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `docs/business/marketing-strategy-draft.md` | Marketing strategy draft — channels, legal constraints, outreach plan |
 | `scripts/analyze_pipeline.py` | Pipeline analysis (`--deep` for full breakdown with outreach prioritization) |
 | `scripts/audit.py` | Project audit — Dockerfile, compose, tests, configs, known gaps |
+| `src/enrichment/` | CVR enrichment tool — 8-step pipeline: Excel ingestion → static enrichments → email domain extraction → name-match validation → search-based discovery → deduplication → filters → summary. Outputs to `data/enriched/companies.db`. Run with `python -m src.enrichment`. |
+| `src/vulndb/lookup.py` | WPVulnerability API client — free plugin/core CVE lookups with CVSS scores, replaces WPScan sidecar |
 
 ---
 
@@ -96,7 +98,7 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 ## Build Priority: Sprint 3 — Consent-Gated Pipeline
 
-**Sprints 1-3 complete (485 tests). Sprint 4 staging — Telegram delivery, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Layer 2 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning). Sprint 4 in progress: mid-scan bucket filter, CVR column fix, twin WPScan networking fix, tool audit (Nikto + Nmap implementation pending).
+**Sprints 1-3 complete (485 tests). Sprint 4 staging — Telegram delivery, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Layer 2 scanners (Nuclei/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning). Sprint 4 delivered so far: mid-scan bucket filter, CVR column fix, WPScan sidecar replaced by WPVulnerability API + local SQLite cache (saves 512MB RAM), CVR enrichment tool with SQLite DB. Sprint 4 in progress: Nikto + Nmap implementation, Telegram delivery.
 
 Goal: consent-gated scanning for paying clients, AI-interpreted findings in Danish, Telegram delivery.
 
@@ -118,7 +120,7 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 8. Evidence-based GDPR sensitivity determination (from scan results + industry code)
 9. Agency detection (footer credits, meta author tags)
 10. Generate per-site briefs
-11. WordPress domains: enrich with twin-derived Layer 2 findings (Nuclei, WPScan against local digital twin — no consent required). See `SCANNING_RULES.md` for twin framework.
+11. WordPress domains: enrich with twin-derived Layer 2 findings (Nuclei against local digital twin) + WPVulnerability API lookups for plugin/core CVEs (no consent required). See `SCANNING_RULES.md` for twin framework.
 12. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
 
 ### Supporting Data Files
@@ -134,6 +136,8 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 | `config/consent_schema.json` | Config: consent authorisation JSON schema |
 | `config/synthetic_targets.json` | Config: synthetic target registry for twin consent bypass |
 | `tools/twin/slug_map.json` | Static: plugin/theme slug → version mapping for twin reconstruction |
+| `data/enriched/companies.db` | SQLite: pre-enriched CVR data (companies, domains, enrichment log). Scheduler auto-detects this and skips legacy Excel pipeline. |
+| `src/vulndb/cache.py` | WPVulnerability local cache — SQLite store for plugin/core CVEs with 7-day TTL |
 
 ---
 
