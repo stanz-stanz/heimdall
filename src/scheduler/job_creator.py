@@ -91,9 +91,16 @@ class JobCreator:
     ) -> list[str]:
         """Read CVR data, apply filters, derive domains, return deduplicated domain list.
 
-        This is the shared first phase of the prospect pipeline — used by both
-        enrichment and scan job creation.
+        Checks for a pre-enriched SQLite database first (from the local
+        enrichment tool). Falls back to the legacy Excel pipeline if no
+        database is found.
         """
+        # Check for pre-enriched SQLite database
+        db_path = input_path.parent.parent / "enriched" / "companies.db"
+        if db_path.exists():
+            return self._read_enriched_db(db_path)
+
+        # Legacy Excel pipeline
         companies = read_excel(input_path)
         if not companies:
             log.info("No companies found in %s — 0 domains extracted", input_path)
@@ -119,6 +126,22 @@ class JobCreator:
             len(companies),
         )
         return unique_domains
+
+    @staticmethod
+    def _read_enriched_db(db_path: Path) -> list[str]:
+        """Read scan-ready domains from the pre-enriched SQLite database."""
+        import sqlite3
+
+        log.info("Using pre-enriched database: %s", db_path)
+        conn = sqlite3.connect(f"file:{db_path}?immutable=1", uri=True, timeout=5)
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute(
+            "SELECT domain FROM domains WHERE ready_for_scan = 1 ORDER BY domain"
+        ).fetchall()
+        domains = [row["domain"] for row in rows]
+        conn.close()
+        log.info("Extracted %d domains from enriched database", len(domains))
+        return domains
 
     def create_scan_jobs_for_domains(self, domains: list[str]) -> int:
         """Push one scan job per domain to the scan queue.
