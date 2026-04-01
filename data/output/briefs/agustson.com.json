@@ -2,7 +2,7 @@
   "domain": "agustson.com",
   "cvr": "prospect",
   "company_name": "agustson.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-17",
-      "days_remaining": 48
+      "days_remaining": 47
     },
     "server": "Apache",
     "detected_plugins": [

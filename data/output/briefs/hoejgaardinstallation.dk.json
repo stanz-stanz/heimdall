@@ -2,7 +2,7 @@
   "domain": "hoejgaardinstallation.dk",
   "cvr": "prospect",
   "company_name": "hoejgaardinstallation.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,15 +16,15 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-20",
-      "days_remaining": 51
+      "days_remaining": 50
     },
     "server": "Apache",
     "detected_plugins": [
-      "Cookie Notice",
-      "Ultimate Member",
-      "Wp Rocket",
       "Elementor Pro",
-      "Elementor"
+      "Elementor",
+      "Ultimate Member",
+      "Cookie Notice",
+      "Wp Rocket"
     ],
     "headers": {
       "x_frame_options": false,

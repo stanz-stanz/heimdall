@@ -2,7 +2,7 @@
   "domain": "egtvedslagtehus.dk",
   "cvr": "prospect",
   "company_name": "egtvedslagtehus.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-15",
-      "days_remaining": 47
+      "days_remaining": 46
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -44,8 +44,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.wannafind.dk",
-      "mx1.wannafind.dk"
+      "mx1.wannafind.dk",
+      "mx2.wannafind.dk"
     ],
     "ns": [
       "ns1.wannafind.dk",

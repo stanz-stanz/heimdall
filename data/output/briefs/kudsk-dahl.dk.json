@@ -2,7 +2,7 @@
   "domain": "kudsk-dahl.dk",
   "cvr": "prospect",
   "company_name": "kudsk-dahl.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-04-29",
-      "days_remaining": 31
+      "days_remaining": 30
     },
     "server": "",
     "detected_plugins": [],
@@ -45,8 +45,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mxa-003d1a02.gslb.pphosted.com",
-      "mxb-003d1a02.gslb.pphosted.com"
+      "mxb-003d1a02.gslb.pphosted.com",
+      "mxa-003d1a02.gslb.pphosted.com"
     ],
     "ns": [
       "ns1.eurodns.com",
@@ -55,13 +55,13 @@
       "ns4.eurodns.com"
     ],
     "txt": [
-      "NOcY1eM0ybmvQ6CPfZMACtuzT6CRMILYN8IOpit3890+oexrupZyooQRtzVPw+clibw3oB8TtHhXFlYRfGOGsw==",
-      "as=1594822707",
-      "MS=ms54763344",
       "sophos-domain-verification=a1028ceedeee474f1ee7f22692b3b5a399aa7914436c75da4127b988e27799bd",
+      "Sendinblue-code:3d05bf7fb6055fbf7a7fe8be454a8791",
       "docusign=13c4027d-1233-4a24-bdd0-ad086bf6a875",
-      "v=spf1 include:%{ir}.%{v}.%{d}.spf.has.pphosted.com -all",
-      "Sendinblue-code:3d05bf7fb6055fbf7a7fe8be454a8791"
+      "as=1594822707",
+      "NOcY1eM0ybmvQ6CPfZMACtuzT6CRMILYN8IOpit3890+oexrupZyooQRtzVPw+clibw3oB8TtHhXFlYRfGOGsw==",
+      "MS=ms54763344",
+      "v=spf1 include:%{ir}.%{v}.%{d}.spf.has.pphosted.com -all"
     ]
   },
   "cloud_exposure": [],

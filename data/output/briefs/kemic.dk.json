@@ -2,7 +2,7 @@
   "domain": "kemic.dk",
   "cvr": "prospect",
   "company_name": "kemic.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,17 +17,17 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-23",
-      "days_remaining": 54
+      "days_remaining": 53
     },
     "server": "nginx",
     "detected_plugins": [
-      "Revslider",
+      "Sitepress Multilingual Cms",
+      "Smart Thw Main",
       "Js_Composer",
       "Cookie Notice",
-      "Smart Thw Main",
+      "Google Analytics For Wordpress",
       "Contact Form 7",
-      "Sitepress Multilingual Cms",
-      "Google Analytics For Wordpress"
+      "Revslider"
     ],
     "headers": {
       "x_frame_options": false,
@@ -73,9 +73,9 @@
       "ns2.dlx.dk"
     ],
     "txt": [
-      "MS=ms11861459",
+      "google-site-verification=FKxlBi9gM8Plff2Qvk-hR09TqBy-FRXEtLh8CFX2SyM",
       "v=spf1 include:spf.jlhosting.dk include:web.shared.mysmtp.com -all",
-      "google-site-verification=FKxlBi9gM8Plff2Qvk-hR09TqBy-FRXEtLh8CFX2SyM"
+      "MS=ms11861459"
     ]
   },
   "cloud_exposure": [],

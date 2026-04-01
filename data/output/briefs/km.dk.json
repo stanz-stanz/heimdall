@@ -2,7 +2,7 @@
   "domain": "km.dk",
   "cvr": "prospect",
   "company_name": "km.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-10",
-      "days_remaining": 41
+      "days_remaining": 40
     },
     "server": "",
     "detected_plugins": [],
@@ -49,16 +49,16 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "tviV7gsMh7JYnn/AfZMHk2pT/0awVQe2osBrEylzLVVUIxqekZAkNout2MF+WNXZsMvTvv+dUiJInSYFSKsMHQ==",
-      "MS=ms16605094",
       "SOyt4gXULJf0InI1EHWqlJ0NtGvKUuAoWlDKIRlkuNC3z2otNtsy0mqfNc+ZKrnqJsVTpir73/ifJT0q7qqMOA==",
-      "ahFee656fBJqDAfHECMuubl7w+qv0BaovxmWDrg8vt0=",
-      "4L5vwIoBqfVw9KqcbNz23zOCLkkF9y8AmkpvGJuFqmU=",
-      "X+9xnTk3312pcwPoAEkMlp8s7D2o4Zgp+y5hWt7bZM5Xu0dY8VUr0GAyhVVsnIThmdShPPtWxgUF9Lh7zzctng==",
-      "amazonses:VhQvgmdUyUcxYDCZ96MAgUjrhKZMXqbAMDwqmOO2jg8=",
-      "v=spf1 ip4:131.165.73.4 ip4:92.43.124.146 ip4:91.195.58.208 include:spf.defgo.com include:amazonses.com include:mail.zendesk.com include:sendgrid.net include:servers.mcsv.net  include:spf.protection.outlook.com include:o._spf.hostedsepo.dk include:uxmail.io -all",
       "asv=ba3ae0aeeacab774500b4b2c9dc5d633",
-      "DFlSoy2YRR9YlRAg4j90WSDJFIYT8bayFnqNUy9i2dLSFbmpsprB3zGdDL3Tuw5R7XZrG+QpR+7PgOQAG9UdQg=="
+      "4L5vwIoBqfVw9KqcbNz23zOCLkkF9y8AmkpvGJuFqmU=",
+      "amazonses:VhQvgmdUyUcxYDCZ96MAgUjrhKZMXqbAMDwqmOO2jg8=",
+      "tviV7gsMh7JYnn/AfZMHk2pT/0awVQe2osBrEylzLVVUIxqekZAkNout2MF+WNXZsMvTvv+dUiJInSYFSKsMHQ==",
+      "DFlSoy2YRR9YlRAg4j90WSDJFIYT8bayFnqNUy9i2dLSFbmpsprB3zGdDL3Tuw5R7XZrG+QpR+7PgOQAG9UdQg==",
+      "X+9xnTk3312pcwPoAEkMlp8s7D2o4Zgp+y5hWt7bZM5Xu0dY8VUr0GAyhVVsnIThmdShPPtWxgUF9Lh7zzctng==",
+      "v=spf1 ip4:131.165.73.4 ip4:92.43.124.146 ip4:91.195.58.208 include:spf.defgo.com include:amazonses.com include:mail.zendesk.com include:sendgrid.net include:servers.mcsv.net  include:spf.protection.outlook.com include:o._spf.hostedsepo.dk include:uxmail.io -all",
+      "ahFee656fBJqDAfHECMuubl7w+qv0BaovxmWDrg8vt0=",
+      "MS=ms16605094"
     ]
   },
   "cloud_exposure": [],

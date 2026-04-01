@@ -2,7 +2,7 @@
   "domain": "palleiversen.dk",
   "cvr": "prospect",
   "company_name": "palleiversen.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-10",
-      "days_remaining": 72
+      "days_remaining": 71
     },
     "server": "Apache",
     "detected_plugins": [
@@ -69,10 +69,10 @@
       "ns03.athena-hosting.dk"
     ],
     "txt": [
-      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw==",
-      "This DNS Service is hosted by Munk IT A/S - Driftscentret",
       "v=spf1 include:_spf.stejtech.net include:spf.protection.outlook.com ip4:194.255.169.138 ip4:91.215.162.220 -all",
-      "MS=ms31760263"
+      "This DNS Service is hosted by Munk IT A/S - Driftscentret",
+      "MS=ms31760263",
+      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw=="
     ]
   },
   "cloud_exposure": [],

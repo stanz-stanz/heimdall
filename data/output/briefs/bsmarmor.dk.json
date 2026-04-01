@@ -2,39 +2,36 @@
   "domain": "bsmarmor.dk",
   "cvr": "prospect",
   "company_name": "bsmarmor.dk",
-  "scan_date": "2026-03-29",
-  "bucket": "A",
+  "scan_date": "2026-03-30",
+  "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce",
-    "E-commerce plugin: WooCommerce:10.6.1",
-    "Visitor tracking: reCAPTCHA"
+    "Data-handling plugins: Woocommerce, Contact Form 7"
   ],
   "industry": "",
   "technology": {
-    "cms": "WordPress",
+    "cms": "",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-04-28",
-      "days_remaining": 29
+      "expiry": "2026-06-27",
+      "days_remaining": 88
     },
-    "server": "Apache",
+    "server": "nginx",
     "detected_plugins": [
-      "Akismet",
-      "Elementor Pro",
-      "Contact Form 7",
-      "Elementor",
+      "Shiftnav Pro",
       "Woocommerce",
-      "Google Site Kit",
-      "Mystickymenu",
+      "Easy Fancybox",
       "Shortcodes Ultimate",
       "Easy Modal",
       "Advanced Woo Search",
-      "Shiftnav Pro",
-      "Easy Fancybox",
-      "Icegram",
+      "Elementor Pro",
+      "Akismet",
+      "Contact Form 7",
+      "Google Site Kit",
+      "Elementor",
+      "Mystickymenu",
       "Complianz Gdpr"
     ],
     "headers": {
@@ -45,32 +42,7 @@
     }
   },
   "tech_stack": [
-    "Akismet",
-    "Apache HTTP Server",
-    "Bootstrap",
-    "Complianz",
-    "Contact Form 7:6.1.5",
-    "Elementor:3.19.4",
-    "HTTP/3",
-    "Icegram:0",
-    "Kadence WP Blocks",
-    "Kadence WP Virtue:3.4.14",
-    "Lightbox",
-    "Morphext:2.8.7",
-    "MySQL",
-    "PHP",
-    "Redis",
-    "Redis Object Cache",
-    "Site Kit:1.175.0",
-    "WooCommerce:10.6.1",
-    "WordPress",
-    "WordPress Block Editor",
-    "WordPress Super Cache",
-    "Yoast SEO:27.2",
-    "imagesLoaded:5.0.0",
-    "jQuery Migrate:3.4.1",
-    "jQuery:1.5.4",
-    "reCAPTCHA"
+    "Nginx"
   ],
   "subdomains": {
     "count": 0,
@@ -97,11 +69,6 @@
   "findings": [
     {
       "severity": "medium",
-      "description": "SSL certificate expires in 29 days",
-      "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
-    },
-    {
-      "severity": "medium",
       "description": "Missing HSTS header (HTTP Strict Transport Security)",
       "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
     },
@@ -116,24 +83,14 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
-      "severity": "low",
-      "description": "WordPress detected (version not determined)",
-      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
-    },
-    {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
-      "description": "14 WordPress plugins detected",
+      "description": "13 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
-    },
-    {
-      "severity": "low",
-      "description": "Backend technology exposed: MySQL, PHP",
-      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

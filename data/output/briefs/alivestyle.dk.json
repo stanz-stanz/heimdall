@@ -2,7 +2,7 @@
   "domain": "alivestyle.dk",
   "cvr": "prospect",
   "company_name": "alivestyle.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "C",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
-      "days_remaining": 58
+      "days_remaining": 57
     },
     "server": "Squarespace",
     "detected_plugins": [],
@@ -40,9 +40,9 @@
   },
   "dns": {
     "a": [
-      "198.185.159.144",
-      "198.49.23.145",
       "198.49.23.144",
+      "198.49.23.145",
+      "198.185.159.144",
       "198.185.159.145"
     ],
     "aaaa": [],

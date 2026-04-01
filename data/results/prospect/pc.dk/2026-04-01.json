@@ -1,0 +1,130 @@
+{
+  "domain": "pc.dk",
+  "job_id": "scan-2026-04-01-e11052b8",
+  "status": "completed",
+  "scan_result": {
+    "domain": "pc.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-23",
+    "ssl_days_remaining": 82,
+    "detected_plugins": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "HSTS"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-01T17:43:44.0708043Z",
+      "cdn_name": "aws",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://pc.dk",
+      "input": "pc.dk",
+      "title": "YouSee Mail",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "pc.dk",
+      "host_ip": "3.125.131.179",
+      "path": "/",
+      "time": "214.416312ms",
+      "a": [
+        "3.125.131.179",
+        "18.192.246.145",
+        "18.193.144.171"
+      ],
+      "tech": [
+        "HSTS"
+      ],
+      "words": 2774,
+      "lines": 167,
+      "status_code": 200,
+      "content_length": 11613,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "pc.dk",
+    "cvr": "prospect",
+    "company_name": "pc.dk",
+    "scan_date": "2026-04-01",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-23",
+        "days_remaining": 82
+      },
+      "server": "",
+      "detected_plugins": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "HSTS"
+    ],
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 140,
+    "total_ms": 141
+  },
+  "cache_stats": {
+    "hits": 5,
+    "misses": 0
+  },
+  "filtered": "bucket:E"
+}

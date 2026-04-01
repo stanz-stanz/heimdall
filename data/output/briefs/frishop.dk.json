@@ -2,7 +2,7 @@
   "domain": "frishop.dk",
   "cvr": "prospect",
   "company_name": "frishop.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 44
+      "days_remaining": 42
     },
     "server": "nginx/1.28.2",
     "detected_plugins": [],
@@ -51,11 +51,11 @@
     ],
     "txt": [
       "v=spf1 include:spf.protection.outlook.com include:spf.scannet.dk include:sendgrid.net include:_custspf.one.com include:send.heyloyalty.com -all",
-      "klaviyo-site-verification=Tfwk75",
-      "MS=ms98312112",
-      "facebook-domain-verification=lv972v9l2byuymy1r8sn6s3gy3mdzb",
       "globalsign-domain-verification=yggG85euBtIps327v_FG5o2RnGi2weV9ZPIrjoERId",
-      "google-site-verification=PyAr8p3KKoXAsNs5eMYe1YVf0u4B_xvNZcheQa0LxbM"
+      "google-site-verification=PyAr8p3KKoXAsNs5eMYe1YVf0u4B_xvNZcheQa0LxbM",
+      "facebook-domain-verification=lv972v9l2byuymy1r8sn6s3gy3mdzb",
+      "klaviyo-site-verification=Tfwk75",
+      "MS=ms98312112"
     ]
   },
   "cloud_exposure": [],

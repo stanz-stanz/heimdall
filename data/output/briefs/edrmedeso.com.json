@@ -2,7 +2,7 @@
   "domain": "edrmedeso.com",
   "cvr": "prospect",
   "company_name": "edrmedeso.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,13 +16,13 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-26",
-      "days_remaining": 57
+      "days_remaining": 56
     },
     "server": "cloudflare",
     "detected_plugins": [
       "Complianz Gdpr",
-      "Popup Maker",
-      "Wp Rocket"
+      "Wp Rocket",
+      "Popup Maker"
     ],
     "headers": {
       "x_frame_options": false,
@@ -68,13 +68,13 @@
       "ns2.dnshost.net"
     ],
     "txt": [
-      "pardot857013=5e048c8325813040a3135fecc29abc5cd5e5f264ce1fc6afa36964c774c3b4cd",
-      "sending_domain1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032",
-      "pardot1023941=f2035524c68931301b162b8094ab6f32ad551d53835d378bba5811d001760cb2",
       "pardot1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032",
+      "pardot857013=5e048c8325813040a3135fecc29abc5cd5e5f264ce1fc6afa36964c774c3b4cd",
+      "pardot1023941=9161e666e3f6fa622d56cfaf9cf348ca764eb27d00e95dec1ce32fd37ab75fbd",
       "MS=ms73715014",
+      "pardot1023941=f2035524c68931301b162b8094ab6f32ad551d53835d378bba5811d001760cb2",
       "v=spf1 include:spf.protection.outlook.com include:aspmx.pardot.com -all",
-      "pardot1023941=9161e666e3f6fa622d56cfaf9cf348ca764eb27d00e95dec1ce32fd37ab75fbd"
+      "sending_domain1023941=29bc6e815012c01007ccf393ea7ec225984535f6155a1e2dffebdcebdc41b032"
     ]
   },
   "cloud_exposure": [],

@@ -2,7 +2,7 @@
   "domain": "bhogas.dk",
   "cvr": "prospect",
   "company_name": "bhogas.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,18 +16,18 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-04",
-      "days_remaining": 36
+      "days_remaining": 35
     },
     "server": "nginx",
     "detected_plugins": [
-      "Wp Statistics",
-      "Tablepress Responsive Tables",
-      "Revslider",
       "Wp Rocket",
-      "Js_Composer",
+      "Tablepress Responsive Tables",
       "Gp Premium",
-      "Ultimate_Vc_Addons",
-      "Tablepress"
+      "Revslider",
+      "Wp Statistics",
+      "Js_Composer",
+      "Tablepress",
+      "Ultimate_Vc_Addons"
     ],
     "headers": {
       "x_frame_options": false,

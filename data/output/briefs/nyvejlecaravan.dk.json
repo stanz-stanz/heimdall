@@ -2,7 +2,7 @@
   "domain": "nyvejlecaravan.dk",
   "cvr": "prospect",
   "company_name": "nyvejlecaravan.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-14",
-      "days_remaining": 77
+      "days_remaining": 76
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -40,12 +40,12 @@
   },
   "dns": {
     "a": [
-      "172.67.220.131",
-      "104.21.17.36"
+      "104.21.17.36",
+      "172.67.220.131"
     ],
     "aaaa": [
-      "2606:4700:3032::6815:1124",
-      "2606:4700:3033::ac43:dc83"
+      "2606:4700:3033::ac43:dc83",
+      "2606:4700:3032::6815:1124"
     ],
     "cname": [],
     "mx": [

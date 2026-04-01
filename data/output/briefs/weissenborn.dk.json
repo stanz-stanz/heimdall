@@ -2,7 +2,7 @@
   "domain": "weissenborn.dk",
   "cvr": "prospect",
   "company_name": "weissenborn.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,17 +16,17 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-09",
-      "days_remaining": 71
+      "days_remaining": 70
     },
     "server": "Apache",
     "detected_plugins": [
-      "Divi Toolbox",
-      "Borlabs Cookie",
-      "Sitepress Multilingual Cms",
-      "Wpdatatables",
       "Bold Timeline",
+      "Borlabs Cookie",
       "Formidable",
-      "Cleantalk Spam Protect"
+      "Wpdatatables",
+      "Divi Toolbox",
+      "Cleantalk Spam Protect",
+      "Sitepress Multilingual Cms"
     ],
     "headers": {
       "x_frame_options": false,
@@ -72,9 +72,9 @@
       "ns.udag.org"
     ],
     "txt": [
-      "MS=ms36735068",
+      "321",
       "v=spf1 ip4:193.201.39.116 ip4:193.201.39.110 include:spf.protection.outlook.com -all",
-      "321"
+      "MS=ms36735068"
     ]
   },
   "cloud_exposure": [],

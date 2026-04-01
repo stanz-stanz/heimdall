@@ -2,7 +2,7 @@
   "domain": "ktlarsen.dk",
   "cvr": "prospect",
   "company_name": "ktlarsen.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-01",
   "bucket": "D",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -30,21 +30,7 @@
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "mx.spamfilter.io"
-    ],
-    "ns": [
-      "ns.scannet2.dk",
-      "ns2.scannet2.dk"
-    ],
-    "txt": [
-      "v=spf1 include:spf.scannet.dk ~all"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

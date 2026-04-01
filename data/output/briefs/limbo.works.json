@@ -2,7 +2,7 @@
   "domain": "limbo.works",
   "cvr": "prospect",
   "company_name": "limbo.works",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-10",
-      "days_remaining": 41
+      "days_remaining": 40
     },
     "server": "Netlify",
     "detected_plugins": [],
@@ -47,20 +47,20 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx.l.google.com",
       "aspmx2.googlemail.com",
-      "alt2.aspmx.l.google.com",
+      "aspmx.l.google.com",
       "alt1.aspmx.l.google.com",
-      "aspmx3.googlemail.com"
+      "aspmx3.googlemail.com",
+      "alt2.aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
+      "google-site-verification=kIcODhKUsePGmySfJH-81wMv13S6hwDVJjAulszTrjU",
       "WB=jjJE+bEbmUmpH4DrqJpB1Q",
       "v=spf1 mx include:aspmx.googlemail.com include:sendgrid.net -all",
-      "google-site-verification=kIcODhKUsePGmySfJH-81wMv13S6hwDVJjAulszTrjU",
       "MS=ms75464345"
     ]
   },

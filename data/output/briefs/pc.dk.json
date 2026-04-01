@@ -2,7 +2,7 @@
   "domain": "pc.dk",
   "cvr": "prospect",
   "company_name": "pc.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-01",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-23",
-      "days_remaining": 86
+      "days_remaining": 82
     },
     "server": "",
     "detected_plugins": [],
@@ -32,27 +32,7 @@
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "3.125.131.179",
-      "18.193.144.171",
-      "18.192.246.145"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "fpo9.mail.dk"
-    ],
-    "ns": [
-      "ns1.eurodns.com",
-      "ns2.eurodns.com",
-      "ns3.eurodns.com",
-      "ns4.eurodns.com"
-    ],
-    "txt": [
-      "v=spf1 include:mail.dk ~all"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

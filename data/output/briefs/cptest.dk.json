@@ -2,7 +2,7 @@
   "domain": "cptest.dk",
   "cvr": "prospect",
   "company_name": "cptest.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,17 +16,17 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-25",
-      "days_remaining": 87
+      "days_remaining": 86
     },
     "server": "Apache",
     "detected_plugins": [
       "Jet Engine",
-      "Jet Blocks",
-      "Jet Elements",
       "Elementor Pro",
+      "Connect Polylang Elementor",
       "Elementor",
+      "Jet Blocks",
       "Formidable",
-      "Connect Polylang Elementor"
+      "Jet Elements"
     ],
     "headers": {
       "x_frame_options": false,

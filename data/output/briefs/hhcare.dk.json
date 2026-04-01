@@ -2,7 +2,7 @@
   "domain": "hhcare.dk",
   "cvr": "prospect",
   "company_name": "hhcare.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,22 +18,22 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 43
+      "days_remaining": 42
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Bambora Online Classic",
-      "Advanced Free Flat Shipping Woocommerce Pro",
-      "Contact Form 7",
-      "Product Badges For Woocommerce",
-      "Viabill Woocommerce",
-      "Woocommerce",
       "Pluginsdk Gls Shipping",
-      "Woo Discount Rules Pro",
-      "Mailchimp For Woocommerce",
-      "Pixelyoursite",
+      "Viabill Woocommerce",
+      "Bambora Online Classic",
+      "Contact Form 7",
       "Woo Discount Rules",
-      "Duracelltomi Google Tag Manager"
+      "Advanced Free Flat Shipping Woocommerce Pro",
+      "Woocommerce",
+      "Woo Discount Rules Pro",
+      "Duracelltomi Google Tag Manager",
+      "Product Badges For Woocommerce",
+      "Pixelyoursite",
+      "Mailchimp For Woocommerce"
     ],
     "headers": {
       "x_frame_options": false,

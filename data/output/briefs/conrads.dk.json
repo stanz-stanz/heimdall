@@ -2,7 +2,7 @@
   "domain": "conrads.dk",
   "cvr": "prospect",
   "company_name": "conrads.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-01",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,7 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-25",
-      "days_remaining": 56
+      "days_remaining": 53
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -49,17 +49,21 @@
     "reCAPTCHA"
   ],
   "subdomains": {
-    "count": 0,
-    "list": []
+    "count": 3,
+    "list": [
+      "sgtm.conrads.dk",
+      "load.sgtm.conrads.dk",
+      "www.conrads.dk"
+    ]
   },
   "dns": {
     "a": [
-      "104.21.8.190",
-      "172.67.130.153"
+      "172.67.130.153",
+      "104.21.8.190"
     ],
     "aaaa": [
-      "2606:4700:3037::ac43:8299",
-      "2606:4700:3030::6815:8be"
+      "2606:4700:3030::6815:8be",
+      "2606:4700:3037::ac43:8299"
     ],
     "cname": [],
     "mx": [
@@ -70,9 +74,9 @@
       "sullivan.ns.cloudflare.com"
     ],
     "txt": [
-      "MS=ms52395324",
+      "v=spf1 mx a include:spf.protection.outlook.com -all",
       "facebook-domain-verification=zyogae3q37igenda3gqc15tgdoyryn",
-      "v=spf1 mx a include:spf.protection.outlook.com -all"
+      "MS=ms52395324"
     ]
   },
   "cloud_exposure": [],
@@ -116,6 +120,67 @@
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "3 subdomains detected",
+      "risk": "Each subdomain is a separate entry point that may run different software and have its own vulnerabilities. Subdomains are often forgotten and left unpatched."
+    },
+    {
+      "severity": "high",
+      "description": "Gravity Forms [gravityforms] < 2.7.4 (CVE-2023-28782)",
+      "risk": "CVE-2023-28782: WordPress  Gravity Forms  Plugin  <= 2.7.3 is vulnerable to PHP Object Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-28782",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Gravity Forms [gravityforms] < 2.9.2 (CVE-2024-13377)",
+      "risk": "CVE-2024-13377: GravityForms <= 2.9.1.3 - Unauthenticated Stored Cross-Site Scripting via 'alt' parameter",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-13377",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "Gravity Forms [gravityforms] < 2.9.21 (CVE-2025-12352)",
+      "risk": "CVE-2025-12352: Gravity Forms [gravityforms] < 2.9.21",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-12352",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Gravity Forms [gravityforms] < 2.9.22 (CVE-2025-12974)",
+      "risk": "CVE-2025-12974: Gravity Forms [gravityforms] < 2.9.22",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-12974",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-01",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 210,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

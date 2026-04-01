@@ -2,7 +2,7 @@
   "domain": "strauss.dk",
   "cvr": "prospect",
   "company_name": "strauss.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -13,10 +13,10 @@
     "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
-      "valid": true,
-      "issuer": "Let's Encrypt",
-      "expiry": "2026-06-23",
-      "days_remaining": 85
+      "valid": false,
+      "issuer": "",
+      "expiry": "",
+      "days_remaining": -1
     },
     "server": "Apache",
     "detected_plugins": [],
@@ -51,28 +51,33 @@
   },
   "dns": {
     "a": [
-      "185.20.205.15",
-      "20.50.2.94"
+      "20.50.2.94",
+      "185.20.205.15"
     ],
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.pub.mailpod9-cph3.one.com",
+      "mx2.pub.mailpod9-cph3.one.com",
       "mx4.pub.mailpod9-cph3.one.com",
-      "mx3.pub.mailpod9-cph3.one.com",
-      "mx2.pub.mailpod9-cph3.one.com"
+      "mx1.pub.mailpod9-cph3.one.com",
+      "mx3.pub.mailpod9-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=cFgJpbKFS5wNbg1mwerfB1Buj5AmSaatH8Ges_1OVIA",
-      "v=spf1 a:smtp.scanditek.dk a mx include:_custspf.one.com ip4:94.231.103.98 include:spf.simply.com -all"
+      "v=spf1 a:smtp.scanditek.dk a mx include:_custspf.one.com ip4:94.231.103.98 include:spf.simply.com -all",
+      "google-site-verification=cFgJpbKFS5wNbg1mwerfB1Buj5AmSaatH8Ges_1OVIA"
     ]
   },
   "cloud_exposure": [],
   "findings": [
+    {
+      "severity": "critical",
+      "description": "No SSL certificate detected",
+      "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+    },
     {
       "severity": "medium",
       "description": "Missing HSTS header (HTTP Strict Transport Security)",

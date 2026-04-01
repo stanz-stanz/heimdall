@@ -2,7 +2,7 @@
   "domain": "centrumpaele.dk",
   "cvr": "prospect",
   "company_name": "centrumpaele.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,14 +17,14 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-07",
-      "days_remaining": 69
+      "days_remaining": 68
     },
     "server": "nginx",
     "detected_plugins": [
-      "Formidable",
       "Sitepress Multilingual Cms",
-      "Formidable Pro",
-      "Wp Rocket"
+      "Wp Rocket",
+      "Formidable",
+      "Formidable Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -61,9 +61,9 @@
       "b.portsdns.net"
     ],
     "txt": [
-      "v=spf1 include:aarsleff.com ~all",
       "autodesk-domain-verification=gFJWEyb99SkpUm_7wVnr",
-      "MS=ms96524149"
+      "MS=ms96524149",
+      "v=spf1 include:aarsleff.com ~all"
     ]
   },
   "cloud_exposure": [],

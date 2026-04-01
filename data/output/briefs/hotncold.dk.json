@@ -2,7 +2,7 @@
   "domain": "hotncold.dk",
   "cvr": "prospect",
   "company_name": "hotncold.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,17 +18,17 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-15",
-      "days_remaining": 77
+      "days_remaining": 76
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Contact Form 7",
-      "Wow Modal Windows Pro",
       "Siteorigin Premium",
-      "Woocommerce",
+      "Siteorigin Panels",
+      "Wow Modal Windows Pro",
       "Wpconsent Cookies Banner Privacy Suite",
       "So Widgets Bundle",
-      "Siteorigin Panels"
+      "Contact Form 7",
+      "Woocommerce"
     ],
     "headers": {
       "x_frame_options": false,
@@ -72,8 +72,8 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "google-site-verification=ukWS6i8bF--EEyIYfUsDSK4tj1XHVIlQdcLXPVr9eAI",
-      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all",
+      "google-site-verification=ukWS6i8bF--EEyIYfUsDSK4tj1XHVIlQdcLXPVr9eAI"
     ]
   },
   "cloud_exposure": [],

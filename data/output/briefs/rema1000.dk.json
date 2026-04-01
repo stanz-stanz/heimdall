@@ -2,7 +2,7 @@
   "domain": "rema1000.dk",
   "cvr": "prospect",
   "company_name": "rema1000.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Amazon",
       "expiry": "2026-08-22",
-      "days_remaining": 146
+      "days_remaining": 145
     },
     "server": "",
     "detected_plugins": [],
@@ -37,8 +37,8 @@
   },
   "dns": {
     "a": [
-      "99.83.128.242",
-      "15.197.211.151"
+      "15.197.211.151",
+      "99.83.128.242"
     ],
     "aaaa": [
       "2600:9000:a406:acc4:46f1:f0a3:7470:754b",
@@ -53,22 +53,22 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "google-site-verification=-nbtrE-a_tS-4RLp6LnfYplbFPgCvcrSwh5-0bfsFhc",
-      "ms=msDFT-765-7H1",
-      "MS=ms60485509",
+      "ffv4ps2c7dpd2345s499grbsqg",
+      "apple-domain-verification=3LxaeflBDAoKRGeu",
+      "ms=msDFT7657H1",
+      "MS=ms58013434",
+      "v=spf1 include:_spf72550.spf-protect.dk -all",
       "i715i0pqsbkhgkiabra2l3q6sh",
+      "MS=ms60485509",
       "S5A1RgSS/yYfbZYKxnyUH9v0bhYWNecwh8aOotw2NRGTKnPyexSB/UTFgB3mGHx3rnoSBi6y0rsILx6yJ4bXFQ==",
       "OzWfORhp0DDQiTypvEtr+iSU1XdSGOHzXpGPxwvE3aHomyLbszKpUeG3mnyaMPZI5VzaBMbbaOzX1jSPlZR0Zw==",
-      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG",
-      "MS=ms58013434",
+      "ms=msDFT-765-7H1",
       "MS=ms51825705",
-      "ms=msDFT7657H1",
-      "apple-domain-verification=3LxaeflBDAoKRGeu",
       "DFT-765-7H1",
-      "MS=ms89040986",
-      "ffv4ps2c7dpd2345s499grbsqg",
-      "v=spf1 include:_spf72550.spf-protect.dk -all",
-      "facebook-domain-verification=ieg3gntlt9pojlsxgf0o7zifaumije"
+      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG",
+      "facebook-domain-verification=ieg3gntlt9pojlsxgf0o7zifaumije",
+      "google-site-verification=-nbtrE-a_tS-4RLp6LnfYplbFPgCvcrSwh5-0bfsFhc",
+      "MS=ms89040986"
     ]
   },
   "cloud_exposure": [],

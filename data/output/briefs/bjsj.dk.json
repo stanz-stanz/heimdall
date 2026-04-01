@@ -2,7 +2,7 @@
   "domain": "bjsj.dk",
   "cvr": "prospect",
   "company_name": "bjsj.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,14 +16,14 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-11",
-      "days_remaining": 42
+      "days_remaining": 41
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Powerpack Elements",
-      "Elementor Pro",
       "Duracelltomi Google Tag Manager",
-      "Elementor"
+      "Elementor Pro",
+      "Elementor",
+      "Powerpack Elements"
     ],
     "headers": {
       "x_frame_options": false,
@@ -60,10 +60,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
+      "dk.mx1.mailanyone.net",
       "dk.mx2.mx25.net",
       "dk.mx3.mailanyone.net",
-      "dk.mx4.mx25.net",
-      "dk.mx1.mailanyone.net"
+      "dk.mx4.mx25.net"
     ],
     "ns": [
       "mitch.ns.cloudflare.com",

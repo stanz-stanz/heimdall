@@ -2,11 +2,11 @@
   "domain": "savirdesign.dk",
   "cvr": "prospect",
   "company_name": "savirdesign.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce",
+    "Data-handling plugins: Woocommerce, Contact Form 7",
     "E-commerce plugin: WooCommerce:9.8.7",
     "Visitor tracking: Google Analytics"
   ],
@@ -18,19 +18,19 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-21",
-      "days_remaining": 83
+      "days_remaining": 82
     },
     "server": "Apache",
     "detected_plugins": [
-      "Contact Form 7",
-      "Weglot",
-      "Woocommerce",
-      "Simple Post Redirect",
-      "Edgtf Core",
-      "Broken Link Notifier",
-      "Google Site Kit",
       "Revslider",
-      "Js_Composer"
+      "Edgtf Core",
+      "Woocommerce",
+      "Js_Composer",
+      "Weglot",
+      "Contact Form 7",
+      "Simple Post Redirect",
+      "Broken Link Notifier",
+      "Google Site Kit"
     ],
     "headers": {
       "x_frame_options": false,
@@ -113,7 +113,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

@@ -2,7 +2,7 @@
   "domain": "lantmannen.com",
   "cvr": "prospect",
   "company_name": "lantmannen.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-19",
-      "days_remaining": 81
+      "days_remaining": 80
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -59,19 +59,19 @@
       "ns3.domainnetwork.com"
     ],
     "txt": [
-      "cisco-ci-domain-verification=12b331c19df8c77baf800d416168a4429319d5522190997d7b088e734419cac9",
-      "v=spf1 include:spf.protection.outlook.com ip4:80.252.174.130 ip4:194.17.185.143 ip4:194.237.9.196 ip4:217.77.194.1 ip4:217.77.192.129 ip4:217.77.192.9 ip4:5.79.99.192/26 ip4:5.79.88.64/26 ip4:217.114.80.100 ip4:62.97.114.48/28 ip4:91.123.56.240 ip4:91.123.56.241 ip4:193.75.92.155 ip4:193.75.92.156 ip4:205.217.4.148 ip4:34.252.27.239/32 ip4:34.249.196.78/32 ip4:34.251.157.56/32 ip4:35.157.154.159/32 ip4:35.157.187.101/32 ip4:91.227.208.0/24 ip4:185.64.72.0/24 ip4:194.71.205.0/24 ip4:91.213.250.91 ip4:167.89.16.221 ip4:167.89.0.0/17 ip4:208.117.48.0/20 ip4:50.31.32.0/19 ip4:198.37.144.0/20 ip4:198.21.0.0/21 ip4:192.254.112.0/20 ip4:168.245.0.0/17 ip4:149.72.0.0/16 ip4:185.163.189.41 ip4:185.163.189.46 ip4:205.201.128.0/20 ip4:198.2.128.0/18 ip4:148.105.8.0/21 ip4:91.233.125.0/24 ip4:93.191.127.0/26 ip4:93.191.127.112/28 ip4:93.191.126.0/28 ip4:93.191.124.128/27 ip4:5.250.162.128/27 ip4:148.105.0.0/16 ip4:185.163.189.32 ip4:185.249.220.0/24 ip4:185.225.161.0/24 ip4:83.140.103.4 ip4:80.80.228.50 ip4:193.26.30.0/25 ip4:192.121.104.141 ip4:192.121.104.0/24 ip4:194.17.178.40 ip6:2a00:801:7:20::208 include:spf.lianamailer.com include:spf.icontroller.eu include:2714594.spf01.hubspotemail.net include:spf.mailjet.com -all",
-      "_globalsign-domain-verification=F01TBxBX06ACrit3EZMkt-7Hg0iw3J2o67HnTyl4HN",
-      "infor-cloudsuite-domain-verification=4EY5K7G7UNWGARU6ECQE286QXAQGRVMU8484DADYA72CRLV6FXMEZ5XPTVHLSR8D",
-      "_globalsign-domain-verification=bsC88SDmFW6yZzuwEXslft4nnmPQ4tGT0WSECR2U6d",
-      "jhch1Tk+MibGp6PcsSSETHGlWJqTL0hTNsvBgI77Y4WOKQp4QWepPAt9ZE/bkGGx6nJ/tsiSOzTxhnX29Ne+LA==",
-      "76YLAZPD1R9OQCVTIOY1194R32BP6SL5OGKM5JU3",
-      "_globalsign-domain-verification=Kb3AMmTwaHj33hQbNN33vtygpkDHkzapERpWsCCk6X",
-      "ibmid=e3cfbc74-1fa3-452b-8916-eeed59f24cca",
-      "apple-domain-verification=iMa4ZSjn32NTBtqf",
       "docusign=cddc69a7-d2d8-4b7a-b69d-fc8fb36be370",
+      "_globalsign-domain-verification=F01TBxBX06ACrit3EZMkt-7Hg0iw3J2o67HnTyl4HN",
+      "_globalsign-domain-verification=Kb3AMmTwaHj33hQbNN33vtygpkDHkzapERpWsCCk6X",
+      "_globalsign-domain-verification=bsC88SDmFW6yZzuwEXslft4nnmPQ4tGT0WSECR2U6d",
+      "_globalsign-domain-verification=gzxlnLaxKx4YbaeD8jUF-MWAWocm080j6F3L21GbrI",
+      "jhch1Tk+MibGp6PcsSSETHGlWJqTL0hTNsvBgI77Y4WOKQp4QWepPAt9ZE/bkGGx6nJ/tsiSOzTxhnX29Ne+LA==",
+      "cisco-ci-domain-verification=12b331c19df8c77baf800d416168a4429319d5522190997d7b088e734419cac9",
+      "infor-cloudsuite-domain-verification=4EY5K7G7UNWGARU6ECQE286QXAQGRVMU8484DADYA72CRLV6FXMEZ5XPTVHLSR8D",
+      "v=spf1 include:spf.protection.outlook.com ip4:80.252.174.130 ip4:194.17.185.143 ip4:194.237.9.196 ip4:217.77.194.1 ip4:217.77.192.129 ip4:217.77.192.9 ip4:5.79.99.192/26 ip4:5.79.88.64/26 ip4:217.114.80.100 ip4:62.97.114.48/28 ip4:91.123.56.240 ip4:91.123.56.241 ip4:193.75.92.155 ip4:193.75.92.156 ip4:205.217.4.148 ip4:34.252.27.239/32 ip4:34.249.196.78/32 ip4:34.251.157.56/32 ip4:35.157.154.159/32 ip4:35.157.187.101/32 ip4:91.227.208.0/24 ip4:185.64.72.0/24 ip4:194.71.205.0/24 ip4:91.213.250.91 ip4:167.89.16.221 ip4:167.89.0.0/17 ip4:208.117.48.0/20 ip4:50.31.32.0/19 ip4:198.37.144.0/20 ip4:198.21.0.0/21 ip4:192.254.112.0/20 ip4:168.245.0.0/17 ip4:149.72.0.0/16 ip4:185.163.189.41 ip4:185.163.189.46 ip4:205.201.128.0/20 ip4:198.2.128.0/18 ip4:148.105.8.0/21 ip4:91.233.125.0/24 ip4:93.191.127.0/26 ip4:93.191.127.112/28 ip4:93.191.126.0/28 ip4:93.191.124.128/27 ip4:5.250.162.128/27 ip4:148.105.0.0/16 ip4:185.163.189.32 ip4:185.249.220.0/24 ip4:185.225.161.0/24 ip4:83.140.103.4 ip4:80.80.228.50 ip4:193.26.30.0/25 ip4:192.121.104.141 ip4:192.121.104.0/24 ip4:194.17.178.40 ip6:2a00:801:7:20::208 include:spf.lianamailer.com include:spf.icontroller.eu include:2714594.spf01.hubspotemail.net include:spf.mailjet.com -all",
       "MS=ms87598948",
-      "_globalsign-domain-verification=gzxlnLaxKx4YbaeD8jUF-MWAWocm080j6F3L21GbrI"
+      "76YLAZPD1R9OQCVTIOY1194R32BP6SL5OGKM5JU3",
+      "apple-domain-verification=iMa4ZSjn32NTBtqf",
+      "ibmid=e3cfbc74-1fa3-452b-8916-eeed59f24cca"
     ]
   },
   "cloud_exposure": [],

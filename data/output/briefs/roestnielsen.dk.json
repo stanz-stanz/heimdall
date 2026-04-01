@@ -2,7 +2,7 @@
   "domain": "roestnielsen.dk",
   "cvr": "prospect",
   "company_name": "roestnielsen.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,16 +16,16 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-09",
-      "days_remaining": 40
+      "days_remaining": 39
     },
     "server": "nginx",
     "detected_plugins": [
       "Contact Form 7",
-      "Jetpack",
-      "Cookie Notice",
       "Download Monitor",
-      "Download Manager",
-      "Megamenu"
+      "Cookie Notice",
+      "Jetpack",
+      "Megamenu",
+      "Download Manager"
     ],
     "headers": {
       "x_frame_options": false,
@@ -36,7 +36,7 @@
   },
   "tech_stack": [
     "Contact Form 7:5.8.1",
-    "Cookie Notice:2.5.14",
+    "Cookie Notice:2.5.16",
     "Download Monitor:4.8.10",
     "HSTS",
     "Jetpack",
@@ -64,8 +64,8 @@
     ],
     "cname": [],
     "mx": [
-      "roestnielsen-dk.mx1-dk.mailanyone.net",
       "roestnielsen-dk.mx3-dk.mailanyone.net",
+      "roestnielsen-dk.mx1-dk.mailanyone.net",
       "roestnielsen-dk.mx2-dk.mailanyone.net"
     ],
     "ns": [
@@ -77,8 +77,8 @@
     ],
     "txt": [
       "vpe=bfb38e01",
-      "v=spf1 include:spf.mailanyone.net include:_spf.powerhosting.dk include:spf.protection.outlook.com -all",
-      "MS=ms52466876"
+      "MS=ms52466876",
+      "v=spf1 include:spf.mailanyone.net include:_spf.powerhosting.dk include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

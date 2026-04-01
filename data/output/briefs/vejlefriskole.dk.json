@@ -2,7 +2,7 @@
   "domain": "vejlefriskole.dk",
   "cvr": "prospect",
   "company_name": "vejlefriskole.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,18 +16,18 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-17",
-      "days_remaining": 48
+      "days_remaining": 47
     },
     "server": "Apache",
     "detected_plugins": [
-      "Simple Banner",
-      "Block Options",
-      "Contact Form 7",
       "Essential Grid",
       "Cornerstone",
+      "Simple Banner",
       "Wpconsent Cookies Banner Privacy Suite",
+      "Block Options",
       "Team Members Pro",
-      "Ajax Search Lite"
+      "Ajax Search Lite",
+      "Contact Form 7"
     ],
     "headers": {
       "x_frame_options": false,
@@ -72,9 +72,9 @@
     ],
     "txt": [
       "MS=ms41079324",
-      "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCaOBNl/iGOmFOyJAykbVq/bgAneIbfIGoJXFU0F1WgtPahHaxNMcE4qTu6UpynIbGXp9a0nHY ZgOTYRiitCsww4ahCO+cDsjOiVwxiNCTR406MPpqAYA/HBAMlFh38isZhmsDuN39dd3xfwFtsr6jvwgNp/vsH3EiPzgRSZiV65wIDAQAB",
       "v=spf1 include:spf.protection.outlook.com -all",
-      ""
+      "",
+      "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCaOBNl/iGOmFOyJAykbVq/bgAneIbfIGoJXFU0F1WgtPahHaxNMcE4qTu6UpynIbGXp9a0nHY ZgOTYRiitCsww4ahCO+cDsjOiVwxiNCTR406MPpqAYA/HBAMlFh38isZhmsDuN39dd3xfwFtsr6jvwgNp/vsH3EiPzgRSZiV65wIDAQAB"
     ]
   },
   "cloud_exposure": [],

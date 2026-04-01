@@ -2,7 +2,7 @@
   "domain": "photocare.dk",
   "cvr": "prospect",
   "company_name": "photocare.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "C",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-27",
-      "days_remaining": 89
+      "days_remaining": 88
     },
     "server": "cloudflare",
     "detected_plugins": [],

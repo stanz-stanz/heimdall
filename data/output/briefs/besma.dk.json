@@ -2,7 +2,7 @@
   "domain": "besma.dk",
   "cvr": "prospect",
   "company_name": "besma.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,16 +16,16 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-10-04",
-      "days_remaining": 189
+      "days_remaining": 188
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Activecampaign Subscription Forms",
       "Supreme Mega Menu",
       "Facebook Page Feed Graph Api",
-      "Pixelyoursite",
       "Cookie Law Info",
-      "Divi Pixel"
+      "Divi Pixel",
+      "Pixelyoursite",
+      "Activecampaign Subscription Forms"
     ],
     "headers": {
       "x_frame_options": false,
@@ -72,8 +72,8 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "MS=ms96853519",
-      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all"
+      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all",
+      "MS=ms96853519"
     ]
   },
   "cloud_exposure": [],

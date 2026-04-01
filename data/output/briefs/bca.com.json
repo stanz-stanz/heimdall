@@ -2,7 +2,7 @@
   "domain": "bca.com",
   "cvr": "prospect",
   "company_name": "bca.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-16",
-      "days_remaining": 78
+      "days_remaining": 77
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -35,24 +35,23 @@
   },
   "dns": {
     "a": [
-      "104.18.41.111",
-      "172.64.146.145"
+      "172.64.146.145",
+      "104.18.41.111"
     ],
     "aaaa": [
-      "2a06:98c1:3104::ac40:9291",
-      "2606:4700:4404::6812:296f"
+      "2606:4700:4404::6812:296f",
+      "2a06:98c1:3104::ac40:9291"
     ],
     "cname": [],
     "mx": [
-      "mxb-001c1001.gslb.pphosted.com",
-      "mxa-001c1001.gslb.pphosted.com"
+      "mxa-001c1001.gslb.pphosted.com",
+      "mxb-001c1001.gslb.pphosted.com"
     ],
     "ns": [
       "ns1.bca.com",
       "ns2.bca.com"
     ],
     "txt": [
-      "nnlbm4qar4av3b67r2ban3s4ao",
       "tktoosntbv43kfeoou8mti6sid",
       "urfl02k8ghn962jqjsc7cj12lu",
       "uvhh8ih2hlm78fbfn10n78cfke",
@@ -76,7 +75,8 @@
       "gilj8s5m909qkampc34s4ohk8l",
       "google-site-verification=P93STc9plMaBjqpI3odbkeU_4lyfx6ubNVhAk3wyxGQ",
       "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
-      "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca"
+      "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca",
+      "nnlbm4qar4av3b67r2ban3s4ao"
     ]
   },
   "cloud_exposure": [],

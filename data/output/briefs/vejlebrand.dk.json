@@ -2,7 +2,7 @@
   "domain": "vejlebrand.dk",
   "cvr": "prospect",
   "company_name": "vejlebrand.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "GlobalSign nv-sa",
       "expiry": "2026-09-30",
-      "days_remaining": 184
+      "days_remaining": 183
     },
     "server": "",
     "detected_plugins": [],
@@ -42,24 +42,24 @@
     "aaaa": [],
     "cname": [],
     "mx": [
+      "mx1-dk.centerasecurity.dk",
       "mx2-dk.centerasecurity.dk",
-      "mx3-dk.centerasecurity.dk",
-      "mx1-dk.centerasecurity.dk"
+      "mx3-dk.centerasecurity.dk"
     ],
     "ns": [
       "margot.ns.cloudflare.com",
       "emerson.ns.cloudflare.com"
     ],
     "txt": [
-      "v=spf1 include:_spf9110.spfprotect.com -all",
       "MS=C8A7D53FFEFE5A1B30E9A1BA8417EC75A41E1A4A",
+      "apple-domain-verification=0UZK9lbEem6LuYbu",
+      "zoho-verification=zb15777170.zmverify.zoho.eu",
+      "sophos-domain-verification=6a64ff56a86ea1981087cbbf4f3323e0ecc79f5551db57fb2d252fa21e4c0499",
+      "v=spf1 include:_spf9110.spfprotect.com -all",
       "s0GEQz2eUq7j1KAurIVVTm+byZKltLinKez+ff0TlRWWOkAozn/kDESM/y2GhDG4oM61yw/xqBx8RTI+DIMv1Q==",
       "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHwSG661cCcmQLlf/HsAHOpMFZbp00xBjvnXqSr7RW3QbtdK+eauZqqvN/6J3YRW1ARPkz1OPzNrU3P0Uy3Y48MRi7NJGzYaeQyWQ3G841S6+8c/yZv7iYoDemreT2zTji/7zjexhea6DZ3ltmcAWU92oYD+0nr12qhApnNtVCPwIDAQAB",
-      "apple-domain-verification=0UZK9lbEem6LuYbu",
-      "_globalsign-domain-verification=8nxTFDBnAPJASFu5Li6eFBxFXmZ8AYQ3bgb0kqBLaC",
-      "sophos-domain-verification=6a64ff56a86ea1981087cbbf4f3323e0ecc79f5551db57fb2d252fa21e4c0499",
       "atlassian-domain-verification=wefEeRDuERHtUSba27BP6lkcYcDQZ8641P8p5mBaat3JCy9enyK4EThuhEfV3110",
-      "zoho-verification=zb15777170.zmverify.zoho.eu"
+      "_globalsign-domain-verification=8nxTFDBnAPJASFu5Li6eFBxFXmZ8AYQ3bgb0kqBLaC"
     ]
   },
   "cloud_exposure": [],

@@ -2,7 +2,7 @@
   "domain": "foodwithyou.com",
   "cvr": "prospect",
   "company_name": "foodwithyou.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,22 +14,22 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 50
+      "days_remaining": 49
     },
     "server": "Apache",
     "detected_plugins": [
-      "Dynamicconditions",
-      "Essential Addons For Elementor Lite",
-      "Elementor Pro",
-      "Wp Seopress Pro",
-      "Elementskit Lite",
-      "Astra Addon",
       "Sitepress Multilingual Cms",
+      "Wp Seopress Pro",
+      "Elementor",
+      "Elementskit Lite",
       "Ultimate Elementor",
+      "Essential Addons For Elementor Lite",
       "3D Flipbook Dflip Lite",
       "Bdthemes Element Pack",
+      "Astra Addon",
       "Complianz Gdpr",
-      "Elementor"
+      "Elementor Pro",
+      "Dynamicconditions"
     ],
     "headers": {
       "x_frame_options": false,

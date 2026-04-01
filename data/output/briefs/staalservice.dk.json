@@ -2,7 +2,7 @@
   "domain": "staalservice.dk",
   "cvr": "prospect",
   "company_name": "staalservice.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-10",
-      "days_remaining": 41
+      "days_remaining": 40
     },
     "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
@@ -50,9 +50,9 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "v=spf1 ip4:176.22.66.130 include:spf.protection.outlook.com ~all",
+      "MS=ms12482900",
       "google-site-verification=nwnWvruwUA-_VR1ySS0jW3NEvb8zY_hrL8FhENST6hE",
-      "MS=ms12482900"
+      "v=spf1 ip4:176.22.66.130 include:spf.protection.outlook.com ~all"
     ]
   },
   "cloud_exposure": [],

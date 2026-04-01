@@ -2,7 +2,7 @@
   "domain": "rollco.dk",
   "cvr": "prospect",
   "company_name": "rollco.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 68
+      "days_remaining": 67
     },
     "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
@@ -44,9 +44,9 @@
   },
   "dns": {
     "a": [
+      "151.101.194.132",
       "151.101.2.132",
       "151.101.130.132",
-      "151.101.194.132",
       "151.101.66.132"
     ],
     "aaaa": [],
@@ -59,12 +59,12 @@
       "ns2.dnshost.net"
     ],
     "txt": [
-      "x4W3uvzpXq9HGqrFKsGKjc9YOM4Otl5lKHn9+uMIxGI=",
+      "6X3C1EkNDldawUqzS6dcsql0VFE0GOtn6JXTd8E3DOo=",
       "FN0m2S5dIQmDA5eFV1y8jzFSRoZEPhfAdqqXlXRv1HE=",
+      "MS=ms84475491",
       "v=spf1 mx include:spf.ubivox.com include:bwz.se a:mail3.litiumdrift.se include:spf.protection.outlook.com include:spf.bedrock.lime-technologies.com include:6400841.spf10.hubspotemail.net ip4:212.247.229.8 ~all",
       "95hVYOEe+tdODgitxhQyVeuZ5ESHkv40iDRvazXndao=",
-      "6X3C1EkNDldawUqzS6dcsql0VFE0GOtn6JXTd8E3DOo=",
-      "MS=ms84475491",
+      "x4W3uvzpXq9HGqrFKsGKjc9YOM4Otl5lKHn9+uMIxGI=",
       "MS=ms20176768"
     ]
   },

@@ -2,7 +2,7 @@
   "domain": "triplecut.com",
   "cvr": "prospect",
   "company_name": "triplecut.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,13 +14,13 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-21",
-      "days_remaining": 83
+      "days_remaining": 82
     },
     "server": "LiteSpeed",
     "detected_plugins": [
       "Translatepress Multilingual",
-      "Elementor Pro",
-      "Elementor"
+      "Elementor",
+      "Elementor Pro"
     ],
     "headers": {
       "x_frame_options": false,

@@ -2,7 +2,7 @@
   "domain": "dal-bo.dk",
   "cvr": "prospect",
   "company_name": "dal-bo.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,12 +17,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-25",
-      "days_remaining": 87
+      "days_remaining": 86
     },
     "server": "nginx",
     "detected_plugins": [
-      "Sitepress Multilingual Cms",
-      "Contact Form 7"
+      "Contact Form 7",
+      "Sitepress Multilingual Cms"
     ],
     "headers": {
       "x_frame_options": false,
@@ -62,9 +62,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2-dk.centerasecurity.dk",
+      "mx1-dk.centerasecurity.dk",
       "mx3-dk.centerasecurity.dk",
-      "mx1-dk.centerasecurity.dk"
+      "mx2-dk.centerasecurity.dk"
     ],
     "ns": [
       "ns01.one.com",

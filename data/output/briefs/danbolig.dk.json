@@ -2,7 +2,7 @@
   "domain": "danbolig.dk",
   "cvr": "prospect",
   "company_name": "danbolig.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,7 @@
       "valid": true,
       "issuer": "DigiCert Inc",
       "expiry": "2026-08-25",
-      "days_remaining": 149
+      "days_remaining": 148
     },
     "server": "",
     "detected_plugins": [],
@@ -41,11 +41,12 @@
   },
   "dns": {
     "a": [
-      "150.171.109.194"
+      "13.107.253.44",
+      "13.107.226.44"
     ],
     "aaaa": [
-      "2620:1ec:48:1::45",
-      "2620:1ec:29:1::45"
+      "2620:1ec:29:1::45",
+      "2620:1ec:48:1::45"
     ],
     "cname": [],
     "mx": [
@@ -56,7 +57,6 @@
       "ursula.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=LG_SryWNG5tOdCphQOyfWyeXcJIW6cRDAlIPP5ijL88",
       "google-site-verification=YZKgj-Kih3fjDT-SlQZi8Dqmf4uvet28SDU4hiaA77U",
       "google-site-verification=j4xlUHwNdpJzo_QM5I55v4bcYqnFL2w0aZR7AbZaJ9I",
       "h9lICf1V6nJS6zwETY+wGgwX5M11h6nP36RUA6Pm6m/TF0a5KOV0+lHmeES3cPwZ9J5M4ztt5tBoTx9veQKlZQ==",
@@ -70,7 +70,8 @@
       "facebook-domain-verification=c6gsjqqy45zoqanes4xcwk05hcyqv4",
       "google-site-verification=6kG_dI_j3y8Pou5BxUnJQ5Qb9bfm0iUuiR9A1EEbHW0",
       "google-site-verification=BJjUW5TxsGz_8YPe4GWjhuzPe-93ivvl66DK_Bmnvzo",
-      "google-site-verification=FrBZ2MBTOYDEdVZgfVZprjGiuF6o3BJDLxrfaeppV6Q"
+      "google-site-verification=FrBZ2MBTOYDEdVZgfVZprjGiuF6o3BJDLxrfaeppV6Q",
+      "google-site-verification=LG_SryWNG5tOdCphQOyfWyeXcJIW6cRDAlIPP5ijL88"
     ]
   },
   "cloud_exposure": [],

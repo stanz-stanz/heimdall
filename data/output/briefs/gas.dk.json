@@ -2,7 +2,7 @@
   "domain": "gas.dk",
   "cvr": "prospect",
   "company_name": "gas.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,22 +18,22 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-14",
-      "days_remaining": 45
+      "days_remaining": 44
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Jet Engine",
-      "E2Pdf",
-      "Mailchimp For Woocommerce",
       "Woocommerce",
-      "Elementskit Lite",
+      "E2Pdf",
+      "Powerpack Elements",
       "Duracelltomi Google Tag Manager",
       "Elementor Pro",
-      "Gtm Server Side",
-      "Elementor",
       "Connect Polylang Elementor",
-      "Powerpack Elements",
-      "Tablepress"
+      "Elementskit Lite",
+      "Tablepress",
+      "Mailchimp For Woocommerce",
+      "Elementor",
+      "Gtm Server Side",
+      "Jet Engine"
     ],
     "headers": {
       "x_frame_options": false,

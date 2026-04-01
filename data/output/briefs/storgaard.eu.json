@@ -2,7 +2,7 @@
   "domain": "storgaard.eu",
   "cvr": "prospect",
   "company_name": "storgaard.eu",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -13,8 +13,8 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-06-14",
-      "days_remaining": 76
+      "expiry": "2026-06-09",
+      "days_remaining": 71
     },
     "server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/8.2.10",
     "detected_plugins": [],
@@ -38,8 +38,8 @@
   },
   "dns": {
     "a": [
-      "185.230.63.107",
-      "87.238.253.103"
+      "87.238.253.103",
+      "185.230.63.107"
     ],
     "aaaa": [],
     "cname": [],

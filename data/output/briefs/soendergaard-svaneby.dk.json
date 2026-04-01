@@ -2,7 +2,7 @@
   "domain": "soendergaard-svaneby.dk",
   "cvr": "prospect",
   "company_name": "soendergaard-svaneby.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-14",
-      "days_remaining": 45
+      "days_remaining": 44
     },
     "server": "Apache",
     "detected_plugins": [],
@@ -44,10 +44,10 @@
     ],
     "cname": [],
     "mx": [
-      "mx4.pub.mailpod11-cph3.one.com",
+      "mx1.pub.mailpod11-cph3.one.com",
       "mx2.pub.mailpod11-cph3.one.com",
       "mx3.pub.mailpod11-cph3.one.com",
-      "mx1.pub.mailpod11-cph3.one.com"
+      "mx4.pub.mailpod11-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",

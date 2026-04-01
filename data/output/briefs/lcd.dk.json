@@ -2,7 +2,7 @@
   "domain": "lcd.dk",
   "cvr": "prospect",
   "company_name": "lcd.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,20 +14,20 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-02",
-      "days_remaining": 33
+      "days_remaining": 32
     },
     "server": "Apache",
     "detected_plugins": [
-      "Weglot",
-      "Premium Addons For Elementor",
-      "Jet Tricks",
-      "Wp Rocket",
-      "Jet Elements",
-      "Elementor Pro",
-      "Jet Tabs",
       "Elementor",
-      "Jet Blocks",
+      "Wp Rocket",
+      "Weglot",
       "Pixelyoursite",
+      "Jet Tricks",
+      "Jet Blocks",
+      "Jet Tabs",
+      "Jet Elements",
+      "Premium Addons For Elementor",
+      "Elementor Pro",
       "Jetformbuilder"
     ],
     "headers": {

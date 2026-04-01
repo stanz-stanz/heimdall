@@ -2,11 +2,11 @@
   "domain": "klimaenergi.dk",
   "cvr": "prospect",
   "company_name": "klimaenergi.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7, Woocommerce",
+    "Data-handling plugins: Woocommerce, Contact Form 7",
     "E-commerce plugin: WooCommerce:9.4.5",
     "Visitor tracking: Google Analytics, Google Tag Manager, Google Tag Manager for WordPress:1.20.3"
   ],
@@ -18,25 +18,25 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 68
+      "days_remaining": 67
     },
     "server": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
     "detected_plugins": [
+      "Woocommerce",
       "Pixelyoursite Pro",
-      "Oxygen",
-      "Lightbox Popup",
       "Ws Fix Styles",
+      "Location Weather Pro",
+      "Oxygen",
       "Contact Form 7",
       "Solax Dashboard",
-      "Wt Import Export For Woo",
-      "Woocommerce",
-      "Trustpilot Reviews",
-      "Location Weather Pro",
-      "Google Site Kit",
-      "Wp Smushit",
       "Content Protector",
-      "Duracelltomi Google Tag Manager",
-      "Ws Keberegner 2023"
+      "Ws Keberegner 2023",
+      "Trustpilot Reviews",
+      "Lightbox Popup",
+      "Wt Import Export For Woo",
+      "Wp Smushit",
+      "Google Site Kit",
+      "Duracelltomi Google Tag Manager"
     ],
     "headers": {
       "x_frame_options": false,
@@ -117,7 +117,7 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+      "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {

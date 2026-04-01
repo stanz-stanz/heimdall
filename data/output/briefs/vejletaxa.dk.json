@@ -2,7 +2,7 @@
   "domain": "vejletaxa.dk",
   "cvr": "prospect",
   "company_name": "vejletaxa.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,15 +16,15 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-14",
-      "days_remaining": 76
+      "days_remaining": 75
     },
     "server": "LiteSpeed",
     "detected_plugins": [
+      "Elementor",
       "Wp Rocket",
-      "Elementor Pro",
       "Honeypot",
       "Ultimate Elementor",
-      "Elementor"
+      "Elementor Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -65,8 +65,8 @@
       "ns3.dns.services"
     ],
     "txt": [
-      "v=spf1 a mx include:spf.protection.outlook.com ip4:185.21.40.25 ip4:94.231.108.82 a:smarthost.datalogik.dk a:filter.datalogik.dk a:filter2.datalogik.dk include:spf.curanet.dk -all",
-      "MS=ms94955924"
+      "MS=ms94955924",
+      "v=spf1 a mx include:spf.protection.outlook.com ip4:185.21.40.25 ip4:94.231.108.82 a:smarthost.datalogik.dk a:filter.datalogik.dk a:filter2.datalogik.dk include:spf.curanet.dk -all"
     ]
   },
   "cloud_exposure": [],

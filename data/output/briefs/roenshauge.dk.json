@@ -2,7 +2,7 @@
   "domain": "roenshauge.dk",
   "cvr": "prospect",
   "company_name": "roenshauge.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,14 +18,14 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-19",
-      "days_remaining": 81
+      "days_remaining": 80
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Woocommerce",
       "Sitepress Multilingual Cms",
-      "Js_Composer_Salient",
-      "Contact Form 7"
+      "Woocommerce",
+      "Contact Form 7",
+      "Js_Composer_Salient"
     ],
     "headers": {
       "x_frame_options": false,
@@ -71,8 +71,8 @@
       "ns4.wwi.eu"
     ],
     "txt": [
-      "MS=ms17609546",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms17609546"
     ]
   },
   "cloud_exposure": [],

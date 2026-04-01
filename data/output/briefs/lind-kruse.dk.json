@@ -2,7 +2,7 @@
   "domain": "lind-kruse.dk",
   "cvr": "prospect",
   "company_name": "lind-kruse.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,14 +16,14 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
-      "days_remaining": 57
+      "days_remaining": 56
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Diviflash",
       "Wp Rocket",
-      "Forminator",
-      "Search Filter Pro"
+      "Diviflash",
+      "Search Filter Pro",
+      "Forminator"
     ],
     "headers": {
       "x_frame_options": false,
@@ -68,10 +68,10 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com -all",
-      "google-site-verification=T39X4CRqJPZVXoRMsSLkkOwZ0GUZ5-RUFyxSIjp0rQQ",
+      "MS=ms16795991",
       "MS=ms36146539",
-      "MS=ms16795991"
+      "google-site-verification=T39X4CRqJPZVXoRMsSLkkOwZ0GUZ5-RUFyxSIjp0rQQ",
+      "v=spf1 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

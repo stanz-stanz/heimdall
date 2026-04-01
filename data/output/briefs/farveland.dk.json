@@ -2,7 +2,7 @@
   "domain": "farveland.dk",
   "cvr": "prospect",
   "company_name": "farveland.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,21 +16,21 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-05",
-      "days_remaining": 37
+      "days_remaining": 36
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Elementor",
-      "Wp_Glossary",
-      "3D Flipbook Dflip Lite",
-      "Elementor Pro",
-      "Fluentform",
       "Marquee Addons For Elementor",
-      "Easy Table Of Contents",
       "Klaviyo",
+      "Elementor Pro",
       "Bdthemes Element Pack",
+      "Fluentform",
+      "Uicore Framework",
+      "3D Flipbook Dflip Lite",
+      "Elementor",
       "Uicore Animate",
-      "Uicore Framework"
+      "Wp_Glossary",
+      "Easy Table Of Contents"
     ],
     "headers": {
       "x_frame_options": false,
@@ -76,10 +76,10 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "google-site-verification=kGqgvA8KEr8_KkeW5XYVuQ5tWW57P_BLBP5AbCLvgCs",
       "MS=ms58274488",
+      "v=spf1 ip4:168.119.73.188 include:spf.curanet.dk include:spf.protection.outlook.com a:mail.npkhosting.dk include:spf.azehosting.net ~all",
       "klaviyo-site-verification=W9TFT9",
-      "v=spf1 ip4:168.119.73.188 include:spf.curanet.dk include:spf.protection.outlook.com a:mail.npkhosting.dk include:spf.azehosting.net ~all"
+      "google-site-verification=kGqgvA8KEr8_KkeW5XYVuQ5tWW57P_BLBP5AbCLvgCs"
     ]
   },
   "cloud_exposure": [],

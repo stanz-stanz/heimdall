@@ -2,7 +2,7 @@
   "domain": "kssvejle.dk",
   "cvr": "prospect",
   "company_name": "kssvejle.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "D",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -45,9 +45,9 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com -all",
       "MS=ms48606195",
-      "apple-domain-verification=0BwTqQDNIHHJGSSN"
+      "apple-domain-verification=0BwTqQDNIHHJGSSN",
+      "v=spf1 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

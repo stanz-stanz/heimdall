@@ -2,7 +2,7 @@
   "domain": "vejlespildevand.dk",
   "cvr": "prospect",
   "company_name": "vejlespildevand.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-10-20",
-      "days_remaining": 205
+      "days_remaining": 204
     },
     "server": "",
     "detected_plugins": [],
@@ -53,8 +53,8 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "MS=ms81467681",
-      "v=spf1 ip4:62.242.43.19 a:smtp14.zitcom.dk include:spf.protection.outlook.com -all"
+      "v=spf1 ip4:62.242.43.19 a:smtp14.zitcom.dk include:spf.protection.outlook.com -all",
+      "MS=ms81467681"
     ]
   },
   "cloud_exposure": [],

@@ -2,7 +2,7 @@
   "domain": "wellmore.dk",
   "cvr": "prospect",
   "company_name": "wellmore.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,23 +18,23 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-24",
-      "days_remaining": 56
+      "days_remaining": 55
     },
     "server": "cloudflare",
     "detected_plugins": [
-      "Review Display",
-      "Ewww Image Optimizer",
-      "Facebook For Woocommerce",
-      "Contact Form 7",
-      "Cookie Law Info",
-      "Workdigital",
-      "Woocommerce",
-      "Wp Staging Pro",
       "Workdigital Slider",
-      "Flexible Shipping",
-      "Wp Contact Form 7 Spam Blocker",
+      "Review Display",
+      "Facebook For Woocommerce",
       "Gtm Server Side",
-      "Wd Shop"
+      "Flexible Shipping",
+      "Wp Staging Pro",
+      "Cookie Law Info",
+      "Contact Form 7",
+      "Wd Shop",
+      "Woocommerce",
+      "Wp Contact Form 7 Spam Blocker",
+      "Workdigital",
+      "Ewww Image Optimizer"
     ],
     "headers": {
       "x_frame_options": false,
@@ -72,8 +72,8 @@
   },
   "dns": {
     "a": [
-      "104.21.92.28",
-      "172.67.185.88"
+      "172.67.185.88",
+      "104.21.92.28"
     ],
     "aaaa": [
       "2606:4700:3034::ac43:b958",

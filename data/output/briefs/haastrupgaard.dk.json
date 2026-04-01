@@ -2,7 +2,7 @@
   "domain": "haastrupgaard.dk",
   "cvr": "prospect",
   "company_name": "haastrupgaard.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,14 +14,14 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-05",
-      "days_remaining": 36
+      "days_remaining": 35
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Cookie Notice",
-      "Genesis Responsive Slider",
+      "Simple Social Icons",
       "Genesis Columns Advanced",
-      "Simple Social Icons"
+      "Cookie Notice",
+      "Genesis Responsive Slider"
     ],
     "headers": {
       "x_frame_options": false,
@@ -31,7 +31,7 @@
     }
   },
   "tech_stack": [
-    "Cookie Notice:2.5.14",
+    "Cookie Notice:2.5.16",
     "HTTP/3",
     "LiteSpeed",
     "MySQL",

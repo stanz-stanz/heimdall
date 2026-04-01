@@ -2,7 +2,7 @@
   "domain": "missit.dk",
   "cvr": "prospect",
   "company_name": "missit.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,20 +18,20 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 50
+      "days_remaining": 49
     },
     "server": "LiteSpeed",
     "detected_plugins": [
       "Epay Payment",
-      "Wp Menu Cart Pro",
-      "Bambora Online Classic",
       "Woocommerce",
       "Pakkelabels For Woocommerce",
+      "Gdpr Cookie Compliance Addon",
       "Woo Discount Rules Pro",
-      "Gdpr Cookie Compliance",
+      "Wp Menu Cart Pro",
       "Woo Discount Rules",
-      "Woocommerce Google Analytics Integration",
-      "Gdpr Cookie Compliance Addon"
+      "Bambora Online Classic",
+      "Gdpr Cookie Compliance",
+      "Woocommerce Google Analytics Integration"
     ],
     "headers": {
       "x_frame_options": false,
@@ -66,9 +66,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
+      "mx1.pub.mailpod5-cph3.one.com",
       "mx3.pub.mailpod5-cph3.one.com",
-      "mx2.pub.mailpod5-cph3.one.com",
-      "mx1.pub.mailpod5-cph3.one.com"
+      "mx2.pub.mailpod5-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",

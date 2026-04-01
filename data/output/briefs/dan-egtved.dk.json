@@ -2,7 +2,7 @@
   "domain": "dan-egtved.dk",
   "cvr": "prospect",
   "company_name": "dan-egtved.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,21 +18,21 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-26",
-      "days_remaining": 89
+      "days_remaining": 88
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Advanced Woo Search",
-      "Woocommerce",
+      "Wp Sort Order",
       "Pluginsdk Gls Shipping",
+      "Woocommerce Multilingual",
+      "Woocommerce",
+      "Pixelyoursite",
+      "Wp Media Folder",
       "Sitepress Multilingual Cms",
       "Duracelltomi Google Tag Manager",
-      "Woocommerce Multilingual",
+      "Advanced Woo Search",
       "Woocommerce Google Adwords Conversion Tracking Tag",
-      "Woocommerce Cvr Payment Gateway",
-      "Wp Media Folder",
-      "Wp Sort Order",
-      "Pixelyoursite"
+      "Woocommerce Cvr Payment Gateway"
     ],
     "headers": {
       "x_frame_options": false,
@@ -75,10 +75,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
+      "mx.mentor-it.dk",
       "mx2-dk.centerasecurity.dk",
-      "mx1-dk.centerasecurity.dk",
       "mx3-dk.centerasecurity.dk",
-      "mx.mentor-it.dk"
+      "mx1-dk.centerasecurity.dk"
     ],
     "ns": [
       "ns1.curanet.dk",

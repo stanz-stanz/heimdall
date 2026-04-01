@@ -2,7 +2,7 @@
   "domain": "artwork-systems.dk",
   "cvr": "prospect",
   "company_name": "artwork-systems.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,7 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-16",
-      "days_remaining": 48
+      "days_remaining": 47
     },
     "server": "Apache",
     "detected_plugins": [
@@ -52,11 +52,11 @@
     ],
     "cname": [],
     "mx": [
-      "mx2.mailhop.us",
-      "a747459.mx.mailhop.org",
-      "mx2.mailhop.co.uk",
       "mx2.mailhop.co",
-      "mail.artwork-systems.dk"
+      "mx2.mailhop.us",
+      "mx2.mailhop.co.uk",
+      "mail.artwork-systems.dk",
+      "a747459.mx.mailhop.org"
     ],
     "ns": [
       "ns01.one.com",

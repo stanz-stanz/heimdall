@@ -2,7 +2,7 @@
   "domain": "fiberpartner.com",
   "cvr": "prospect",
   "company_name": "fiberpartner.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,7 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-04",
-      "days_remaining": 67
+      "days_remaining": 65
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -53,8 +53,8 @@
   },
   "dns": {
     "a": [
-      "141.193.213.10",
-      "141.193.213.11"
+      "141.193.213.11",
+      "141.193.213.10"
     ],
     "aaaa": [],
     "cname": [],
@@ -66,10 +66,10 @@
       "ns02.one.com"
     ],
     "txt": [
-      "apple-domain-verification=YutEd8q18z3lg73z",
-      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875",
-      "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:emsd1.com include:146389209.spf01.hubspotemail.net -all",
       "google-site-verification=Leri6_VHo-YTg8Kkd9tcFq4a1_KgsOSZI-FSLi4oPIs",
+      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875",
+      "apple-domain-verification=YutEd8q18z3lg73z",
+      "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:emsd1.com include:146389209.spf01.hubspotemail.net -all",
       "openai-domain-verification=dv-SKeOSBzNFAMTRJ2eXbZMdZWu"
     ]
   },

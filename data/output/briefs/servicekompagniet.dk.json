@@ -2,7 +2,7 @@
   "domain": "servicekompagniet.dk",
   "cvr": "prospect",
   "company_name": "servicekompagniet.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,14 +17,14 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-29",
-      "days_remaining": 60
+      "days_remaining": 59
     },
     "server": "cloudflare",
     "detected_plugins": [
-      "Breeze",
       "Qtranslate Slug",
+      "Qtranslate X",
       "Contact Form 7",
-      "Qtranslate X"
+      "Breeze"
     ],
     "headers": {
       "x_frame_options": false,
@@ -52,12 +52,12 @@
   },
   "dns": {
     "a": [
-      "104.21.66.54",
-      "172.67.201.78"
+      "172.67.201.78",
+      "104.21.66.54"
     ],
     "aaaa": [
-      "2a06:98c1:3120::3",
-      "2a06:98c1:3121::3"
+      "2a06:98c1:3121::3",
+      "2a06:98c1:3120::3"
     ],
     "cname": [],
     "mx": [

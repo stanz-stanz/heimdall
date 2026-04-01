@@ -2,7 +2,7 @@
   "domain": "skovadvokater.dk",
   "cvr": "prospect",
   "company_name": "skovadvokater.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,14 +17,14 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-04-30",
-      "days_remaining": 31
+      "days_remaining": 30
     },
     "server": "Apache",
     "detected_plugins": [
-      "Pixelyoursite Pro",
       "Sitepress Multilingual Cms",
-      "Popup Maker",
-      "Gravityforms"
+      "Pixelyoursite Pro",
+      "Gravityforms",
+      "Popup Maker"
     ],
     "headers": {
       "x_frame_options": false,
@@ -59,9 +59,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "skovadvokater.dk-tld.mx3-dk.mailanyone.net",
+      "skovadvokater.dk-tld.mx2-dk.mailanyone.net",
       "skovadvokater.dk-tld.mx1-dk.mailanyone.net",
-      "skovadvokater.dk-tld.mx2-dk.mailanyone.net"
+      "skovadvokater.dk-tld.mx3-dk.mailanyone.net"
     ],
     "ns": [
       "ns.scannet2.dk",
@@ -69,10 +69,10 @@
     ],
     "txt": [
       "bcgf13z43wyvhtpnshxqww5qmnfqjscr",
-      "4qnlkc5hxvgj2l008j6y2w6hld85ytx0",
-      "debbie-domain-verification=c6f943ac-be51-4e9c-aa3b-1d54c0849668",
       "MS=ms37796667",
-      "v=spf1 ip4:94.231.109.238 ip4:185.116.10.28 include:signflow.dk include:spf.mailanyone.net include:spf.protection.outlook.com include:_spf.debbiecollect.com -all"
+      "v=spf1 ip4:94.231.109.238 ip4:185.116.10.28 include:signflow.dk include:spf.mailanyone.net include:spf.protection.outlook.com include:_spf.debbiecollect.com -all",
+      "debbie-domain-verification=c6f943ac-be51-4e9c-aa3b-1d54c0849668",
+      "4qnlkc5hxvgj2l008j6y2w6hld85ytx0"
     ]
   },
   "cloud_exposure": [],

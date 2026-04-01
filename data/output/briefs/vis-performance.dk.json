@@ -2,7 +2,7 @@
   "domain": "vis-performance.dk",
   "cvr": "prospect",
   "company_name": "vis-performance.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,20 +16,20 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-17",
-      "days_remaining": 79
+      "days_remaining": 78
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Dynamicconditions",
-      "Elementor",
-      "Wp Rocket",
-      "Elementor Pro",
-      "Bbp Style Pack",
-      "Page Links To",
-      "Ultimate Elementor",
-      "Bbpress",
       "Sitepress Multilingual Cms",
+      "Dynamicconditions",
+      "Wp Rocket",
+      "Bbpress",
+      "Elementor Pro",
+      "Page Links To",
       "Astra Addon",
+      "Ultimate Elementor",
+      "Elementor",
+      "Bbp Style Pack",
       "Theme My Login"
     ],
     "headers": {
@@ -42,7 +42,7 @@
   "tech_stack": [
     "Cookiebot",
     "Dynamic Conditions",
-    "Elementor:3.35.7",
+    "Elementor:3.35.9",
     "Font Awesome",
     "Google Tag Manager",
     "HTTP/3",
@@ -77,8 +77,8 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "MS=ms15284044",
-      "v=spf1 include:spf.protection.outlook.com include:7606712.spf05.hubspotemail.net -all"
+      "v=spf1 include:spf.protection.outlook.com include:7606712.spf05.hubspotemail.net -all",
+      "MS=ms15284044"
     ]
   },
   "cloud_exposure": [],

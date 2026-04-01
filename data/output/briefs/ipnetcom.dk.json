@@ -2,7 +2,7 @@
   "domain": "ipnetcom.dk",
   "cvr": "prospect",
   "company_name": "ipnetcom.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-03-30",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,16 +16,16 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-11",
-      "days_remaining": 42
+      "days_remaining": 41
     },
     "server": "Apache",
     "detected_plugins": [
-      "Elementor Pro",
-      "Make Column Clickable Elementor",
       "Elemental Menu",
+      "Make Column Clickable Elementor",
+      "Elementor Pro",
+      "Elementor",
       "Elementor Extras",
-      "Ultimate Elementor",
-      "Elementor"
+      "Ultimate Elementor"
     ],
     "headers": {
       "x_frame_options": false,
