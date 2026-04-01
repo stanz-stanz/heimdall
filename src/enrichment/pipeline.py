@@ -101,6 +101,8 @@ def run_pipeline(
         conn.execute("SELECT 1 FROM companies WHERE domain = '' AND discard_reason = ''").fetchall()
     )
 
+    # Checkpoint WAL so the .db file is self-contained (safe for git commit)
+    conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
     conn.close()
     return stats
 

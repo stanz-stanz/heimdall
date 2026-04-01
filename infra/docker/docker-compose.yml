@@ -34,6 +34,7 @@ services:
       - valdi-data:/data/valdi:ro
       - config-data:/config:ro
       - ../../data/input:/data/input:ro
+      - ../../data/enriched:/data/enriched:ro
     networks:
       - internal
     depends_on:

@@ -8,6 +8,10 @@ data/benchmarks/*.json
 # Pipeline input data — committed so it deploys with the repo
 # data/input/CVR-extract.xlsx
 
+# SQLite journal files (WAL mode)
+*.db-shm
+*.db-wal
+
 # Valdí compliance logs (regenerated on each run)
 .claude/agents/valdi/compliance/
 
