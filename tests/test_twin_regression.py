@@ -16,6 +16,7 @@ from http.server import HTTPServer
 from pathlib import Path
 
 import pytest
+from unittest.mock import MagicMock
 
 from tools.twin import templates
 from tools.twin.twin_server import TwinHandler, _build_routes, _build_common_headers
@@ -309,63 +310,50 @@ class TestTwinScanModule:
         assert "twin_scan_date" in result
         assert isinstance(result["findings"], list)
 
-    def test_wpscan_response_parsing(self):
-        """Verify _request_twin_wpscan parses the sidecar's restructured format."""
-        from src.worker.twin_scan import _request_twin_wpscan, _wpscan_severity
-        from unittest.mock import MagicMock
+    def test_vulndb_findings_in_twin(self):
+        """Verify vulndb lookup produces findings with twin provenance."""
+        from unittest.mock import patch as _patch
 
-        # Simulate sidecar response in its actual format
-        sidecar_response = json.dumps({
-            "job_id": "twin-wpscan-test123",
-            "domain": "http://container:9080",
-            "status": "completed",
-            "wpscan": {
-                "vulnerabilities": [
-                    {"title": "WordPress < 6.9.5 - XSS", "type": "wordpress_core", "fixed_in": "6.9.5"},
-                    {"title": "CF7 < 5.8 - RCE", "type": "plugin", "plugin": "contact-form-7", "fixed_in": "5.8"},
-                ],
-                "wordpress": {"version": "6.9.4", "status": "insecure"},
-                "plugins": [
-                    {"name": "contact-form-7", "version": "5.7", "outdated": True, "vuln_count": 1},
-                    {"name": "elementor", "version": "3.18", "outdated": False, "vuln_count": 0},
-                ],
-            },
-            "exit_code": 5,
-            "duration_ms": 6000,
-        })
+        mock_findings = [
+            {"severity": "critical", "description": "CF7 < 5.3.2 (CVE-2020-35489)",
+             "risk": "CVE-2020-35489: Unrestricted File Upload",
+             "provenance": "twin-derived",
+             "provenance_detail": {"twin_scan_tool": "wpvulnerability"}},
+        ]
 
-        mock_redis = MagicMock()
-        mock_redis.rpush.return_value = 1
-        mock_redis.brpop.return_value = ("wpscan:result:twin-wpscan-test123", sidecar_response)
+        with _patch("src.vulndb.lookup.lookup_wordpress_vulns", return_value=mock_findings):
+            from src.worker.twin_scan import run_twin_scan
+            brief = {
+                "domain": "test.dk",
+                "technology": {"cms": "WordPress", "detected_plugins": ["contact-form-7"]},
+                "tech_stack": ["WordPress:6.9.4"],
+            }
+            with _patch("src.worker.twin_scan._start_twin_server") as mock_server, \
+                 _patch("src.worker.twin_scan._run_nuclei_against_twin", return_value=[]):
+                mock_httpd = MagicMock()
+                mock_server.return_value = (mock_httpd, 9080, MagicMock())
+                result = run_twin_scan(brief)
 
-        findings = _request_twin_wpscan(mock_redis, "container", 9080)
+            assert result is not None
+            assert len(result["findings"]) == 1
+            assert result["findings"][0]["provenance"] == "twin-derived"
+            assert result["findings"][0]["provenance_detail"]["twin_scan_tool"] == "wpvulnerability"
 
-        # Should find 2 vulns + 1 outdated plugin = 3 findings
-        assert len(findings) == 3
-        assert any("XSS" in f["description"] for f in findings)
-        assert any("RCE" in f["description"] for f in findings)
-        assert any("Outdated" in f["description"] for f in findings)
-        assert all(f["provenance"] == "twin-derived" for f in findings)
+    def test_non_wordpress_skips_vulndb(self):
+        """Non-WordPress twin scan should not trigger vulndb lookup."""
+        from unittest.mock import patch as _patch
 
-    def test_wpscan_not_wordpress_response(self):
-        """Exit code 4 (not WordPress) should produce 0 findings."""
-        from src.worker.twin_scan import _request_twin_wpscan
-        from unittest.mock import MagicMock
+        with _patch("src.worker.twin_scan._start_twin_server") as mock_server, \
+             _patch("src.worker.twin_scan._run_nuclei_against_twin", return_value=[]):
+            mock_httpd = MagicMock()
+            mock_server.return_value = (mock_httpd, 9080, MagicMock())
 
-        sidecar_response = json.dumps({
-            "job_id": "twin-wpscan-test456",
-            "domain": "http://container:9080",
-            "status": "not_wordpress",
-            "wpscan": {},
-            "exit_code": 4,
-        })
+            brief = {"domain": "test.dk", "technology": {"cms": "Joomla"}, "tech_stack": []}
+            from src.worker.twin_scan import run_twin_scan
+            result = run_twin_scan(brief)
 
-        mock_redis = MagicMock()
-        mock_redis.rpush.return_value = 1
-        mock_redis.brpop.return_value = ("key", sidecar_response)
-
-        findings = _request_twin_wpscan(mock_redis, "container", 9080)
-        assert findings == []
+            assert result is not None
+            assert "wpvulnerability" not in result.get("scan_tools", [])
 
     def test_twin_scan_findings_have_provenance(self, wordpress_brief):
         """Any findings from twin scan must have provenance markers."""

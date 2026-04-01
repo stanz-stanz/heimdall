@@ -95,8 +95,8 @@ services:
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
       - CT_DB_PATH=/data/ct/certificates.db
       - WORKER_MAX_LEVEL=${WORKER_MAX_LEVEL:-0}
-      - WPSCAN_API_TOKEN=${WPSCAN_API_TOKEN:-}
       - NUCLEI_TEMPLATES_DIR=/opt/nuclei-templates
+      - VULNDB_PATH=/data/cache/vulndb.sqlite3
     volumes:
       - valdi-data:/data/valdi
       - client-data:/data/clients:ro
@@ -154,26 +154,6 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
-
-  wpscan-sidecar:
-    build:
-      context: ../..
-      dockerfile: infra/docker/Dockerfile.wpscan
-    environment:
-      - REDIS_URL=redis://redis:6379/0
-      - WPSCAN_API_TOKEN=${WPSCAN_API_TOKEN:-}
-      - LOG_FORMAT=json
-    networks:
-      - internal
-    depends_on:
-      redis:
-        condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: '0.5'
-    restart: unless-stopped
 
   twin:
     build:

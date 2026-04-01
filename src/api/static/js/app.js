@@ -56,7 +56,6 @@
     // Queue cards
     setQueueValue('q-scan-val', data.queues.scan);
     setQueueValue('q-enrich-val', data.queues.enrichment);
-    setQueueValue('q-wpscan-val', data.queues.wpscan);
 
     // Enrichment: show progress if active
     const enrich = data.enrichment;

@@ -71,7 +71,7 @@ async def console_status(request: Request):
     """Operator dashboard data — queue depths, recent scans, cache stats."""
     redis_conn = getattr(request.app.state, "redis", None)
 
-    queues = {"scan": 0, "enrichment": 0, "wpscan": 0}
+    queues = {"scan": 0, "enrichment": 0}
     enrichment = {"completed": 0, "total": 0}
     cache_keys = 0
 
@@ -80,7 +80,6 @@ async def console_status(request: Request):
             pipe = redis_conn.pipeline(transaction=False)
             pipe.llen("queue:scan")
             pipe.llen("queue:enrichment")
-            pipe.llen("queue:wpscan")
             pipe.get("enrichment:completed")
             pipe.get("enrichment:total")
             pipe.dbsize()
@@ -88,10 +87,9 @@ async def console_status(request: Request):
 
             queues["scan"] = results[0] or 0
             queues["enrichment"] = results[1] or 0
-            queues["wpscan"] = results[2] or 0
-            enrichment["completed"] = int(results[3] or 0)
-            enrichment["total"] = int(results[4] or 0)
-            cache_keys = results[5] or 0
+            enrichment["completed"] = int(results[2] or 0)
+            enrichment["total"] = int(results[3] or 0)
+            cache_keys = results[4] or 0
         except Exception:
             log.warning("console_redis_error", exc_info=True)
 

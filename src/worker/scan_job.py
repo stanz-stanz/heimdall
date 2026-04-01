@@ -85,38 +85,12 @@ def _timed(fn: Any, *args: Any, **kwargs: Any) -> Tuple[Any, float]:
     return result, time.monotonic() - t0
 
 
-def _request_wpscan(redis_conn: redis.Redis, domain: str, job_id: str) -> Optional[dict]:
-    """Delegate WPScan to the sidecar container via Redis request-response.
-
-    Pushes a job to ``queue:wpscan`` and blocks on the per-job response key
-    (``wpscan:result:{job_id}``) with a 300-second timeout.
-
-    Returns the parsed result dict, or None on timeout / error.
-    """
-    wpscan_job_id = f"wpscan-{job_id}"
-    payload = json.dumps({"job_id": wpscan_job_id, "domain": domain})
-
-    try:
-        redis_conn.lpush("queue:wpscan", payload)
-    except (redis.ConnectionError, redis.TimeoutError) as exc:
-        log.warning("Failed to enqueue WPScan job for %s: %s", domain, exc)
-        return None
-
-    try:
-        result = redis_conn.brpop(f"wpscan:result:{wpscan_job_id}", timeout=300)
-    except (redis.ConnectionError, redis.TimeoutError) as exc:
-        log.warning("Redis error waiting for WPScan result for %s: %s", domain, exc)
-        return None
-
-    if result is None:
-        log.warning("wpscan_timeout", extra={"context": {"domain": domain, "job_id": job_id}})
-        return None
-
-    try:
-        return json.loads(result[1])
-    except (json.JSONDecodeError, TypeError, IndexError) as exc:
-        log.warning("Invalid WPScan response for %s: %s", domain, exc)
-        return None
+def _extract_wp_version(tech_stack: list) -> Optional[str]:
+    """Extract WordPress core version from tech_stack entries like 'WordPress:6.9.4'."""
+    for tech in tech_stack:
+        if isinstance(tech, str) and tech.lower().startswith("wordpress:"):
+            return tech.split(":", 1)[1]
+    return None
 
 
 def execute_scan_job(
@@ -374,16 +348,34 @@ def execute_scan_job(
         )
 
     # ------------------------------------------------------------------
-    # 4c. WPScan — WordPress domains only, delegated to sidecar via Redis
+    # 4c. WPVulnerability lookup — WordPress domains only
     # ------------------------------------------------------------------
-    if level1_scan_result is not None and scan.cms == "WordPress" and redis_conn is not None:
-        wpscan_data = cache.get("wpscan", domain)
-        if wpscan_data is None:
-            wpscan_result = _request_wpscan(redis_conn, domain, job_id)
-            if wpscan_result is not None:
-                wpscan_data = wpscan_result.get("wpscan", {})
-                cache.set("wpscan", domain, wpscan_result)
-        level1_scan_result["wpscan"] = wpscan_data or {}
+    if level1_scan_result is not None and scan.cms == "WordPress":
+        try:
+            from src.vulndb.lookup import lookup_wordpress_vulns
+
+            vulndb_path = os.environ.get("VULNDB_PATH", "/data/cache/vulndb.sqlite3")
+            wp_version = _extract_wp_version(scan.tech_stack)
+            plugin_versions = {
+                slug: ver for slug, ver in (
+                    (s.split(":", 1) + [""])[:2]
+                    for s in scan.tech_stack if ":" in s
+                )
+            } if scan.tech_stack else {}
+
+            vuln_findings = lookup_wordpress_vulns(
+                plugin_slugs=scan.detected_plugins,
+                plugin_versions=plugin_versions,
+                wp_version=wp_version,
+                provenance="",
+                db_path=vulndb_path,
+            )
+            level1_scan_result["wpvulnerability"] = {
+                "findings": vuln_findings,
+                "finding_count": len(vuln_findings),
+            }
+        except Exception:
+            log.exception("vulndb_lookup_failed for %s", domain)
 
     # ------------------------------------------------------------------
     # 5. Generate findings + GDPR determination
@@ -396,7 +388,7 @@ def execute_scan_job(
     if scan.cms == "WordPress" and brief.get("tech_stack"):
         try:
             from .twin_scan import run_twin_scan
-            twin_result = run_twin_scan(brief, redis_conn=redis_conn)
+            twin_result = run_twin_scan(brief)
             if twin_result and twin_result.get("findings"):
                 for finding in twin_result["findings"]:
                     finding["provenance"] = "twin-derived"
