@@ -100,7 +100,12 @@ def _fetch_vulns(url: str, identifier: str, asset_type: str) -> tuple[int, list[
 def _normalize_vuln(raw: dict) -> dict:
     """Normalize a WPVulnerability API vuln entry to our cache format."""
     operator = raw.get("operator", {})
-    impact = raw.get("impact", {})
+    impact_raw = raw.get("impact", {})
+    # API returns impact as either a dict or a list of dicts
+    if isinstance(impact_raw, list):
+        impact = impact_raw[0] if impact_raw else {}
+    else:
+        impact = impact_raw
     cvss = impact.get("cvss", {})
     cwe_list = impact.get("cwe", [])
 
