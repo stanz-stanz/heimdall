@@ -25,7 +25,11 @@ def is_vulnerable(installed_version: str | None, vuln: dict) -> bool:
     from packaging.version import InvalidVersion, Version
 
     if not installed_version:
-        return True  # unknown version — flag conservatively
+        # Unknown version — only flag unfixed vulns and high/critical severity
+        if vuln.get("unfixed") == "1":
+            return True
+        severity = vuln.get("cvss_severity", "")
+        return severity in ("c", "h")
 
     # Unfixed vulns have no patch — all versions in range are affected
     if vuln.get("unfixed") == "1":
@@ -121,7 +125,7 @@ def build_findings(
     confidence = "high-inference" if installed_version else "medium-inference"
 
     for vuln in vulns:
-        if installed_version and not is_vulnerable(installed_version, vuln):
+        if not is_vulnerable(installed_version, vuln):
             continue
 
         cve = extract_primary_cve(vuln)
