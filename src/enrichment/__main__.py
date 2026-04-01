@@ -27,12 +27,6 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Path to output SQLite database.",
     )
     parser.add_argument(
-        "--filters",
-        type=Path,
-        default=Path("config/filters.json"),
-        help="Path to filters JSON file.",
-    )
-    parser.add_argument(
         "--skip-search",
         action="store_true",
         help="Skip Claude API web search (email-only domain derivation).",
@@ -71,7 +65,6 @@ def main(argv: list[str] | None = None) -> int:
     stats = run_pipeline(
         input_path=args.input,
         db_path=args.db,
-        filters_path=args.filters,
         skip_search=args.skip_search,
         force=args.force,
         search_delay=args.search_delay,

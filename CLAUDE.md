@@ -74,7 +74,7 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `docs/business/marketing-strategy-draft.md` | Marketing strategy draft — channels, legal constraints, outreach plan |
 | `scripts/analyze_pipeline.py` | Pipeline analysis (`--deep` for full breakdown with outreach prioritization) |
 | `scripts/audit.py` | Project audit — Dockerfile, compose, tests, configs, known gaps |
-| `src/enrichment/` | CVR enrichment tool — 8-step pipeline: Excel ingestion → static enrichments → email domain extraction → name-match validation → search-based discovery → deduplication → filters → summary. Outputs to `data/enriched/companies.db`. Run with `python -m src.enrichment`. |
+| `src/enrichment/` | CVR enrichment tool — 7-step pipeline: Excel ingestion → static enrichments → email domain extraction → name-match validation → search-based discovery → deduplication → summary. Outputs to `data/enriched/companies.db`. Run with `python -m src.enrichment`. Filtering happens at scan time in the scheduler, not here. |
 | `src/vulndb/lookup.py` | WPVulnerability API client — free plugin/core CVE lookups with CVSS scores, replaces WPScan sidecar |
 
 ---

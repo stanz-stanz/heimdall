@@ -426,7 +426,6 @@ class TestFullPipeline:
         stats = run_pipeline(
             input_path=test_excel,
             db_path=db_path,
-            filters_path=Path("config/filters.json"),
             skip_search=True,
         )
 
@@ -450,7 +449,6 @@ class TestFullPipeline:
         stats = run_pipeline(
             input_path=test_excel,
             db_path=db_path,
-            filters_path=Path("config/filters.json"),
             skip_search=False,
             search_delay=0,
         )
@@ -465,9 +463,9 @@ class TestFullPipeline:
         mock_search.return_value = ("toscanavejle.dk", "mocked")
         db_path = tmp_path / "test.db"
 
-        run_pipeline(test_excel, db_path, Path("config/filters.json"),
+        run_pipeline(test_excel, db_path,
                      skip_search=False, search_delay=0)
-        stats = run_pipeline(test_excel, db_path, Path("config/filters.json"),
+        stats = run_pipeline(test_excel, db_path,
                              skip_search=False, search_delay=0)
 
         conn = sqlite3.connect(str(db_path))

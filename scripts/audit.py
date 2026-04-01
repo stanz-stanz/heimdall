@@ -80,7 +80,7 @@ def audit_compose() -> int:
         ("briefs mounted for API", "briefs"),
         ("port 8000 exposed", "8000:8000"),
         ("twin service defined", "Dockerfile.twin"),
-        ("wpscan sidecar defined", "Dockerfile.wpscan"),
+        ("enriched data mounted for scheduler", "data/enriched"),
         ("ct-collector defined", "ct-collector"),
     ]
     for label, pattern in checks:
@@ -143,7 +143,7 @@ def audit_tests() -> int:
         "test_twin_regression",
         "test_synthetic_targets",
         "test_level1_scanners",
-        "test_wpscan_sidecar",
+        "test_cvr_enrichment",
         "test_twin",
         "test_docker_smoke",
         "test_export_results",
@@ -194,7 +194,7 @@ def audit_backlog() -> int:
         ("Tailscale VPN for remote console access", "BACKLOG (Sprint 4)"),
         ("Remote monitoring from phone", "BACKLOG (Sprint 4, depends on Tailscale)"),
         ("Twin Nuclei templates don't match simplified twin responses", "DESIGN LIMITATION"),
-        ("Twin WPScan sidecar — needs verification on next Pi5 run", "PENDING VERIFICATION"),
+        ("WPVulnerability cache — verify vulndb findings appear in briefs on Pi5", "PENDING VERIFICATION"),
     ]
     for desc, status in gaps:
         marker = "OK" if "FIXED" in status else "TODO"

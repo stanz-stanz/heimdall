@@ -140,7 +140,7 @@ def update_enrichments(conn: sqlite3.Connection, updates: list[dict]) -> int:
     enrichment_cols = [
         "company_form_short", "industry_name_en",
         "contactable", "gdpr_industry_flag", "gdpr_industry_reason",
-        "email_domain", "is_free_webmail", "enriched_at",
+        "email_domain", "is_free_webmail",
     ]
 
     now = _now()

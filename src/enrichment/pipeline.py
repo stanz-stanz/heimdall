@@ -1,4 +1,4 @@
-"""Enrichment pipeline orchestrator — steps 1-8 in sequence."""
+"""Enrichment pipeline orchestrator — steps 1-7 in sequence."""
 
 from __future__ import annotations
 
@@ -10,7 +10,6 @@ from .db import (
     init_db,
     log_enrichment,
     populate_domains,
-    set_domain_not_ready,
     update_domain,
     update_enrichments,
     upsert_companies,
@@ -38,7 +37,6 @@ log = logging.getLogger(__name__)
 def run_pipeline(
     input_path: Path,
     db_path: Path,
-    filters_path: Path,
     skip_search: bool = False,
     force: bool = False,
     search_delay: float = 0.5,
@@ -60,40 +58,36 @@ def run_pipeline(
     conn = init_db(db_path)
 
     # Step 1: Excel ingestion
-    log.info("Step 1/8: Reading CVR Excel")
+    log.info("Step 1/7: Reading CVR Excel")
     rows = read_cvr_excel(input_path)
     stats["total_ingested"] = upsert_companies(conn, rows)
     log.info("Ingested %d companies", stats["total_ingested"])
 
     # Step 2: Static enrichments
-    log.info("Step 2/8: Static enrichments")
+    log.info("Step 2/7: Static enrichments")
     _apply_static_enrichments(conn, stats)
 
     # Step 3: Email domain extraction
-    log.info("Step 3/8: Email domain extraction")
+    log.info("Step 3/7: Email domain extraction")
     _extract_email_domains(conn, stats)
 
     # Step 4: Domain name-match validation
-    log.info("Step 4/8: Domain name-match validation")
+    log.info("Step 4/7: Domain name-match validation")
     _validate_domain_names(conn, stats)
 
     # Step 5: Search-based domain discovery
     if skip_search:
-        log.info("Step 5/8: Search-based discovery SKIPPED (--skip-search)")
+        log.info("Step 5/7: Search-based discovery SKIPPED (--skip-search)")
     else:
-        log.info("Step 5/8: Search-based domain discovery")
+        log.info("Step 5/7: Search-based domain discovery")
         _search_missing_domains(conn, stats, search_delay, force)
 
     # Step 6: Domain deduplication
-    log.info("Step 6/8: Domain deduplication")
+    log.info("Step 6/7: Domain deduplication")
     domain_count = populate_domains(conn)
     log.info("Populated %d unique domains", domain_count)
 
-    # Step 7: Filter application
-    log.info("Step 7/8: Filter application")
-    _apply_filters(conn, filters_path, stats)
-
-    # Step 8: Summary
+    # Step 7: Summary
     stats["ready_for_scan"] = len(
         conn.execute("SELECT 1 FROM domains WHERE ready_for_scan = 1").fetchall()
     )
@@ -276,35 +270,3 @@ def _search_missing_domains(
             )
 
 
-def _apply_filters(
-    conn: sqlite3.Connection, filters_path: Path, stats: dict,
-) -> None:
-    """Step 7: apply filters from config/filters.json."""
-    from src.prospecting.filters import load_filters
-
-    filters = load_filters(filters_path)
-    if not filters:
-        return
-
-    industry_prefixes = filters.get("industry_code") or None
-    contactable_filter = filters.get("contactable")
-
-    if industry_prefixes is not None:
-        rows = conn.execute(
-            "SELECT domains.domain, companies.industry_code FROM domains "
-            "JOIN companies ON domains.representative_cvr = companies.cvr "
-            "WHERE domains.ready_for_scan = 1"
-        ).fetchall()
-        for row in rows:
-            if not any(row["industry_code"].startswith(p) for p in industry_prefixes):
-                set_domain_not_ready(conn, row["domain"], "filtered:industry_code")
-
-    if contactable_filter is not None:
-        rows = conn.execute(
-            "SELECT domains.domain, companies.contactable FROM domains "
-            "JOIN companies ON domains.representative_cvr = companies.cvr "
-            "WHERE domains.ready_for_scan = 1"
-        ).fetchall()
-        for row in rows:
-            if bool(row["contactable"]) != contactable_filter:
-                set_domain_not_ready(conn, row["domain"], "filtered:contactable")
