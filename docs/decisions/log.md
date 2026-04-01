@@ -5,6 +5,30 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-01 — Enriched DB deployment to Pi5, WPVulnerability docs gap identified
+
+**Decided**
+- Enriched CVR database (`data/enriched/companies.db`) committed to git for Pi5 deployment — `heimdall-deploy` pulls it automatically via `git pull`
+- SQLite WAL journal files (`*.db-shm`, `*.db-wal`) added to `.gitignore` — only the checkpointed `.db` is committed
+- WAL checkpoint (`PRAGMA wal_checkpoint(TRUNCATE)`) added to enrichment pipeline exit — ensures `.db` is self-contained before commit
+- Scheduler container gets `data/enriched:/data/enriched:ro` bind mount + `/data/enriched` directory in Dockerfile
+- DB path derivation confirmed: scheduler reads `/data/input/CVR-extract.xlsx` → resolves to `/data/enriched/companies.db` → auto-detects and skips legacy Excel pipeline
+- Enrichment pipeline filter step (Step 7) removed — filtering happens at scan time in the scheduler, not destructively in the enrichment DB
+- WPScan references replaced with WPVulnerability across CLAUDE.md, SCANNING_RULES.md, briefing.md
+- audit.py stale WPScan checks replaced with enrichment/WPVulnerability equivalents
+- Latent `enriched_at` double-set bug fixed in `enrichment/db.py`
+
+**Rejected**
+- SCP/rsync-based DB sync to Pi5 — unnecessary complexity when git handles it and the file is ~5.6MB
+- Keeping filter step in enrichment pipeline — destructive (marks domains not-ready), requires re-run to change filters
+
+**Unresolved**
+- Enrichment pipeline test coverage not written
+- API key rotation still pending (SERPER_API_KEY, CLAUDE_API_KEY exposed in conversation)
+- Nikto + Nmap implementation still pending
+
+---
+
 ## 2026-04-01 — Session wrap-up: legal document package, SIRI quotes, channel decisions
 
 **Decided**

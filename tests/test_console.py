@@ -100,7 +100,7 @@ class TestConsoleStatus:
         body = client.get("/console/status").json()
         assert body["queues"]["scan"] == 0
         assert body["queues"]["enrichment"] == 0
-        assert body["queues"]["wpscan"] == 0
+        assert "wpscan" not in body["queues"]
 
     def test_status_with_queued_jobs(self, results_dir, briefs_dir, monkeypatch):
         fake = fakeredis.FakeRedis(decode_responses=True)

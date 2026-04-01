@@ -325,24 +325,18 @@ class TestLevel1Execution:
 
 
 # ---------------------------------------------------------------------------
-# WPScan delegation tests (worker → sidecar via Redis)
+# WPVulnerability lookup tests (replaced WPScan sidecar)
 # ---------------------------------------------------------------------------
 
-class TestWPScanDelegation:
-    """Verify WPScan delegation to sidecar for WordPress domains."""
+class TestVulnDBLookup:
+    """Verify WPVulnerability lookup for WordPress domains."""
 
-    def test_wordpress_domain_triggers_wpscan(self):
-        """Level 1 WordPress job delegates to WPScan sidecar."""
+    def test_wordpress_domain_triggers_vulndb(self):
+        """Level 1 WordPress job triggers WPVulnerability lookup."""
         cache = _make_cache()
         redis_conn = fakeredis.FakeRedis(decode_responses=True)
 
-        wpscan_response = json.dumps({
-            "job_id": "wpscan-test-wp-001",
-            "domain": _DOMAIN,
-            "status": "completed",
-            "wpscan": {"vulnerabilities": [{"title": "Test Vuln"}], "wordpress": {"version": "6.9.4"}, "plugins": []},
-        })
-        redis_conn.lpush("wpscan:result:wpscan-test-wp-001", wpscan_response)
+        mock_findings = [{"severity": "critical", "description": "Test Vuln (CVE-2024-1234)"}]
 
         job = {
             "job_id": "test-wp-001",
@@ -365,21 +359,21 @@ class TestWPScanDelegation:
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
             patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
+            patch("src.vulndb.lookup.lookup_wordpress_vulns", return_value=mock_findings),
         ]
         for p in patches:
             p.start()
         try:
             result = execute_scan_job(job, cache, redis_conn=redis_conn)
             assert "level1_scan_result" in result
-            assert "wpscan" in result["level1_scan_result"]
-            wpscan = result["level1_scan_result"]["wpscan"]
-            assert wpscan["wordpress"]["version"] == "6.9.4"
+            assert "wpvulnerability" in result["level1_scan_result"]
+            assert result["level1_scan_result"]["wpvulnerability"]["finding_count"] == 1
         finally:
             for p in patches:
                 p.stop()
 
-    def test_non_wordpress_skips_wpscan(self):
-        """Level 1 non-WordPress job does not delegate to WPScan."""
+    def test_non_wordpress_skips_vulndb(self):
+        """Level 1 non-WordPress job does not trigger vulndb lookup."""
         cache = _make_cache()
         redis_conn = fakeredis.FakeRedis(decode_responses=True)
 
@@ -411,14 +405,13 @@ class TestWPScanDelegation:
         try:
             result = execute_scan_job(job, cache, redis_conn=redis_conn)
             assert "level1_scan_result" in result
-            assert "wpscan" not in result["level1_scan_result"]
-            assert redis_conn.llen("queue:wpscan") == 0
+            assert "wpvulnerability" not in result["level1_scan_result"]
         finally:
             for p in patches:
                 p.stop()
 
-    def test_level0_skips_wpscan(self):
-        """Level 0 job never triggers WPScan regardless of CMS."""
+    def test_level0_skips_vulndb(self):
+        """Level 0 job never triggers vulndb regardless of CMS."""
         cache = _make_cache()
         redis_conn = fakeredis.FakeRedis(decode_responses=True)
 
@@ -434,7 +427,6 @@ class TestWPScanDelegation:
         try:
             result = execute_scan_job(job, cache, redis_conn=redis_conn)
             assert "level1_scan_result" not in result
-            assert redis_conn.llen("queue:wpscan") == 0
         finally:
             for p in patches:
                 p.stop()

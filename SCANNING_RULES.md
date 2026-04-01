@@ -74,7 +74,7 @@ Scanning without written consent may **only** read information that the server v
 - **Form submission.** No automated form fills, no contact form submissions, no search queries designed to trigger SQL errors.
 - **API endpoint probing.** No requests to `/api/`, `/graphql/`, `/rest/`, or other API paths unless they are publicly documented and linked.
 - **WAF/IDS fingerprinting.** No requests designed to identify or bypass security controls.
-- **Any use of Nuclei, Nikto, Nmap, or WPScan.** These are Layer 2 tools (require written consent).
+- **Any use of Nuclei, Nikto, or Nmap.** These are Layer 2 tools (require written consent). Note: WPVulnerability API lookups are Layer 1 (public database queries, no requests to target).
 
 ### robots.txt Denial
 
@@ -101,7 +101,7 @@ When Heimdall holds a signed scanning authorization from the site owner (Sentine
 - **Nuclei** — template-based vulnerability scanning within agreed scope
 - **Nikto** — web server vulnerability scanning (note: DB rules require commercial license from CIRT.net)
 - **Nmap** — port scanning, service detection
-- **WPScan** — WordPress-specific vulnerability and plugin scanning (requires commercial API license — free tier is non-commercial only)
+- **WPVulnerability API** — WordPress plugin/core CVE lookups with CVSS scores (free, no API key required, Layer 1 database query — not a scanner). Local SQLite cache with 7-day TTL. Replaces WPScan sidecar.
 - **CMSeek** — CMS detection including admin panel paths and version-specific URLs
 - **Katana** — web crawling for hidden endpoint discovery via JS parsing and dynamic link following
 - **FeroxBuster** — directory enumeration and content discovery
@@ -132,7 +132,7 @@ Straffeloven §263 criminalizes unauthorized access to **another person's data s
 
 ### What is permitted against twins
 
-- **All Layer 1 and Layer 2 scanning tools** — Nuclei, WPScan, CMSeek, and any other Valdí-approved tool may run against a twin. The consent restriction exists to protect external site operators; it does not apply when the target is Heimdall's own infrastructure.
+- **All Layer 1 and Layer 2 scanning tools** — Nuclei, CMSeek, and any other Valdí-approved tool may run against a twin. The consent restriction exists to protect external site operators; it does not apply when the target is Heimdall's own infrastructure. WPVulnerability API lookups also apply here (database queries, not scanning).
 - **No Layer 3 (exploitation)** — even against twins. This is a tool safety constraint, not a legal one.
 
 ### What the twin does NOT change

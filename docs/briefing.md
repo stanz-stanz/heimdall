@@ -82,7 +82,7 @@ The ICLG Cybersecurity Report 2026 (Denmark chapter) states: "Unsolicited penetr
 
 **Layer 1 — Passive observation (minimal risk):** Reading HTTP headers, HTML source, meta tags, DNS records, SSL certificates. This is information the server voluntarily sends to any visitor. Technology fingerprinting tools (Wappalyzer, webanalyze, httpx) operate here. Search engines and browsers do this at massive scale.
 
-**Layer 2 — Active vulnerability probing (gray zone):** Tools like Nuclei and WPScan send crafted requests to test for specific CVEs. This goes beyond passive observation. No Danish court ruling was found specifically addressing this activity, but the law is broad enough that a prosecutor could argue it triggers §263.
+**Layer 2 — Active vulnerability probing (gray zone):** Tools like Nuclei send crafted requests to test for specific CVEs. This goes beyond passive observation. No Danish court ruling was found specifically addressing this activity, but the law is broad enough that a prosecutor could argue it triggers §263. Note: WPVulnerability API lookups are Layer 1 (public database queries, no requests sent to target).
 
 **Layer 3 — Exploitation (clearly criminal without consent):** Actually exploiting a vulnerability. Outside Heimdall's scope entirely.
 
@@ -119,7 +119,7 @@ Heimdall uses a programmatic compliance agent ("Valdí") that validates all scan
 
 ### Digital Twin System
 
-Heimdall extends Layer 1 findings with Layer 2 context through a digital twin system: replicas of prospect websites built from Layer 1 scan data, running entirely on Heimdall's own infrastructure. Scanning a system you own is not a §263 violation, so the twin enables vulnerability testing (Nuclei, WPScan) without requiring client consent. Findings carry `provenance: "twin-derived"` markers to distinguish them from direct scan results. See `SCANNING_RULES.md` for the full digital twin framework and constraints.
+Heimdall extends Layer 1 findings with Layer 2 context through a digital twin system: replicas of prospect websites built from Layer 1 scan data, running entirely on Heimdall's own infrastructure. Scanning a system you own is not a §263 violation, so the twin enables vulnerability testing (Nuclei) without requiring client consent. Additionally, WPVulnerability API lookups provide CVSS-scored plugin/core CVEs as Layer 1 database queries (no requests to target). Findings carry `provenance: "twin-derived"` markers to distinguish them from direct scan results. See `SCANNING_RULES.md` for the full digital twin framework and constraints.
 
 ---
 
@@ -191,7 +191,7 @@ The digital twin runs as a Docker Compose service under profile `["twin"]`, expo
 | CertStream | Certificate Transparency log monitoring | 1 | https://github.com/CaliDog/certstream-python |
 | GrayHatWarfare | Exposed cloud storage index search | 1 | https://grayhatwarfare.com |
 | Nuclei | Template-based vulnerability scanner | 2 | https://github.com/projectdiscovery/nuclei |
-| WPScan | WordPress-specific scanner | 2 | https://github.com/wpscanteam/wpscan |
+| WPVulnerability API | WordPress plugin/core CVE lookups (free, CVSS-scored) | 1 | https://www.wpvulnerability.net/ |
 | CMSeek | CMS deep fingerprinting | 2 | https://github.com/Tuhinshubhra/CMSeeK |
 | Nikto | Web server vulnerability scanner | 2 | https://github.com/sullo/nikto |
 | Nmap | Port scanning, service detection | 2 | https://github.com/nmap/nmap |
@@ -318,7 +318,7 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 8. Flag GDPR-sensitive industries via CVR branchekoder (healthcare, legal, accounting, real estate, dental)
 9. Detect web agencies via footer credits and meta author tags
 10. Generate per-site brief: CMS, hosting provider, SSL status, detected plugins, risk profile
-11. WordPress domains: enrich with twin-derived Layer 2 findings (Nuclei, WPScan run against local digital twin replica — no consent required)
+11. WordPress domains: enrich with twin-derived Layer 2 findings (Nuclei against local digital twin replica) + WPVulnerability API lookups for plugin/core CVEs (no consent required)
 12. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
 
 **Output notes:**
@@ -333,7 +333,7 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 
 The prospecting scan (Layer 1) costs nothing to run and produces real findings: outdated CMS versions, expiring SSL certificates, missing security headers, detectable technology stack. The digital twin system takes this further — by reconstructing the prospect's CMS environment locally, Heimdall can surface CVE-level vulnerability findings (with `provenance: "twin-derived"` markers) in the initial outreach, without requiring consent. This data powers a free-sample sales motion — show the prospect a real, specific finding on their actual website before asking for money.
 
-The mobile console PWA (`/static/index.html`) provides a theatrical demo mode for in-person sales meetings: the operator selects a pre-scanned prospect, and the console animates a 30-second scan replay with real findings. A "Live Twin" mode can run real Nuclei/WPScan scans against a digital twin in real-time, streaming findings to the screen as they are discovered.
+The mobile console PWA (`/static/index.html`) provides a theatrical demo mode for in-person sales meetings: the operator selects a pre-scanned prospect, and the console animates a 30-second scan replay with real findings. A "Live Twin" mode can run real Nuclei scans against a digital twin in real-time, streaming findings to the screen as they are discovered.
 
 ### Agency Pitch (Bonus)
 
