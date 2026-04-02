@@ -29,9 +29,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code and config
+# Copy application code, config, and schema
 COPY src/ ./src/
 COPY config/ ./config/
+COPY docs/architecture/client-db-schema.sql ./docs/architecture/client-db-schema.sql
 
 # Own everything by non-root user
 RUN chown -R heimdall:heimdall /app
