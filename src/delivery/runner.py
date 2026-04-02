@@ -177,12 +177,12 @@ class DeliveryRunner:
         # Look up client
         client = get_client_by_domain(self._conn, domain)
         if not client:
-            log.debug("no_client_for_domain", extra={"context": {"domain": domain}})
+            log.info("no_client_for_domain", extra={"context": {"domain": domain}})
             return
 
         chat_id = client.get("telegram_chat_id")
         if not chat_id:
-            log.debug("no_chat_id_for_client", extra={"context": {
+            log.info("no_chat_id_for_client", extra={"context": {
                 "domain": domain, "cvr": client.get("cvr"),
             }})
             return

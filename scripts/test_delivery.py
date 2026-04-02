@@ -73,7 +73,7 @@ def main():
 
     conn = init_db(args.db_path)
 
-    # Create or update test client — always ensure chat_id is correct
+    # Create or update test client — always ensure chat_id and domain are correct
     existing = get_client(conn, "99999999")
     if existing:
         if existing.get("telegram_chat_id") != chat_id:
@@ -84,7 +84,14 @@ def main():
     else:
         create_client(conn, "99999999", "Jelling Kro",
                       telegram_chat_id=chat_id, status="active", plan="watchman")
+        print(f"Created test client (CVR 99999999, chat_id={chat_id})")
+
+    # Always ensure domain link exists
+    try:
         add_domain(conn, "99999999", "jellingkro.dk")
+        print("Added domain link jellingkro.dk -> 99999999")
+    except sqlite3.IntegrityError:
+        pass  # Already linked
         print(f"Created test client (CVR 99999999, chat_id={chat_id})")
 
     # Save brief — use unique scan_date to avoid UNIQUE constraint
