@@ -1,11 +1,11 @@
 """Quick delivery test — seeds a client, saves a brief, publishes event.
 
-Run inside the delivery container or on the Pi5 host:
+Run inside the delivery container:
 
-    python3 scripts/test_delivery.py [--redis-url redis://redis:6379/0] [--db-path data/clients/clients.db]
+    python3 scripts/test_delivery.py
 
 What it does:
-    1. Creates a test client (CVR 99999999) with YOUR operator chat ID
+    1. Creates or updates a test client (CVR 99999999) with YOUR operator chat ID
     2. Saves a realistic brief for jellingkro.dk
     3. Publishes a scan-complete event on Redis
 
@@ -17,12 +17,15 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sqlite3
 import sys
+import uuid
+from datetime import date
 
 import redis
 
 from src.db.connection import init_db
-from src.db.clients import create_client, add_domain, get_client
+from src.db.clients import create_client, add_domain, get_client, update_client
 from src.db.scans import save_brief_snapshot
 
 
@@ -30,7 +33,6 @@ SAMPLE_BRIEF = {
     "domain": "jellingkro.dk",
     "bucket": "A",
     "company_name": "Jelling Kro",
-    "scan_date": "2026-04-02",
     "industry": "Restaurant",
     "technology": {
         "cms": "WordPress",
@@ -49,10 +51,19 @@ SAMPLE_BRIEF = {
 }
 
 
+def _detect_defaults():
+    """Auto-detect paths based on whether we're inside Docker or on the host."""
+    if os.path.isdir("/data/clients"):
+        return "/data/clients/clients.db", "redis://redis:6379/0"
+    return "data/clients/clients.db", os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+
+
 def main():
+    default_db, default_redis = _detect_defaults()
+
     parser = argparse.ArgumentParser(description="Test delivery pipeline end-to-end")
-    parser.add_argument("--redis-url", default=os.environ.get("REDIS_URL", "redis://localhost:6379/0"))
-    parser.add_argument("--db-path", default="data/clients/clients.db")
+    parser.add_argument("--redis-url", default=os.environ.get("REDIS_URL", default_redis))
+    parser.add_argument("--db-path", default=default_db)
     args = parser.parse_args()
 
     chat_id = os.environ.get("TELEGRAM_OPERATOR_CHAT_ID", "")
@@ -60,25 +71,38 @@ def main():
         print("ERROR: TELEGRAM_OPERATOR_CHAT_ID not set in environment")
         sys.exit(1)
 
-    # Seed DB
     conn = init_db(args.db_path)
 
-    if get_client(conn, "99999999"):
-        print("Test client already exists, skipping seed")
+    # Create or update test client — always ensure chat_id is correct
+    existing = get_client(conn, "99999999")
+    if existing:
+        if existing.get("telegram_chat_id") != chat_id:
+            update_client(conn, "99999999", {"telegram_chat_id": chat_id})
+            print(f"Updated test client chat_id to {chat_id}")
+        else:
+            print("Test client exists with correct chat_id")
     else:
         create_client(conn, "99999999", "Jelling Kro",
                       telegram_chat_id=chat_id, status="active", plan="watchman")
         add_domain(conn, "99999999", "jellingkro.dk")
         print(f"Created test client (CVR 99999999, chat_id={chat_id})")
 
-    save_brief_snapshot(conn, "jellingkro.dk", "2026-04-02", SAMPLE_BRIEF,
-                        company_name="Jelling Kro", cvr="99999999")
+    # Save brief — use unique scan_date to avoid UNIQUE constraint
+    scan_date = date.today().isoformat()
+    brief = dict(SAMPLE_BRIEF)
+    brief["scan_date"] = scan_date
+    try:
+        save_brief_snapshot(conn, "jellingkro.dk", scan_date, brief,
+                            company_name="Jelling Kro", cvr="99999999")
+    except sqlite3.IntegrityError:
+        # Already exists for today — that's fine
+        pass
     conn.commit()
-    print("Saved brief for jellingkro.dk")
+    print(f"Brief ready for jellingkro.dk ({scan_date})")
 
     # Publish event
     r = redis.from_url(args.redis_url, decode_responses=True)
-    event = {"domain": "jellingkro.dk", "job_id": "test-001",
+    event = {"domain": "jellingkro.dk", "job_id": f"test-{uuid.uuid4().hex[:6]}",
              "client_id": "99999999", "status": "completed"}
     r.publish("scan-complete", json.dumps(event))
     print("Published scan-complete event — check your Telegram")
