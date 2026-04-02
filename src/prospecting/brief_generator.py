@@ -64,6 +64,7 @@ def generate_brief(
     company: Company,
     scan: ScanResult,
     bucket: str,
+    outdated_plugins: list[dict] | None = None,
 ) -> dict:
     """Generate a per-site brief matching .claude/agents/prospecting/SKILL.md schema."""
     # Determine GDPR sensitivity from evidence
@@ -196,6 +197,34 @@ def generate_brief(
     # Plugin names — clean up wp-content/plugins/ slugs
     plugin_names = [p.replace("-", " ").title() for p in scan.detected_plugins]
 
+    # Plugin versions — display name → version
+    plugin_versions_display = {}
+    for slug, ver in scan.plugin_versions.items():
+        display_name = slug.replace("-", " ").title()
+        plugin_versions_display[display_name] = ver
+
+    # Theme names
+    theme_names = [t.replace("-", " ").title() for t in scan.detected_themes]
+
+    # Theme detection finding
+    if scan.detected_themes:
+        theme_list = ", ".join(theme_names)
+        findings.append({
+            "severity": "info",
+            "description": f"WordPress theme{'s' if len(scan.detected_themes) > 1 else ''} detected: {theme_list}",
+            "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins.",
+        })
+
+    # Outdated plugin findings (pre-computed in scan_job.py)
+    for entry in (outdated_plugins or []):
+        if entry.get("outdated"):
+            display = entry["slug"].replace("-", " ").title()
+            findings.append({
+                "severity": "medium",
+                "description": f"Outdated plugin: {display} (installed {entry['installed']}, latest {entry['latest']})",
+                "risk": f"The installed version of {display} is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions.",
+            })
+
     return {
         "domain": company.website_domain,
         "cvr": company.cvr,
@@ -216,9 +245,12 @@ def generate_brief(
             },
             "server": scan.server,
             "detected_plugins": plugin_names,
+            "plugin_versions": plugin_versions_display,
+            "detected_themes": theme_names,
             "headers": scan.headers,
         },
         "tech_stack": scan.tech_stack,
+        "plugin_versions": dict(scan.plugin_versions),
         "subdomains": {
             "count": len(scan.subdomains),
             "list": scan.subdomains[:20],

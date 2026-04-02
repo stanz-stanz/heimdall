@@ -428,3 +428,73 @@ class TestLookup:
             db_path=db_path,
         )
         assert findings == []
+
+
+class TestWPVersionCheck:
+    """Tests for WordPress.org latest version lookups."""
+
+    @patch("src.vulndb.wp_versions.requests.get")
+    def test_fetches_latest_version(self, mock_get, tmp_path):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = {"version": "27.3", "name": "Yoast SEO"}
+
+        from src.vulndb.wp_versions import get_latest_plugin_version
+        ver = get_latest_plugin_version("wordpress-seo", db_path=str(tmp_path / "v.db"))
+        assert ver == "27.3"
+
+    @patch("src.vulndb.wp_versions.requests.get")
+    def test_caches_result(self, mock_get, tmp_path):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = {"version": "5.0"}
+
+        from src.vulndb.wp_versions import get_latest_plugin_version
+        db = str(tmp_path / "v.db")
+        get_latest_plugin_version("contact-form-7", db_path=db)
+        get_latest_plugin_version("contact-form-7", db_path=db)
+        # API called only once (second call hits cache)
+        assert mock_get.call_count == 1
+
+    @patch("src.vulndb.wp_versions.requests.get")
+    def test_api_failure_returns_none(self, mock_get, tmp_path):
+        import requests as req
+        mock_get.side_effect = req.RequestException("timeout")
+
+        from src.vulndb.wp_versions import get_latest_plugin_version
+        ver = get_latest_plugin_version("bad-plugin", db_path=str(tmp_path / "v.db"))
+        assert ver is None
+
+    @patch("src.vulndb.wp_versions.requests.get")
+    def test_404_returns_none(self, mock_get, tmp_path):
+        mock_get.return_value.status_code = 404
+
+        from src.vulndb.wp_versions import get_latest_plugin_version
+        ver = get_latest_plugin_version("nonexistent", db_path=str(tmp_path / "v.db"))
+        assert ver is None
+
+    @patch("src.vulndb.wp_versions.get_latest_plugin_version")
+    def test_outdated_detection(self, mock_latest):
+        mock_latest.return_value = "27.3"
+
+        from src.vulndb.wp_versions import check_outdated_plugins
+        results = check_outdated_plugins({"wordpress-seo": "25.0"})
+        assert len(results) == 1
+        assert results[0]["outdated"] is True
+        assert results[0]["installed"] == "25.0"
+        assert results[0]["latest"] == "27.3"
+
+    @patch("src.vulndb.wp_versions.get_latest_plugin_version")
+    def test_current_version_not_outdated(self, mock_latest):
+        mock_latest.return_value = "27.3"
+
+        from src.vulndb.wp_versions import check_outdated_plugins
+        results = check_outdated_plugins({"wordpress-seo": "27.3"})
+        assert len(results) == 1
+        assert results[0]["outdated"] is False
+
+    @patch("src.vulndb.wp_versions.get_latest_plugin_version")
+    def test_unknown_latest_skipped(self, mock_latest):
+        mock_latest.return_value = None
+
+        from src.vulndb.wp_versions import check_outdated_plugins
+        results = check_outdated_plugins({"unknown-plugin": "1.0"})
+        assert results == []

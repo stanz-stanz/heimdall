@@ -59,6 +59,14 @@ CREATE TABLE IF NOT EXISTS lookup_meta (
     vuln_count INTEGER DEFAULT 0,
     PRIMARY KEY (slug, asset_type)
 );
+
+CREATE TABLE IF NOT EXISTS wp_latest_versions (
+    slug TEXT NOT NULL,
+    asset_type TEXT NOT NULL,
+    latest_version TEXT NOT NULL,
+    fetched_at TEXT NOT NULL,
+    PRIMARY KEY (slug, asset_type)
+);
 """
 
 

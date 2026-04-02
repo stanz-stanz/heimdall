@@ -41,7 +41,7 @@ _DOMAIN = "example.dk"
 # Mock scan results (reused from test_worker.py pattern)
 _SSL_RESULT = {"valid": True, "issuer": "LE", "expiry": "2026-09-01", "days_remaining": 158}
 _HEADERS_RESULT = {"x_frame_options": True, "content_security_policy": False, "strict_transport_security": True, "x_content_type_options": True}
-_META_RESULT = ("", "", [])
+_META_RESULT = ("", "", [], {}, [])
 _HTTPX_RESULT = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["WordPress"]}}
 _WEBANALYZE_RESULT = {}
 _SUBFINDER_RESULT = {}

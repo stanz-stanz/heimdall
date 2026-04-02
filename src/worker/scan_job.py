@@ -7,6 +7,7 @@ scan data, timing breakdown, and cache statistics.
 
 from __future__ import annotations
 
+import functools
 import json
 import logging
 import os
@@ -93,6 +94,42 @@ def _extract_wp_version(tech_stack: list) -> Optional[str]:
     return None
 
 
+@functools.lru_cache(maxsize=1)
+def _get_slug_map() -> dict:
+    """Load plugin display-name → slug mapping (cached for process lifetime)."""
+    try:
+        from tools.twin.templates import load_slug_map
+        return load_slug_map()
+    except Exception:
+        return {}
+
+
+def _merge_tech_stack_plugins(scan: ScanResult) -> None:
+    """Merge WordPress plugins detected in tech_stack into detected_plugins + plugin_versions.
+
+    Tech tools (httpx, webanalyze) detect plugins like "Yoast SEO:26.9" in tech_stack.
+    This function uses slug_map.json to identify WP plugins and merge them with
+    HTML-detected plugins from _extract_page_meta.
+    """
+    slug_map = _get_slug_map()
+
+    existing_slugs = set(scan.detected_plugins)
+    for tech_entry in scan.tech_stack:
+        if ":" in tech_entry:
+            name, version = tech_entry.split(":", 1)
+        else:
+            name, version = tech_entry, ""
+        name = name.strip()
+        slug = slug_map.get(name)
+        if slug is None:
+            continue  # null in slug_map = not a WP plugin
+        if slug not in existing_slugs:
+            existing_slugs.add(slug)
+            scan.detected_plugins.append(slug)
+        if version.strip() and slug not in scan.plugin_versions:
+            scan.plugin_versions[slug] = version.strip()
+
+
 def execute_scan_job(
     job: dict,
     cache: ScanCache,
@@ -175,9 +212,20 @@ def execute_scan_job(
     headers = _cached_or_run("headers", _get_response_headers, domain)
     meta_raw = _cached_or_run("meta", _extract_page_meta, domain)
 
-    # meta comes back as tuple/list (meta_author, footer_credit, plugins)
-    if isinstance(meta_raw, (list, tuple)) and len(meta_raw) == 3:
-        meta_author, footer_credit, plugins = meta_raw
+    # meta comes back as tuple/list:
+    # New: (meta_author, footer_credit, plugins, plugin_versions, themes)
+    # Old cached: (meta_author, footer_credit, plugins)
+    html_plugin_versions: dict = {}
+    themes: list = []
+    if isinstance(meta_raw, (list, tuple)):
+        if len(meta_raw) >= 5:
+            meta_author, footer_credit, plugins = meta_raw[0], meta_raw[1], meta_raw[2]
+            html_plugin_versions = meta_raw[3] if isinstance(meta_raw[3], dict) else {}
+            themes = meta_raw[4] if isinstance(meta_raw[4], list) else []
+        elif len(meta_raw) == 3:
+            meta_author, footer_credit, plugins = meta_raw
+        else:
+            meta_author, footer_credit, plugins = "", "", []
     else:
         meta_author, footer_credit, plugins = "", "", []
 
@@ -206,6 +254,8 @@ def execute_scan_job(
     scan.footer_credit = footer_credit if isinstance(footer_credit, str) else ""
     if isinstance(plugins, list):
         scan.detected_plugins = plugins
+    scan.plugin_versions = html_plugin_versions
+    scan.detected_themes = themes
 
     # httpx
     httpx_data: dict = {}
@@ -227,6 +277,9 @@ def execute_scan_job(
 
     # Deduplicate tech stack
     scan.tech_stack = list(dict.fromkeys(scan.tech_stack))
+
+    # Merge tech_stack-detected WordPress plugins into detected_plugins
+    _merge_tech_stack_plugins(scan)
 
     # ------------------------------------------------------------------
     # 3b. Derive CMS and hosting (early — needed for bucket filter)
@@ -356,16 +409,10 @@ def execute_scan_job(
 
             vulndb_path = os.environ.get("VULNDB_PATH", "/data/cache/vulndb.sqlite3")
             wp_version = _extract_wp_version(scan.tech_stack)
-            plugin_versions = {
-                slug: ver for slug, ver in (
-                    (s.split(":", 1) + [""])[:2]
-                    for s in scan.tech_stack if ":" in s
-                )
-            } if scan.tech_stack else {}
 
             vuln_findings = lookup_wordpress_vulns(
                 plugin_slugs=scan.detected_plugins,
-                plugin_versions=plugin_versions,
+                plugin_versions=scan.plugin_versions,
                 wp_version=wp_version,
                 provenance="",
                 db_path=vulndb_path,
@@ -378,9 +425,23 @@ def execute_scan_job(
             log.exception("vulndb_lookup_failed for %s", domain)
 
     # ------------------------------------------------------------------
+    # 4d. Outdated plugin check — WordPress domains with known versions
+    # ------------------------------------------------------------------
+    outdated_plugins: list[dict] = []
+    if scan.cms == "WordPress" and scan.plugin_versions:
+        try:
+            from src.vulndb.wp_versions import check_outdated_plugins
+            outdated_plugins = check_outdated_plugins(
+                scan.plugin_versions,
+                db_path=os.environ.get("VULNDB_PATH", "/data/cache/vulndb.sqlite3"),
+            )
+        except Exception:
+            log.exception("outdated_plugin_check_failed for %s", domain)
+
+    # ------------------------------------------------------------------
     # 5. Generate findings + GDPR determination
     # ------------------------------------------------------------------
-    brief = generate_brief(company, scan, bucket)
+    brief = generate_brief(company, scan, bucket, outdated_plugins=outdated_plugins)
 
     # ------------------------------------------------------------------
     # 5b. Twin scan — Layer 2 tools against a digital twin (WordPress only)

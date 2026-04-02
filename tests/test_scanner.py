@@ -125,44 +125,48 @@ class TestExtractPageMeta:
         <script src="/wp-content/plugins/yoast-seo/js/main.js"></script>
         </html>
         """
-        author, credit, plugins = _extract_page_meta("test.dk")
+        author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert "contact-form-7" in plugins
         assert "yoast-seo" in plugins
 
     @patch("src.prospecting.scanner.requests.get")
     def test_meta_author(self, mock_get):
         mock_get.return_value.text = '<meta name="author" content="WebBureauet">'
-        author, credit, plugins = _extract_page_meta("test.dk")
+        author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert author == "WebBureauet"
 
     @patch("src.prospecting.scanner.requests.get")
     def test_footer_credit_danish(self, mock_get):
         mock_get.return_value.text = '<footer>Website lavet af SuperWeb ApS</footer>'
-        author, credit, plugins = _extract_page_meta("test.dk")
+        author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert "SuperWeb" in credit
 
     @patch("src.prospecting.scanner.requests.get")
     def test_footer_credit_powered_by(self, mock_get):
         mock_get.return_value.text = '<footer>Powered by Starter Agency</footer>'
-        author, credit, plugins = _extract_page_meta("test.dk")
+        author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert "Starter Agency" in credit
 
     @patch("src.prospecting.scanner.requests.get")
     def test_no_matches(self, mock_get):
         mock_get.return_value.text = "<html><body>Simple page</body></html>"
-        author, credit, plugins = _extract_page_meta("test.dk")
+        author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert author == ""
         assert credit == ""
         assert plugins == []
+        assert versions == {}
+        assert themes == []
 
     @patch("src.prospecting.scanner.requests.get")
     def test_request_exception(self, mock_get):
         import requests
         mock_get.side_effect = requests.RequestException("timeout")
-        author, credit, plugins = _extract_page_meta("test.dk")
+        author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert author == ""
         assert credit == ""
         assert plugins == []
+        assert versions == {}
+        assert themes == []
 
     @patch("src.prospecting.scanner.requests.get")
     def test_malformed_plugin_slugs_rejected(self, mock_get):
@@ -170,10 +174,66 @@ class TestExtractPageMeta:
         <link href="/wp-content/plugins/good-plugin/style.css">
         <link href='/wp-content/plugins/*","bad/style.css'>
         """
-        _, _, plugins = _extract_page_meta("test.dk")
+        _, _, plugins, _, _ = _extract_page_meta("test.dk")
         assert "good-plugin" in plugins
         # Malformed slug with special chars should be rejected by [\w-]+ regex
         assert not any("*" in p for p in plugins)
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_plugin_version_from_ver_param(self, mock_get):
+        mock_get.return_value.text = """
+        <link rel="stylesheet" href="/wp-content/plugins/wordpress-seo/css/style.css?ver=26.9">
+        <script src="/wp-content/plugins/contact-form-7/js/scripts.js?ver=5.3.2"></script>
+        <link href="/wp-content/plugins/no-version/style.css">
+        """
+        _, _, plugins, versions, _ = _extract_page_meta("test.dk")
+        assert "wordpress-seo" in plugins
+        assert "contact-form-7" in plugins
+        assert "no-version" in plugins
+        assert versions["wordpress-seo"] == "26.9"
+        assert versions["contact-form-7"] == "5.3.2"
+        assert "no-version" not in versions
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_plugin_version_keeps_first(self, mock_get):
+        mock_get.return_value.text = """
+        <link href="/wp-content/plugins/elementor/css/a.css?ver=3.27.3">
+        <script src="/wp-content/plugins/elementor/js/b.js?ver=3.27.3"></script>
+        <script src="/wp-content/plugins/elementor/js/c.js"></script>
+        """
+        _, _, plugins, versions, _ = _extract_page_meta("test.dk")
+        assert plugins.count("elementor") == 1
+        assert versions["elementor"] == "3.27.3"
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_plugin_version_html_entity(self, mock_get):
+        """WordPress sometimes writes &#038; instead of & in HTML."""
+        mock_get.return_value.text = """
+        <script src="/wp-content/plugins/woocommerce/assets/js/frontend.js?ver=9.6.4&#038;other=1"></script>
+        <link href="/wp-content/plugins/yoast/css/main.css?foo=1&amp;ver=27.3">
+        """
+        _, _, plugins, versions, _ = _extract_page_meta("test.dk")
+        assert versions.get("woocommerce") == "9.6.4"
+        assert versions.get("yoast") == "27.3"
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_theme_extraction(self, mock_get):
+        mock_get.return_value.text = """
+        <link rel="stylesheet" href="/wp-content/themes/flavor/style.css?ver=1.0">
+        <script src="/wp-content/themes/flavor/js/scripts.js"></script>
+        <link href="/wp-content/themes/flavor-child/style.css">
+        """
+        _, _, _, _, themes = _extract_page_meta("test.dk")
+        assert "flavor" in themes
+        assert "flavor-child" in themes
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_returns_five_element_tuple(self, mock_get):
+        mock_get.return_value.text = "<html></html>"
+        result = _extract_page_meta("test.dk")
+        assert len(result) == 5
+        assert result[3] == {}
+        assert result[4] == []
 
 
 class TestCheckRobotsTxt:

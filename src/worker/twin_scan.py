@@ -190,13 +190,23 @@ def run_twin_scan(brief: dict) -> Optional[dict]:
                 # Resolve display names to slugs where possible
                 resolved = []
                 for name in plugin_slugs:
-                    slug = slug_map.get(name, name.lower())
+                    slug = slug_map.get(name, name.lower().replace(" ", "-"))
                     resolved.append(slug)
+
+                # Extract plugin versions from brief
+                brief_plugin_versions = dict(brief.get("plugin_versions", {}))
+
+                # Extract WP core version from tech_stack
+                wp_version = None
+                for entry in brief.get("tech_stack", []):
+                    if isinstance(entry, str) and entry.lower().startswith("wordpress:"):
+                        wp_version = entry.split(":", 1)[1]
+                        break
 
                 vuln_findings = lookup_wordpress_vulns(
                     plugin_slugs=resolved,
-                    plugin_versions={},
-                    wp_version=None,
+                    plugin_versions=brief_plugin_versions,
+                    wp_version=wp_version,
                     provenance="twin-derived",
                     db_path=vulndb_path,
                 )

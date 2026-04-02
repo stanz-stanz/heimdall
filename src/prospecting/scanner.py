@@ -56,6 +56,8 @@ class ScanResult:
     ssl_expiry: str = ""
     ssl_days_remaining: int = -1
     detected_plugins: list[str] = field(default_factory=list)
+    plugin_versions: dict[str, str] = field(default_factory=dict)
+    detected_themes: list[str] = field(default_factory=list)
     headers: dict = field(default_factory=dict)
     tech_stack: list[str] = field(default_factory=list)
     meta_author: str = ""
@@ -94,11 +96,13 @@ def _check_ssl(domain: str) -> dict:
 
 
 
-def _extract_page_meta(domain: str) -> tuple[str, str, list[str]]:
-    """Fetch the homepage and extract meta author, footer credits, and plugin hints."""
+def _extract_page_meta(domain: str) -> tuple[str, str, list[str], dict[str, str], list[str]]:
+    """Fetch the homepage and extract meta author, footer credits, plugin hints with versions, and themes."""
     meta_author = ""
     footer_credit = ""
-    plugins = []
+    plugins: list[str] = []
+    plugin_versions: dict[str, str] = {}
+    themes: list[str] = []
 
     try:
         resp = requests.get(
@@ -126,15 +130,30 @@ def _extract_page_meta(domain: str) -> tuple[str, str, list[str]]:
                 footer_credit = match.group(1).strip()
                 break
 
-        # WordPress plugin detection from HTML source
-        wp_plugin_matches = re.findall(r'/wp-content/plugins/([\w-]+)/', html)
-        if wp_plugin_matches:
-            plugins = list(set(wp_plugin_matches))
+        # WordPress plugin detection with version extraction from ?ver= params
+        # Pass 1: extract slugs with versions from ?ver=, &ver=, &#038;ver=, &amp;ver=
+        for slug, ver in re.findall(
+            r'/wp-content/plugins/([\w-]+)/[^"\'>\s]*(?:[\?&]|&#0?38;|&amp;)ver=([\d.]+)', html
+        ):
+            if slug not in plugin_versions:
+                plugin_versions[slug] = ver
+
+        # Pass 2: extract all plugin slugs (including those without versions)
+        seen_slugs: set[str] = set()
+        for slug in re.findall(r'/wp-content/plugins/([\w-]+)/', html):
+            if slug not in seen_slugs:
+                seen_slugs.add(slug)
+                plugins.append(slug)
+
+        # WordPress theme detection from HTML source
+        wp_theme_matches = re.findall(r'/wp-content/themes/([\w-]+)/', html)
+        if wp_theme_matches:
+            themes = list(dict.fromkeys(wp_theme_matches))  # deduplicate, preserve order
 
     except requests.RequestException as e:
         log.debug("Page meta extraction failed for %s: %s", domain, e)
 
-    return meta_author, footer_credit, plugins
+    return meta_author, footer_credit, plugins, plugin_versions, themes
 
 
 def _run_httpx(domains: list[str]) -> dict[str, dict]:

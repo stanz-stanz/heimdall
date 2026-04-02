@@ -13,10 +13,10 @@
     {
       "scan_type_id": "homepage_meta_extraction",
       "token": "c023519a-0894-4959-b878-828517cbf2d2",
-      "approved_at": "2026-03-22T10:01:00Z",
+      "approved_at": "2026-04-02T10:00:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:58f192ea6d8e06e5002383cd741d739f0b9e85308ee5462a6791f04e19443e83",
+      "function_hash": "sha256:47ada5885288b7321bd0c44c89b396c9ebe8618f6288aeff03941c7281aa8d58",
       "log_file": ".claude/agents/valdi/logs/2026-03-22_10-01-00_homepage_meta_extraction.md",
       "hash_method": "inspect.getsource"
     },
