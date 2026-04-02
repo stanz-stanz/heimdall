@@ -462,6 +462,16 @@ def main(argv: Optional[list] = None) -> None:
         except OSError as exc:
             log.error("Failed to write result for %s: %s", domain, exc)
 
+        # Save to client database (fail-safe: errors logged, not fatal)
+        try:
+            from src.db.worker_hook import save_scan_to_db
+            from src.db.connection import init_db
+
+            db_conn = init_db()
+            save_scan_to_db(db_conn, job, result)
+        except Exception:
+            log.exception("db_hook_error for %s", domain)
+
         # Publish scan-complete event
         try:
             event_payload = json.dumps({
