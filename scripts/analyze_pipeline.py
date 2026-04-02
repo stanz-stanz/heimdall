@@ -102,22 +102,7 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
     # Buckets
     buckets = Counter(b.get("bucket", "?") for b in briefs)
     print(f"\n  BUCKETS")
-    for bucket in ["A", "B", "E", "C", "D"]:
-        count = buckets.get(bucket, 0)
-        bar = "#" * (count // 2)
-        print(f"    {bucket}: {count:3d}  {bar}")
-
-    # CMS
-    cms_counts = Counter(b.get("technology", {}).get("cms", "") or "none" for b in briefs)
-    print(f"\n  CMS DETECTION")
-    for cms, count in cms_counts.most_common():
-        print(f"    {count:3d}  {cms}")
-
-    # Hosting
-    hosting = Counter(b.get("technology", {}).get("hosting", "Unknown") for b in briefs)
-    print(f"\n  HOSTING (top 10)")
-    for h, count in hosting.most_common(10):
-        print(f"    {count:3d}  {h}")
+    print(f"    A: {buckets.get('A', 0):>4d}   B: {buckets.get('B', 0):>4d}   E: {buckets.get('E', 0):>4d}   C: {buckets.get('C', 0):>4d}   D: {buckets.get('D', 0):>4d}")
 
     # GDPR
     gdpr_count = sum(1 for b in briefs if b.get("gdpr_sensitive"))
@@ -132,40 +117,45 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
     # SSL
     ssl_valid = sum(1 for b in briefs if b.get("technology", {}).get("ssl", {}).get("valid"))
     no_ssl = sum(1 for b in briefs if b.get("technology", {}).get("ssl", {}).get("days_remaining", -1) == -1)
-    expiring_soon = []
-    for b in briefs:
-        days = b.get("technology", {}).get("ssl", {}).get("days_remaining", 999)
-        if 0 < days < 30:
-            expiring_soon.append((b["domain"], days, b.get("technology", {}).get("ssl", {}).get("expiry", "")))
-
-    print(f"\n  SSL STATUS")
-    print(f"    Valid: {ssl_valid}/{total}")
-    print(f"    No certificate: {no_ssl}")
-    print(f"    Expiring <30 days: {len(expiring_soon)}")
-    for domain, days, expiry in sorted(expiring_soon, key=lambda x: x[1]):
-        print(f"      {days:2d} days  {domain}  ({expiry})")
+    expiring_soon = sum(1 for b in briefs if 0 < b.get("technology", {}).get("ssl", {}).get("days_remaining", 999) < 30)
+    print(f"\n  SSL: {ssl_valid} valid, {no_ssl} missing, {expiring_soon} expiring <30 days")
 
     # Findings
-    finding_dist = Counter()
     total_findings = 0
     finding_types = Counter()
+    severity_counts = Counter()
     for b in briefs:
         findings = b.get("findings", [])
-        n = len(findings)
-        finding_dist[n] += 1
-        total_findings += n
+        total_findings += len(findings)
         for f in findings:
             finding_types[f.get("description", "")] += 1
+            severity_counts[f.get("severity", "unknown")] += 1
 
-    print(f"\n  FINDINGS: {total_findings} total, {total_findings / total:.1f} avg per domain")
-    print(f"    Distribution:")
-    for count in sorted(finding_dist.keys()):
-        bar = "#" * finding_dist[count]
-        print(f"      {count} findings: {finding_dist[count]:3d}  {bar}")
+    print(f"\n  FINDINGS: {total_findings} total, {total_findings / total:.1f} avg/domain — "
+          f"{severity_counts.get('critical', 0)} critical, {severity_counts.get('high', 0)} high, "
+          f"{severity_counts.get('medium', 0)} medium, {severity_counts.get('low', 0)} low, "
+          f"{severity_counts.get('info', 0)} info")
 
-    print(f"\n    Top finding types:")
-    for desc, count in finding_types.most_common(10):
-        print(f"      {count:3d}  {desc}")
+    # Top finding types — deduplicate by base description (strip version-specific CVE suffixes)
+    grouped_types: Counter = Counter()
+    for desc, count in finding_types.items():
+        # Group CVE findings by plugin slug: "Elementor ... (CVE-XXX)" → "Elementor vulnerabilities"
+        if "CVE-" in desc or "(unfixed)" in desc:
+            # Extract plugin name from bracket notation: "Plugin Name [slug] ..."
+            bracket = desc.find("[")
+            if bracket > 0:
+                plugin_name = desc[:bracket].strip()
+                # Strip HTML entities
+                plugin_name = plugin_name.replace("&#8211;", "—").replace("&ndash;", "—")
+                grouped_types[f"{plugin_name} (CVE findings)"] += count
+            else:
+                grouped_types[desc] += count
+        else:
+            grouped_types[desc] += count
+
+    print(f"\n  TOP FINDING TYPES")
+    for desc, count in grouped_types.most_common(15):
+        print(f"    {count:>5d}  {desc}")
 
     # Plugins
     plugin_counts = Counter()
