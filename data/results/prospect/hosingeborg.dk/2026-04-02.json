@@ -1,6 +1,6 @@
 {
   "domain": "hosingeborg.dk",
-  "job_id": "scan-2026-04-02-3afa5ed5",
+  "job_id": "scan-2026-04-02-a6dab48d",
   "status": "completed",
   "scan_result": {
     "domain": "hosingeborg.dk",
@@ -264,13 +264,13 @@
       "scan_tools": [
         "wpvulnerability"
       ],
-      "duration_ms": 319,
+      "duration_ms": 153,
       "note": "Findings derived from passive fingerprinting, not confirmed against live target"
     }
   },
   "timing": {
-    "robots_txt": 1687,
-    "total_ms": 2217
+    "robots_txt": 1724,
+    "total_ms": 2256
   },
   "cache_stats": {
     "hits": 9,

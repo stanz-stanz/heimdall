@@ -1,6 +1,6 @@
 {
   "domain": "1401.dk",
-  "job_id": "scan-2026-04-02-4662aeb6",
+  "job_id": "scan-2026-04-02-385c501d",
   "status": "completed",
   "scan_result": {
     "domain": "1401.dk",
@@ -132,8 +132,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 113,
-    "total_ms": 148
+    "robots_txt": 100,
+    "total_ms": 113
   },
   "cache_stats": {
     "hits": 5,

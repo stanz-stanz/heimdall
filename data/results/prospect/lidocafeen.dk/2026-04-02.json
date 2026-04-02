@@ -1,6 +1,6 @@
 {
   "domain": "lidocafeen.dk",
-  "job_id": "scan-2026-04-02-e73fabc5",
+  "job_id": "scan-2026-04-02-b0d4bfea",
   "status": "completed",
   "scan_result": {
     "domain": "lidocafeen.dk",
@@ -135,8 +135,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 130,
-    "total_ms": 131
+    "robots_txt": 105,
+    "total_ms": 106
   },
   "cache_stats": {
     "hits": 5,

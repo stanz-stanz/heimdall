@@ -60,9 +60,9 @@
   "subdomains": {
     "count": 3,
     "list": [
+      "www.conrads.dk",
       "sgtm.conrads.dk",
-      "load.sgtm.conrads.dk",
-      "www.conrads.dk"
+      "load.sgtm.conrads.dk"
     ]
   },
   "dns": {
@@ -206,7 +206,7 @@
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 589,
+    "duration_ms": 174,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

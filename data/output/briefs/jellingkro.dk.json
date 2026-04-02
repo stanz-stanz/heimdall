@@ -479,7 +479,7 @@
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 314,
+    "duration_ms": 136,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

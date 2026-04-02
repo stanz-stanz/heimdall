@@ -1,6 +1,6 @@
 {
   "domain": "jellingkro.dk",
-  "job_id": "scan-2026-04-02-237dcefc",
+  "job_id": "scan-2026-04-02-476e5d5d",
   "status": "completed",
   "scan_result": {
     "domain": "jellingkro.dk",
@@ -653,13 +653,13 @@
       "scan_tools": [
         "wpvulnerability"
       ],
-      "duration_ms": 314,
+      "duration_ms": 136,
       "note": "Findings derived from passive fingerprinting, not confirmed against live target"
     }
   },
   "timing": {
-    "robots_txt": 92,
-    "total_ms": 2507
+    "robots_txt": 84,
+    "total_ms": 589
   },
   "cache_stats": {
     "hits": 9,

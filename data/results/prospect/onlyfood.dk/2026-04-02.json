@@ -1,6 +1,6 @@
 {
   "domain": "onlyfood.dk",
-  "job_id": "scan-2026-04-02-287a6190",
+  "job_id": "scan-2026-04-02-d46c90cd",
   "status": "completed",
   "scan_result": {
     "domain": "onlyfood.dk",
@@ -128,8 +128,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 159,
-    "total_ms": 160
+    "robots_txt": 165,
+    "total_ms": 166
   },
   "cache_stats": {
     "hits": 5,

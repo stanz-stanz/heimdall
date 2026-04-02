@@ -1,6 +1,6 @@
 {
   "domain": "conrads.dk",
-  "job_id": "scan-2026-04-02-71bb7e62",
+  "job_id": "scan-2026-04-02-42f79f7f",
   "status": "completed",
   "scan_result": {
     "domain": "conrads.dk",
@@ -113,9 +113,9 @@
       }
     },
     "subdomains": [
+      "www.conrads.dk",
       "sgtm.conrads.dk",
-      "load.sgtm.conrads.dk",
-      "www.conrads.dk"
+      "load.sgtm.conrads.dk"
     ],
     "dns_records": {
       "a": [
@@ -205,9 +205,9 @@
     "subdomains": {
       "count": 3,
       "list": [
+        "www.conrads.dk",
         "sgtm.conrads.dk",
-        "load.sgtm.conrads.dk",
-        "www.conrads.dk"
+        "load.sgtm.conrads.dk"
       ]
     },
     "dns": {
@@ -351,13 +351,13 @@
       "scan_tools": [
         "wpvulnerability"
       ],
-      "duration_ms": 589,
+      "duration_ms": 174,
       "note": "Findings derived from passive fingerprinting, not confirmed against live target"
     }
   },
   "timing": {
-    "robots_txt": 130,
-    "total_ms": 1609
+    "robots_txt": 125,
+    "total_ms": 670
   },
   "cache_stats": {
     "hits": 9,

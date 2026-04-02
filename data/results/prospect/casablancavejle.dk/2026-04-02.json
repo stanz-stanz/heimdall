@@ -1,6 +1,6 @@
 {
   "domain": "casablancavejle.dk",
-  "job_id": "scan-2026-04-02-6476a650",
+  "job_id": "scan-2026-04-02-f02eba73",
   "status": "completed",
   "scan_result": {
     "domain": "casablancavejle.dk",
@@ -139,8 +139,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 30074,
-    "total_ms": 30083
+    "robots_txt": 30056,
+    "total_ms": 30065
   },
   "cache_stats": {
     "hits": 5,
