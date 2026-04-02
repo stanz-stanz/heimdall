@@ -12,6 +12,8 @@
 --
 -- See ADR-001 for design rationale:
 --   docs/architecture/decisions/ADR-001-findings-and-briefs-schema.md
+-- See ADR-002 for findings normalisation rationale:
+--   docs/architecture/decisions/ADR-002-findings-normalisation.md
 --
 -- Note: the enrichment database (data/enriched/companies.db) and
 -- vulnerability cache (data/vulndb/wpvuln.db) are separate databases
@@ -226,113 +228,149 @@ CREATE INDEX IF NOT EXISTS idx_scan_history_cvr
 
 
 -- =================================================================
--- SECTION 4: Findings — per-domain vulnerability tracking
+-- SECTION 4: Findings — normalised into definitions + occurrences
 -- =================================================================
+--
+-- Normalisation rationale (ADR-002):
+--
+-- The old single `findings` table stored description, risk, cve_id,
+-- severity, and plugin_slug per domain per finding. At scale,
+-- "Missing HSTS header" appeared on 900 domains with identical text.
+-- "Elementor CVE-2022-1329" appeared on 198 domains with identical
+-- text. This caused massive row-level duplication of immutable
+-- finding metadata.
+--
+-- The normalised design splits findings into:
+--   finding_definitions  — one row per unique finding (keyed by hash)
+--   finding_occurrences  — one row per (domain x finding) combination
+--
+-- Scale estimates (from real data):
+--   ~200 unique finding definitions (CVEs + headers + SSL + plugins)
+--   14,678 occurrences across 1,169 domains (Phase 0)
+--   Phase 2: ~500 definitions, ~150K active occurrences
+--   finding_definitions stays tiny; finding_occurrences scales linearly
+-- -----------------------------------------------------------------
 
 -- -----------------------------------------------------------------
--- findings
+-- finding_definitions
 -- -----------------------------------------------------------------
--- One row per unique finding per domain. A finding that persists
+-- One row per unique finding. The finding_hash is the dedup key,
+-- computed as sha256(severity_lower + ":" + normalized_description)[:12].
+-- This matches DeltaDetector.generate_finding_id() exactly.
+--
+-- This table contains NO per-domain data. It is a lookup table for
+-- finding metadata that is shared across all domains where the
+-- finding appears.
+
+CREATE TABLE IF NOT EXISTS finding_definitions (
+    finding_hash    TEXT PRIMARY KEY,               -- sha256(severity + ":" + normalized_desc)[:12]
+    severity        TEXT NOT NULL,                   -- critical | high | medium | low | info
+    description     TEXT NOT NULL,                   -- human-readable finding description
+    risk            TEXT NOT NULL DEFAULT '',        -- risk explanation text
+    cve_id          TEXT,                            -- extracted CVE ID (e.g. "CVE-2024-28000"), NULL if not a CVE
+    plugin_slug     TEXT,                            -- WP plugin slug (e.g. "litespeed-cache"), NULL if not plugin-related
+    provenance      TEXT,                            -- 'twin-derived' | '' | NULL
+    category        TEXT,                            -- finding type: cve | outdated_plugin | missing_header | ssl | exposure | info
+    first_seen_at   TEXT NOT NULL                    -- ISO-8601 date when first encountered globally
+);
+
+-- "All definitions for a specific plugin slug"
+CREATE INDEX IF NOT EXISTS idx_finddef_plugin_slug
+    ON finding_definitions(plugin_slug) WHERE plugin_slug IS NOT NULL;
+
+-- "All definitions by CVE ID"
+CREATE INDEX IF NOT EXISTS idx_finddef_cve_id
+    ON finding_definitions(cve_id) WHERE cve_id IS NOT NULL;
+
+-- "All definitions by severity"
+CREATE INDEX IF NOT EXISTS idx_finddef_severity
+    ON finding_definitions(severity);
+
+-- "All definitions by category"
+CREATE INDEX IF NOT EXISTS idx_finddef_category
+    ON finding_definitions(category) WHERE category IS NOT NULL;
+
+-- "All twin-derived definitions"
+CREATE INDEX IF NOT EXISTS idx_finddef_provenance
+    ON finding_definitions(provenance) WHERE provenance IS NOT NULL AND provenance != '';
+
+
+-- -----------------------------------------------------------------
+-- finding_occurrences
+-- -----------------------------------------------------------------
+-- One row per (domain x finding) combination. A finding that persists
 -- across 50 consecutive scans is still ONE row (with bumped
 -- last_seen_at and scan_count), NOT 50 rows.
 --
 -- Deduplication key: UNIQUE(domain, finding_hash)
--- finding_hash = sha256(severity_lower + ":" + normalized_desc)[:12]
--- This matches DeltaDetector.generate_finding_id() exactly.
 --
--- Scale estimate (from real data):
---   1,169 domains x 12.6 findings avg = ~14,700 active rows (Phase 0)
---   1,000 clients x 10 domains x 15 findings = ~150,000 active rows (Phase 2)
---   Resolved findings accumulate: ~500K/year at scale.
--- -----------------------------------------------------------------
+-- All per-domain lifecycle data lives here: status, first/last seen,
+-- scan linkage, follow-up tracking.
 
-CREATE TABLE IF NOT EXISTS findings (
-    -- Identity
+CREATE TABLE IF NOT EXISTS finding_occurrences (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    finding_hash    TEXT    NOT NULL,               -- sha256(severity + ":" + normalized_description)[:12]
-    domain          TEXT    NOT NULL,               -- e.g. "jellingkro.dk"
-    cvr             TEXT,                            -- FK to clients; NULL for prospects
-
-    -- Finding content
-    severity        TEXT    NOT NULL,               -- critical | high | medium | low | info
-    description     TEXT    NOT NULL,               -- human-readable finding description
-    risk            TEXT    NOT NULL DEFAULT '',    -- risk explanation text
-    cve_id          TEXT,                            -- extracted CVE ID (e.g. "CVE-2024-28000"), NULL if not a CVE
-    plugin_slug     TEXT,                            -- WP plugin slug (e.g. "litespeed-cache"), NULL if not plugin-related
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    domain          TEXT NOT NULL,                   -- e.g. "jellingkro.dk"
+    finding_hash    TEXT NOT NULL,                   -- FK to finding_definitions.finding_hash
 
     -- Confidence classification
     -- "confirmed" = version matched against known affected range
     -- "potential" = plugin detected but version unknown, CVE may or may not apply
     -- NULL = not yet classified (legacy or non-CVE findings)
-    confidence      TEXT,                           -- confirmed | potential | NULL
-
-    -- Provenance
-    provenance      TEXT    NOT NULL DEFAULT '',    -- "" (Layer 1 direct) | "twin-derived"
-    provenance_json TEXT,                           -- full provenance_detail as JSON TEXT
+    confidence      TEXT,                            -- confirmed | potential | NULL
 
     -- Lifecycle
-    status          TEXT    NOT NULL DEFAULT 'open',-- open | acknowledged | in_progress | resolved
-    first_seen_at   TEXT    NOT NULL,               -- ISO-8601 date of first detection
-    last_seen_at    TEXT    NOT NULL,               -- ISO-8601 date of most recent detection
-    resolved_at     TEXT,                            -- ISO-8601 date when resolved
-    scan_count      INTEGER NOT NULL DEFAULT 1,    -- number of scans that detected this
-
-    -- Client engagement tracking
-    follow_ups_sent INTEGER NOT NULL DEFAULT 0,    -- number of follow-up messages sent about this finding
-    last_follow_up  TEXT,                            -- ISO-8601 date of last follow-up
+    status          TEXT NOT NULL DEFAULT 'open',    -- open | acknowledged | in_progress | resolved
+    first_seen_at   TEXT NOT NULL,                   -- ISO-8601 date of first detection on THIS domain
+    last_seen_at    TEXT NOT NULL,                   -- ISO-8601 date of most recent detection on THIS domain
+    resolved_at     TEXT,                            -- ISO-8601 date when status changed to resolved
 
     -- Scan linkage
-    first_scan_id   TEXT    NOT NULL,               -- scan_history.scan_id that first detected this
-    last_scan_id    TEXT    NOT NULL,               -- scan_history.scan_id that most recently detected this
+    first_scan_id   TEXT,                            -- scan_history.scan_id that first detected this
+    last_scan_id    TEXT,                            -- scan_history.scan_id that most recently detected this
+    scan_count      INTEGER NOT NULL DEFAULT 1,     -- number of consecutive scans that detected this
 
-    -- Timestamps
-    created_at      TEXT    NOT NULL,               -- row creation timestamp (ISO-8601 UTC)
-    updated_at      TEXT    NOT NULL,               -- last modification timestamp
+    -- Client engagement tracking
+    follow_ups_sent INTEGER NOT NULL DEFAULT 0,     -- number of follow-up messages sent about this finding
+    last_follow_up  TEXT,                            -- ISO-8601 date of last follow-up
 
     -- Deduplication constraint
     UNIQUE(domain, finding_hash)
 );
 
--- "All critical findings across all clients"
-CREATE INDEX IF NOT EXISTS idx_findings_severity
-    ON findings(severity) WHERE status != 'resolved';
+-- "All open critical findings" — joins to finding_definitions for severity
+-- This covering index lets us find all open occurrences and filter by severity
+-- without touching the main table for the status check.
+CREATE INDEX IF NOT EXISTS idx_findocc_status
+    ON finding_occurrences(status) WHERE status != 'resolved';
 
--- "All CVEs for a specific plugin slug"
-CREATE INDEX IF NOT EXISTS idx_findings_plugin_slug
-    ON findings(plugin_slug) WHERE plugin_slug IS NOT NULL;
+-- "All domains with finding X" — given a finding_hash, find all affected domains
+CREATE INDEX IF NOT EXISTS idx_findocc_hash
+    ON finding_occurrences(finding_hash, status);
 
--- "All findings by CVE ID" — cross-domain: "which domains have CVE-2024-28000?"
-CREATE INDEX IF NOT EXISTS idx_findings_cve_id
-    ON findings(cve_id) WHERE cve_id IS NOT NULL;
-
--- "All findings for domain X over time"
-CREATE INDEX IF NOT EXISTS idx_findings_domain
-    ON findings(domain, last_seen_at DESC);
+-- "New findings since last scan for domain Y" — domain + last_seen_at for recency
+CREATE INDEX IF NOT EXISTS idx_findocc_domain_lastseen
+    ON finding_occurrences(domain, last_seen_at DESC);
 
 -- "Open findings for domain X" (delta detection hot path)
-CREATE INDEX IF NOT EXISTS idx_findings_domain_status
-    ON findings(domain, status);
-
--- "All twin-derived findings"
-CREATE INDEX IF NOT EXISTS idx_findings_provenance
-    ON findings(provenance) WHERE provenance != '';
+CREATE INDEX IF NOT EXISTS idx_findocc_domain_status
+    ON finding_occurrences(domain, status);
 
 -- "All findings for client (by CVR)"
-CREATE INDEX IF NOT EXISTS idx_findings_cvr
-    ON findings(cvr) WHERE cvr IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_findocc_cvr
+    ON finding_occurrences(cvr) WHERE cvr IS NOT NULL;
 
 -- "All findings from scan X"
-CREATE INDEX IF NOT EXISTS idx_findings_last_scan
-    ON findings(last_scan_id);
+CREATE INDEX IF NOT EXISTS idx_findocc_last_scan
+    ON finding_occurrences(last_scan_id);
 
 -- "All confirmed/potential findings" — confidence split queries
-CREATE INDEX IF NOT EXISTS idx_findings_confidence
-    ON findings(confidence) WHERE confidence IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_findocc_confidence
+    ON finding_occurrences(confidence) WHERE confidence IS NOT NULL;
 
--- Compound: "Confirmed critical findings for plugin X" — the high-value query
-CREATE INDEX IF NOT EXISTS idx_findings_plugin_severity_confidence
-    ON findings(plugin_slug, severity, confidence)
-    WHERE plugin_slug IS NOT NULL AND status != 'resolved';
+-- "Finding trend over time" — first_seen_at for new-findings-per-period queries
+CREATE INDEX IF NOT EXISTS idx_findocc_first_seen
+    ON finding_occurrences(first_seen_at DESC);
 
 
 -- =================================================================
@@ -478,8 +516,8 @@ CREATE INDEX IF NOT EXISTS idx_delivery_status
 -- SECTION 7: Analytics views
 -- =================================================================
 -- These views replace the queries that analyze_pipeline.py currently
--- computes by iterating JSON files. They operate on the latest
--- pipeline run's data.
+-- computes by iterating JSON files. They operate on the normalised
+-- finding_definitions + finding_occurrences tables.
 
 -- Latest completed pipeline run
 CREATE VIEW IF NOT EXISTS v_latest_run AS
@@ -508,25 +546,29 @@ FROM v_current_briefs b
 LEFT JOIN clients c ON b.cvr = c.cvr
 GROUP BY b.bucket;
 
--- Severity breakdown across all current findings
+-- Severity breakdown across all open finding occurrences
+-- Joins to finding_definitions to get severity.
 CREATE VIEW IF NOT EXISTS v_severity_breakdown AS
-SELECT severity, COUNT(*) AS finding_count
-FROM findings
-WHERE status != 'resolved'
-GROUP BY severity;
+SELECT fd.severity, COUNT(*) AS finding_count
+FROM finding_occurrences fo
+JOIN finding_definitions fd ON fo.finding_hash = fd.finding_hash
+WHERE fo.status != 'resolved'
+GROUP BY fd.severity;
 
 -- Plugin vulnerability exposure (cross-domain, replaces JSON iteration)
+-- Joins occurrences to definitions to get plugin_slug, severity, etc.
 CREATE VIEW IF NOT EXISTS v_plugin_exposure AS
-SELECT plugin_slug,
-       COUNT(DISTINCT domain) AS affected_domains,
+SELECT fd.plugin_slug,
+       COUNT(DISTINCT fo.domain) AS affected_domains,
        COUNT(*) AS total_cves,
-       SUM(CASE WHEN severity = 'critical' THEN 1 ELSE 0 END) AS critical_cves,
-       SUM(CASE WHEN severity = 'high' THEN 1 ELSE 0 END) AS high_cves,
-       SUM(CASE WHEN confidence = 'confirmed' THEN 1 ELSE 0 END) AS confirmed,
-       SUM(CASE WHEN confidence = 'potential' THEN 1 ELSE 0 END) AS potential
-FROM findings
-WHERE plugin_slug IS NOT NULL AND status != 'resolved'
-GROUP BY plugin_slug
+       SUM(CASE WHEN fd.severity = 'critical' THEN 1 ELSE 0 END) AS critical_cves,
+       SUM(CASE WHEN fd.severity = 'high' THEN 1 ELSE 0 END) AS high_cves,
+       SUM(CASE WHEN fo.confidence = 'confirmed' THEN 1 ELSE 0 END) AS confirmed,
+       SUM(CASE WHEN fo.confidence = 'potential' THEN 1 ELSE 0 END) AS potential
+FROM finding_occurrences fo
+JOIN finding_definitions fd ON fo.finding_hash = fd.finding_hash
+WHERE fd.plugin_slug IS NOT NULL AND fo.status != 'resolved'
+GROUP BY fd.plugin_slug
 ORDER BY critical_cves DESC, affected_domains DESC;
 
 -- Top prospects: Bucket A + GDPR + most findings
@@ -539,13 +581,15 @@ WHERE b.bucket = 'A' AND c.gdpr_sensitive = 1
 ORDER BY b.critical_count DESC, b.finding_count DESC;
 
 -- CVE cross-reference: which domains are affected by a given CVE
+-- Joins occurrences to definitions for cve_id, plugin_slug, severity.
 CREATE VIEW IF NOT EXISTS v_cve_domains AS
-SELECT cve_id, plugin_slug, severity, confidence,
-       COUNT(DISTINCT domain) AS affected_domains,
-       GROUP_CONCAT(DISTINCT domain) AS domain_list
-FROM findings
-WHERE cve_id IS NOT NULL AND status != 'resolved'
-GROUP BY cve_id
+SELECT fd.cve_id, fd.plugin_slug, fd.severity, fo.confidence,
+       COUNT(DISTINCT fo.domain) AS affected_domains,
+       GROUP_CONCAT(DISTINCT fo.domain) AS domain_list
+FROM finding_occurrences fo
+JOIN finding_definitions fd ON fo.finding_hash = fd.finding_hash
+WHERE fd.cve_id IS NOT NULL AND fo.status != 'resolved'
+GROUP BY fd.cve_id
 ORDER BY affected_domains DESC;
 
 -- Finding trend: new findings per pipeline run
@@ -555,3 +599,33 @@ SELECT pr.run_id, pr.run_date, pr.domain_count,
 FROM pipeline_runs pr
 WHERE pr.status = 'completed'
 ORDER BY pr.run_date DESC;
+
+-- Denormalised finding view: joins definitions + occurrences for
+-- queries that need the full picture (e.g. "all findings for domain X
+-- with severity and description"). This replaces the old `findings`
+-- table interface — consumers that previously queried `findings`
+-- can query `v_findings` with the same column names.
+CREATE VIEW IF NOT EXISTS v_findings AS
+SELECT fo.id,
+       fo.finding_hash,
+       fo.domain,
+       fo.cvr,
+       fd.severity,
+       fd.description,
+       fd.risk,
+       fd.cve_id,
+       fd.plugin_slug,
+       fo.confidence,
+       fd.provenance,
+       fd.category,
+       fo.status,
+       fo.first_seen_at,
+       fo.last_seen_at,
+       fo.resolved_at,
+       fo.scan_count,
+       fo.follow_ups_sent,
+       fo.last_follow_up,
+       fo.first_scan_id,
+       fo.last_scan_id
+FROM finding_occurrences fo
+JOIN finding_definitions fd ON fo.finding_hash = fd.finding_hash;

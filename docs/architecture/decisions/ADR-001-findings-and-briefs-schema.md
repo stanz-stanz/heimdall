@@ -1,7 +1,7 @@
 # ADR-001: SQLite schema for client management database
 
 ## Status
-Accepted (revised 2026-04-01: CVR natural key, industry normalisation, operator removal, consent simplification)
+Accepted (revised 2026-04-01: CVR natural key, industry normalisation, operator removal, consent simplification; findings section superseded by ADR-002)
 
 ## Context
 
@@ -31,7 +31,7 @@ This revision promotes the SQL schema file to the single authoritative definitio
 | 1. Identity | `industries`, `clients`, `client_domains` | Industry lookup, clients (keyed by CVR), domain mapping |
 | 2. Consent | `consent_records` | Audit trail for consent events |
 | 3. Scanning | `pipeline_runs`, `scan_history` | Run-level and domain-level scan tracking |
-| 4. Findings | `findings` | Per-domain vulnerability tracking with dedup |
+| 4. Findings | `finding_definitions`, `finding_occurrences` | Normalised finding definitions + per-domain occurrence tracking (see ADR-002) |
 | 5. Briefs | `brief_snapshots` | Versioned brief archive with extracted summary columns |
 | 6. Delivery | `delivery_log` | Message delivery tracking |
 | 7. Views | `v_current_briefs`, `v_bucket_distribution`, etc. | Pre-built analytics views |
