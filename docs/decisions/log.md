@@ -5,6 +5,49 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-02 — Client DB schema design, 1,179-domain pipeline run, loguru migration planned
+
+**Decided**
+- Client management SQLite schema designed: 10 tables (industries, clients, client_domains, consent_records, scan_history, finding_definitions, finding_occurrences, brief_snapshots, delivery_log, pipeline_runs), 8 analytics views, 33 indexes. ADR-001 and ADR-002 document rationale.
+- CVR as natural primary key — no synthetic client_id. Danish company registration is unique.
+- Industry normalization — `industries` table with code/name_da/name_en. Client rows reference code only.
+- Operators removed from DB — config-level setting, not a table. One operator (Federico) during pilot.
+- Consent is binary — `consent_granted` boolean on clients. No `layers_permitted` array. Only Layer 2 requires consent.
+- GDPR sensitivity on clients table, not per-finding or per-brief — it's a company property.
+- Findings normalized into definitions + occurrences — "Missing HSTS header" stored once (1 definition) instead of 900 times. ~200 unique definitions vs ~14,678 occurrences.
+- `brief_snapshots` stores full JSON as archive, extracted columns for queries. JSON nullable after 90-day retention.
+- `pipeline_runs` table replaces JSON file iteration for aggregate stats.
+- Loguru migration planned (40+ files) — replace stdlib logging with loguru. Plan at `.claude/plans/loguru-migration.md`. Dedicated session.
+- Full pipeline run: 1,179 domains, 14,678 findings, 457 critical, 931 high. First scale validation.
+- Filters broadened: removed industry_code and contactable restrictions. Bucket filter (A, B, E) keeps actionable sites.
+- Stale filter flag pre-flight check added to scheduler — warns when <10% of domains ready.
+- analyze_pipeline.py cleaned up: one value per line, CVE findings grouped by plugin name.
+- NCC-DK grant removed from all plans — SIRI evaluation takes months, dependency chain unreachable.
+- API keys rotated (SERPER_API_KEY, CLAUDE_API_KEY). TELEGRAM_BOT_TOKEN and GRAYHATWARFARE_API_KEY added to Pi5 .env.
+- Logly evaluated and rejected — early-stage logging library (not production-ready, deadlock bugs, 830 downloads/month). Not a storage/search system.
+- HackerTarget competitive analysis: their $10/month tier includes Nmap+OpenVAS+Nikto+WordPress testing. Our value: AI interpretation in Danish, ongoing monitoring, GDPR assessment, digital twin, Telegram delivery.
+
+**Rejected**
+- Logly as logging/storage solution — not production-ready, fundamental bugs, sole maintainer
+- HackerTarget as data source — adds dependency, $10/month, couples pipeline to third-party uptime
+- Synthetic client_id — CVR is the natural key for Danish companies
+- Operators table — overengineered for pilot with one operator
+- `layers_permitted` in consent records — consent is binary, only Layer 2 needs it
+- GDPR per-finding — it's a company property, not a finding property
+- Flat findings table — massive text duplication at scale
+
+**Unresolved**
+- Client DB schema implementation — designed and reviewed, not yet coded
+- Loguru migration — planned, not executed (40+ files, dedicated session)
+- Telegram bot — still the #1 delivery gap
+- Finding confidence split (Confirmed vs Potential) — decided, not implemented
+- Lawyer consultation outcome — determines consent storage details and outreach channels
+- Grafana pipeline dashboard — nice to have, post-pilot
+- Non-WordPress passive detection (SPF/DKIM/DMARC, JS library versions) — identified gap from pipeline data
+- Nikto + Nmap — still pending
+
+---
+
 ## 2026-04-02 — WordPress plugin version extraction, OSINT agent, HackerTarget gap analysis
 
 **Decided**
