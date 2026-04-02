@@ -1,0 +1,188 @@
+{
+  "domain": "copenhagenperformance.com",
+  "job_id": "scan-2026-04-02-acbe7636",
+  "status": "completed",
+  "scan_result": {
+    "domain": "copenhagenperformance.com",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-07-01",
+    "ssl_days_remaining": 89,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:41:14.239468224Z",
+      "port": "443",
+      "url": "https://copenhagenperformance.com",
+      "input": "copenhagenperformance.com",
+      "title": "CopenhagenPerformance.dk",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "copenhagenperformance.com",
+      "host_ip": "103.169.142.0",
+      "path": "/",
+      "time": "196.16212ms",
+      "a": [
+        "103.169.142.0"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "HSTS",
+        "HTTP/3"
+      ],
+      "words": 675,
+      "lines": 8,
+      "status_code": 200,
+      "content_length": 131463,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "n8n",
+          "vendor": "n8n",
+          "cpe": "cpe:2.3:a:n8n:n8n:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "103.169.142.0"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx0001.neo.space",
+        "mx0002.neo.space"
+      ],
+      "ns": [
+        "dns1.registrar-servers.com",
+        "dns2.registrar-servers.com"
+      ],
+      "txt": [
+        "neo-verification=ZvWsnDAYvz",
+        "v=spf1 include:spf0001.neo.space -all",
+        "canva-domain-verify=16c35c86-6b81-47a6-981d-1f06ae90642c"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "copenhagenperformance.com",
+    "cvr": "prospect",
+    "company_name": "copenhagenperformance.com",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-07-01",
+        "days_remaining": 89
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "103.169.142.0"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx0001.neo.space",
+        "mx0002.neo.space"
+      ],
+      "ns": [
+        "dns1.registrar-servers.com",
+        "dns2.registrar-servers.com"
+      ],
+      "txt": [
+        "neo-verification=ZvWsnDAYvz",
+        "v=spf1 include:spf0001.neo.space -all",
+        "canva-domain-verify=16c35c86-6b81-47a6-981d-1f06ae90642c"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 521,
+    "ssl": 81,
+    "headers": 456,
+    "meta": 130,
+    "httpx": 2039,
+    "webanalyze": 4,
+    "dnsx": 754,
+    "crtsh": 0,
+    "ghw": 289,
+    "total_ms": 4283
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

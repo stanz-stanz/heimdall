@@ -1,0 +1,80 @@
+{
+  "domain": "givskud-el.dk",
+  "cvr": "prospect",
+  "company_name": "givskud-el.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, reCAPTCHA"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-02",
+      "days_remaining": 30
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Analytics",
+    "HSTS",
+    "Microsoft ASP.NET",
+    "MySQL",
+    "PHP",
+    "WordPress",
+    "iubenda",
+    "jQuery:1.12.2",
+    "reCAPTCHA"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "193.8.37.83"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "givskudel-dk01i.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.dnsserver.dk",
+      "ns2.dnsserver.dk"
+    ],
+    "txt": [
+      "_globalsign-domain-verification=Xzb_mRSajPJBJ4Xx89JdelpKPfDzt1XW8wVUXNEc32",
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "rcrq20lgknnjmt8315v9ofu2l4"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "domain": "baadmaegleren.dk",
+  "cvr": "prospect",
+  "company_name": "baadmaegleren.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "DigiCert Inc",
+      "expiry": "2026-08-16",
+      "days_remaining": 136
+    },
+    "server": "Apache",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Backdrop",
+    "PHP"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "168.119.205.42"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx2.gigahost.dk",
+      "mx3.gigahost.dk",
+      "mx1.gigahost.dk"
+    ],
+    "ns": [
+      "ns1.gigahost.dk",
+      "ns2.gigahost.dk",
+      "ns3.gigahost.dk",
+      "ns4.gigahost.dk",
+      "ns5.gigahost.dk"
+    ],
+    "txt": [
+      "v=spf1 mx include:spf.gigahost.dk -all",
+      "spf2.0/pra"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

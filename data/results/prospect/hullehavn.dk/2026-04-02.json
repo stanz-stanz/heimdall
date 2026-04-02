@@ -1,0 +1,153 @@
+{
+  "domain": "hullehavn.dk",
+  "job_id": "scan-2026-04-02-078b0cb5",
+  "status": "completed",
+  "scan_result": {
+    "domain": "hullehavn.dk",
+    "cms": "Squarespace",
+    "server": "Squarespace",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-07",
+    "ssl_days_remaining": 65,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "parallax.js"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:55:50.048442624Z",
+      "port": "443",
+      "url": "https://hullehavn.dk",
+      "input": "hullehavn.dk",
+      "title": "Hullehavn Camping",
+      "scheme": "https",
+      "webserver": "Squarespace",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "hullehavn.dk",
+      "host_ip": "198.185.159.145",
+      "path": "/",
+      "final_url": "https://www.hullehavn.dk/",
+      "time": "406.768888ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "198.185.159.144",
+        "198.185.159.145"
+      ],
+      "tech": [
+        "Google Analytics",
+        "Google Tag Manager",
+        "HSTS",
+        "Squarespace",
+        "Squarespace Commerce",
+        "Stimulus",
+        "parallax.js"
+      ],
+      "words": 71570,
+      "lines": 7200,
+      "status_code": 200,
+      "content_length": 312217,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "hullehavn.dk",
+    "cvr": "prospect",
+    "company_name": "hullehavn.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Squarespace",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-07",
+        "days_remaining": 65
+      },
+      "server": "Squarespace",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "parallax.js"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 254,
+    "ssl": 86,
+    "headers": 395,
+    "meta": 369,
+    "httpx": 3749,
+    "webanalyze": 3,
+    "total_ms": 4863
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

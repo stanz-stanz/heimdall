@@ -1,0 +1,196 @@
+{
+  "domain": "metodistkirken.dk",
+  "cvr": "prospect",
+  "company_name": "metodistkirken.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Contact Form 7"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-02",
+      "days_remaining": 61
+    },
+    "server": "Apache",
+    "detected_plugins": [
+      "Events Calendar Pro",
+      "Instagram Feed",
+      "Contact Form 7",
+      "Registrations For The Events Calendar Pro",
+      "The Events Calendar",
+      "Better Wp Security",
+      "Akismet",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Events Calendar Pro": "7.7.14",
+      "Instagram Feed": "6.10.1",
+      "Contact Form 7": "6.1.5",
+      "Registrations For The Events Calendar Pro": "2.11.2",
+      "Wordpress Seo": "26.8"
+    },
+    "detected_themes": [
+      "Enfold"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Chart.js",
+    "Contact Form 7:6.1.5",
+    "HSTS",
+    "Lightbox",
+    "Magnific Popup:7.1",
+    "Max Mega Menu:7.1",
+    "MySQL",
+    "PHP",
+    "ProgressBar.js:7.1",
+    "Select2",
+    "The Events Calendar",
+    "Underscore.js:1.13.7",
+    "WordPress:6.7.5",
+    "Yoast SEO:26.8",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "parallax.js:7.1"
+  ],
+  "plugin_versions": {
+    "events-calendar-pro": "7.7.14",
+    "instagram-feed": "6.10.1",
+    "contact-form-7": "6.1.5",
+    "registrations-for-the-events-calendar-pro": "2.11.2",
+    "wordpress-seo": "26.8"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "49.12.124.167"
+    ],
+    "aaaa": [
+      "2a01:4f8:242:5658::2"
+    ],
+    "cname": [],
+    "mx": [
+      "mx3.pub.mailpod12-cph3.one.com",
+      "mx1.pub.mailpod12-cph3.one.com",
+      "mx2.pub.mailpod12-cph3.one.com",
+      "mx4.pub.mailpod12-cph3.one.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "v=spf1 a mx include:_custspf.one.com include:_spf.google.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.7.5 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Contact Form 7",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "8 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Enfold",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 26.8, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "high",
+      "description": "The Events Calendar [the-events-calendar] < 6.6.4 (CVE-2024-6931)",
+      "risk": "CVE-2024-6931: WordPress The Events Calendar Plugin <= 6.5.1.6 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-6931",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "The Events Calendar [the-events-calendar] < 6.6.4.1 (CVE-2024-8275)",
+      "risk": "CVE-2024-8275: WordPress The Events Calendar Plugin <= 6.6.4 is vulnerable to SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-8275",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "The Events Calendar [the-events-calendar] < 6.15.10 (CVE-2025-12197)",
+      "risk": "CVE-2025-12197: The Events Calendar [the-events-calendar] < 6.15.10",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-12197",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed) (CVE-2025-69352)",
+      "risk": "CVE-2025-69352: The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-69352",
+        "confidence": "medium-inference"
+      }
+    }
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 317,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
+}

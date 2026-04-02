@@ -2,24 +2,27 @@
   "domain": "fluer.dk",
   "cvr": "prospect",
   "company_name": "fluer.dk",
-  "scan_date": "2026-03-29",
-  "bucket": "E",
+  "scan_date": "2026-04-02",
+  "bucket": "C",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Visitor tracking: Google Analytics, Google Tag Manager"
+    "E-commerce platform: Shopify",
+    "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "Shopify",
+    "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
-      "issuer": "Sectigo Limited",
-      "expiry": "2026-05-13",
-      "days_remaining": 45
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-30",
+      "days_remaining": 88
     },
-    "server": "nginx",
+    "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -28,47 +31,18 @@
     }
   },
   "tech_stack": [
-    "DanDomain",
-    "Google Analytics",
+    "Cloudflare",
     "Google Tag Manager",
     "HSTS",
-    "Klaviyo",
-    "Nginx",
-    "PHP",
-    "SmartWeb"
+    "HTTP/3",
+    "Shopify"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "185.221.38.8"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "mx.mailcluster.dk",
-      "mx.simply.com"
-    ],
-    "ns": [
-      "ns1.simply.com",
-      "ns2.simply.com",
-      "ns3.simply.com"
-    ],
-    "txt": [
-      "v=spf1 include:servers.mcsv.net include:spf.smart-web.dk include:amazonses.com include:include:spf.simply.com -all",
-      "amazonses: lKQoV4+iSgcToD5LOdpx21lLCz6w6k+KLVamRu+Vg2M=",
-      "_globalsign-domain-verification=oczQaD46VMcKI-nQ84KFO1MBYF6JInd28OcuqTPUJd",
-      "klaviyo-site-verification=RpZ9WB"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
-  "findings": [
-    {
-      "severity": "low",
-      "description": "Backend technology exposed: PHP",
-      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
-    }
-  ]
+  "findings": []
 }

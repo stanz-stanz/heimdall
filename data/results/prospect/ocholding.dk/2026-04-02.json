@@ -1,0 +1,199 @@
+{
+  "domain": "ocholding.dk",
+  "job_id": "scan-2026-04-02-2bffb4a0",
+  "status": "completed",
+  "scan_result": {
+    "domain": "ocholding.dk",
+    "cms": "",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-24",
+    "ssl_days_remaining": 52,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:11:16.528354913Z",
+      "port": "443",
+      "url": "https://ocholding.dk",
+      "input": "ocholding.dk",
+      "title": "Hosted By One.com | Webhosting made simple",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "ocholding.dk",
+      "host_ip": "46.30.213.134",
+      "path": "/",
+      "time": "144.980875ms",
+      "a": [
+        "46.30.213.134"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10c:31:cea6:6a06:ed0d"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Varnish"
+      ],
+      "words": 868,
+      "lines": 1,
+      "status_code": 200,
+      "content_length": 196988,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "n8n",
+          "vendor": "n8n",
+          "cpe": "cpe:2.3:a:n8n:n8n:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.30.213.134"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10c:31:cea6:6a06:ed0d"
+      ],
+      "cname": [],
+      "mx": [
+        "mx1.mailpod15-cph3.g1i.one.com",
+        "mx2.mailpod15-cph3.g1i.one.com",
+        "mx3.mailpod15-cph3.g1i.one.com",
+        "mx4.mailpod15-cph3.g1i.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:_custspf.one.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "ocholding.dk",
+    "cvr": "prospect",
+    "company_name": "ocholding.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-24",
+        "days_remaining": 52
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.30.213.134"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10c:31:cea6:6a06:ed0d"
+      ],
+      "cname": [],
+      "mx": [
+        "mx1.mailpod15-cph3.g1i.one.com",
+        "mx2.mailpod15-cph3.g1i.one.com",
+        "mx3.mailpod15-cph3.g1i.one.com",
+        "mx4.mailpod15-cph3.g1i.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:_custspf.one.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 96,
+    "ssl": 68,
+    "headers": 83,
+    "meta": 145,
+    "httpx": 2134,
+    "webanalyze": 4,
+    "dnsx": 715,
+    "crtsh": 0,
+    "ghw": 179,
+    "total_ms": 3432
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

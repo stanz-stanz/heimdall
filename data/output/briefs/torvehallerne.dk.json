@@ -2,7 +2,7 @@
   "domain": "torvehallerne.dk",
   "cvr": "prospect",
   "company_name": "torvehallerne.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-08",
-      "days_remaining": 39
+      "days_remaining": 36
     },
     "server": "Netlify",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,6 +36,7 @@
     "Typekit",
     "Vue.js:62"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -52,8 +55,8 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "F4C8D3AF9E521886BA93E4FB06A8EC4C295A7D3551C9E4E26B596B8FD7945788",
       "v=spf1 include:spf.protection.outlook.com ip4:31.208.18.69 ip4:31.208.18.70 ip4:31.208.18.73 include:_spf.stejtech.net include:mail.techosting.dk -all",
+      "F4C8D3AF9E521886BA93E4FB06A8EC4C295A7D3551C9E4E26B596B8FD7945788",
       "MS=ms25478469"
     ]
   },

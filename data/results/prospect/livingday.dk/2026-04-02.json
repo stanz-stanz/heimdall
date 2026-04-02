@@ -1,0 +1,180 @@
+{
+  "domain": "livingday.dk",
+  "job_id": "scan-2026-04-02-a9f7e7ef",
+  "status": "completed",
+  "scan_result": {
+    "domain": "livingday.dk",
+    "cms": "",
+    "server": "istio-envoy",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-16",
+    "ssl_days_remaining": 75,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Envoy",
+      "HSTS"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:05:02.937297584Z",
+      "port": "443",
+      "url": "https://livingday.dk",
+      "input": "livingday.dk",
+      "title": "LIVINGDAY har Vejles laveste salær I LIVINGDAY ejendomsmægler Vejle",
+      "scheme": "https",
+      "webserver": "istio-envoy",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "livingday.dk",
+      "host_ip": "193.104.202.25",
+      "path": "/",
+      "time": "229.006529ms",
+      "a": [
+        "193.104.202.25"
+      ],
+      "tech": [
+        "Envoy",
+        "HSTS"
+      ],
+      "words": 72909,
+      "lines": 221,
+      "status_code": 200,
+      "content_length": 1065876,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "next.js",
+          "vendor": "zeit",
+          "cpe": "cpe:2.3:a:zeit:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "vercel",
+          "cpe": "cpe:2.3:a:vercel:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.104.202.25"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "livingday-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.cb.dk",
+        "ns2.cb.dk"
+      ],
+      "txt": [
+        "\\\"v=spf1 include:spf.protection.outlook.com include:spf.web.mindworking.dk -all\\\"\\\"MS=ms72844926\\\""
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "livingday.dk",
+    "cvr": "prospect",
+    "company_name": "livingday.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-16",
+        "days_remaining": 75
+      },
+      "server": "istio-envoy",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Envoy",
+      "HSTS"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.104.202.25"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "livingday-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.cb.dk",
+        "ns2.cb.dk"
+      ],
+      "txt": [
+        "\\\"v=spf1 include:spf.protection.outlook.com include:spf.web.mindworking.dk -all\\\"\\\"MS=ms72844926\\\""
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 114,
+    "ssl": 74,
+    "headers": 154,
+    "meta": 375,
+    "httpx": 5387,
+    "webanalyze": 4,
+    "dnsx": 712,
+    "crtsh": 0,
+    "ghw": 2700,
+    "total_ms": 9530
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

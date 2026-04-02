@@ -1,0 +1,222 @@
+{
+  "domain": "common-sense.dk",
+  "job_id": "scan-2026-04-02-aec7ad86",
+  "status": "completed",
+  "scan_result": {
+    "domain": "common-sense.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": false,
+    "ssl_issuer": "",
+    "ssl_expiry": "",
+    "ssl_days_remaining": -1,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cart Functionality",
+      "Font Awesome",
+      "HSTS",
+      "Nginx",
+      "Ruby",
+      "Ruby on Rails",
+      "Simplero",
+      "Simplero Websites",
+      "Stimulus",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:41:50.973706551Z",
+      "port": "80",
+      "url": "http://common-sense.dk",
+      "input": "common-sense.dk",
+      "title": "Hjem - Common Sense",
+      "scheme": "http",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "common-sense.dk",
+      "host_ip": "93.191.155.240",
+      "path": "/",
+      "final_url": "https://www.common-sense.dk/",
+      "time": "896.171538ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "93.191.155.240"
+      ],
+      "tech": [
+        "Cart Functionality",
+        "Font Awesome",
+        "HSTS",
+        "Nginx",
+        "Ruby",
+        "Ruby on Rails",
+        "Simplero",
+        "Simplero Websites",
+        "Stimulus",
+        "jQuery"
+      ],
+      "words": 17241,
+      "lines": 3080,
+      "status_code": 200,
+      "content_length": 196845,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "93.191.155.240"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.dandomain.dk",
+        "mx1.dandomain.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:sendgrid.net include:_spf.simplero.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "common-sense.dk",
+    "cvr": "prospect",
+    "company_name": "common-sense.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": false,
+        "issuer": "",
+        "expiry": "",
+        "days_remaining": -1
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cart Functionality",
+      "Font Awesome",
+      "HSTS",
+      "Nginx",
+      "Ruby",
+      "Ruby on Rails",
+      "Simplero",
+      "Simplero Websites",
+      "Stimulus",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "93.191.155.240"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.dandomain.dk",
+        "mx1.dandomain.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:sendgrid.net include:_spf.simplero.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "critical",
+        "description": "No SSL certificate detected",
+        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 15043,
+    "ssl": 15045,
+    "headers": 15033,
+    "meta": 15035,
+    "httpx": 13971,
+    "webanalyze": 5,
+    "dnsx": 816,
+    "crtsh": 0,
+    "ghw": 685,
+    "total_ms": 75646
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

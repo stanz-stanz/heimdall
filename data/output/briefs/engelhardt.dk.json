@@ -2,10 +2,12 @@
   "domain": "engelhardt.dk",
   "cvr": "prospect",
   "company_name": "engelhardt.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce"
+  ],
   "industry": "",
   "technology": {
     "cms": "WordPress",
@@ -14,11 +16,20 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-20",
-      "days_remaining": 81
+      "days_remaining": 79
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Litespeed Cache"
+      "Litespeed Cache",
+      "Woocommerce",
+      "Redirection",
+      "Wordpress Seo",
+      "Jetpack"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [
+      "Evans Engelhardt",
+      "Evans Boilerplate"
     ],
     "headers": {
       "x_frame_options": true,
@@ -36,6 +47,7 @@
     "PHP",
     "WordPress"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -80,14 +92,152 @@
       "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
     },
     {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
       "severity": "info",
-      "description": "1 WordPress plugin detected",
+      "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Evans Engelhardt, Evans Boilerplate",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
+      "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-45000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
+      "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-40000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
+      "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-28000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
+      "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-44000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
+      "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-47637",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
+      "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-47374",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
+      "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-50550",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
+      "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-54332",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 129,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

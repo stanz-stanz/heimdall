@@ -1,0 +1,68 @@
+{
+  "domain": "northlake.dk",
+  "cvr": "prospect",
+  "company_name": "northlake.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "LiteSpeed",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-19",
+      "days_remaining": 78
+    },
+    "server": "LiteSpeed",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "HSTS",
+    "HTTP/3",
+    "LiteSpeed"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "195.242.130.94"
+    ],
+    "aaaa": [
+      "2001:67c:564:fffc::3001"
+    ],
+    "cname": [],
+    "mx": [
+      "northlake.dk"
+    ],
+    "ns": [
+      "ns1.e-studio.dk",
+      "ns2.e-studio.dk",
+      "ns3.e-studio.dk"
+    ],
+    "txt": [
+      "v=spf1 ip4:195.242.130.94 include:_spf.e-studio.dk +a +mx ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

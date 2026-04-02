@@ -1,0 +1,179 @@
+{
+  "domain": "danapress.com",
+  "job_id": "scan-2026-04-02-98dd7782",
+  "status": "completed",
+  "scan_result": {
+    "domain": "danapress.com",
+    "cms": "",
+    "server": "BSrapture",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-29",
+    "ssl_days_remaining": 87,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "HSTS",
+      "ProgressBar.js",
+      "jQuery",
+      "jQuery Migrate:1.4.1",
+      "jQuery UI:1.9.2"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:42:10.39963992Z",
+      "port": "443",
+      "url": "https://danapress.com",
+      "input": "danapress.com",
+      "title": "dana press photo a/s",
+      "scheme": "https",
+      "webserver": "BSrapture",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "danapress.com",
+      "host_ip": "80.190.108.50",
+      "path": "/",
+      "time": "448.029341ms",
+      "a": [
+        "80.190.108.50"
+      ],
+      "tech": [
+        "HSTS",
+        "ProgressBar.js",
+        "jQuery",
+        "jQuery Migrate:1.4.1",
+        "jQuery UI:1.9.2"
+      ],
+      "words": 1783,
+      "lines": 776,
+      "status_code": 200,
+      "content_length": 36617,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "80.190.108.50"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx3.mailpod15-cph3.g1i.one.com",
+        "mx2.mailpod15-cph3.g1i.one.com",
+        "mx1.mailpod15-cph3.g1i.one.com",
+        "mx4.mailpod15-cph3.g1i.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:dedicated.mysmtp.com include:_custspf.one.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "danapress.com",
+    "cvr": "prospect",
+    "company_name": "danapress.com",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-29",
+        "days_remaining": 87
+      },
+      "server": "BSrapture",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "HSTS",
+      "ProgressBar.js",
+      "jQuery",
+      "jQuery Migrate:1.4.1",
+      "jQuery UI:1.9.2"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "80.190.108.50"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx3.mailpod15-cph3.g1i.one.com",
+        "mx2.mailpod15-cph3.g1i.one.com",
+        "mx1.mailpod15-cph3.g1i.one.com",
+        "mx4.mailpod15-cph3.g1i.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:dedicated.mysmtp.com include:_custspf.one.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 266,
+    "ssl": 101,
+    "headers": 468,
+    "meta": 579,
+    "httpx": 2335,
+    "webanalyze": 3,
+    "dnsx": 809,
+    "crtsh": 0,
+    "ghw": 263,
+    "total_ms": 4834
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

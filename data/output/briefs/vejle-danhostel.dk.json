@@ -2,7 +2,7 @@
   "domain": "vejle-danhostel.dk",
   "cvr": "prospect",
   "company_name": "vejle-danhostel.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,13 +17,26 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
-      "days_remaining": 57
+      "days_remaining": 54
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Gravityforms",
       "Gutenslider",
-      "Gtranslate"
+      "Gravityforms",
+      "Gtranslate",
+      "Redirection",
+      "Wordfence",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Gutenslider": "1706789847",
+      "Gravityforms": "2.9.28",
+      "Gtranslate": "6.9.4",
+      "Wordpress Seo": "27.1.1"
+    },
+    "detected_themes": [
+      "Test",
+      "Charlottevejle"
     ],
     "headers": {
       "x_frame_options": false,
@@ -48,6 +61,12 @@
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "gutenslider": "1706789847",
+    "gravityforms": "2.9.28",
+    "gtranslate": "6.9.4",
+    "wordpress-seo": "27.1.1"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -66,8 +85,8 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "MS=ms22866624",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms22866624"
     ]
   },
   "cloud_exposure": [],
@@ -104,13 +123,43 @@
     },
     {
       "severity": "info",
-      "description": "3 WordPress plugins detected",
+      "description": "6 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Test, Charlottevejle",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 27.1.1, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
+      "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2260",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 296,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

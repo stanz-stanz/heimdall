@@ -2,10 +2,12 @@
   "domain": "daltec.com",
   "cvr": "prospect",
   "company_name": "daltec.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce"
+  ],
   "industry": "",
   "technology": {
     "cms": "WordPress",
@@ -14,18 +16,33 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-05",
-      "days_remaining": 35
+      "days_remaining": 33
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Essential Addons For Elementor Lite",
-      "Elementor",
-      "Vision Core",
-      "Elementor Pro",
-      "Complianz Gdpr",
-      "Google Analytics For Wordpress",
       "All In One Seo Pack",
-      "Translatepress Multilingual"
+      "Complianz Gdpr",
+      "Vision Core",
+      "Translatepress Multilingual",
+      "Elementor",
+      "Essential Addons For Elementor Lite",
+      "Google Analytics For Wordpress",
+      "Elementor Pro",
+      "Woocommerce",
+      "Wordfence"
+    ],
+    "plugin_versions": {
+      "All In One Seo Pack": "4.9.5.1",
+      "Complianz Gdpr": "1773995308",
+      "Vision Core": "1.2.3",
+      "Translatepress Multilingual": "3.1.3",
+      "Elementor": "5.47.0",
+      "Essential Addons For Elementor Lite": "6.5.13",
+      "Google Analytics For Wordpress": "10.1.2",
+      "Elementor Pro": "3.35.1"
+    },
+    "detected_themes": [
+      "Agama Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -42,7 +59,7 @@
     "Google Maps",
     "HTTP/3",
     "LiteSpeed",
-    "MonsterInsights:10.1.1",
+    "MonsterInsights:10.1.2",
     "MySQL",
     "PHP",
     "Swiper",
@@ -51,6 +68,16 @@
     "jQuery Migrate:3.4.1",
     "particles.js"
   ],
+  "plugin_versions": {
+    "all-in-one-seo-pack": "4.9.5.1",
+    "complianz-gdpr": "1773995308",
+    "vision-core": "1.2.3",
+    "translatepress-multilingual": "3.1.3",
+    "elementor": "5.47.0",
+    "essential-addons-for-elementor-lite": "6.5.13",
+    "google-analytics-for-wordpress": "10.1.2",
+    "elementor-pro": "3.35.1"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -64,23 +91,23 @@
     ],
     "cname": [],
     "mx": [
-      "dk.mx1.mailanyone.net",
-      "dk.mx3.mailanyone.net",
       "dk.mx2.mx25.net",
       "dk.mx4.mx25.net",
-      "daltec-com.mail.protection.outlook.com"
+      "dk.mx1.mailanyone.net",
+      "daltec-com.mail.protection.outlook.com",
+      "dk.mx3.mailanyone.net"
     ],
     "ns": [
       "ns1.curanet.dk",
       "ns2.curanet.dk"
     ],
     "txt": [
-      "b1mo1kotnq6ltmlnqed9r3ocl9",
-      "v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApI9MhowNmn1JStZxv2szVyMQ/j6tNCuyrbcRlfb+60AAxls45DCop9N93P7JatxODfpkWG16/SLcyvQQctNnoa8kOu5MF/d0tMrdPZNRoPcyG5z/holy4KjKDxJ7IUxfzy5NfzX8KQjMX7jO6b+xidIXqYreaZT6wVELq0pbseh10LrVYFn31ZxFe8iRO529E/QoQVwbiBLW2qJXNlTmQr79x5Go9WC/XxpfuNveYXyEziw/AI3epPLvcB+2a5jz7wd+soHYxw6VoJGieYmUTpGuOpq03AHNCz74fd1WT8V+qwHdiwoxLYjozfBCU3QhbK5pFTD4MK1xjUJvVs4r/wIDAQAB",
-      "v=spf1 include:spf.mailanyone.net  include:spf.protection.outlook.com ~all",
-      "_globalsign-domain-verification=HDxIhycSryOBZ416QlGS9Ll7TQINg7ix1rc-81f8JQ",
       "MS=ms99881335",
-      "37f0p197lstgu8d2hvkjunfbo6"
+      "v=spf1 include:spf.mailanyone.net  include:spf.protection.outlook.com ~all",
+      "v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApI9MhowNmn1JStZxv2szVyMQ/j6tNCuyrbcRlfb+60AAxls45DCop9N93P7JatxODfpkWG16/SLcyvQQctNnoa8kOu5MF/d0tMrdPZNRoPcyG5z/holy4KjKDxJ7IUxfzy5NfzX8KQjMX7jO6b+xidIXqYreaZT6wVELq0pbseh10LrVYFn31ZxFe8iRO529E/QoQVwbiBLW2qJXNlTmQr79x5Go9WC/XxpfuNveYXyEziw/AI3epPLvcB+2a5jz7wd+soHYxw6VoJGieYmUTpGuOpq03AHNCz74fd1WT8V+qwHdiwoxLYjozfBCU3QhbK5pFTD4MK1xjUJvVs4r/wIDAQAB",
+      "_globalsign-domain-verification=HDxIhycSryOBZ416QlGS9Ll7TQINg7ix1rc-81f8JQ",
+      "37f0p197lstgu8d2hvkjunfbo6",
+      "b1mo1kotnq6ltmlnqed9r3ocl9"
     ]
   },
   "cloud_exposure": [],
@@ -111,14 +138,169 @@
       "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
     },
     {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
       "severity": "info",
-      "description": "8 WordPress plugins detected",
+      "description": "10 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Agama Pro",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Translatepress Multilingual (installed 3.1.3, latest 3.1.4)",
+      "risk": "The installed version of Translatepress Multilingual is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.9.1 (unfixed) (CVE-2025-67950)",
+      "risk": "CVE-2025-67950: All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.9.1 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67950",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.8.6.1 (unfixed) (CVE-2025-64295)",
+      "risk": "CVE-2025-64295: All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.8.6.1 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-64295",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+      "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-1329",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+      "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67588",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+      "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32445",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+      "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32352",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed) (CVE-2025-64352)",
+      "risk": "CVE-2025-64352: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-64352",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed) (CVE-2025-69092)",
+      "risk": "CVE-2025-69092: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-69092",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed) (CVE-2026-23543)",
+      "risk": "CVE-2026-23543: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-23543",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 380,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

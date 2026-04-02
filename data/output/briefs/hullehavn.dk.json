@@ -1,0 +1,55 @@
+{
+  "domain": "hullehavn.dk",
+  "cvr": "prospect",
+  "company_name": "hullehavn.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "C",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "Squarespace",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-07",
+      "days_remaining": 65
+    },
+    "server": "Squarespace",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Analytics",
+    "Google Tag Manager",
+    "HSTS",
+    "Squarespace",
+    "Squarespace Commerce",
+    "Stimulus",
+    "parallax.js"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {},
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

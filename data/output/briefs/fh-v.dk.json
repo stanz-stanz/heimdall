@@ -1,0 +1,65 @@
+{
+  "domain": "fh-v.dk",
+  "cvr": "prospect",
+  "company_name": "fh-v.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "LiteSpeed",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-02",
+      "days_remaining": 60
+    },
+    "server": "LiteSpeed",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "HSTS",
+    "HTTP/3",
+    "LiteSpeed",
+    "UIKit"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "138.201.82.135"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx2.webexchange.nu",
+      "mx1.webexchange.nu"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": []
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

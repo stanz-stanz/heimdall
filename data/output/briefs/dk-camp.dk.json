@@ -1,0 +1,75 @@
+{
+  "domain": "dk-camp.dk",
+  "cvr": "prospect",
+  "company_name": "dk-camp.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-28",
+      "days_remaining": 86
+    },
+    "server": "illumi-web02",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Tag Manager",
+    "HSTS",
+    "Microsoft ASP.NET"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "20.126.78.209"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "dkcamp-dk0e.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "google-site-verification=P_SbpOOWFTZJvT0CVyqCBEt0d2pTpPSThSENrcX7oml",
+      "google-site-verification=GHXvPUlK0VDvnxcDolgVp4odr1tukivFJQOpYqeBPCw",
+      "v=spf1 ip4:94.231.103.96 ip4:94.231.106.220 ip4:94.231.106.240 ip4:94.231.106.230 ip4:94.231.106.210 ip4:94.231.103.45 ip4:94.231.103.245 ip4:195.182.36.68 ip6:2a00:1cf0:0:11::68 ip4:195.182.36.70 ip6:2a00:1cf0:0:11::70 ip4:195.182.36.71 ip6:2a00:1cf0:0:11::71 ip6:2a00:1cf0:0:a::/64 ip4:178.23.177.69 ip6:2a00:1cf0:0:9::69 ip6:2a00:1cf0:0:51::31 ip6:2a00:1cf0:0:51::32 include:spf.protection.outlook.com include:web.shared.mysmtp.com include:spf-partner.lasertryk.dk -all",
+      "sophos-domain-verification=6e38cec1f076d9334ba489b5b018e8cfeeac4b5b"
+    ]
+  },
+  "cloud_exposure": [
+    {
+      "bucket_name": "kvoe.s3.amazonaws.com",
+      "file_count": 1
+    }
+  ],
+  "findings": [
+    {
+      "severity": "high",
+      "description": "1 exposed cloud storage bucket detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+    }
+  ]
+}

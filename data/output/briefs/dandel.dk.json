@@ -1,0 +1,64 @@
+{
+  "domain": "dandel.dk",
+  "cvr": "prospect",
+  "company_name": "dandel.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-10",
+      "days_remaining": 68
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cookiebot",
+    "HSTS"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "94.231.109.38"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "dandel-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.protection.outlook.com include:spf.antispamcloud.com include:spf.hosthouse.dk include:spf.curanet.dk ip4:86.48.37.182 -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

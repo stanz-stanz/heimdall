@@ -2,7 +2,7 @@
   "domain": "lhm.dk",
   "cvr": "prospect",
   "company_name": "lhm.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-12",
-      "days_remaining": 73
+      "days_remaining": 70
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -34,6 +36,7 @@
     "Weply",
     "jQuery"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -52,8 +55,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all",
-      "MS=ms89493526"
+      "MS=ms89493526",
+      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
     ]
   },
   "cloud_exposure": [],

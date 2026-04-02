@@ -1,0 +1,197 @@
+{
+  "domain": "dtl.eu",
+  "job_id": "scan-2026-04-02-bb3664d1",
+  "status": "completed",
+  "scan_result": {
+    "domain": "dtl.eu",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-09",
+    "ssl_days_remaining": 67,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Font Awesome",
+      "Google Tag Manager",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "Microsoft Ajax Content Delivery Network",
+      "Modernizr",
+      "jQuery CDN",
+      "jQuery:3.6.0"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:43:54.721466507Z",
+      "port": "443",
+      "url": "https://dtl.eu",
+      "input": "dtl.eu",
+      "title": "DTL - Danske Vognmænd: Forside",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "dtl.eu",
+      "host_ip": "84.22.108.126",
+      "path": "/",
+      "time": "218.121113ms",
+      "a": [
+        "84.22.108.126"
+      ],
+      "tech": [
+        "Font Awesome",
+        "Google Tag Manager",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "Microsoft Ajax Content Delivery Network",
+        "Modernizr",
+        "jQuery CDN",
+        "jQuery:3.6.0"
+      ],
+      "words": 63066,
+      "lines": 1826,
+      "status_code": 200,
+      "content_length": 137267,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "element",
+          "vendor": "matrix",
+          "cpe": "cpe:2.3:a:matrix:element:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "84.22.108.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dtl-eu.mail.eo.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:213.150.59.0/24 ip4:94.137.133.250 include:spf.defgo.com include:spf.mandrillapp.com include:spf.protection.outlook.com -all",
+        "facebook-domain-verification=msg0kldwwj9ab8qprzt1cs6utf74ps"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "dtl.eu",
+    "cvr": "prospect",
+    "company_name": "dtl.eu",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-09",
+        "days_remaining": 67
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Font Awesome",
+      "Google Tag Manager",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "Microsoft Ajax Content Delivery Network",
+      "Modernizr",
+      "jQuery CDN",
+      "jQuery:3.6.0"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "84.22.108.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dtl-eu.mail.eo.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:213.150.59.0/24 ip4:94.137.133.250 include:spf.defgo.com include:spf.mandrillapp.com include:spf.protection.outlook.com -all",
+        "facebook-domain-verification=msg0kldwwj9ab8qprzt1cs6utf74ps"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 156,
+    "ssl": 129,
+    "headers": 173,
+    "meta": 215,
+    "httpx": 2378,
+    "webanalyze": 3,
+    "dnsx": 724,
+    "crtsh": 0,
+    "ghw": 386,
+    "total_ms": 4174
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

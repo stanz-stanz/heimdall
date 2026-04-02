@@ -1,0 +1,890 @@
+{
+  "domain": "haubjergmadsen.dk",
+  "job_id": "scan-2026-04-02-e97bca94",
+  "status": "completed",
+  "scan_result": {
+    "domain": "haubjergmadsen.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-17",
+    "ssl_days_remaining": 76,
+    "detected_plugins": [
+      "LayerSlider",
+      "recent-tweets-widget",
+      "js_composer",
+      "cookies-manager",
+      "js-pages",
+      "shortcode-menu",
+      "revslider",
+      "contact-form-7",
+      "mousewheel-smooth-scroll",
+      "google-site-kit",
+      "contact-form-7-extras",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "LayerSlider": "6.7.1",
+      "recent-tweets-widget": "1.0",
+      "js_composer": "6.7.0",
+      "cookies-manager": "6.0.11",
+      "shortcode-menu": "6.0.11",
+      "revslider": "6.5.8",
+      "contact-form-7": "5.5.2",
+      "mousewheel-smooth-scroll": "1.4.10",
+      "contact-form-7-extras": "0.8.0",
+      "wordpress-seo": "17.6"
+    },
+    "detected_themes": [
+      "dt-the7__"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Bootstrap:3.3.7",
+      "BootstrapCDN:3.3.7",
+      "Cloudflare",
+      "Contact Form 7:5.5.2",
+      "Google Analytics",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "Modernizr",
+      "MySQL",
+      "Onsen UI",
+      "Osano:3.0.3",
+      "PHP",
+      "Site Kit:1.170.0",
+      "Slick",
+      "Slider Revolution:6.5.8",
+      "WordPress:6.0.11",
+      "Yoast SEO:17.6",
+      "cdnjs",
+      "jQuery",
+      "jQuery Migrate:3.3.2",
+      "reCAPTCHA",
+      "wpBakery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:53:26.224222014Z",
+      "port": "443",
+      "url": "https://haubjergmadsen.dk",
+      "input": "haubjergmadsen.dk",
+      "title": "HaubjergMadsen - mere end 25 års erfaring og knowhow med natursten",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "haubjergmadsen.dk",
+      "host_ip": "195.201.240.150",
+      "path": "/",
+      "final_url": "https://www.haubjergmadsen.dk/",
+      "time": "629.899588ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "195.201.240.150"
+      ],
+      "tech": [
+        "Bootstrap:3.3.7",
+        "BootstrapCDN:3.3.7",
+        "Cloudflare",
+        "Contact Form 7:5.5.2",
+        "Google Analytics",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "Modernizr",
+        "MySQL",
+        "Onsen UI",
+        "Osano:3.0.3",
+        "PHP",
+        "Site Kit:1.170.0",
+        "Slick",
+        "Slider Revolution:6.5.8",
+        "WordPress:6.0.11",
+        "Yoast SEO:17.6",
+        "cdnjs",
+        "jQuery",
+        "jQuery Migrate:3.3.2",
+        "reCAPTCHA",
+        "wpBakery"
+      ],
+      "words": 3705,
+      "lines": 959,
+      "status_code": 200,
+      "content_length": 69022,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "layerslider",
+          "vendor": "layerslider",
+          "cpe": "cpe:2.3:a:layerslider:layerslider:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "recent-tweets-widget",
+          "cookies-manager",
+          "shortcode-menu",
+          "contact-form-7",
+          "mousewheel-smooth-scroll",
+          "google-site-kit",
+          "contact-form-7-extras"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "195.201.240.150"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "haubjergmadsen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=ms89253668",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "haubjergmadsen.dk",
+    "cvr": "prospect",
+    "company_name": "haubjergmadsen.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Contact Form 7",
+      "Visitor tracking: Google Analytics, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-17",
+        "days_remaining": 76
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Layerslider",
+        "Recent Tweets Widget",
+        "Js_Composer",
+        "Cookies Manager",
+        "Js Pages",
+        "Shortcode Menu",
+        "Revslider",
+        "Contact Form 7",
+        "Mousewheel Smooth Scroll",
+        "Google Site Kit",
+        "Contact Form 7 Extras",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Layerslider": "6.7.1",
+        "Recent Tweets Widget": "1.0",
+        "Js_Composer": "6.7.0",
+        "Cookies Manager": "6.0.11",
+        "Shortcode Menu": "6.0.11",
+        "Revslider": "6.5.8",
+        "Contact Form 7": "5.5.2",
+        "Mousewheel Smooth Scroll": "1.4.10",
+        "Contact Form 7 Extras": "0.8.0",
+        "Wordpress Seo": "17.6"
+      },
+      "detected_themes": [
+        "Dt The7__"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:3.3.7",
+      "BootstrapCDN:3.3.7",
+      "Cloudflare",
+      "Contact Form 7:5.5.2",
+      "Google Analytics",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "Modernizr",
+      "MySQL",
+      "Onsen UI",
+      "Osano:3.0.3",
+      "PHP",
+      "Site Kit:1.170.0",
+      "Slick",
+      "Slider Revolution:6.5.8",
+      "WordPress:6.0.11",
+      "Yoast SEO:17.6",
+      "cdnjs",
+      "jQuery",
+      "jQuery Migrate:3.3.2",
+      "reCAPTCHA",
+      "wpBakery"
+    ],
+    "plugin_versions": {
+      "LayerSlider": "6.7.1",
+      "recent-tweets-widget": "1.0",
+      "js_composer": "6.7.0",
+      "cookies-manager": "6.0.11",
+      "shortcode-menu": "6.0.11",
+      "revslider": "6.5.8",
+      "contact-form-7": "5.5.2",
+      "mousewheel-smooth-scroll": "1.4.10",
+      "contact-form-7-extras": "0.8.0",
+      "wordpress-seo": "17.6"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "195.201.240.150"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "haubjergmadsen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=ms89253668",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.0.11 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Contact Form 7",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "12 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Dt The7__",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Contact Form 7 (installed 5.5.2, latest 6.1.5)",
+        "risk": "The installed version of Contact Form 7 is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Mousewheel Smooth Scroll (installed 1.4.10, latest 6.7.4)",
+        "risk": "The installed version of Mousewheel Smooth Scroll is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Contact Form 7 Extras (installed 0.8.0, latest 0.10.0)",
+        "risk": "The installed version of Contact Form 7 Extras is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 17.6, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "high",
+        "description": "LayerSlider [layerslider] < 7.7.10 (CVE-2023-47785)",
+        "risk": "CVE-2023-47785: WordPress  LayerSlider Plugin  <= 7.7.9 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-47785",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "LayerSlider [layerslider] < 7.10.1 (CVE-2024-2879)",
+        "risk": "CVE-2024-2879: WordPress  LayerSlider Plugin    7.9.11 - 7.10.0 is vulnerable to SQL Injection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2879",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 6.13.0 (CVE-2023-31213)",
+        "risk": "CVE-2023-31213: WordPress  WPBakery Page Builder Plugin  < 6.13.0 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-31213",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1805)",
+        "risk": "CVE-2024-1805: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Button onclick attribute",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1805",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1840)",
+        "risk": "CVE-2024-1840: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Author",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1840",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1841)",
+        "risk": "CVE-2024-1841: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Title tag attribute",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1841",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1842)",
+        "risk": "CVE-2024-1842: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Custom Heading tag attribute",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1842",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 7.7 (CVE-2024-5265)",
+        "risk": "CVE-2024-5265: WPBakery Page Builder <= 7.6 - Authenticated (Contributor+) Stored Cross-Site Scripting via VC Single Image link attribute",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-5265",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 7.8 (CVE-2024-5708)",
+        "risk": "CVE-2024-5708: WPBakery <= 7.7 - Authenticated (Author+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-5708",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "WPBakery [js_composer] < 7.8 (CVE-2024-5709)",
+        "risk": "CVE-2024-5709: WPBakery <= 7.7 - Authenticated (Author+) Local File Inclusion",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-5709",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4965)",
+        "risk": "CVE-2025-4965: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Author+) Stored Cross-Site Scripting via Grid Builder",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-4965",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4968)",
+        "risk": "CVE-2025-4968: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Multiple Page Builder Elements",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-4968",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 8.6 (CVE-2025-7502)",
+        "risk": "CVE-2025-7502: WPBakery Page Builder for WordPress &lt;= 8.5 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-7502",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11161)",
+        "risk": "CVE-2025-11161: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via vc_custom_heading Shortcode",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-11161",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11160)",
+        "risk": "CVE-2025-11160: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via Custom JS Module",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-11160",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPBakery [js_composer] < 8.7 (CVE-2025-10006)",
+        "risk": "CVE-2025-10006: WPBakery [js_composer] < 8.7",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-10006",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Shortcode Menu [shortcode-menu] <= 3.2 (unfixed + closed) (CVE-2023-5565)",
+        "risk": "CVE-2023-5565: Shortcode Menu <= 3.2 - Authenticated (Contributor+) Stored Cross-Site Scripting via Shortcode",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-5565",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
+        "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-1579",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.6.13 (CVE-2023-2359)",
+        "risk": "CVE-2023-2359: Slider Revolution <= 6.6.12 - Authenticated (Administrator+) Arbitrary File Upload",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-2359",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Slider Revolution [revslider] < 6.6.16 (CVE-2023-47784)",
+        "risk": "CVE-2023-47784: WordPress  Slider Revolution Plugin  <= 6.6.15 is vulnerable to Arbitrary File Upload",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-47784",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.6.15 (CVE-2023-47772)",
+        "risk": "CVE-2023-47772: WordPress  Slider Revolution Plugin  <= 6.6.14 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-47772",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.6.19 (CVE-2023-6528)",
+        "risk": "CVE-2023-6528: Slider Revolution &lt; 6.6.19 - Author+ Insecure Deserialization leading to RCE",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-6528",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.0 (CVE-2024-2306)",
+        "risk": "CVE-2024-2306: Revslider <= 6.6.20 - Authenticated (Author+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2306",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.8 (CVE-2024-4092)",
+        "risk": "CVE-2024-4092: Slider Revolution <= 6.7.7 - Authenticated (Author+) Stored Cross-Site Scripting via htmltag Parameter",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4092",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Slider Revolution [revslider] < 6.7.0 (CVE-2024-34444)",
+        "risk": "CVE-2024-34444: WordPress Slider Revolution Plugin < 6.7.0 is vulnerable to Broken Access Control",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-34444",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-34443)",
+        "risk": "CVE-2024-34443: WordPress Slider Revolution Plugin < 6.7.11 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-34443",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-4581)",
+        "risk": "CVE-2024-4581: Slider Revolution <= 6.7.11 - Authenticated (Author+) Stored Cross-Site Scripting via Add Layer class, id, and title Attributes",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4581",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-4637)",
+        "risk": "CVE-2024-4637: Slider Revolution <= 6.7.10 - Authenticated (Contributor+) Stored Cross-Site Scripting via Elementor wrapperid and zindex",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4637",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.14 (CVE-2024-37449)",
+        "risk": "CVE-2024-37449: WordPress Slider Revolution Plugin <= 6.7.13 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-37449",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.19 (CVE-2024-8107)",
+        "risk": "CVE-2024-8107: WordPress Slider Revolution Plugin <= 6.7.18 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-8107",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.37 (CVE-2025-9217)",
+        "risk": "CVE-2025-9217: WordPress Slider Revolution Plugin <= 6.7.36 is vulnerable to Arbitrary File Download",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-9217",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 6.7.38 (CVE-2025-10249)",
+        "risk": "CVE-2025-10249: Slider Revolution &lt;= 6.7.37 - Missing Authorization to Authenticated (Contributor+) Arbitrary File Read",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-10249",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
+        "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-6449",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
+        "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2242",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
+        "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4704",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
+        "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-3247",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "MouseWheel Smooth Scroll [mousewheel-smooth-scroll] < 5.7 (CVE-2021-24852)",
+        "risk": "CVE-2021-24852: WordPress MouseWheel Smooth Scroll plugin <= 5.6 - Cross-Site Request Forgery (CSRF) vulnerability leading to Plugin Setting Update",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2021-24852",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
+        "risk": "Yoast SEO <= 20.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
+        "risk": "WordPress  Yoast SEO Plugin  <= 20.2 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
+        "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-40680",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
+        "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4041",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
+        "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4984",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 1218,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 473,
+    "ssl": 82,
+    "headers": 392,
+    "meta": 748,
+    "httpx": 3117,
+    "webanalyze": 4,
+    "dnsx": 718,
+    "crtsh": 0,
+    "ghw": 160,
+    "total_ms": 10610
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

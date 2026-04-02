@@ -2,7 +2,7 @@
   "domain": "cptest.dk",
   "cvr": "prospect",
   "company_name": "cptest.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,17 +16,33 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-25",
-      "days_remaining": 86
+      "days_remaining": 83
     },
     "server": "Apache",
     "detected_plugins": [
-      "Jet Engine",
-      "Elementor Pro",
-      "Connect Polylang Elementor",
-      "Elementor",
-      "Jet Blocks",
       "Formidable",
-      "Jet Elements"
+      "Jet Engine",
+      "Jet Elements",
+      "Elementor",
+      "Connect Polylang Elementor",
+      "Elementor Pro",
+      "Jet Blocks",
+      "Redirection",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Formidable": "11151740",
+      "Jet Engine": "3.0.3.1",
+      "Jet Elements": "2.6.7",
+      "Elementor": "5.23.0",
+      "Connect Polylang Elementor": "2.4.3",
+      "Elementor Pro": "1.0.1",
+      "Jet Blocks": "1.3.3",
+      "Wordpress Seo": "21.5"
+    },
+    "detected_themes": [
+      "Hello Elementor",
+      "Hello Theme Child Master"
     ],
     "headers": {
       "x_frame_options": false,
@@ -50,6 +66,16 @@
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "formidable": "11151740",
+    "jet-engine": "3.0.3.1",
+    "jet-elements": "2.6.7",
+    "elementor": "5.23.0",
+    "connect-polylang-elementor": "2.4.3",
+    "elementor-pro": "1.0.1",
+    "jet-blocks": "1.3.3",
+    "wordpress-seo": "21.5"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -68,8 +94,8 @@
       "b.portsdns.net"
     ],
     "txt": [
-      "MS=ms99709313",
-      "v=spf1 include:aarsleff.com ~all"
+      "v=spf1 include:aarsleff.com ~all",
+      "MS=ms99709313"
     ]
   },
   "cloud_exposure": [],
@@ -101,13 +127,852 @@
     },
     {
       "severity": "info",
-      "description": "7 WordPress plugins detected",
+      "description": "9 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Hello Elementor, Hello Theme Child Master",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Connect Polylang Elementor (installed 2.4.3, latest 2.5.5)",
+      "risk": "The installed version of Connect Polylang Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 21.5, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.1.3.1 (CVE-2023-1406)",
+      "risk": "CVE-2023-1406: WordPress  JetEngine Plugin  < 3.1.3.1 is vulnerable to Remote Code Execution (RCE)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-1406",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.2.5.2 (CVE-2023-48762)",
+      "risk": "CVE-2023-48762: WordPress  JetEngine Plugin  <= 3.2.5.1 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48762",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.2.5.2 (CVE-2023-48761)",
+      "risk": "CVE-2023-48761: WordPress  JetEngine Plugin  <= 3.2.5.1 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48761",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetEngine [jet-engine] < 3.2.5 (CVE-2023-48758)",
+      "risk": "CVE-2023-48758: WordPress  JetEngine Plugin  <= 3.2.4 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48758",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetEngine [jet-engine] < 3.2.5 (CVE-2023-48757)",
+      "risk": "CVE-2023-48757: WordPress  JetEngine Plugin  <= 3.2.4 is vulnerable to Privilege Escalation",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48757",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.6.3 (CVE-2025-0369)",
+      "risk": "CVE-2025-0369: WordPress JetEngine Plugin <= 3.6.2 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-0369",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.6.5 (CVE-2025-26870)",
+      "risk": "CVE-2025-26870: JetEngine &lt;= 3.6.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-26870",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.7.1.1 (CVE-2025-53195)",
+      "risk": "CVE-2025-53195: JetEngine &lt;= 3.7.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-53195",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.7.1.1 (CVE-2025-53196)",
+      "risk": "CVE-2025-53196: JetEngine &lt;= 3.7.0 - Authenticated (Subscriber+) Information Exposure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-53196",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.7.2 (CVE-2025-54688)",
+      "risk": "CVE-2025-54688: JetEngine &lt;= 3.7.1.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-54688",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetEngine [jet-engine] < 3.7.1.1 (CVE-2025-53194)",
+      "risk": "CVE-2025-53194: JetEngine [jet-engine] < 3.7.1.1",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-53194",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] <= 3.7.3 (unfixed) (CVE-2025-49938)",
+      "risk": "CVE-2025-49938: JetEngine [jet-engine] <= 3.7.3 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49938",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] <= 3.8.1.1 (unfixed) (CVE-2025-69333)",
+      "risk": "CVE-2025-69333: JetEngine [jet-engine] <= 3.8.1.1 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-69333",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] <= 3.7.7 (unfixed) (CVE-2025-67923)",
+      "risk": "CVE-2025-67923: JetEngine [jet-engine] <= 3.7.7 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67923",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] <= 3.8.0 (unfixed) (CVE-2025-68495)",
+      "risk": "CVE-2025-68495: JetEngine [jet-engine] <= 3.8.0 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-68495",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] <= 3.7.2 (unfixed) (CVE-2026-28134)",
+      "risk": "CVE-2026-28134: JetEngine [jet-engine] <= 3.7.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28134",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetEngine [jet-engine] < 3.8.4.1 (CVE-2026-32355)",
+      "risk": "CVE-2026-32355: JetEngine [jet-engine] < 3.8.4.1",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32355",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "JetElements For Elementor [jet-elements] < 2.6.11 (CVE-2023-39157)",
+      "risk": "CVE-2023-39157: JetElements <= 2.6.10 - Authenticated (Contributor+) Remote Code Execution",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-39157",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetElements For Elementor [jet-elements] < 2.6.13.1 (CVE-2023-48760)",
+      "risk": "CVE-2023-48760: WordPress  JetElements For Elementor Plugin  <= 2.6.13 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48760",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.6.13.1 (CVE-2023-48761)",
+      "risk": "CVE-2023-48761: WordPress  JetElements For Elementor Plugin  <= 2.6.13 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48761",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.6.13.1 (CVE-2023-48762)",
+      "risk": "CVE-2023-48762: WordPress  JetElements For Elementor Plugin  <= 2.6.13 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48762",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetElements For Elementor [jet-elements] < 2.6.13.1 (CVE-2023-48759)",
+      "risk": "CVE-2023-48759: WordPress  JetElements For Elementor Plugin  <= 2.6.13 is vulnerable to Arbitrary File Download",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48759",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.6.20.1 (CVE-2024-7144)",
+      "risk": "CVE-2024-7144: JetElements <= 2.6.20 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-7144",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetElements For Elementor [jet-elements] < 2.6.20.1 (CVE-2024-7145)",
+      "risk": "CVE-2024-7145: JetElements <= 2.6.20 - Authenticated (Contributor+) Arbitrary Local File Inclusion",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-7145",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.7.3 (CVE-2025-0371)",
+      "risk": "CVE-2025-0371: Jet Elements <= 2.7.2.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Multiple Widgets",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-0371",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.7.4.2 (CVE-2025-39448)",
+      "risk": "CVE-2025-39448: JetElements For Elementor &lt;= 2.7.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-39448",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetElements For Elementor [jet-elements] < 2.7.4.2 (CVE-2025-39447)",
+      "risk": "CVE-2025-39447: JetElements For Elementor &lt;= 2.7.4.1 - Missing Authorization",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-39447",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.7.7.1 (CVE-2025-53982)",
+      "risk": "CVE-2025-53982: JetElements For Elementor &lt;= 2.7.7 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-53982",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.7.7.1 (CVE-2025-53983)",
+      "risk": "CVE-2025-53983: JetElements For Elementor &lt;= 2.7.7 - Authenticated (Subscriber+) Information Disclosure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-53983",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] < 2.7.9.1 (CVE-2025-55714)",
+      "risk": "CVE-2025-55714: JetElements For Elementor &lt;= 2.7.9 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-55714",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed) (CVE-2025-49939)",
+      "risk": "CVE-2025-49939: JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49939",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed) (CVE-2025-64355)",
+      "risk": "CVE-2025-64355: JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-64355",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed) (CVE-2026-24958)",
+      "risk": "CVE-2026-24958: JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-24958",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+      "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-1329",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+      "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67588",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+      "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32445",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+      "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32352",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.0.6 (CVE-2020-26596)",
+      "risk": "CVE-2020-26596: Elementor Pro <= 3.0.5 - Authenticated Remote Code Execution in Dynamic OOO Widget",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-26596",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 2.9.4 (CVE-2020-13125)",
+      "risk": "CVE-2020-13125: Elementor Pro [elementor-pro] < 2.9.4",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-13125",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 2.9.4 (CVE-2020-13126)",
+      "risk": "CVE-2020-13126: WordPress Elementor Pro premium plugin <= 2.9.3 - Authenticated Arbitrary File Upload vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-13126",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 2.0.10 (CVE-2018-18379)",
+      "risk": "CVE-2018-18379: Elementor Pro <= 2.0.9 - Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2018-18379",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.11.7",
+      "risk": "Elementor Pro <= 3.11.6 - Authenticated(Subscriber+) Privilege Escalation via update_page_option",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.11.7",
+      "risk": "WordPress  Elementor Pro Plugin  <= 3.11.6 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Pro [elementor-pro] < 3.11.7 (CVE-2023-3124)",
+      "risk": "CVE-2023-3124: Elementor Pro &lt; 3.11.7 - Subscriber+ Arbitrary Options Update",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-3124",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.13.1 (CVE-2023-35050)",
+      "risk": "CVE-2023-35050: WordPress  Elementor Pro Plugin  <= 3.13.0 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-35050",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.19.3 (CVE-2024-23523)",
+      "risk": "CVE-2024-23523: WordPress  Elementor Pro Plugin    <= 3.19.2 is vulnerable to Sensitive Data Exposure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-23523",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2121)",
+      "risk": "CVE-2024-2121: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-2121",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2120)",
+      "risk": "CVE-2024-2120: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Navigation",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-2120",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2781)",
+      "risk": "CVE-2024-2781: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting via video_html_tag",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-2781",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-1364)",
+      "risk": "CVE-2024-1364: Elementor Website Builder Pro <= 3.20.1 - Authententicated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-1364",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-1521)",
+      "risk": "CVE-2024-1521: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Form Widget SVGZ File Upload",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-1521",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.21.2 (CVE-2024-4107)",
+      "risk": "CVE-2024-4107: Elementor Website Builder Pro <= 3.21.0 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4107",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Pro [elementor-pro] < 3.21.3 (CVE-2024-35656)",
+      "risk": "CVE-2024-35656: WordPress Elementor Pro Plugin <= 3.21.2 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-35656",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
+      "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-8494",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
+      "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3076",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
+      "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-50555",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48761)",
+      "risk": "CVE-2023-48761: Multiple Plugins by Crocoblock <= (Various Versions) - Missing Authorization",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48761",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48760)",
+      "risk": "CVE-2023-48760: WordPress  JetBlocks For Elementor Plugin  <= 1.3.8 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48760",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48762)",
+      "risk": "CVE-2023-48762: WordPress  JetBlocks For Elementor Plugin  <= 1.3.8 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48762",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48756)",
+      "risk": "CVE-2023-48756: WordPress  JetBlocks For Elementor Plugin  <= 1.3.8 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48756",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.12.1 (CVE-2024-7147)",
+      "risk": "CVE-2024-7147: JetBlocks <= 1.3.12 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-7147",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.16.1 (CVE-2025-30987)",
+      "risk": "CVE-2025-30987: WordPress JetBlocks For Elementor Plugin <= 1.3.16 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-30987",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.16.1 (CVE-2025-39451)",
+      "risk": "CVE-2025-39451: JetBlocks For Elementor &lt;= 1.3.16 - Missing Authorization",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-39451",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.19.1 (CVE-2025-53989)",
+      "risk": "CVE-2025-53989: JetBlocks For Elementor &lt;= 1.3.19 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-53989",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetBlocks For Elementor [jet-blocks] < 1.3.19 (CVE-2025-53988)",
+      "risk": "CVE-2025-53988: JetBlocks For Elementor &lt;= 1.3.18 - Authenticated (Subscriber+) Information Disclsoure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-53988",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "JetBlocks For Elementor [jet-blocks] <= 1.3.18 (unfixed) (CVE-2025-49934)",
+      "risk": "CVE-2025-49934: JetBlocks For Elementor [jet-blocks] <= 1.3.18 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49934",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
+      "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4041",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
+      "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4984",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 154,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

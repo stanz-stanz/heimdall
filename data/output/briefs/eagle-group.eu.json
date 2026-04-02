@@ -1,0 +1,98 @@
+{
+  "domain": "eagle-group.eu",
+  "cvr": "prospect",
+  "company_name": "eagle-group.eu",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-01",
+      "days_remaining": 29
+    },
+    "server": "Apache/2",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server:2",
+    "Bootstrap:5.3.3",
+    "Contao",
+    "Google Tag Manager",
+    "Linkedin Ads",
+    "PHP:7.3.31",
+    "YouTube",
+    "jQuery",
+    "jQuery UI",
+    "jsDelivr"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "164.132.132.204"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "eaglegroup-eu01c.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns6.az.pl",
+      "ns7.az.pl",
+      "ns8.az.pl"
+    ],
+    "txt": [
+      "pardot1109192=b97f0324d659be29f5b4da502e054f1adc421f12e8a4fee6b391fc1995f7f093",
+      "MS=ms33033860",
+      "v=spf1 include:spf.protection.outlook.com include:_spf.salesforce.com include:aspmx.pardot.com -all",
+      "sending_domain1109192=323cdf18daa74216c8b820b3c613bff4d6ca9f39407d6c646b139ec3403ffead",
+      "apple-domain-verification=BptIWdU8qIPexDv2",
+      "60c2b45cb1c966b355418c94427a18bad48dff72133cc28c59028be5b3ef7bf",
+      "l13b8p4luimnc9ft74kk17uqs8",
+      "google-site-verification=hkMnpl2_3FQyg_9yS6O5mRJ2F5RYqW_nsJkw5F93_C4",
+      "include:25346212.spf05.hubspotemail.net"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "SSL certificate expires in 29 days",
+      "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
+    },
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP:7.3.31",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

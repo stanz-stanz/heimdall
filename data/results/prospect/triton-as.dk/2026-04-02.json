@@ -1,0 +1,324 @@
+{
+  "domain": "triton-as.dk",
+  "job_id": "scan-2026-04-02-355919c4",
+  "status": "completed",
+  "scan_result": {
+    "domain": "triton-as.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-28",
+    "ssl_days_remaining": 87,
+    "detected_plugins": [
+      "cookie-law-info",
+      "woocommerce",
+      "divi-builder",
+      "wordfence",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "cookie-law-info": "3.4.0",
+      "wordpress-seo": "27.2"
+    },
+    "detected_themes": [
+      "Divi",
+      "divi-child"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "CookieYes:3.4.0",
+      "Divi",
+      "FitVids.JS:4.27.6",
+      "Google Analytics",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "WordPress",
+      "Yoast SEO:27.2",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "jQuery Mobile:4.27.6"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:23:10.576170995Z",
+      "port": "443",
+      "url": "https://triton-as.dk",
+      "input": "triton-as.dk",
+      "title": "Triton Ejendomme A/S - udlejningsboliger i Horsens, Vejle, Kolding og Give",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "triton-as.dk",
+      "host_ip": "134.209.224.39",
+      "path": "/",
+      "time": "808.955121ms",
+      "a": [
+        "134.209.224.39"
+      ],
+      "tech": [
+        "CookieYes:3.4.0",
+        "Divi",
+        "FitVids.JS:4.27.6",
+        "Google Analytics",
+        "MySQL",
+        "Nginx",
+        "PHP",
+        "WordPress",
+        "Yoast SEO:27.2",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "jQuery Mobile:4.27.6"
+      ],
+      "words": 4949,
+      "lines": 630,
+      "status_code": 200,
+      "content_length": 165627,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "cookie-law-info",
+          "vendor": "developer",
+          "cpe": "cpe:2.3:a:developer:cookie-law-info:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "cookie-law-info"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "134.209.224.39"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "d319029.b.ess.de.barracudanetworks.com",
+        "d319029.a.ess.de.barracudanetworks.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=ms65653223",
+        "v=spf1 ip4:62.107.190.6 include:spf.protection.outlook.com include:sendgrid.net -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "triton-as.dk",
+    "cvr": "prospect",
+    "company_name": "triton-as.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce",
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-28",
+        "days_remaining": 87
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Cookie Law Info",
+        "Woocommerce",
+        "Divi Builder",
+        "Wordfence",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Cookie Law Info": "3.4.0",
+        "Wordpress Seo": "27.2"
+      },
+      "detected_themes": [
+        "Divi",
+        "Divi Child"
+      ],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "CookieYes:3.4.0",
+      "Divi",
+      "FitVids.JS:4.27.6",
+      "Google Analytics",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "WordPress",
+      "Yoast SEO:27.2",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "jQuery Mobile:4.27.6"
+    ],
+    "plugin_versions": {
+      "cookie-law-info": "3.4.0",
+      "wordpress-seo": "27.2"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "134.209.224.39"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "d319029.b.ess.de.barracudanetworks.com",
+        "d319029.a.ess.de.barracudanetworks.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=ms65653223",
+        "v=spf1 ip4:62.107.190.6 include:spf.protection.outlook.com include:sendgrid.net -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "5 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Divi, Divi Child",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 27.2, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+        "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35945",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 135,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 590,
+    "ssl": 83,
+    "headers": 399,
+    "meta": 1230,
+    "httpx": 3002,
+    "webanalyze": 2,
+    "dnsx": 738,
+    "crtsh": 0,
+    "ghw": 270,
+    "total_ms": 6829
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

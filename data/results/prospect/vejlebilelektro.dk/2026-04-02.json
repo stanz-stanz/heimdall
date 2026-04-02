@@ -1,0 +1,193 @@
+{
+  "domain": "vejlebilelektro.dk",
+  "job_id": "scan-2026-04-02-37d0926c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vejlebilelektro.dk",
+    "cms": "",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-27",
+    "ssl_days_remaining": 86,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:24:34.847747702Z",
+      "port": "443",
+      "url": "https://vejlebilelektro.dk",
+      "input": "vejlebilelektro.dk",
+      "title": "Autocamper Specialist Vejle | Vejle Bil Elektro",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vejlebilelektro.dk",
+      "host_ip": "46.30.215.3",
+      "path": "/",
+      "time": "132.654137ms",
+      "a": [
+        "46.30.215.3"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10e:1a:9182:7da2:eae4"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Varnish"
+      ],
+      "words": 4225,
+      "lines": 207,
+      "status_code": 200,
+      "content_length": 77988,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.30.215.3"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10e:1a:9182:7da2:eae4"
+      ],
+      "cname": [],
+      "mx": [
+        "mx3.pub.mailpod5-cph3.one.com",
+        "mx1.pub.mailpod5-cph3.one.com",
+        "mx2.pub.mailpod5-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vejlebilelektro.dk",
+    "cvr": "prospect",
+    "company_name": "vejlebilelektro.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-27",
+        "days_remaining": 86
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.30.215.3"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10e:1a:9182:7da2:eae4"
+      ],
+      "cname": [],
+      "mx": [
+        "mx3.pub.mailpod5-cph3.one.com",
+        "mx1.pub.mailpod5-cph3.one.com",
+        "mx2.pub.mailpod5-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 111,
+    "ssl": 88,
+    "headers": 90,
+    "meta": 123,
+    "httpx": 2282,
+    "webanalyze": 4,
+    "dnsx": 747,
+    "crtsh": 0,
+    "ghw": 205,
+    "total_ms": 3663
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

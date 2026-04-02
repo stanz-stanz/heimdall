@@ -1,0 +1,471 @@
+{
+  "domain": "shoppingvejle.dk",
+  "job_id": "scan-2026-04-02-a808668f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "shoppingvejle.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-26",
+    "ssl_days_remaining": 53,
+    "detected_plugins": [
+      "a-z-listing",
+      "the-events-calendar",
+      "elementor",
+      "elementor-pro",
+      "advanced-ads",
+      "better-wp-security",
+      "akismet",
+      "seo-by-rank-math",
+      "wordfence"
+    ],
+    "plugin_versions": {
+      "a-z-listing": "4.3.1",
+      "the-events-calendar": "6.15.18",
+      "elementor": "4.0.0",
+      "elementor-pro": "3.35.1"
+    },
+    "detected_themes": [
+      "hello-elementor"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Elementor:4.0.0",
+      "Google AdSense",
+      "Google Analytics",
+      "Google Maps",
+      "HSTS",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "Site Kit:1.175.0",
+      "Swiper",
+      "The Events Calendar",
+      "WordPress",
+      "imagesLoaded:5.0.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:18:07.898223409Z",
+      "port": "443",
+      "url": "https://shoppingvejle.dk",
+      "input": "shoppingvejle.dk",
+      "title": "Find, besøg og støt de lokale butikker i Vejle 2023",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "shoppingvejle.dk",
+      "host_ip": "93.191.156.250",
+      "path": "/",
+      "time": "675.855775ms",
+      "a": [
+        "93.191.156.250"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Cookiebot",
+        "Elementor:4.0.0",
+        "Google AdSense",
+        "Google Analytics",
+        "Google Maps",
+        "HSTS",
+        "HTTP/3",
+        "MySQL",
+        "PHP",
+        "Site Kit:1.175.0",
+        "Swiper",
+        "The Events Calendar",
+        "WordPress",
+        "imagesLoaded:5.0.0",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 6810,
+      "lines": 1893,
+      "status_code": 200,
+      "content_length": 185259,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "the_events_calendar",
+          "vendor": "stellarwp",
+          "cpe": "cpe:2.3:a:stellarwp:the_events_calendar:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "the-events-calendar",
+          "vendor": "developer",
+          "cpe": "cpe:2.3:a:developer:the-events-calendar:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "a-z-listing",
+          "the-events-calendar",
+          "elementor",
+          "advanced-ads"
+        ],
+        "themes": [
+          "hello-elementor"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "93.191.156.250"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "shoppingvejle.dk",
+    "cvr": "prospect",
+    "company_name": "shoppingvejle.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-26",
+        "days_remaining": 53
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "A Z Listing",
+        "The Events Calendar",
+        "Elementor",
+        "Elementor Pro",
+        "Advanced Ads",
+        "Better Wp Security",
+        "Akismet",
+        "Seo By Rank Math",
+        "Wordfence"
+      ],
+      "plugin_versions": {
+        "A Z Listing": "4.3.1",
+        "The Events Calendar": "6.15.18",
+        "Elementor": "4.0.0",
+        "Elementor Pro": "3.35.1"
+      },
+      "detected_themes": [
+        "Hello Elementor"
+      ],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Elementor:4.0.0",
+      "Google AdSense",
+      "Google Analytics",
+      "Google Maps",
+      "HSTS",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "Site Kit:1.175.0",
+      "Swiper",
+      "The Events Calendar",
+      "WordPress",
+      "imagesLoaded:5.0.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "a-z-listing": "4.3.1",
+      "the-events-calendar": "6.15.18",
+      "elementor": "4.0.0",
+      "elementor-pro": "3.35.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "93.191.156.250"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "info",
+        "description": "9 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Hello Elementor",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Elementor (installed 4.0.0, latest 4.0.1)",
+        "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed) (CVE-2025-69352)",
+        "risk": "CVE-2025-69352: The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-69352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Advanced Ads – Ad Manager &amp; AdSense [advanced-ads] < 1.52.2 (CVE-2024-2290)",
+        "risk": "CVE-2024-2290: Advanced Ads – Ad Manager & AdSense <= 1.52.1 - Authenticated (Admin+) PHP Object Injection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2290",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Advanced Ads – Ad Manager &amp; AdSense [advanced-ads] < 2.0.13 (CVE-2025-10487)",
+        "risk": "CVE-2025-10487: WordPress Advanced Ads Plugin <= 2.0.12 is vulnerable to Arbitrary Code Execution",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-10487",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Advanced Ads – Ad Manager &amp; AdSense [advanced-ads] < 2.0.15 (CVE-2025-13592)",
+        "risk": "CVE-2025-13592: Advanced Ads – Ad Manager &amp; AdSense [advanced-ads] < 2.0.15",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-13592",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
+        "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-23888",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
+        "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-9314",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
+        "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-11620",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
+        "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64351",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
+        "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64350",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 443,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 1570,
+    "ssl": 74,
+    "headers": 362,
+    "meta": 1457,
+    "httpx": 4052,
+    "webanalyze": 4,
+    "dnsx": 813,
+    "crtsh": 0,
+    "ghw": 227,
+    "total_ms": 9972
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

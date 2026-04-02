@@ -1,0 +1,79 @@
+{
+  "domain": "trainyoureyes.com",
+  "cvr": "prospect",
+  "company_name": "trainyoureyes.com",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-05-07",
+      "days_remaining": 35
+    },
+    "server": "cloudflare",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "HTTP/3",
+    "Materialize CSS:1.0.0",
+    "Slick",
+    "cdnjs",
+    "jQuery CDN",
+    "jQuery:3.4.1",
+    "jsDelivr"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "104.21.83.83",
+      "172.67.218.59"
+    ],
+    "aaaa": [
+      "2606:4700:3032::ac43:da3b",
+      "2606:4700:3031::6815:5353"
+    ],
+    "cname": [],
+    "mx": [
+      "mx.spamfilter.io"
+    ],
+    "ns": [
+      "ram.ns.cloudflare.com",
+      "martha.ns.cloudflare.com"
+    ],
+    "txt": [
+      "v=spf1 include:spf.scannet.dk ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    }
+  ]
+}

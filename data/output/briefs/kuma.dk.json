@@ -1,0 +1,92 @@
+{
+  "domain": "kuma.dk",
+  "cvr": "prospect",
+  "company_name": "kuma.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "B",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "E-commerce platform: Magento"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "Magento",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-14",
+      "days_remaining": 42
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Enquire.js",
+    "Lightbox",
+    "Magento:\\1",
+    "Modernizr",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "Prototype",
+    "imagesLoaded",
+    "jQuery:1.12.1",
+    "script.aculo.us"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.31.76.119"
+    ],
+    "aaaa": [
+      "2a00:b920:2:1337::119"
+    ],
+    "cname": [],
+    "mx": [
+      "kuma-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "v=spf1 include:spf.mailjet.com a include:spf.protection.outlook.com include:spf.magepartner.net include:spfrerouting.xink.io ip4:40.68.36.243 -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "medium",
+      "description": "Magento version \\1 publicly disclosed",
+      "risk": "The exact Magento version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

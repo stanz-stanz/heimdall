@@ -1,0 +1,160 @@
+{
+  "domain": "brdrhojrup.dk",
+  "job_id": "scan-2026-04-02-68ac920f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "brdrhojrup.dk",
+    "cms": "Webflow",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-26",
+    "ssl_days_remaining": 54,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Font API",
+      "Google Hosted Libraries",
+      "HSTS",
+      "HTTP/3",
+      "Webflow",
+      "jQuery:3.5.1",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:37:16.031025168Z",
+      "port": "443",
+      "url": "https://brdrhojrup.dk",
+      "input": "brdrhojrup.dk",
+      "title": "brdrhojrup",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "brdrhojrup.dk",
+      "host_ip": "198.202.211.1",
+      "path": "/",
+      "final_url": "https://www.brdrhojrup.dk/",
+      "time": "641.155578ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "198.202.211.1"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Google Font API",
+        "Google Hosted Libraries",
+        "HSTS",
+        "HTTP/3",
+        "Webflow",
+        "jQuery:3.5.1",
+        "jsDelivr"
+      ],
+      "words": 2915,
+      "lines": 425,
+      "status_code": 200,
+      "content_length": 53124,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "brdrhojrup.dk",
+    "cvr": "prospect",
+    "company_name": "brdrhojrup.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "Webflow",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-26",
+        "days_remaining": 54
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Font API",
+      "Google Hosted Libraries",
+      "HSTS",
+      "HTTP/3",
+      "Webflow",
+      "jQuery:3.5.1",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 544,
+    "ssl": 69,
+    "headers": 743,
+    "meta": 405,
+    "httpx": 2508,
+    "webanalyze": 4,
+    "total_ms": 4281
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

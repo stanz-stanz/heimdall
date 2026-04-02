@@ -2,7 +2,7 @@
   "domain": "supersellers.dk",
   "cvr": "prospect",
   "company_name": "supersellers.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "C",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-27",
-      "days_remaining": 89
+      "days_remaining": 86
     },
     "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -34,36 +36,12 @@
     "Klaviyo",
     "Shopify"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "104.26.6.29",
-      "104.26.7.29",
-      "172.67.69.179"
-    ],
-    "aaaa": [
-      "2606:4700:20::681a:61d",
-      "2606:4700:20::681a:71d",
-      "2606:4700:20::ac43:45b3"
-    ],
-    "cname": [],
-    "mx": [
-      "supersellers-dk.mail.protection.outlook.com"
-    ],
-    "ns": [
-      "harlee.ns.cloudflare.com",
-      "wesley.ns.cloudflare.com"
-    ],
-    "txt": [
-      "MS=ms98420429",
-      "google-site-verification=OQDwW9PxqfSEH_UBq7UWfjXzdf6oTMm2Q1TFNlh8mT4",
-      "v=spf1 a ip4:135.181.115.119 ip4:217.182.33.13 ip4:79.137.1.162 include:web.shared.mysmtp.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.consignor.com ~all",
-      "klaviyo-site-verification=QZabHA"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": []
 }

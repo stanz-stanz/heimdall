@@ -2,7 +2,7 @@
   "domain": "strauss.dk",
   "cvr": "prospect",
   "company_name": "strauss.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -19,12 +19,18 @@
       "days_remaining": -1
     },
     "server": "Apache",
-    "detected_plugins": [],
+    "detected_plugins": [
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Wordpress Seo": "20.10"
+    },
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": false
     }
   },
   "tech_stack": [
@@ -45,6 +51,9 @@
     "jQuery Migrate:3.4.0",
     "spin.js:21.8"
   ],
+  "plugin_versions": {
+    "wordpress-seo": "20.10"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -58,9 +67,9 @@
     "cname": [],
     "mx": [
       "mx2.pub.mailpod9-cph3.one.com",
+      "mx3.pub.mailpod9-cph3.one.com",
       "mx4.pub.mailpod9-cph3.one.com",
-      "mx1.pub.mailpod9-cph3.one.com",
-      "mx3.pub.mailpod9-cph3.one.com"
+      "mx1.pub.mailpod9-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -94,14 +103,73 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
       "severity": "medium",
       "description": "WordPress version 6.2.9 publicly disclosed",
       "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
     },
     {
+      "severity": "info",
+      "description": "1 WordPress plugin detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 20.10, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
+      "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-40680",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
+      "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4041",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
+      "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4984",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 150,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

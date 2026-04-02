@@ -2,10 +2,12 @@
   "domain": "foodwithyou.com",
   "cvr": "prospect",
   "company_name": "foodwithyou.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce"
+  ],
   "industry": "",
   "technology": {
     "cms": "WordPress",
@@ -14,22 +16,42 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 49
+      "days_remaining": 46
     },
     "server": "Apache",
     "detected_plugins": [
-      "Sitepress Multilingual Cms",
       "Wp Seopress Pro",
-      "Elementor",
-      "Elementskit Lite",
-      "Ultimate Elementor",
-      "Essential Addons For Elementor Lite",
-      "3D Flipbook Dflip Lite",
-      "Bdthemes Element Pack",
-      "Astra Addon",
+      "Sitepress Multilingual Cms",
       "Complianz Gdpr",
+      "3D Flipbook Dflip Lite",
+      "Elementor",
       "Elementor Pro",
-      "Dynamicconditions"
+      "Essential Addons For Elementor Lite",
+      "Ultimate Elementor",
+      "Bdthemes Element Pack",
+      "Elementskit Lite",
+      "Dynamicconditions",
+      "Astra Addon",
+      "Woocommerce",
+      "Better Wp Security",
+      "Wp Rocket"
+    ],
+    "plugin_versions": {
+      "Sitepress Multilingual Cms": "1",
+      "Complianz Gdpr": "1773749704",
+      "3D Flipbook Dflip Lite": "2.4.27",
+      "Elementor": "4.0.0",
+      "Elementor Pro": "4.0.0",
+      "Essential Addons For Elementor Lite": "6.5.13",
+      "Ultimate Elementor": "1.44.1",
+      "Bdthemes Element Pack": "3.21.7",
+      "Elementskit Lite": "3.8.2",
+      "Dynamicconditions": "1.7.5",
+      "Astra Addon": "4.12.4"
+    },
+    "detected_themes": [
+      "Astra",
+      "Fwy Theme"
     ],
     "headers": {
       "x_frame_options": false,
@@ -42,7 +64,7 @@
     "Apache HTTP Server",
     "Complianz",
     "Dynamic Conditions:1.7.5",
-    "Elementor:3.35.9",
+    "Elementor:4.0.0",
     "Essential Addons for Elementor",
     "MySQL",
     "PHP:8.4.19",
@@ -54,6 +76,19 @@
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "sitepress-multilingual-cms": "1",
+    "complianz-gdpr": "1773749704",
+    "3d-flipbook-dflip-lite": "2.4.27",
+    "elementor": "4.0.0",
+    "elementor-pro": "4.0.0",
+    "essential-addons-for-elementor-lite": "6.5.13",
+    "ultimate-elementor": "1.44.1",
+    "bdthemes-element-pack": "3.21.7",
+    "elementskit-lite": "3.8.2",
+    "dynamicconditions": "1.7.5",
+    "astra-addon": "4.12.4"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -105,14 +140,457 @@
       "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
     },
     {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
       "severity": "info",
-      "description": "12 WordPress plugins detected",
+      "description": "15 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP:8.4.19",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Astra, Fwy Theme",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Elementor (installed 4.0.0, latest 4.0.1)",
+      "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.3.8 (CVE-2020-10568)",
+      "risk": "CVE-2020-10568: WordPress WPML plugin <= 4.3.6 - Authenticated Cross-Site Request Forgery (CSRF) vulnerability leading to Remote Code Execution (RCE)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-10568",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] >= 2.9.3 - <= 3.2.6 (CVE-2015-9416)",
+      "risk": "CVE-2015-9416: WPML 2.9.3-3.2.6 - Cross-Site Scripting in Accept-Language Header",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-9416",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.0 (CVE-2018-18069)",
+      "risk": "CVE-2018-18069: WPML <= 3.6.3 - Unauthenticated Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2018-18069",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2791)",
+      "risk": "CVE-2015-2791: WordPress WPML Plugin <= 3.1.8 - SQL Injection #1",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2791",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2792)",
+      "risk": "CVE-2015-2792: WordPress WPML Plugin <= 3.1.8 - Multiple Vulnerabilities",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2792",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2314)",
+      "risk": "CVE-2015-2314: WordPress WPML Plugin <= 3.1.9.1 - Multiple Vulnerabilities",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2314",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 3.1.9 (CVE-2015-2315)",
+      "risk": "CVE-2015-2315: WordPress WPML Plugin <= 3.1.8 - XSS",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2315",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 3.1.7.2",
+      "risk": "WordPress Multilingual CMS Plugin <= 3.1.7.1 - Full Path Disclosure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 3.2.7",
+      "risk": "WordPress WPML Plugin <= 3.2.6 - Cross Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.5.14 (CVE-2022-45071)",
+      "risk": "CVE-2022-45071: WordPress WPML Multilingual CMS premium plugin <= 4.5.13 - Cross-Site Request Forgery (CSRF) vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-45071",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.5.11 (CVE-2022-38461)",
+      "risk": "CVE-2022-38461: WordPress WPML Multilingual CMS premium plugin <= 4.5.10 - Broken Access Control vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-38461",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.5.11 (CVE-2022-38974)",
+      "risk": "CVE-2022-38974: WordPress WPML Multilingual CMS premium plugin <= 4.5.10 - Broken Access Control vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-38974",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.5.14 (CVE-2022-45072)",
+      "risk": "CVE-2022-45072: WordPress WPML Multilingual CMS premium plugin <= 4.5.13 - Cross-Site Request Forgery (CSRF) vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-45072",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.5.11",
+      "risk": "WPML <= 4.5.10 - Unprotected AJAX Actions",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
+      "risk": "WordPress  WPML - WordPress Multilingual  Plugin  < 4.6.1 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
+      "risk": "WPML <= 4.6.0 - Reflected Cross-Site Scripting via wp_lang",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
+      "risk": "WPML <= 4.6.1 - Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 3.1.7.2",
+      "risk": "WordPress  Multilingual CMS Plugin  <= 3.1.7.1 is vulnerable to Full Path Disclosure (FPD)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
+      "risk": "WPML Multilingual CMS &lt; 4.6.1 - Reflected Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "WPML [sitepress-multilingual-cms] < 4.6.13 (CVE-2024-6386)",
+      "risk": "CVE-2024-6386: WordPress Multilingual CMS Plugin <= 4.6.12 is vulnerable to Remote Code Execution (RCE)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-6386",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] >= 3.6.0 - <= 4.7.3 (CVE-2025-3488)",
+      "risk": "CVE-2025-3488: WPML Multilingual CMS 3.6.0 - 4.7.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via wpml_language_switcher Shortcode",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3488",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+      "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-1329",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+      "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67588",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+      "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32445",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+      "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32352",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed) (CVE-2025-64352)",
+      "risk": "CVE-2025-64352: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-64352",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed) (CVE-2025-69092)",
+      "risk": "CVE-2025-69092: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-69092",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed) (CVE-2026-23543)",
+      "risk": "CVE-2026-23543: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-23543",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Element Pack Pro [bdthemes-element-pack] < 7.19.3 (CVE-2024-33568)",
+      "risk": "CVE-2024-33568: WordPress Element Pack Pro Plugin <= 7.7.4 is vulnerable to Arbitrary File Download",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-33568",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Element Pack Pro [bdthemes-element-pack] < 7.9.1 (CVE-2024-2455)",
+      "risk": "CVE-2024-2455: Element Pack - Addon for Elementor Page Builder WordPress Plugin <= 7.9.0 - Authenticated(Contributor+) Stored Cross-Site Scripting via Wrapper Link URL",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-2455",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Element Pack Pro [bdthemes-element-pack] <= 7.18.12 (unfixed) (CVE-2025-46257)",
+      "risk": "CVE-2025-46257: WordPress Element Pack Pro Plugin <= 7.18.12 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-46257",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Element Pack Pro [bdthemes-element-pack] <= 7.18.12 (unfixed) (CVE-2025-46258)",
+      "risk": "CVE-2025-46258: Element Pack Pro &lt;= 7.18.12 - Missing Authorization",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-46258",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28044",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 357,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

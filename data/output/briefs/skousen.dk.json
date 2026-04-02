@@ -2,7 +2,7 @@
   "domain": "skousen.dk",
   "cvr": "prospect",
   "company_name": "skousen.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-08",
-      "days_remaining": 69
+      "days_remaining": 67
     },
     "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": true,
@@ -37,14 +39,15 @@
     "React",
     "Webpack"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "104.18.29.7",
-      "104.18.28.7"
+      "104.18.28.7",
+      "104.18.29.7"
     ],
     "aaaa": [
       "2606:4700::6812:1d07",
@@ -59,13 +62,13 @@
       "donna.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=6CdrRmMWRzEsB7QVjq2GjRZD7I9zRCMD9LxhNjAxIBU",
-      "klaviyo-site-verification=UCMFk9",
-      "facebook-domain-verification=9konaw5hqp3in68oi8n906exasgo9l",
-      "apple-domain-verification=edUbZ7cy9uvhbTDg",
       "v=spf1 include:_spf16390.spfprotect.com -all",
+      "apple-domain-verification=edUbZ7cy9uvhbTDg",
+      "atlassian-domain-verification=NuCGYH5GY2nTFg4r7FR/cSD0AXpWc0lqY5tz437zZS11BTE3cPcUpk1XwHNnuTrz",
       "detectify-verification=eecfaa6bd857a97c06fbdffdd1357939",
-      "atlassian-domain-verification=NuCGYH5GY2nTFg4r7FR/cSD0AXpWc0lqY5tz437zZS11BTE3cPcUpk1XwHNnuTrz"
+      "facebook-domain-verification=9konaw5hqp3in68oi8n906exasgo9l",
+      "google-site-verification=6CdrRmMWRzEsB7QVjq2GjRZD7I9zRCMD9LxhNjAxIBU",
+      "klaviyo-site-verification=UCMFk9"
     ]
   },
   "cloud_exposure": [],

@@ -1,0 +1,14 @@
+{
+  "domain": "bredballekirke.dk",
+  "job_id": "scan-2026-04-02-a2cfd685",
+  "status": "skipped",
+  "skip_reason": "robots.txt denied",
+  "scan_result": null,
+  "timing": {
+    "robots_txt": 0.467
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 0
+  }
+}

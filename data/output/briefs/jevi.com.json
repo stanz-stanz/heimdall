@@ -1,0 +1,83 @@
+{
+  "domain": "jevi.com",
+  "cvr": "prospect",
+  "company_name": "jevi.com",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-05-16",
+      "days_remaining": 44
+    },
+    "server": "cloudflare",
+    "detected_plugins": [
+      "Cookie Law Info"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "Cloudflare Bot Management",
+    "CookieYes",
+    "Google Tag Manager",
+    "HSTS",
+    "Java",
+    "Sitevision CMS",
+    "jQuery"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "104.18.37.174",
+      "172.64.150.82"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mxa-00373502.gslb.pphosted.com",
+      "mxb-00373502.gslb.pphosted.com"
+    ],
+    "ns": [
+      "dns.nibe.se",
+      "dns2.nibe.se"
+    ],
+    "txt": [
+      "ca3-0f19be47e8c34565b580c43891fb0e5d",
+      "MS=ms17786325",
+      "v=spf1 ip4:20.42.80.160 ip4:20.103.25.156 include:spfloc.nibe.se include:spf-00373501.pphosted.com include:spf-00373502.pphosted.com include:spf.protection.outlook.com include:spf1.emarketeer.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "info",
+      "description": "1 WordPress plugin detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Java",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "domain": "coface.com",
   "cvr": "prospect",
   "company_name": "coface.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Amazon",
       "expiry": "2026-10-10",
-      "days_remaining": 194
+      "days_remaining": 191
     },
     "server": "CloudFront",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -37,22 +39,23 @@
     "RequireJS",
     "Varnish"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "3.174.18.101",
-      "3.174.18.60",
-      "3.174.18.85",
-      "3.174.18.67"
+      "65.9.46.121",
+      "65.9.46.95",
+      "65.9.46.29",
+      "65.9.46.86"
     ],
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mxa-00176301.gslb.pphosted.com",
-      "mxb-00176301.gslb.pphosted.com"
+      "mxb-00176301.gslb.pphosted.com",
+      "mxa-00176301.gslb.pphosted.com"
     ],
     "ns": [
       "ns-33.awsdns-04.com",
@@ -65,25 +68,25 @@
       "ns-1815.awsdns-34.co.uk"
     ],
     "txt": [
-      "MS=ms75332114",
-      "_gypehu3n94vccnsg13o1j3fodrhhkmr",
-      "s4wnm0sx5c64vplphnnyqjpxlfwsll27",
-      "docusign=fe0d336b-a490-41bf-87d9-a5d3ebc6a5c9",
-      "apple-domain-verification=KjIqw9y2boUvzom0",
-      "adobe-idp-site-verification=d8290be29c442b6078df77feafc59eddedd12c2460b9e30dcafc2647256641cd",
-      "Foxit-domain-verification=d8d4ed0367b6bb7455267560f310fd5d",
-      "have-i-been-pwned-verification=dweb_015dgb334pscpnnk0uizu57v",
-      "DE1D-F25A-9470-F4AC-84E1-D366-30FA-9F2F",
-      "v=spf1 include:_spf.coface.com ~all",
-      "anthropic-domain-verification-pqhw8w=syruNYOXJyMF7k7uiKJjoANTT",
-      "MS=ms17304631",
-      "_fuod2m099d576xlar95pjoiwi583zi3",
-      "cisco-ci-domain-verification=248b38c7c1905e7beaed2f0068627d0ac603bf28562d29075578be299d84a484",
       "docusign=bf7cf180-0c1c-4247-bd76-6cd3e921d449",
-      "r243xkwstxhgqpl3tzf9xchpdqxw129s",
+      "docusign=fe0d336b-a490-41bf-87d9-a5d3ebc6a5c9",
       "google-site-verification=cIslz9syqSA44pxPFGzbk1VIsBA6m0BQi88Zo7A8Z0c",
+      "have-i-been-pwned-verification=dweb_015dgb334pscpnnk0uizu57v",
+      "r243xkwstxhgqpl3tzf9xchpdqxw129s",
+      "s4wnm0sx5c64vplphnnyqjpxlfwsll27",
+      "v=spf1 include:_spf.coface.com ~all",
       "5pg86gmmyg828th21hf81s4vz0ls002l",
-      "atlassian-domain-verification=/9KRV8G8DhruH1r/tkLQ/boGJajQM9xTbLSYEft8IaRWBoRTdk8awnJ0gjCHaQhn"
+      "DE1D-F25A-9470-F4AC-84E1-D366-30FA-9F2F",
+      "Foxit-domain-verification=d8d4ed0367b6bb7455267560f310fd5d",
+      "MS=ms17304631",
+      "MS=ms75332114",
+      "_fuod2m099d576xlar95pjoiwi583zi3",
+      "_gypehu3n94vccnsg13o1j3fodrhhkmr",
+      "adobe-idp-site-verification=d8290be29c442b6078df77feafc59eddedd12c2460b9e30dcafc2647256641cd",
+      "anthropic-domain-verification-pqhw8w=syruNYOXJyMF7k7uiKJjoANTT",
+      "apple-domain-verification=KjIqw9y2boUvzom0",
+      "atlassian-domain-verification=/9KRV8G8DhruH1r/tkLQ/boGJajQM9xTbLSYEft8IaRWBoRTdk8awnJ0gjCHaQhn",
+      "cisco-ci-domain-verification=248b38c7c1905e7beaed2f0068627d0ac603bf28562d29075578be299d84a484"
     ]
   },
   "cloud_exposure": [],

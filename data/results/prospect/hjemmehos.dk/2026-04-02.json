@@ -1,0 +1,164 @@
+{
+  "domain": "hjemmehos.dk",
+  "job_id": "scan-2026-04-02-3d5c434e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "hjemmehos.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-30",
+    "ssl_days_remaining": 89,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Cloudflare",
+      "Cylindo",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify",
+      "Tawk.to",
+      "Trustpilot",
+      "cdnjs",
+      "jQuery:3.6.3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:54:31.321423751Z",
+      "port": "443",
+      "url": "https://hjemmehos.dk",
+      "input": "hjemmehos.dk",
+      "title": "Hjemme Hos | Kvalitetsmøbler & inspiration til hjemmet",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "hjemmehos.dk",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "time": "267.305363ms",
+      "a": [
+        "23.227.38.65"
+      ],
+      "tech": [
+        "Bootstrap:5",
+        "Cloudflare",
+        "Cylindo",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo",
+        "Shopify",
+        "Tawk.to",
+        "Trustpilot",
+        "cdnjs",
+        "jQuery:3.6.3"
+      ],
+      "words": 120058,
+      "lines": 7816,
+      "status_code": 200,
+      "content_length": 387230,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "hjemmehos.dk",
+    "cvr": "prospect",
+    "company_name": "hjemmehos.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify",
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-30",
+        "days_remaining": 89
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Cloudflare",
+      "Cylindo",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify",
+      "Tawk.to",
+      "Trustpilot",
+      "cdnjs",
+      "jQuery:3.6.3"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 241,
+    "ssl": 72,
+    "headers": 422,
+    "meta": 487,
+    "httpx": 4286,
+    "webanalyze": 4,
+    "total_ms": 5519
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

@@ -1,0 +1,221 @@
+{
+  "domain": "harting.com",
+  "job_id": "scan-2026-04-02-c1cca989",
+  "status": "completed",
+  "scan_result": {
+    "domain": "harting.com",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-18",
+    "ssl_days_remaining": 46,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Azure Edge Network",
+      "Cloudflare",
+      "HSTS",
+      "Leadfeeder",
+      "Linkedin Ads"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:53:20.493554699Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://harting.com",
+      "input": "harting.com",
+      "title": "Unsupported Browser | HARTING Technology Group",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "harting.com",
+      "host_ip": "104.18.6.223",
+      "path": "/",
+      "final_url": "https://www.harting.com/assets/static-pages/static-unsupported-browser.html",
+      "time": "614.463124ms",
+      "chain_status_codes": [
+        301,
+        302,
+        403
+      ],
+      "a": [
+        "104.18.6.223"
+      ],
+      "tech": [
+        "Azure Edge Network",
+        "Cloudflare",
+        "HSTS",
+        "Leadfeeder",
+        "Linkedin Ads"
+      ],
+      "words": 5860,
+      "lines": 773,
+      "status_code": 403,
+      "content_length": 128353,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "angular",
+          "vendor": "angular",
+          "cpe": "cpe:2.3:a:angular:angular:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.18.6.223"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx03.hornetsecurity.com",
+        "mx02.hornetsecurity.com",
+        "mx04.hornetsecurity.com",
+        "mx01.hornetsecurity.com"
+      ],
+      "ns": [
+        "ns1.telekom.net",
+        "pns.dtag.de"
+      ],
+      "txt": [
+        "logmein-verification-code=eFT9TQkKWfiZ6m7g9ynPW4Zql",
+        "+7clppk57yAVy7uBGEhz+yTDfUCvF8DEtz9rIQ2p+THsXgIv1x+VFBqd8JuUEnS4JrXhgCKrF2STgN+blLfKpw==",
+        "bw=prCxUy7wHQJt5PZiLMJ0se83yQ1YUBFZjUYpddqhxv03",
+        "docusign=76963887-4af7-4f9e-886e-2b1a7ab15b58",
+        "apple-domain-verification=a0wbcFNI3HIkrmRQ",
+        "meltwater_sso_20250417_triton-28038",
+        "google-site-verification=6DPw3y54LC-08QOWhedAJnQ71K01X18UGz0DNaO66Vs",
+        "v=spf1 a mx ip4:209.10.241.15 ip4:87.230.106.226 ip6:2a01:488:42:1000:57e6:6ae2::/96 include:spf.hornetsecurity.com include:eur.pb-dynmktge.com ip4:139.2.207.19 include:amazonses.com -all",
+        "d365mktkey=zdLKDw8u05N2xnmfn7qxfYODtZ0fkj3wz7RipKIS1HYx",
+        "d365mktkey=1whQP2owhr6EGgv6Ge6PtvC4EOzUINxVwCFbuv6Gnk4x",
+        "MS=05AFE6251E3E2793199F34F7E4BAAEF184F09FE4",
+        "miro-verification=83723f31f08f8465be960b0c33fcb6db23f0fdf1",
+        "MS=ms92616187",
+        "d365mktkey=L3mEwP3ybAKxyreZCS6pAaT279zf4kzHRrEPibxIuAMx",
+        "ia6ap167c4ld3sp6vgchgiqqmj",
+        "logmein-verification-code=350a5050-f81b-4433-85bf-d672e617bace",
+        "adobe-idp-site-verification=65f4ea9cdace4036ca0285656ec9c1321e3879fd34a973e2da6faad7918c5bf1"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "harting.com",
+    "cvr": "prospect",
+    "company_name": "harting.com",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-18",
+        "days_remaining": 46
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Azure Edge Network",
+      "Cloudflare",
+      "HSTS",
+      "Leadfeeder",
+      "Linkedin Ads"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.18.6.223"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx03.hornetsecurity.com",
+        "mx02.hornetsecurity.com",
+        "mx04.hornetsecurity.com",
+        "mx01.hornetsecurity.com"
+      ],
+      "ns": [
+        "ns1.telekom.net",
+        "pns.dtag.de"
+      ],
+      "txt": [
+        "logmein-verification-code=eFT9TQkKWfiZ6m7g9ynPW4Zql",
+        "+7clppk57yAVy7uBGEhz+yTDfUCvF8DEtz9rIQ2p+THsXgIv1x+VFBqd8JuUEnS4JrXhgCKrF2STgN+blLfKpw==",
+        "bw=prCxUy7wHQJt5PZiLMJ0se83yQ1YUBFZjUYpddqhxv03",
+        "docusign=76963887-4af7-4f9e-886e-2b1a7ab15b58",
+        "apple-domain-verification=a0wbcFNI3HIkrmRQ",
+        "meltwater_sso_20250417_triton-28038",
+        "google-site-verification=6DPw3y54LC-08QOWhedAJnQ71K01X18UGz0DNaO66Vs",
+        "v=spf1 a mx ip4:209.10.241.15 ip4:87.230.106.226 ip6:2a01:488:42:1000:57e6:6ae2::/96 include:spf.hornetsecurity.com include:eur.pb-dynmktge.com ip4:139.2.207.19 include:amazonses.com -all",
+        "d365mktkey=zdLKDw8u05N2xnmfn7qxfYODtZ0fkj3wz7RipKIS1HYx",
+        "d365mktkey=1whQP2owhr6EGgv6Ge6PtvC4EOzUINxVwCFbuv6Gnk4x",
+        "MS=05AFE6251E3E2793199F34F7E4BAAEF184F09FE4",
+        "miro-verification=83723f31f08f8465be960b0c33fcb6db23f0fdf1",
+        "MS=ms92616187",
+        "d365mktkey=L3mEwP3ybAKxyreZCS6pAaT279zf4kzHRrEPibxIuAMx",
+        "ia6ap167c4ld3sp6vgchgiqqmj",
+        "logmein-verification-code=350a5050-f81b-4433-85bf-d672e617bace",
+        "adobe-idp-site-verification=65f4ea9cdace4036ca0285656ec9c1321e3879fd34a973e2da6faad7918c5bf1"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 236,
+    "ssl": 76,
+    "headers": 387,
+    "meta": 752,
+    "httpx": 2349,
+    "webanalyze": 4,
+    "dnsx": 835,
+    "crtsh": 0,
+    "ghw": 345,
+    "total_ms": 4993
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

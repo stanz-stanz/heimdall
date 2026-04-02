@@ -2,7 +2,7 @@
   "domain": "dit-bogholderi.dk",
   "cvr": "prospect",
   "company_name": "dit-bogholderi.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -13,11 +13,13 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-04-29",
-      "days_remaining": 30
+      "expiry": "2026-06-28",
+      "days_remaining": 86
     },
     "server": "Apache",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -29,6 +31,7 @@
     "Apache HTTP Server",
     "Varnish"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

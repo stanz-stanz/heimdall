@@ -2,7 +2,7 @@
   "domain": "autoproff.dk",
   "cvr": "prospect",
   "company_name": "autoproff.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "C",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-01",
-      "days_remaining": 62
+      "days_remaining": 60
     },
     "server": "Squarespace",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -37,38 +39,12 @@
     "jsDelivr",
     "parallax.js"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "198.49.23.145",
-      "198.185.159.145",
-      "198.185.159.144",
-      "198.49.23.144"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "autoproff-dk.mail.protection.outlook.com"
-    ],
-    "ns": [
-      "ns1.lemarit.de",
-      "ns1.lemarit.net",
-      "ns2.lemarit.de",
-      "ns2.lemarit.net",
-      "ns3.lemarit.de"
-    ],
-    "txt": [
-      "atlassian-domain-verification=5UA7dtMyHtmmOaAC8YD8hfTPYkhXQGAl00HAlMAwzs0KqWnrrtEd5UDSdPptISEV",
-      "figma-domain-verification=47f6d0f6d8ca28b2b17e723e76ebdf7ab52effb135b148d30651208af5b392a0-1742826626",
-      "v=spf1 a mx ip4:49.233.132.13 include:spf.protection.outlook.com include:amazonses.com include:spf.autoproff.dk include:mailmailmail.net -all",
-      "MS=ms77543900",
-      "apple-domain-verification=HdGSbEBB6byDwLaG",
-      "google-site-verification=M1wHhQhhd8n-etNyZZ31VXrR12Q6-cJh9C4CxoNqfeM"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

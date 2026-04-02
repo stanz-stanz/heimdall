@@ -1,0 +1,68 @@
+{
+  "domain": "rapsoliefyr.dk",
+  "cvr": "prospect",
+  "company_name": "rapsoliefyr.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "LiteSpeed",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-07",
+      "days_remaining": 65
+    },
+    "server": "LiteSpeed",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "HSTS",
+    "HTTP/3",
+    "LiteSpeed",
+    "UIKit"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "142.132.143.218"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mail.rapsoliefyr.dk"
+    ],
+    "ns": [
+      "ns1.nordicway.dk",
+      "ns2.nordicway.dk",
+      "ns3.nordicway.dk",
+      "ns4.nordicway.dk"
+    ],
+    "txt": [
+      "v=spf1 +a +mx +ip4:142.132.143.218 include:relay.mailchannels.net ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

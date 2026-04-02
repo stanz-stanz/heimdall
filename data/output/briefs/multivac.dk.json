@@ -2,7 +2,7 @@
   "domain": "multivac.dk",
   "cvr": "prospect",
   "company_name": "multivac.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -20,6 +20,8 @@
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,6 +36,7 @@
     "Java",
     "Usercentrics"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -52,12 +55,12 @@
       "ns2.dns.speedkom.net"
     ],
     "txt": [
+      "v=spf1 mx include:spf.protection.outlook.com include:spf.exclaimer.net ~all",
       "teamviewer-sso-verification=2cad3a1864194e08b6b0a816cc4c3607",
-      "apple-domain-verification=c750lMlVHCyZa29V",
       "MS=ms25424441",
+      "apple-domain-verification=c750lMlVHCyZa29V",
       "atlassian-domain-verification=C75o8XyM34JPEY9df2czwlFQmRgLRBxHe6SFU0iGyvzqL7oUUMaJptBuLKaDug/m",
-      "kM7qPy9RkGwrJtetCcEN6lGr7v/p8YGy0rDNmuJm4Vk4je8v5lOALA8XkEgpqBR/C7w+mHMMTVF7ZmOyYy1/dA==",
-      "v=spf1 mx include:spf.protection.outlook.com include:spf.exclaimer.net ~all"
+      "kM7qPy9RkGwrJtetCcEN6lGr7v/p8YGy0rDNmuJm4Vk4je8v5lOALA8XkEgpqBR/C7w+mHMMTVF7ZmOyYy1/dA=="
     ]
   },
   "cloud_exposure": [],

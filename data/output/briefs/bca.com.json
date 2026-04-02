@@ -2,7 +2,7 @@
   "domain": "bca.com",
   "cvr": "prospect",
   "company_name": "bca.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-16",
-      "days_remaining": 77
+      "days_remaining": 74
     },
     "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -29,6 +31,7 @@
     "Cloudflare",
     "Cloudflare Bot Management"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -39,19 +42,30 @@
       "104.18.41.111"
     ],
     "aaaa": [
-      "2606:4700:4404::6812:296f",
-      "2a06:98c1:3104::ac40:9291"
+      "2a06:98c1:3104::ac40:9291",
+      "2606:4700:4404::6812:296f"
     ],
     "cname": [],
     "mx": [
-      "mxa-001c1001.gslb.pphosted.com",
-      "mxb-001c1001.gslb.pphosted.com"
+      "mxb-001c1001.gslb.pphosted.com",
+      "mxa-001c1001.gslb.pphosted.com"
     ],
     "ns": [
       "ns1.bca.com",
       "ns2.bca.com"
     ],
     "txt": [
+      "apple-domain-verification=bLDKcTIW6W195FKj",
+      "atlassian-domain-verification=/jwIloTuZZhxBynlCwZxBQz09tjsPZFkxtZIMe14fJYZfjP9yCTc/5LJMgRs4Uzb",
+      "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
+      "dpp1dsv7u93pl9vprerh3gr70b",
+      "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
+      "fgbo4gnbmsupeqmjgjilfda4aq",
+      "gilj8s5m909qkampc34s4ohk8l",
+      "google-site-verification=P93STc9plMaBjqpI3odbkeU_4lyfx6ubNVhAk3wyxGQ",
+      "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
+      "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca",
+      "nnlbm4qar4av3b67r2ban3s4ao",
       "tktoosntbv43kfeoou8mti6sid",
       "urfl02k8ghn962jqjsc7cj12lu",
       "uvhh8ih2hlm78fbfn10n78cfke",
@@ -65,18 +79,7 @@
       "access-domain-verification=84182c45906b98291e631728981308ccc7ef4c8e7c8e50967620a921fac3587e",
       "adobe-idp-site-verification=1d029db73b9070784feaadfdea3ffdb1cbece813da1bcb5dcbf0e26b4bb6590e",
       "amazonses:Mt7c0brhnGth0wcmhk47IH/knQVn5EfOXyXhOifo/wE=",
-      "apple-domain-verification=61HOSJskwKSYhix8",
-      "apple-domain-verification=bLDKcTIW6W195FKj",
-      "atlassian-domain-verification=/jwIloTuZZhxBynlCwZxBQz09tjsPZFkxtZIMe14fJYZfjP9yCTc/5LJMgRs4Uzb",
-      "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
-      "dpp1dsv7u93pl9vprerh3gr70b",
-      "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
-      "fgbo4gnbmsupeqmjgjilfda4aq",
-      "gilj8s5m909qkampc34s4ohk8l",
-      "google-site-verification=P93STc9plMaBjqpI3odbkeU_4lyfx6ubNVhAk3wyxGQ",
-      "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
-      "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca",
-      "nnlbm4qar4av3b67r2ban3s4ao"
+      "apple-domain-verification=61HOSJskwKSYhix8"
     ]
   },
   "cloud_exposure": [],

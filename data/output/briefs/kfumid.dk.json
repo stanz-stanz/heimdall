@@ -2,7 +2,7 @@
   "domain": "kfumid.dk",
   "cvr": "prospect",
   "company_name": "kfumid.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -18,6 +18,8 @@
     },
     "server": "Apache",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -30,6 +32,7 @@
     "C3.js",
     "Varnish"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -48,8 +51,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=zmVIfqBKkmzLbfbwqQb8513lK-fTFb7ySF_TJLNHVMA",
-      "v=spf1 include:spf.protection.outlook.com include:one.zoho.eu include:eu.zcsend.net include:spf.itide.dk ip4:188.40.29.51 -all"
+      "v=spf1 include:spf.protection.outlook.com include:one.zoho.eu include:eu.zcsend.net include:spf.itide.dk ip4:188.40.29.51 -all",
+      "google-site-verification=zmVIfqBKkmzLbfbwqQb8513lK-fTFb7ySF_TJLNHVMA"
     ]
   },
   "cloud_exposure": [],

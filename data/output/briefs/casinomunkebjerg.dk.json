@@ -2,7 +2,7 @@
   "domain": "casinomunkebjerg.dk",
   "cvr": "prospect",
   "company_name": "casinomunkebjerg.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "B",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-12-04",
-      "days_remaining": 249
+      "days_remaining": 246
     },
     "server": "LiteSpeed",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -36,6 +38,7 @@
     "LiteSpeed",
     "PHP"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -55,17 +58,17 @@
       "ns3.komunikado.dk"
     ],
     "txt": [
-      "bjod5iK86QL/vZ+wGpBBSH940t7WV4iEJReVH/YEKfg=",
-      "_8otq49k2gnvtp6l4gdu3wpz3cu1cmpz",
-      "v=spf1 a mx ip4:144.76.98.53 ip4:91.235.232.0/24 ip4:78.153.187.18 include:_spf.createsend.com include:spf.protection.outlook.com include:mailmailmail.net -all",
-      "MS=F0ED76ACA43494D6A8508BED9445BD09CC9805A1",
-      "_globalsign-domain-verification=hZileiM3Js32teesVr85VFZ9AhC3q5vjNbBaj19ohr",
-      "MS=ms27970112",
-      "_4dcj84me0v2v831mxfydeu69eea18iy",
       "_39zc5o1t8848qk04y4pcm5a1z1k5pm5",
-      "qZ3jLVC+vyf7IbMajmYnhoOWj0KYGNBCS89hkxT8q80mKhvOMD2zvEzbdLpzooaEEdwNxuLXI08RY6kul8V5uA==",
+      "_4dcj84me0v2v831mxfydeu69eea18iy",
+      "_globalsign-domain-verification=hZileiM3Js32teesVr85VFZ9AhC3q5vjNbBaj19ohr",
       "Kw92AfYz/ZhHPnELFRW3nBqjo3i+4Chi/OxW11OWpnc=",
-      "_globalsign-domain-verification=7dUqEmLrwkrniPZFiFgf3xN4Pc-ZaixfebtybOh892"
+      "_globalsign-domain-verification=7dUqEmLrwkrniPZFiFgf3xN4Pc-ZaixfebtybOh892",
+      "_8otq49k2gnvtp6l4gdu3wpz3cu1cmpz",
+      "MS=F0ED76ACA43494D6A8508BED9445BD09CC9805A1",
+      "MS=ms27970112",
+      "bjod5iK86QL/vZ+wGpBBSH940t7WV4iEJReVH/YEKfg=",
+      "v=spf1 a mx ip4:144.76.98.53 ip4:91.235.232.0/24 ip4:78.153.187.18 include:_spf.createsend.com include:spf.protection.outlook.com include:mailmailmail.net -all",
+      "qZ3jLVC+vyf7IbMajmYnhoOWj0KYGNBCS89hkxT8q80mKhvOMD2zvEzbdLpzooaEEdwNxuLXI08RY6kul8V5uA=="
     ]
   },
   "cloud_exposure": [],

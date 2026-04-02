@@ -2,7 +2,7 @@
   "domain": "vandelefterskole.dk",
   "cvr": "prospect",
   "company_name": "vandelefterskole.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,13 +16,24 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 44
+      "days_remaining": 40
     },
     "server": "nginx",
     "detected_plugins": [
-      "Youtube Embed Plus",
+      "Instagram Feed",
       "Flickr Justified Gallery",
-      "Instagram Feed"
+      "Youtube Embed Plus",
+      "Redirection",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Instagram Feed": "6.10.0",
+      "Flickr Justified Gallery": "6.9.4",
+      "Youtube Embed Plus": "14.2.5",
+      "Wordpress Seo": "27.1.1"
+    },
+    "detected_themes": [
+      "Vandel Efterskole"
     ],
     "headers": {
       "x_frame_options": false,
@@ -49,6 +60,12 @@
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "instagram-feed": "6.10.0",
+    "flickr-justified-gallery": "6.9.4",
+    "youtube-embed-plus": "14.2.5",
+    "wordpress-seo": "27.1.1"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -67,10 +84,10 @@
       "brian.ns.cloudflare.com"
     ],
     "txt": [
-      "MS=ms66185992",
-      "spf2.0/pra",
       "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
-      "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all"
+      "spf2.0/pra",
+      "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all",
+      "MS=ms66185992"
     ]
   },
   "cloud_exposure": [],
@@ -92,13 +109,48 @@
     },
     {
       "severity": "info",
-      "description": "3 WordPress plugins detected",
+      "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Vandel Efterskole",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Instagram Feed (installed 6.10.0, latest 6.10.1)",
+      "risk": "The installed version of Instagram Feed is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 27.1.1, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Flickr Justified Gallery [flickr-justified-gallery] <= 3.5 (unfixed + closed) (CVE-2023-25473)",
+      "risk": "CVE-2023-25473: WordPress  Flickr Justified Gallery Plugin  <= 3.5 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-25473",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 385,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

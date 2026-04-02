@@ -1,0 +1,140 @@
+{
+  "domain": "minova.as",
+  "cvr": "prospect",
+  "company_name": "minova.as",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Contact Form 7",
+    "Visitor tracking: reCAPTCHA"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-17",
+      "days_remaining": 75
+    },
+    "server": "Apache",
+    "detected_plugins": [
+      "Contact Form 7",
+      "Mmenu",
+      "Polylang",
+      "Wordfence",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Contact Form 7": "6.1.5",
+      "Mmenu": "1",
+      "Wordpress Seo": "27.3"
+    },
+    "detected_themes": [
+      "Minova"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Cloudflare",
+    "Contact Form 7:6.1.5",
+    "Lightbox",
+    "Modernizr",
+    "MySQL",
+    "PHP:8.3.30",
+    "Polylang",
+    "Slick",
+    "Varnish",
+    "WordPress",
+    "Yoast SEO:27.3",
+    "cdnjs",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "reCAPTCHA"
+  ],
+  "plugin_versions": {
+    "contact-form-7": "6.1.5",
+    "mmenu": "1",
+    "wordpress-seo": "27.3"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "77.111.240.253"
+    ],
+    "aaaa": [
+      "2a02:2350:5:101:80ea:f7c7:1294:bc02"
+    ],
+    "cname": [],
+    "mx": [
+      "minova-as.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "MS=ms32408532",
+      "v=spf1 include:_custspf.one.com include:spf.protection.outlook.com ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Contact Form 7",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "5 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.3.30",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Minova",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "domain": "axel-hansen.dk",
   "cvr": "prospect",
   "company_name": "axel-hansen.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -18,6 +18,8 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -36,6 +38,7 @@
     "jQuery Migrate:3.4.1",
     "wpBakery"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -47,8 +50,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.onlinemail.io",
-      "mx1.onlinemail.io"
+      "mx1.onlinemail.io",
+      "mx2.onlinemail.io"
     ],
     "ns": [
       "ns1.curanet.dk",

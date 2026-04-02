@@ -2,7 +2,7 @@
   "domain": "frishop.dk",
   "cvr": "prospect",
   "company_name": "frishop.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 42
+      "days_remaining": 40
     },
     "server": "nginx/1.28.2",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -32,6 +34,7 @@
     "Nginx:1.28.2",
     "cdnjs"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -50,10 +53,10 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:spf.scannet.dk include:sendgrid.net include:_custspf.one.com include:send.heyloyalty.com -all",
-      "globalsign-domain-verification=yggG85euBtIps327v_FG5o2RnGi2weV9ZPIrjoERId",
       "google-site-verification=PyAr8p3KKoXAsNs5eMYe1YVf0u4B_xvNZcheQa0LxbM",
       "facebook-domain-verification=lv972v9l2byuymy1r8sn6s3gy3mdzb",
+      "v=spf1 include:spf.protection.outlook.com include:spf.scannet.dk include:sendgrid.net include:_custspf.one.com include:send.heyloyalty.com -all",
+      "globalsign-domain-verification=yggG85euBtIps327v_FG5o2RnGi2weV9ZPIrjoERId",
       "klaviyo-site-verification=Tfwk75",
       "MS=ms98312112"
     ]

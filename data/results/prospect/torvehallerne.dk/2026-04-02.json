@@ -1,0 +1,206 @@
+{
+  "domain": "torvehallerne.dk",
+  "job_id": "scan-2026-04-02-ada1faf5",
+  "status": "completed",
+  "scan_result": {
+    "domain": "torvehallerne.dk",
+    "cms": "",
+    "server": "Netlify",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-08",
+    "ssl_days_remaining": 36,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cookiebot",
+      "Gridsome:0.7.23",
+      "HSTS",
+      "Netlify",
+      "Typekit",
+      "Vue.js:62"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:22:46.850264932Z",
+      "cdn_name": "google",
+      "cdn_type": "cdn",
+      "port": "443",
+      "url": "https://torvehallerne.dk",
+      "input": "torvehallerne.dk",
+      "title": "Forside - Torvehallerne",
+      "scheme": "https",
+      "webserver": "Netlify",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "torvehallerne.dk",
+      "host_ip": "104.198.14.52",
+      "path": "/",
+      "time": "886.959253ms",
+      "a": [
+        "104.198.14.52"
+      ],
+      "tech": [
+        "Adobe Fonts",
+        "Cookiebot",
+        "Gridsome:0.7.23",
+        "HSTS",
+        "Netlify",
+        "Typekit",
+        "Vue.js:62"
+      ],
+      "words": 2387,
+      "lines": 46,
+      "status_code": 200,
+      "content_length": 101521,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "n8n",
+          "vendor": "n8n",
+          "cpe": "cpe:2.3:a:n8n:n8n:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "qlik_sense",
+          "vendor": "qlik",
+          "cpe": "cpe:2.3:a:qlik:qlik_sense:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.198.14.52"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "torvehallerne-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.wannafind.dk",
+        "ns2.wannafind.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com ip4:31.208.18.69 ip4:31.208.18.70 ip4:31.208.18.73 include:_spf.stejtech.net include:mail.techosting.dk -all",
+        "F4C8D3AF9E521886BA93E4FB06A8EC4C295A7D3551C9E4E26B596B8FD7945788",
+        "MS=ms25478469"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "torvehallerne.dk",
+    "cvr": "prospect",
+    "company_name": "torvehallerne.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-08",
+        "days_remaining": 36
+      },
+      "server": "Netlify",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cookiebot",
+      "Gridsome:0.7.23",
+      "HSTS",
+      "Netlify",
+      "Typekit",
+      "Vue.js:62"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.198.14.52"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "torvehallerne-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.wannafind.dk",
+        "ns2.wannafind.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com ip4:31.208.18.69 ip4:31.208.18.70 ip4:31.208.18.73 include:_spf.stejtech.net include:mail.techosting.dk -all",
+        "F4C8D3AF9E521886BA93E4FB06A8EC4C295A7D3551C9E4E26B596B8FD7945788",
+        "MS=ms25478469"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 870,
+    "ssl": 358,
+    "headers": 536,
+    "meta": 873,
+    "httpx": 2910,
+    "webanalyze": 4,
+    "dnsx": 834,
+    "total_ms": 6397
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

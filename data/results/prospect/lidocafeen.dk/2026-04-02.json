@@ -1,6 +1,6 @@
 {
   "domain": "lidocafeen.dk",
-  "job_id": "scan-2026-04-02-b0d4bfea",
+  "job_id": "scan-2026-04-02-65f57703",
   "status": "completed",
   "scan_result": {
     "domain": "lidocafeen.dk",
@@ -77,7 +77,27 @@
       ]
     },
     "subdomains": [],
-    "dns_records": {},
+    "dns_records": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "cname": [],
+      "mx": [
+        "lidocafeen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns0.moesborg.dk",
+        "ns1.moesborg.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:152.115.180.210 ip4:217.157.151.78 include:spf.protection.outlook.com -all",
+        "google-site-verification=HItD5Ge73O0DDHXmag5o3zNS_t8LkN-DoQk86qDLoiU",
+        "MS=ms48061704"
+      ]
+    },
     "ct_certificates": [],
     "exposed_cloud_storage": []
   },
@@ -124,7 +144,27 @@
       "count": 0,
       "list": []
     },
-    "dns": {},
+    "dns": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "cname": [],
+      "mx": [
+        "lidocafeen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns0.moesborg.dk",
+        "ns1.moesborg.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:152.115.180.210 ip4:217.157.151.78 include:spf.protection.outlook.com -all",
+        "google-site-verification=HItD5Ge73O0DDHXmag5o3zNS_t8LkN-DoQk86qDLoiU",
+        "MS=ms48061704"
+      ]
+    },
     "cloud_exposure": [],
     "findings": [
       {
@@ -135,12 +175,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 105,
-    "total_ms": 106
+    "robots_txt": 133,
+    "total_ms": 134
   },
   "cache_stats": {
-    "hits": 5,
+    "hits": 9,
     "misses": 0
-  },
-  "filtered": "bucket:E"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "domain": "casablancavejle.dk",
-  "job_id": "scan-2026-04-02-f02eba73",
+  "job_id": "scan-2026-04-02-16caba77",
   "status": "completed",
   "scan_result": {
     "domain": "casablancavejle.dk",
@@ -69,7 +69,28 @@
       ]
     },
     "subdomains": [],
-    "dns_records": {},
+    "dns_records": {
+      "a": [
+        "15.197.142.173",
+        "3.33.152.147"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns61.domaincontrol.com",
+        "ns62.domaincontrol.com"
+      ],
+      "txt": [
+        "google-site-verification=IDz6JDRiEU8VM_n5YREaOIQGa1hf-ivnCGof6gBk8OM"
+      ]
+    },
     "ct_certificates": [],
     "exposed_cloud_storage": []
   },
@@ -108,7 +129,28 @@
       "count": 0,
       "list": []
     },
-    "dns": {},
+    "dns": {
+      "a": [
+        "15.197.142.173",
+        "3.33.152.147"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "alt3.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns61.domaincontrol.com",
+        "ns62.domaincontrol.com"
+      ],
+      "txt": [
+        "google-site-verification=IDz6JDRiEU8VM_n5YREaOIQGa1hf-ivnCGof6gBk8OM"
+      ]
+    },
     "cloud_exposure": [],
     "findings": [
       {
@@ -139,12 +181,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 30056,
-    "total_ms": 30065
+    "robots_txt": 30070,
+    "total_ms": 30071
   },
   "cache_stats": {
-    "hits": 5,
+    "hits": 9,
     "misses": 0
-  },
-  "filtered": "bucket:E"
+  }
 }

@@ -1,0 +1,295 @@
+{
+  "domain": "attospil.dk",
+  "cvr": "prospect",
+  "company_name": "attospil.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce",
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-27",
+      "days_remaining": 55
+    },
+    "server": "LiteSpeed",
+    "detected_plugins": [
+      "W3 Total Cache",
+      "Dg Divi Carousel",
+      "Honeypot",
+      "Divi Restro Menu",
+      "Woocommerce",
+      "Divi Builder",
+      "Redirection",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Dg Divi Carousel": "2.0.26",
+      "Honeypot": "2.1.4",
+      "Divi Restro Menu": "1.2.5",
+      "Divi Builder": "4.27.5",
+      "Wordpress Seo": "20.8"
+    },
+    "detected_themes": [
+      "Divi"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Cookiebot",
+    "Divi:4.27.5",
+    "FitVids.JS:4.27.5",
+    "Google Tag Manager",
+    "HTTP/3",
+    "LiteSpeed",
+    "MySQL",
+    "PHP",
+    "Site Kit:1.99.0",
+    "Swiper",
+    "W3 Total Cache",
+    "WordPress:6.9",
+    "Yoast SEO:20.8",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "jQuery Mobile:4.27.5"
+  ],
+  "plugin_versions": {
+    "dg-divi-carousel": "2.0.26",
+    "honeypot": "2.1.4",
+    "divi-restro-menu": "1.2.5",
+    "divi-builder": "4.27.5",
+    "wordpress-seo": "20.8"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "93.191.158.40"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx1.dandomain.dk",
+      "mx2.dandomain.dk"
+    ],
+    "ns": [
+      "ns.dandomain.dk",
+      "ns2.dandomain.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.dandomain.dk -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.9 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "8 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Divi",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Honeypot (installed 2.1.4, latest 2.3.04)",
+      "risk": "The installed version of Honeypot is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 20.8, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "high",
+      "description": "W3 Total Cache [w3-total-cache] < 2.2.3 (CVE-2022-31090)",
+      "risk": "CVE-2022-31090: Guzzle <= 6.5.7 and 7.0-7.4.4 - Information Exposure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-31090",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "W3 Total Cache [w3-total-cache] < 2.8.2 (CVE-2024-12365)",
+      "risk": "CVE-2024-12365: W3 Total Cache <= 2.8.1 - Authenticated (Subscriber+) Missing Authorization to Server-Side Request Forgery",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-12365",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed) (CVE-2026-27384)",
+      "risk": "CVE-2026-27384: W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-27384",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "WP Armour &#8211; Honeypot Anti Spam [honeypot] < 2.1.14 (CVE-2024-29091)",
+      "risk": "CVE-2024-29091: WordPress  WP Armour – Honeypot Anti Spam Plugin    <= 2.1.13 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-29091",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+      "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-35945",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
+      "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
+      "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-40680",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
+      "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4041",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
+      "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4984",
+        "confidence": "high-inference"
+      }
+    }
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 1016,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "domain": "givskud.dk",
+  "job_id": "scan-2026-04-02-ed12b079",
+  "status": "completed",
+  "scan_result": {
+    "domain": "givskud.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-04",
+    "ssl_days_remaining": 63,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "YouTube",
+      "iubenda",
+      "jQuery:1.12.2"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:52:12.68778732Z",
+      "port": "443",
+      "url": "https://givskud.dk",
+      "input": "givskud.dk",
+      "title": "Givskud.dk | Give | Lokalråd for Givskud med aktiviteter for borger og turister",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "givskud.dk",
+      "host_ip": "193.8.37.85",
+      "path": "/",
+      "time": "331.21676ms",
+      "a": [
+        "193.8.37.85"
+      ],
+      "tech": [
+        "Google Analytics",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "YouTube",
+        "iubenda",
+        "jQuery:1.12.2"
+      ],
+      "words": 15848,
+      "lines": 1591,
+      "status_code": 200,
+      "content_length": 362053,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.8.37.85"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1.dns.services",
+        "ns2.dns.services",
+        "ns3.dns.services"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "givskud.dk",
+    "cvr": "prospect",
+    "company_name": "givskud.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-04",
+        "days_remaining": 63
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "YouTube",
+      "iubenda",
+      "jQuery:1.12.2"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.8.37.85"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1.dns.services",
+        "ns2.dns.services",
+        "ns3.dns.services"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 148,
+    "ssl": 110,
+    "headers": 478,
+    "meta": 370,
+    "httpx": 3359,
+    "webanalyze": 4,
+    "dnsx": 785,
+    "crtsh": 0,
+    "ghw": 215,
+    "total_ms": 5480
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

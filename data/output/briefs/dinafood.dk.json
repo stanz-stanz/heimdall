@@ -2,7 +2,7 @@
   "domain": "dinafood.dk",
   "cvr": "prospect",
   "company_name": "dinafood.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-20",
-      "days_remaining": 81
+      "days_remaining": 78
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -31,6 +33,7 @@
     "Google Analytics",
     "reCAPTCHA"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

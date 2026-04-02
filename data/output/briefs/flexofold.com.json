@@ -1,0 +1,80 @@
+{
+  "domain": "flexofold.com",
+  "cvr": "prospect",
+  "company_name": "flexofold.com",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager, HubSpot, HubSpot CMS Hub"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-30",
+      "days_remaining": 88
+    },
+    "server": "cloudflare",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "Cloudflare Bot Management",
+    "Google Analytics",
+    "Google Tag Manager",
+    "HSTS",
+    "HTTP/3",
+    "HubSpot",
+    "HubSpot CMS Hub",
+    "jQuery"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "178.23.177.95"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "flexofold-com.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns.dandomain.dk",
+      "ns2.dandomain.dk"
+    ],
+    "txt": [
+      "google-site-verification=D8qG7FyZDZP5RCMypx25tHtqy4QWBbaSm0kBdLq0bl8",
+      "MS=ms95727636",
+      "v=spf1 mx ip4:194.126.192.100 include:spf.mailanyone.net include:spf.smart-web.dk include:spf.protection.outlook.com include:25334245.spf08.hubspotemail.net -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    }
+  ]
+}

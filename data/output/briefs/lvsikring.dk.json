@@ -1,0 +1,71 @@
+{
+  "domain": "lvsikring.dk",
+  "cvr": "prospect",
+  "company_name": "lvsikring.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-17",
+      "days_remaining": 45
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cookie Script",
+    "Google Analytics",
+    "Google Tag Manager",
+    "HSTS",
+    "Nginx",
+    "PHP",
+    "ZURB Foundation"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "144.76.135.224"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "lvsikring-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.protection.outlook.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

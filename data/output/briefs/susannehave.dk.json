@@ -1,0 +1,142 @@
+{
+  "domain": "susannehave.dk",
+  "cvr": "prospect",
+  "company_name": "susannehave.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-19",
+      "days_remaining": 46
+    },
+    "server": "Apache",
+    "detected_plugins": [
+      "Cookie Notice",
+      "Wp Blog And Widgets",
+      "Akismet"
+    ],
+    "plugin_versions": {
+      "Cookie Notice": "2.5.16",
+      "Wp Blog And Widgets": "2.6.6"
+    },
+    "detected_themes": [
+      "Colorwaytheme_New"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Cookie Notice:2.5.16",
+    "Modernizr",
+    "MySQL",
+    "PHP:8.4.19",
+    "Varnish",
+    "WordPress:6.9.4",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "prettyPhoto"
+  ],
+  "plugin_versions": {
+    "cookie-notice": "2.5.16",
+    "wp-blog-and-widgets": "2.6.6"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "46.30.213.21"
+    ],
+    "aaaa": [
+      "2a02:2350:5:10a:aa:ca20:8f21:c99a"
+    ],
+    "cname": [],
+    "mx": [
+      "mx4.pub.mailpod11-cph3.one.com",
+      "mx2.pub.mailpod11-cph3.one.com",
+      "mx1.pub.mailpod11-cph3.one.com",
+      "mx3.pub.mailpod11-cph3.one.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": []
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.9.4 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "info",
+      "description": "3 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.4.19",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Colorwaytheme_New",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed) (CVE-2025-67554)",
+      "risk": "CVE-2025-67554: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67554",
+        "confidence": "high-inference"
+      }
+    }
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 308,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
+}

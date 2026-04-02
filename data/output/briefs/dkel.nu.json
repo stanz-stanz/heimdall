@@ -2,7 +2,7 @@
   "domain": "dkel.nu",
   "cvr": "prospect",
   "company_name": "dkel.nu",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-11",
-      "days_remaining": 72
+      "days_remaining": 69
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -35,6 +37,7 @@
     "jQuery",
     "jQuery Migrate"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -53,8 +56,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "MS=ms89049503",
-      "v=spf1 include:_spf3350.spfprotect.com include:spf.protection.outlook.com include:_custspf.one.com include:spf.curanet.dk -all"
+      "v=spf1 include:_spf3350.spfprotect.com include:spf.protection.outlook.com include:_custspf.one.com include:spf.curanet.dk -all",
+      "MS=ms89049503"
     ]
   },
   "cloud_exposure": [],

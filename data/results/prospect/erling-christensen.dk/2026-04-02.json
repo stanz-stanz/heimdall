@@ -1,0 +1,202 @@
+{
+  "domain": "erling-christensen.dk",
+  "job_id": "scan-2026-04-02-5cb093d6",
+  "status": "completed",
+  "scan_result": {
+    "domain": "erling-christensen.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Sectigo Limited",
+    "ssl_expiry": "2026-12-24",
+    "ssl_days_remaining": 266,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "DanDomain Webshop",
+      "HSTS",
+      "Klaviyo",
+      "Nginx",
+      "Trustpilot",
+      "Varnish:6.0",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:47:42.681278395Z",
+      "port": "443",
+      "url": "https://erling-christensen.dk",
+      "input": "erling-christensen.dk",
+      "title": "Køb møbler på tilbud fra Nordjyllands største bolighus",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "erling-christensen.dk",
+      "host_ip": "94.143.8.107",
+      "path": "/",
+      "final_url": "https://erling-christensen.dk/shop/frontpage.html",
+      "time": "523.274777ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "94.143.8.107"
+      ],
+      "tech": [
+        "Bootstrap:5",
+        "DanDomain Webshop",
+        "HSTS",
+        "Klaviyo",
+        "Nginx",
+        "Trustpilot",
+        "Varnish:6.0",
+        "jsDelivr"
+      ],
+      "words": 16781,
+      "lines": 517,
+      "status_code": 200,
+      "content_length": 340419,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.143.8.107"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail.erling-christensen.dk",
+        "backup-mx.zitcom.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "google-site-verification=N4zRAkuK0S2xOZtEou1Yurshb-cnmiQfNxlbXNYkuXg",
+        "facebook-domain-verification=5atptuhcfn61u45vhi5xpl8bffmxew",
+        "v=spf1 a mx include:spf.curanet.dk  include:spf.dandomain.dk -all",
+        "klaviyo-site-verification=SaRLSR"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "erling-christensen.dk",
+    "cvr": "prospect",
+    "company_name": "erling-christensen.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Sectigo Limited",
+        "expiry": "2026-12-24",
+        "days_remaining": 266
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "DanDomain Webshop",
+      "HSTS",
+      "Klaviyo",
+      "Nginx",
+      "Trustpilot",
+      "Varnish:6.0",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.143.8.107"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail.erling-christensen.dk",
+        "backup-mx.zitcom.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "google-site-verification=N4zRAkuK0S2xOZtEou1Yurshb-cnmiQfNxlbXNYkuXg",
+        "facebook-domain-verification=5atptuhcfn61u45vhi5xpl8bffmxew",
+        "v=spf1 a mx include:spf.curanet.dk  include:spf.dandomain.dk -all",
+        "klaviyo-site-verification=SaRLSR"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 89,
+    "ssl": 72,
+    "headers": 497,
+    "meta": 822,
+    "httpx": 4817,
+    "webanalyze": 4,
+    "dnsx": 753,
+    "crtsh": 0,
+    "ghw": 433,
+    "total_ms": 7498
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "domain": "davicapizza.dk",
+  "job_id": "scan-2026-04-02-9e5dd1b5",
+  "status": "completed",
+  "scan_result": {
+    "domain": "davicapizza.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-31",
+    "ssl_days_remaining": 59,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Cloudflare Browser Insights",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:42:53.172004087Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://davicapizza.dk",
+      "input": "davicapizza.dk",
+      "title": "Just a moment...",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "davicapizza.dk",
+      "host_ip": "162.159.136.89",
+      "path": "/",
+      "time": "128.427697ms",
+      "a": [
+        "162.159.135.89",
+        "162.159.136.89"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "Cloudflare Browser Insights",
+        "HSTS",
+        "HTTP/3"
+      ],
+      "words": 108,
+      "lines": 2,
+      "status_code": 403,
+      "content_length": 5382,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "162.159.135.89",
+        "162.159.136.89"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.sendgrid.net"
+      ],
+      "ns": [
+        "ns1-06.azure-dns.com",
+        "ns2-06.azure-dns.net",
+        "ns3-06.azure-dns.org",
+        "ns4-06.azure-dns.info"
+      ],
+      "txt": [
+        "google-site-verification=B32TujdlQECkyTvh4Rt6gFJlu9Y6J2MOfvXm6PQi42o"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "davicapizza.dk",
+    "cvr": "prospect",
+    "company_name": "davicapizza.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-31",
+        "days_remaining": 59
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Cloudflare Browser Insights",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "162.159.135.89",
+        "162.159.136.89"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.sendgrid.net"
+      ],
+      "ns": [
+        "ns1-06.azure-dns.com",
+        "ns2-06.azure-dns.net",
+        "ns3-06.azure-dns.org",
+        "ns4-06.azure-dns.info"
+      ],
+      "txt": [
+        "google-site-verification=B32TujdlQECkyTvh4Rt6gFJlu9Y6J2MOfvXm6PQi42o"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 237,
+    "ssl": 85,
+    "headers": 95,
+    "meta": 101,
+    "httpx": 1558,
+    "webanalyze": 2,
+    "dnsx": 734,
+    "crtsh": 0,
+    "ghw": 224,
+    "total_ms": 3049
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

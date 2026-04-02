@@ -1,0 +1,110 @@
+{
+  "domain": "nov.dk",
+  "cvr": "prospect",
+  "company_name": "nov.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "DigiCert Inc",
+      "expiry": "2026-07-26",
+      "days_remaining": 115
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Azure",
+    "Azure Front Door",
+    "Bootstrap",
+    "DNN",
+    "HSTS",
+    "Microsoft ASP.NET",
+    "Modernizr",
+    "Onsen UI",
+    "bxSlider",
+    "jQuery",
+    "jQuery Migrate",
+    "jQuery UI:01"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "20.107.224.17"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "nov-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1-01.azure-dns.com",
+      "ns2-01.azure-dns.net",
+      "ns3-01.azure-dns.org",
+      "ns4-01.azure-dns.info"
+    ],
+    "txt": [
+      "MS=ms44657560",
+      "v=spf1 include:spf.protection.outlook.com -all"
+    ]
+  },
+  "cloud_exposure": [
+    {
+      "bucket_name": "dimma.ams3.digitaloceanspaces.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "borjes.s3.amazonaws.com",
+      "file_count": 85
+    },
+    {
+      "bucket_name": "gameassets.cinemataztic.com.storage.googleapis.com",
+      "file_count": 8
+    },
+    {
+      "bucket_name": "shfstor.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "webcrawler.fra1.digitaloceanspaces.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "astonmartin.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "viewpointcloud.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "sisel.s3.amazonaws.com",
+      "file_count": 1
+    }
+  ],
+  "findings": [
+    {
+      "severity": "high",
+      "description": "8 exposed cloud storage buckets detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+    }
+  ]
+}

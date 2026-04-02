@@ -2,7 +2,7 @@
   "domain": "limbo.works",
   "cvr": "prospect",
   "company_name": "limbo.works",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-10",
-      "days_remaining": 40
+      "days_remaining": 37
     },
     "server": "Netlify",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -36,6 +38,7 @@
     "Nuxt.js",
     "Vue.js"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -47,19 +50,19 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx2.googlemail.com",
+      "alt2.aspmx.l.google.com",
       "aspmx.l.google.com",
       "alt1.aspmx.l.google.com",
       "aspmx3.googlemail.com",
-      "alt2.aspmx.l.google.com"
+      "aspmx2.googlemail.com"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=kIcODhKUsePGmySfJH-81wMv13S6hwDVJjAulszTrjU",
       "WB=jjJE+bEbmUmpH4DrqJpB1Q",
+      "google-site-verification=kIcODhKUsePGmySfJH-81wMv13S6hwDVJjAulszTrjU",
       "v=spf1 mx include:aspmx.googlemail.com include:sendgrid.net -all",
       "MS=ms75464345"
     ]

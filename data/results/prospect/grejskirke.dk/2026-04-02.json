@@ -1,0 +1,189 @@
+{
+  "domain": "grejskirke.dk",
+  "job_id": "scan-2026-04-02-555d5113",
+  "status": "completed",
+  "scan_result": {
+    "domain": "grejskirke.dk",
+    "cms": "",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-02",
+    "ssl_days_remaining": 60,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit",
+      "jQuery"
+    ],
+    "meta_author": "Finn Moesborg",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:52:36.991558009Z",
+      "port": "443",
+      "url": "https://grejskirke.dk",
+      "input": "grejskirke.dk",
+      "title": "Forside",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "grejskirke.dk",
+      "host_ip": "138.201.82.135",
+      "path": "/",
+      "time": "441.817774ms",
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "tech": [
+        "Cookiebot",
+        "Google Analytics",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "UIKit",
+        "jQuery"
+      ],
+      "words": 10049,
+      "lines": 910,
+      "status_code": 200,
+      "content_length": 33825,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "cname": [],
+      "mx": [
+        "grejskirke.dk"
+      ],
+      "ns": [
+        "ns0.moesborg.dk",
+        "ns1.moesborg.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:138.201.82.135 include:spf.moesborg.dk +a +mx ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "grejskirke.dk",
+    "cvr": "prospect",
+    "company_name": "grejskirke.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-02",
+        "days_remaining": 60
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "cname": [],
+      "mx": [
+        "grejskirke.dk"
+      ],
+      "ns": [
+        "ns0.moesborg.dk",
+        "ns1.moesborg.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:138.201.82.135 include:spf.moesborg.dk +a +mx ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 156,
+    "ssl": 91,
+    "headers": 316,
+    "meta": 294,
+    "httpx": 2205,
+    "webanalyze": 4,
+    "dnsx": 796,
+    "crtsh": 0,
+    "ghw": 220,
+    "total_ms": 4092
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

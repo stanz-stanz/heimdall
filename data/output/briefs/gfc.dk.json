@@ -1,0 +1,73 @@
+{
+  "domain": "gfc.dk",
+  "cvr": "prospect",
+  "company_name": "gfc.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-06",
+      "days_remaining": 64
+    },
+    "server": "Apache",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "HSTS",
+    "jQuery"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "195.47.247.18"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      ""
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": []
+  },
+  "cloud_exposure": [
+    {
+      "bucket_name": "ypfsresourcelibrary.blob.core.windows.net",
+      "file_count": 1
+    }
+  ],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "high",
+      "description": "1 exposed cloud storage bucket detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+    }
+  ]
+}

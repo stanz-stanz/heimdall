@@ -1,0 +1,70 @@
+{
+  "domain": "aadalensvandforsyning.dk",
+  "cvr": "prospect",
+  "company_name": "aadalensvandforsyning.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "DigiCert Inc",
+      "expiry": "2026-08-14",
+      "days_remaining": 134
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Azure",
+    "Azure Front Door",
+    "Bootstrap",
+    "DNN",
+    "HSTS",
+    "Microsoft ASP.NET",
+    "Modernizr",
+    "bxSlider",
+    "jQuery",
+    "jQuery Migrate",
+    "jQuery UI:01"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "20.107.224.17"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "aadalensvandforsyning-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1-05.azure-dns.com",
+      "ns2-05.azure-dns.net",
+      "ns3-05.azure-dns.org",
+      "ns4-05.azure-dns.info"
+    ],
+    "txt": [
+      "MS=ms11912443",
+      "v=spf1 include:spf.protection.outlook.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

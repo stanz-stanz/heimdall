@@ -1,0 +1,81 @@
+{
+  "domain": "kolding.dk",
+  "cvr": "prospect",
+  "company_name": "kolding.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "DigiCert Inc",
+      "expiry": "2027-01-07",
+      "days_remaining": 280
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Amazon S3",
+    "Amazon Web Services",
+    "Azure",
+    "Azure Edge Network",
+    "Cludo",
+    "HSTS",
+    "jsDelivr"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "20.50.64.13"
+    ],
+    "aaaa": [
+      "2603:1020:5:6::33"
+    ],
+    "cname": [],
+    "mx": [
+      "mx2.hc780-75.c3s2.iphmx.com",
+      "mx1.hc780-75.c3s2.iphmx.com"
+    ],
+    "ns": [
+      "ns.scannet2.dk",
+      "ns2.scannet2.dk"
+    ],
+    "txt": [
+      "MS=ms63276456",
+      "q6n256m4ddyt7g9yb008jd166822xpdv",
+      "apple-domain-verification=JKXi0CBi6NV4fCYS",
+      "apple-domain-verification=0Ou3pmURT5YfBO4e",
+      "apple-domain-verification=astMe5sY96Jv7ZqX",
+      "_tmhm6coufedvqgm57k3x3ye2gcj82sz",
+      "google-site-verification=zTFZKioUZ2gCZFJv8mIPP9MP0ZiqpOvJRRAtzkI7p7U",
+      "asv=392eec1eb5939b3ea95400153172013e",
+      "apple-domain-verification=wZEeinemxlPCyU5z",
+      "v=spf1 include:_spf27160.spfprotect.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    }
+  ]
+}

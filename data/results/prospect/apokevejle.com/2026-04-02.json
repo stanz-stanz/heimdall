@@ -1,0 +1,211 @@
+{
+  "domain": "apokevejle.com",
+  "job_id": "scan-2026-04-02-4dd71dfc",
+  "status": "completed",
+  "scan_result": {
+    "domain": "apokevejle.com",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-22",
+    "ssl_days_remaining": 49,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Google Hosted Libraries",
+      "Nginx",
+      "PHP:7.0.33",
+      "Plausible",
+      "jQuery:2.1.4"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:32:57.407206768Z",
+      "port": "443",
+      "url": "https://apokevejle.com",
+      "input": "apokevejle.com",
+      "title": "A'POKE",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "apokevejle.com",
+      "host_ip": "86.48.72.41",
+      "path": "/",
+      "final_url": "https://www.apokevejle.com/",
+      "time": "633.504064ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "86.48.72.41"
+      ],
+      "tech": [
+        "Google Analytics",
+        "Google Hosted Libraries",
+        "Nginx",
+        "PHP:7.0.33",
+        "Plausible",
+        "jQuery:2.1.4"
+      ],
+      "words": 3622,
+      "lines": 1673,
+      "status_code": 200,
+      "content_length": 111815,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "86.48.72.41"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "scan2.centex.dk",
+        "apokevejle-com.mail.protection.outlook.com",
+        "scan1.centex.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk",
+        "ns3.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:centex.dk include:sendgrid.net include:send.heyloyalty.com ~all",
+        "MS=ms33244785"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "apokevejle.com",
+    "cvr": "prospect",
+    "company_name": "apokevejle.com",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-22",
+        "days_remaining": 49
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Google Hosted Libraries",
+      "Nginx",
+      "PHP:7.0.33",
+      "Plausible",
+      "jQuery:2.1.4"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "86.48.72.41"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "scan2.centex.dk",
+        "apokevejle-com.mail.protection.outlook.com",
+        "scan1.centex.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk",
+        "ns3.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:centex.dk include:sendgrid.net include:send.heyloyalty.com ~all",
+        "MS=ms33244785"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP:7.0.33",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 213,
+    "ssl": 88,
+    "headers": 315,
+    "meta": 507,
+    "httpx": 2937,
+    "webanalyze": 2,
+    "dnsx": 806,
+    "crtsh": 0,
+    "ghw": 168,
+    "total_ms": 5046
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

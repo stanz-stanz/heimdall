@@ -2,7 +2,7 @@
   "domain": "jellinggk.dk",
   "cvr": "prospect",
   "company_name": "jellinggk.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,16 +16,31 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-28",
-      "days_remaining": 60
+      "days_remaining": 56
     },
     "server": "LiteSpeed",
     "detected_plugins": [
-      "Contact Form 7",
-      "Ultimate_Vc_Addons",
       "Wp Media Folder",
+      "Contact Form 7",
       "Revslider",
+      "Js_Composer",
       "Dt The7 Core",
-      "Js_Composer"
+      "Ultimate_Vc_Addons",
+      "Wordfence",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Wp Media Folder": "6.2.0",
+      "Contact Form 7": "6.1.5",
+      "Revslider": "6.7.52",
+      "Js_Composer": "8.7.2",
+      "Dt The7 Core": "2.7.12",
+      "Ultimate_Vc_Addons": "3.21.3",
+      "Wordpress Seo": "27.3"
+    },
+    "detected_themes": [
+      "Dt The7",
+      "Dt The7 Child"
     ],
     "headers": {
       "x_frame_options": false,
@@ -42,14 +57,23 @@
     "LiteSpeed",
     "MySQL",
     "PHP",
-    "Slider Revolution:6.7.51",
+    "Slider Revolution:6.7.52",
     "WordPress",
-    "Yoast SEO:27.2",
+    "Yoast SEO:27.3",
     "imagesLoaded:5.0.0",
     "jQuery",
     "jQuery Migrate:3.4.1",
     "wpBakery"
   ],
+  "plugin_versions": {
+    "wp-media-folder": "6.2.0",
+    "contact-form-7": "6.1.5",
+    "revslider": "6.7.52",
+    "js_composer": "8.7.2",
+    "dt-the7-core": "2.7.12",
+    "Ultimate_VC_Addons": "3.21.3",
+    "wordpress-seo": "27.3"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -103,13 +127,62 @@
     },
     {
       "severity": "info",
-      "description": "6 WordPress plugins detected",
+      "description": "8 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Dt The7, Dt The7 Child",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
+      "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-1579",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "The7 Core [dt-the7-core] <= 2.7.11 (unfixed) (CVE-2025-63076)",
+      "risk": "CVE-2025-63076: The7 Core [dt-the7-core] <= 2.7.11 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-63076",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Ultimate Addons for Visual Composer [ultimate_vc_addons] < 3.19.15 (CVE-2023-46205)",
+      "risk": "CVE-2023-46205: WordPress  Ultimate Addons for WPBakery Page Builder Plugin  <= 3.19.14 is vulnerable to Local File Inclusion",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-46205",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 175,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

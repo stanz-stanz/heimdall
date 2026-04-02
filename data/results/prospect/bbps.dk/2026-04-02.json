@@ -1,0 +1,202 @@
+{
+  "domain": "bbps.dk",
+  "job_id": "scan-2026-04-02-02c0cf3f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "bbps.dk",
+    "cms": "Joomla",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-07",
+    "ssl_days_remaining": 65,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Joomla",
+      "Nginx",
+      "PHP:8.3.30",
+      "UIKit"
+    ],
+    "meta_author": "Super User",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:34:39.634452191Z",
+      "port": "443",
+      "url": "https://bbps.dk",
+      "input": "bbps.dk",
+      "title": "Bredballe Privatskole",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "bbps.dk",
+      "host_ip": "77.247.67.170",
+      "path": "/",
+      "final_url": "https://bredballeprivatskole.dk/",
+      "time": "786.038702ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "77.247.67.170"
+      ],
+      "tech": [
+        "Joomla",
+        "Nginx",
+        "PHP:8.3.30",
+        "UIKit"
+      ],
+      "words": 8588,
+      "lines": 935,
+      "status_code": 200,
+      "content_length": 39597,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "joomla\\!",
+          "vendor": "joomla",
+          "cpe": "cpe:2.3:a:joomla:joomla\\!:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "77.247.67.170"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bbps-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "bbps.dk",
+    "cvr": "prospect",
+    "company_name": "bbps.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "B",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "Joomla",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-07",
+        "days_remaining": 65
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Joomla",
+      "Nginx",
+      "PHP:8.3.30",
+      "UIKit"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "77.247.67.170"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bbps-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP:8.3.30",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 224,
+    "ssl": 77,
+    "headers": 887,
+    "meta": 853,
+    "httpx": 2543,
+    "webanalyze": 4,
+    "dnsx": 779,
+    "crtsh": 0,
+    "ghw": 285,
+    "total_ms": 5668
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -2,11 +2,11 @@
   "domain": "frisorlyhne.dk",
   "cvr": "prospect",
   "company_name": "frisorlyhne.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7"
+    "Data-handling plugins: Contact Form 7, Woocommerce"
   ],
   "industry": "",
   "technology": {
@@ -16,15 +16,26 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 50
+      "days_remaining": 46
     },
     "server": "Apache",
     "detected_plugins": [
-      "Revslider",
       "Js_Composer",
-      "Ut Portfolio",
+      "Contact Form 7",
+      "Revslider",
       "Ut Shortcodes",
-      "Contact Form 7"
+      "Ut Portfolio",
+      "Woocommerce"
+    ],
+    "plugin_versions": {
+      "Js_Composer": "8.8.8",
+      "Contact Form 7": "6.1.5",
+      "Revslider": "6.7.37",
+      "Ut Shortcodes": "2.6.2",
+      "Ut Portfolio": "5.0.2"
+    },
+    "detected_themes": [
+      "Brooklyn"
     ],
     "headers": {
       "x_frame_options": false,
@@ -47,6 +58,13 @@
     "jQuery Migrate:3.4.1",
     "wpBakery"
   ],
+  "plugin_versions": {
+    "js_composer": "8.8.8",
+    "contact-form-7": "6.1.5",
+    "revslider": "6.7.37",
+    "ut-shortcodes": "2.6.2",
+    "ut-portfolio": "5.0.2"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -60,8 +78,8 @@
     ],
     "cname": [],
     "mx": [
-      "mx2.pub.mailpod12-cph3.one.com",
       "mx4.pub.mailpod12-cph3.one.com",
+      "mx2.pub.mailpod12-cph3.one.com",
       "mx3.pub.mailpod12-cph3.one.com",
       "mx1.pub.mailpod12-cph3.one.com"
     ],
@@ -100,18 +118,103 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugin detected: Contact Form 7",
+      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
-      "description": "5 WordPress plugins detected",
+      "description": "6 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP:8.0.30",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Brooklyn",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
+      "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-1579",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Slider Revolution [revslider] < 6.7.38 (CVE-2025-10249)",
+      "risk": "CVE-2025-10249: Slider Revolution &lt;= 6.7.37 - Missing Authorization to Authenticated (Contributor+) Arbitrary File Read",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-10249",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Shortcodes by United Themes [ut-shortcodes] < 5.0.5 (CVE-2024-37097)",
+      "risk": "CVE-2024-37097: WordPress Shortcodes by United Themes Plugin < 5.0.5 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-37097",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Shortcodes by United Themes [ut-shortcodes] < 5.1.7 (CVE-2024-13557)",
+      "risk": "CVE-2024-13557: Shortcodes by United Themes  &lt;= 5.1.6 - Unauthenticated Arbitrary Shortcode Execution",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-13557",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 516,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

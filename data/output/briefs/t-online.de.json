@@ -1,0 +1,136 @@
+{
+  "domain": "t-online.de",
+  "cvr": "prospect",
+  "company_name": "t-online.de",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-04-23",
+      "days_remaining": 21
+    },
+    "server": "envoy",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Amazon CloudFront",
+    "Amazon Web Services",
+    "Envoy",
+    "HSTS",
+    "HTTP/3"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "54.217.253.146",
+      "52.209.116.123",
+      "34.246.241.220"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx00.t-online.de",
+      "mx02.t-online.de",
+      "mx03.t-online.de",
+      "mx01.t-online.de"
+    ],
+    "ns": [
+      "pns.dtag.de",
+      "dns00.dns.t-ipnet.de",
+      "dns02.dns.t-ipnet.de",
+      "dns20.dns.t-ipnet.de",
+      "dns50.dns.t-ipnet.de"
+    ],
+    "txt": [
+      "google-site-verification=s1qp7xSUgoBjWm5tTL7j8c-opGfm7YdlIBkutNbS_kA",
+      "google-site-verification=pOdK8ndAYqDGA8-03SAwZoeJvnSWE50S25j_63u0FWw",
+      "BSI103622123645",
+      "google-site-verification=kOtokoaNZwnXoLMiWNnaX3leVCyA9DaOlP1IJKYu1DI",
+      "google-site-verification=cKQjq9M78jbRX073a91_V3oBM76hqbQDnK2uGelDpto",
+      "google-site-verification=RuaGdsiIYwzDsAd0_s7yhFgYuYRc0Ylk01j209Mgvis",
+      "v=spf1 ip4:194.25.134.16/28 ip4:194.25.134.80/28 ~all",
+      "google-site-verification=Zl48ijjwoVxIifNuZ5ozcydysO5owxNB1Z4V--dkgE0",
+      "google-site-verification=kLomR9c2yDgU-AUYNr9ma0XbvmzaOR_ZCv_ppOvbB6Y",
+      "google-site-verification=dNVp8NLTkRfU1YikWSzxglE25kMfUtFNyoiIxcnxiRc",
+      "google-site-verification=YCYBJAGc1hE2hjEuhkLfNgzbAc1WWOi5AKyoCDlrhcE"
+    ]
+  },
+  "cloud_exposure": [
+    {
+      "bucket_name": "cdn.123shapeme.com.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "silenceapp.nyc3.digitaloceanspaces.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "kaashandelremijn.blob.core.windows.net",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "mce-fiiles.fra1.digitaloceanspaces.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "resourcesbizagi.blob.core.windows.net",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "farmerama.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "static-imgs.storage.googleapis.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "cdn-livrodigital.nyc3.digitaloceanspaces.com",
+      "file_count": 192
+    },
+    {
+      "bucket_name": "ydccdn.blob.core.windows.net",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "camworks-website.s3.amazonaws.com",
+      "file_count": 2
+    }
+  ],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "SSL certificate expires in 21 days",
+      "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "high",
+      "description": "10 exposed cloud storage buckets detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+    }
+  ]
+}

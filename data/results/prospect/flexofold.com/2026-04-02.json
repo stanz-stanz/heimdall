@@ -1,0 +1,201 @@
+{
+  "domain": "flexofold.com",
+  "job_id": "scan-2026-04-02-b07a0440",
+  "status": "completed",
+  "scan_result": {
+    "domain": "flexofold.com",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-30",
+    "ssl_days_remaining": 88,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "HubSpot",
+      "HubSpot CMS Hub",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:49:24.874741132Z",
+      "port": "443",
+      "url": "https://flexofold.com",
+      "input": "flexofold.com",
+      "title": "Flexofold - Folding propellers for sailboats & multihull yachts",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "flexofold.com",
+      "host_ip": "178.23.177.95",
+      "path": "/",
+      "final_url": "https://www.flexofold.com/",
+      "time": "409.071786ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "178.23.177.95"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "Google Analytics",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "HubSpot",
+        "HubSpot CMS Hub",
+        "jQuery"
+      ],
+      "words": 37263,
+      "lines": 5970,
+      "status_code": 200,
+      "content_length": 196718,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "178.23.177.95"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "flexofold-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "google-site-verification=D8qG7FyZDZP5RCMypx25tHtqy4QWBbaSm0kBdLq0bl8",
+        "MS=ms95727636",
+        "v=spf1 mx ip4:194.126.192.100 include:spf.mailanyone.net include:spf.smart-web.dk include:spf.protection.outlook.com include:25334245.spf08.hubspotemail.net -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "flexofold.com",
+    "cvr": "prospect",
+    "company_name": "flexofold.com",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager, HubSpot, HubSpot CMS Hub"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-30",
+        "days_remaining": 88
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "HubSpot",
+      "HubSpot CMS Hub",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "178.23.177.95"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "flexofold-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "google-site-verification=D8qG7FyZDZP5RCMypx25tHtqy4QWBbaSm0kBdLq0bl8",
+        "MS=ms95727636",
+        "v=spf1 mx ip4:194.126.192.100 include:spf.mailanyone.net include:spf.smart-web.dk include:spf.protection.outlook.com include:25334245.spf08.hubspotemail.net -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 125,
+    "ssl": 57,
+    "headers": 244,
+    "meta": 338,
+    "httpx": 2923,
+    "webanalyze": 2,
+    "dnsx": 774,
+    "crtsh": 0,
+    "ghw": 194,
+    "total_ms": 4670
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

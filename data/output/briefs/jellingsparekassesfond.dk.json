@@ -1,0 +1,66 @@
+{
+  "domain": "jellingsparekassesfond.dk",
+  "cvr": "prospect",
+  "company_name": "jellingsparekassesfond.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-07",
+      "days_remaining": 65
+    },
+    "server": "Microsoft-IIS/10.0",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "HSTS",
+    "IIS:10.0",
+    "Windows Server"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.40.46.16"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx1.onlinemail.io",
+      "mx2.onlinemail.io"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.curanet.dk include:spf.onlinemail.io ?all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

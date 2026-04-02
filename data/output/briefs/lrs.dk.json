@@ -2,7 +2,7 @@
   "domain": "lrs.dk",
   "cvr": "prospect",
   "company_name": "lrs.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-20",
-      "days_remaining": 83
+      "days_remaining": 79
     },
     "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,6 +36,7 @@
     "Google Tag Manager",
     "HTTP/3"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -52,12 +55,13 @@
       "ns02.one.com"
     ],
     "txt": [
-      "apple-domain-verification=KrBwHezVBrsNkrMu",
+      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg==",
+      "MS=ms15107593",
       "_globalsign-domain-verification=3uTpsAdLmbS_WRpikrAEfyIJottedVDre-F4iSzyMW",
       "google-site-verification=vwfJj0u0WjUabtlkIHLp8VCAhRRMSoP6TWaEpvzyY8o",
-      "MS=ms15107593",
-      "v=spf1 ip4:80.63.33.64 ip4:167.89.100.223 ip4:167.89.106.69 ip4:185.40.44.230 include:spf.mailanyone.net include:spf.protection.outlook.com -all",
-      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg=="
+      "v=spf1 ip4:80.63.33.64 ip4:167.89.100.223 ip4:167.89.106.69 ip4:185.40.44.230 include:brevo.com include:spf.mailanyone.net include:spf.protection.outlook.com -all",
+      "apple-domain-verification=KrBwHezVBrsNkrMu",
+      "_globalsign-domain-verification=INMYbMuY_iyM-eX3u5kzNu8i80WfXS6Z6g7NCi_Ht7"
     ]
   },
   "cloud_exposure": [],

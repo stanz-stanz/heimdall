@@ -1,0 +1,185 @@
+{
+  "domain": "cloudcontrolling.dk",
+  "job_id": "scan-2026-04-02-4956ba01",
+  "status": "completed",
+  "scan_result": {
+    "domain": "cloudcontrolling.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-09",
+    "ssl_days_remaining": 68,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HSTS",
+      "Typekit"
+    ],
+    "meta_author": "Cloud Controlling ApS",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:40:14.076771438Z",
+      "port": "443",
+      "url": "https://cloudcontrolling.dk",
+      "input": "cloudcontrolling.dk",
+      "title": "Cloud Controlling – Digitaliseret økonomistyring",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "cloudcontrolling.dk",
+      "host_ip": "185.158.133.1",
+      "path": "/",
+      "time": "152.664651ms",
+      "a": [
+        "185.158.133.1"
+      ],
+      "tech": [
+        "Adobe Fonts",
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "HSTS",
+        "Typekit"
+      ],
+      "words": 196,
+      "lines": 31,
+      "status_code": 200,
+      "content_length": 1952,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.158.133.1"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "cloudcontrolling-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "cloudcontrolling.dk",
+    "cvr": "prospect",
+    "company_name": "cloudcontrolling.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-09",
+        "days_remaining": 68
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HSTS",
+      "Typekit"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.158.133.1"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "cloudcontrolling-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 315,
+    "ssl": 91,
+    "headers": 159,
+    "meta": 141,
+    "httpx": 1556,
+    "webanalyze": 5,
+    "dnsx": 758,
+    "crtsh": 0,
+    "ghw": 268,
+    "total_ms": 3304
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

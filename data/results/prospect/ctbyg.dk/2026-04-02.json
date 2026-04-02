@@ -1,0 +1,249 @@
+{
+  "domain": "ctbyg.dk",
+  "job_id": "scan-2026-04-02-c6856dae",
+  "status": "completed",
+  "scan_result": {
+    "domain": "ctbyg.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-17",
+    "ssl_days_remaining": 44,
+    "detected_plugins": [
+      "builder-slider-pro",
+      "builder-contact",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "wordpress-seo": "25.4"
+    },
+    "detected_themes": [
+      "themify-ultra"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "Themify Builder",
+      "W3 Total Cache",
+      "WordPress:6.9.4",
+      "Yoast SEO:25.4",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:41:46.754444422Z",
+      "port": "443",
+      "url": "https://ctbyg.dk",
+      "input": "ctbyg.dk",
+      "title": "Tømrer i Vejle - Detaljeorienteret arbejde - CT Byg ApS",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "ctbyg.dk",
+      "host_ip": "94.231.103.41",
+      "path": "/",
+      "time": "137.604007ms",
+      "a": [
+        "94.231.103.41"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "HTTP/3",
+        "MySQL",
+        "PHP",
+        "Themify Builder",
+        "W3 Total Cache",
+        "WordPress:6.9.4",
+        "Yoast SEO:25.4",
+        "jQuery"
+      ],
+      "words": 7752,
+      "lines": 1179,
+      "status_code": 200,
+      "content_length": 127364,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.103.41"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "ctbyg.dk",
+    "cvr": "prospect",
+    "company_name": "ctbyg.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-17",
+        "days_remaining": 44
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Builder Slider Pro",
+        "Builder Contact",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Wordpress Seo": "25.4"
+      },
+      "detected_themes": [
+        "Themify Ultra"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "Themify Builder",
+      "W3 Total Cache",
+      "WordPress:6.9.4",
+      "Yoast SEO:25.4",
+      "jQuery"
+    ],
+    "plugin_versions": {
+      "wordpress-seo": "25.4"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.103.41"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "3 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Themify Ultra",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 25.4, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1049,
+    "ssl": 74,
+    "headers": 86,
+    "meta": 342,
+    "httpx": 2383,
+    "webanalyze": 2,
+    "dnsx": 852,
+    "crtsh": 0,
+    "ghw": 281,
+    "total_ms": 6083
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "domain": "tksolutions.dk",
+  "cvr": "prospect",
+  "company_name": "tksolutions.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-14",
+      "days_remaining": 41
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Tag Manager",
+    "HSTS",
+    "Nginx",
+    "PHP",
+    "Slick",
+    "Snowplow Analytics",
+    "Swiper",
+    "jQuery"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.221.38.141"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "tksolutions-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "MS=ms47574367",
+      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

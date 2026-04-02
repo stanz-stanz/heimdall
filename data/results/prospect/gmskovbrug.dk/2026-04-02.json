@@ -1,0 +1,178 @@
+{
+  "domain": "gmskovbrug.dk",
+  "job_id": "scan-2026-04-02-3b2c6f9b",
+  "status": "completed",
+  "scan_result": {
+    "domain": "gmskovbrug.dk",
+    "cms": "",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-20",
+    "ssl_days_remaining": 48,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Bootstrap:5.1.3",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:52:15.675729742Z",
+      "port": "443",
+      "url": "https://gmskovbrug.dk",
+      "input": "gmskovbrug.dk",
+      "title": "Domænet er hosted af e-studio.dk",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "gmskovbrug.dk",
+      "host_ip": "195.242.131.71",
+      "path": "/",
+      "time": "129.227376ms",
+      "a": [
+        "195.242.131.71"
+      ],
+      "tech": [
+        "Bootstrap:5.1.3",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed"
+      ],
+      "words": 3007,
+      "lines": 123,
+      "status_code": 200,
+      "content_length": 7886,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "195.242.131.71"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.spamfri.dk",
+        "mx3.spamfri.dk",
+        "mx2.spamfri.dk",
+        "mx4.spamfri.dk"
+      ],
+      "ns": [
+        "ns1.e-studio.dk",
+        "ns2.e-studio.dk",
+        "ns3.e-studio.dk"
+      ],
+      "txt": [
+        "v=spf1 +a +mx +ip4:195.242.131.71 include:_spf.e-studio.dk ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "gmskovbrug.dk",
+    "cvr": "prospect",
+    "company_name": "gmskovbrug.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-20",
+        "days_remaining": 48
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:5.1.3",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "195.242.131.71"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.spamfri.dk",
+        "mx3.spamfri.dk",
+        "mx2.spamfri.dk",
+        "mx4.spamfri.dk"
+      ],
+      "ns": [
+        "ns1.e-studio.dk",
+        "ns2.e-studio.dk",
+        "ns3.e-studio.dk"
+      ],
+      "txt": [
+        "v=spf1 +a +mx +ip4:195.242.131.71 include:_spf.e-studio.dk ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 82,
+    "ssl": 71,
+    "headers": 159,
+    "meta": 88,
+    "httpx": 1568,
+    "webanalyze": 4,
+    "dnsx": 804,
+    "crtsh": 0,
+    "ghw": 233,
+    "total_ms": 3019
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

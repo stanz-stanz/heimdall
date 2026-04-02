@@ -1,0 +1,196 @@
+{
+  "domain": "beirholm.dk",
+  "job_id": "scan-2026-04-02-92458312",
+  "status": "completed",
+  "scan_result": {
+    "domain": "beirholm.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-06",
+    "ssl_days_remaining": 34,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Microsoft ASP.NET",
+      "Trustpilot"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:34:48.19831303Z",
+      "port": "443",
+      "url": "https://beirholm.dk",
+      "input": "beirholm.dk",
+      "title": "Beirholm | Context Engineered Textiles",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "beirholm.dk",
+      "host_ip": "81.95.249.198",
+      "path": "/",
+      "time": "245.73537ms",
+      "a": [
+        "81.95.249.198"
+      ],
+      "tech": [
+        "Bootstrap:5",
+        "Microsoft ASP.NET",
+        "Trustpilot"
+      ],
+      "words": 5079,
+      "lines": 1348,
+      "status_code": 200,
+      "content_length": 75689,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "81.95.249.198"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "beirholm-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.eurodns.com",
+        "ns2.eurodns.com",
+        "ns3.eurodns.com",
+        "ns4.eurodns.com"
+      ],
+      "txt": [
+        "NDGtKdIaDX9pYU166AzWl3MXj+HegNR0kh/xpZRpW56YiEPWeGiaXifznvzmK0cJHlB7XGyO6GqVhyz/mPRAsw==",
+        "v=spf1 ip4:80.63.16.22 ip4:188.180.110.166 ip4:52.136.251.23 ip4:13.80.101.125 ip4:168.63.107.152 ip4:13.95.225.56 ip4:13.80.3.175 ip4:20.160.159.155 ip4:51.144.177.198 ip4:213.199.138.125 ip4:52.174.158.14 ip4:108.142.187.228 ip4:172.205.177.36 include:spf.dynamicweb-cms.com include:sendgrid.net include:spf.hostnordic.com include:spf.protection.outlook.com -all",
+        "apple-domain-verification=L8gLQcCBob2DjM4i"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "beirholm.dk",
+    "cvr": "prospect",
+    "company_name": "beirholm.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-06",
+        "days_remaining": 34
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Microsoft ASP.NET",
+      "Trustpilot"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "81.95.249.198"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "beirholm-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.eurodns.com",
+        "ns2.eurodns.com",
+        "ns3.eurodns.com",
+        "ns4.eurodns.com"
+      ],
+      "txt": [
+        "NDGtKdIaDX9pYU166AzWl3MXj+HegNR0kh/xpZRpW56YiEPWeGiaXifznvzmK0cJHlB7XGyO6GqVhyz/mPRAsw==",
+        "v=spf1 ip4:80.63.16.22 ip4:188.180.110.166 ip4:52.136.251.23 ip4:13.80.101.125 ip4:168.63.107.152 ip4:13.95.225.56 ip4:13.80.3.175 ip4:20.160.159.155 ip4:51.144.177.198 ip4:213.199.138.125 ip4:52.174.158.14 ip4:108.142.187.228 ip4:172.205.177.36 include:spf.dynamicweb-cms.com include:sendgrid.net include:spf.hostnordic.com include:spf.protection.outlook.com -all",
+        "apple-domain-verification=L8gLQcCBob2DjM4i"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 127,
+    "ssl": 97,
+    "headers": 156,
+    "meta": 152,
+    "httpx": 2232,
+    "webanalyze": 4,
+    "dnsx": 692,
+    "crtsh": 0,
+    "ghw": 267,
+    "total_ms": 3739
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

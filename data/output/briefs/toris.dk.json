@@ -1,0 +1,237 @@
+{
+  "domain": "toris.dk",
+  "cvr": "prospect",
+  "company_name": "toris.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Gravityforms",
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "LiteSpeed",
+    "ssl": {
+      "valid": false,
+      "issuer": "",
+      "expiry": "",
+      "days_remaining": -1
+    },
+    "server": "LiteSpeed",
+    "detected_plugins": [
+      "Gravityforms",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Gravityforms": "2.8.2",
+      "Wordpress Seo": "21.9.1"
+    },
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Google Tag Manager",
+    "Gravity Forms:2.8.2",
+    "HSTS",
+    "HTTP/3",
+    "LiteSpeed",
+    "MySQL",
+    "PHP",
+    "Slick",
+    "Three.js",
+    "WordPress",
+    "Yoast SEO:21.9.1",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
+  "plugin_versions": {
+    "gravityforms": "2.8.2",
+    "wordpress-seo": "21.9.1"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "93.191.155.240"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "toris-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "v=spf1  +a +mx  include:spf.protection.outlook.com include:emsd1.com ip4:152.115.36.112 include:spf.stom.dk include:sendgrid.net -all",
+      "MS=ms49506015"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "critical",
+      "description": "No SSL certificate detected",
+      "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+    },
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Gravityforms",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "2 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 21.9.1, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
+      "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2260",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Gravity Forms [gravityforms] < 2.9.2 (CVE-2024-13377)",
+      "risk": "CVE-2024-13377: GravityForms <= 2.9.1.3 - Unauthenticated Stored Cross-Site Scripting via 'alt' parameter",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-13377",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Gravity Forms [gravityforms] < 2.9.2 (CVE-2024-13378)",
+      "risk": "CVE-2024-13378: GravityForms 2.9.0.1 - 2.9.1.3 - Unauthenticated Stored Cross-Site Scripting via 'style_settings' parameter",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-13378",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "Gravity Forms [gravityforms] < 2.9.21 (CVE-2025-12352)",
+      "risk": "CVE-2025-12352: Gravity Forms [gravityforms] < 2.9.21",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-12352",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Gravity Forms [gravityforms] < 2.9.22 (CVE-2025-12974)",
+      "risk": "CVE-2025-12974: Gravity Forms [gravityforms] < 2.9.22",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-12974",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Gravity Forms [gravityforms] < 2.9.23.1 (CVE-2025-13407)",
+      "risk": "CVE-2025-13407: Gravity Forms [gravityforms] < 2.9.23.1",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-13407",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
+      "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4041",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
+      "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4984",
+        "confidence": "high-inference"
+      }
+    }
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 153,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
+}

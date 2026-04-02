@@ -2,7 +2,7 @@
   "domain": "damkjaergaard.dk",
   "cvr": "prospect",
   "company_name": "damkjaergaard.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "B",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 43
+      "days_remaining": 39
     },
     "server": "nginx",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -36,6 +38,7 @@
     "iubenda",
     "jQuery"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -55,8 +58,8 @@
       "ns02.one.com"
     ],
     "txt": [
-      "MS=ms81813761",
-      "v=spf1 include:spf.protection.outlook.com include:spf.comendosystems.com include:web.shared.mysmtp.com -all"
+      "v=spf1 include:spf.protection.outlook.com include:spf.comendosystems.com include:web.shared.mysmtp.com -all",
+      "MS=ms81813761"
     ]
   },
   "cloud_exposure": [],

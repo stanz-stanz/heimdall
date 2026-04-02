@@ -41,7 +41,27 @@
     "count": 0,
     "list": []
   },
-  "dns": {},
+  "dns": {
+    "a": [
+      "138.201.82.135"
+    ],
+    "aaaa": [
+      "2a01:4f8:172:1e46::2"
+    ],
+    "cname": [],
+    "mx": [
+      "lidocafeen-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns0.moesborg.dk",
+      "ns1.moesborg.dk"
+    ],
+    "txt": [
+      "v=spf1 ip4:152.115.180.210 ip4:217.157.151.78 include:spf.protection.outlook.com -all",
+      "google-site-verification=HItD5Ge73O0DDHXmag5o3zNS_t8LkN-DoQk86qDLoiU",
+      "MS=ms48061704"
+    ]
+  },
   "cloud_exposure": [],
   "findings": [
     {

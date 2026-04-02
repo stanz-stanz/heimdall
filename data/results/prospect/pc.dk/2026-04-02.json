@@ -1,6 +1,6 @@
 {
   "domain": "pc.dk",
-  "job_id": "scan-2026-04-02-31d8c548",
+  "job_id": "scan-2026-04-02-2ecfdb13",
   "status": "completed",
   "scan_result": {
     "domain": "pc.dk",
@@ -62,7 +62,27 @@
       ]
     },
     "subdomains": [],
-    "dns_records": {},
+    "dns_records": {
+      "a": [
+        "3.125.131.179",
+        "18.192.246.145",
+        "18.193.144.171"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "fpo9.mail.dk"
+      ],
+      "ns": [
+        "ns1.eurodns.com",
+        "ns2.eurodns.com",
+        "ns3.eurodns.com",
+        "ns4.eurodns.com"
+      ],
+      "txt": [
+        "v=spf1 include:mail.dk ~all"
+      ]
+    },
     "ct_certificates": [],
     "exposed_cloud_storage": []
   },
@@ -103,7 +123,27 @@
       "count": 0,
       "list": []
     },
-    "dns": {},
+    "dns": {
+      "a": [
+        "3.125.131.179",
+        "18.192.246.145",
+        "18.193.144.171"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "fpo9.mail.dk"
+      ],
+      "ns": [
+        "ns1.eurodns.com",
+        "ns2.eurodns.com",
+        "ns3.eurodns.com",
+        "ns4.eurodns.com"
+      ],
+      "txt": [
+        "v=spf1 include:mail.dk ~all"
+      ]
+    },
     "cloud_exposure": [],
     "findings": [
       {
@@ -128,8 +168,7 @@
     "total_ms": 163
   },
   "cache_stats": {
-    "hits": 5,
+    "hits": 9,
     "misses": 0
-  },
-  "filtered": "bucket:E"
+  }
 }

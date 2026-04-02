@@ -1,0 +1,147 @@
+{
+  "domain": "cabanaliving.dk",
+  "job_id": "scan-2026-04-02-d0ba8607",
+  "status": "completed",
+  "scan_result": {
+    "domain": "cabanaliving.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-06",
+    "ssl_days_remaining": 34,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:38:49.94492186Z",
+      "port": "443",
+      "url": "https://cabanaliving.dk",
+      "input": "cabanaliving.dk",
+      "title": "Cabana Living | Moderigtigt Dametøj & Fashion",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "cabanaliving.dk",
+      "host_ip": "23.227.38.32",
+      "path": "/",
+      "final_url": "https://www.cabanaliving.dk/",
+      "time": "579.913445ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "23.227.38.32"
+      ],
+      "tech": [
+        "Cloudflare",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo",
+        "Shopify"
+      ],
+      "words": 55247,
+      "lines": 3268,
+      "status_code": 200,
+      "content_length": 593086,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "cabanaliving.dk",
+    "cvr": "prospect",
+    "company_name": "cabanaliving.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-06",
+        "days_remaining": 34
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 373,
+    "ssl": 83,
+    "headers": 468,
+    "meta": 534,
+    "httpx": 4553,
+    "webanalyze": 4,
+    "total_ms": 6023
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

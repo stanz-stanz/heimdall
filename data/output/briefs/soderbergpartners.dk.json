@@ -2,7 +2,7 @@
   "domain": "soderbergpartners.dk",
   "cvr": "prospect",
   "company_name": "soderbergpartners.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-24",
-      "days_remaining": 86
+      "days_remaining": 83
     },
     "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -32,6 +34,7 @@
     "HTTP/3",
     "React"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -52,12 +55,12 @@
       "ns4-05.azure-dns.info"
     ],
     "txt": [
+      "1t9dsc64xlmydpxm7js2f3wv5653hjk8",
       "google-site-verification=ZH3X0YxOiiG8ebTkh7aGnvB-40uARNCqG9Vlv1EuuRs",
       "anthropic-domain-verification-79n3e9=sbmSogcND4i90Hw1bXoeAXtID",
       "_globalsign-domain-verification=x62H2zjk6XxLNprhNO4Uw4nXReI4utnf__gotGCKit",
       "spexternalweb4cf23557prod.azurewebsites.net",
-      "v=spf1 ip4:87.253.236.133 include:_spf-a.soderbergpartners.dk include:_spf-b.soderbergpartners.dk include:spf.protection.outlook.com -all",
-      "1t9dsc64xlmydpxm7js2f3wv5653hjk8"
+      "v=spf1 ip4:87.253.236.133 include:_spf-a.soderbergpartners.dk include:_spf-b.soderbergpartners.dk include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

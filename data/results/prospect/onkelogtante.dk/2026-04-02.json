@@ -1,0 +1,1107 @@
+{
+  "domain": "onkelogtante.dk",
+  "job_id": "scan-2026-04-02-fde212d1",
+  "status": "completed",
+  "scan_result": {
+    "domain": "onkelogtante.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-04",
+    "ssl_days_remaining": 31,
+    "detected_plugins": [
+      "addon-elements-for-elementor-page-builder",
+      "honeypot",
+      "astra-addon",
+      "elementor",
+      "ultimate-elementor",
+      "elementor-pro",
+      "make-column-clickable-elementor",
+      "wp-rocket",
+      "woocommerce"
+    ],
+    "plugin_versions": {
+      "addon-elements-for-elementor-page-builder": "1.0",
+      "honeypot": "2.3.04",
+      "astra-addon": "4.12.3",
+      "elementor": "3.35.6",
+      "elementor-pro": "1.2.1",
+      "ultimate-elementor": "1.44.1",
+      "make-column-clickable-elementor": "1.6.2"
+    },
+    "detected_themes": [
+      "astra",
+      "erhvervshjemmesider-child"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Elementor Addon Elements:1.0",
+      "Elementor:3.35.6",
+      "Font Awesome",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "WP Rocket",
+      "WordPress",
+      "iubenda",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:11:34.957906248Z",
+      "port": "443",
+      "url": "https://onkelogtante.dk",
+      "input": "onkelogtante.dk",
+      "title": "Forside - Onkel og tante",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "onkelogtante.dk",
+      "host_ip": "185.21.40.232",
+      "path": "/",
+      "time": "135.073585ms",
+      "a": [
+        "185.21.40.232"
+      ],
+      "tech": [
+        "Elementor Addon Elements:1.0",
+        "Elementor:3.35.6",
+        "Font Awesome",
+        "HTTP/3",
+        "LiteSpeed",
+        "MySQL",
+        "PHP",
+        "WP Rocket",
+        "WordPress",
+        "iubenda",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 6471,
+      "lines": 1069,
+      "status_code": 200,
+      "content_length": 208613,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "addon-elements-for-elementor-page-builder",
+          "honeypot",
+          "elementor",
+          "make-column-clickable-elementor"
+        ],
+        "themes": [
+          "astra"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.40.232"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.onlinemail.io",
+        "mx1.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.aveo.dk",
+        "ns2.aveo.dk"
+      ],
+      "txt": [
+        "v=spf1 mx a include:spf.curanet.dk ?all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "onkelogtante.dk",
+    "cvr": "prospect",
+    "company_name": "onkelogtante.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-04",
+        "days_remaining": 31
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Addon Elements For Elementor Page Builder",
+        "Honeypot",
+        "Astra Addon",
+        "Elementor",
+        "Ultimate Elementor",
+        "Elementor Pro",
+        "Make Column Clickable Elementor",
+        "Wp Rocket",
+        "Woocommerce"
+      ],
+      "plugin_versions": {
+        "Addon Elements For Elementor Page Builder": "1.0",
+        "Honeypot": "2.3.04",
+        "Astra Addon": "4.12.3",
+        "Elementor": "3.35.6",
+        "Elementor Pro": "1.2.1",
+        "Ultimate Elementor": "1.44.1",
+        "Make Column Clickable Elementor": "1.6.2"
+      },
+      "detected_themes": [
+        "Astra",
+        "Erhvervshjemmesider Child"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Elementor Addon Elements:1.0",
+      "Elementor:3.35.6",
+      "Font Awesome",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "WP Rocket",
+      "WordPress",
+      "iubenda",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "addon-elements-for-elementor-page-builder": "1.0",
+      "honeypot": "2.3.04",
+      "astra-addon": "4.12.3",
+      "elementor": "3.35.6",
+      "elementor-pro": "1.2.1",
+      "ultimate-elementor": "1.44.1",
+      "make-column-clickable-elementor": "1.6.2"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.40.232"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.onlinemail.io",
+        "mx1.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.aveo.dk",
+        "ns2.aveo.dk"
+      ],
+      "txt": [
+        "v=spf1 mx a include:spf.curanet.dk ?all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "9 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Astra, Erhvervshjemmesider Child",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Addon Elements For Elementor Page Builder (installed 1.0, latest 1.14.5)",
+        "risk": "The installed version of Addon Elements For Elementor Page Builder is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Elementor (installed 3.35.6, latest 4.0.1)",
+        "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.2 (CVE-2021-24259)",
+        "risk": "CVE-2021-24259: Elementor Addon Elements &lt; 1.11.2 - Contributor+ Stored XSS",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2021-24259",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.14",
+        "risk": "WordPress Elementor Addon Elements plugin < 1.11.14 - Toggle The Debug Mode via Cross-Site Request Forgery (CSRF) vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "878f39c4a5684f6f06c5c36f1c9ae786a8f996ebd48841e1903095b476946569",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.14",
+        "risk": "WordPress Elementor Addon Elements plugin < 1.11.14 - Sensitive Information Disclosure vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "52330c4bdd47ba1a49dbf02791fe800fca4fd68cfb963973877a30e19cbc649b",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.2",
+        "risk": "WordPress Elementor Addon Elements plugin <= 1.11.1 - Multiple Authenticated Stored Cross-Site Scripting (XSS) vulnerabilities",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "11ffb2967d0a26197cab47b95aa87331065548a27c97959921970c97a0a33742",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.6.4",
+        "risk": "WordPress Elementor Addon Elements plugin <= 1.6.3 - Reflected Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "1cdfc0fe08cefc6183c3538198aec44c86a102d956d0b8633c427e7be6d9c167",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.14",
+        "risk": "Unauthorised AJAX Calls via Freemius",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "b953e8e2ead8f40cfd3a7fe78089d8952e6dbe4efa286e02641b0379bb74e0ce",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.8",
+        "risk": "Elementor Addon Elements &lt; 1.11.8 - CSRF Bypass",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "5a46f78f026e6811ca2553497bb36ac1b4edc3e11968c40c808579d58aadc120",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.6.4",
+        "risk": "Elementor Addon Elements &lt; 1.6.4 - CSRF &amp; XSS",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "b0c3a63fa0fd9ef19954e228336226893b0311e8a0880c51c14cb092d0e5507c",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.14",
+        "risk": "Freemius SDK <= 2.4.2 - Missing Authorization Checks",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "d72748da37ba9d619dfbe523da9653eab063028c6c50876477f3049c9be5b680",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.8",
+        "risk": "Elementor Addon Elements <= 1.11.7 - Cross-Site Request Forgery",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "8b42ffa56042391f8cb950b178bb66625bf0d14ab5db7c5f5defb9111ae28c18",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.6.4",
+        "risk": "Elementor Addon Elements <= 1.6.3 - Reflected Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "9c963711876ba6ec9c2b403965e63aa5c2b4ce5f2e32d6ac8c244ed6b746f69c",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.12 (CVE-2023-33999)",
+        "risk": "CVE-2023-33999: WordPress  Elementor Addon Elements Plugin  <= 1.11.16 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-33999",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.12.8 (CVE-2023-4689)",
+        "risk": "CVE-2023-4689: Elementor Addon Elements <= 1.12.7 - Cross-Site Request Forgery",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-4689",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.12.8 (CVE-2023-4690)",
+        "risk": "CVE-2023-4690: Elementor Addon Elements <= 1.12.7 - Cross-Site Request Forgery",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-4690",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.12.8 (CVE-2023-4723)",
+        "risk": "CVE-2023-4723: Elementor Addon Elements <= 1.12.7 - Missing Authorization to Sensitive Information Exposure",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-4723",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.12.8 (CVE-2023-5381)",
+        "risk": "CVE-2023-5381: Elementor Addon Elements <= 1.12.7 - Authenticated (Administrator+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-5381",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.12.12 (CVE-2024-0834)",
+        "risk": "CVE-2024-0834: Elementor Addon Elements <= 1.12.11 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-0834",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13 (CVE-2024-1358)",
+        "risk": "CVE-2024-1358: Elementor Addon Elements <= 1.12.12 - Directory Traversal to Local File Inclusion",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1358",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13 (CVE-2024-1422)",
+        "risk": "CVE-2024-1422: Elementor Addon Elements <= 1.12.12 - Authenticated(Contributor+) Stored Cross-Site Scripting via Modal Popup effet",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1422",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13 (CVE-2024-1393)",
+        "risk": "CVE-2024-1393: Elementor Addon Elements <= 1.12.12 - Authenticated (Contributor+) Stored Cross-Site Scripting via Content Switcher Widget",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1393",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13 (CVE-2024-1392)",
+        "risk": "CVE-2024-1392: Elementor Addon Elements <= 1.12.12 - Authenticated (Contributor+) Stored Cross-Site Scripting via Dual Button Widget",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1392",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13 (CVE-2024-1391)",
+        "risk": "CVE-2024-1391: Elementor Addon Elements <= 1.12.12 - Authenticated (Contributor+) Stored Cross-Site Scripting via Thumbnail Slider Widget",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1391",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.12.11 (CVE-2024-29107)",
+        "risk": "CVE-2024-29107: WordPress  Elementor Addon Elements Plugin    <= 1.12.10 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-29107",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.2 (CVE-2024-2091)",
+        "risk": "CVE-2024-2091: Elementor Addon Elements <= 1.13.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2091",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.3 (CVE-2024-2792)",
+        "risk": "CVE-2024-2792: Elementor Addon Elements <= 1.13.2 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting via 'Text Separator' and 'Image Compare' Widget",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2792",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.2 (CVE-2024-30422)",
+        "risk": "CVE-2024-30422: WordPress  Elementor Addon Elements Plugin    <= 1.13.1 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-30422",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.4 (CVE-2024-3743)",
+        "risk": "CVE-2024-3743: Elementor Addon Elements <= 1.13.3 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-3743",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.4 (CVE-2024-2092)",
+        "risk": "CVE-2024-2092: Elementor Addon Elements <= 1.13.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via Twitter Widget",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2092",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.6 (CVE-2024-4570)",
+        "risk": "CVE-2024-4570: Elementor Addon Elements <= 1.13.5 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4570",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.6 (CVE-2024-4569)",
+        "risk": "CVE-2024-4569: Elementor Addon Elements <= 1.13.5 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4569",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.6 (CVE-2024-4401)",
+        "risk": "CVE-2024-4401: Elementor Addon Elements <= 1.13.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via id and eae_slider_animation Parameters",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4401",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.7 (CVE-2024-7122)",
+        "risk": "CVE-2024-7122: Elementor Addon Elements <= 1.13.6 - Authenticated (Contributor+) Stored Cross-Site Scripting via Multiple Widgets",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-7122",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.7 (CVE-2024-47361)",
+        "risk": "CVE-2024-47361: WordPress Elementor Addon Elements Plugin <= 1.13.6 is vulnerable to Broken Access Control",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-47361",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.7 (CVE-2024-47366)",
+        "risk": "CVE-2024-47366: WordPress Elementor Addon Elements Plugin <= 1.13.6 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-47366",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.13.9 (CVE-2024-8902)",
+        "risk": "CVE-2024-8902: Elementor Addon Elements <= 1.13.8 - Authenticated (Contributor+) Sensitive Information Exposure via table_saved_sections",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-8902",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.14 (CVE-2022-4974)",
+        "risk": "CVE-2022-4974: Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.11.14",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-4974",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.14 (CVE-2024-13215)",
+        "risk": "CVE-2024-13215: WordPress Elementor Addon Elements Plugin <= 1.13.10 is vulnerable to Sensitive Data Exposure",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-13215",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.14.4 (CVE-2025-12537)",
+        "risk": "CVE-2025-12537: Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] < 1.14.4",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-12537",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] <= 1.14.4 (unfixed) (CVE-2026-28131)",
+        "risk": "CVE-2026-28131: Addon Elements for Elementor (formerly Elementor Addon Elements) [addon-elements-for-elementor-page-builder] <= 1.14.4 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28131",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.0.6 (CVE-2020-26596)",
+        "risk": "CVE-2020-26596: Elementor Pro <= 3.0.5 - Authenticated Remote Code Execution in Dynamic OOO Widget",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-26596",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 2.9.4 (CVE-2020-13125)",
+        "risk": "CVE-2020-13125: Elementor Pro [elementor-pro] < 2.9.4",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-13125",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 2.9.4 (CVE-2020-13126)",
+        "risk": "CVE-2020-13126: WordPress Elementor Pro premium plugin <= 2.9.3 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-13126",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 2.0.10 (CVE-2018-18379)",
+        "risk": "CVE-2018-18379: Elementor Pro <= 2.0.9 - Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2018-18379",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.11.7",
+        "risk": "Elementor Pro <= 3.11.6 - Authenticated(Subscriber+) Privilege Escalation via update_page_option",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.11.7",
+        "risk": "WordPress  Elementor Pro Plugin  <= 3.11.6 is vulnerable to Broken Access Control",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Pro [elementor-pro] < 3.11.7 (CVE-2023-3124)",
+        "risk": "CVE-2023-3124: Elementor Pro &lt; 3.11.7 - Subscriber+ Arbitrary Options Update",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-3124",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.13.1 (CVE-2023-35050)",
+        "risk": "CVE-2023-35050: WordPress  Elementor Pro Plugin  <= 3.13.0 is vulnerable to Broken Access Control",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-35050",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.19.3 (CVE-2024-23523)",
+        "risk": "CVE-2024-23523: WordPress  Elementor Pro Plugin    <= 3.19.2 is vulnerable to Sensitive Data Exposure",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-23523",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2121)",
+        "risk": "CVE-2024-2121: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2121",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2120)",
+        "risk": "CVE-2024-2120: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Navigation",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2120",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2781)",
+        "risk": "CVE-2024-2781: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting via video_html_tag",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2781",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-1364)",
+        "risk": "CVE-2024-1364: Elementor Website Builder Pro <= 3.20.1 - Authententicated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1364",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-1521)",
+        "risk": "CVE-2024-1521: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Form Widget SVGZ File Upload",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1521",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.21.2 (CVE-2024-4107)",
+        "risk": "CVE-2024-4107: Elementor Website Builder Pro <= 3.21.0 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4107",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Pro [elementor-pro] < 3.21.3 (CVE-2024-35656)",
+        "risk": "CVE-2024-35656: WordPress Elementor Pro Plugin <= 3.21.2 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-35656",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
+        "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-8494",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
+        "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-3076",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
+        "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-50555",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+        "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28044",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 296,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 2144,
+    "ssl": 73,
+    "headers": 93,
+    "meta": 121,
+    "httpx": 3361,
+    "webanalyze": 4,
+    "dnsx": 791,
+    "total_ms": 8993
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

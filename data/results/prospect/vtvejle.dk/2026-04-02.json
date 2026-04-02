@@ -1,0 +1,190 @@
+{
+  "domain": "vtvejle.dk",
+  "job_id": "scan-2026-04-02-5c99d8d2",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vtvejle.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-05",
+    "ssl_days_remaining": 64,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "DanDomain",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "SmartWeb"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:26:02.527427159Z",
+      "port": "443",
+      "url": "https://vtvejle.dk",
+      "input": "vtvejle.dk",
+      "title": "Vinding T�mrer Forretning - T�mrer / Snedker i Vejle | T�mrer arbejde i Vejle | Snedker arbejde i Vejle | Familie Huse Vejle | Industribyggeri Vejle | Golfbyggeri Vejle | Totalentreprise | Kolding, Fredericia, Middelfart, Hedensted, Jelling, Egtved",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vtvejle.dk",
+      "host_ip": "185.221.38.52",
+      "path": "/",
+      "final_url": "https://www.vtvejle.dk/",
+      "time": "439.513913ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "185.221.38.52"
+      ],
+      "tech": [
+        "DanDomain",
+        "HSTS",
+        "Nginx",
+        "PHP",
+        "SmartWeb"
+      ],
+      "words": 11730,
+      "lines": 643,
+      "status_code": 200,
+      "content_length": 111176,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.52"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.scannet.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vtvejle.dk",
+    "cvr": "prospect",
+    "company_name": "vtvejle.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-05",
+        "days_remaining": 64
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "DanDomain",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "SmartWeb"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.52"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.scannet.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 106,
+    "ssl": 74,
+    "headers": 256,
+    "meta": 264,
+    "httpx": 2328,
+    "webanalyze": 4,
+    "dnsx": 797,
+    "crtsh": 0,
+    "ghw": 192,
+    "total_ms": 4030
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

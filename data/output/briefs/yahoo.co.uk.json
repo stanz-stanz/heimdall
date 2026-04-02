@@ -1,0 +1,156 @@
+{
+  "domain": "yahoo.co.uk",
+  "cvr": "prospect",
+  "company_name": "yahoo.co.uk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": false,
+      "issuer": "",
+      "expiry": "",
+      "days_remaining": -1
+    },
+    "server": "ATS",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Apache Traffic Server",
+    "HSTS",
+    "dc.js"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "98.137.11.157",
+      "180.222.102.156",
+      "202.165.107.57",
+      "87.248.100.208",
+      "74.6.231.14",
+      "74.6.143.18"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx-eu.mail.am0.yahoodns.net"
+    ],
+    "ns": [
+      "ns1.yahoo.com",
+      "ns3.yahoo.com",
+      "ns4.yahoo.com",
+      "ns5.yahoo.com"
+    ],
+    "txt": [
+      "a7d533cefaa5449690845ec43d821ca6",
+      "DCV approval domainadmin@yahoo-inc.com",
+      "v=spf1 redirect=_spf.mail.yahoo.com"
+    ]
+  },
+  "cloud_exposure": [
+    {
+      "bucket_name": "propertytax.storage.googleapis.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "cdn.123shapeme.com.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "silenceapp.nyc3.digitaloceanspaces.com",
+      "file_count": 7
+    },
+    {
+      "bucket_name": "mce-fiiles.fra1.digitaloceanspaces.com",
+      "file_count": 13
+    },
+    {
+      "bucket_name": "assets-mykerja-prod.sgp1.digitaloceanspaces.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "foodzee.fra1.digitaloceanspaces.com",
+      "file_count": 26
+    },
+    {
+      "bucket_name": "portalvhdsm2x044vyyygy1.blob.core.windows.net",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "oges-files.s3.amazonaws.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "lookupleads.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "ydccdn.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "alexandergfx.blob.core.windows.net",
+      "file_count": 22
+    },
+    {
+      "bucket_name": "ttgitaliastorage.blob.core.windows.net",
+      "file_count": 5
+    },
+    {
+      "bucket_name": "k4storage.blob.core.windows.net",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "neo-assets.s3.amazonaws.com",
+      "file_count": 1
+    }
+  ],
+  "findings": [
+    {
+      "severity": "critical",
+      "description": "No SSL certificate detected",
+      "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+    },
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "high",
+      "description": "14 exposed cloud storage buckets detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+    }
+  ]
+}

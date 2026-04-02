@@ -1,0 +1,153 @@
+{
+  "domain": "alivestyle.dk",
+  "job_id": "scan-2026-04-02-27a86514",
+  "status": "completed",
+  "scan_result": {
+    "domain": "alivestyle.dk",
+    "cms": "Squarespace",
+    "server": "Squarespace",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-26",
+    "ssl_days_remaining": 54,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "Typekit",
+      "parallax.js"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:32:03.847571263Z",
+      "port": "443",
+      "url": "https://alivestyle.dk",
+      "input": "alivestyle.dk",
+      "title": "Alivestyle",
+      "scheme": "https",
+      "webserver": "Squarespace",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "alivestyle.dk",
+      "host_ip": "198.49.23.144",
+      "path": "/",
+      "final_url": "https://www.alivestyle.dk/",
+      "time": "480.921201ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "198.49.23.144",
+        "198.49.23.145",
+        "198.185.159.144",
+        "198.185.159.145"
+      ],
+      "tech": [
+        "Adobe Fonts",
+        "HSTS",
+        "Squarespace",
+        "Squarespace Commerce",
+        "Stimulus",
+        "Typekit",
+        "parallax.js"
+      ],
+      "words": 34695,
+      "lines": 3835,
+      "status_code": 200,
+      "content_length": 195869,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "alivestyle.dk",
+    "cvr": "prospect",
+    "company_name": "alivestyle.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "Squarespace",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-26",
+        "days_remaining": 54
+      },
+      "server": "Squarespace",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "Typekit",
+      "parallax.js"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 153,
+    "ssl": 100,
+    "headers": 464,
+    "meta": 305,
+    "httpx": 3182,
+    "webanalyze": 4,
+    "total_ms": 4218
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

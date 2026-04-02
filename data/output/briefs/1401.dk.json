@@ -36,8 +36,32 @@
     "count": 0,
     "list": []
   },
-  "dns": {},
-  "cloud_exposure": [],
+  "dns": {
+    "a": [
+      "46.30.215.49"
+    ],
+    "aaaa": [
+      "2a02:2350:5:10e:808d:3bea:a2b4:8b82"
+    ],
+    "cname": [],
+    "mx": [
+      "mx3.pub.mailpod12-cph3.one.com",
+      "mx2.pub.mailpod12-cph3.one.com",
+      "mx1.pub.mailpod12-cph3.one.com",
+      "mx4.pub.mailpod12-cph3.one.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": []
+  },
+  "cloud_exposure": [
+    {
+      "bucket_name": "storage.tweak.dk.storage.googleapis.com",
+      "file_count": 6
+    }
+  ],
   "findings": [
     {
       "severity": "medium",
@@ -58,6 +82,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "high",
+      "description": "1 exposed cloud storage bucket detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
     }
   ]
 }

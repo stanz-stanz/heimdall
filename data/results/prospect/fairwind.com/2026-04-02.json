@@ -1,0 +1,618 @@
+{
+  "domain": "fairwind.com",
+  "job_id": "scan-2026-04-02-cad006ae",
+  "status": "completed",
+  "scan_result": {
+    "domain": "fairwind.com",
+    "cms": "WordPress",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-14",
+    "ssl_days_remaining": 42,
+    "detected_plugins": [
+      "jet-engine",
+      "translatepress-business",
+      "elementor",
+      "elementor-pro",
+      "translatepress-multilingual",
+      "jet-search",
+      "jet-elements",
+      "dynamicconditions",
+      "google-site-kit",
+      "simple-cloudflare-turnstile",
+      "wp-consent-api",
+      "redirection",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "jet-engine": "3.8.6.2",
+      "translatepress-business": "6.9.4",
+      "elementor": "3.35.7",
+      "elementor-pro": "3.35.1",
+      "translatepress-multilingual": "3.1.3",
+      "jet-search": "1.8.7",
+      "jet-elements": "2.8.1.1",
+      "dynamicconditions": "1.7.5",
+      "simple-cloudflare-turnstile": "2.5",
+      "wp-consent-api": "2.0.1",
+      "wordpress-seo": "27.2"
+    },
+    "detected_themes": [
+      "hello-elementor",
+      "hello-theme-child-master"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Chosen:1.8.7",
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Dynamic Conditions:1.7.5",
+      "Elementor:3.35.7",
+      "Google AdSense",
+      "Google Sign-in",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "MySQL",
+      "Onsen UI",
+      "PHP",
+      "Site Kit:1.174.0",
+      "Underscore.js:1.13.7",
+      "WP Engine",
+      "WordPress",
+      "Yoast SEO Premium:27.2",
+      "Yoast SEO:27.2",
+      "imagesLoaded:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:48:38.614848024Z",
+      "port": "443",
+      "url": "https://fairwind.com",
+      "input": "fairwind.com",
+      "title": "FairWind – Global Wind Turbine Installation & Service Experts",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "fairwind.com",
+      "host_ip": "141.193.213.11",
+      "path": "/",
+      "final_url": "https://fairwind.com/en/",
+      "time": "311.359252ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "141.193.213.11",
+        "141.193.213.10"
+      ],
+      "tech": [
+        "Chosen:1.8.7",
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "Dynamic Conditions:1.7.5",
+        "Elementor:3.35.7",
+        "Google AdSense",
+        "Google Sign-in",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "MySQL",
+        "Onsen UI",
+        "PHP",
+        "Site Kit:1.174.0",
+        "Underscore.js:1.13.7",
+        "WP Engine",
+        "WordPress",
+        "Yoast SEO Premium:27.2",
+        "Yoast SEO:27.2",
+        "imagesLoaded:6.9.4",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 10989,
+      "lines": 1582,
+      "status_code": 200,
+      "content_length": 197730,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "elementor",
+          "translatepress-multilingual",
+          "dynamicconditions",
+          "google-site-kit",
+          "simple-cloudflare-turnstile",
+          "wp-consent-api"
+        ],
+        "themes": [
+          "hello-elementor"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "141.193.213.11",
+        "141.193.213.10"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "fairwind-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "dns.home.pl",
+        "dns2.home.pl",
+        "dns3.home.pl"
+      ],
+      "txt": [
+        "6DA57DD9AB6DE844E22EE6EC04335FC9D541D188AA3A7C9E6AAD4F449CBB3C27",
+        "apple-domain-verification=RlAwnWFFv5OW8YBJ",
+        "v=spf1 include:spf.protection.outlook.com include:_spf.salesforce.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "fairwind.com",
+    "cvr": "prospect",
+    "company_name": "fairwind.com",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-14",
+        "days_remaining": 42
+      },
+      "server": "cloudflare",
+      "detected_plugins": [
+        "Jet Engine",
+        "Translatepress Business",
+        "Elementor",
+        "Elementor Pro",
+        "Translatepress Multilingual",
+        "Jet Search",
+        "Jet Elements",
+        "Dynamicconditions",
+        "Google Site Kit",
+        "Simple Cloudflare Turnstile",
+        "Wp Consent Api",
+        "Redirection",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Jet Engine": "3.8.6.2",
+        "Translatepress Business": "6.9.4",
+        "Elementor": "3.35.7",
+        "Elementor Pro": "3.35.1",
+        "Translatepress Multilingual": "3.1.3",
+        "Jet Search": "1.8.7",
+        "Jet Elements": "2.8.1.1",
+        "Dynamicconditions": "1.7.5",
+        "Simple Cloudflare Turnstile": "2.5",
+        "Wp Consent Api": "2.0.1",
+        "Wordpress Seo": "27.2"
+      },
+      "detected_themes": [
+        "Hello Elementor",
+        "Hello Theme Child Master"
+      ],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Chosen:1.8.7",
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Dynamic Conditions:1.7.5",
+      "Elementor:3.35.7",
+      "Google AdSense",
+      "Google Sign-in",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "MySQL",
+      "Onsen UI",
+      "PHP",
+      "Site Kit:1.174.0",
+      "Underscore.js:1.13.7",
+      "WP Engine",
+      "WordPress",
+      "Yoast SEO Premium:27.2",
+      "Yoast SEO:27.2",
+      "imagesLoaded:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "jet-engine": "3.8.6.2",
+      "translatepress-business": "6.9.4",
+      "elementor": "3.35.7",
+      "elementor-pro": "3.35.1",
+      "translatepress-multilingual": "3.1.3",
+      "jet-search": "1.8.7",
+      "jet-elements": "2.8.1.1",
+      "dynamicconditions": "1.7.5",
+      "simple-cloudflare-turnstile": "2.5",
+      "wp-consent-api": "2.0.1",
+      "wordpress-seo": "27.2"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "141.193.213.11",
+        "141.193.213.10"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "fairwind-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "dns.home.pl",
+        "dns2.home.pl",
+        "dns3.home.pl"
+      ],
+      "txt": [
+        "6DA57DD9AB6DE844E22EE6EC04335FC9D541D188AA3A7C9E6AAD4F449CBB3C27",
+        "apple-domain-verification=RlAwnWFFv5OW8YBJ",
+        "v=spf1 include:spf.protection.outlook.com include:_spf.salesforce.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "info",
+        "description": "13 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Hello Elementor, Hello Theme Child Master",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Elementor (installed 3.35.7, latest 4.0.1)",
+        "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Translatepress Multilingual (installed 3.1.3, latest 3.1.4)",
+        "risk": "The installed version of Translatepress Multilingual is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 27.2, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.7.3 (unfixed) (CVE-2025-49938)",
+        "risk": "CVE-2025-49938: JetEngine [jet-engine] <= 3.7.3 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49938",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.8.1.1 (unfixed) (CVE-2025-69333)",
+        "risk": "CVE-2025-69333: JetEngine [jet-engine] <= 3.8.1.1 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-69333",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.7.7 (unfixed) (CVE-2025-67923)",
+        "risk": "CVE-2025-67923: JetEngine [jet-engine] <= 3.7.7 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67923",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.8.0 (unfixed) (CVE-2025-68495)",
+        "risk": "CVE-2025-68495: JetEngine [jet-engine] <= 3.8.0 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-68495",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.7.2 (unfixed) (CVE-2026-28134)",
+        "risk": "CVE-2026-28134: JetEngine [jet-engine] <= 3.7.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28134",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] < 3.1.2.1 (CVE-2023-48762)",
+        "risk": "CVE-2023-48762: WordPress  JetSearch Plugin  <= 3.1.2 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-48762",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] < 3.1.2.1 (CVE-2023-48761)",
+        "risk": "CVE-2023-48761: WordPress  JetSearch Plugin  <= 3.1.2 is vulnerable to Broken Access Control",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-48761",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] < 3.5.2.1 (CVE-2024-7136)",
+        "risk": "CVE-2024-7136: JetSearch <= 3.5.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-7136",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] < 3.5.7.1 (CVE-2025-31043)",
+        "risk": "CVE-2025-31043: WordPress JetSearch Plugin <= 3.5.7 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-31043",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] < 3.5.11 (CVE-2025-53996)",
+        "risk": "CVE-2025-53996: JetSearch &lt;= 3.5.10.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-53996",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] <= 3.5.10 (unfixed) (CVE-2025-49930)",
+        "risk": "CVE-2025-49930: JetSearch [jet-search] <= 3.5.10 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49930",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] <= 3.5.10 (unfixed) (CVE-2025-49931)",
+        "risk": "CVE-2025-49931: JetSearch [jet-search] <= 3.5.10 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49931",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetSearch [jet-search] <= 3.5.16 (unfixed) (CVE-2025-68504)",
+        "risk": "CVE-2025-68504: JetSearch [jet-search] <= 3.5.16 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-68504",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed) (CVE-2025-49939)",
+        "risk": "CVE-2025-49939: JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49939",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed) (CVE-2025-64355)",
+        "risk": "CVE-2025-64355: JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64355",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed) (CVE-2026-24958)",
+        "risk": "CVE-2026-24958: JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-24958",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 816,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 242,
+    "ssl": 68,
+    "headers": 312,
+    "meta": 644,
+    "httpx": 3452,
+    "webanalyze": 4,
+    "dnsx": 780,
+    "crtsh": 0,
+    "ghw": 351,
+    "total_ms": 10773
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

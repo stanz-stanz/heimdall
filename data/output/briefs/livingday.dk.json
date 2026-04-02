@@ -1,0 +1,58 @@
+{
+  "domain": "livingday.dk",
+  "cvr": "prospect",
+  "company_name": "livingday.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-16",
+      "days_remaining": 75
+    },
+    "server": "istio-envoy",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Envoy",
+    "HSTS"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "193.104.202.25"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "livingday-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.cb.dk",
+      "ns2.cb.dk"
+    ],
+    "txt": [
+      "\\\"v=spf1 include:spf.protection.outlook.com include:spf.web.mindworking.dk -all\\\"\\\"MS=ms72844926\\\""
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

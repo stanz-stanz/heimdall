@@ -1,0 +1,166 @@
+{
+  "domain": "bredstenvand.dk",
+  "job_id": "scan-2026-04-02-cce999d3",
+  "status": "completed",
+  "scan_result": {
+    "domain": "bredstenvand.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "DigiCert Inc",
+    "ssl_expiry": "2026-08-14",
+    "ssl_days_remaining": 134,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Front Door"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:37:35.308854268Z",
+      "cdn_name": "azure",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://bredstenvand.dk",
+      "input": "bredstenvand.dk",
+      "title": "Service unavailable",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "bredstenvand.dk",
+      "host_ip": "20.107.224.17",
+      "path": "/",
+      "final_url": "https://www.bredstenvand.dk/",
+      "time": "405.035327ms",
+      "chain_status_codes": [
+        301,
+        403
+      ],
+      "a": [
+        "20.107.224.17"
+      ],
+      "tech": [
+        "Azure",
+        "Azure Front Door"
+      ],
+      "words": 524,
+      "lines": 64,
+      "status_code": 403,
+      "content_length": 1484,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "20.107.224.17"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1-03.azure-dns.com",
+        "ns2-03.azure-dns.net",
+        "ns3-03.azure-dns.org",
+        "ns4-03.azure-dns.info"
+      ],
+      "txt": [
+        "google-site-verification=Md2cjWq5GOLNW_BBVNPwbX7FeYLmcWYfYLo_Ud3ayJA",
+        "v=spf1 -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "bredstenvand.dk",
+    "cvr": "prospect",
+    "company_name": "bredstenvand.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "DigiCert Inc",
+        "expiry": "2026-08-14",
+        "days_remaining": 134
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Front Door"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "20.107.224.17"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1-03.azure-dns.com",
+        "ns2-03.azure-dns.net",
+        "ns3-03.azure-dns.org",
+        "ns4-03.azure-dns.info"
+      ],
+      "txt": [
+        "google-site-verification=Md2cjWq5GOLNW_BBVNPwbX7FeYLmcWYfYLo_Ud3ayJA",
+        "v=spf1 -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 477,
+    "ssl": 147,
+    "headers": 446,
+    "meta": 606,
+    "httpx": 1835,
+    "webanalyze": 4,
+    "dnsx": 682,
+    "crtsh": 0,
+    "ghw": 25490,
+    "total_ms": 29696
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

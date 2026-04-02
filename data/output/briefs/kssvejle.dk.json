@@ -2,7 +2,7 @@
   "domain": "kssvejle.dk",
   "cvr": "prospect",
   "company_name": "kssvejle.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "D",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -18,6 +18,8 @@
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -26,30 +28,12 @@
     }
   },
   "tech_stack": [],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "194.150.113.21"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "kssvejle-dk.mail.protection.outlook.com",
-      "mx01.dandomain.dk"
-    ],
-    "ns": [
-      "ns.dandomain.dk",
-      "ns2.dandomain.dk"
-    ],
-    "txt": [
-      "MS=ms48606195",
-      "apple-domain-verification=0BwTqQDNIHHJGSSN",
-      "v=spf1 include:spf.protection.outlook.com -all"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

@@ -2,7 +2,7 @@
   "domain": "rollco.dk",
   "cvr": "prospect",
   "company_name": "rollco.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 67
+      "days_remaining": 64
     },
-    "server": "Microsoft-IIS/10.0",
+    "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -30,24 +32,22 @@
   "tech_stack": [
     "Google Tag Manager",
     "HSTS",
-    "IIS:10.0",
     "Litium",
     "Microsoft ASP.NET",
     "Varnish",
-    "Windows Server",
-    "ZURB Foundation",
-    "dc.js"
+    "ZURB Foundation"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "151.101.194.132",
-      "151.101.2.132",
       "151.101.130.132",
-      "151.101.66.132"
+      "151.101.66.132",
+      "151.101.194.132",
+      "151.101.2.132"
     ],
     "aaaa": [],
     "cname": [],
@@ -59,13 +59,13 @@
       "ns2.dnshost.net"
     ],
     "txt": [
+      "MS=ms20176768",
       "6X3C1EkNDldawUqzS6dcsql0VFE0GOtn6JXTd8E3DOo=",
+      "x4W3uvzpXq9HGqrFKsGKjc9YOM4Otl5lKHn9+uMIxGI=",
+      "95hVYOEe+tdODgitxhQyVeuZ5ESHkv40iDRvazXndao=",
       "FN0m2S5dIQmDA5eFV1y8jzFSRoZEPhfAdqqXlXRv1HE=",
       "MS=ms84475491",
-      "v=spf1 mx include:spf.ubivox.com include:bwz.se a:mail3.litiumdrift.se include:spf.protection.outlook.com include:spf.bedrock.lime-technologies.com include:6400841.spf10.hubspotemail.net ip4:212.247.229.8 ~all",
-      "95hVYOEe+tdODgitxhQyVeuZ5ESHkv40iDRvazXndao=",
-      "x4W3uvzpXq9HGqrFKsGKjc9YOM4Otl5lKHn9+uMIxGI=",
-      "MS=ms20176768"
+      "v=spf1 mx include:spf.ubivox.com include:bwz.se a:mail3.litiumdrift.se include:spf.protection.outlook.com include:spf.bedrock.lime-technologies.com include:6400841.spf10.hubspotemail.net ip4:212.247.229.8 ~all"
     ]
   },
   "cloud_exposure": [],

@@ -1,0 +1,362 @@
+{
+  "domain": "malermoerk.dk",
+  "job_id": "scan-2026-04-02-4f0ffe4d",
+  "status": "completed",
+  "scan_result": {
+    "domain": "malermoerk.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-16",
+    "ssl_days_remaining": 74,
+    "detected_plugins": [
+      "wd-instagram-feed",
+      "contact-form-7",
+      "wp-gallery-custom-links",
+      "better-wp-security",
+      "akismet",
+      "redirection",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "wd-instagram-feed": "1.0.0",
+      "contact-form-7": "6.1.5",
+      "wp-gallery-custom-links": "1.1",
+      "wordpress-seo": "27.1.1"
+    },
+    "detected_themes": [
+      "Avada"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Contact Form 7:6.1.5",
+      "Cookiebot",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "W3 Total Cache",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "jQuery",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:06:17.044794249Z",
+      "port": "443",
+      "url": "https://malermoerk.dk",
+      "input": "malermoerk.dk",
+      "title": "Malerfirma & Maler i Vejle og Omegn - Malermester Mørk",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "malermoerk.dk",
+      "host_ip": "94.231.103.70",
+      "path": "/",
+      "time": "133.458077ms",
+      "a": [
+        "94.231.103.70"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Contact Form 7:6.1.5",
+        "Cookiebot",
+        "HTTP/3",
+        "MySQL",
+        "PHP",
+        "W3 Total Cache",
+        "WordPress:6.9.4",
+        "Yoast SEO:27.1.1",
+        "jQuery",
+        "reCAPTCHA"
+      ],
+      "words": 3896,
+      "lines": 434,
+      "status_code": 200,
+      "content_length": 108125,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "wd-instagram-feed",
+          "contact-form-7",
+          "wp-gallery-custom-links"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.103.70"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "malermoerk-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms59385974",
+        "v=spf1 include:spf.protection.outlook.com include:spf.simply.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "malermoerk.dk",
+    "cvr": "prospect",
+    "company_name": "malermoerk.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Contact Form 7",
+      "Visitor tracking: reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-16",
+        "days_remaining": 74
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Wd Instagram Feed",
+        "Contact Form 7",
+        "Wp Gallery Custom Links",
+        "Better Wp Security",
+        "Akismet",
+        "Redirection",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Wd Instagram Feed": "1.0.0",
+        "Contact Form 7": "6.1.5",
+        "Wp Gallery Custom Links": "1.1",
+        "Wordpress Seo": "27.1.1"
+      },
+      "detected_themes": [
+        "Avada"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Contact Form 7:6.1.5",
+      "Cookiebot",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "W3 Total Cache",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "jQuery",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {
+      "wd-instagram-feed": "1.0.0",
+      "contact-form-7": "6.1.5",
+      "wp-gallery-custom-links": "1.1",
+      "wordpress-seo": "27.1.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.103.70"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "malermoerk-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms59385974",
+        "v=spf1 include:spf.protection.outlook.com include:spf.simply.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Contact Form 7",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "7 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Avada",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wd Instagram Feed (installed 1.0.0, latest 1.4.35)",
+        "risk": "The installed version of Wd Instagram Feed is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 27.1.1, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "10WebSocial [wd-instagram-feed] < 1.4.29 (CVE-2021-25047)",
+        "risk": "CVE-2021-25047: WordPress 10Web Social Photo Feed plugin <= 1.4.28 - Reflected Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2021-25047",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "10WebSocial [wd-instagram-feed] < 1.3.1 (CVE-2018-10300)",
+        "risk": "CVE-2018-10300: WD Instagram Feed <= 1.3.0 - Cross-site scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2018-10300",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "10WebSocial [wd-instagram-feed] < 1.3.1 (CVE-2018-10301)",
+        "risk": "CVE-2018-10301: WD Instagram Feed &lt;= 1.3.0 - XSS",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2018-10301",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "10WebSocial [wd-instagram-feed] < 1.4.19",
+        "risk": "WordPress 10Web Social Photo Feed plugin <= 1.4.18 - Authenticated  Reflected Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "0b28fe3123989546c72f6ab6883e7a6c74ad232a2e2db9fc5453cbda3bdd0f98",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "10WebSocial [wd-instagram-feed] < 1.3.1",
+        "risk": "WordPress WD Instagram Feed plugin 1.3.0 — Cross-Site Scripting (XSS) vulnerabilities",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "2dcf1afc772715f0f7a06ac4b8fb4cfd1989eabe6a33a2f8aa9aec3af1d9288f",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 415,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 2381,
+    "ssl": 63,
+    "headers": 86,
+    "meta": 555,
+    "httpx": 2417,
+    "webanalyze": 3,
+    "dnsx": 827,
+    "crtsh": 0,
+    "ghw": 209,
+    "total_ms": 7953
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

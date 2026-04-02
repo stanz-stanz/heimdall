@@ -1,0 +1,222 @@
+{
+  "domain": "kyndesen.net",
+  "job_id": "scan-2026-04-02-8b41ef4e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "kyndesen.net",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": false,
+    "ssl_issuer": "",
+    "ssl_expiry": "",
+    "ssl_days_remaining": -1,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Nginx",
+      "Prototype",
+      "RequireJS"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:02:14.803154852Z",
+      "port": "443",
+      "url": "https://kyndesen.net",
+      "input": "kyndesen.net",
+      "title": "Plesk Obsidian 18.0.76",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "kyndesen.net",
+      "host_ip": "193.8.38.10",
+      "path": "/",
+      "final_url": "https://kyndesen.net:443/login_up.php",
+      "time": "486.669872ms",
+      "chain_status_codes": [
+        303,
+        303,
+        200
+      ],
+      "a": [
+        "193.8.38.10"
+      ],
+      "tech": [
+        "Nginx",
+        "Prototype",
+        "RequireJS"
+      ],
+      "words": 5219,
+      "lines": 48,
+      "status_code": 200,
+      "content_length": 92543,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "obsidian",
+          "vendor": "plesk",
+          "cpe": "cpe:2.3:a:plesk:obsidian:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "tomcat",
+          "vendor": "apache",
+          "cpe": "cpe:2.3:a:apache:tomcat:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "onyx",
+          "vendor": "plesk",
+          "cpe": "cpe:2.3:a:plesk:onyx:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "phpmyadmin",
+          "vendor": "phpmyadmin",
+          "cpe": "cpe:2.3:a:phpmyadmin:phpmyadmin:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.8.38.10"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dk.mx1.mailanyone.net",
+        "dk.mx2.mx25.net"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.mailanyone.net include:_custspf.one.com mx a -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "kyndesen.net",
+    "cvr": "prospect",
+    "company_name": "kyndesen.net",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": false,
+        "issuer": "",
+        "expiry": "",
+        "days_remaining": -1
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Nginx",
+      "Prototype",
+      "RequireJS"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.8.38.10"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dk.mx1.mailanyone.net",
+        "dk.mx2.mx25.net"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.mailanyone.net include:_custspf.one.com mx a -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "critical",
+        "description": "No SSL certificate detected",
+        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 99,
+    "ssl": 89,
+    "headers": 58,
+    "meta": 58,
+    "httpx": 2172,
+    "webanalyze": 4,
+    "dnsx": 793,
+    "crtsh": 0,
+    "ghw": 191,
+    "total_ms": 3472
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

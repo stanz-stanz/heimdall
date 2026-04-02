@@ -2,7 +2,7 @@
   "domain": "ravnarkitektur.dk",
   "cvr": "prospect",
   "company_name": "ravnarkitektur.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,14 @@
       "valid": true,
       "issuer": "GlobalSign nv-sa",
       "expiry": "2026-11-24",
-      "days_remaining": 238
+      "days_remaining": 236
     },
     "server": "Apache",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [
+      "Ravnarkitektur"
+    ],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -38,6 +42,7 @@
     "bxSlider",
     "jQuery:1.10.0"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -56,10 +61,10 @@
       "ns02.one.com"
     ],
     "txt": [
-      "_globalsign-domain-verification=RFmkQDfW7BaxLClnrzSpK_UB1b2E0fV8nR9xt36oA3",
-      "v=spf1 include:spf.protection.outlook.com ip4:152.115.67.130 -all",
+      "MS=ms79594142",
       "autodesk-domain-verification=5OH7w_4ITLXI7vhVL8pD",
-      "MS=ms79594142"
+      "_globalsign-domain-verification=RFmkQDfW7BaxLClnrzSpK_UB1b2E0fV8nR9xt36oA3",
+      "v=spf1 include:spf.protection.outlook.com ip4:152.115.67.130 -all"
     ]
   },
   "cloud_exposure": [],
@@ -93,6 +98,11 @@
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP:8.2.30",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Ravnarkitektur",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
     }
   ]
 }

@@ -1,0 +1,201 @@
+{
+  "domain": "fugl.biz",
+  "job_id": "scan-2026-04-02-5a8b6323",
+  "status": "completed",
+  "scan_result": {
+    "domain": "fugl.biz",
+    "cms": "TYPO3",
+    "server": "nginx/1.28.0",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-14",
+    "ssl_days_remaining": 41,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Lightbox",
+      "MooTools",
+      "Nginx:1.28.0",
+      "PHP",
+      "TYPO3 CMS",
+      "dc.js",
+      "jQuery:1.2.6"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:50:11.079018818Z",
+      "port": "443",
+      "url": "https://fugl.biz",
+      "input": "fugl.biz",
+      "title": "Leverandør til de ambitiøse  |  Vi giver dig fast pris - så ved du hvad det koster.  | Fugl.biz A/S",
+      "scheme": "https",
+      "webserver": "nginx/1.28.0",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "fugl.biz",
+      "host_ip": "83.89.249.104",
+      "path": "/",
+      "time": "160.314092ms",
+      "a": [
+        "83.89.249.104"
+      ],
+      "tech": [
+        "Lightbox",
+        "MooTools",
+        "Nginx:1.28.0",
+        "PHP",
+        "TYPO3 CMS",
+        "dc.js",
+        "jQuery:1.2.6"
+      ],
+      "words": 1308,
+      "lines": 251,
+      "status_code": 200,
+      "content_length": 15843,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "83.89.249.104"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "server.fugl-villumsen.dk",
+        "mail.fugl.biz"
+      ],
+      "ns": [
+        "damon.ns.cloudflare.com",
+        "danica.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 a:server.fugl-villumsen.dk include:outbound.mailhop.org -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "fugl.biz",
+    "cvr": "prospect",
+    "company_name": "fugl.biz",
+    "scan_date": "2026-04-02",
+    "bucket": "B",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "TYPO3",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-14",
+        "days_remaining": 41
+      },
+      "server": "nginx/1.28.0",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Lightbox",
+      "MooTools",
+      "Nginx:1.28.0",
+      "PHP",
+      "TYPO3 CMS",
+      "dc.js",
+      "jQuery:1.2.6"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "83.89.249.104"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "server.fugl-villumsen.dk",
+        "mail.fugl.biz"
+      ],
+      "ns": [
+        "damon.ns.cloudflare.com",
+        "danica.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 a:server.fugl-villumsen.dk include:outbound.mailhop.org -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 152,
+    "ssl": 101,
+    "headers": 121,
+    "meta": 158,
+    "httpx": 1807,
+    "webanalyze": 3,
+    "dnsx": 701,
+    "crtsh": 0,
+    "ghw": 456,
+    "total_ms": 3511
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

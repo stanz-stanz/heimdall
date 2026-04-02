@@ -2,26 +2,31 @@
   "domain": "fiberpartner.com",
   "cvr": "prospect",
   "company_name": "fiberpartner.com",
-  "scan_date": "2026-03-30",
-  "bucket": "A",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Gravityforms",
-    "Visitor tracking: Google Analytics"
+    "Data-handling plugins: Gravityforms"
   ],
   "industry": "",
   "technology": {
-    "cms": "WordPress",
+    "cms": "",
     "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-04",
-      "days_remaining": 65
+      "days_remaining": 63
     },
     "server": "cloudflare",
     "detected_plugins": [
       "Gravityforms"
+    ],
+    "plugin_versions": {
+      "Gravityforms": "2.9.29"
+    },
+    "detected_themes": [
+      "Fiberpartner"
     ],
     "headers": {
       "x_frame_options": false,
@@ -31,22 +36,13 @@
     }
   },
   "tech_stack": [
-    "Alpine.js",
     "Cloudflare",
     "Cloudflare Bot Management",
-    "Cookiebot",
-    "Google Analytics",
-    "Gravity Forms:2.9.29",
-    "HTTP/3",
-    "MySQL",
-    "PHP",
-    "The SEO Framework",
-    "WP Engine",
-    "WordPress",
-    "WordPress Block Editor",
-    "jQuery",
-    "jQuery Migrate:3.4.1"
+    "HTTP/3"
   ],
+  "plugin_versions": {
+    "gravityforms": "2.9.29"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -66,11 +62,11 @@
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=Leri6_VHo-YTg8Kkd9tcFq4a1_KgsOSZI-FSLi4oPIs",
-      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875",
-      "apple-domain-verification=YutEd8q18z3lg73z",
       "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:emsd1.com include:146389209.spf01.hubspotemail.net -all",
-      "openai-domain-verification=dv-SKeOSBzNFAMTRJ2eXbZMdZWu"
+      "google-site-verification=Leri6_VHo-YTg8Kkd9tcFq4a1_KgsOSZI-FSLi4oPIs",
+      "apple-domain-verification=YutEd8q18z3lg73z",
+      "openai-domain-verification=dv-SKeOSBzNFAMTRJ2eXbZMdZWu",
+      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875"
     ]
   },
   "cloud_exposure": [],
@@ -96,19 +92,14 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
-      "severity": "low",
-      "description": "WordPress detected (version not determined)",
-      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
-    },
-    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Gravityforms",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
-      "severity": "low",
-      "description": "Backend technology exposed: MySQL, PHP",
-      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      "severity": "info",
+      "description": "WordPress theme detected: Fiberpartner",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
     }
   ]
 }

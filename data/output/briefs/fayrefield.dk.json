@@ -1,0 +1,129 @@
+{
+  "domain": "fayrefield.dk",
+  "cvr": "prospect",
+  "company_name": "fayrefield.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-06",
+      "days_remaining": 64
+    },
+    "server": "Apache",
+    "detected_plugins": [
+      "Wordfence",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Wordpress Seo": "27.2"
+    },
+    "detected_themes": [
+      "Boza"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Cookiebot",
+    "Font Awesome",
+    "Google Analytics",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "Polylang",
+    "Site Kit:1.175.0",
+    "Slick",
+    "WordPress",
+    "WordPress Block Editor",
+    "Yoast SEO:27.2",
+    "jQuery",
+    "jQuery Migrate:3.4.1.1775119742"
+  ],
+  "plugin_versions": {
+    "wordpress-seo": "27.2"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "94.231.103.137"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "dk.mx2.mx25.net",
+      "dk.mx3.mailanyone.net",
+      "dk.mx1.mailanyone.net",
+      "dk.mx4.mx25.net"
+    ],
+    "ns": [
+      "ns1.dlx.dk",
+      "ns2.dlx.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.mailanyone.net include:_spf.mail.dlx.dk ip4:80.209.42.201 include:spf.protection.outlook.com -all",
+      "_globalsign-domain-verification=RrGsfGoSu_ddbgpO5VwY1mGh-s7oOOAI7u1BJY88Qt",
+      "mandrill_verify.F9q-fKtehMU5mHVgf6hf6A",
+      "MS=ms65109281"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "info",
+      "description": "2 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Boza",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 27.2, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    }
+  ]
+}

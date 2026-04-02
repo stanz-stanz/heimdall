@@ -2,7 +2,7 @@
   "domain": "wellmore.dk",
   "cvr": "prospect",
   "company_name": "wellmore.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,23 +18,34 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-24",
-      "days_remaining": 55
+      "days_remaining": 52
     },
     "server": "cloudflare",
     "detected_plugins": [
-      "Workdigital Slider",
-      "Review Display",
-      "Facebook For Woocommerce",
-      "Gtm Server Side",
-      "Flexible Shipping",
-      "Wp Staging Pro",
       "Cookie Law Info",
+      "Workdigital",
       "Contact Form 7",
+      "Review Display",
       "Wd Shop",
       "Woocommerce",
+      "Workdigital Slider",
       "Wp Contact Form 7 Spam Blocker",
-      "Workdigital",
-      "Ewww Image Optimizer"
+      "Flexible Shipping",
+      "Wp Staging Pro",
+      "Ewww Image Optimizer",
+      "Gtm Server Side",
+      "Facebook For Woocommerce",
+      "Redirection",
+      "Wordpress Seo",
+      "Jetpack"
+    ],
+    "plugin_versions": {
+      "Woocommerce": "10.5.2",
+      "Wordpress Seo": "27.0"
+    },
+    "detected_themes": [
+      "Wd Foundation",
+      "Wd Foundation Child"
     ],
     "headers": {
       "x_frame_options": false,
@@ -66,14 +77,18 @@
     "jQuery",
     "jQuery Migrate"
   ],
+  "plugin_versions": {
+    "woocommerce": "10.5.2",
+    "wordpress-seo": "27.0"
+  },
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "172.67.185.88",
-      "104.21.92.28"
+      "104.21.92.28",
+      "172.67.185.88"
     ],
     "aaaa": [
       "2606:4700:3034::ac43:b958",
@@ -121,13 +136,120 @@
     },
     {
       "severity": "info",
-      "description": "13 WordPress plugins detected",
+      "description": "16 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Wd Foundation, Wd Foundation Child",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Woocommerce (installed 10.5.2, latest 10.6.2)",
+      "risk": "The installed version of Woocommerce is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 27.0, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
+      "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2329",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
+      "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Spam Protect for Contact Form 7 [wp-contact-form-7-spam-blocker] <= 1.2.9 (unfixed) (CVE-2026-32496)",
+      "risk": "CVE-2026-32496: Spam Protect for Contact Form 7 [wp-contact-form-7-spam-blocker] <= 1.2.9 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32496",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "WP Staging Pro [wp-staging-pro] < 5.6.1 (CVE-2024-5551)",
+      "risk": "CVE-2024-5551: WordPress Wp Staging Pro Plugin <= 5.6.0 is vulnerable to Local File Inclusion",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-5551",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
+      "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-54332",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 1171,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

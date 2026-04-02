@@ -1,0 +1,75 @@
+{
+  "domain": "skorstensfejeren.dk",
+  "cvr": "prospect",
+  "company_name": "skorstensfejeren.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-06-16",
+      "days_remaining": 74
+    },
+    "server": "cloudflare",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "Cloudflare Bot Management",
+    "HSTS",
+    "HTTP/3",
+    "Node.js",
+    "Nuxt.js",
+    "Vue.js"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "172.66.0.96",
+      "162.159.140.98"
+    ],
+    "aaaa": [
+      "2606:4700:7::60",
+      "2a06:98c1:58::60"
+    ],
+    "cname": [],
+    "mx": [
+      "skorstensfejeren-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns.scannet2.dk",
+      "ns2.scannet2.dk"
+    ],
+    "txt": [
+      "v=spf1 IP4:91.199.113.62 ip4:195.215.15.33 ip4:213.174.78.203 include:spf.protection.outlook.com include:sendgrid.net -all",
+      "google-site-verification=_0fXSLVfzm9fUbZ_TEDGaI8ZSpqWU5DBb6Ju5ZOEKow",
+      "MS=ms87032802"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Node.js",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "domain": "jevi.com",
+  "job_id": "scan-2026-04-02-608b6a44",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jevi.com",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-16",
+    "ssl_days_remaining": 44,
+    "detected_plugins": [
+      "cookie-law-info"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "CookieYes",
+      "Google Tag Manager",
+      "HSTS",
+      "Java",
+      "Sitevision CMS",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:58:47.254826043Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://jevi.com",
+      "input": "jevi.com",
+      "title": "JEVI  | JEVI",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jevi.com",
+      "host_ip": "104.18.37.174",
+      "path": "/",
+      "final_url": "https://www.jevi.com/",
+      "time": "502.544653ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "104.18.37.174",
+        "172.64.150.82"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "CookieYes",
+        "Google Tag Manager",
+        "HSTS",
+        "Java",
+        "Sitevision CMS",
+        "jQuery"
+      ],
+      "words": 739,
+      "lines": 150,
+      "status_code": 200,
+      "content_length": 8589,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.18.37.174",
+        "172.64.150.82"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mxa-00373502.gslb.pphosted.com",
+        "mxb-00373502.gslb.pphosted.com"
+      ],
+      "ns": [
+        "dns.nibe.se",
+        "dns2.nibe.se"
+      ],
+      "txt": [
+        "ca3-0f19be47e8c34565b580c43891fb0e5d",
+        "MS=ms17786325",
+        "v=spf1 ip4:20.42.80.160 ip4:20.103.25.156 include:spfloc.nibe.se include:spf-00373501.pphosted.com include:spf-00373502.pphosted.com include:spf.protection.outlook.com include:spf1.emarketeer.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jevi.com",
+    "cvr": "prospect",
+    "company_name": "jevi.com",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-16",
+        "days_remaining": 44
+      },
+      "server": "cloudflare",
+      "detected_plugins": [
+        "Cookie Law Info"
+      ],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "CookieYes",
+      "Google Tag Manager",
+      "HSTS",
+      "Java",
+      "Sitevision CMS",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.18.37.174",
+        "172.64.150.82"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mxa-00373502.gslb.pphosted.com",
+        "mxb-00373502.gslb.pphosted.com"
+      ],
+      "ns": [
+        "dns.nibe.se",
+        "dns2.nibe.se"
+      ],
+      "txt": [
+        "ca3-0f19be47e8c34565b580c43891fb0e5d",
+        "MS=ms17786325",
+        "v=spf1 ip4:20.42.80.160 ip4:20.103.25.156 include:spfloc.nibe.se include:spf-00373501.pphosted.com include:spf-00373502.pphosted.com include:spf.protection.outlook.com include:spf1.emarketeer.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "info",
+        "description": "1 WordPress plugin detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: Java",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 401,
+    "ssl": 76,
+    "headers": 220,
+    "meta": 238,
+    "httpx": 1996,
+    "webanalyze": 4,
+    "dnsx": 855,
+    "crtsh": 0,
+    "ghw": 217,
+    "total_ms": 4017
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

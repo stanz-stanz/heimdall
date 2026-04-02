@@ -2,7 +2,7 @@
   "domain": "ok-fonden.dk",
   "cvr": "prospect",
   "company_name": "ok-fonden.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,13 +14,25 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-07-30",
-      "days_remaining": 123
+      "days_remaining": 119
     },
     "server": "Apache",
     "detected_plugins": [
+      "Responsive Lightbox",
       "Wpforms Form Locker",
       "Wp Statistics",
-      "Responsive Lightbox"
+      "Better Wp Security",
+      "Redirection",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Responsive Lightbox": "1.5.2",
+      "Wpforms Form Locker": "2.8.0",
+      "Wp Statistics": "14.16",
+      "Wordpress Seo": "26.6"
+    },
+    "detected_themes": [
+      "Oktwentyone"
     ],
     "headers": {
       "x_frame_options": false,
@@ -44,6 +56,12 @@
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "responsive-lightbox": "1.5.2",
+    "wpforms-form-locker": "2.8.0",
+    "wp-statistics": "14.16",
+    "wordpress-seo": "26.6"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -62,17 +80,17 @@
       "ns08.sac-it.dk"
     ],
     "txt": [
-      "DiCsQLFHHgrD0t9rW8WGkEDULH5j8Ek82Is7LgXJQmgxC7Q+mDlpxk4mtxwc61PPMRSFRcLFa1T62sXgw9AkiQ==",
       "MS=ms36686336",
-      "google-site-verification=GDISuP0KOMAw0iIe8elzcCz0f7fDamQUIQxKoCcKb5c",
+      "DiCsQLFHHgrD0t9rW8WGkEDULH5j8Ek82Is7LgXJQmgxC7Q+mDlpxk4mtxwc61PPMRSFRcLFa1T62sXgw9AkiQ==",
+      "_globalsign-domain-verification=ZLDOLiUET71CxJBKTpr3Oq8Ydp6kdfnlEZc0UklhEg",
+      "apple-domain-verification=fqnHSEz7ruTyRjst",
       "_globalsign-domain-verification=10Sihf4TQBiUY83AVh7AjP-Wvry6wZuUuDpa8sp3rm",
       "apple-domain-verification=s1wJNrvxfl7wfE9P",
-      "apple-domain-verification=fqnHSEz7ruTyRjst",
-      "_globalsign-domain-verification=ZLDOLiUET71CxJBKTpr3Oq8Ydp6kdfnlEZc0UklhEg",
+      "google-site-verification=GDISuP0KOMAw0iIe8elzcCz0f7fDamQUIQxKoCcKb5c",
       "_globalsign-domain-verification=9Ard1OfN57fg2TKPZRdpf4jUnoFxBrkom1aibMxnD3",
-      "478Tew/RN/rONgr8p4rNI3W8qSgc4OkF957h1bx8KUBpuAJcggzhlFtQWPw1i5gBiGQyMnCJ54zLkd//i2Lq4g==",
       "_globalsign-domain-verification=75iEHuIlsRn2yJ9rkMR_x09v7owmlTIon338Ubvw5q",
-      "v=spf1 ip4:188.244.75.75 include:o._spf.hostedsepo.dk include:spf.protection.outlook.com include:_spf-hosting.eg.dk -all"
+      "v=spf1 ip4:188.244.75.75 include:o._spf.hostedsepo.dk include:spf.protection.outlook.com include:_spf-hosting.eg.dk -all",
+      "478Tew/RN/rONgr8p4rNI3W8qSgc4OkF957h1bx8KUBpuAJcggzhlFtQWPw1i5gBiGQyMnCJ54zLkd//i2Lq4g=="
     ]
   },
   "cloud_exposure": [],
@@ -99,13 +117,221 @@
     },
     {
       "severity": "info",
-      "description": "3 WordPress plugins detected",
+      "description": "6 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Oktwentyone",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Responsive Lightbox (installed 1.5.2, latest 2.7.6)",
+      "risk": "The installed version of Responsive Lightbox is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wp Statistics (installed 14.16, latest 14.16.4)",
+      "risk": "The installed version of Wp Statistics is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 26.6, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 1.7.2 (CVE-2017-2243)",
+      "risk": "CVE-2017-2243: WordPress plugin \"Responsive Lightbox\" vulnerable to cross-site scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2017-2243",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.2",
+      "risk": "Responsive Lightbox & Gallery <= 2.4.1 - Authenticated (Administrator+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.6 (CVE-2023-49174)",
+      "risk": "CVE-2023-49174: WordPress  Responsive Lightbox Plugin  <= 2.4.5 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-49174",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.7 (CVE-2024-31252)",
+      "risk": "CVE-2024-31252: WordPress  Responsive Lightbox Plugin    <= 2.4.6 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-31252",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.8 (CVE-2024-6870)",
+      "risk": "CVE-2024-6870: WordPress Responsive Lightbox Plugin <= 2.4.7 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-6870",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.8 (CVE-2024-43924)",
+      "risk": "CVE-2024-43924: WordPress Responsive Lightbox Plugin <= 2.4.7 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-43924",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.9 (CVE-2024-49282)",
+      "risk": "CVE-2024-49282: WordPress Responsive Lightbox Plugin <= 2.4.8 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-49282",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.9 (CVE-2024-5020)",
+      "risk": "CVE-2024-5020: Multiple Plugins <= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via FancyBox JavaScript Library",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-5020",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.8 (CVE-2024-5667)",
+      "risk": "CVE-2024-5667: Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Featherlight.js JavaScript Library",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-5667",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.1 (CVE-2025-3742)",
+      "risk": "CVE-2025-3742: EUVD-2025-15142",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3742",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.3 (CVE-2025-60452)",
+      "risk": "CVE-2025-60452: EUVD-2025-32491",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-60452",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.4 (CVE-2025-12359)",
+      "risk": "CVE-2025-12359: Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.4",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-12359",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.6.1 (CVE-2025-15386)",
+      "risk": "CVE-2025-15386: Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.6.1",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-15386",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WP Statistics – Simple, privacy-friendly Google Analytics alternative [wp-statistics] >= 12.0.2 - <= 12.0.5 (CVE-2018-1000556)",
+      "risk": "CVE-2018-1000556: WP Statistics – Simple, privacy-friendly Google Analytics alternative [wp-statistics] >= 12.0.2 - <= 12.0.5",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2018-1000556",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WP Statistics – Simple, privacy-friendly Google Analytics alternative [wp-statistics] <= 12.0.4 (CVE-2017-2147)",
+      "risk": "CVE-2017-2147: WordPress plugin \"WP Statistics\" vulnerable to cross-site scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2017-2147",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 140,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

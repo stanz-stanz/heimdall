@@ -1,0 +1,190 @@
+{
+  "domain": "danespo.com",
+  "job_id": "scan-2026-04-02-aaee8547",
+  "status": "completed",
+  "scan_result": {
+    "domain": "danespo.com",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Sectigo Limited",
+    "ssl_expiry": "2026-10-07",
+    "ssl_days_remaining": 188,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Dynamicweb:9",
+      "Google Tag Manager",
+      "Microsoft ASP.NET"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:42:20.810518758Z",
+      "port": "443",
+      "url": "https://danespo.com",
+      "input": "danespo.com",
+      "title": "Your supplier of potatoes of the highest quality",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "danespo.com",
+      "host_ip": "46.36.214.126",
+      "path": "/",
+      "final_url": "https://www.danespo.com/",
+      "time": "1.625825583s",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "46.36.214.126"
+      ],
+      "tech": [
+        "Dynamicweb:9",
+        "Google Tag Manager",
+        "Microsoft ASP.NET"
+      ],
+      "words": 8726,
+      "lines": 468,
+      "status_code": 200,
+      "content_length": 24467,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.36.214.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "danespo-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "t90q6brxwkr2ht7z38h2pc14346t7qvs",
+        "v=spf1 ip4:185.20.204.0 ip4:185.216.132.7 ip4:46.36.213.114 ip4:152.115.162.22 ip4:10.131.52.1 ip4:87.116.21.82 ip4:152.115.107.122 include:spf.dynamicweb-cms.com include:spf.protection.outlook.com include:spf.spamfilter.io -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "danespo.com",
+    "cvr": "prospect",
+    "company_name": "danespo.com",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Sectigo Limited",
+        "expiry": "2026-10-07",
+        "days_remaining": 188
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Dynamicweb:9",
+      "Google Tag Manager",
+      "Microsoft ASP.NET"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.36.214.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "danespo-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "t90q6brxwkr2ht7z38h2pc14346t7qvs",
+        "v=spf1 ip4:185.20.204.0 ip4:185.216.132.7 ip4:46.36.213.114 ip4:152.115.162.22 ip4:10.131.52.1 ip4:87.116.21.82 ip4:152.115.107.122 include:spf.dynamicweb-cms.com include:spf.protection.outlook.com include:spf.spamfilter.io -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1490,
+    "ssl": 64,
+    "headers": 1368,
+    "meta": 1590,
+    "httpx": 3121,
+    "webanalyze": 4,
+    "dnsx": 773,
+    "crtsh": 0,
+    "ghw": 201,
+    "total_ms": 8621
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

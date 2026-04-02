@@ -2,7 +2,7 @@
   "domain": "servicekompagniet.dk",
   "cvr": "prospect",
   "company_name": "servicekompagniet.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,14 +17,24 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-29",
-      "days_remaining": 59
+      "days_remaining": 56
     },
     "server": "cloudflare",
     "detected_plugins": [
-      "Qtranslate Slug",
       "Qtranslate X",
       "Contact Form 7",
-      "Breeze"
+      "Qtranslate Slug",
+      "Breeze",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Contact Form 7": "6.1.1",
+      "Qtranslate Slug": "6.8.5",
+      "Breeze": "2.2.18",
+      "Wordpress Seo": "25.9"
+    },
+    "detected_themes": [
+      "Service"
     ],
     "headers": {
       "x_frame_options": false,
@@ -46,18 +56,24 @@
     "Yoast SEO:25.9",
     "reCAPTCHA"
   ],
+  "plugin_versions": {
+    "contact-form-7": "6.1.1",
+    "qtranslate-slug": "6.8.5",
+    "breeze": "2.2.18",
+    "wordpress-seo": "25.9"
+  },
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "172.67.201.78",
-      "104.21.66.54"
+      "104.21.66.54",
+      "172.67.201.78"
     ],
     "aaaa": [
-      "2a06:98c1:3121::3",
-      "2a06:98c1:3120::3"
+      "2a06:98c1:3120::3",
+      "2a06:98c1:3121::3"
     ],
     "cname": [],
     "mx": [
@@ -68,8 +84,8 @@
       "delilah.ns.cloudflare.com"
     ],
     "txt": [
-      "MS=ms46520177",
-      "v=spf1 mx a a:smtprelay.splush.dk ~all"
+      "v=spf1 mx a a:smtprelay.splush.dk ~all",
+      "MS=ms46520177"
     ]
   },
   "cloud_exposure": [],
@@ -106,13 +122,149 @@
     },
     {
       "severity": "info",
-      "description": "4 WordPress plugins detected",
+      "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Service",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Contact Form 7 (installed 6.1.1, latest 6.1.5)",
+      "risk": "The installed version of Contact Form 7 is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Breeze (installed 2.2.18, latest 2.4.2)",
+      "risk": "The installed version of Breeze is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 25.9, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "qTranslate X [qtranslate-x] <= 3.4.6.8 (unfixed + closed)",
+      "risk": "qTranslate X <= 3.4.6.8 - Authenticated (Admin+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "aadb92e4031dfffaca2ac9de17bdb279b73be3ecacbb79694b1dffb3fbe2ba0b",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "qTranslate X [qtranslate-x] <= 3.4.6.8 (unfixed + closed)",
+      "risk": "qTranslate X &lt;= 3.4.6.8 - Multiple Admin+ Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "cbfbb5251d81c8180b5a28faf2e2666224643ea723595c3d43c28f91d48e5407",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Qtranslate Slug [qtranslate-slug] <= 1.1.18 (unfixed + closed)",
+      "risk": "WordPress Qtranslate Slug plugin <= 1.1.18 - Cross-Site Request Forgery (CSRF) vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "c023bdef4498e3fac84eea28ae0420f36465fb5c772b518c89e0325429e04bcf",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Qtranslate Slug [qtranslate-slug] <= 1.1.18 (unfixed + closed)",
+      "risk": "CSRF Bypass in Multiple Plugins",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "ee84274b06095e6da43c8866e96b2a3f4885b20553a3d157155607c4986f392d",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Qtranslate Slug [qtranslate-slug] <= 1.1.18 (unfixed)",
+      "risk": "Various Affected Software  (Various Versions) - Cross-Site Request Forgery Bypass",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "ac9fc029c5f503d4aa7e8bc27b8741500a4c4a3020b5064f5f38eb510f4dca0e",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Qtranslate Slug [qtranslate-slug] <= 1.1.18 (unfixed) (CVE-2021-4342)",
+      "risk": "CVE-2021-4342: Qtranslate Slug [qtranslate-slug] <= 1.1.18 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-4342",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Qtranslate Slug [qtranslate-slug] <= 1.1.18 (unfixed) (CVE-2021-4410)",
+      "risk": "CVE-2021-4410: Qtranslate Slug <= 1.1.18 - Cross-Site Request Forgery Bypass",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-4410",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Breeze Cache [breeze] <= 2.2.21 (unfixed) (CVE-2025-69364)",
+      "risk": "CVE-2025-69364: Breeze Cache [breeze] <= 2.2.21 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-69364",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Breeze Cache [breeze] < 2.2.22 (CVE-2025-13864)",
+      "risk": "CVE-2025-13864: Breeze Cache [breeze] < 2.2.22",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-13864",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 396,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

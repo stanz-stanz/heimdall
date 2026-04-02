@@ -1,0 +1,359 @@
+{
+  "domain": "soerensentoemrer.dk",
+  "job_id": "scan-2026-04-02-949b3a37",
+  "status": "completed",
+  "scan_result": {
+    "domain": "soerensentoemrer.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-16",
+    "ssl_days_remaining": 43,
+    "detected_plugins": [
+      "cf7-styler-for-divi",
+      "contact-form-7",
+      "supreme-modules-for-divi",
+      "divi-responsive-helper",
+      "wp-rocket",
+      "woocommerce",
+      "divi-builder",
+      "wordfence",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "cf7-styler-for-divi": "1711632338",
+      "contact-form-7": "1711632338",
+      "supreme-modules-for-divi": "1711632338",
+      "divi-responsive-helper": "2.3.1",
+      "wordpress-seo": "27.3"
+    },
+    "detected_themes": [
+      "Divi",
+      "divicraftsmantheme"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Divi",
+      "Google Tag Manager",
+      "MySQL",
+      "PHP",
+      "Varnish",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:19:38.954860431Z",
+      "port": "443",
+      "url": "https://soerensentoemrer.dk",
+      "input": "soerensentoemrer.dk",
+      "title": "Sørensen Tømrer i Kolding hjælper dig i mål med din tømreropgave",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "soerensentoemrer.dk",
+      "host_ip": "77.111.240.132",
+      "path": "/",
+      "final_url": "https://www.soerensentoemrer.dk/",
+      "time": "876.310826ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "77.111.240.132"
+      ],
+      "aaaa": [
+        "2a02:2350:5:102:26:e991:602d:8d5d"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Cookiebot",
+        "Divi",
+        "Google Tag Manager",
+        "MySQL",
+        "PHP",
+        "Varnish",
+        "WP Rocket",
+        "WordPress:6.9.4",
+        "Yoast SEO:27.3"
+      ],
+      "words": 15213,
+      "lines": 1623,
+      "status_code": 200,
+      "content_length": 478457,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "cf7-styler-for-divi",
+          "contact-form-7",
+          "supreme-modules-for-divi"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "77.111.240.132"
+      ],
+      "aaaa": [
+        "2a02:2350:5:102:26:e991:602d:8d5d"
+      ],
+      "cname": [],
+      "mx": [
+        "soerensentoemrer-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms68685180"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "soerensentoemrer.dk",
+    "cvr": "prospect",
+    "company_name": "soerensentoemrer.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Contact Form 7, Woocommerce",
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-16",
+        "days_remaining": 43
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Cf7 Styler For Divi",
+        "Contact Form 7",
+        "Supreme Modules For Divi",
+        "Divi Responsive Helper",
+        "Wp Rocket",
+        "Woocommerce",
+        "Divi Builder",
+        "Wordfence",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Cf7 Styler For Divi": "1711632338",
+        "Contact Form 7": "1711632338",
+        "Supreme Modules For Divi": "1711632338",
+        "Divi Responsive Helper": "2.3.1",
+        "Wordpress Seo": "27.3"
+      },
+      "detected_themes": [
+        "Divi",
+        "Divicraftsmantheme"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Divi",
+      "Google Tag Manager",
+      "MySQL",
+      "PHP",
+      "Varnish",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.3"
+    ],
+    "plugin_versions": {
+      "cf7-styler-for-divi": "1711632338",
+      "contact-form-7": "1711632338",
+      "supreme-modules-for-divi": "1711632338",
+      "divi-responsive-helper": "2.3.1",
+      "wordpress-seo": "27.3"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "77.111.240.132"
+      ],
+      "aaaa": [
+        "2a02:2350:5:102:26:e991:602d:8d5d"
+      ],
+      "cname": [],
+      "mx": [
+        "soerensentoemrer-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms68685180"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "9 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Divi, Divicraftsmantheme",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+        "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28044",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+        "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35945",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 621,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 6264,
+    "ssl": 79,
+    "headers": 2791,
+    "meta": 1726,
+    "httpx": 4404,
+    "webanalyze": 5,
+    "dnsx": 797,
+    "crtsh": 0,
+    "ghw": 240,
+    "total_ms": 18720
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

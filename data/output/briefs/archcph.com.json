@@ -1,0 +1,48 @@
+{
+  "domain": "archcph.com",
+  "cvr": "prospect",
+  "company_name": "archcph.com",
+  "scan_date": "2026-04-02",
+  "bucket": "C",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "E-commerce platform: Shopify",
+    "Visitor tracking: MailChimp"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "Shopify",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-11",
+      "days_remaining": 70
+    },
+    "server": "cloudflare",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "HSTS",
+    "HTTP/3",
+    "MailChimp",
+    "Shopify"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {},
+  "cloud_exposure": [],
+  "findings": []
+}

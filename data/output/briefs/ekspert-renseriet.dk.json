@@ -2,7 +2,7 @@
   "domain": "ekspert-renseriet.dk",
   "cvr": "prospect",
   "company_name": "ekspert-renseriet.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "C",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 68
+      "days_remaining": 64
     },
     "server": "Pepyaka",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,27 +36,12 @@
     "React",
     "Wix"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "185.230.63.107"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "ekspertrenseriet-dk01i.mail.protection.outlook.com"
-    ],
-    "ns": [
-      "ns1.dnsserver.dk",
-      "ns2.dnsserver.dk"
-    ],
-    "txt": [
-      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

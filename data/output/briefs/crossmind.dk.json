@@ -2,7 +2,7 @@
   "domain": "crossmind.dk",
   "cvr": "prospect",
   "company_name": "crossmind.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-11",
-      "days_remaining": 73
+      "days_remaining": 69
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -39,6 +41,7 @@
     "jsDelivr",
     "reCAPTCHA"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -57,12 +60,12 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "google-site-verification=44ywrvmhlflw8oOIvlPjWXlhQRvaVIjsYMjJyvbhu7A",
       "MS=ms33896379",
-      "google-site-verification=m8NDyAHC4S-1iS1m7G9iRXhEkCVDcibw0jjvqUyqVlY",
       "MS=ms73391653",
+      "v=spf1 include:_spf.mlsend.com ip4:91.133.33.15 mx include:spf.protection.outlook.com include:crosscloud.dk include:crossmind.dk ip4:94.231.109.248 ~all",
       "google-site-verification=3iPUAPt0BM7APA8ZhuSZdPYAbsIaOtSrwYdc09GxDQo",
-      "v=spf1 include:_spf.mlsend.com ip4:91.133.33.15 mx include:spf.protection.outlook.com include:crosscloud.dk include:crossmind.dk ip4:94.231.109.248 ~all"
+      "google-site-verification=44ywrvmhlflw8oOIvlPjWXlhQRvaVIjsYMjJyvbhu7A",
+      "google-site-verification=m8NDyAHC4S-1iS1m7G9iRXhEkCVDcibw0jjvqUyqVlY"
     ]
   },
   "cloud_exposure": [],

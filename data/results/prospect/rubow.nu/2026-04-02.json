@@ -1,0 +1,186 @@
+{
+  "domain": "rubow.nu",
+  "job_id": "scan-2026-04-02-2e16712e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "rubow.nu",
+    "cms": "",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": false,
+    "ssl_issuer": "",
+    "ssl_expiry": "",
+    "ssl_days_remaining": -1,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "PHP:5.2.17"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:17:05.223455128Z",
+      "port": "80",
+      "url": "http://rubow.nu",
+      "input": "rubow.nu",
+      "scheme": "http",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "rubow.nu",
+      "host_ip": "217.116.232.212",
+      "path": "/",
+      "time": "148.7477ms",
+      "a": [
+        "217.116.232.212"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "PHP:5.2.17"
+      ],
+      "words": 75,
+      "lines": 11,
+      "status_code": 200,
+      "content_length": 398,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "217.116.232.212"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.gigahost.dk",
+        "mx1.gigahost.dk"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "rubow.nu",
+    "cvr": "prospect",
+    "company_name": "rubow.nu",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": false,
+        "issuer": "",
+        "expiry": "",
+        "days_remaining": -1
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "PHP:5.2.17"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "217.116.232.212"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.gigahost.dk",
+        "mx1.gigahost.dk"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "critical",
+        "description": "No SSL certificate detected",
+        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP:5.2.17",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 71,
+    "ssl": 54,
+    "headers": 35,
+    "meta": 35,
+    "httpx": 1615,
+    "webanalyze": 2,
+    "dnsx": 778,
+    "crtsh": 0,
+    "ghw": 142,
+    "total_ms": 2743
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

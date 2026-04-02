@@ -1,0 +1,76 @@
+{
+  "domain": "vejle-bolig.com",
+  "cvr": "prospect",
+  "company_name": "vejle-bolig.com",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-12",
+      "days_remaining": 70
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Bootstrap",
+    "Google Maps",
+    "Google Tag Manager",
+    "HSTS",
+    "OWL Carousel",
+    "Popper",
+    "Slick",
+    "jQuery",
+    "jQuery UI"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "94.231.109.43"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx1.mailpod15-cph3.g1i.one.com",
+      "mx3.mailpod15-cph3.g1i.one.com",
+      "mx4.mailpod15-cph3.g1i.one.com",
+      "mx2.mailpod15-cph3.g1i.one.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "v=spf1 include:_custspf.one.com ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

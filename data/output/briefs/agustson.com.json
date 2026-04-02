@@ -2,7 +2,7 @@
   "domain": "agustson.com",
   "cvr": "prospect",
   "company_name": "agustson.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,11 +14,15 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-17",
-      "days_remaining": 47
+      "days_remaining": 44
     },
     "server": "Apache",
     "detected_plugins": [
       "Smart Slider 3"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [
+      "Johnsen Template"
     ],
     "headers": {
       "x_frame_options": false,
@@ -45,6 +49,7 @@
     "jQuery Migrate:1.4.1",
     "jQuery:3.3.1"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -100,6 +105,11 @@
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Johnsen Template",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
     }
   ]
 }

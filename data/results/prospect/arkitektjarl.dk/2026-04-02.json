@@ -1,0 +1,187 @@
+{
+  "domain": "arkitektjarl.dk",
+  "job_id": "scan-2026-04-02-459377fa",
+  "status": "completed",
+  "scan_result": {
+    "domain": "arkitektjarl.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-21",
+    "ssl_days_remaining": 80,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Microsoft ASP.NET",
+      "iubenda",
+      "jQuery:1.12.2"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:33:10.676527794Z",
+      "port": "443",
+      "url": "https://arkitektjarl.dk",
+      "input": "arkitektjarl.dk",
+      "title": "Boligrådgivning tilbydes nær Vejle i Jylland | Kom godt i gang her",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "arkitektjarl.dk",
+      "host_ip": "193.8.37.84",
+      "path": "/",
+      "final_url": "https://arkitekt-jarl.dk/",
+      "time": "1.559077464s",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "193.8.37.84"
+      ],
+      "tech": [
+        "Google Analytics",
+        "Microsoft ASP.NET",
+        "iubenda",
+        "jQuery:1.12.2"
+      ],
+      "words": 9154,
+      "lines": 937,
+      "status_code": 200,
+      "content_length": 287919,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.8.37.84"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail1.arkitektjarl.dk"
+      ],
+      "ns": [
+        "ns1.dnsserver.dk",
+        "ns2.dnsserver.dk"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "arkitektjarl.dk",
+    "cvr": "prospect",
+    "company_name": "arkitektjarl.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-21",
+        "days_remaining": 80
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Microsoft ASP.NET",
+      "iubenda",
+      "jQuery:1.12.2"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.8.37.84"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail1.arkitektjarl.dk"
+      ],
+      "ns": [
+        "ns1.dnsserver.dk",
+        "ns2.dnsserver.dk"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 134,
+    "ssl": 87,
+    "headers": 499,
+    "meta": 556,
+    "httpx": 4194,
+    "webanalyze": 4,
+    "dnsx": 853,
+    "crtsh": 0,
+    "ghw": 505,
+    "total_ms": 6847
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

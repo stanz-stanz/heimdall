@@ -2,7 +2,7 @@
   "domain": "ulf.dk",
   "cvr": "prospect",
   "company_name": "ulf.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,13 +16,21 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-08",
-      "days_remaining": 70
+      "days_remaining": 66
     },
     "server": "Apache",
     "detected_plugins": [
-      "Google Site Kit",
       "Cookie Law Info",
-      "Wp Consent Api"
+      "Google Site Kit",
+      "Wp Consent Api",
+      "Jetpack"
+    ],
+    "plugin_versions": {
+      "Cookie Law Info": "3.3.9.1",
+      "Wp Consent Api": "2.0.0"
+    },
+    "detected_themes": [
+      "Ulf"
     ],
     "headers": {
       "x_frame_options": false,
@@ -48,6 +56,10 @@
     "WordPress",
     "jQuery:1.11.3"
   ],
+  "plugin_versions": {
+    "cookie-law-info": "3.3.9.1",
+    "wp-consent-api": "2.0.0"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -96,13 +108,48 @@
     },
     {
       "severity": "info",
-      "description": "3 WordPress plugins detected",
+      "description": "4 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Ulf",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Cookie Law Info (installed 3.3.9.1, latest 3.4.0)",
+      "risk": "The installed version of Cookie Law Info is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wp Consent Api (installed 2.0.0, latest 2.0.1)",
+      "risk": "The installed version of Wp Consent Api is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
+      "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-54332",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 134,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

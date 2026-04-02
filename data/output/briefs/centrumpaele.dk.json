@@ -2,7 +2,7 @@
   "domain": "centrumpaele.dk",
   "cvr": "prospect",
   "company_name": "centrumpaele.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,14 +17,24 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-07",
-      "days_remaining": 68
+      "days_remaining": 65
     },
     "server": "nginx",
     "detected_plugins": [
-      "Sitepress Multilingual Cms",
       "Wp Rocket",
+      "Sitepress Multilingual Cms",
       "Formidable",
-      "Formidable Pro"
+      "Formidable Pro",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Sitepress Multilingual Cms": "1773301818",
+      "Formidable Pro": "6.28",
+      "Wordpress Seo": "27.1"
+    },
+    "detected_themes": [
+      "Stepuptema",
+      "Centrum Paele Wordpress Child Theme"
     ],
     "headers": {
       "x_frame_options": false,
@@ -43,6 +53,11 @@
     "WordPress",
     "Yoast SEO:27.1"
   ],
+  "plugin_versions": {
+    "sitepress-multilingual-cms": "1773301818",
+    "formidable-pro": "6.28",
+    "wordpress-seo": "27.1"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -61,9 +76,9 @@
       "b.portsdns.net"
     ],
     "txt": [
-      "autodesk-domain-verification=gFJWEyb99SkpUm_7wVnr",
       "MS=ms96524149",
-      "v=spf1 include:aarsleff.com ~all"
+      "v=spf1 include:aarsleff.com ~all",
+      "autodesk-domain-verification=gFJWEyb99SkpUm_7wVnr"
     ]
   },
   "cloud_exposure": [],
@@ -100,13 +115,91 @@
     },
     {
       "severity": "info",
-      "description": "4 WordPress plugins detected",
+      "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Stepuptema, Centrum Paele Wordpress Child Theme",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 27.1, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28044",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] >= 2.9.3 - <= 3.2.6 (CVE-2015-9416)",
+      "risk": "CVE-2015-9416: WPML 2.9.3-3.2.6 - Cross-Site Scripting in Accept-Language Header",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-9416",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WPML [sitepress-multilingual-cms] >= 3.6.0 - <= 4.7.3 (CVE-2025-3488)",
+      "risk": "CVE-2025-3488: WPML Multilingual CMS 3.6.0 - 4.7.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via wpml_language_switcher Shortcode",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3488",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Formidable Forms &#8211; Contact Form Plugin, Survey, Quiz, Payment, Calculator Form &amp; Custom Form Builder [formidable] < 5.5.7 (CVE-2023-24419)",
+      "risk": "CVE-2023-24419: WordPress  Formidable Forms Plugin  <= 5.5.6 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-24419",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Formidable Forms &#8211; Contact Form Plugin, Survey, Quiz, Payment, Calculator Form &amp; Custom Form Builder [formidable] < 2.05.03 (CVE-2017-20192)",
+      "risk": "CVE-2017-20192: Formidable Forms &#8211; Contact Form Plugin, Survey, Quiz, Payment, Calculator Form &amp; Custom Form Builder [formidable] < 2.05.03",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2017-20192",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 308,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

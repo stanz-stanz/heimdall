@@ -2,7 +2,7 @@
   "domain": "gundtoft.dk",
   "cvr": "prospect",
   "company_name": "gundtoft.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -15,11 +15,13 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-01",
-      "days_remaining": 33
+      "expiry": "2026-06-30",
+      "days_remaining": 89
     },
     "server": "nginx",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -36,6 +38,7 @@
     "PHP:7.0.33",
     "jQuery:2.1.4"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -54,9 +57,9 @@
       "ns02.one.com"
     ],
     "txt": [
+      "v=spf1 include:spf.protection.outlook.com mx include:sendgrid.net ip4:195.190.30.45 ~all",
       "klaviyo-site-verification=Yxxtmh",
-      "MS=ms46342002",
-      "v=spf1 include:spf.protection.outlook.com mx include:sendgrid.net ip4:195.190.30.45 ~all"
+      "MS=ms46342002"
     ]
   },
   "cloud_exposure": [],

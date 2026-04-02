@@ -1,0 +1,181 @@
+{
+  "domain": "dinafood.dk",
+  "job_id": "scan-2026-04-02-b9bc1dde",
+  "status": "completed",
+  "scan_result": {
+    "domain": "dinafood.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-20",
+    "ssl_days_remaining": 78,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:43:18.708382291Z",
+      "port": "443",
+      "url": "https://dinafood.dk",
+      "input": "dinafood.dk",
+      "title": "Dina Food - Kager der smager",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "dinafood.dk",
+      "host_ip": "94.231.109.50",
+      "path": "/",
+      "final_url": "https://www.dinafood.dk/",
+      "time": "405.314295ms",
+      "chain_status_codes": [
+        308,
+        301,
+        200
+      ],
+      "a": [
+        "94.231.109.50"
+      ],
+      "tech": [
+        "Google Analytics",
+        "reCAPTCHA"
+      ],
+      "words": 13918,
+      "lines": 869,
+      "status_code": 200,
+      "content_length": 47401,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.109.50"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dinafood-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "dinafood.dk",
+    "cvr": "prospect",
+    "company_name": "dinafood.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-20",
+        "days_remaining": 78
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.109.50"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dinafood-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 129,
+    "ssl": 79,
+    "headers": 266,
+    "meta": 256,
+    "httpx": 2160,
+    "webanalyze": 4,
+    "dnsx": 854,
+    "total_ms": 3755
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

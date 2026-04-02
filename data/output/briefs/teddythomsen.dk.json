@@ -1,0 +1,65 @@
+{
+  "domain": "teddythomsen.dk",
+  "cvr": "prospect",
+  "company_name": "teddythomsen.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, reCAPTCHA"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-19",
+      "days_remaining": 77
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Analytics",
+    "HSTS",
+    "Microsoft ASP.NET",
+    "iubenda",
+    "jQuery:1.12.2",
+    "reCAPTCHA"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "193.8.37.83"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "teddythomsen-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.jeppo-dns.dk",
+      "ns2.jeppo-dns.dk"
+    ],
+    "txt": [
+      "v=spf1 include:_spf.tnha.dk include:spf.protection.outlook.com  -all",
+      "<24.02.2025>"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

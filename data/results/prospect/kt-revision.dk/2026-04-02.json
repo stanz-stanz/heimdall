@@ -1,0 +1,224 @@
+{
+  "domain": "kt-revision.dk",
+  "job_id": "scan-2026-04-02-de7776db",
+  "status": "completed",
+  "scan_result": {
+    "domain": "kt-revision.dk",
+    "cms": "",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-19",
+    "ssl_days_remaining": 78,
+    "detected_plugins": [
+      "litespeed-cache"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [
+      "onlineplus-site"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "HTTP/3",
+      "LiteSpeed",
+      "LiteSpeed Cache",
+      "Litespeed Cache"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:01:44.741316066Z",
+      "port": "443",
+      "url": "https://kt-revision.dk",
+      "input": "kt-revision.dk",
+      "title": "Revisor, årsregnskab & bogføring - K.T. Revision",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "kt-revision.dk",
+      "host_ip": "185.21.42.34",
+      "path": "/",
+      "time": "108.451659ms",
+      "a": [
+        "185.21.42.34"
+      ],
+      "tech": [
+        "HTTP/3",
+        "LiteSpeed",
+        "LiteSpeed Cache",
+        "Litespeed Cache"
+      ],
+      "words": 1408,
+      "lines": 41,
+      "status_code": 200,
+      "content_length": 45066,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "litespeed_cache",
+          "vendor": "litespeedtech",
+          "cpe": "cpe:2.3:a:litespeedtech:litespeed_cache:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "liteSpeed-cache",
+          "vendor": "liteSpeed-technologies",
+          "cpe": "cpe:2.3:a:litespeed-technologies:litespeed-cache:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "litespeed-cache"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.42.34"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "ktrevision-dk0e.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk include:spf.host4u.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "kt-revision.dk",
+    "cvr": "prospect",
+    "company_name": "kt-revision.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-19",
+        "days_remaining": 78
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Litespeed Cache"
+      ],
+      "plugin_versions": {},
+      "detected_themes": [
+        "Onlineplus Site"
+      ],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "HTTP/3",
+      "LiteSpeed",
+      "LiteSpeed Cache",
+      "Litespeed Cache"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.42.34"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "ktrevision-dk0e.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk include:spf.host4u.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "info",
+        "description": "1 WordPress plugin detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Onlineplus Site",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 106,
+    "ssl": 74,
+    "headers": 83,
+    "meta": 108,
+    "httpx": 1708,
+    "webanalyze": 4,
+    "dnsx": 795,
+    "crtsh": 0,
+    "ghw": 335,
+    "total_ms": 3223
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

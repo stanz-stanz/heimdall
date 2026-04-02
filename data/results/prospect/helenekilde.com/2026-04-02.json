@@ -1,0 +1,351 @@
+{
+  "domain": "helenekilde.com",
+  "job_id": "scan-2026-04-02-c29e8946",
+  "status": "completed",
+  "scan_result": {
+    "domain": "helenekilde.com",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-01",
+    "ssl_days_remaining": 59,
+    "detected_plugins": [
+      "gp-premium",
+      "bbh-multisite-language",
+      "wpnordic-snapnote",
+      "wpnordic-cookie-care",
+      "wp-rocket",
+      "gravityforms",
+      "redirection",
+      "wordfence"
+    ],
+    "plugin_versions": {
+      "bbh-multisite-language": "1770718994",
+      "wpnordic-snapnote": "1770718994",
+      "wpnordic-cookie-care": "1770718994",
+      "gp-premium": "2.5.5",
+      "wp-rocket": "3.20.6.1",
+      "gravityforms": "2.9.30"
+    },
+    "detected_themes": [
+      "hotelsanders",
+      "generatepress"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Cloudflare",
+      "GeneratePress",
+      "GeneratePress GP Premium:2.5.5",
+      "Google Analytics",
+      "Gravity Forms:2.9.30",
+      "Klaviyo",
+      "LazySizes unveilhooks plugin",
+      "MySQL",
+      "Nginx",
+      "PHP:8.3.30",
+      "Slick",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "cdnjs",
+      "crypto-js:4.1.1",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:53:43.780783629Z",
+      "port": "443",
+      "url": "https://helenekilde.com",
+      "input": "helenekilde.com",
+      "title": "Helenekilde Badehotel",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "helenekilde.com",
+      "host_ip": "89.188.72.99",
+      "path": "/",
+      "time": "136.464387ms",
+      "a": [
+        "89.188.72.99"
+      ],
+      "tech": [
+        "Bootstrap",
+        "Cloudflare",
+        "GeneratePress",
+        "GeneratePress GP Premium:2.5.5",
+        "Google Analytics",
+        "Gravity Forms:2.9.30",
+        "Klaviyo",
+        "LazySizes unveilhooks plugin",
+        "MySQL",
+        "Nginx",
+        "PHP:8.3.30",
+        "Slick",
+        "WP Rocket",
+        "WordPress:6.9.4",
+        "cdnjs",
+        "crypto-js:4.1.1",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 16273,
+      "lines": 1631,
+      "status_code": 200,
+      "content_length": 194931,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "gp-premium",
+          "vendor": "generatepress",
+          "cpe": "cpe:2.3:a:generatepress:gp-premium:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "themes": [
+          "generatepress"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "89.188.72.99"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "helenekilde-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.brandbyhand.dk",
+        "ns2.brandbyhand.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.hostingconnection.eu include:mailgun.org ~all",
+        "google-site-verification=GM5uwgkvcP8_zWO7Py8wkC-0ydn30IVHDNj8kF8XfrY",
+        "globalsign-domain-verification=LUafWkHIf8C9-TVW2nVcifU88X8I1cf45IX57SEr0C"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "helenekilde.com",
+    "cvr": "prospect",
+    "company_name": "helenekilde.com",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Gravityforms",
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-01",
+        "days_remaining": 59
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Gp Premium",
+        "Bbh Multisite Language",
+        "Wpnordic Snapnote",
+        "Wpnordic Cookie Care",
+        "Wp Rocket",
+        "Gravityforms",
+        "Redirection",
+        "Wordfence"
+      ],
+      "plugin_versions": {
+        "Bbh Multisite Language": "1770718994",
+        "Wpnordic Snapnote": "1770718994",
+        "Wpnordic Cookie Care": "1770718994",
+        "Gp Premium": "2.5.5",
+        "Wp Rocket": "3.20.6.1",
+        "Gravityforms": "2.9.30"
+      },
+      "detected_themes": [
+        "Hotelsanders",
+        "Generatepress"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Cloudflare",
+      "GeneratePress",
+      "GeneratePress GP Premium:2.5.5",
+      "Google Analytics",
+      "Gravity Forms:2.9.30",
+      "Klaviyo",
+      "LazySizes unveilhooks plugin",
+      "MySQL",
+      "Nginx",
+      "PHP:8.3.30",
+      "Slick",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "cdnjs",
+      "crypto-js:4.1.1",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "bbh-multisite-language": "1770718994",
+      "wpnordic-snapnote": "1770718994",
+      "wpnordic-cookie-care": "1770718994",
+      "gp-premium": "2.5.5",
+      "wp-rocket": "3.20.6.1",
+      "gravityforms": "2.9.30"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "89.188.72.99"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "helenekilde-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.brandbyhand.dk",
+        "ns2.brandbyhand.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.hostingconnection.eu include:mailgun.org ~all",
+        "google-site-verification=GM5uwgkvcP8_zWO7Py8wkC-0ydn30IVHDNj8kF8XfrY",
+        "globalsign-domain-verification=LUafWkHIf8C9-TVW2nVcifU88X8I1cf45IX57SEr0C"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Gravityforms",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "8 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.3.30",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Hotelsanders, Generatepress",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+        "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28044",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
+        "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-2260",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 830,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 499,
+    "ssl": 67,
+    "headers": 89,
+    "meta": 264,
+    "httpx": 3290,
+    "webanalyze": 4,
+    "dnsx": 789,
+    "total_ms": 8929
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

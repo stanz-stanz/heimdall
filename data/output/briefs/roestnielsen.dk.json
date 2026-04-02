@@ -2,7 +2,7 @@
   "domain": "roestnielsen.dk",
   "cvr": "prospect",
   "company_name": "roestnielsen.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,16 +16,29 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-09",
-      "days_remaining": 39
+      "days_remaining": 36
     },
     "server": "nginx",
     "detected_plugins": [
       "Contact Form 7",
-      "Download Monitor",
       "Cookie Notice",
+      "Download Manager",
       "Jetpack",
+      "Download Monitor",
       "Megamenu",
-      "Download Manager"
+      "Akismet",
+      "Wordfence"
+    ],
+    "plugin_versions": {
+      "Contact Form 7": "5.8.1",
+      "Cookie Notice": "2.5.16",
+      "Download Manager": "6.2.9",
+      "Download Monitor": "4.8.10",
+      "Megamenu": "3.6.2"
+    },
+    "detected_themes": [
+      "Enfold 2",
+      "Enfold Child"
     ],
     "headers": {
       "x_frame_options": false,
@@ -51,6 +64,13 @@
     "jQuery",
     "jQuery Migrate"
   ],
+  "plugin_versions": {
+    "contact-form-7": "5.8.1",
+    "cookie-notice": "2.5.16",
+    "download-manager": "6.2.9",
+    "download-monitor": "4.8.10",
+    "megamenu": "3.6.2"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -64,9 +84,9 @@
     ],
     "cname": [],
     "mx": [
+      "roestnielsen-dk.mx2-dk.mailanyone.net",
       "roestnielsen-dk.mx3-dk.mailanyone.net",
-      "roestnielsen-dk.mx1-dk.mailanyone.net",
-      "roestnielsen-dk.mx2-dk.mailanyone.net"
+      "roestnielsen-dk.mx1-dk.mailanyone.net"
     ],
     "ns": [
       "ns1.powerhosting.dk",
@@ -105,13 +125,269 @@
     },
     {
       "severity": "info",
-      "description": "6 WordPress plugins detected",
+      "description": "8 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Enfold 2, Enfold Child",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Contact Form 7 (installed 5.8.1, latest 6.1.5)",
+      "risk": "The installed version of Contact Form 7 is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Download Monitor (installed 4.8.10, latest 5.1.12)",
+      "risk": "The installed version of Download Monitor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Megamenu (installed 3.6.2, latest 3.8.1)",
+      "risk": "The installed version of Megamenu is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
+      "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-6449",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
+      "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-2242",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
+      "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4704",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
+      "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3247",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed) (CVE-2025-67554)",
+      "risk": "CVE-2025-67554: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67554",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Manager [download-manager] >= 2.7.0 - <= 2.7.4",
+      "risk": "WordPress Download Manager 2.7.4 - Remote Code Execution",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "1bd602be741809d6103b7b1c7dd8b52a7ee46bb7f1a9da35430ce09a0f3a381e",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Manager [download-manager] < 6.3.0",
+      "risk": "Download Manager [download-manager] < 6.3.0",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "5a0a07b5f8ce8a04f3e9e2dd0737679c7cd38c8247a0cc2cba01b50611920771",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Manager [download-manager] <= 3.3.25 (unfixed) (CVE-2025-60092)",
+      "risk": "CVE-2025-60092: Download Manager &lt;= 3.3.24 - Unauthenticated Sensitive Information Exposure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-60092",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Manager [download-manager] <= 3.3.32 (unfixed) (CVE-2025-63070)",
+      "risk": "CVE-2025-63070: Download Manager [download-manager] <= 3.3.32 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-63070",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
+      "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-54332",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Monitor [download-monitor] <= 1.6.4",
+      "risk": "Download Monitor <= 1.6.4 - Reflected Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Monitor [download-monitor] < 4.9.5",
+      "risk": "Download Monitor <= 4.9.4 - Authenticated (Admin+) SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Monitor [download-monitor] < 4.9.5",
+      "risk": "WordPress  Download Monitor Plugin  < 4.9.5 is vulnerable to SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Download Monitor [download-monitor] < 4.9.5 (CVE-2024-30501)",
+      "risk": "CVE-2024-30501: WordPress  Download Monitor Plugin    <= 4.9.4 is vulnerable to SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-30501",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Monitor [download-monitor] < 4.9.14 (CVE-2024-3269)",
+      "risk": "CVE-2024-3269: Download Monitor <= 4.9.13 - Missing Authorization",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-3269",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Monitor [download-monitor] < 5.0.10 (CVE-2024-8552)",
+      "risk": "CVE-2024-8552: Download Monitor <= 5.0.9 - Missing Authorization to Authenticated (Subscriber+) Shop Enable",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-8552",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Monitor [download-monitor] < 5.0.13 (CVE-2024-10092)",
+      "risk": "CVE-2024-10092: Download Monitor <= 5.0.12 - Missing Authorization to API Key Manipulation",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-10092",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Download Monitor [download-monitor] < 5.0.14 (CVE-2024-10399)",
+      "risk": "CVE-2024-10399: WordPress Download Monitor Plugin <= 5.0.13 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-10399",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Download Monitor [download-monitor] < 5.0.23 (CVE-2025-47439)",
+      "risk": "CVE-2025-47439: EUVD-2025-13870",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-47439",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 332,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

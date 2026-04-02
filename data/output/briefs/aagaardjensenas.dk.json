@@ -2,7 +2,7 @@
   "domain": "aagaardjensenas.dk",
   "cvr": "prospect",
   "company_name": "aagaardjensenas.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,13 +14,25 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-24",
-      "days_remaining": 54
+      "days_remaining": 52
     },
     "server": "nginx",
     "detected_plugins": [
-      "Cookie Law Info",
       "Supreme Modules Pro For Divi",
-      "Wp Rocket"
+      "Cookie Law Info",
+      "Wp Rocket",
+      "Divi Builder",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Supreme Modules Pro For Divi": "4.9.97.41",
+      "Cookie Law Info": "3.4.0",
+      "Wp Rocket": "3.21.0.1",
+      "Divi Builder": "4.27.6",
+      "Wordpress Seo": "27.2"
+    },
+    "detected_themes": [
+      "Divi"
     ],
     "headers": {
       "x_frame_options": true,
@@ -46,6 +58,13 @@
     "jQuery Migrate:3.4.1",
     "jQuery Mobile:4.27.6"
   ],
+  "plugin_versions": {
+    "supreme-modules-pro-for-divi": "4.9.97.41",
+    "cookie-law-info": "3.4.0",
+    "wp-rocket": "3.21.0.1",
+    "divi-builder": "4.27.6",
+    "wordpress-seo": "27.2"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -87,13 +106,67 @@
     },
     {
       "severity": "info",
-      "description": "3 WordPress plugins detected",
+      "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Divi",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 27.2, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28044",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+      "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-35945",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
+      "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 284,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

@@ -1,0 +1,62 @@
+{
+  "domain": "vejleoasekirke.dk",
+  "cvr": "prospect",
+  "company_name": "vejleoasekirke.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-14",
+      "days_remaining": 72
+    },
+    "server": "Apache",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "HSTS",
+    "jQuery"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "212.237.176.115"
+    ],
+    "aaaa": [
+      "2a06:4005:9005::7604"
+    ],
+    "cname": [],
+    "mx": [
+      "mail.vejleoasekirke.dk"
+    ],
+    "ns": [
+      "ns1.desec.io",
+      "ns2.desec.org"
+    ],
+    "txt": [
+      "google-site-verification=G-UCwIaVWhu4BFXSBVLYODHeP3dS33v7k-Scjja7K_g",
+      "v=spf1 include:spf.emailsys.net include:email-messaging.com ip4:212.237.176.115 ip6:2a06:4005:9005:300::7612 -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

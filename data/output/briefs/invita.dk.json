@@ -1,0 +1,79 @@
+{
+  "domain": "invita.dk",
+  "cvr": "prospect",
+  "company_name": "invita.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "DigiCert Inc",
+      "expiry": "2026-09-06",
+      "days_remaining": 157
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Azure",
+    "Azure Front Door",
+    "Google Tag Manager",
+    "Linkedin Ads",
+    "Microsoft ASP.NET:4.0.30319",
+    "OneTrust"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "13.107.213.38",
+      "13.107.246.38"
+    ],
+    "aaaa": [
+      "2603:1061:14:72::1"
+    ],
+    "cname": [],
+    "mx": [
+      "invita-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "udns1.cscdns.net",
+      "udns2.cscdns.uk"
+    ],
+    "txt": [
+      "google-site-verification=M-sJfONceysFjzoMaEJNlO5Oy3Puz0dG6i5iQvlOz-U",
+      "v=spf1 include:spf.protection.outlook.com include:mktomail.com ip4:46.36.211.197 include:mailmailmail.net include:_spf_eucentral1.prod.hydra.sophos.com include:_spf.cmail.ondemand.com include:_spf.cloudmail.net.sap include:amazonses.com -all",
+      "MS=ms15215106",
+      "yahoo-verification-key=tDyXDcz7LlgqvjsN4KlzV7QEc2n/1OJzsru/ZHlmNgA=",
+      "google-site-verification=lq4ohxhcQLOKI11CMUqLsWdlwOZVUkt5N0d7XQINPN4",
+      "google-site-verification=n0Zodp0NvaUS6ADy4xM25jI_jExNo1E5U_YaWzCmDwo",
+      "BguTpQBCq36pNTKLj6H6ecD6B4jxeN/YsEivzC0b6u2vXg8tQOoRG/PTJux9TlASLd7AuRN84qcOn+gbBH/EGQ=="
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    }
+  ]
+}

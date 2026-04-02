@@ -1,6 +1,6 @@
 {
   "domain": "langolo.dk",
-  "job_id": "scan-2026-04-02-a716318e",
+  "job_id": "scan-2026-04-02-1262ea26",
   "status": "completed",
   "scan_result": {
     "domain": "langolo.dk",
@@ -153,8 +153,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 192,
-    "total_ms": 193
+    "robots_txt": 230,
+    "total_ms": 230
   },
   "cache_stats": {
     "hits": 5,

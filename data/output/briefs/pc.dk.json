@@ -35,7 +35,27 @@
     "count": 0,
     "list": []
   },
-  "dns": {},
+  "dns": {
+    "a": [
+      "3.125.131.179",
+      "18.192.246.145",
+      "18.193.144.171"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "fpo9.mail.dk"
+    ],
+    "ns": [
+      "ns1.eurodns.com",
+      "ns2.eurodns.com",
+      "ns3.eurodns.com",
+      "ns4.eurodns.com"
+    ],
+    "txt": [
+      "v=spf1 include:mail.dk ~all"
+    ]
+  },
   "cloud_exposure": [],
   "findings": [
     {

@@ -1,0 +1,410 @@
+{
+  "domain": "variovacnordic.com",
+  "cvr": "prospect",
+  "company_name": "variovacnordic.com",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Contact Form 7"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-21",
+      "days_remaining": 49
+    },
+    "server": "Apache",
+    "detected_plugins": [
+      "Contact Form 7",
+      "Fusion Builder",
+      "Fusion Core"
+    ],
+    "plugin_versions": {
+      "Contact Form 7": "5.4.2",
+      "Fusion Builder": "1",
+      "Fusion Core": "5.2.1"
+    },
+    "detected_themes": [
+      "Avada"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Bootstrap",
+    "Contact Form 7:5.4.2",
+    "FitVids.JS:1.1",
+    "Lightbox",
+    "Modernizr",
+    "MySQL",
+    "PHP:8.2.30",
+    "Varnish",
+    "WordPress:5.8.13",
+    "jQuery",
+    "jQuery Migrate:3.3.2",
+    "parallax.js"
+  ],
+  "plugin_versions": {
+    "contact-form-7": "5.4.2",
+    "fusion-builder": "1",
+    "fusion-core": "5.2.1"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "46.30.215.102"
+    ],
+    "aaaa": [
+      "2a02:2350:5:111:8034:1e6d:d8b5:e22a"
+    ],
+    "cname": [],
+    "mx": [
+      "variovacnordic-com.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "v=spf1 include:spf.protection.outlook.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 5.8.13 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Contact Form 7",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "3 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.2.30",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Avada",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Contact Form 7 (installed 5.4.2, latest 6.1.5)",
+      "risk": "The installed version of Contact Form 7 is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
+      "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-6449",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
+      "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-2242",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
+      "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4704",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
+      "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3247",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.6.2 (CVE-2022-1386)",
+      "risk": "CVE-2022-1386: WordPress Fusion Builder plugin < 3.6.2 - Unauthenticated Server-Side Request Forgery (SSRF) vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-1386",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Fusion Builder [fusion-builder] < 3.11.2 (CVE-2023-39311)",
+      "risk": "CVE-2023-39311: WordPress  Fusion Builder Plugin  <= 3.11.1 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-39311",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.11.2 (CVE-2023-39310)",
+      "risk": "CVE-2023-39310: WordPress  Fusion Builder Plugin  <= 3.11.1 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-39310",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Fusion Builder [fusion-builder] < 3.11.2 (CVE-2023-39309)",
+      "risk": "CVE-2023-39309: WordPress  Fusion Builder Plugin  <= 3.11.1 is vulnerable to SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-39309",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Fusion Builder [fusion-builder] < 3.11.2 (CVE-2023-39306)",
+      "risk": "CVE-2023-39306: WordPress  Fusion Builder Plugin  <= 3.11.1 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-39306",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.11.10 (CVE-2024-5628)",
+      "risk": "CVE-2024-5628: Avada | Website Builder For WordPress & eCommerce <= 3.11.9 - Authenticated (Contributor+) Stored Cross-Site Scripting via fusion_button Shortcode",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-5628",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.11.13 (CVE-2024-12335)",
+      "risk": "CVE-2024-12335: Avada Builder <= 3.11.12 - Authenticated (Contributor+) Protected Post Disclosure",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-12335",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.11.12 (CVE-2024-12477)",
+      "risk": "CVE-2024-12477: Avada Builder <= 3.11.11 - Authenticated (Contributor+) Stored Cross-Site Scripting in Multiple Widgets",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-12477",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Fusion Builder [fusion-builder] < 3.11.14 (CVE-2024-13345)",
+      "risk": "CVE-2024-13345: Avada Builder &lt;= 3.11.13 - Unauthenticated Arbitrary Shortcode Execution",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-13345",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.11.15 (CVE-2025-1665)",
+      "risk": "CVE-2025-1665: Avada Builder &lt;= 3.11.14 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-1665",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.12.2 (CVE-2025-6747)",
+      "risk": "CVE-2025-6747: Avada (Fusion) Builder &lt;= 3.12.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Shortcode",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-6747",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] <= 3.13.2 (unfixed) (CVE-2025-49940)",
+      "risk": "CVE-2025-49940: Fusion Builder [fusion-builder] <= 3.13.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49940",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] <= 3.14.3 (unfixed) (CVE-2026-25472)",
+      "risk": "CVE-2026-25472: Fusion Builder [fusion-builder] <= 3.14.3 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-25472",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.15.0 (CVE-2026-32452)",
+      "risk": "CVE-2026-32452: Fusion Builder [fusion-builder] < 3.15.0",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32452",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.15.0 (CVE-2026-32451)",
+      "risk": "CVE-2026-32451: Fusion Builder [fusion-builder] < 3.15.0",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32451",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Builder [fusion-builder] < 3.15.0 (CVE-2026-32542)",
+      "risk": "CVE-2026-32542: Fusion Builder [fusion-builder] < 3.15.0",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32542",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Core [fusion-core] < 5.15.0 (CVE-2026-32453)",
+      "risk": "CVE-2026-32453: Fusion Core [fusion-core] < 5.15.0",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32453",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Fusion Core [fusion-core] < 5.15.0 (CVE-2026-32454)",
+      "risk": "CVE-2026-32454: Fusion Core [fusion-core] < 5.15.0",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32454",
+        "confidence": "high-inference"
+      }
+    }
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 318,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "domain": "andliving.dk",
+  "cvr": "prospect",
+  "company_name": "andliving.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-09",
+      "days_remaining": 68
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [
+      "Jespernielsen",
+      "Webplatform"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Maps",
+    "Google Tag Manager",
+    "HSTS",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "Slick",
+    "WordPress",
+    "jQuery UI:1.13.2",
+    "jQuery:3.7.1"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "77.243.135.25"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "andliving-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "jihoon.ns.cloudflare.com",
+      "lovisa.ns.cloudflare.com"
+    ],
+    "txt": [
+      "v=spf1 ip4:31.3.73.186 ip4:93.161.177.130 ip4:87.63.180.34 ip4:87.49.232.214 ip4:188.177.83.186 include:spf.protection.outlook.com include:spf.hosit.dk include:spfinclude.sikkermail.dk include:spf.web.mindworking.dk -all",
+      "MS=ms71627610"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Jespernielsen, Webplatform",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    }
+  ]
+}

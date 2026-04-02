@@ -1,0 +1,82 @@
+{
+  "domain": "home.dk",
+  "cvr": "prospect",
+  "company_name": "home.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "GlobalSign nv-sa",
+      "expiry": "2027-02-08",
+      "days_remaining": 311
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "HSTS",
+    "Nginx",
+    "Node.js",
+    "Nuxt.js",
+    "Vue.js"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "51.144.250.130"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "home-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "pdns109.ultradns.biz",
+      "pdns109.ultradns.com",
+      "pdns109.ultradns.net",
+      "pdns109.ultradns.org"
+    ],
+    "txt": [
+      "_globalsign-domain-verification=QDhlvn5i676hyjkfLXLY_s0aCsMLBnC2oZBjZAsRrh",
+      "_globalsign-domain-verification=YsdoMEjieAAEpFuwLU3uXDpm-EV-cM-XAe1lJu6YmL",
+      "uKM1J5pHE5jZCFgJgxWAoyZCbBihOSXOpCLJAHpX8nTVSI2R19JNUtK+RVQy6a312YoU5zqRBAV/iaALiTLlQg==",
+      "v=spf1 ip4:91.199.121.52 ip4:91.199.121.209 ip4:51.105.211.96 include:sendgrid.net include:spf.protection.outlook.com include:servers.mcsv.net -all",
+      "eVVYK8c+3op/Kv6YdRAURu63bAUwKHVegIBH9Hm2JFg=",
+      "stfkE9haBj73XHQTbmmvnxeGe0jxn+nbwOnij1MlSmc=",
+      "facebook-domain-verification=izjwkrri0yfs7kqr05fvdl0gv119j8",
+      "google-site-verification=7F7iDPc63EQN2_r5xo0Ghff0rmH5gD_OLkYJk_HurU8",
+      "google-site-verification=oAzAY-OAfdFeE_lTN0mEYsUJ7f4orBt4wvK7fsrICIM"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Node.js",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

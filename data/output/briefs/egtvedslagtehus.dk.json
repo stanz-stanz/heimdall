@@ -2,7 +2,7 @@
   "domain": "egtvedslagtehus.dk",
   "cvr": "prospect",
   "company_name": "egtvedslagtehus.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-15",
-      "days_remaining": 46
+      "days_remaining": 43
     },
     "server": "nginx",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -33,6 +35,7 @@
     "Nginx",
     "PHP"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

@@ -1,0 +1,66 @@
+{
+  "domain": "vanillachokolade.dk",
+  "cvr": "prospect",
+  "company_name": "vanillachokolade.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, reCAPTCHA"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-03",
+      "days_remaining": 30
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Analytics",
+    "HSTS",
+    "Microsoft ASP.NET",
+    "iubenda",
+    "jQuery:1.12.2",
+    "reCAPTCHA"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "193.8.37.86"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "vanillachokolade-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.dnsserver.dk",
+      "ns2.dnsserver.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all",
+      "MS=ms97590837",
+      "MS=F005C36A23F40F891E972BCC8B8119B73DFA5508"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

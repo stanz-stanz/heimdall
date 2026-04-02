@@ -1,0 +1,51 @@
+{
+  "domain": "scarpi.com",
+  "cvr": "prospect",
+  "company_name": "scarpi.com",
+  "scan_date": "2026-04-02",
+  "bucket": "C",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "E-commerce platform: Shopify",
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "Shopify",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Google Trust Services",
+      "expiry": "2026-06-30",
+      "days_remaining": 89
+    },
+    "server": "cloudflare",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Bootstrap:5",
+    "Cloudflare",
+    "Google Tag Manager",
+    "HSTS",
+    "HTTP/3",
+    "Klaviyo",
+    "Shopify",
+    "Trustpilot"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {},
+  "cloud_exposure": [],
+  "findings": []
+}

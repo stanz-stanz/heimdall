@@ -1,0 +1,213 @@
+{
+  "domain": "molholm.dk",
+  "job_id": "scan-2026-04-02-1118edc3",
+  "status": "completed",
+  "scan_result": {
+    "domain": "molholm.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-11",
+    "ssl_days_remaining": 69,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics",
+      "Google Tag Manager",
+      "Microsoft ASP.NET",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:08:43.00151206Z",
+      "port": "443",
+      "url": "https://molholm.dk",
+      "input": "molholm.dk",
+      "title": "Privathospital med kort ventetid | Privathospitalet Mølholm",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "molholm.dk",
+      "host_ip": "94.231.109.46",
+      "path": "/",
+      "final_url": "https://www.molholm.dk/",
+      "time": "330.539712ms",
+      "chain_status_codes": [
+        301,
+        301,
+        200
+      ],
+      "a": [
+        "94.231.109.46"
+      ],
+      "tech": [
+        "Cookiebot",
+        "Google Analytics",
+        "Google Tag Manager",
+        "Microsoft ASP.NET",
+        "reCAPTCHA"
+      ],
+      "words": 30480,
+      "lines": 1489,
+      "status_code": 200,
+      "content_length": 151630,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.109.46"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1-dk.centerasecurity.dk",
+        "mx2-dk.centerasecurity.dk"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "CS4mzSf46836LHAWjV6V4z6crLjZHS+rDb2JeyHBARWzR3oSMFqaEeDqRKLksOY7rq6pHCpJ5frChw/IdQpNoQ==",
+        "MS=47C01985AE93BBC42D8678456E5CA2989EC56CFD",
+        "_globalsign-domain-verification=m92pouFV2H09UM0Pmat3UELlnDc7FKV4P-ZaagSxxN",
+        "MS=ms19769654",
+        "apple-domain-verification=7z14C7qW0JGoFnqf",
+        "b3nqntp7pxx945pcf2g7lyrc6s51k3vs",
+        "v=spf1 ip4:87.54.46.198 ip4:87.54.46.210 ip4:178.72.16.181  ip4:193.201.39.91 ip4:185.21.41.184 a:outbound.centerasecurity.dk include:spf-esec.heimdalsecurity.com include:_custspf.one.com include:spf.curanet.dk include:spf.eu.signature365.net include:spf.mandrillapp.com a:mx1.job-support.dk -all",
+        "y82kdwlqd2qmg0vhhbvy5snvcgjmp4mm"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "molholm.dk",
+    "cvr": "prospect",
+    "company_name": "molholm.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-11",
+        "days_remaining": 69
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics",
+      "Google Tag Manager",
+      "Microsoft ASP.NET",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.109.46"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1-dk.centerasecurity.dk",
+        "mx2-dk.centerasecurity.dk"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "CS4mzSf46836LHAWjV6V4z6crLjZHS+rDb2JeyHBARWzR3oSMFqaEeDqRKLksOY7rq6pHCpJ5frChw/IdQpNoQ==",
+        "MS=47C01985AE93BBC42D8678456E5CA2989EC56CFD",
+        "_globalsign-domain-verification=m92pouFV2H09UM0Pmat3UELlnDc7FKV4P-ZaagSxxN",
+        "MS=ms19769654",
+        "apple-domain-verification=7z14C7qW0JGoFnqf",
+        "b3nqntp7pxx945pcf2g7lyrc6s51k3vs",
+        "v=spf1 ip4:87.54.46.198 ip4:87.54.46.210 ip4:178.72.16.181  ip4:193.201.39.91 ip4:185.21.41.184 a:outbound.centerasecurity.dk include:spf-esec.heimdalsecurity.com include:_custspf.one.com include:spf.curanet.dk include:spf.eu.signature365.net include:spf.mandrillapp.com a:mx1.job-support.dk -all",
+        "y82kdwlqd2qmg0vhhbvy5snvcgjmp4mm"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 230,
+    "ssl": 86,
+    "headers": 248,
+    "meta": 312,
+    "httpx": 2479,
+    "webanalyze": 4,
+    "dnsx": 748,
+    "crtsh": 0,
+    "ghw": 231,
+    "total_ms": 4347
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

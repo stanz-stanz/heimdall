@@ -1,0 +1,182 @@
+{
+  "domain": "jely.dk",
+  "job_id": "scan-2026-04-02-43da1e84",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jely.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-24",
+    "ssl_days_remaining": 83,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "jQuery Migrate",
+      "jQuery:3.7.0"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:58:30.328600414Z",
+      "cdn_name": "aws",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://jely.dk",
+      "input": "jely.dk",
+      "title": "Jely Huse  - Arkitekt- og byggefirma i Vejle",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jely.dk",
+      "host_ip": "35.172.94.1",
+      "path": "/",
+      "final_url": "https://www.jely.dk/",
+      "time": "1.016320986s",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "35.172.94.1"
+      ],
+      "tech": [
+        "Google Tag Manager",
+        "HSTS",
+        "Nginx",
+        "jQuery Migrate",
+        "jQuery:3.7.0"
+      ],
+      "words": 15795,
+      "lines": 1931,
+      "status_code": 200,
+      "content_length": 162418,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "35.172.94.1"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "jely-dk.mx2.comendosystems.net",
+        "jely-dk.mx1.comendosystems.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "MS=ms78867615",
+        "v=spf1 ip4:78.153.163.90 include:spf.protection.outlook.com include:agenturserver.de -all",
+        "google-site-verification=q9BezJIGz5lDqBtikXh2bbzwGtmwklIyOKovM_lOxsc"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jely.dk",
+    "cvr": "prospect",
+    "company_name": "jely.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-24",
+        "days_remaining": 83
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "jQuery Migrate",
+      "jQuery:3.7.0"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "35.172.94.1"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "jely-dk.mx2.comendosystems.net",
+        "jely-dk.mx1.comendosystems.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "MS=ms78867615",
+        "v=spf1 ip4:78.153.163.90 include:spf.protection.outlook.com include:agenturserver.de -all",
+        "google-site-verification=q9BezJIGz5lDqBtikXh2bbzwGtmwklIyOKovM_lOxsc"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 785,
+    "ssl": 263,
+    "headers": 777,
+    "meta": 960,
+    "httpx": 3433,
+    "webanalyze": 4,
+    "dnsx": 787,
+    "crtsh": 0,
+    "ghw": 223,
+    "total_ms": 7243
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

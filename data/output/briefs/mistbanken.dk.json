@@ -2,7 +2,7 @@
   "domain": "mistbanken.dk",
   "cvr": "prospect",
   "company_name": "mistbanken.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 68
+      "days_remaining": 64
     },
     "server": "nginx",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -26,8 +28,12 @@
     }
   },
   "tech_stack": [
-    "Nginx"
+    "HSTS",
+    "Nginx",
+    "jQuery Migrate",
+    "jQuery:3.7.0"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

@@ -2,7 +2,7 @@
   "domain": "igus.dk",
   "cvr": "prospect",
   "company_name": "igus.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Amazon",
       "expiry": "2026-11-18",
-      "days_remaining": 233
+      "days_remaining": 230
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -28,15 +30,16 @@
   "tech_stack": [
     "HSTS"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "18.197.72.117",
+      "52.29.224.32",
       "18.199.137.127",
-      "52.29.224.32"
+      "18.197.72.117"
     ],
     "aaaa": [],
     "cname": [],
@@ -50,11 +53,11 @@
       "ns4.eurodns.com"
     ],
     "txt": [
+      "MS=ms89816988",
+      "38dda8bcb5cc4f0b8d4031e0cd206ab7",
       "v=spf1 include:igus.net -all",
       "atlassian-domain-verification=ACSjMAT7caIDbX62lCRhBdBvfp6NabhyMBtoBelE61ViHj0jiUdzInGNxsLDPxCy",
-      "figma-domain-verification=f5358064dda2b10e6c6fe74f3559573be315daaa330830f5158d59b9e9f29f52-1723707657",
-      "MS=ms89816988",
-      "38dda8bcb5cc4f0b8d4031e0cd206ab7"
+      "figma-domain-verification=f5358064dda2b10e6c6fe74f3559573be315daaa330830f5158d59b9e9f29f52-1723707657"
     ]
   },
   "cloud_exposure": [],

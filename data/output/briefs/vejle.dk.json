@@ -2,7 +2,7 @@
   "domain": "vejle.dk",
   "cvr": "prospect",
   "company_name": "vejle.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -13,11 +13,13 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-03",
-      "days_remaining": 35
+      "expiry": "2026-06-03",
+      "days_remaining": 62
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -26,16 +28,10 @@
     }
   },
   "tech_stack": [
-    "Adobe Fonts",
     "Azure",
-    "Azure Front Door",
-    "Cludo",
-    "HSTS",
-    "Node.js",
-    "Nuxt.js",
-    "Typekit",
-    "Vue.js"
+    "Azure Front Door"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -56,14 +52,14 @@
       "ns02.one.com"
     ],
     "txt": [
-      "apple-domain-verification=f5BG8qipLq4LN19a",
-      "google-site-verification=eUu2nJqPbkcQIWk7MeXq1yZJ1jAH38kMbP9ZWL8D9b8",
-      "google-site-verification=corVgJEGzuUT9kZIhuVv1PUucaqFwL-lZcC5eYyHklA",
-      "v=spf1 a mx include:spf1.vejle.dk include:spf2.vejle.dk include:spf3.vejle.dk include:spf4.vejle.dk include:spf5.vejle.dk include:spf6.vejle.dk include:spf.protection.outlook.com include:spfa.cpmails.com ~all",
       "NaQWDVcIXurZQQ3Dm5fr8AxckBnq5Qljjhmleh0FFDkaqrpVW6SRxWUYPigPnDQaVPmxRttJRTJP2o/PTFQWrQ==",
-      "hzsflhbf09wxdbjlhx55gth3bqs6z7n8",
+      "v=spf1 a mx include:spf1.vejle.dk include:spf2.vejle.dk include:spf3.vejle.dk include:spf4.vejle.dk include:spf5.vejle.dk include:spf6.vejle.dk include:spf.protection.outlook.com include:spfa.cpmails.com ~all",
+      "apple-domain-verification=f5BG8qipLq4LN19a",
+      "4/yOFCXv5ALjgJGKBywnrso1F6Zqgvt9vDKcd5Cpf2pi/1IEararitkk6ytDlKiytFSAdS/f+omnSlLPbzNOTQ==",
+      "google-site-verification=corVgJEGzuUT9kZIhuVv1PUucaqFwL-lZcC5eYyHklA",
+      "google-site-verification=eUu2nJqPbkcQIWk7MeXq1yZJ1jAH38kMbP9ZWL8D9b8",
       "zllwb305byn2dhffq6yf14zfmg63v65r",
-      "4/yOFCXv5ALjgJGKBywnrso1F6Zqgvt9vDKcd5Cpf2pi/1IEararitkk6ytDlKiytFSAdS/f+omnSlLPbzNOTQ=="
+      "hzsflhbf09wxdbjlhx55gth3bqs6z7n8"
     ]
   },
   "cloud_exposure": [],
@@ -77,11 +73,6 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
-    },
-    {
-      "severity": "low",
-      "description": "Backend technology exposed: Node.js",
-      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     }
   ]
 }

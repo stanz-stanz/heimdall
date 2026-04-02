@@ -1,0 +1,301 @@
+{
+  "domain": "gaarslev.com",
+  "job_id": "scan-2026-04-02-7bc5983c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "gaarslev.com",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-17",
+    "ssl_days_remaining": 44,
+    "detected_plugins": [
+      "onecom-themes-plugins",
+      "woocommerce"
+    ],
+    "plugin_versions": {
+      "onecom-themes-plugins": "5.3.21"
+    },
+    "detected_themes": [
+      "minimalblog"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootstrap",
+      "Magnific Popup:1.0",
+      "MySQL",
+      "OWL Carousel",
+      "PHP:8.0.30",
+      "Varnish",
+      "WordPress:5.3.21",
+      "jQuery",
+      "jQuery Migrate:1.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:50:32.806834333Z",
+      "port": "443",
+      "url": "https://gaarslev.com",
+      "input": "gaarslev.com",
+      "title": "Side ikke fundet – Gartneriet Gaarslev",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "gaarslev.com",
+      "host_ip": "46.30.215.140",
+      "path": "/",
+      "final_url": "https://www.gaarslev.com/",
+      "time": "353.459376ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "46.30.215.140"
+      ],
+      "aaaa": [
+        "2a02:2350:5:106:67:d5c5:643b:be6f"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Bootstrap",
+        "Magnific Popup:1.0",
+        "MySQL",
+        "OWL Carousel",
+        "PHP:8.0.30",
+        "Varnish",
+        "WordPress:5.3.21",
+        "jQuery",
+        "jQuery Migrate:1.4.1"
+      ],
+      "words": 1701,
+      "lines": 331,
+      "status_code": 200,
+      "content_length": 18098,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "wordpress": {
+        "themes": [
+          "minimalblog"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.30.215.140"
+      ],
+      "aaaa": [
+        "2a02:2350:5:106:67:d5c5:643b:be6f"
+      ],
+      "cname": [],
+      "mx": [
+        "mx1.pub.mailpod10-cph3.one.com",
+        "mx2.pub.mailpod10-cph3.one.com",
+        "mx4.pub.mailpod10-cph3.one.com",
+        "mx3.pub.mailpod10-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:_custspf.one.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "gaarslev.com",
+    "cvr": "prospect",
+    "company_name": "gaarslev.com",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-17",
+        "days_remaining": 44
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Onecom Themes Plugins",
+        "Woocommerce"
+      ],
+      "plugin_versions": {
+        "Onecom Themes Plugins": "5.3.21"
+      },
+      "detected_themes": [
+        "Minimalblog"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootstrap",
+      "Magnific Popup:1.0",
+      "MySQL",
+      "OWL Carousel",
+      "PHP:8.0.30",
+      "Varnish",
+      "WordPress:5.3.21",
+      "jQuery",
+      "jQuery Migrate:1.4.1"
+    ],
+    "plugin_versions": {
+      "onecom-themes-plugins": "5.3.21"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.30.215.140"
+      ],
+      "aaaa": [
+        "2a02:2350:5:106:67:d5c5:643b:be6f"
+      ],
+      "cname": [],
+      "mx": [
+        "mx1.pub.mailpod10-cph3.one.com",
+        "mx2.pub.mailpod10-cph3.one.com",
+        "mx4.pub.mailpod10-cph3.one.com",
+        "mx3.pub.mailpod10-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:_custspf.one.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 5.3.21 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "2 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.0.30",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Minimalblog",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 134,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 1666,
+    "ssl": 71,
+    "headers": 1519,
+    "meta": 351,
+    "httpx": 1985,
+    "webanalyze": 3,
+    "dnsx": 758,
+    "crtsh": 0,
+    "ghw": 226,
+    "total_ms": 7498
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

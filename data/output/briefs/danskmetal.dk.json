@@ -1,0 +1,89 @@
+{
+  "domain": "danskmetal.dk",
+  "cvr": "prospect",
+  "company_name": "danskmetal.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-23",
+      "days_remaining": 50
+    },
+    "server": "Vercel",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "HSTS",
+    "Next.js",
+    "Node.js",
+    "React",
+    "Vercel",
+    "Webpack"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "76.76.21.21"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "danskmetal-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1-05.azure-dns.com",
+      "ns2-05.azure-dns.net",
+      "ns3-05.azure-dns.org",
+      "ns4-05.azure-dns.info"
+    ],
+    "txt": [
+      "MS=ms82137865",
+      "facebook-domain-verification=pmcks8weta3nvqzoe52bflz1hpgju0",
+      "33ua6jEfN7mNaT43XSWx6VYlyIockfU+iBkz9UnIS3HxEKA+3I38kUast/1DloGv7oLuiN8Px8t1PIYcEJo9sA==",
+      "v=spf1 mx include:_ips1.danskmetal.dk include:_ips2.danskmetal.dk include:spf.protection.outlook.com include:customers.clickdimensions.com include:mail.zendesk.com include:smtp.nchosting.dk ~all",
+      "google-site-verification=RT6cymRXxDWvCGaCHfm4OCgFfWrRz52tvNS8A0fVz_4"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Node.js",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

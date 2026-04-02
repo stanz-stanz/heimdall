@@ -1,0 +1,72 @@
+{
+  "domain": "vefafoto.dk",
+  "cvr": "prospect",
+  "company_name": "vefafoto.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Sectigo Limited",
+      "expiry": "2026-07-15",
+      "days_remaining": 104
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Bontii",
+    "Google Analytics",
+    "Google Tag Manager",
+    "HSTS",
+    "Nginx",
+    "PHP",
+    "ScanNet Webshop"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.221.38.92"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx2.scannet.dk",
+      "mx1.scannet.dk"
+    ],
+    "ns": [
+      "ns.scannet2.dk",
+      "ns2.scannet2.dk"
+    ],
+    "txt": [
+      "v=spf1 include:mailgun.org include:spf.scannet.dk include:amazonses.com ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "domain": "parykstedet.com",
+  "cvr": "prospect",
+  "company_name": "parykstedet.com",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-10",
+      "days_remaining": 68
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Analytics",
+    "Google Tag Manager",
+    "HSTS",
+    "Microsoft ASP.NET",
+    "jQuery Migrate:3.1.0",
+    "jQuery UI",
+    "jQuery:3.4.1",
+    "nopCommerce"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.21.41.239"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx1.onlinemail.io",
+      "mx2.onlinemail.io"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "v=spf1 include:spf.onlinemail.io -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

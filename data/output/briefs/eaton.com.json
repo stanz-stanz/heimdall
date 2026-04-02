@@ -2,7 +2,7 @@
   "domain": "eaton.com",
   "cvr": "prospect",
   "company_name": "eaton.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "D",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-08-02",
-      "days_remaining": 125
+      "days_remaining": 122
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -26,45 +28,12 @@
     }
   },
   "tech_stack": [],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "192.104.67.65"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "eaton-com.mail.protection.outlook.com"
-    ],
-    "ns": [
-      "ns1.eaton.com",
-      "ns2.eaton.com"
-    ],
-    "txt": [
-      "jamf-site-verification=dtxSaup_AAAuRugLCtxJig",
-      "Dynatrace-site-verification=83c52b56-6f14-49af-b282-73fa8a59aeb0__p42set50o4342dke8eu76f7v35",
-      "miro-verification=e80b3ab24581e6d8080b9780da1fc6b23b859e46",
-      "pTBX2LCSVFmSLUrfeERyJxluJaZIfubCaxqRmYYSlzYXCvfBF9qH7UPjmrXhrG68/g1bl+lNfdTzOw0F/bsY2w==",
-      "google-site-verification=YDVqicQ0Shu0AVEFRsE_beR8rOHWhRiU5ThPv1wOJkw",
-      "v=spf1 ip4:192.104.67.3 ip4:192.104.67.6 ip4:192.31.41.35 include:_spf-ip.eaton.com include:_spf-abc.eaton.com include:_spf-sf.eaton.com include:spf.protection.outlook.com -all",
-      "uber-domain-verification=d07f5eee-c19f-40bb-877a-7651900f72a1",
-      "cursor-domain-verification-0m3mbg=VP2VJwm4Vv8AGE36DkjkReigH",
-      "autodesk-domain-verification=_7OLLjlWOHbWc1v84sxJ",
-      "atlassian-domain-verification=hh27wn0uL7hWAouajl09N0DPVJNzDr1fkTdbQXd57kJED8nDpNPuhDAfTw0QjbF8",
-      "uber-domain-verification=e5b95a0c-0f90-4005-9356-0cbcc033abb0",
-      "cb7771f5-debc-422e-b233-0d5bf680c9e8",
-      "facebook-domain-verification=zn5uz4oz41sxbyyhqrm4832gfcakof",
-      "h1-domain-verification=wiScYE8TmEtrgkc5QQqhnbTRGT3brwfDujeY6kEwqzHPNCRR",
-      "ZOOM_verify_RCSwkUdVR86T5d2uRBNiHg",
-      "uber-domain-verification=dec15403-8175-44db-9cf4-ed156b1aa1fa",
-      "apple-domain-verification=GN8luLP53lng3oSX",
-      "MS=ms39643621",
-      "google-site-verification=WTkirIXfkTJcw6hW2DPt3dTtCVmzLGXC46rFzXSFTlA"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

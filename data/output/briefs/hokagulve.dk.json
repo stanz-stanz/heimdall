@@ -1,0 +1,69 @@
+{
+  "domain": "hokagulve.dk",
+  "cvr": "prospect",
+  "company_name": "hokagulve.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Sectigo Limited",
+      "expiry": "2026-06-27",
+      "days_remaining": 86
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Analytics",
+    "Google Tag Manager",
+    "HSTS",
+    "Nginx",
+    "PHP"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.221.38.73"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx.spamfilter.io"
+    ],
+    "ns": [
+      "ns1.wannafind.dk",
+      "ns2.wannafind.dk"
+    ],
+    "txt": [
+      "v=spf1 include:mailgun.org include:spf.wannafind.dk ip4:77.247.70.130 ip4:89.221.171.21 ~all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "domain": "ryansfisk.dk",
   "cvr": "prospect",
   "company_name": "ryansfisk.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "C",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-04-26",
-      "days_remaining": 27
+      "days_remaining": 23
     },
     "server": "Pepyaka",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,34 +36,17 @@
     "React",
     "Wix"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "185.230.63.107"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "mx.simply.com"
-    ],
-    "ns": [
-      "ns1.simply.com",
-      "ns2.simply.com",
-      "ns3.simply.com",
-      "ns4.simply.com"
-    ],
-    "txt": [
-      "v=spf1 a include:spf.itnapps.eu include:spf.simply.com ~all"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {
       "severity": "medium",
-      "description": "SSL certificate expires in 27 days",
+      "description": "SSL certificate expires in 23 days",
       "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
     },
     {

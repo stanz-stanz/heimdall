@@ -2,7 +2,7 @@
   "domain": "skyggebjerg.com",
   "cvr": "prospect",
   "company_name": "skyggebjerg.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -18,6 +18,8 @@
     },
     "server": "Apache",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -28,6 +30,7 @@
   "tech_stack": [
     "Apache HTTP Server"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -39,8 +42,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.wannafind.dk",
-      "mx1.wannafind.dk"
+      "mx1.wannafind.dk",
+      "mx2.wannafind.dk"
     ],
     "ns": [
       "ns1.wannafind.dk",

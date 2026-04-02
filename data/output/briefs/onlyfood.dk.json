@@ -36,7 +36,23 @@
     "count": 0,
     "list": []
   },
-  "dns": {},
+  "dns": {
+    "a": [
+      "46.17.94.187"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mail.onlyfood.dk"
+    ],
+    "ns": [
+      "ns2.onlyfood.dk"
+    ],
+    "txt": [
+      "google-site-verification=PHWEq4xqsVr26yZ65hVN-inIjeQDH-Ltqtt6awDenoU",
+      "v=spf1 mx a ip4:46.17.94.187  include:spf.protection.outlook.com include:_spf.google.com -all"
+    ]
+  },
   "cloud_exposure": [],
   "findings": [
     {

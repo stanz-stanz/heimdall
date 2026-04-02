@@ -2,11 +2,10 @@
   "domain": "dal-bo.dk",
   "cvr": "prospect",
   "company_name": "dal-bo.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7",
     "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
@@ -17,18 +16,21 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-25",
-      "days_remaining": 86
+      "days_remaining": 83
     },
     "server": "nginx",
     "detected_plugins": [
-      "Contact Form 7",
-      "Sitepress Multilingual Cms"
+      "Wordpress Seo"
     ],
+    "plugin_versions": {
+      "Wordpress Seo": "27.3"
+    },
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": false
     }
   },
   "tech_stack": [
@@ -44,13 +46,16 @@
     "Unpkg",
     "WPML:4.9.2",
     "WordPress",
-    "Yoast SEO:27.2",
+    "Yoast SEO:27.3",
     "cdnjs",
     "iubenda",
     "jQuery",
     "jQuery Migrate:3.4.1",
     "jsDelivr"
   ],
+  "plugin_versions": {
+    "wordpress-seo": "27.3"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -62,18 +67,18 @@
     "aaaa": [],
     "cname": [],
     "mx": [
+      "mx2-dk.centerasecurity.dk",
       "mx1-dk.centerasecurity.dk",
-      "mx3-dk.centerasecurity.dk",
-      "mx2-dk.centerasecurity.dk"
+      "mx3-dk.centerasecurity.dk"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=BqTB3Snt6exlXRjZJZqUe3AYSteFxBE2TZ2Q6Qf0BYI",
       "v=spf1 include:_spf4190.spfprotect.com -all",
-      "MS=ms17565177"
+      "MS=ms17565177",
+      "google-site-verification=BqTB3Snt6exlXRjZJZqUe3AYSteFxBE2TZ2Q6Qf0BYI"
     ]
   },
   "cloud_exposure": [],
@@ -95,17 +100,17 @@
     },
     {
       "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
       "description": "WordPress detected (version not determined)",
       "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
     },
     {
-      "severity": "medium",
-      "description": "Data-handling plugin detected: Contact Form 7",
-      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
-    },
-    {
       "severity": "info",
-      "description": "2 WordPress plugins detected",
+      "description": "1 WordPress plugin detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {

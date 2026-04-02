@@ -1,0 +1,260 @@
+{
+  "domain": "jellingvognmandsforretning.dk",
+  "job_id": "scan-2026-04-02-c2d6ae2c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jellingvognmandsforretning.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-27",
+    "ssl_days_remaining": 86,
+    "detected_plugins": [
+      "autoptimize"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [
+      "jellingvogn",
+      "kickass"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Autoptimize",
+      "Cloudflare",
+      "MySQL",
+      "Nginx",
+      "PHP:8.3.30",
+      "WordPress:6.9.4",
+      "cdnjs",
+      "jQuery Modal:0.9.1",
+      "jQuery:0.9.1",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:58:22.689003773Z",
+      "port": "443",
+      "url": "https://jellingvognmandsforretning.dk",
+      "input": "jellingvognmandsforretning.dk",
+      "title": "Home - Jellingvognmandsforretning",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jellingvognmandsforretning.dk",
+      "host_ip": "185.21.42.226",
+      "path": "/",
+      "time": "444.620182ms",
+      "a": [
+        "185.21.42.226"
+      ],
+      "tech": [
+        "Autoptimize",
+        "Cloudflare",
+        "MySQL",
+        "Nginx",
+        "PHP:8.3.30",
+        "WordPress:6.9.4",
+        "cdnjs",
+        "jQuery Modal:0.9.1",
+        "jQuery:0.9.1",
+        "jsDelivr"
+      ],
+      "words": 503,
+      "lines": 2,
+      "status_code": 200,
+      "content_length": 14274,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "autooptimize",
+          "vendor": "optimizingmatters",
+          "cpe": "cpe:2.3:a:optimizingmatters:autooptimize:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "autoptimize"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.42.226"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.onlinemail.io ?all",
+        "google-gws-recovery-domain-verification=41157171"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jellingvognmandsforretning.dk",
+    "cvr": "prospect",
+    "company_name": "jellingvognmandsforretning.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-27",
+        "days_remaining": 86
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Autoptimize"
+      ],
+      "plugin_versions": {},
+      "detected_themes": [
+        "Jellingvogn",
+        "Kickass"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Autoptimize",
+      "Cloudflare",
+      "MySQL",
+      "Nginx",
+      "PHP:8.3.30",
+      "WordPress:6.9.4",
+      "cdnjs",
+      "jQuery Modal:0.9.1",
+      "jQuery:0.9.1",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.42.226"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.onlinemail.io ?all",
+        "google-gws-recovery-domain-verification=41157171"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "1 WordPress plugin detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.3.30",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Jellingvogn, Kickass",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 89,
+    "ssl": 69,
+    "headers": 486,
+    "meta": 444,
+    "httpx": 2008,
+    "webanalyze": 3,
+    "dnsx": 783,
+    "crtsh": 0,
+    "ghw": 341,
+    "total_ms": 4735
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

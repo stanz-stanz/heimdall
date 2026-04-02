@@ -2,7 +2,7 @@
   "domain": "bizbrains.dk",
   "cvr": "prospect",
   "company_name": "bizbrains.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -18,6 +18,8 @@
     },
     "server": "nginx",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -29,6 +31,7 @@
     "HSTS",
     "Nginx"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -39,8 +42,8 @@
       "185.206.180.174"
     ],
     "aaaa": [
-      "2a0b:1640:1:1:1:1:7ab2:6611",
-      "2a0b:1640:1:1:1012:1:1:1"
+      "2a0b:1640:1:1:1012:1:1:1",
+      "2a0b:1640:1:1:1:1:7ab2:6611"
     ],
     "cname": [],
     "mx": [
@@ -55,12 +58,12 @@
       "dns44.cloudns.net"
     ],
     "txt": [
-      "9cszpslhk81hmdt7l3lmjtn6nxck89fz",
       "google-site-verification=XdSMCBjR_FgIcCLwkvWAkK1EINKEfnOTnExGufTfPlk",
-      "MS=ms68468985",
       "v=spf1 mx include:spf.protection.outlook.com include:spf.bizbrains.dk include:2971994.spf03.hubspotemail.net include:spf.mentor-it.dk include:_spf.atlassian.net include:spf-westeu.emailsignatures365.com -all",
-      "atlassian-domain-verification=5lHRHak4Eukg1GeUm281ftNa0AgL1tIKcEHqtHMylJAaLCbT52Btdha61K0/f4Ui",
-      "_axor72z804v4ei847yuxoo099ia4sj7"
+      "9cszpslhk81hmdt7l3lmjtn6nxck89fz",
+      "_axor72z804v4ei847yuxoo099ia4sj7",
+      "MS=ms68468985",
+      "atlassian-domain-verification=5lHRHak4Eukg1GeUm281ftNa0AgL1tIKcEHqtHMylJAaLCbT52Btdha61K0/f4Ui"
     ]
   },
   "cloud_exposure": [],

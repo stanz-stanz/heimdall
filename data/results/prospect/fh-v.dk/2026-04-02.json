@@ -1,0 +1,175 @@
+{
+  "domain": "fh-v.dk",
+  "job_id": "scan-2026-04-02-17d924ca",
+  "status": "completed",
+  "scan_result": {
+    "domain": "fh-v.dk",
+    "cms": "",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-02",
+    "ssl_days_remaining": 60,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:49:08.495426887Z",
+      "port": "443",
+      "url": "https://fh-v.dk",
+      "input": "fh-v.dk",
+      "title": "Foreningernes Hus Vejle - Forside",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "fh-v.dk",
+      "host_ip": "138.201.82.135",
+      "path": "/",
+      "time": "269.530628ms",
+      "a": [
+        "138.201.82.135"
+      ],
+      "tech": [
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "UIKit"
+      ],
+      "words": 10304,
+      "lines": 991,
+      "status_code": 200,
+      "content_length": 39767,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.webexchange.nu",
+        "mx1.webexchange.nu"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "fh-v.dk",
+    "cvr": "prospect",
+    "company_name": "fh-v.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-02",
+        "days_remaining": 60
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.webexchange.nu",
+        "mx1.webexchange.nu"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 134,
+    "ssl": 86,
+    "headers": 276,
+    "meta": 278,
+    "httpx": 2070,
+    "webanalyze": 4,
+    "dnsx": 766,
+    "crtsh": 0,
+    "ghw": 431,
+    "total_ms": 4055
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

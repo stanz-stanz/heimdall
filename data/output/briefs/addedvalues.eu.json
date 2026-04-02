@@ -2,7 +2,7 @@
   "domain": "addedvalues.eu",
   "cvr": "prospect",
   "company_name": "addedvalues.eu",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-03",
-      "days_remaining": 33
+      "days_remaining": 31
     },
     "server": "nginx",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -37,6 +39,7 @@
     "Nginx",
     "PHP"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

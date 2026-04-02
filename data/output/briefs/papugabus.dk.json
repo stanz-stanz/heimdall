@@ -2,7 +2,7 @@
   "domain": "papugabus.dk",
   "cvr": "prospect",
   "company_name": "papugabus.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "D",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -18,6 +18,8 @@
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -26,18 +28,12 @@
     }
   },
   "tech_stack": [],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [],
-    "aaaa": [],
-    "cname": [],
-    "mx": [],
-    "ns": [],
-    "txt": []
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

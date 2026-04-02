@@ -1,6 +1,6 @@
 {
   "domain": "1401.dk",
-  "job_id": "scan-2026-04-02-385c501d",
+  "job_id": "scan-2026-04-02-21a4a01c",
   "status": "completed",
   "scan_result": {
     "domain": "1401.dk",
@@ -64,9 +64,33 @@
       ]
     },
     "subdomains": [],
-    "dns_records": {},
+    "dns_records": {
+      "a": [
+        "46.30.215.49"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10e:808d:3bea:a2b4:8b82"
+      ],
+      "cname": [],
+      "mx": [
+        "mx3.pub.mailpod12-cph3.one.com",
+        "mx2.pub.mailpod12-cph3.one.com",
+        "mx1.pub.mailpod12-cph3.one.com",
+        "mx4.pub.mailpod12-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
     "ct_certificates": [],
-    "exposed_cloud_storage": []
+    "exposed_cloud_storage": [
+      {
+        "bucket_name": "storage.tweak.dk.storage.googleapis.com",
+        "file_count": 6
+      }
+    ]
   },
   "brief": {
     "domain": "1401.dk",
@@ -106,8 +130,32 @@
       "count": 0,
       "list": []
     },
-    "dns": {},
-    "cloud_exposure": [],
+    "dns": {
+      "a": [
+        "46.30.215.49"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10e:808d:3bea:a2b4:8b82"
+      ],
+      "cname": [],
+      "mx": [
+        "mx3.pub.mailpod12-cph3.one.com",
+        "mx2.pub.mailpod12-cph3.one.com",
+        "mx1.pub.mailpod12-cph3.one.com",
+        "mx4.pub.mailpod12-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [
+      {
+        "bucket_name": "storage.tweak.dk.storage.googleapis.com",
+        "file_count": 6
+      }
+    ],
     "findings": [
       {
         "severity": "medium",
@@ -128,16 +176,20 @@
         "severity": "low",
         "description": "Missing X-Content-Type-Options header",
         "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "high",
+        "description": "1 exposed cloud storage bucket detected",
+        "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
       }
     ]
   },
   "timing": {
     "robots_txt": 100,
-    "total_ms": 113
+    "total_ms": 110
   },
   "cache_stats": {
-    "hits": 5,
+    "hits": 9,
     "misses": 0
-  },
-  "filtered": "bucket:E"
+  }
 }

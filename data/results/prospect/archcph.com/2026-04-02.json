@@ -1,0 +1,143 @@
+{
+  "domain": "archcph.com",
+  "job_id": "scan-2026-04-02-fd01a47f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "archcph.com",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-11",
+    "ssl_days_remaining": 70,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "MailChimp",
+      "Shopify"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:33:08.372545122Z",
+      "port": "443",
+      "url": "https://archcph.com",
+      "input": "archcph.com",
+      "title": "ARCH Copenhagen – Nightclub, Events & Table Booking",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "archcph.com",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "time": "438.424899ms",
+      "a": [
+        "23.227.38.65"
+      ],
+      "tech": [
+        "Cloudflare",
+        "HSTS",
+        "HTTP/3",
+        "MailChimp",
+        "Shopify"
+      ],
+      "words": 13331,
+      "lines": 1786,
+      "status_code": 200,
+      "content_length": 104724,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "archcph.com",
+    "cvr": "prospect",
+    "company_name": "archcph.com",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify",
+      "Visitor tracking: MailChimp"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-11",
+        "days_remaining": 70
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "MailChimp",
+      "Shopify"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 228,
+    "ssl": 72,
+    "headers": 291,
+    "meta": 292,
+    "httpx": 2867,
+    "webanalyze": 4,
+    "total_ms": 3760
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

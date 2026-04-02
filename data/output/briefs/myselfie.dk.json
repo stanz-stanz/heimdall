@@ -1,0 +1,56 @@
+{
+  "domain": "myselfie.dk",
+  "cvr": "prospect",
+  "company_name": "myselfie.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "C",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "E-commerce platform: Shopify"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "Shopify",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-28",
+      "days_remaining": 86
+    },
+    "server": "cloudflare",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Bootstrap:5",
+    "Cloudflare",
+    "FancyBox:98388074616830255951773835092",
+    "HSTS",
+    "HTTP/3",
+    "Handlebars",
+    "Klaviyo",
+    "Magnific Popup",
+    "OWL Carousel",
+    "Shopify",
+    "Trustpilot",
+    "Userlink",
+    "jQuery",
+    "jQuery UI"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {},
+  "cloud_exposure": [],
+  "findings": []
+}

@@ -2,7 +2,7 @@
   "domain": "xella.com",
   "cvr": "prospect",
   "company_name": "xella.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-04-05",
-      "days_remaining": 5
+      "days_remaining": 2
     },
     "server": "AmazonS3",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": true,
@@ -32,6 +34,7 @@
     "HSTS",
     "Linkedin Ads"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -52,22 +55,22 @@
       "ns6.netnames.net"
     ],
     "txt": [
-      "pexip-portal-domain-verification=74079c53-53bd-417d-9edf-0e4852e0f888",
-      "zone-ownership-verification-398368471267c736707a27276fba5731da7ba439f317ecb05f9f423a864a4966",
-      "cisco-ci-domain-verification=7ba55339d2c23740434a1cad4d082e0c974f08b888ff07d4c46157b3d0bdef1a",
-      "atlassian-domain-verification=SvSCQZgWZdNDbaVWHgDTUtkap21k0TAvkBAvah/uVDW/qny1UNgoIdWtP693PWKm",
       "v=spf1 include:_spf.retarus.com include:stspg-customer.com include:spf.protection.outlook.com include:servers.mcsv.net include:_spf.senders.scnem.com include:spf.afas.online ip4:3.68.129.51 ip4:3.123.206.219 ip4:40.107.13.74 ip4:52.157.235.73 -all",
       "MS=ms76169065",
       "D-TRUST=5LVDFQVI9WN3JKGXMY7N56M",
       "apple-domain-verification=S91a2luiMRvhAEE5",
-      "google-site-verification=RijntcYDCpouUg0iOYp0JNBJNCRjsmjUtudggMbOCe8"
+      "google-site-verification=RijntcYDCpouUg0iOYp0JNBJNCRjsmjUtudggMbOCe8",
+      "pexip-portal-domain-verification=74079c53-53bd-417d-9edf-0e4852e0f888",
+      "zone-ownership-verification-398368471267c736707a27276fba5731da7ba439f317ecb05f9f423a864a4966",
+      "cisco-ci-domain-verification=7ba55339d2c23740434a1cad4d082e0c974f08b888ff07d4c46157b3d0bdef1a",
+      "atlassian-domain-verification=SvSCQZgWZdNDbaVWHgDTUtkap21k0TAvkBAvah/uVDW/qny1UNgoIdWtP693PWKm"
     ]
   },
   "cloud_exposure": [],
   "findings": [
     {
       "severity": "high",
-      "description": "SSL certificate expires in 5 days",
+      "description": "SSL certificate expires in 2 days",
       "risk": "When it expires, browsers will block access to the site with a security warning. Visitors will not be able to reach the website until the certificate is renewed."
     },
     {

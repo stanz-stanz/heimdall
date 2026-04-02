@@ -2,7 +2,7 @@
   "domain": "haastrupgaard.dk",
   "cvr": "prospect",
   "company_name": "haastrupgaard.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,14 +14,24 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-05",
-      "days_remaining": 35
+      "days_remaining": 33
     },
     "server": "LiteSpeed",
     "detected_plugins": [
+      "Cookie Notice",
       "Simple Social Icons",
       "Genesis Columns Advanced",
-      "Cookie Notice",
-      "Genesis Responsive Slider"
+      "Genesis Responsive Slider",
+      "Wordfence"
+    ],
+    "plugin_versions": {
+      "Cookie Notice": "2.5.16",
+      "Simple Social Icons": "4.0.0",
+      "Genesis Columns Advanced": "5.9.13",
+      "Genesis Responsive Slider": "1.0.1"
+    },
+    "detected_themes": [
+      "Enterprise Pro"
     ],
     "headers": {
       "x_frame_options": false,
@@ -41,6 +51,12 @@
     "jQuery",
     "jQuery Migrate:3.3.2"
   ],
+  "plugin_versions": {
+    "cookie-notice": "2.5.16",
+    "simple-social-icons": "4.0.0",
+    "genesis-columns-advanced": "5.9.13",
+    "genesis-responsive-slider": "1.0.1"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -91,13 +107,38 @@
     },
     {
       "severity": "info",
-      "description": "4 WordPress plugins detected",
+      "description": "5 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Enterprise Pro",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed) (CVE-2025-67554)",
+      "risk": "CVE-2025-67554: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67554",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 618,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

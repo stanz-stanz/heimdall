@@ -1,0 +1,171 @@
+{
+  "domain": "75866700.dk",
+  "job_id": "scan-2026-04-02-f76c35f8",
+  "status": "completed",
+  "scan_result": {
+    "domain": "75866700.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-24",
+    "ssl_days_remaining": 83,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:29:55.790176323Z",
+      "port": "443",
+      "url": "https://75866700.dk",
+      "input": "75866700.dk",
+      "title": "Hjem - Familielægerne i Børkop",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "75866700.dk",
+      "host_ip": "185.221.38.123",
+      "path": "/",
+      "time": "218.896399ms",
+      "a": [
+        "185.221.38.123"
+      ],
+      "tech": [
+        "HSTS",
+        "Nginx",
+        "PHP"
+      ],
+      "words": 30227,
+      "lines": 1613,
+      "status_code": 200,
+      "content_length": 151802,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.123"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "75866700.dk",
+    "cvr": "prospect",
+    "company_name": "75866700.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-24",
+        "days_remaining": 83
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.123"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 87,
+    "ssl": 73,
+    "headers": 159,
+    "meta": 189,
+    "httpx": 2306,
+    "webanalyze": 4,
+    "dnsx": 844,
+    "crtsh": 0,
+    "ghw": 386,
+    "total_ms": 4057
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

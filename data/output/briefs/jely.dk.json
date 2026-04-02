@@ -1,0 +1,66 @@
+{
+  "domain": "jely.dk",
+  "cvr": "prospect",
+  "company_name": "jely.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-24",
+      "days_remaining": 83
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Tag Manager",
+    "HSTS",
+    "Nginx",
+    "jQuery Migrate",
+    "jQuery:3.7.0"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "35.172.94.1"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "jely-dk.mx2.comendosystems.net",
+      "jely-dk.mx1.comendosystems.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "MS=ms78867615",
+      "v=spf1 ip4:78.153.163.90 include:spf.protection.outlook.com include:agenturserver.de -all",
+      "google-site-verification=q9BezJIGz5lDqBtikXh2bbzwGtmwklIyOKovM_lOxsc"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

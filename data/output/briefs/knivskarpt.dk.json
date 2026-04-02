@@ -1,0 +1,238 @@
+{
+  "domain": "knivskarpt.dk",
+  "cvr": "prospect",
+  "company_name": "knivskarpt.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-12",
+      "days_remaining": 70
+    },
+    "server": "Apache",
+    "detected_plugins": [
+      "Facebook Photo Fetcher",
+      "Formget Contact Form",
+      "Custom Facebook Feed",
+      "Admin In English With Switch",
+      "Woocommerce"
+    ],
+    "plugin_versions": {
+      "Facebook Photo Fetcher": "2.1.7",
+      "Formget Contact Form": "6.3.8",
+      "Custom Facebook Feed": "4.2",
+      "Admin In English With Switch": "6.3.8"
+    },
+    "detected_themes": [
+      "Foxy"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Google Hosted Libraries",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "Prototype",
+    "WordPress:6.3.8",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "script.aculo.us"
+  ],
+  "plugin_versions": {
+    "facebook-photo-fetcher": "2.1.7",
+    "formget-contact-form": "6.3.8",
+    "custom-facebook-feed": "4.2",
+    "admin-in-english-with-switch": "6.3.8"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "94.231.103.138"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mx.simply.com"
+    ],
+    "ns": [
+      "ns1.simply.com",
+      "ns2.simply.com",
+      "ns3.simply.com",
+      "ns4.simply.com"
+    ],
+    "txt": [
+      "v=spf1 a include:spf.simply.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.3.8 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "5 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Foxy",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Facebook Photo Fetcher (installed 2.1.7, latest 3.0.4)",
+      "risk": "The installed version of Facebook Photo Fetcher is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Custom Facebook Feed (installed 4.2, latest 4.7.6)",
+      "risk": "The installed version of Custom Facebook Feed is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Social Photo Fetcher [facebook-photo-fetcher] <= 3.0.4 (unfixed) (CVE-2025-62872)",
+      "risk": "CVE-2025-62872: Social Photo Fetcher [facebook-photo-fetcher] <= 3.0.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-62872",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form by FormGet – Best Form Builder Plugin for WordPress [formget-contact-form] <= 5.5.5 (unfixed) (CVE-2023-5125)",
+      "risk": "CVE-2023-5125: Contact Form by FormGet <= 5.5.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Shortcode",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-5125",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Smash Balloon Social Post Feed &#8211; Simple Social Feeds for WordPress [custom-facebook-feed] < 4.2.2 (CVE-2024-31379)",
+      "risk": "CVE-2024-31379: WordPress  Smash Balloon Social Post Feed Plugin    <= 4.2.1 is vulnerable to Cross Site Request Forgery (CSRF)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-31379",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Smash Balloon Social Post Feed &#8211; Simple Social Feeds for WordPress [custom-facebook-feed] < 4.3.2 (CVE-2025-4577)",
+      "risk": "CVE-2025-4577: WordPress Smash Balloon Social Post Feed Plugin <= 4.3.1 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-4577",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Smash Balloon Social Post Feed &#8211; Simple Social Feeds for WordPress [custom-facebook-feed] <= 4.3.2 (unfixed) (CVE-2025-49937)",
+      "risk": "CVE-2025-49937: Smash Balloon Social Post Feed &#8211; Simple Social Feeds for WordPress [custom-facebook-feed] <= 4.3.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49937",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Admin in English with Switch [admin-in-english-with-switch] <= 1.1 (unfixed) (CVE-2025-9623)",
+      "risk": "CVE-2025-9623: Admin in English with Switch [admin-in-english-with-switch] <= 1.1 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-9623",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
+    }
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 1063,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
+}

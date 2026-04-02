@@ -1,0 +1,188 @@
+{
+  "domain": "hedegaard-friskole.dk",
+  "job_id": "scan-2026-04-02-bcf16699",
+  "status": "completed",
+  "scan_result": {
+    "domain": "hedegaard-friskole.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-11",
+    "ssl_days_remaining": 69,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Google Analytics"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:53:38.370785483Z",
+      "port": "443",
+      "url": "https://hedegaard-friskole.dk",
+      "input": "hedegaard-friskole.dk",
+      "title": "Hedegård Friskole - Fællesskabets skole i Give",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "hedegaard-friskole.dk",
+      "host_ip": "185.21.41.61",
+      "path": "/",
+      "final_url": "https://www.hedegaard-friskole.dk/",
+      "time": "539.217039ms",
+      "chain_status_codes": [
+        301,
+        301,
+        200
+      ],
+      "a": [
+        "185.21.41.61"
+      ],
+      "tech": [
+        "Bootstrap",
+        "Google Analytics"
+      ],
+      "words": 8372,
+      "lines": 374,
+      "status_code": 200,
+      "content_length": 22440,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.41.61"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "hedegaardfriskole-dk02c.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=552941D7083EDFE1584F72EE17CA265902846855",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk include:web.shared.mysmtp.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "hedegaard-friskole.dk",
+    "cvr": "prospect",
+    "company_name": "hedegaard-friskole.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-11",
+        "days_remaining": 69
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Google Analytics"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.41.61"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "hedegaardfriskole-dk02c.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=552941D7083EDFE1584F72EE17CA265902846855",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk include:web.shared.mysmtp.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 265,
+    "ssl": 78,
+    "headers": 404,
+    "meta": 391,
+    "httpx": 2088,
+    "webanalyze": 4,
+    "dnsx": 748,
+    "crtsh": 0,
+    "ghw": 434,
+    "total_ms": 4425
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

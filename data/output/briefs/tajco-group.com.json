@@ -2,7 +2,7 @@
   "domain": "tajco-group.com",
   "cvr": "prospect",
   "company_name": "tajco-group.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "C",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 42
+      "days_remaining": 39
     },
     "server": "Pepyaka",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,32 +36,12 @@
     "React",
     "Wix"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "185.230.63.107"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "tajcogroup-com01c.mail.protection.outlook.com"
-    ],
-    "ns": [
-      "ns1.zaccodns.com",
-      "ns2.zaccodns.se",
-      "dns1.zaccodigitaltrustlabs.com",
-      "dns2.zaccodigitaltrustlabs.net",
-      "dns3.zaccodigitaltrustlabs.se",
-      "dns4.zaccodigitaltrustlabs.se"
-    ],
-    "txt": [
-      "_lmmq9i69yex4jmro8iv1uhmusixzipw",
-      "v=spf1 ip4:185.147.75.119/32 ip4:213.81.181.61/32 include:spf.protection.outlook.com include:spf.emailsignatures365.com -all"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
   "findings": [
     {

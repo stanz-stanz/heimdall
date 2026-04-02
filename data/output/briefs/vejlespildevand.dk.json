@@ -2,7 +2,7 @@
   "domain": "vejlespildevand.dk",
   "cvr": "prospect",
   "company_name": "vejlespildevand.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-10-20",
-      "days_remaining": 204
+      "days_remaining": 201
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -33,6 +35,7 @@
     "Typekit",
     "jQuery:3.1.1"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

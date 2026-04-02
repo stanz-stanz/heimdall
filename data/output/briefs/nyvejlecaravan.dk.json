@@ -2,7 +2,7 @@
   "domain": "nyvejlecaravan.dk",
   "cvr": "prospect",
   "company_name": "nyvejlecaravan.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-14",
-      "days_remaining": 76
+      "days_remaining": 73
     },
     "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,6 +36,7 @@
     "Microsoft ASP.NET",
     "Trustpilot"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -44,8 +47,8 @@
       "172.67.220.131"
     ],
     "aaaa": [
-      "2606:4700:3033::ac43:dc83",
-      "2606:4700:3032::6815:1124"
+      "2606:4700:3032::6815:1124",
+      "2606:4700:3033::ac43:dc83"
     ],
     "cname": [],
     "mx": [
@@ -56,8 +59,8 @@
       "simon.ns.cloudflare.com"
     ],
     "txt": [
-      "smv=bd1d62b9747c01ee",
-      "v=spf1 ip4:62.242.33.164 include:spf.protection.outlook.com include:send.heyloyalty.com -all include:_spf.jupiter.salesmanago.pl -all"
+      "v=spf1 ip4:62.242.33.164 include:spf.protection.outlook.com include:send.heyloyalty.com -all include:_spf.jupiter.salesmanago.pl -all",
+      "smv=bd1d62b9747c01ee"
     ]
   },
   "cloud_exposure": [],

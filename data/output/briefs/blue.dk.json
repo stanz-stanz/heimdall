@@ -1,0 +1,459 @@
+{
+  "domain": "blue.dk",
+  "cvr": "prospect",
+  "company_name": "blue.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-15",
+      "days_remaining": 43
+    },
+    "server": "LiteSpeed",
+    "detected_plugins": [
+      "Litespeed Cache",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Wordpress Seo": "27.3"
+    },
+    "detected_themes": [
+      "Theme"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "Google Hosted Libraries",
+    "Google Tag Manager",
+    "HTTP/3",
+    "LiteSpeed",
+    "LiteSpeed Cache",
+    "Litespeed Cache",
+    "MySQL",
+    "PHP",
+    "WordPress",
+    "Yoast SEO:27.3",
+    "cdnjs",
+    "jQuery UI:1.12.1",
+    "jQuery:3.4.1"
+  ],
+  "plugin_versions": {
+    "wordpress-seo": "27.3"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "94.231.106.64"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "eu-esec-01.heimdalsecurity.com",
+      "eu-esec-02.heimdalsecurity.com"
+    ],
+    "ns": [
+      "ns1.curanet.dk",
+      "ns2.curanet.dk"
+    ],
+    "txt": [
+      "v=spf1 mx ip4:40.69.86.130 include:spf.protection.outlook.com include:outbound.mailhop.org include:spf-esec.heimdalsecurity.com ~all",
+      "MS=ms62121598",
+      "google-site-verification=Hq06PsCbWVpG0eyxrRz8oJDSAns3FfgQfUU9fq3RwZc"
+    ]
+  },
+  "cloud_exposure": [
+    {
+      "bucket_name": "nmcdn.nyc3.digitaloceanspaces.com",
+      "file_count": 62
+    },
+    {
+      "bucket_name": "mexx.storage.googleapis.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "smartwatchcenter.ams3.digitaloceanspaces.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "modov.storage.googleapis.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "ds-assets.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "dreamtown.s3.amazonaws.com",
+      "file_count": 6
+    },
+    {
+      "bucket_name": "cmtz.nyc3.digitaloceanspaces.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "preventx.blob.core.windows.net",
+      "file_count": 9
+    },
+    {
+      "bucket_name": "metavolumio.ams3.digitaloceanspaces.com",
+      "file_count": 4
+    },
+    {
+      "bucket_name": "swcdn01.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "franklymanimages.blob.core.windows.net",
+      "file_count": 122
+    },
+    {
+      "bucket_name": "glorybees.nyc3.digitaloceanspaces.com",
+      "file_count": 10
+    },
+    {
+      "bucket_name": "smartetailing.s3.amazonaws.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "homzy.fra1.digitaloceanspaces.com",
+      "file_count": 19
+    },
+    {
+      "bucket_name": "qaip.blob.core.windows.net",
+      "file_count": 8
+    },
+    {
+      "bucket_name": "xmascalendar-assets.fra1.digitaloceanspaces.com",
+      "file_count": 22
+    },
+    {
+      "bucket_name": "sellerscommerceprod.blob.core.windows.net",
+      "file_count": 8
+    },
+    {
+      "bucket_name": "kms.nyc3.digitaloceanspaces.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "carriagehouseprintery-assets.nyc3.digitaloceanspaces.com",
+      "file_count": 9
+    },
+    {
+      "bucket_name": "omniumblob.blob.core.windows.net",
+      "file_count": 10
+    },
+    {
+      "bucket_name": "emailmarketing.nyc3.digitaloceanspaces.com",
+      "file_count": 127
+    },
+    {
+      "bucket_name": "fulcrum-pos.sfo3.digitaloceanspaces.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "foorweb-backend.sfo3.digitaloceanspaces.com",
+      "file_count": 8
+    },
+    {
+      "bucket_name": "textileml.blob.core.windows.net",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "shoe-stock.storage.googleapis.com",
+      "file_count": 4
+    },
+    {
+      "bucket_name": "multi-inc.sfo3.digitaloceanspaces.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "coregowebstorage.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "ppg-media-dev.storage.googleapis.com",
+      "file_count": 12
+    },
+    {
+      "bucket_name": "questloggg.fra1.digitaloceanspaces.com",
+      "file_count": 4
+    },
+    {
+      "bucket_name": "crystalcommerce-assets.nyc3.digitaloceanspaces.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "sifhazurestorage.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "cc-client-assets.nyc3.digitaloceanspaces.com",
+      "file_count": 9
+    },
+    {
+      "bucket_name": "zeus2sunriseeditor.blob.core.windows.net",
+      "file_count": 7
+    },
+    {
+      "bucket_name": "wordpressstorageaccount.blob.core.windows.net",
+      "file_count": 16
+    },
+    {
+      "bucket_name": "splitsecond.blob.core.windows.net",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "ddproductionmasterdata.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "fbgabudhabi.storage.googleapis.com",
+      "file_count": 21
+    },
+    {
+      "bucket_name": "ncaa.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "saddlebackresources.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "ctrwowprodstorage.blob.core.windows.net",
+      "file_count": 42
+    },
+    {
+      "bucket_name": "tpc-files.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "shopsheriff.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "viaduct.co.uk.s3.amazonaws.com",
+      "file_count": 4
+    },
+    {
+      "bucket_name": "worldshoes.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "static.leasecloud.com.storage.googleapis.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "gosscloset.s3.amazonaws.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "crukimagestore.blob.core.windows.net",
+      "file_count": 10
+    },
+    {
+      "bucket_name": "hudsonblobstorageaccount.blob.core.windows.net",
+      "file_count": 205
+    },
+    {
+      "bucket_name": "vivamistoragestaging.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "jotundatasheetsprod.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "constellationdev.s3.amazonaws.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "summitstoragez.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "storage.tweak.dk.storage.googleapis.com",
+      "file_count": 186
+    },
+    {
+      "bucket_name": "eeamarketfiles.blob.core.windows.net",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "djazstorage.blob.core.windows.net",
+      "file_count": 5
+    },
+    {
+      "bucket_name": "handcmediastorage.blob.core.windows.net",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "neo-assets.s3.amazonaws.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "inception-app-prod.s3.amazonaws.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "cloud.globalgolf.com.s3.amazonaws.com",
+      "file_count": 1
+    }
+  ],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
+      "severity": "info",
+      "description": "2 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "high",
+      "description": "59 exposed cloud storage buckets detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Theme",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
+      "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-45000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
+      "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-40000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
+      "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-28000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
+      "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-44000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
+      "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-47637",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
+      "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-47374",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
+      "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-50550",
+        "confidence": "medium-inference"
+      }
+    }
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 154,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
+}

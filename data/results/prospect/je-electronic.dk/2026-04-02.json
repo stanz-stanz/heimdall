@@ -1,0 +1,226 @@
+{
+  "domain": "je-electronic.dk",
+  "job_id": "scan-2026-04-02-8671f02c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "je-electronic.dk",
+    "cms": "Umbraco",
+    "server": "Microsoft-IIS/10.0",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-27",
+    "ssl_days_remaining": 54,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "IIS:10.0",
+      "Lightbox",
+      "Microsoft ASP.NET:4.0.30319",
+      "Umbraco:4.7",
+      "Windows Server",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:57:38.476081704Z",
+      "port": "443",
+      "url": "https://je-electronic.dk",
+      "input": "je-electronic.dk",
+      "title": "JE electronic a/s - Dansk",
+      "scheme": "https",
+      "webserver": "Microsoft-IIS/10.0",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "je-electronic.dk",
+      "host_ip": "94.231.108.34",
+      "path": "/",
+      "final_url": "https://je-electronic.dk/da/forside.aspx",
+      "time": "209.100631ms",
+      "chain_status_codes": [
+        302,
+        200
+      ],
+      "a": [
+        "94.231.108.34"
+      ],
+      "tech": [
+        "IIS:10.0",
+        "Lightbox",
+        "Microsoft ASP.NET:4.0.30319",
+        "Umbraco:4.7",
+        "Windows Server",
+        "jQuery"
+      ],
+      "words": 2250,
+      "lines": 257,
+      "status_code": 200,
+      "content_length": 13681,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.108.34"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dk.mx2.mx25.net",
+        "dk.mx4.mx25.net",
+        "dk.mx1.mailanyone.net",
+        "dk.mx3.mailanyone.net"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "openai-domain-verification=dv-mDpLPPsWYC6If5lHMbUveRxu",
+        "google-site-verification=Af0ahFPBZHGYp88kEg2wrKdj5zoDhTm2BWgCwZ7mCTM",
+        "MS=ms79985400",
+        "google-site-verification=bYXm5G4VN7eLkbhUWoCYQz8z49DSqAd9YTbVLAhOoBU",
+        "v=spf1 ip4:217.74.210.2 include:spf.protection.outlook.com include:dnsexit.com include:spf.mailanyone.net -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "je-electronic.dk",
+    "cvr": "prospect",
+    "company_name": "je-electronic.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "Umbraco",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-27",
+        "days_remaining": 54
+      },
+      "server": "Microsoft-IIS/10.0",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "IIS:10.0",
+      "Lightbox",
+      "Microsoft ASP.NET:4.0.30319",
+      "Umbraco:4.7",
+      "Windows Server",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.108.34"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dk.mx2.mx25.net",
+        "dk.mx4.mx25.net",
+        "dk.mx1.mailanyone.net",
+        "dk.mx3.mailanyone.net"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "openai-domain-verification=dv-mDpLPPsWYC6If5lHMbUveRxu",
+        "google-site-verification=Af0ahFPBZHGYp88kEg2wrKdj5zoDhTm2BWgCwZ7mCTM",
+        "MS=ms79985400",
+        "google-site-verification=bYXm5G4VN7eLkbhUWoCYQz8z49DSqAd9YTbVLAhOoBU",
+        "v=spf1 ip4:217.74.210.2 include:spf.protection.outlook.com include:dnsexit.com include:spf.mailanyone.net -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "Umbraco version 4.7 publicly disclosed",
+        "risk": "The exact Umbraco version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 98,
+    "ssl": 74,
+    "headers": 119,
+    "meta": 116,
+    "httpx": 1702,
+    "webanalyze": 4,
+    "dnsx": 818,
+    "crtsh": 0,
+    "ghw": 555,
+    "total_ms": 3498
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

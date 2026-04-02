@@ -1,0 +1,448 @@
+{
+  "domain": "jyskvvsogkloak.dk",
+  "job_id": "scan-2026-04-02-ac2662d5",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jyskvvsogkloak.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-12",
+    "ssl_days_remaining": 39,
+    "detected_plugins": [
+      "contact-form-7",
+      "google-analytics-for-wordpress",
+      "revslider",
+      "cf7-antispam",
+      "woocommerce",
+      "elementor"
+    ],
+    "plugin_versions": {
+      "contact-form-7": "6.1.5",
+      "google-analytics-for-wordpress": "10.1.1",
+      "revslider": "6.7.41"
+    },
+    "detected_themes": [
+      "betheme"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "All in One SEO Pack:4.9.5.1",
+      "All in One SEO:4.9.5.1",
+      "Apache HTTP Server",
+      "BeTheme:28.3.1",
+      "Contact Form 7:6.1.5",
+      "Google Analytics",
+      "MonsterInsights:10.1.1",
+      "MySQL",
+      "PHP:8.5.4",
+      "Slider Revolution:6.7.41",
+      "Varnish",
+      "WordPress Block Editor",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:59:56.132511965Z",
+      "port": "443",
+      "url": "https://jyskvvsogkloak.dk",
+      "input": "jyskvvsogkloak.dk",
+      "title": "Din lokale VVS og kloakspecialist i Vejle - Jysk VVS og Kloak",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jyskvvsogkloak.dk",
+      "host_ip": "46.30.215.109",
+      "path": "/",
+      "time": "115.377344ms",
+      "a": [
+        "46.30.215.109"
+      ],
+      "aaaa": [
+        "2a02:2350:5:111:806b:66c1:6090:e61d"
+      ],
+      "tech": [
+        "All in One SEO Pack:4.9.5.1",
+        "All in One SEO:4.9.5.1",
+        "Apache HTTP Server",
+        "BeTheme:28.3.1",
+        "Contact Form 7:6.1.5",
+        "Google Analytics",
+        "MonsterInsights:10.1.1",
+        "MySQL",
+        "PHP:8.5.4",
+        "Slider Revolution:6.7.41",
+        "Varnish",
+        "WordPress Block Editor",
+        "WordPress:6.9.4",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 9528,
+      "lines": 874,
+      "status_code": 200,
+      "content_length": 207284,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "contact-form-7",
+          "google-analytics-for-wordpress",
+          "cf7-antispam"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.30.215.109"
+      ],
+      "aaaa": [
+        "2a02:2350:5:111:806b:66c1:6090:e61d"
+      ],
+      "cname": [],
+      "mx": [
+        "mx2.pub.mailpod11-cph3.one.com",
+        "mx1.pub.mailpod11-cph3.one.com",
+        "mx4.pub.mailpod11-cph3.one.com",
+        "mx3.pub.mailpod11-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "google-site-verification=HO7o-JAuChw0J-fvOKkq-y6X-RW_Ov_2neX-HG6h-eM"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jyskvvsogkloak.dk",
+    "cvr": "prospect",
+    "company_name": "jyskvvsogkloak.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Contact Form 7, Woocommerce",
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-12",
+        "days_remaining": 39
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Contact Form 7",
+        "Google Analytics For Wordpress",
+        "Revslider",
+        "Cf7 Antispam",
+        "Woocommerce",
+        "Elementor"
+      ],
+      "plugin_versions": {
+        "Contact Form 7": "6.1.5",
+        "Google Analytics For Wordpress": "10.1.1",
+        "Revslider": "6.7.41"
+      },
+      "detected_themes": [
+        "Betheme"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "All in One SEO Pack:4.9.5.1",
+      "All in One SEO:4.9.5.1",
+      "Apache HTTP Server",
+      "BeTheme:28.3.1",
+      "Contact Form 7:6.1.5",
+      "Google Analytics",
+      "MonsterInsights:10.1.1",
+      "MySQL",
+      "PHP:8.5.4",
+      "Slider Revolution:6.7.41",
+      "Varnish",
+      "WordPress Block Editor",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "contact-form-7": "6.1.5",
+      "google-analytics-for-wordpress": "10.1.1",
+      "revslider": "6.7.41"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.30.215.109"
+      ],
+      "aaaa": [
+        "2a02:2350:5:111:806b:66c1:6090:e61d"
+      ],
+      "cname": [],
+      "mx": [
+        "mx2.pub.mailpod11-cph3.one.com",
+        "mx1.pub.mailpod11-cph3.one.com",
+        "mx4.pub.mailpod11-cph3.one.com",
+        "mx3.pub.mailpod11-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "google-site-verification=HO7o-JAuChw0J-fvOKkq-y6X-RW_Ov_2neX-HG6h-eM"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "6 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.5.4",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Betheme",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Google Analytics For Wordpress (installed 10.1.1, latest 10.1.2)",
+        "risk": "The installed version of Google Analytics For Wordpress is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
+        "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-1579",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "AntiSpam for Contact Form 7 [cf7-antispam] < 0.6.1 (CVE-2024-27961)",
+        "risk": "CVE-2024-27961: WordPress  AntiSpam for Contact Form 7 Plugin    <= 0.6.0 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-27961",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47504)",
+        "risk": "CVE-2023-47504: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Broken Access Control",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-47504",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2 (CVE-2023-48777)",
+        "risk": "CVE-2023-48777: WordPress  Elementor Website Builder Plugin  3.3.0-3.18.1 is vulnerable to Arbitrary File Upload",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-48777",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1 (CVE-2024-24934)",
+        "risk": "CVE-2024-24934: Elementor <= 3.19.0 - Authenticated(Contributor+) Arbitrary File Deletion and PHAR Deserialization",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-24934",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 326,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 101,
+    "ssl": 74,
+    "headers": 99,
+    "meta": 1965,
+    "httpx": 3196,
+    "webanalyze": 10,
+    "dnsx": 902,
+    "crtsh": 0,
+    "ghw": 206,
+    "total_ms": 7458
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "domain": "cleaning.dk",
+  "job_id": "scan-2026-04-02-8f73f677",
+  "status": "completed",
+  "scan_result": {
+    "domain": "cleaning.dk",
+    "cms": "",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-18",
+    "ssl_days_remaining": 46,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:40:10.701661874Z",
+      "port": "443",
+      "url": "https://cleaning.dk",
+      "input": "cleaning.dk",
+      "title": "Cleaning ApS (Støvsuger Experten ApS)",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "cleaning.dk",
+      "host_ip": "46.30.213.185",
+      "path": "/",
+      "time": "130.664899ms",
+      "a": [
+        "46.30.213.185"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10c:80c8:55d2:5395:5fb6"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Varnish"
+      ],
+      "words": 2905,
+      "lines": 44,
+      "status_code": 200,
+      "content_length": 56703,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.30.213.185"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10c:80c8:55d2:5395:5fb6"
+      ],
+      "cname": [],
+      "mx": [
+        "mx4.pub.mailpod11-cph3.one.com",
+        "mx2.pub.mailpod11-cph3.one.com",
+        "mx3.pub.mailpod11-cph3.one.com",
+        "mx1.pub.mailpod11-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": [
+      {
+        "bucket_name": "nmcdn.nyc3.digitaloceanspaces.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "cdntorkprod.blob.core.windows.net",
+        "file_count": 99
+      },
+      {
+        "bucket_name": "storage.tweak.dk.storage.googleapis.com",
+        "file_count": 2
+      }
+    ]
+  },
+  "brief": {
+    "domain": "cleaning.dk",
+    "cvr": "prospect",
+    "company_name": "cleaning.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-18",
+        "days_remaining": 46
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.30.213.185"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10c:80c8:55d2:5395:5fb6"
+      ],
+      "cname": [],
+      "mx": [
+        "mx4.pub.mailpod11-cph3.one.com",
+        "mx2.pub.mailpod11-cph3.one.com",
+        "mx3.pub.mailpod11-cph3.one.com",
+        "mx1.pub.mailpod11-cph3.one.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [
+      {
+        "bucket_name": "nmcdn.nyc3.digitaloceanspaces.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "cdntorkprod.blob.core.windows.net",
+        "file_count": 99
+      },
+      {
+        "bucket_name": "storage.tweak.dk.storage.googleapis.com",
+        "file_count": 2
+      }
+    ],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "high",
+        "description": "3 exposed cloud storage buckets detected",
+        "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 101,
+    "ssl": 63,
+    "headers": 90,
+    "meta": 103,
+    "httpx": 2016,
+    "webanalyze": 4,
+    "dnsx": 763,
+    "crtsh": 0,
+    "ghw": 333,
+    "total_ms": 3483
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "domain": "provacances.dk",
+  "cvr": "prospect",
+  "company_name": "provacances.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Cloudflare",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-11",
+      "days_remaining": 70
+    },
+    "server": "cloudflare",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cloudflare",
+    "Cloudflare Browser Insights",
+    "Google Tag Manager",
+    "HSTS",
+    "HTTP/3"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "172.67.74.251",
+      "104.26.12.12",
+      "104.26.13.12"
+    ],
+    "aaaa": [
+      "2606:4700:20::681a:c0c",
+      "2606:4700:20::ac43:4afb",
+      "2606:4700:20::681a:d0c"
+    ],
+    "cname": [],
+    "mx": [
+      "provacances-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "plato.ns.cloudflare.com",
+      "evangeline.ns.cloudflare.com"
+    ],
+    "txt": [
+      "google-site-verification=D2IgTA9-AUdbIbNdFT6pAPj_UzvNLmvtuZMwrym-Hqk",
+      "v=spf1 include:spf.protection.outlook.com include:email.bookingstudio.dk a:mail.provacances.dk ip4:217.195.176.181 -all",
+      "MS=ms72046406"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    }
+  ]
+}

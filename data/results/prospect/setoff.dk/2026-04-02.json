@@ -1,0 +1,359 @@
+{
+  "domain": "setoff.dk",
+  "job_id": "scan-2026-04-02-accf9858",
+  "status": "completed",
+  "scan_result": {
+    "domain": "setoff.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-02",
+    "ssl_days_remaining": 30,
+    "detected_plugins": [
+      "simple-embed-code",
+      "gravityforms",
+      "gravityformsrecaptcha",
+      "woocommerce",
+      "divi-builder",
+      "wordfence",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "simple-embed-code": "2.5.1",
+      "gravityforms": "2.9.30",
+      "gravityformsrecaptcha": "1.6.0",
+      "wordpress-seo": "25.0"
+    },
+    "detected_themes": [
+      "Divi",
+      "setoff"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "FitVids.JS:4.27.4",
+      "Gravity Forms:2.9.30",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "WordPress:6.8.5",
+      "Yoast SEO:25.0",
+      "ZURB Foundation",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:18:03.105243896Z",
+      "port": "443",
+      "url": "https://setoff.dk",
+      "input": "setoff.dk",
+      "title": "SETOFF Marketing",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "setoff.dk",
+      "host_ip": "185.21.40.13",
+      "path": "/",
+      "time": "723.540417ms",
+      "a": [
+        "185.21.40.13"
+      ],
+      "tech": [
+        "Cookiebot",
+        "FitVids.JS:4.27.4",
+        "Gravity Forms:2.9.30",
+        "HTTP/3",
+        "LiteSpeed",
+        "MySQL",
+        "PHP",
+        "WordPress:6.8.5",
+        "Yoast SEO:25.0",
+        "ZURB Foundation",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "reCAPTCHA"
+      ],
+      "words": 8773,
+      "lines": 879,
+      "status_code": 200,
+      "content_length": 182015,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "simple-embed-code"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.40.13"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "setoff-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=5g6PLUJOgysw9s2vOaE9Uiwj7wMMhx1H4cKSohoML0o",
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms55327482"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "setoff.dk",
+    "cvr": "prospect",
+    "company_name": "setoff.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Gravityforms, Woocommerce",
+      "Visitor tracking: reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-02",
+        "days_remaining": 30
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Simple Embed Code",
+        "Gravityforms",
+        "Gravityformsrecaptcha",
+        "Woocommerce",
+        "Divi Builder",
+        "Wordfence",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Simple Embed Code": "2.5.1",
+        "Gravityforms": "2.9.30",
+        "Gravityformsrecaptcha": "1.6.0",
+        "Wordpress Seo": "25.0"
+      },
+      "detected_themes": [
+        "Divi",
+        "Setoff"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "FitVids.JS:4.27.4",
+      "Gravity Forms:2.9.30",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "WordPress:6.8.5",
+      "Yoast SEO:25.0",
+      "ZURB Foundation",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {
+      "simple-embed-code": "2.5.1",
+      "gravityforms": "2.9.30",
+      "gravityformsrecaptcha": "1.6.0",
+      "wordpress-seo": "25.0"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.40.13"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "setoff-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=5g6PLUJOgysw9s2vOaE9Uiwj7wMMhx1H4cKSohoML0o",
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms55327482"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.8.5 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugins detected: Gravityforms, Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "7 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Divi, Setoff",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Simple Embed Code (installed 2.5.1, latest 2.5.2)",
+        "risk": "The installed version of Simple Embed Code is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 25.0, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
+        "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-2260",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+        "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35945",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 338,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 2022,
+    "ssl": 66,
+    "headers": 265,
+    "meta": 877,
+    "httpx": 3180,
+    "webanalyze": 4,
+    "dnsx": 779,
+    "crtsh": 0,
+    "ghw": 241,
+    "total_ms": 9351
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

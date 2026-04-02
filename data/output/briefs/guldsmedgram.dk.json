@@ -1,0 +1,64 @@
+{
+  "domain": "guldsmedgram.dk",
+  "cvr": "prospect",
+  "company_name": "guldsmedgram.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-03",
+      "days_remaining": 62
+    },
+    "server": "nginx",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Google Tag Manager",
+    "HSTS",
+    "Klaviyo",
+    "Nginx"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "185.31.76.153"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "guldsmedgram-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "v=spf1 include:spf.protection.outlook.com include:_spf.powerhosting.dk include:_custspf.one.com -all",
+      "MS=ms21115209",
+      "_custspf.one.com"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

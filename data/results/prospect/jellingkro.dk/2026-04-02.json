@@ -1,6 +1,6 @@
 {
   "domain": "jellingkro.dk",
-  "job_id": "scan-2026-04-02-476e5d5d",
+  "job_id": "scan-2026-04-02-678249fc",
   "status": "completed",
   "scan_result": {
     "domain": "jellingkro.dk",
@@ -148,9 +148,7 @@
         ]
       }
     },
-    "subdomains": [
-      "www.jellingkro.dk"
-    ],
+    "subdomains": [],
     "dns_records": {
       "a": [
         "94.231.106.24"
@@ -252,10 +250,8 @@
       "wordpress-seo": "24.5"
     },
     "subdomains": {
-      "count": 1,
-      "list": [
-        "www.jellingkro.dk"
-      ]
+      "count": 0,
+      "list": []
     },
     "dns": {
       "a": [
@@ -316,11 +312,6 @@
         "severity": "low",
         "description": "Backend technology exposed: MySQL, PHP",
         "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
-      },
-      {
-        "severity": "info",
-        "description": "1 subdomain detected",
-        "risk": "Each subdomain is a separate entry point that may run different software and have its own vulnerabilities. Subdomains are often forgotten and left unpatched."
       },
       {
         "severity": "medium",
@@ -653,13 +644,13 @@
       "scan_tools": [
         "wpvulnerability"
       ],
-      "duration_ms": 136,
+      "duration_ms": 148,
       "note": "Findings derived from passive fingerprinting, not confirmed against live target"
     }
   },
   "timing": {
-    "robots_txt": 84,
-    "total_ms": 589
+    "robots_txt": 94,
+    "total_ms": 600
   },
   "cache_stats": {
     "hits": 9,

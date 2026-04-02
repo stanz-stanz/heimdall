@@ -1,0 +1,189 @@
+{
+  "domain": "fometech.dk",
+  "job_id": "scan-2026-04-02-347d7576",
+  "status": "completed",
+  "scan_result": {
+    "domain": "fometech.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-10",
+    "ssl_days_remaining": 37,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Google Maps",
+      "Microsoft ASP.NET",
+      "jQuery:3.4.1",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:49:32.842820221Z",
+      "port": "443",
+      "url": "https://fometech.dk",
+      "input": "fometech.dk",
+      "title": "FOMETECH A/S",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "fometech.dk",
+      "host_ip": "195.178.15.249",
+      "path": "/",
+      "final_url": "https://www.fometech.dk/",
+      "time": "361.168203ms",
+      "chain_status_codes": [
+        301,
+        301,
+        200
+      ],
+      "a": [
+        "195.178.15.249"
+      ],
+      "tech": [
+        "Google Maps",
+        "Microsoft ASP.NET",
+        "jQuery:3.4.1",
+        "reCAPTCHA"
+      ],
+      "words": 8751,
+      "lines": 630,
+      "status_code": 200,
+      "content_length": 32496,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "195.178.15.249"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "fometech-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms26317283"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "fometech.dk",
+    "cvr": "prospect",
+    "company_name": "fometech.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-10",
+        "days_remaining": 37
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Google Maps",
+      "Microsoft ASP.NET",
+      "jQuery:3.4.1",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "195.178.15.249"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "fometech-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "MS=ms26317283"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 220,
+    "ssl": 59,
+    "headers": 227,
+    "meta": 233,
+    "httpx": 2033,
+    "webanalyze": 4,
+    "dnsx": 777,
+    "crtsh": 0,
+    "ghw": 216,
+    "total_ms": 3780
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

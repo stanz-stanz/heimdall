@@ -1,0 +1,143 @@
+{
+  "domain": "schytz-haaning.dk",
+  "job_id": "scan-2026-04-02-9e918426",
+  "status": "completed",
+  "scan_result": {
+    "domain": "schytz-haaning.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-07",
+    "ssl_days_remaining": 35,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Shopify"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:17:51.457962568Z",
+      "port": "443",
+      "url": "https://schytz-haaning.dk",
+      "input": "schytz-haaning.dk",
+      "title": "Kunstgalleri i Vejle og webshop - Velkommen til Schytz Haaning – Schytz Haaning A/S",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "schytz-haaning.dk",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "time": "374.321176ms",
+      "a": [
+        "23.227.38.65"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "Shopify"
+      ],
+      "words": 22598,
+      "lines": 2204,
+      "status_code": 200,
+      "content_length": 121283,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "schytz-haaning.dk",
+    "cvr": "prospect",
+    "company_name": "schytz-haaning.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify",
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-07",
+        "days_remaining": 35
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Shopify"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 210,
+    "ssl": 75,
+    "headers": 290,
+    "meta": 208,
+    "httpx": 2683,
+    "webanalyze": 2,
+    "total_ms": 3476
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

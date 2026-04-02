@@ -1,6 +1,6 @@
 {
   "domain": "onlyfood.dk",
-  "job_id": "scan-2026-04-02-d46c90cd",
+  "job_id": "scan-2026-04-02-5e611b61",
   "status": "completed",
   "scan_result": {
     "domain": "onlyfood.dk",
@@ -60,7 +60,23 @@
       ]
     },
     "subdomains": [],
-    "dns_records": {},
+    "dns_records": {
+      "a": [
+        "46.17.94.187"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail.onlyfood.dk"
+      ],
+      "ns": [
+        "ns2.onlyfood.dk"
+      ],
+      "txt": [
+        "google-site-verification=PHWEq4xqsVr26yZ65hVN-inIjeQDH-Ltqtt6awDenoU",
+        "v=spf1 mx a ip4:46.17.94.187  include:spf.protection.outlook.com include:_spf.google.com -all"
+      ]
+    },
     "ct_certificates": [],
     "exposed_cloud_storage": []
   },
@@ -102,7 +118,23 @@
       "count": 0,
       "list": []
     },
-    "dns": {},
+    "dns": {
+      "a": [
+        "46.17.94.187"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail.onlyfood.dk"
+      ],
+      "ns": [
+        "ns2.onlyfood.dk"
+      ],
+      "txt": [
+        "google-site-verification=PHWEq4xqsVr26yZ65hVN-inIjeQDH-Ltqtt6awDenoU",
+        "v=spf1 mx a ip4:46.17.94.187  include:spf.protection.outlook.com include:_spf.google.com -all"
+      ]
+    },
     "cloud_exposure": [],
     "findings": [
       {
@@ -128,12 +160,11 @@
     ]
   },
   "timing": {
-    "robots_txt": 165,
-    "total_ms": 166
+    "robots_txt": 158,
+    "total_ms": 159
   },
   "cache_stats": {
-    "hits": 5,
+    "hits": 9,
     "misses": 0
-  },
-  "filtered": "bucket:E"
+  }
 }

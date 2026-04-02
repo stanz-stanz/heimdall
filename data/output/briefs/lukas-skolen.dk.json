@@ -2,7 +2,7 @@
   "domain": "lukas-skolen.dk",
   "cvr": "prospect",
   "company_name": "lukas-skolen.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-21",
-      "days_remaining": 83
+      "days_remaining": 79
     },
     "server": "cloudflare",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,6 +36,7 @@
     "Google Tag Manager",
     "HTTP/3"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -45,16 +48,16 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.wannafind.dk",
-      "mx1.wannafind.dk"
+      "mx1.wannafind.dk",
+      "mx2.wannafind.dk"
     ],
     "ns": [
       "ns.wannafind.dk",
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "v=spf1 a include:spf.wannafind.dk ~all",
-      "MS=ms72062015"
+      "MS=ms72062015",
+      "v=spf1 a include:spf.wannafind.dk ~all"
     ]
   },
   "cloud_exposure": [],

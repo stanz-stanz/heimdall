@@ -1,0 +1,68 @@
+{
+  "domain": "jr-tool.dk",
+  "cvr": "prospect",
+  "company_name": "jr-tool.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-05",
+      "days_remaining": 32
+    },
+    "server": "nginx/1.18.0 (Ubuntu)",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Cookiebot",
+    "Express",
+    "HSTS",
+    "Nginx:1.18.0",
+    "Node.js",
+    "Ubuntu"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "172.160.252.19"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "jrtool-dk0e.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns.wannafind.dk",
+      "ns2.wannafind.dk"
+    ],
+    "txt": [
+      "v=spf1 include:sendgrid.net ip4:128.76.142.146 include:spf.messagelabs.com include:spf.protection.outlook.com a:mail.edisoft.no a:smtpspare.edi-soft.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Node.js",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

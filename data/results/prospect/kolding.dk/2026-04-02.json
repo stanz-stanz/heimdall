@@ -1,0 +1,207 @@
+{
+  "domain": "kolding.dk",
+  "job_id": "scan-2026-04-02-e323574e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "kolding.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "DigiCert Inc",
+    "ssl_expiry": "2027-01-07",
+    "ssl_days_remaining": 280,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Azure",
+      "Azure Edge Network",
+      "Cludo",
+      "HSTS",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:01:12.839439424Z",
+      "cdn_name": "azure",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://kolding.dk",
+      "input": "kolding.dk",
+      "title": "Kolding Kommune",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "kolding.dk",
+      "host_ip": "20.50.64.13",
+      "path": "/",
+      "time": "213.316461ms",
+      "a": [
+        "20.50.64.13"
+      ],
+      "aaaa": [
+        "2603:1020:5:6::33"
+      ],
+      "tech": [
+        "Amazon S3",
+        "Amazon Web Services",
+        "Azure",
+        "Azure Edge Network",
+        "Cludo",
+        "HSTS",
+        "jsDelivr"
+      ],
+      "words": 11022,
+      "lines": 761,
+      "status_code": 200,
+      "content_length": 49329,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "20.50.64.13"
+      ],
+      "aaaa": [
+        "2603:1020:5:6::33"
+      ],
+      "cname": [],
+      "mx": [
+        "mx2.hc780-75.c3s2.iphmx.com",
+        "mx1.hc780-75.c3s2.iphmx.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms63276456",
+        "q6n256m4ddyt7g9yb008jd166822xpdv",
+        "apple-domain-verification=JKXi0CBi6NV4fCYS",
+        "apple-domain-verification=0Ou3pmURT5YfBO4e",
+        "apple-domain-verification=astMe5sY96Jv7ZqX",
+        "_tmhm6coufedvqgm57k3x3ye2gcj82sz",
+        "google-site-verification=zTFZKioUZ2gCZFJv8mIPP9MP0ZiqpOvJRRAtzkI7p7U",
+        "asv=392eec1eb5939b3ea95400153172013e",
+        "apple-domain-verification=wZEeinemxlPCyU5z",
+        "v=spf1 include:_spf27160.spfprotect.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "kolding.dk",
+    "cvr": "prospect",
+    "company_name": "kolding.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "DigiCert Inc",
+        "expiry": "2027-01-07",
+        "days_remaining": 280
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Azure",
+      "Azure Edge Network",
+      "Cludo",
+      "HSTS",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "20.50.64.13"
+      ],
+      "aaaa": [
+        "2603:1020:5:6::33"
+      ],
+      "cname": [],
+      "mx": [
+        "mx2.hc780-75.c3s2.iphmx.com",
+        "mx1.hc780-75.c3s2.iphmx.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms63276456",
+        "q6n256m4ddyt7g9yb008jd166822xpdv",
+        "apple-domain-verification=JKXi0CBi6NV4fCYS",
+        "apple-domain-verification=0Ou3pmURT5YfBO4e",
+        "apple-domain-verification=astMe5sY96Jv7ZqX",
+        "_tmhm6coufedvqgm57k3x3ye2gcj82sz",
+        "google-site-verification=zTFZKioUZ2gCZFJv8mIPP9MP0ZiqpOvJRRAtzkI7p7U",
+        "asv=392eec1eb5939b3ea95400153172013e",
+        "apple-domain-verification=wZEeinemxlPCyU5z",
+        "v=spf1 include:_spf27160.spfprotect.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 197,
+    "ssl": 138,
+    "headers": 175,
+    "meta": 194,
+    "httpx": 2096,
+    "webanalyze": 4,
+    "dnsx": 736,
+    "crtsh": 0,
+    "ghw": 440,
+    "total_ms": 3989
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

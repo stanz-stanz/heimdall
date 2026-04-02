@@ -1,0 +1,59 @@
+{
+  "domain": "bredstenvand.dk",
+  "cvr": "prospect",
+  "company_name": "bredstenvand.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "DigiCert Inc",
+      "expiry": "2026-08-14",
+      "days_remaining": 134
+    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Azure",
+    "Azure Front Door"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "20.107.224.17"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [],
+    "ns": [
+      "ns1-03.azure-dns.com",
+      "ns2-03.azure-dns.net",
+      "ns3-03.azure-dns.org",
+      "ns4-03.azure-dns.info"
+    ],
+    "txt": [
+      "google-site-verification=Md2cjWq5GOLNW_BBVNPwbX7FeYLmcWYfYLo_Ud3ayJA",
+      "v=spf1 -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": []
+}

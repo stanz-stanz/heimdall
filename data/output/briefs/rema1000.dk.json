@@ -2,7 +2,7 @@
   "domain": "rema1000.dk",
   "cvr": "prospect",
   "company_name": "rema1000.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Amazon",
       "expiry": "2026-08-22",
-      "days_remaining": 145
+      "days_remaining": 142
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -31,18 +33,19 @@
     "HSTS",
     "Vue.js"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
   "dns": {
     "a": [
-      "15.197.211.151",
-      "99.83.128.242"
+      "99.83.128.242",
+      "15.197.211.151"
     ],
     "aaaa": [
-      "2600:9000:a406:acc4:46f1:f0a3:7470:754b",
-      "2600:9000:a518:ef11:8775:6bcd:262e:679c"
+      "2600:9000:a518:ef11:8775:6bcd:262e:679c",
+      "2600:9000:a406:acc4:46f1:f0a3:7470:754b"
     ],
     "cname": [],
     "mx": [
@@ -53,22 +56,22 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "ffv4ps2c7dpd2345s499grbsqg",
-      "apple-domain-verification=3LxaeflBDAoKRGeu",
-      "ms=msDFT7657H1",
-      "MS=ms58013434",
       "v=spf1 include:_spf72550.spf-protect.dk -all",
-      "i715i0pqsbkhgkiabra2l3q6sh",
-      "MS=ms60485509",
-      "S5A1RgSS/yYfbZYKxnyUH9v0bhYWNecwh8aOotw2NRGTKnPyexSB/UTFgB3mGHx3rnoSBi6y0rsILx6yJ4bXFQ==",
-      "OzWfORhp0DDQiTypvEtr+iSU1XdSGOHzXpGPxwvE3aHomyLbszKpUeG3mnyaMPZI5VzaBMbbaOzX1jSPlZR0Zw==",
-      "ms=msDFT-765-7H1",
       "MS=ms51825705",
-      "DFT-765-7H1",
-      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG",
       "facebook-domain-verification=ieg3gntlt9pojlsxgf0o7zifaumije",
+      "ms=msDFT-765-7H1",
+      "ffv4ps2c7dpd2345s499grbsqg",
+      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG",
+      "ms=msDFT7657H1",
+      "S5A1RgSS/yYfbZYKxnyUH9v0bhYWNecwh8aOotw2NRGTKnPyexSB/UTFgB3mGHx3rnoSBi6y0rsILx6yJ4bXFQ==",
+      "apple-domain-verification=3LxaeflBDAoKRGeu",
+      "i715i0pqsbkhgkiabra2l3q6sh",
+      "MS=ms58013434",
+      "MS=ms60485509",
+      "DFT-765-7H1",
       "google-site-verification=-nbtrE-a_tS-4RLp6LnfYplbFPgCvcrSwh5-0bfsFhc",
-      "MS=ms89040986"
+      "MS=ms89040986",
+      "OzWfORhp0DDQiTypvEtr+iSU1XdSGOHzXpGPxwvE3aHomyLbszKpUeG3mnyaMPZI5VzaBMbbaOzX1jSPlZR0Zw=="
     ]
   },
   "cloud_exposure": [],

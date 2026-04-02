@@ -2,7 +2,7 @@
   "domain": "minkobmand.dk",
   "cvr": "prospect",
   "company_name": "minkobmand.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -20,6 +20,8 @@
     },
     "server": "nginx/1.21.0",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -34,9 +36,10 @@
     "Nginx:1.21.0",
     "Node.js",
     "React",
-    "Varnish",
+    "Varnish:6.2",
     "Webpack"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -57,16 +60,16 @@
       "ns4.eurodns.com"
     ],
     "txt": [
-      "hosting-site=minkobmand-c36d5",
       "8ru7friv9fogj0gc0qpgf5tr4",
-      "v=spf1 include:spf.protection.outlook.com include:_spf.google.com include:_spf.easycruit.com include:_spf.salesforce.com include:mail.zendesk.com include:spf.logicalware.com ip4:194.255.122.145 ip4:109.123.121.107 ip4:37.123.114.36 -all",
-      "_globalsign-domain-verification=bRsLsfi-Kj3rwyidHxA_7IIrZsi1R9GksLlBU2ahIp",
       "SFMC-cT4QDyhzXRrUP6m-HiiZJ2GeLNr8rGGy7Oj4PYbs",
-      "tjs8f5gngsabrlrsf58e6r1gjj",
-      "google-site-verification=9-6_XmZ4hdsyEYD1Zf9AnvZBSZafcmiFbaONclFB114",
+      "34VD891SKEKQ00MR89QHJQCOUV",
       "hopeqt2f0vbkdia1vskubs03t3",
       "b7qltttcq41td56m0i42i0d222",
-      "34VD891SKEKQ00MR89QHJQCOUV",
+      "_globalsign-domain-verification=bRsLsfi-Kj3rwyidHxA_7IIrZsi1R9GksLlBU2ahIp",
+      "google-site-verification=9-6_XmZ4hdsyEYD1Zf9AnvZBSZafcmiFbaONclFB114",
+      "hosting-site=minkobmand-c36d5",
+      "tjs8f5gngsabrlrsf58e6r1gjj",
+      "v=spf1 include:spf.protection.outlook.com include:_spf.google.com include:_spf.easycruit.com include:_spf.salesforce.com include:mail.zendesk.com include:spf.logicalware.com ip4:194.255.122.145 ip4:109.123.121.107 ip4:37.123.114.36 -all",
       "MS=ms60996601"
     ]
   },

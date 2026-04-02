@@ -2,7 +2,7 @@
   "domain": "osterbo.dk",
   "cvr": "prospect",
   "company_name": "osterbo.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "GoDaddy.com, Inc.",
       "expiry": "2026-11-02",
-      "days_remaining": 217
+      "days_remaining": 214
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": true,
@@ -31,6 +33,7 @@
     "HSTS",
     "jsDelivr"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -42,8 +45,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "osterbo-dk.mx2.comendosystems.net",
-      "osterbo-dk.mx1.comendosystems.com"
+      "osterbo-dk.mx1.comendosystems.com",
+      "osterbo-dk.mx2.comendosystems.net"
     ],
     "ns": [
       "ns01.one.com",

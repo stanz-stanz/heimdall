@@ -2,7 +2,7 @@
   "domain": "gustav-denmark.com",
   "cvr": "prospect",
   "company_name": "gustav-denmark.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 50
+      "days_remaining": 47
     },
     "server": "nginx",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -39,6 +41,7 @@
     "PHP",
     "jsDelivr"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

@@ -2,11 +2,11 @@
   "domain": "vejlefriskole.dk",
   "cvr": "prospect",
   "company_name": "vejlefriskole.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7"
+    "Data-handling plugins: Contact Form 7, Woocommerce"
   ],
   "industry": "",
   "technology": {
@@ -16,18 +16,34 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-17",
-      "days_remaining": 47
+      "days_remaining": 44
     },
     "server": "Apache",
     "detected_plugins": [
+      "Block Options",
       "Essential Grid",
-      "Cornerstone",
       "Simple Banner",
       "Wpconsent Cookies Banner Privacy Suite",
-      "Block Options",
-      "Team Members Pro",
       "Ajax Search Lite",
-      "Contact Form 7"
+      "Team Members Pro",
+      "Cornerstone",
+      "Contact Form 7",
+      "Woocommerce",
+      "Redirection",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Essential Grid": "1766012039",
+      "Simple Banner": "3.2.1",
+      "Wpconsent Cookies Banner Privacy Suite": "006769",
+      "Ajax Search Lite": "4.13.5",
+      "Team Members Pro": "6.9.4",
+      "Cornerstone": "6.7.2",
+      "Contact Form 7": "6.1.5",
+      "Wordpress Seo": "27.3"
+    },
+    "detected_themes": [
+      "X"
     ],
     "headers": {
       "x_frame_options": false,
@@ -46,11 +62,21 @@
     "W3 Total Cache",
     "WordPress",
     "WordPress Block Editor",
-    "Yoast SEO:27.2",
+    "Yoast SEO:27.3",
     "jQuery",
     "jQuery Migrate:3.4.1",
     "jsDelivr"
   ],
+  "plugin_versions": {
+    "essential-grid": "1766012039",
+    "simple-banner": "3.2.1",
+    "wpconsent-cookies-banner-privacy-suite": "006769",
+    "ajax-search-lite": "4.13.5",
+    "team-members-pro": "6.9.4",
+    "cornerstone": "6.7.2",
+    "contact-form-7": "6.1.5",
+    "wordpress-seo": "27.3"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -71,10 +97,10 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "MS=ms41079324",
-      "v=spf1 include:spf.protection.outlook.com -all",
       "",
-      "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCaOBNl/iGOmFOyJAykbVq/bgAneIbfIGoJXFU0F1WgtPahHaxNMcE4qTu6UpynIbGXp9a0nHY ZgOTYRiitCsww4ahCO+cDsjOiVwxiNCTR406MPpqAYA/HBAMlFh38isZhmsDuN39dd3xfwFtsr6jvwgNp/vsH3EiPzgRSZiV65wIDAQAB"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCaOBNl/iGOmFOyJAykbVq/bgAneIbfIGoJXFU0F1WgtPahHaxNMcE4qTu6UpynIbGXp9a0nHY ZgOTYRiitCsww4ahCO+cDsjOiVwxiNCTR406MPpqAYA/HBAMlFh38isZhmsDuN39dd3xfwFtsr6jvwgNp/vsH3EiPzgRSZiV65wIDAQAB",
+      "MS=ms41079324"
     ]
   },
   "cloud_exposure": [],
@@ -101,18 +127,91 @@
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugin detected: Contact Form 7",
+      "description": "Data-handling plugins detected: Contact Form 7, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
-      "description": "8 WordPress plugins detected",
+      "description": "11 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: X",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "high",
+      "description": "Gutenberg Block Editor Toolkit – EditorsKit [block-options] < 1.40.4 (CVE-2023-6635)",
+      "risk": "CVE-2023-6635: EditorsKit <= 1.40.3 - Authenticated (Administrator+) Arbitrary File Upload",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-6635",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Ajax Search Lite &#8211; Live Search &amp; Filter [ajax-search-lite] <= 4.13.3 (unfixed) (CVE-2025-48086)",
+      "risk": "CVE-2025-48086: Ajax Search Lite &#8211; Live Search &amp; Filter [ajax-search-lite] <= 4.13.3 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-48086",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Cornerstone [cornerstone] <= 7.7.3 (unfixed) (CVE-2025-63072)",
+      "risk": "CVE-2025-63072: Cornerstone [cornerstone] <= 7.7.3 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-63072",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 895,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

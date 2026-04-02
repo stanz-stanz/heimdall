@@ -2,7 +2,7 @@
   "domain": "give-fjernvarme.dk",
   "cvr": "prospect",
   "company_name": "give-fjernvarme.dk",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "GlobalSign nv-sa",
       "expiry": "2026-10-31",
-      "days_remaining": 216
+      "days_remaining": 212
     },
     "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -37,6 +39,7 @@
     "Windows Server",
     "jQuery:2.2.4"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -56,13 +59,13 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "v=spf1 mx include:spf.mailanyone.net include:spf.protection.outlook.com -all",
-      "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY",
+      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM",
       "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
-      "_globalsign-domain-verification=3w0OJQu1c6RikTdRZO6cm5KQQ9FKmq6cTvu571r8Yx",
       "MS=ms68349820",
       "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
-      "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM"
+      "_globalsign-domain-verification=3w0OJQu1c6RikTdRZO6cm5KQQ9FKmq6cTvu571r8Yx",
+      "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY",
+      "v=spf1 mx include:spf.mailanyone.net include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],

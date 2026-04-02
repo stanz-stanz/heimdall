@@ -1,0 +1,288 @@
+{
+  "domain": "optidev.se",
+  "job_id": "scan-2026-04-02-be45d500",
+  "status": "completed",
+  "scan_result": {
+    "domain": "optidev.se",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-30",
+    "ssl_days_remaining": 89,
+    "detected_plugins": [
+      "redirection",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "wordpress-seo": "26.8"
+    },
+    "detected_themes": [
+      "optidev-2026"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP:8.4.19",
+      "WordPress Block Editor",
+      "WordPress:6.9.4",
+      "Yoast SEO:26.8",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:11:38.58511442Z",
+      "port": "443",
+      "url": "https://optidev.se",
+      "input": "optidev.se",
+      "title": "Optidev - Optidev",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "optidev.se",
+      "host_ip": "91.201.60.89",
+      "path": "/",
+      "final_url": "https://www.optidev.se/",
+      "time": "603.854656ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "91.201.60.89"
+      ],
+      "tech": [
+        "Google Tag Manager",
+        "HTTP/3",
+        "LiteSpeed",
+        "MySQL",
+        "PHP:8.4.19",
+        "WordPress Block Editor",
+        "WordPress:6.9.4",
+        "Yoast SEO:26.8",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 7314,
+      "lines": 277,
+      "status_code": 200,
+      "content_length": 69940,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "91.201.60.89"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "optidev-se.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.p201.dns.oraclecloud.net",
+        "ns2.p201.dns.oraclecloud.net",
+        "ns3.p201.dns.oraclecloud.net",
+        "ns4.p201.dns.oraclecloud.net"
+      ],
+      "txt": [
+        "ZOOM_verify_eucfe4GI8PyyeeJK0KPbBK",
+        "MS=ms82715743",
+        "have-i-been-pwned-verification=bfea378de0ed06038a21dc16b191a087",
+        "MS=ms53409548",
+        "v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com include:servers.mcsv.net include:amazonses.com include:_spf.atlassian.net include:_spf.salesforce.com -all",
+        "miro-verification=ed6de7f9f8d8dfd9fb2da8aeab0c9a93a2d49bb4",
+        "j5fm65s7gydhbfffn7xvkq2cn57w8kqy",
+        "7hr9vvg2bwdgdzhsbcdsd63jlp11ktnf",
+        "zrrcpzx8kx1c7811gc3kmq1ynn3k52gw",
+        "atlassian-domain-verification=X1duKbxrq8mXf2sVqBnh6HvK0RkEU0Oyzbin59ZDy36H3LXkOqQQh47eg4K7wuda",
+        "knowbe4-site-verification=fd5fc6c2816d33c00dc250e43d993091",
+        "apple-domain-verification=z9T6AEPzKn4iczNq",
+        "detectify-verification=76c68a18ecd25073a0fd50d5e4684841",
+        "anthropic-domain-verification-2vx4gn=PBUfoFWRYl4os1aqSu2d9ZmJ6"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "optidev.se",
+    "cvr": "prospect",
+    "company_name": "optidev.se",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-30",
+        "days_remaining": 89
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Redirection",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Wordpress Seo": "26.8"
+      },
+      "detected_themes": [
+        "Optidev 2026"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP:8.4.19",
+      "WordPress Block Editor",
+      "WordPress:6.9.4",
+      "Yoast SEO:26.8",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "wordpress-seo": "26.8"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "91.201.60.89"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "optidev-se.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.p201.dns.oraclecloud.net",
+        "ns2.p201.dns.oraclecloud.net",
+        "ns3.p201.dns.oraclecloud.net",
+        "ns4.p201.dns.oraclecloud.net"
+      ],
+      "txt": [
+        "ZOOM_verify_eucfe4GI8PyyeeJK0KPbBK",
+        "MS=ms82715743",
+        "have-i-been-pwned-verification=bfea378de0ed06038a21dc16b191a087",
+        "MS=ms53409548",
+        "v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com include:servers.mcsv.net include:amazonses.com include:_spf.atlassian.net include:_spf.salesforce.com -all",
+        "miro-verification=ed6de7f9f8d8dfd9fb2da8aeab0c9a93a2d49bb4",
+        "j5fm65s7gydhbfffn7xvkq2cn57w8kqy",
+        "7hr9vvg2bwdgdzhsbcdsd63jlp11ktnf",
+        "zrrcpzx8kx1c7811gc3kmq1ynn3k52gw",
+        "atlassian-domain-verification=X1duKbxrq8mXf2sVqBnh6HvK0RkEU0Oyzbin59ZDy36H3LXkOqQQh47eg4K7wuda",
+        "knowbe4-site-verification=fd5fc6c2816d33c00dc250e43d993091",
+        "apple-domain-verification=z9T6AEPzKn4iczNq",
+        "detectify-verification=76c68a18ecd25073a0fd50d5e4684841",
+        "anthropic-domain-verification-2vx4gn=PBUfoFWRYl4os1aqSu2d9ZmJ6"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "2 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.4.19",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Optidev 2026",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 26.8, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 425,
+    "ssl": 99,
+    "headers": 354,
+    "meta": 717,
+    "httpx": 2455,
+    "webanalyze": 4,
+    "dnsx": 1004,
+    "crtsh": 0,
+    "ghw": 173,
+    "total_ms": 5747
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

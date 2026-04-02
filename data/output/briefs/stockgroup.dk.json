@@ -1,0 +1,92 @@
+{
+  "domain": "stockgroup.dk",
+  "cvr": "prospect",
+  "company_name": "stockgroup.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "E",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
+  "industry": "",
+  "technology": {
+    "cms": "",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-06-23",
+      "days_remaining": 81
+    },
+    "server": "Vercel",
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    }
+  },
+  "tech_stack": [
+    "Adobe Fonts",
+    "HSTS",
+    "Next.js",
+    "Node.js",
+    "React",
+    "Typekit",
+    "Vercel",
+    "Webpack"
+  ],
+  "plugin_versions": {},
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "76.76.21.21"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "stockgroup-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns1.simply.com",
+      "ns2.simply.com",
+      "ns3.simply.com",
+      "ns4.simply.com"
+    ],
+    "txt": [
+      "google-site-verification=QQHfgtStpHLWhOx-Uq4NhmHCgeKuimuPRj0nkNzZP4g",
+      "klaviyo-site-verification=VS2NwY",
+      "MS=6BB29BD0653586C55CB37C257BE80BF27C24A5DB",
+      "v=spf1 include:spf.protection.outlook.com include:spf.simply.com include:spf-eu.emailsignatures365.com include:emsend1.com ~all",
+      "google-site-verification=bdTa308RIrAxyHrHfvFOITDUKwnAf3KQ09AmGrJR9SA",
+      "MS=msXXXXXXXX"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Content-Security-Policy header",
+      "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Frame-Options header",
+      "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: Node.js",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    }
+  ]
+}

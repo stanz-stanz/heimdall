@@ -2,10 +2,11 @@
   "domain": "frontpeople.dk",
   "cvr": "prospect",
   "company_name": "frontpeople.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce",
     "Visitor tracking: Google Analytics, Google Tag Manager"
   ],
   "industry": "",
@@ -16,12 +17,24 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-07",
-      "days_remaining": 37
+      "days_remaining": 35
     },
     "server": "LiteSpeed",
     "detected_plugins": [
+      "Sitepress Multilingual Cms",
       "Wp Rocket",
-      "Sitepress Multilingual Cms"
+      "Woocommerce",
+      "Divi Builder",
+      "Redirection",
+      "Wordfence",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Wordpress Seo": "26.1"
+    },
+    "detected_themes": [
+      "Divi",
+      "Frontpeople"
     ],
     "headers": {
       "x_frame_options": false,
@@ -47,6 +60,9 @@
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "wordpress-seo": "26.1"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -67,10 +83,10 @@
       "ns4.bdm.microsoftonline.com"
     ],
     "txt": [
-      "mscid=ywwnBejCcKNsQuLhmd4DIEZLR8tNBJnesvu4Vm4lwQnJYkBb/hQpJBpbF7VAeCp++XGBdlQVvHoMpwMlloLQeQ==",
-      "v=spf1 ip4:13.80.77.98 ip4:52.236.181.21 ip4:93.176.77.58 ip4:188.180.173.10 ip4:185.21.42.106 ip4:5.9.88.241 ip4:5.9.88.208 ip4:52.233.138.221 include:spf.protection.outlook.com include:emsd1.com -all",
+      "google-site-verification=y7hkIhyZe9uhZsfZJ4PWt6GRtftt76gL-4e0w7nKdbM",
       "MS=ms46409551",
-      "google-site-verification=y7hkIhyZe9uhZsfZJ4PWt6GRtftt76gL-4e0w7nKdbM"
+      "v=spf1 ip4:13.80.77.98 ip4:52.236.181.21 ip4:93.176.77.58 ip4:188.180.173.10 ip4:185.21.42.106 ip4:5.9.88.241 ip4:5.9.88.208 ip4:52.233.138.221 include:spf.protection.outlook.com include:emsd1.com -all",
+      "mscid=ywwnBejCcKNsQuLhmd4DIEZLR8tNBJnesvu4Vm4lwQnJYkBb/hQpJBpbF7VAeCp++XGBdlQVvHoMpwMlloLQeQ=="
     ]
   },
   "cloud_exposure": [],
@@ -101,14 +117,97 @@
       "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
     },
     {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
       "severity": "info",
-      "description": "2 WordPress plugins detected",
+      "description": "7 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Divi, Frontpeople",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 26.1, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "critical",
+      "description": "WPML [sitepress-multilingual-cms] < 4.6.13 (CVE-2024-6386)",
+      "risk": "CVE-2024-6386: WordPress Multilingual CMS Plugin <= 4.6.12 is vulnerable to Remote Code Execution (RCE)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-6386",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28044",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+      "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-35945",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 161,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

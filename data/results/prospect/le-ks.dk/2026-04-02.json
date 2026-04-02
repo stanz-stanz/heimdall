@@ -1,0 +1,230 @@
+{
+  "domain": "le-ks.dk",
+  "job_id": "scan-2026-04-02-3107c3c8",
+  "status": "completed",
+  "scan_result": {
+    "domain": "le-ks.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-29",
+    "ssl_days_remaining": 88,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [
+      "shapely"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Colorlib Shapely",
+      "Google Analytics",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "WordPress:4.9.26",
+      "jQuery",
+      "jQuery Migrate:1.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:04:02.719203238Z",
+      "port": "443",
+      "url": "https://le-ks.dk",
+      "input": "le-ks.dk",
+      "title": "Vores ekspertise ligger inden for entreprenør- og kloakopgaver som vi udfører på Sjælland, Fyn og Jylland.",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "le-ks.dk",
+      "host_ip": "46.4.208.59",
+      "path": "/",
+      "time": "260.733824ms",
+      "a": [
+        "46.4.208.59"
+      ],
+      "tech": [
+        "Colorlib Shapely",
+        "Google Analytics",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "MySQL",
+        "PHP",
+        "WordPress:4.9.26",
+        "jQuery",
+        "jQuery Migrate:1.4.1"
+      ],
+      "words": 1014,
+      "lines": 209,
+      "status_code": 200,
+      "content_length": 18224,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "wordpress": {
+        "themes": [
+          "shapely"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.4.208.59"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "leks-dk0e.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.bdm.microsoftonline.com",
+        "ns2.bdm.microsoftonline.com",
+        "ns3.bdm.microsoftonline.com",
+        "ns4.bdm.microsoftonline.com"
+      ],
+      "txt": [
+        "mscid=d2Pm8QEeWg95vgHg2O205uRaHFXyjcBQad+zo36vNe6GEnSRf3hKlE3G3CZjqIgTUQjYY4tkkCYN+SZkTgsXyA==",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "le-ks.dk",
+    "cvr": "prospect",
+    "company_name": "le-ks.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-29",
+        "days_remaining": 88
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [
+        "Shapely"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Colorlib Shapely",
+      "Google Analytics",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "WordPress:4.9.26",
+      "jQuery",
+      "jQuery Migrate:1.4.1"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.4.208.59"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "leks-dk0e.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.bdm.microsoftonline.com",
+        "ns2.bdm.microsoftonline.com",
+        "ns3.bdm.microsoftonline.com",
+        "ns4.bdm.microsoftonline.com"
+      ],
+      "txt": [
+        "mscid=d2Pm8QEeWg95vgHg2O205uRaHFXyjcBQad+zo36vNe6GEnSRf3hKlE3G3CZjqIgTUQjYY4tkkCYN+SZkTgsXyA==",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 4.9.26 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Shapely",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 615,
+    "ssl": 119,
+    "headers": 193,
+    "meta": 459,
+    "httpx": 1941,
+    "webanalyze": 4,
+    "dnsx": 757,
+    "crtsh": 0,
+    "ghw": 238,
+    "total_ms": 4840
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "domain": "horseworld.dk",
+  "job_id": "scan-2026-04-02-1f190997",
+  "status": "completed",
+  "scan_result": {
+    "domain": "horseworld.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-28",
+    "ssl_days_remaining": 87,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "DanDomain",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "SmartWeb"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:55:17.875404203Z",
+      "port": "443",
+      "url": "https://horseworld.dk",
+      "input": "horseworld.dk",
+      "title": "Forside - Horseworld Rideudstyr",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "horseworld.dk",
+      "host_ip": "185.221.38.34",
+      "path": "/",
+      "time": "624.23392ms",
+      "a": [
+        "185.221.38.34"
+      ],
+      "tech": [
+        "DanDomain",
+        "Google Analytics",
+        "Google Tag Manager",
+        "HSTS",
+        "Nginx",
+        "PHP",
+        "SmartWeb"
+      ],
+      "words": 79800,
+      "lines": 3132,
+      "status_code": 200,
+      "content_length": 283981,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.34"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.mailcluster.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.shopfactory.io include:spf.dandomain.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "horseworld.dk",
+    "cvr": "prospect",
+    "company_name": "horseworld.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-28",
+        "days_remaining": 87
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "DanDomain",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "SmartWeb"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.34"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.mailcluster.dk"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.shopfactory.io include:spf.dandomain.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 95,
+    "ssl": 66,
+    "headers": 402,
+    "meta": 388,
+    "httpx": 3531,
+    "webanalyze": 4,
+    "dnsx": 778,
+    "crtsh": 0,
+    "ghw": 200,
+    "total_ms": 5477
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "oase-outdoors.dk",
   "cvr": "prospect",
   "company_name": "oase-outdoors.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,10 +14,12 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-09-11",
-      "days_remaining": 165
+      "days_remaining": 162
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -30,6 +32,7 @@
     "Lightbox",
     "Typekit"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -49,8 +52,8 @@
     ],
     "txt": [
       "have-i-been-pwned-verification=dweb_5in1lzgk0qh7ych9axtrndss",
-      "MS=ms54366785",
-      "v=spf1 ip4:93.176.83.162 include:spf.comendosystems.com include:spf.protection.outlook.com include:mailgun.org -all"
+      "v=spf1 ip4:93.176.83.162 include:spf.comendosystems.com include:spf.protection.outlook.com include:mailgun.org -all",
+      "MS=ms54366785"
     ]
   },
   "cloud_exposure": [],

@@ -1,0 +1,186 @@
+{
+  "domain": "lhm.dk",
+  "job_id": "scan-2026-04-02-c595687c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "lhm.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-12",
+    "ssl_days_remaining": 70,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics",
+      "HSTS",
+      "Weply",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:04:13.142116861Z",
+      "port": "443",
+      "url": "https://lhm.dk",
+      "input": "lhm.dk",
+      "title": "Forside",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "lhm.dk",
+      "host_ip": "185.21.41.61",
+      "path": "/",
+      "final_url": "https://www.lhm.dk/",
+      "time": "2.078096038s",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "185.21.41.61"
+      ],
+      "tech": [
+        "Cookiebot",
+        "Google Analytics",
+        "HSTS",
+        "Weply",
+        "jQuery"
+      ],
+      "words": 46928,
+      "lines": 1610,
+      "status_code": 200,
+      "content_length": 103131,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.41.61"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "lhm-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=ms89493526",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "lhm.dk",
+    "cvr": "prospect",
+    "company_name": "lhm.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-12",
+        "days_remaining": 70
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics",
+      "HSTS",
+      "Weply",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.41.61"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "lhm-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "MS=ms89493526",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 213,
+    "ssl": 78,
+    "headers": 2333,
+    "meta": 2199,
+    "httpx": 4085,
+    "webanalyze": 4,
+    "dnsx": 766,
+    "total_ms": 9686
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

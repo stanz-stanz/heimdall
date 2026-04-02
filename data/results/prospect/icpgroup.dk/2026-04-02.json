@@ -1,0 +1,631 @@
+{
+  "domain": "icpgroup.dk",
+  "job_id": "scan-2026-04-02-e2cd57b9",
+  "status": "completed",
+  "scan_result": {
+    "domain": "icpgroup.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-14",
+    "ssl_days_remaining": 41,
+    "detected_plugins": [
+      "header-footer-elementor",
+      "wp-job-openings",
+      "seo-by-rank-math-pro",
+      "latepoint",
+      "the-post-grid",
+      "elementor",
+      "ultimate-elementor",
+      "wpforms-lite",
+      "elementor-pro",
+      "astra-addon",
+      "astra-pro-sites",
+      "woocommerce",
+      "seo-by-rank-math",
+      "wordfence"
+    ],
+    "plugin_versions": {
+      "header-footer-elementor": "2.8.6",
+      "latepoint": "5.1.94",
+      "the-post-grid": "7.9.0",
+      "wp-job-openings": "3.6.0",
+      "elementor": "5.48.0",
+      "ultimate-elementor": "1.44.1",
+      "wpforms-lite": "1.10.0.2",
+      "elementor-pro": "4.0.0",
+      "astra-addon": "4.12.4"
+    },
+    "detected_themes": [
+      "astra"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Elementor:4.0.1",
+      "Font Awesome",
+      "Google Analytics",
+      "HSTS",
+      "MySQL",
+      "Nginx",
+      "PHP:8.2.30",
+      "WP Job Openings:3.6.0",
+      "WordPress:6.9.4",
+      "imagesLoaded:5.0.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:56:06.737243388Z",
+      "port": "443",
+      "url": "https://icpgroup.dk",
+      "input": "icpgroup.dk",
+      "title": "ICP Group | Private Equity Capital Firm",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "icpgroup.dk",
+      "host_ip": "85.10.220.233",
+      "path": "/",
+      "time": "1.342722679s",
+      "a": [
+        "85.10.220.233"
+      ],
+      "tech": [
+        "Elementor:4.0.1",
+        "Font Awesome",
+        "Google Analytics",
+        "HSTS",
+        "MySQL",
+        "Nginx",
+        "PHP:8.2.30",
+        "WP Job Openings:3.6.0",
+        "WordPress:6.9.4",
+        "imagesLoaded:5.0.0",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 10128,
+      "lines": 1276,
+      "status_code": 200,
+      "content_length": 302605,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "header-footer-elementor",
+          "wp-job-openings",
+          "the-post-grid",
+          "elementor",
+          "wpforms-lite"
+        ],
+        "themes": [
+          "astra"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "85.10.220.233"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "icpgroup-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "apple-domain-verification=E1KjcpXt2cUHc8Np",
+        "MS=ms94585817",
+        "mailerlite-domain-verification=f576da3641dcaa549cf715036f5839de66dc406c",
+        "v=spf1 include:_spf.mlsend.com a mx ip4:87.52.100.208 include:spf.protection.outlook.com include:_spf.odoo.com -all",
+        "1password-site-verification=XJT4CZ5P6ZEMZH22E7VFIXVSQY"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "icpgroup.dk",
+    "cvr": "prospect",
+    "company_name": "icpgroup.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce",
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-14",
+        "days_remaining": 41
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Header Footer Elementor",
+        "Wp Job Openings",
+        "Seo By Rank Math Pro",
+        "Latepoint",
+        "The Post Grid",
+        "Elementor",
+        "Ultimate Elementor",
+        "Wpforms Lite",
+        "Elementor Pro",
+        "Astra Addon",
+        "Astra Pro Sites",
+        "Woocommerce",
+        "Seo By Rank Math",
+        "Wordfence"
+      ],
+      "plugin_versions": {
+        "Header Footer Elementor": "2.8.6",
+        "Latepoint": "5.1.94",
+        "The Post Grid": "7.9.0",
+        "Wp Job Openings": "3.6.0",
+        "Elementor": "5.48.0",
+        "Ultimate Elementor": "1.44.1",
+        "Wpforms Lite": "1.10.0.2",
+        "Elementor Pro": "4.0.0",
+        "Astra Addon": "4.12.4"
+      },
+      "detected_themes": [
+        "Astra"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Elementor:4.0.1",
+      "Font Awesome",
+      "Google Analytics",
+      "HSTS",
+      "MySQL",
+      "Nginx",
+      "PHP:8.2.30",
+      "WP Job Openings:3.6.0",
+      "WordPress:6.9.4",
+      "imagesLoaded:5.0.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "header-footer-elementor": "2.8.6",
+      "latepoint": "5.1.94",
+      "the-post-grid": "7.9.0",
+      "wp-job-openings": "3.6.0",
+      "elementor": "5.48.0",
+      "ultimate-elementor": "1.44.1",
+      "wpforms-lite": "1.10.0.2",
+      "elementor-pro": "4.0.0",
+      "astra-addon": "4.12.4"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "85.10.220.233"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "icpgroup-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "apple-domain-verification=E1KjcpXt2cUHc8Np",
+        "MS=ms94585817",
+        "mailerlite-domain-verification=f576da3641dcaa549cf715036f5839de66dc406c",
+        "v=spf1 include:_spf.mlsend.com a mx ip4:87.52.100.208 include:spf.protection.outlook.com include:_spf.odoo.com -all",
+        "1password-site-verification=XJT4CZ5P6ZEMZH22E7VFIXVSQY"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "14 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.2.30",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Astra",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Latepoint (installed 5.1.94, latest 5.3.2)",
+        "risk": "The installed version of Latepoint is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO PRO [seo-by-rank-math-pro] < 3.0.36 (CVE-2023-32800)",
+        "risk": "CVE-2023-32800: WordPress  Rank Math SEO PRO Plugin  <= 3.0.35 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-32800",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO PRO [seo-by-rank-math-pro] <= 3.0.95 (unfixed) (CVE-2026-28080)",
+        "risk": "CVE-2026-28080: Rank Math SEO PRO [seo-by-rank-math-pro] <= 3.0.95 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28080",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-6815)",
+        "risk": "CVE-2025-6815: EUVD-2025-31705",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-6815",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-6941)",
+        "risk": "CVE-2025-6941: EUVD-2025-31704",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-6941",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-7038)",
+        "risk": "CVE-2025-7038: EUVD-2025-31703",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-7038",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-7052)",
+        "risk": "CVE-2025-7052: EUVD-2025-31702",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-7052",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.6 (CVE-2025-14873)",
+        "risk": "CVE-2025-14873: LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.6",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-14873",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] >= 1.8.4 - <= 1.9.2.1 (CVE-2024-11205)",
+        "risk": "CVE-2024-11205: WPForms 1.8.4 - 1.9.2.1 - Missing Authorization to Authenticated (Subscriber+) Payment Refund and Subscription Cancellation",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-11205",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed) (CVE-2020-36919)",
+        "risk": "CVE-2020-36919: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-36919",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed) (CVE-2026-32446)",
+        "risk": "CVE-2026-32446: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32446",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed) (CVE-2026-25339)",
+        "risk": "CVE-2026-25339: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-25339",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Starter Templates Pro [astra-pro-sites] < 3.2.5 (CVE-2023-41804)",
+        "risk": "CVE-2023-41804: Starter Templates <= 3.2.4 - Authenticated (Contributor+) Server-Side Request Forgery",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-41804",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Starter Templates Pro [astra-pro-sites] < 3.2.5 (CVE-2023-34370)",
+        "risk": "CVE-2023-34370: Starter Templates Pro [astra-pro-sites] < 3.2.5",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-34370",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
+        "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-23888",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
+        "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-9314",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
+        "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-11620",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
+        "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64351",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
+        "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64350",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-02",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 850,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 3197,
+    "ssl": 87,
+    "headers": 952,
+    "meta": 2396,
+    "httpx": 4577,
+    "webanalyze": 4,
+    "dnsx": 810,
+    "crtsh": 0,
+    "ghw": 187,
+    "total_ms": 16135
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

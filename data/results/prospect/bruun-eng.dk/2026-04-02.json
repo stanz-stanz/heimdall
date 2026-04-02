@@ -1,0 +1,184 @@
+{
+  "domain": "bruun-eng.dk",
+  "job_id": "scan-2026-04-02-48754d6a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "bruun-eng.dk",
+    "cms": "",
+    "server": "openresty",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-26",
+    "ssl_days_remaining": 85,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "BaseKit",
+      "Nginx",
+      "OpenResty"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:38:07.306928807Z",
+      "port": "443",
+      "url": "https://bruun-eng.dk",
+      "input": "bruun-eng.dk",
+      "title": "Home Page",
+      "scheme": "https",
+      "webserver": "openresty",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "bruun-eng.dk",
+      "host_ip": "212.237.249.12",
+      "path": "/",
+      "time": "139.597183ms",
+      "a": [
+        "212.237.249.12"
+      ],
+      "tech": [
+        "BaseKit",
+        "Nginx",
+        "OpenResty"
+      ],
+      "words": 15458,
+      "lines": 1178,
+      "status_code": 200,
+      "content_length": 101635,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "212.237.249.12"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bruuneng-dk01c.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "MS=ms76305978"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "bruun-eng.dk",
+    "cvr": "prospect",
+    "company_name": "bruun-eng.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-26",
+        "days_remaining": 85
+      },
+      "server": "openresty",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "BaseKit",
+      "Nginx",
+      "OpenResty"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "212.237.249.12"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bruuneng-dk01c.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "MS=ms76305978"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 109,
+    "ssl": 70,
+    "headers": 280,
+    "meta": 115,
+    "httpx": 2045,
+    "webanalyze": 4,
+    "dnsx": 817,
+    "crtsh": 0,
+    "ghw": 343,
+    "total_ms": 3792
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

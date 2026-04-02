@@ -2,12 +2,12 @@
   "domain": "faldt.dk",
   "cvr": "prospect",
   "company_name": "faldt.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
     "Data-handling plugins: Woocommerce",
-    "E-commerce plugin: WooCommerce:10.6.1",
+    "E-commerce plugin: WooCommerce:10.6.2",
     "Visitor tracking: Google Analytics"
   ],
   "industry": "",
@@ -18,12 +18,24 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-31",
-      "days_remaining": 61
+      "days_remaining": 58
     },
     "server": "Apache",
     "detected_plugins": [
       "Vfb Pro",
-      "Woocommerce"
+      "Woocommerce",
+      "Wordfence",
+      "Wordpress Seo",
+      "Jetpack",
+      "Google Analytics For Wordpress"
+    ],
+    "plugin_versions": {
+      "Vfb Pro": "2019.05.10",
+      "Woocommerce": "10.6.2",
+      "Wordpress Seo": "27.3"
+    },
+    "detected_themes": [
+      "Faldt"
     ],
     "headers": {
       "x_frame_options": false,
@@ -42,12 +54,17 @@
     "PHP",
     "Slick",
     "Typekit",
-    "WooCommerce:10.6.1",
+    "WooCommerce:10.6.2",
     "WordPress:6.9.4",
-    "Yoast SEO:27.2",
+    "Yoast SEO:27.3",
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "vfb-pro": "2019.05.10",
+    "woocommerce": "10.6.2",
+    "wordpress-seo": "27.3"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -99,13 +116,86 @@
     },
     {
       "severity": "info",
-      "description": "2 WordPress plugins detected",
+      "description": "6 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Faldt",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
+      "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2329",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
+      "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
+      "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-54332",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 143,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

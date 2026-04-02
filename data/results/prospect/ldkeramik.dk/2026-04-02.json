@@ -1,0 +1,192 @@
+{
+  "domain": "ldkeramik.dk",
+  "job_id": "scan-2026-04-02-8f7dbf4e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "ldkeramik.dk",
+    "cms": "",
+    "server": "nginx/1.24.0",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-10",
+    "ssl_days_remaining": 38,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Bricksite",
+      "Google Font API",
+      "Google Hosted Libraries",
+      "Nginx:1.24.0"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:03:41.32347825Z",
+      "cdn_name": "aws",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://ldkeramik.dk",
+      "input": "ldkeramik.dk",
+      "title": "De skæve hjerners værksted",
+      "scheme": "https",
+      "webserver": "nginx/1.24.0",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "ldkeramik.dk",
+      "host_ip": "63.34.241.49",
+      "path": "/",
+      "final_url": "https://skaevehjerner.dk/",
+      "time": "528.034559ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "63.34.241.49"
+      ],
+      "tech": [
+        "Bricksite",
+        "Google Font API",
+        "Google Hosted Libraries",
+        "Nginx:1.24.0"
+      ],
+      "words": 714,
+      "lines": 21,
+      "status_code": 200,
+      "content_length": 11127,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "63.34.241.49"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.ldkeramik.dk.cust.a.hostedemail.com"
+      ],
+      "ns": [
+        "ns7.bricksite.net",
+        "ns8.bricksite.net"
+      ],
+      "txt": [
+        "v=spf1 include:_spf.hostedemail.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "ldkeramik.dk",
+    "cvr": "prospect",
+    "company_name": "ldkeramik.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-10",
+        "days_remaining": 38
+      },
+      "server": "nginx/1.24.0",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Bricksite",
+      "Google Font API",
+      "Google Hosted Libraries",
+      "Nginx:1.24.0"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "63.34.241.49"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.ldkeramik.dk.cust.a.hostedemail.com"
+      ],
+      "ns": [
+        "ns7.bricksite.net",
+        "ns8.bricksite.net"
+      ],
+      "txt": [
+        "v=spf1 include:_spf.hostedemail.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 412,
+    "ssl": 117,
+    "headers": 379,
+    "meta": 382,
+    "httpx": 1998,
+    "webanalyze": 4,
+    "dnsx": 791,
+    "crtsh": 0,
+    "ghw": 219,
+    "total_ms": 4313
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

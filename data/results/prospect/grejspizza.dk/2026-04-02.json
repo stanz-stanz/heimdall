@@ -1,0 +1,236 @@
+{
+  "domain": "grejspizza.dk",
+  "job_id": "scan-2026-04-02-36ccc054",
+  "status": "completed",
+  "scan_result": {
+    "domain": "grejspizza.dk",
+    "cms": "",
+    "server": "Apache",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-18",
+    "ssl_days_remaining": 45,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootstrap:5.1.1",
+      "Cloudflare",
+      "Google Maps",
+      "Lightbox",
+      "Onsen UI",
+      "Osano:3.1.1",
+      "PHP",
+      "RawGit",
+      "Semantic UI",
+      "Slick",
+      "cdnjs",
+      "jQuery CDN",
+      "jQuery:1.11.1",
+      "jsDelivr"
+    ],
+    "meta_author": "eRestaurant - www.erestaurant.dk",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:52:40.725419778Z",
+      "port": "443",
+      "url": "https://grejspizza.dk",
+      "input": "grejspizza.dk",
+      "title": "Grejs Pizza Pizza i Vejle - Pizza Restaurant - Online Bestilling | FORSIDE",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "grejspizza.dk",
+      "host_ip": "139.162.165.23",
+      "path": "/",
+      "time": "415.326258ms",
+      "a": [
+        "139.162.165.23"
+      ],
+      "aaaa": [
+        "2a01:7e01::f03c:91ff:fe79:3c1"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Bootstrap:5.1.1",
+        "Cloudflare",
+        "Google Maps",
+        "Lightbox",
+        "Onsen UI",
+        "Osano:3.1.1",
+        "PHP",
+        "RawGit",
+        "Semantic UI",
+        "Slick",
+        "cdnjs",
+        "jQuery CDN",
+        "jQuery:1.11.1",
+        "jsDelivr"
+      ],
+      "words": 27304,
+      "lines": 1041,
+      "status_code": 200,
+      "content_length": 65403,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "139.162.165.23"
+      ],
+      "aaaa": [
+        "2a01:7e01::f03c:91ff:fe79:3c1"
+      ],
+      "cname": [],
+      "mx": [
+        "mail.grejspizza.dk"
+      ],
+      "ns": [
+        "ns1.linode.com",
+        "ns2.linode.com",
+        "ns3.linode.com",
+        "ns4.linode.com",
+        "ns5.linode.com"
+      ],
+      "txt": [
+        "v=spf1 a mx ip4:109.123.109.148 ip4:139.162.165.23 include:spf.smtp2go.com include:sendgrid.net include:sparkpostmail.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "grejspizza.dk",
+    "cvr": "prospect",
+    "company_name": "grejspizza.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-18",
+        "days_remaining": 45
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootstrap:5.1.1",
+      "Cloudflare",
+      "Google Maps",
+      "Lightbox",
+      "Onsen UI",
+      "Osano:3.1.1",
+      "PHP",
+      "RawGit",
+      "Semantic UI",
+      "Slick",
+      "cdnjs",
+      "jQuery CDN",
+      "jQuery:1.11.1",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "139.162.165.23"
+      ],
+      "aaaa": [
+        "2a01:7e01::f03c:91ff:fe79:3c1"
+      ],
+      "cname": [],
+      "mx": [
+        "mail.grejspizza.dk"
+      ],
+      "ns": [
+        "ns1.linode.com",
+        "ns2.linode.com",
+        "ns3.linode.com",
+        "ns4.linode.com",
+        "ns5.linode.com"
+      ],
+      "txt": [
+        "v=spf1 a mx ip4:109.123.109.148 ip4:139.162.165.23 include:spf.smtp2go.com include:sendgrid.net include:sparkpostmail.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 133,
+    "ssl": 103,
+    "headers": 521,
+    "meta": 282,
+    "httpx": 2486,
+    "webanalyze": 3,
+    "dnsx": 5478,
+    "crtsh": 0,
+    "ghw": 453,
+    "total_ms": 9468
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

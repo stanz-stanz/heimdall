@@ -2,7 +2,7 @@
   "domain": "helenekilde.com",
   "cvr": "prospect",
   "company_name": "helenekilde.com",
-  "scan_date": "2026-03-29",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,16 +17,30 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-01",
-      "days_remaining": 63
+      "days_remaining": 59
     },
     "server": "nginx",
     "detected_plugins": [
+      "Gp Premium",
+      "Bbh Multisite Language",
+      "Wpnordic Snapnote",
       "Wpnordic Cookie Care",
       "Wp Rocket",
-      "Wpnordic Snapnote",
-      "Gp Premium",
       "Gravityforms",
-      "Bbh Multisite Language"
+      "Redirection",
+      "Wordfence"
+    ],
+    "plugin_versions": {
+      "Bbh Multisite Language": "1770718994",
+      "Wpnordic Snapnote": "1770718994",
+      "Wpnordic Cookie Care": "1770718994",
+      "Gp Premium": "2.5.5",
+      "Wp Rocket": "3.20.6.1",
+      "Gravityforms": "2.9.30"
+    },
+    "detected_themes": [
+      "Hotelsanders",
+      "Generatepress"
     ],
     "headers": {
       "x_frame_options": false,
@@ -55,6 +69,14 @@
     "jQuery",
     "jQuery Migrate:3.4.1"
   ],
+  "plugin_versions": {
+    "bbh-multisite-language": "1770718994",
+    "wpnordic-snapnote": "1770718994",
+    "wpnordic-cookie-care": "1770718994",
+    "gp-premium": "2.5.5",
+    "wp-rocket": "3.20.6.1",
+    "gravityforms": "2.9.30"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -73,9 +95,9 @@
       "ns2.brandbyhand.dk"
     ],
     "txt": [
+      "v=spf1 include:spf.protection.outlook.com include:spf.hostingconnection.eu include:mailgun.org ~all",
       "google-site-verification=GM5uwgkvcP8_zWO7Py8wkC-0ydn30IVHDNj8kF8XfrY",
-      "globalsign-domain-verification=LUafWkHIf8C9-TVW2nVcifU88X8I1cf45IX57SEr0C",
-      "v=spf1 include:spf.protection.outlook.com include:spf.hostingconnection.eu include:mailgun.org ~all"
+      "globalsign-domain-verification=LUafWkHIf8C9-TVW2nVcifU88X8I1cf45IX57SEr0C"
     ]
   },
   "cloud_exposure": [],
@@ -112,13 +134,50 @@
     },
     {
       "severity": "info",
-      "description": "6 WordPress plugins detected",
+      "description": "8 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP:8.3.30",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Hotelsanders, Generatepress",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28044",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
+      "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2260",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 830,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

@@ -1,0 +1,180 @@
+{
+  "domain": "optimasport.dk",
+  "job_id": "scan-2026-04-02-82cb6778",
+  "status": "completed",
+  "scan_result": {
+    "domain": "optimasport.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-21",
+    "ssl_days_remaining": 80,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cookiebot",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "OWL Carousel",
+      "Returnflows",
+      "Shopify",
+      "Slick:1.9.0",
+      "Tolstoy",
+      "cdnjs",
+      "jQuery:3.7.1",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "Propel Subscriptions",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:11:46.916472055Z",
+      "port": "443",
+      "url": "https://optimasport.dk",
+      "input": "optimasport.dk",
+      "title": "Optima Sport - Restituer hurtigt og forebyg skader",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "optimasport.dk",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "time": "648.31068ms",
+      "a": [
+        "23.227.38.65"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cookiebot",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo",
+        "OWL Carousel",
+        "Returnflows",
+        "Shopify",
+        "Slick:1.9.0",
+        "Tolstoy",
+        "cdnjs",
+        "jQuery:3.7.1",
+        "jsDelivr"
+      ],
+      "words": 125042,
+      "lines": 12389,
+      "status_code": 200,
+      "content_length": 835249,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ur5x_firmware",
+          "vendor": "milesight",
+          "cpe": "cpe:2.3:a:milesight:ur5x_firmware:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ur51",
+          "vendor": "milesight",
+          "cpe": "cpe:2.3:a:milesight:ur51:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "optimasport.dk",
+    "cvr": "prospect",
+    "company_name": "optimasport.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify",
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-21",
+        "days_remaining": 80
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cookiebot",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "OWL Carousel",
+      "Returnflows",
+      "Shopify",
+      "Slick:1.9.0",
+      "Tolstoy",
+      "cdnjs",
+      "jQuery:3.7.1",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 213,
+    "ssl": 80,
+    "headers": 1076,
+    "meta": 379,
+    "httpx": 6990,
+    "webanalyze": 3,
+    "total_ms": 8757
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

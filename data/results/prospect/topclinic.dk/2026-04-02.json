@@ -1,0 +1,181 @@
+{
+  "domain": "topclinic.dk",
+  "job_id": "scan-2026-04-02-c5e61d9f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "topclinic.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-14",
+    "ssl_days_remaining": 72,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "OWL Carousel",
+      "jQuery Migrate:3.1.0",
+      "jQuery UI",
+      "jQuery:3.4.1",
+      "nopCommerce"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T09:22:40.201038775Z",
+      "port": "443",
+      "url": "https://topclinic.dk",
+      "input": "topclinic.dk",
+      "title": "TOP CLINIC - Kosmetolog, Hudplejeklinik & Skønhedssalon i Vejle",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "topclinic.dk",
+      "host_ip": "185.21.40.9",
+      "path": "/",
+      "time": "1.649232337s",
+      "a": [
+        "185.21.40.9"
+      ],
+      "tech": [
+        "Google Analytics",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "OWL Carousel",
+        "jQuery Migrate:3.1.0",
+        "jQuery UI",
+        "jQuery:3.4.1",
+        "nopCommerce"
+      ],
+      "words": 10981,
+      "lines": 1,
+      "status_code": 200,
+      "content_length": 146696,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.40.9"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.onlinemail.io",
+        "mx1.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=kCsGYUfZvm_KSPRxH6jC1g0bU3uR44BStbcKR7zIQHE",
+        "v=spf1 include:spf.curanet.dk ?all"
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "topclinic.dk",
+    "cvr": "prospect",
+    "company_name": "topclinic.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-14",
+        "days_remaining": 72
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "OWL Carousel",
+      "jQuery Migrate:3.1.0",
+      "jQuery UI",
+      "jQuery:3.4.1",
+      "nopCommerce"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.40.9"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.onlinemail.io",
+        "mx1.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=kCsGYUfZvm_KSPRxH6jC1g0bU3uR44BStbcKR7zIQHE",
+        "v=spf1 include:spf.curanet.dk ?all"
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 137,
+    "ssl": 77,
+    "headers": 1558,
+    "meta": 1674,
+    "httpx": 4490,
+    "webanalyze": 4,
+    "dnsx": 851,
+    "crtsh": 0,
+    "ghw": 230,
+    "total_ms": 9032
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "domain": "casinomunkebjerg.dk",
+  "job_id": "scan-2026-04-02-524d62f1",
+  "status": "completed",
+  "scan_result": {
+    "domain": "casinomunkebjerg.dk",
+    "cms": "Drupal",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Sectigo Limited",
+    "ssl_expiry": "2026-12-04",
+    "ssl_days_remaining": 246,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    },
+    "tech_stack": [
+      "Campaign Monitor",
+      "Drupal",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-02T08:39:11.439791587Z",
+      "port": "443",
+      "url": "https://casinomunkebjerg.dk",
+      "input": "casinomunkebjerg.dk",
+      "title": "Casino Munkebjerg | Casino Vejle - Danmarks hyggeligste kasino",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "casinomunkebjerg.dk",
+      "host_ip": "84.16.234.46",
+      "path": "/",
+      "time": "339.06855ms",
+      "a": [
+        "84.16.234.46"
+      ],
+      "tech": [
+        "Campaign Monitor",
+        "Drupal",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "PHP"
+      ],
+      "words": 9761,
+      "lines": 585,
+      "status_code": 200,
+      "content_length": 52582,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "84.16.234.46"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "casinomunkebjerg-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.komunikado.dk",
+        "ns2.komunikado.dk",
+        "ns3.komunikado.dk"
+      ],
+      "txt": [
+        "_39zc5o1t8848qk04y4pcm5a1z1k5pm5",
+        "_4dcj84me0v2v831mxfydeu69eea18iy",
+        "_globalsign-domain-verification=hZileiM3Js32teesVr85VFZ9AhC3q5vjNbBaj19ohr",
+        "Kw92AfYz/ZhHPnELFRW3nBqjo3i+4Chi/OxW11OWpnc=",
+        "_globalsign-domain-verification=7dUqEmLrwkrniPZFiFgf3xN4Pc-ZaixfebtybOh892",
+        "_8otq49k2gnvtp6l4gdu3wpz3cu1cmpz",
+        "MS=F0ED76ACA43494D6A8508BED9445BD09CC9805A1",
+        "MS=ms27970112",
+        "bjod5iK86QL/vZ+wGpBBSH940t7WV4iEJReVH/YEKfg=",
+        "v=spf1 a mx ip4:144.76.98.53 ip4:91.235.232.0/24 ip4:78.153.187.18 include:_spf.createsend.com include:spf.protection.outlook.com include:mailmailmail.net -all",
+        "qZ3jLVC+vyf7IbMajmYnhoOWj0KYGNBCS89hkxT8q80mKhvOMD2zvEzbdLpzooaEEdwNxuLXI08RY6kul8V5uA=="
+      ]
+    },
+    "ct_certificates": [],
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "casinomunkebjerg.dk",
+    "cvr": "prospect",
+    "company_name": "casinomunkebjerg.dk",
+    "scan_date": "2026-04-02",
+    "bucket": "B",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Drupal",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Sectigo Limited",
+        "expiry": "2026-12-04",
+        "days_remaining": 246
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true
+      }
+    },
+    "tech_stack": [
+      "Campaign Monitor",
+      "Drupal",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "PHP"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "84.16.234.46"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "casinomunkebjerg-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.komunikado.dk",
+        "ns2.komunikado.dk",
+        "ns3.komunikado.dk"
+      ],
+      "txt": [
+        "_39zc5o1t8848qk04y4pcm5a1z1k5pm5",
+        "_4dcj84me0v2v831mxfydeu69eea18iy",
+        "_globalsign-domain-verification=hZileiM3Js32teesVr85VFZ9AhC3q5vjNbBaj19ohr",
+        "Kw92AfYz/ZhHPnELFRW3nBqjo3i+4Chi/OxW11OWpnc=",
+        "_globalsign-domain-verification=7dUqEmLrwkrniPZFiFgf3xN4Pc-ZaixfebtybOh892",
+        "_8otq49k2gnvtp6l4gdu3wpz3cu1cmpz",
+        "MS=F0ED76ACA43494D6A8508BED9445BD09CC9805A1",
+        "MS=ms27970112",
+        "bjod5iK86QL/vZ+wGpBBSH940t7WV4iEJReVH/YEKfg=",
+        "v=spf1 a mx ip4:144.76.98.53 ip4:91.235.232.0/24 ip4:78.153.187.18 include:_spf.createsend.com include:spf.protection.outlook.com include:mailmailmail.net -all",
+        "qZ3jLVC+vyf7IbMajmYnhoOWj0KYGNBCS89hkxT8q80mKhvOMD2zvEzbdLpzooaEEdwNxuLXI08RY6kul8V5uA=="
+      ]
+    },
+    "cloud_exposure": [],
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 124,
+    "ssl": 103,
+    "headers": 195,
+    "meta": 192,
+    "httpx": 2405,
+    "webanalyze": 3,
+    "dnsx": 765,
+    "total_ms": 3796
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "palleiversen.dk",
   "cvr": "prospect",
   "company_name": "palleiversen.dk",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,13 +16,23 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-10",
-      "days_remaining": 71
+      "days_remaining": 68
     },
     "server": "Apache",
     "detected_plugins": [
-      "Vfb Pro",
       "Contact Form 7",
-      "Easy Fancybox"
+      "Vfb Pro",
+      "Easy Fancybox",
+      "Wordpress Seo"
+    ],
+    "plugin_versions": {
+      "Contact Form 7": "5.9.5",
+      "Vfb Pro": "2019.05.10",
+      "Easy Fancybox": "6.5.8",
+      "Wordpress Seo": "22.9"
+    },
+    "detected_themes": [
+      "Palleiversen"
     ],
     "headers": {
       "x_frame_options": true,
@@ -50,6 +60,12 @@
     "jQuery:1.11.1",
     "spin.js"
   ],
+  "plugin_versions": {
+    "contact-form-7": "5.9.5",
+    "vfb-pro": "2019.05.10",
+    "easy-fancybox": "6.5.8",
+    "wordpress-seo": "22.9"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -69,10 +85,10 @@
       "ns03.athena-hosting.dk"
     ],
     "txt": [
-      "v=spf1 include:_spf.stejtech.net include:spf.protection.outlook.com ip4:194.255.169.138 ip4:91.215.162.220 -all",
       "This DNS Service is hosted by Munk IT A/S - Driftscentret",
-      "MS=ms31760263",
-      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw=="
+      "v=spf1 include:_spf.stejtech.net include:spf.protection.outlook.com ip4:194.255.169.138 ip4:91.215.162.220 -all",
+      "uQCiML8JtRbXaWNf6NCOBBaP4h90pEdYpvS4y21F1rifzJX+rg3KgtevJLd/YPy30/InkKrpY8oEXI6ZKE1Ygw==",
+      "MS=ms31760263"
     ]
   },
   "cloud_exposure": [],
@@ -99,13 +115,48 @@
     },
     {
       "severity": "info",
-      "description": "3 WordPress plugins detected",
+      "description": "4 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress theme detected: Palleiversen",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Contact Form 7 (installed 5.9.5, latest 6.1.5)",
+      "risk": "The installed version of Contact Form 7 is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 22.9, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
+      "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
+      "provenance": "twin-derived",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3247",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-02",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 153,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

@@ -2,7 +2,7 @@
   "domain": "puratos.com",
   "cvr": "prospect",
   "company_name": "puratos.com",
-  "scan_date": "2026-03-30",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,10 +16,12 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-09-25",
-      "days_remaining": 179
+      "days_remaining": 176
     },
     "server": "",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": true,
@@ -40,6 +42,7 @@
     "React",
     "jQuery"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
@@ -59,30 +62,30 @@
       "ns4.combell.net"
     ],
     "txt": [
-      "successfactors-site-verification=OGYzZmRmYTU3YTNkN2JmZGJlYWJkYmU2NDBlYmM4YjQ5NjZmNTlhN2YyOTNjNzYxYmI4OTdiNjA1MzBlOWVkMQ==",
-      "teamviewer-sso-verification=f39ea99fded14e169c083b5a12bd53be",
-      "ti85tm99u2hbv9osubmtav81i9",
-      "v=spf1 ip4:193.108.17.5 ip4:193.108.17.252 ip4:52.155.176.32 include:spf.protection.outlook.com include:spfa.cpmails.com -all",
-      "workplace-domain-verification=hVZn4vX88KXWSOHHKn8lkrJw4y43Id",
-      "*dfgbvfrs*",
-      "HL+7HL0arSSZa0l8J3FOn+85W7hTkyoSOibq9O9oYuejsEDo66pYFBr1vOCdv7nzJiJ2unU9w2Gemd8x5lwNiw==",
-      "MS=ms53246628",
-      "airalo-domain-verification=aug5TE3dsytVVgo",
-      "apple-domain-verification=0flPK6HBjObJ4rUF",
-      "apple-domain-verification=6R3HOMMRzbytJFQi",
-      "apple-domain-verification=7kTqMRIiS8s9uKu3",
-      "apple-domain-verification=JxlzUbqc4vOg5kkX",
-      "apple-domain-verification=Tpx4FHFpinhndUlh",
-      "apple-domain-verification=UXQoLHFXstCDOe58",
       "apple-domain-verification=VEtEcU63mcQfz9dn",
-      "apple-domain-verification=fTeIDJ0EgFYaKbz9",
-      "atlassian-domain-verification=GNcYKGUMbEvPh/lF1pBgXYq61aWYcxAlknbwdCD5VIkXxNCCmZmwco6mJNpebxiy",
-      "cisco-ci-domain-verification=29918dbd0f5835de393b5a84b2321811c2b74e512ee42cf42acb33d338b3a147",
-      "df2f65fc-a249-4dbb-b092-9cacd477a958",
       "facebook-domain-verification=zcgh2am7xe1vtt4tk0615ds2vl732s",
-      "google-site-verification=ZrCVmI93lmi08Ya715iD0M6fLpSmGkDC2JphkIeIg7A",
+      "df2f65fc-a249-4dbb-b092-9cacd477a958",
+      "apple-domain-verification=Tpx4FHFpinhndUlh",
+      "apple-domain-verification=JxlzUbqc4vOg5kkX",
       "mindmanager-verification=6dadffb2c7385d7b07cec4aebb1ad09c30c9ca01c5c946b4ca7b23f47641b1dc",
-      "pexip-ms-tenant-domain-verification=885fa8cf-7523-4ca8-a869-24d0e8c2df69"
+      "teamviewer-sso-verification=f39ea99fded14e169c083b5a12bd53be",
+      "atlassian-domain-verification=GNcYKGUMbEvPh/lF1pBgXYq61aWYcxAlknbwdCD5VIkXxNCCmZmwco6mJNpebxiy",
+      "*dfgbvfrs*",
+      "pexip-ms-tenant-domain-verification=885fa8cf-7523-4ca8-a869-24d0e8c2df69",
+      "apple-domain-verification=0flPK6HBjObJ4rUF",
+      "apple-domain-verification=7kTqMRIiS8s9uKu3",
+      "cisco-ci-domain-verification=29918dbd0f5835de393b5a84b2321811c2b74e512ee42cf42acb33d338b3a147",
+      "v=spf1 ip4:193.108.17.5 ip4:193.108.17.252 ip4:52.155.176.32 include:spf.protection.outlook.com include:spfa.cpmails.com -all",
+      "HL+7HL0arSSZa0l8J3FOn+85W7hTkyoSOibq9O9oYuejsEDo66pYFBr1vOCdv7nzJiJ2unU9w2Gemd8x5lwNiw==",
+      "apple-domain-verification=fTeIDJ0EgFYaKbz9",
+      "successfactors-site-verification=OGYzZmRmYTU3YTNkN2JmZGJlYWJkYmU2NDBlYmM4YjQ5NjZmNTlhN2YyOTNjNzYxYmI4OTdiNjA1MzBlOWVkMQ==",
+      "ti85tm99u2hbv9osubmtav81i9",
+      "apple-domain-verification=UXQoLHFXstCDOe58",
+      "airalo-domain-verification=aug5TE3dsytVVgo",
+      "apple-domain-verification=6R3HOMMRzbytJFQi",
+      "google-site-verification=ZrCVmI93lmi08Ya715iD0M6fLpSmGkDC2JphkIeIg7A",
+      "MS=ms53246628",
+      "workplace-domain-verification=hVZn4vX88KXWSOHHKn8lkrJw4y43Id"
     ]
   },
   "cloud_exposure": [],

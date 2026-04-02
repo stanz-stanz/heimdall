@@ -1,0 +1,119 @@
+{
+  "domain": "gamekeeper.dk",
+  "cvr": "prospect",
+  "company_name": "gamekeeper.dk",
+  "scan_date": "2026-04-02",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Data-handling plugins: Woocommerce",
+    "E-commerce plugin: WooCommerce:8.1.1",
+    "Visitor tracking: Google Analytics, Google Tag Manager"
+  ],
+  "industry": "",
+  "technology": {
+    "cms": "WordPress",
+    "hosting": "Unknown",
+    "ssl": {
+      "valid": true,
+      "issuer": "Let's Encrypt",
+      "expiry": "2026-05-12",
+      "days_remaining": 39
+    },
+    "server": "nginx",
+    "detected_plugins": [
+      "Woocommerce",
+      "Redirection",
+      "Wordpress Seo",
+      "Jetpack"
+    ],
+    "plugin_versions": {
+      "Woocommerce": "8.1.1",
+      "Wordpress Seo": "21.2"
+    },
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true
+    }
+  },
+  "tech_stack": [
+    "Alpine.js",
+    "Google Analytics",
+    "Google Maps",
+    "Google Tag Manager",
+    "HSTS",
+    "MySQL",
+    "Nginx",
+    "PHP",
+    "WPML:4.6.6",
+    "WooCommerce:8.1.1",
+    "WordPress:6.3.1",
+    "Yoast SEO:21.2",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "jsDelivr"
+  ],
+  "plugin_versions": {
+    "woocommerce": "8.1.1",
+    "wordpress-seo": "21.2"
+  },
+  "subdomains": {
+    "count": 0,
+    "list": []
+  },
+  "dns": {
+    "a": [
+      "165.227.141.223"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "gamekeeper-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns.scannet2.dk",
+      "ns2.scannet2.dk"
+    ],
+    "txt": [
+      "MS=ms72083889",
+      "mIXcD/9aRYgTdIe40Cp3m0q9bxo3z8rj33yAQam/W9pqp4d42I/ki5pB45v+3p81g1u1PrcbmSt8HBKRsfts5Q==",
+      "v=spf1 ip4:93.90.117.1/24 ip4:93.90.115.1/24 ip4:94.231.106.100 ip4:199.255.192.0/22 ip4:199.127.232.0/22 ip4:54.240.0.0/18 ip4:69.169.224.0/20 include:spf.comendosystems.com include:spf.wannafind.dk include:servers.mcsv.net  include:spf.protection.outlook.com -all"
+    ]
+  },
+  "cloud_exposure": [],
+  "findings": [
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.3.1 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "medium",
+      "description": "Data-handling plugin detected: Woocommerce",
+      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+    },
+    {
+      "severity": "info",
+      "description": "4 WordPress plugins detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Woocommerce (installed 8.1.1, latest 10.6.2)",
+      "risk": "The installed version of Woocommerce is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Wordpress Seo (installed 21.2, latest 27.3)",
+      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    }
+  ]
+}
