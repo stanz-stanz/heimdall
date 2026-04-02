@@ -29,9 +29,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code, config, and schema
+# Copy application code, config, schema, and scripts
 COPY src/ ./src/
 COPY config/ ./config/
+COPY scripts/ ./scripts/
 COPY docs/architecture/client-db-schema.sql ./docs/architecture/client-db-schema.sql
 
 # Own everything by non-root user
