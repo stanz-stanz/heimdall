@@ -24,6 +24,7 @@ RUN mkdir -p /data/clients /data/messages /config \
  && chown -R heimdall:heimdall /data /config
 
 WORKDIR /app
+ENV PYTHONPATH=/app
 
 # Install Python deps first (layer caching)
 COPY requirements.txt .
