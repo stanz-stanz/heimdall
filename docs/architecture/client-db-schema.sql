@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS clients (
     contact_email   TEXT,
     contact_phone   TEXT,
     notes           TEXT,
+    gdpr_sensitive  INTEGER NOT NULL DEFAULT 0,     -- 1 if company handles GDPR-sensitive data (industry + website functionality)
+    gdpr_reasons    TEXT NOT NULL DEFAULT '[]',     -- JSON array of reason strings
     created_at      TEXT NOT NULL,                   -- ISO-8601 UTC
     updated_at      TEXT NOT NULL
 );
@@ -77,6 +79,9 @@ CREATE INDEX IF NOT EXISTS idx_clients_status
 
 CREATE INDEX IF NOT EXISTS idx_clients_industry
     ON clients(industry_code) WHERE industry_code IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_clients_gdpr
+    ON clients(gdpr_sensitive) WHERE gdpr_sensitive = 1;
 
 
 -- -----------------------------------------------------------------
@@ -370,8 +375,6 @@ CREATE TABLE IF NOT EXISTS brief_snapshots (
     plugin_count    INTEGER NOT NULL DEFAULT 0,    -- len(technology.detected_plugins[])
     theme_count     INTEGER NOT NULL DEFAULT 0,    -- len(technology.detected_themes[])
     subdomain_count INTEGER NOT NULL DEFAULT 0,    -- subdomains.count
-    gdpr_sensitive  INTEGER NOT NULL DEFAULT 0,    -- 1 if gdpr_sensitive = true
-    gdpr_reasons    TEXT,                            -- JSON array of reason strings
     has_twin_scan   INTEGER NOT NULL DEFAULT 0,    -- 1 if twin_scan section present
     twin_finding_count INTEGER NOT NULL DEFAULT 0, -- findings where provenance = "twin-derived"
     ssl_valid       INTEGER,                        -- 1 = valid, 0 = invalid, NULL = no SSL
@@ -414,10 +417,6 @@ CREATE INDEX IF NOT EXISTS idx_briefs_cms
 CREATE INDEX IF NOT EXISTS idx_briefs_ssl_expiry
     ON brief_snapshots(ssl_days_remaining)
     WHERE ssl_days_remaining IS NOT NULL AND ssl_days_remaining < 30;
-
--- "All GDPR-sensitive sites"
-CREATE INDEX IF NOT EXISTS idx_briefs_gdpr
-    ON brief_snapshots(gdpr_sensitive) WHERE gdpr_sensitive = 1;
 
 -- "Twin-enriched sites with findings"
 CREATE INDEX IF NOT EXISTS idx_briefs_twin
@@ -501,12 +500,13 @@ INNER JOIN (
 
 -- Bucket distribution (replaces Counter(b.get("bucket")) loop)
 CREATE VIEW IF NOT EXISTS v_bucket_distribution AS
-SELECT bucket, COUNT(*) AS domain_count,
-       SUM(finding_count) AS total_findings,
-       SUM(critical_count) AS total_critical,
-       SUM(gdpr_sensitive) AS gdpr_count
-FROM v_current_briefs
-GROUP BY bucket;
+SELECT b.bucket, COUNT(*) AS domain_count,
+       SUM(b.finding_count) AS total_findings,
+       SUM(b.critical_count) AS total_critical,
+       SUM(COALESCE(c.gdpr_sensitive, 0)) AS gdpr_count
+FROM v_current_briefs b
+LEFT JOIN clients c ON b.cvr = c.cvr
+GROUP BY b.bucket;
 
 -- Severity breakdown across all current findings
 CREATE VIEW IF NOT EXISTS v_severity_breakdown AS
@@ -531,11 +531,12 @@ ORDER BY critical_cves DESC, affected_domains DESC;
 
 -- Top prospects: Bucket A + GDPR + most findings
 CREATE VIEW IF NOT EXISTS v_top_prospects AS
-SELECT domain, company_name, finding_count, critical_count, high_count,
-       plugin_count, ssl_days_remaining, cms, gdpr_reasons
-FROM v_current_briefs
-WHERE bucket = 'A' AND gdpr_sensitive = 1
-ORDER BY critical_count DESC, finding_count DESC;
+SELECT b.domain, b.company_name, b.finding_count, b.critical_count, b.high_count,
+       b.plugin_count, b.ssl_days_remaining, b.cms, c.gdpr_reasons
+FROM v_current_briefs b
+INNER JOIN clients c ON b.cvr = c.cvr
+WHERE b.bucket = 'A' AND c.gdpr_sensitive = 1
+ORDER BY b.critical_count DESC, b.finding_count DESC;
 
 -- CVE cross-reference: which domains are affected by a given CVE
 CREATE VIEW IF NOT EXISTS v_cve_domains AS
