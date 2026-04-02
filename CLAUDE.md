@@ -81,7 +81,9 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/db/` | Client SQLite DB — CRUD layer for clients, findings (normalised definitions + occurrences), scans, briefs, consent, delivery log. Schema loaded from `docs/architecture/client-db-schema.sql`. DB at `data/clients/clients.db`. |
 | `src/delivery/` | Telegram delivery bot — separate process (`python -m src.delivery`). Subscribes to Redis `scan-complete`, interprets findings, composes messages, routes through operator approval or auto-send. |
 | `config/delivery.json` | Config: Telegram delivery settings (require_approval toggle, retry, rate limit) |
+| `config/interpreter.json` | Config: LLM backend, model, tone, language (default: English). Per-client language override via `clients.preferred_language` column. |
 | `docs/architecture/client-db-schema.sql` | Authoritative SQLite schema for client management DB (11 tables, 9 views, 34+ indexes) |
+| `scripts/test_delivery.py` | E2E delivery test — seeds test client, saves brief, publishes Redis event. Auto-detects Docker vs host paths. |
 
 ---
 

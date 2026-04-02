@@ -5,6 +5,26 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-02 — Delivery bot deployed to Pi5, Docker review, language default
+
+**Decided**
+- Delivery bot containerized and deployed to Pi5. Dockerfile.delivery: python:3.11-slim, non-root user, PYTHONPATH=/app, Redis healthcheck. 128MB RAM, 0.25 CPU.
+- Interpreter default language changed from Danish (`da`) to English (`en`). Per-client language override via `preferred_language` column on `clients` table (default `en`).
+- Docker code review performed: found 5 critical bugs (F1-F5), 9 important issues. Critical bugs fixed: `.dockerignore` negation pattern for schema SQL, worker DB path using `CLIENT_DATA_DIR` env var, worker `client-data` volume `:ro` → `:rw`, schema SQL COPY in worker Dockerfile, `TELEGRAM_OPERATOR_CHAT_ID` added to `.env.template`.
+- Test script (`scripts/test_delivery.py`) auto-detects Docker vs host paths, reads all config from env vars, no placeholders.
+
+**Rejected**
+- Embedding schema SQL inline to avoid `.dockerignore` issues — runtime file loading from `docs/architecture/` is the right pattern, `.dockerignore` negation was the fix.
+- `log.debug` for missing client/chat_id in delivery runner — changed to `log.info` so failures are visible without debug mode.
+
+**Unresolved**
+- Docker review important items still open: F7 (API missing tools/), F8 (API client-data :ro), F9 (Redis healthcheck fallback localhost), F10 (config-data dead volume), F11 (missing resource limits on redis/scheduler/dozzle), F12 (valdi compliance logs ephemeral path)
+- Delivery runner doesn't yet read `preferred_language` from client record — uses global config default
+- Old worktree `.claude/worktrees/client-db-telegram` still exists, can be cleaned up
+- `docs/analysis_test_conrads.pdf` is untracked
+
+---
+
 ## 2026-04-02 — Client SQLite DB implemented, Telegram bot delivery pipeline built
 
 **Decided**

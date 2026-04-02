@@ -105,7 +105,7 @@
       "completed_date": "2026-04-02",
       "owner_agent": "message-composer",
       "blockers": [],
-      "notes": "Bot setup, operator approval flow (inline keyboard), message sender with retry, delivery runner (Redis pub/sub). python -m src.delivery. 58 tests. PR #14. Not yet containerized."
+      "notes": "Deployed and tested on Pi5. Containerized (Dockerfile.delivery, 128MB RAM). Operator approval flow verified end-to-end. PR #14 merged. Docker review completed — 5 critical bugs fixed."
     },
     {
       "id": "M31",
