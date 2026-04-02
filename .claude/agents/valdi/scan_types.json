@@ -29,7 +29,7 @@
       "last_validated": "2026-04-02T10:00:00Z",
       "function_file": "src/prospecting/scanner.py",
       "function_name": "_extract_page_meta",
-      "function_hash": "sha256:47ada5885288b7321bd0c44c89b396c9ebe8618f6288aeff03941c7281aa8d58",
+      "function_hash": "sha256:93490496855a6df7cf2ffc40b888366772276b6e077822a63573e1da0b9c6d96",
       "hash_method": "inspect.getsource"
     },
     {

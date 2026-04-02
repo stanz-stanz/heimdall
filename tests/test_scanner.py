@@ -228,6 +228,83 @@ class TestExtractPageMeta:
         assert "flavor-child" in themes
 
     @patch("src.prospecting.scanner.requests.get")
+    def test_meta_generator_woocommerce(self, mock_get):
+        mock_get.return_value.text = """
+        <meta name="generator" content="WordPress 6.9.4">
+        <meta name="generator" content="WooCommerce 9.6.4">
+        """
+        _, _, plugins, versions, _ = _extract_page_meta("test.dk")
+        assert "woocommerce" in plugins
+        assert versions.get("woocommerce") == "9.6.4"
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_css_class_divi_detection(self, mock_get):
+        mock_get.return_value.text = """
+        <html><body class="et_divi_theme">
+        <div class="et_pb_section et_pb_row">content</div>
+        </body></html>
+        """
+        _, _, plugins, _, _ = _extract_page_meta("test.dk")
+        assert "divi-builder" in plugins
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_css_class_woocommerce_detection(self, mock_get):
+        mock_get.return_value.text = """
+        <html><body class="woocommerce-page woocommerce-no-js">
+        <div class="woocommerce">shop</div>
+        </body></html>
+        """
+        _, _, plugins, _, _ = _extract_page_meta("test.dk")
+        assert "woocommerce" in plugins
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_rest_api_namespace_detection(self, mock_get):
+        """REST API namespaces reveal installed plugins."""
+        homepage_resp = MagicMock()
+        homepage_resp.text = """
+        <link rel="https://api.w.org/" href="https://test.dk/wp-json/">
+        """
+        api_resp = MagicMock()
+        api_resp.status_code = 200
+        api_resp.json.return_value = {
+            "namespaces": ["wp/v2", "wc/v3", "wc/store/v1", "gf/v2", "yoast/v1"]
+        }
+        mock_get.side_effect = [homepage_resp, api_resp]
+        _, _, plugins, _, _ = _extract_page_meta("test.dk")
+        assert "woocommerce" in plugins
+        assert "gravityforms" in plugins
+        assert "wordpress-seo" in plugins
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_rest_api_failure_graceful(self, mock_get):
+        """REST API fetch failure doesn't crash — falls back to HTML-only detection."""
+        homepage_resp = MagicMock()
+        homepage_resp.text = """
+        <link rel="https://api.w.org/" href="https://test.dk/wp-json/">
+        <link href="/wp-content/plugins/akismet/style.css">
+        """
+        api_resp = MagicMock()
+        api_resp.status_code = 403
+        mock_get.side_effect = [homepage_resp, api_resp]
+        _, _, plugins, _, _ = _extract_page_meta("test.dk")
+        assert "akismet" in plugins  # HTML detection still works
+
+    @patch("src.prospecting.scanner.requests.get")
+    def test_no_duplicate_from_multiple_sources(self, mock_get):
+        """Plugin detected via HTML path + meta generator + CSS class = only listed once."""
+        homepage_resp = MagicMock()
+        homepage_resp.text = """
+        <meta name="generator" content="WooCommerce 9.6.4">
+        <body class="woocommerce-page">
+        <link href="/wp-content/plugins/woocommerce/assets/style.css?ver=9.6.4">
+        </body>
+        """
+        mock_get.return_value = homepage_resp
+        _, _, plugins, versions, _ = _extract_page_meta("test.dk")
+        assert plugins.count("woocommerce") == 1
+        assert versions["woocommerce"] == "9.6.4"
+
+    @patch("src.prospecting.scanner.requests.get")
     def test_returns_five_element_tuple(self, mock_get):
         mock_get.return_value.text = "<html></html>"
         result = _extract_page_meta("test.dk")

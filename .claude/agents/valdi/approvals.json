@@ -16,7 +16,7 @@
       "approved_at": "2026-04-02T10:00:00Z",
       "level": 0,
       "layer": 1,
-      "function_hash": "sha256:47ada5885288b7321bd0c44c89b396c9ebe8618f6288aeff03941c7281aa8d58",
+      "function_hash": "sha256:93490496855a6df7cf2ffc40b888366772276b6e077822a63573e1da0b9c6d96",
       "log_file": ".claude/agents/valdi/logs/2026-03-22_10-01-00_homepage_meta_extraction.md",
       "hash_method": "inspect.getsource"
     },

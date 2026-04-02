@@ -96,6 +96,54 @@ def _check_ssl(domain: str) -> dict:
 
 
 
+# REST API namespace → plugin slug mapping
+_NAMESPACE_TO_SLUG = {
+    "wc": "woocommerce",
+    "wc-admin": "woocommerce",
+    "gf": "gravityforms",
+    "contact-form-7": "contact-form-7",
+    "yoast": "wordpress-seo",
+    "wp-rocket": "wp-rocket",
+    "elementor": "elementor",
+    "divi": "divi-builder",
+    "et": "divi-builder",
+    "jetpack": "jetpack",
+    "akismet": "akismet",
+    "wordfence": "wordfence",
+    "redirection": "redirection",
+    "cookieyes": "cookie-law-info",
+    "complianz": "complianz-gdpr",
+    "monsterinsights": "google-analytics-for-wordpress",
+    "wpforms": "wpforms-lite",
+    "rankmath": "seo-by-rank-math",
+    "smush": "wp-smushit",
+    "updraftplus": "updraftplus",
+    "ithemes-security": "better-wp-security",
+    "sucuri": "sucuri-scanner",
+    "tablepress": "tablepress",
+    "meow-gallery": "meow-gallery",
+}
+
+# Meta generator product name → plugin slug mapping
+_GENERATOR_TO_SLUG = {
+    "woocommerce": "woocommerce",
+    "flavor starter template": "flavor",
+    "flavflavor starter template": "flavor",
+    "elementor": "elementor",
+    "powered by starter templates": "starter-templates",
+    "flavor starter templates": "flavor",
+}
+
+# CSS class patterns → plugin slug mapping (pattern, slug)
+_CSS_CLASS_SIGNATURES = [
+    (r'\bwoocommerce\b', "woocommerce"),
+    (r'\bet_pb_', "divi-builder"),
+    (r'\bet_divi_theme\b', "divi-builder"),
+    (r'\belementor\b', "elementor"),
+    (r'\bjetpack\b', "jetpack"),
+]
+
+
 def _extract_page_meta(domain: str) -> tuple[str, str, list[str], dict[str, str], list[str]]:
     """Fetch the homepage and extract meta author, footer credits, plugin hints with versions, and themes."""
     meta_author = ""
@@ -145,6 +193,37 @@ def _extract_page_meta(domain: str) -> tuple[str, str, list[str], dict[str, str]
                 seen_slugs.add(slug)
                 plugins.append(slug)
 
+        # Pass 3: meta generator tags — plugins like WooCommerce add their own
+        for gen_name, gen_ver in re.findall(
+            r'<meta\s+name=["\']generator["\']\s+content=["\']([^"\']+?)(?:\s+([\d.]+))?["\']',
+            html, re.IGNORECASE,
+        ):
+            gen_lower = gen_name.strip().lower()
+            slug = _GENERATOR_TO_SLUG.get(gen_lower)
+            if slug and slug not in seen_slugs:
+                seen_slugs.add(slug)
+                plugins.append(slug)
+            if slug and gen_ver and slug not in plugin_versions:
+                plugin_versions[slug] = gen_ver.strip()
+
+        # Pass 4: CSS class signatures in body/container elements
+        for pattern, slug in _CSS_CLASS_SIGNATURES:
+            if slug not in seen_slugs and re.search(pattern, html):
+                seen_slugs.add(slug)
+                plugins.append(slug)
+
+        # Pass 5: REST API namespace enumeration
+        # WordPress advertises /wp-json/ via <link rel="https://api.w.org/"> in HTML
+        api_match = re.search(
+            r'<link\s+rel=["\']https://api\.w\.org/["\']\s+href=["\']([^"\']+)["\']',
+            html, re.IGNORECASE,
+        )
+        if api_match:
+            api_url = api_match.group(1).strip()
+            _extract_rest_api_plugins(
+                api_url, seen_slugs, plugins, plugin_versions,
+            )
+
         # WordPress theme detection from HTML source
         wp_theme_matches = re.findall(r'/wp-content/themes/([\w-]+)/', html)
         if wp_theme_matches:
@@ -154,6 +233,33 @@ def _extract_page_meta(domain: str) -> tuple[str, str, list[str], dict[str, str]
         log.debug("Page meta extraction failed for %s: %s", domain, e)
 
     return meta_author, footer_credit, plugins, plugin_versions, themes
+
+
+def _extract_rest_api_plugins(
+    api_url: str,
+    seen_slugs: set[str],
+    plugins: list[str],
+    plugin_versions: dict[str, str],
+) -> None:
+    """Fetch the WordPress REST API index and extract plugin slugs from namespaces."""
+    try:
+        resp = requests.get(
+            api_url,
+            timeout=REQUEST_TIMEOUT,
+            headers={"User-Agent": USER_AGENT},
+        )
+        if resp.status_code != 200:
+            return
+        data = resp.json()
+        namespaces = data.get("namespaces", [])
+        for ns in namespaces:
+            prefix = ns.split("/")[0] if "/" in ns else ns
+            slug = _NAMESPACE_TO_SLUG.get(prefix)
+            if slug and slug not in seen_slugs:
+                seen_slugs.add(slug)
+                plugins.append(slug)
+    except (requests.RequestException, ValueError):
+        pass  # REST API unavailable — not an error
 
 
 def _run_httpx(domains: list[str]) -> dict[str, dict]:
