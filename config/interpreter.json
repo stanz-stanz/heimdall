@@ -4,7 +4,7 @@
   "max_output_tokens": 2048,
   "temperature": 0.3,
   "tone": "balanced",
-  "language": "da",
+  "language": "en",
   "tone_descriptions": {
     "concise": "Brief and direct. 1-2 sentences per finding. No analogies. Action-focused.",
     "balanced": "Friendly professional. Connect related findings. One short paragraph per key issue. Light on jargon, clear actions.",
