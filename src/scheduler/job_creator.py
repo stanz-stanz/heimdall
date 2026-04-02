@@ -135,6 +135,28 @@ class JobCreator:
         log.info("Using pre-enriched database: %s", db_path)
         conn = sqlite3.connect(f"file:{db_path}?immutable=1", uri=True, timeout=5)
         conn.row_factory = sqlite3.Row
+
+        # Pre-flight: check for stale filter flags
+        total = conn.execute("SELECT COUNT(*) as c FROM domains").fetchone()["c"]
+        ready = conn.execute(
+            "SELECT COUNT(*) as c FROM domains WHERE ready_for_scan = 1"
+        ).fetchone()["c"]
+        not_ready = total - ready
+
+        if total > 0 and ready < total * 0.1:
+            log.warning(
+                "enriched_db_low_ready_ratio: %d/%d domains ready (%.0f%%). "
+                "Possible stale filter flags in database. "
+                "Re-run enrichment pipeline or check domains table.",
+                ready, total, (ready / total) * 100,
+            )
+
+        if not_ready > 0:
+            log.info(
+                "enriched_db_stats: %d total, %d ready, %d filtered out",
+                total, ready, not_ready,
+            )
+
         rows = conn.execute(
             "SELECT domain FROM domains WHERE ready_for_scan = 1 ORDER BY domain"
         ).fetchall()

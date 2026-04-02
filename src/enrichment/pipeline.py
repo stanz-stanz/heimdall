@@ -95,6 +95,19 @@ def run_pipeline(
         conn.execute("SELECT 1 FROM companies WHERE domain = '' AND discard_reason = ''").fetchall()
     )
 
+    # Integrity check: warn if stale filter flags exist
+    filtered_count = conn.execute(
+        "SELECT COUNT(*) as c FROM companies WHERE discard_reason LIKE 'filtered:%'"
+    ).fetchone()["c"]
+    if filtered_count > 0:
+        log.warning(
+            "DB contains %d companies with stale filter flags (discard_reason='filtered:...'). "
+            "These were set by the removed filter step. The domains table may have incorrect "
+            "ready_for_scan values. Run: UPDATE companies SET discard_reason = '' "
+            "WHERE discard_reason LIKE 'filtered:%%' then re-run populate_domains().",
+            filtered_count,
+        )
+
     # Checkpoint WAL so the .db file is self-contained (safe for git commit)
     conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
     conn.close()
