@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS clients (
     contact_phone   TEXT,
     contact_role    TEXT,                            -- e.g. "Owner", "IT Manager"
     preferred_channel TEXT NOT NULL DEFAULT 'telegram', -- telegram | email | whatsapp
+    preferred_language TEXT NOT NULL DEFAULT 'en',  -- en | da
     technical_context TEXT,                           -- self_manages_wordpress | has_developer | hosted_platform | no_technical_resource
     has_developer   INTEGER NOT NULL DEFAULT 0,     -- 1 if client has a developer contact
     developer_contact TEXT,                          -- developer name/email/phone as free text
