@@ -1,53 +1,57 @@
 {
-  "domain": "onlyfood.dk",
-  "job_id": "scan-2026-04-01-f33c799d",
+  "domain": "pc.dk",
+  "job_id": "scan-2026-04-02-2d76d819",
   "status": "completed",
   "scan_result": {
-    "domain": "onlyfood.dk",
+    "domain": "pc.dk",
     "cms": "",
     "server": "",
     "hosting": "",
     "ssl_valid": true,
     "ssl_issuer": "Let's Encrypt",
-    "ssl_expiry": "2026-06-25",
-    "ssl_days_remaining": 84,
+    "ssl_expiry": "2026-06-23",
+    "ssl_days_remaining": 82,
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
-      "strict_transport_security": false,
+      "strict_transport_security": true,
       "x_content_type_options": false
     },
     "tech_stack": [
-      "HTTP/3",
-      "Plesk"
+      "HSTS"
     ],
     "meta_author": "",
     "footer_credit": "",
     "raw_httpx": {
-      "timestamp": "2026-04-01T18:07:00.992554044Z",
+      "timestamp": "2026-04-01T17:43:44.0708043Z",
+      "cdn_name": "aws",
+      "cdn_type": "cloud",
       "port": "443",
-      "url": "https://onlyfood.dk",
-      "input": "onlyfood.dk",
-      "title": "Onlyfood.dk",
+      "url": "https://pc.dk",
+      "input": "pc.dk",
+      "title": "YouSee Mail",
       "scheme": "https",
       "content_type": "text/html",
       "method": "GET",
-      "host": "onlyfood.dk",
-      "host_ip": "46.17.94.187",
+      "host": "pc.dk",
+      "host_ip": "3.125.131.179",
       "path": "/",
-      "time": "225.42964ms",
+      "time": "214.416312ms",
       "a": [
-        "46.17.94.187"
+        "3.125.131.179",
+        "18.192.246.145",
+        "18.193.144.171"
       ],
       "tech": [
-        "HTTP/3",
-        "Plesk"
+        "HSTS"
       ],
-      "words": 22,
-      "lines": 18,
+      "words": 2774,
+      "lines": 167,
       "status_code": 200,
-      "content_length": 371,
+      "content_length": 11613,
       "failed": false,
       "knowledgebase": {
         "pHash": 0
@@ -63,10 +67,10 @@
     "exposed_cloud_storage": []
   },
   "brief": {
-    "domain": "onlyfood.dk",
+    "domain": "pc.dk",
     "cvr": "prospect",
-    "company_name": "onlyfood.dk",
-    "scan_date": "2026-04-01",
+    "company_name": "pc.dk",
+    "scan_date": "2026-04-02",
     "bucket": "E",
     "gdpr_sensitive": false,
     "gdpr_reasons": [],
@@ -77,22 +81,24 @@
       "ssl": {
         "valid": true,
         "issuer": "Let's Encrypt",
-        "expiry": "2026-06-25",
-        "days_remaining": 84
+        "expiry": "2026-06-23",
+        "days_remaining": 82
       },
       "server": "",
       "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
-        "strict_transport_security": false,
+        "strict_transport_security": true,
         "x_content_type_options": false
       }
     },
     "tech_stack": [
-      "HTTP/3",
-      "Plesk"
+      "HSTS"
     ],
+    "plugin_versions": {},
     "subdomains": {
       "count": 0,
       "list": []
@@ -100,11 +106,6 @@
     "dns": {},
     "cloud_exposure": [],
     "findings": [
-      {
-        "severity": "medium",
-        "description": "Missing HSTS header (HTTP Strict Transport Security)",
-        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
-      },
       {
         "severity": "low",
         "description": "Missing Content-Security-Policy header",
@@ -123,8 +124,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 153,
-    "total_ms": 154
+    "robots_txt": 147,
+    "total_ms": 148
   },
   "cache_stats": {
     "hits": 5,

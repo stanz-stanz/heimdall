@@ -1,6 +1,6 @@
 {
   "domain": "lidocafeen.dk",
-  "job_id": "scan-2026-04-01-ff54ddd6",
+  "job_id": "scan-2026-04-02-e73fabc5",
   "status": "completed",
   "scan_result": {
     "domain": "lidocafeen.dk",
@@ -12,6 +12,8 @@
     "ssl_expiry": "2026-06-09",
     "ssl_days_remaining": 68,
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -83,7 +85,7 @@
     "domain": "lidocafeen.dk",
     "cvr": "prospect",
     "company_name": "lidocafeen.dk",
-    "scan_date": "2026-04-01",
+    "scan_date": "2026-04-02",
     "bucket": "E",
     "gdpr_sensitive": true,
     "gdpr_reasons": [
@@ -101,6 +103,8 @@
       },
       "server": "LiteSpeed",
       "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
       "headers": {
         "x_frame_options": true,
         "content_security_policy": false,
@@ -115,6 +119,7 @@
       "LiteSpeed",
       "UIKit"
     ],
+    "plugin_versions": {},
     "subdomains": {
       "count": 0,
       "list": []
@@ -130,8 +135,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 132,
-    "total_ms": 133
+    "robots_txt": 130,
+    "total_ms": 131
   },
   "cache_stats": {
     "hits": 5,

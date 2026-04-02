@@ -1,6 +1,6 @@
 {
   "domain": "conrads.dk",
-  "job_id": "scan-2026-04-01-46a05c94",
+  "job_id": "scan-2026-04-02-71bb7e62",
   "status": "completed",
   "scan_result": {
     "domain": "conrads.dk",
@@ -15,8 +15,14 @@
       "gravityforms",
       "gravityformsrecaptcha",
       "popups-for-divi",
-      "booketbord"
+      "booketbord",
+      "wp-rocket",
+      "wordpress-seo"
     ],
+    "plugin_versions": {
+      "wordpress-seo": "26.9"
+    },
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -141,7 +147,7 @@
     "domain": "conrads.dk",
     "cvr": "prospect",
     "company_name": "conrads.dk",
-    "scan_date": "2026-04-01",
+    "scan_date": "2026-04-02",
     "bucket": "A",
     "gdpr_sensitive": true,
     "gdpr_reasons": [
@@ -163,8 +169,14 @@
         "Gravityforms",
         "Gravityformsrecaptcha",
         "Popups For Divi",
-        "Booketbord"
+        "Booketbord",
+        "Wp Rocket",
+        "Wordpress Seo"
       ],
+      "plugin_versions": {
+        "Wordpress Seo": "26.9"
+      },
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
@@ -187,6 +199,9 @@
       "jQuery Migrate:3.4.1",
       "reCAPTCHA"
     ],
+    "plugin_versions": {
+      "wordpress-seo": "26.9"
+    },
     "subdomains": {
       "count": 3,
       "list": [
@@ -252,7 +267,7 @@
       },
       {
         "severity": "info",
-        "description": "4 WordPress plugins detected",
+        "description": "6 WordPress plugins detected",
         "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
       },
       {
@@ -264,6 +279,11 @@
         "severity": "info",
         "description": "3 subdomains detected",
         "risk": "Each subdomain is a separate entry point that may run different software and have its own vulnerabilities. Subdomains are often forgotten and left unpatched."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 26.9, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
       },
       {
         "severity": "high",
@@ -312,20 +332,32 @@
           "template_id": "CVE-2025-12974",
           "confidence": "medium-inference"
         }
+      },
+      {
+        "severity": "medium",
+        "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+        "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28044",
+          "confidence": "medium-inference"
+        }
       }
     ],
     "twin_scan": {
-      "twin_scan_date": "2026-04-01",
+      "twin_scan_date": "2026-04-02",
       "scan_tools": [
         "wpvulnerability"
       ],
-      "duration_ms": 210,
+      "duration_ms": 589,
       "note": "Findings derived from passive fingerprinting, not confirmed against live target"
     }
   },
   "timing": {
     "robots_txt": 130,
-    "total_ms": 678
+    "total_ms": 1609
   },
   "cache_stats": {
     "hits": 9,

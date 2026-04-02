@@ -1,9 +1,9 @@
 cvr_number,company_name,website,bucket,industry_code,industry_name,gdpr_sensitive,contactable,cms,hosting,ssl_valid,ssl_expiry,subdomain_count,findings_count
 prospect,1401.dk,1401.dk,E,,,False,,,Unknown,True,2026-06-01,0,4
 prospect,casablancavejle.dk,casablancavejle.dk,E,,,False,,,Unknown,False,,0,5
-28616376,conrads.dk,conrads.dk,A,561110,,True,True,WordPress,Cloudflare,True,2026-05-25,3,13
-prospect,hosingeborg.dk,hosingeborg.dk,A,,,False,,WordPress,Unknown,True,2026-05-09,1,8
-33269668,jellingkro.dk,jellingkro.dk,A,561110,,True,True,WordPress,LiteSpeed,True,2027-01-21,1,19
+28616376,conrads.dk,conrads.dk,A,561110,,True,True,WordPress,Cloudflare,True,2026-05-25,3,15
+prospect,hosingeborg.dk,hosingeborg.dk,A,,,False,,WordPress,Unknown,True,2026-05-09,1,9
+33269668,jellingkro.dk,jellingkro.dk,A,561110,,True,True,WordPress,LiteSpeed,True,2027-01-21,1,39
 25485408,ktlarsen.dk,ktlarsen.dk,D,561110,,False,True,,Unknown,False,,0,5
 prospect,langolo.dk,langolo.dk,C,,,False,,Wix,Unknown,True,2026-05-13,0,2
 prospect,lidocafeen.dk,lidocafeen.dk,E,,,True,,,LiteSpeed,True,2026-06-09,0,1

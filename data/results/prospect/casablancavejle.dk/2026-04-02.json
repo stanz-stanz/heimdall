@@ -1,55 +1,57 @@
 {
-  "domain": "pc.dk",
-  "job_id": "scan-2026-04-01-e11052b8",
+  "domain": "casablancavejle.dk",
+  "job_id": "scan-2026-04-02-6476a650",
   "status": "completed",
   "scan_result": {
-    "domain": "pc.dk",
+    "domain": "casablancavejle.dk",
     "cms": "",
-    "server": "",
+    "server": "ESF",
     "hosting": "",
-    "ssl_valid": true,
-    "ssl_issuer": "Let's Encrypt",
-    "ssl_expiry": "2026-06-23",
-    "ssl_days_remaining": 82,
+    "ssl_valid": false,
+    "ssl_issuer": "",
+    "ssl_expiry": "",
+    "ssl_days_remaining": -1,
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
-      "strict_transport_security": true,
+      "strict_transport_security": false,
       "x_content_type_options": false
     },
-    "tech_stack": [
-      "HSTS"
-    ],
+    "tech_stack": [],
     "meta_author": "",
     "footer_credit": "",
     "raw_httpx": {
-      "timestamp": "2026-04-01T17:43:44.0708043Z",
+      "timestamp": "2026-04-01T18:08:37.122045987Z",
       "cdn_name": "aws",
       "cdn_type": "cloud",
-      "port": "443",
-      "url": "https://pc.dk",
-      "input": "pc.dk",
-      "title": "YouSee Mail",
-      "scheme": "https",
+      "port": "80",
+      "url": "http://casablancavejle.dk",
+      "input": "casablancavejle.dk",
+      "title": "CASABLANCE VEJLE",
+      "scheme": "http",
+      "webserver": "ESF",
       "content_type": "text/html",
       "method": "GET",
-      "host": "pc.dk",
-      "host_ip": "3.125.131.179",
+      "host": "casablancavejle.dk",
+      "host_ip": "15.197.142.173",
       "path": "/",
-      "time": "214.416312ms",
+      "final_url": "https://www.casablancavejle.dk",
+      "time": "426.637789ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
       "a": [
-        "3.125.131.179",
-        "18.192.246.145",
-        "18.193.144.171"
+        "15.197.142.173",
+        "3.33.152.147"
       ],
-      "tech": [
-        "HSTS"
-      ],
-      "words": 2774,
-      "lines": 167,
+      "words": 7069,
+      "lines": 100,
       "status_code": 200,
-      "content_length": 11613,
+      "content_length": 138674,
       "failed": false,
       "knowledgebase": {
         "pHash": 0
@@ -57,6 +59,13 @@
       "resolvers": [
         "1.1.1.1:53",
         "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
       ]
     },
     "subdomains": [],
@@ -65,10 +74,10 @@
     "exposed_cloud_storage": []
   },
   "brief": {
-    "domain": "pc.dk",
+    "domain": "casablancavejle.dk",
     "cvr": "prospect",
-    "company_name": "pc.dk",
-    "scan_date": "2026-04-01",
+    "company_name": "casablancavejle.dk",
+    "scan_date": "2026-04-02",
     "bucket": "E",
     "gdpr_sensitive": false,
     "gdpr_reasons": [],
@@ -77,23 +86,24 @@
       "cms": "",
       "hosting": "Unknown",
       "ssl": {
-        "valid": true,
-        "issuer": "Let's Encrypt",
-        "expiry": "2026-06-23",
-        "days_remaining": 82
+        "valid": false,
+        "issuer": "",
+        "expiry": "",
+        "days_remaining": -1
       },
-      "server": "",
+      "server": "ESF",
       "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
-        "strict_transport_security": true,
+        "strict_transport_security": false,
         "x_content_type_options": false
       }
     },
-    "tech_stack": [
-      "HSTS"
-    ],
+    "tech_stack": [],
+    "plugin_versions": {},
     "subdomains": {
       "count": 0,
       "list": []
@@ -101,6 +111,16 @@
     "dns": {},
     "cloud_exposure": [],
     "findings": [
+      {
+        "severity": "critical",
+        "description": "No SSL certificate detected",
+        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
       {
         "severity": "low",
         "description": "Missing Content-Security-Policy header",
@@ -119,8 +139,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 140,
-    "total_ms": 141
+    "robots_txt": 30074,
+    "total_ms": 30083
   },
   "cache_stats": {
     "hits": 5,

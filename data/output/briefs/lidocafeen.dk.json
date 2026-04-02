@@ -2,7 +2,7 @@
   "domain": "lidocafeen.dk",
   "cvr": "prospect",
   "company_name": "lidocafeen.dk",
-  "scan_date": "2026-04-01",
+  "scan_date": "2026-04-02",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -20,6 +20,8 @@
     },
     "server": "LiteSpeed",
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": true,
       "content_security_policy": false,
@@ -34,6 +36,7 @@
     "LiteSpeed",
     "UIKit"
   ],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []

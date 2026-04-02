@@ -1,6 +1,6 @@
 {
   "domain": "jellingkro.dk",
-  "job_id": "scan-2026-04-01-967e7ae5",
+  "job_id": "scan-2026-04-02-237dcefc",
   "status": "completed",
   "scan_result": {
     "domain": "jellingkro.dk",
@@ -19,8 +19,18 @@
       "contact-form-7",
       "elementor",
       "cookie-law-info",
-      "cozystay-core"
+      "cozystay-core",
+      "litespeed-cache",
+      "wordpress-seo"
     ],
+    "plugin_versions": {
+      "contact-form-7": "6.0.3",
+      "cookie-law-info": "3.2.8",
+      "elementor": "3.27.3",
+      "woocommerce": "9.6.4",
+      "wordpress-seo": "24.5"
+    },
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -166,7 +176,7 @@
     "domain": "jellingkro.dk",
     "cvr": "prospect",
     "company_name": "jellingkro.dk",
-    "scan_date": "2026-04-01",
+    "scan_date": "2026-04-02",
     "bucket": "A",
     "gdpr_sensitive": true,
     "gdpr_reasons": [
@@ -192,8 +202,18 @@
         "Contact Form 7",
         "Elementor",
         "Cookie Law Info",
-        "Cozystay Core"
+        "Cozystay Core",
+        "Litespeed Cache",
+        "Wordpress Seo"
       ],
+      "plugin_versions": {
+        "Contact Form 7": "6.0.3",
+        "Cookie Law Info": "3.2.8",
+        "Elementor": "3.27.3",
+        "Woocommerce": "9.6.4",
+        "Wordpress Seo": "24.5"
+      },
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
@@ -224,6 +244,13 @@
       "jQuery",
       "jQuery Migrate:3.4.1"
     ],
+    "plugin_versions": {
+      "contact-form-7": "6.0.3",
+      "cookie-law-info": "3.2.8",
+      "elementor": "3.27.3",
+      "woocommerce": "9.6.4",
+      "wordpress-seo": "24.5"
+    },
     "subdomains": {
       "count": 1,
       "list": [
@@ -282,7 +309,7 @@
       },
       {
         "severity": "info",
-        "description": "8 WordPress plugins detected",
+        "description": "10 WordPress plugins detected",
         "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
       },
       {
@@ -297,6 +324,67 @@
       },
       {
         "severity": "medium",
+        "description": "Outdated plugin: Contact Form 7 (installed 6.0.3, latest 6.1.5)",
+        "risk": "The installed version of Contact Form 7 is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Cookie Law Info (installed 3.2.8, latest 3.4.0)",
+        "risk": "The installed version of Cookie Law Info is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Elementor (installed 3.27.3, latest 4.0.1)",
+        "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Woocommerce (installed 9.6.4, latest 10.6.2)",
+        "risk": "The installed version of Woocommerce is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 24.5, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
+        "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-2329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
+        "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 9.7.1 (CVE-2025-26762)",
+        "risk": "CVE-2025-26762: WooCommerce &lt;= 9.7.0 - Authenticated (Shop Manager+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-26762",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
         "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
         "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
         "provenance": "twin-derived",
@@ -304,7 +392,7 @@
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
           "template_id": "CVE-2025-5062",
-          "confidence": "medium-inference"
+          "confidence": "high-inference"
         }
       },
       {
@@ -316,7 +404,19 @@
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
           "template_id": "CVE-2025-49042",
-          "confidence": "medium-inference"
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 10.4.3 (CVE-2025-15033)",
+        "risk": "CVE-2025-15033: WooCommerce [woocommerce] < 10.4.3",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-15033",
+          "confidence": "high-inference"
         }
       },
       {
@@ -332,6 +432,18 @@
         }
       },
       {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
+        "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-3247",
+          "confidence": "high-inference"
+        }
+      },
+      {
         "severity": "high",
         "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
         "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
@@ -340,43 +452,67 @@
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
           "template_id": "CVE-2022-1329",
-          "confidence": "medium-inference"
+          "confidence": "high-inference"
         }
       },
       {
-        "severity": "high",
-        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47504)",
-        "risk": "CVE-2023-47504: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Broken Access Control",
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.27.5 (CVE-2024-13445)",
+        "risk": "CVE-2024-13445: Elementor Website Builder &ndash; More Than Just a Page Builder &lt;= 3.27.4 - Authenticated (Contributor+) Stored Cross-Site Scripting",
         "provenance": "twin-derived",
         "provenance_detail": {
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
-          "template_id": "CVE-2023-47504",
-          "confidence": "medium-inference"
+          "template_id": "CVE-2024-13445",
+          "confidence": "high-inference"
         }
       },
       {
-        "severity": "critical",
-        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2 (CVE-2023-48777)",
-        "risk": "CVE-2023-48777: WordPress  Elementor Website Builder Plugin  3.3.0-3.18.1 is vulnerable to Arbitrary File Upload",
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2024-50555)",
+        "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
         "provenance": "twin-derived",
         "provenance_detail": {
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
-          "template_id": "CVE-2023-48777",
-          "confidence": "medium-inference"
+          "template_id": "CVE-2024-50555",
+          "confidence": "high-inference"
         }
       },
       {
-        "severity": "high",
-        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1 (CVE-2024-24934)",
-        "risk": "CVE-2024-24934: Elementor <= 3.19.0 - Authenticated(Contributor+) Arbitrary File Deletion and PHAR Deserialization",
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-4566)",
+        "risk": "CVE-2025-4566: Elementor &lt;= 3.30.2 - Authenticated (Contributor+) Stored Cross-Site Scripting via Text Path Widget",
         "provenance": "twin-derived",
         "provenance_detail": {
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
-          "template_id": "CVE-2024-24934",
-          "confidence": "medium-inference"
+          "template_id": "CVE-2025-4566",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2025-3075)",
+        "risk": "CVE-2025-3075: Elementor &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-3075",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-8081)",
+        "risk": "CVE-2025-8081: Elementor &lt;= 3.30.2 - Authenticated (Administrator+) Arbitrary File Read via Image Import",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-8081",
+          "confidence": "high-inference"
         }
       },
       {
@@ -388,7 +524,19 @@
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
           "template_id": "CVE-2025-67588",
-          "confidence": "medium-inference"
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4 (CVE-2025-11220)",
+        "risk": "CVE-2025-11220: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-11220",
+          "confidence": "high-inference"
         }
       },
       {
@@ -400,7 +548,7 @@
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
           "template_id": "CVE-2026-32445",
-          "confidence": "medium-inference"
+          "confidence": "high-inference"
         }
       },
       {
@@ -412,22 +560,106 @@
           "source_layer": 1,
           "twin_scan_tool": "wpvulnerability",
           "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
+        "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-45000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
+        "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-40000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
+        "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-28000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
+        "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-44000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
+        "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-47637",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
+        "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-47374",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
+        "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-50550",
           "confidence": "medium-inference"
         }
       }
     ],
     "twin_scan": {
-      "twin_scan_date": "2026-04-01",
+      "twin_scan_date": "2026-04-02",
       "scan_tools": [
         "wpvulnerability"
       ],
-      "duration_ms": 149,
+      "duration_ms": 314,
       "note": "Findings derived from passive fingerprinting, not confirmed against live target"
     }
   },
   "timing": {
-    "robots_txt": 88,
-    "total_ms": 592
+    "robots_txt": 92,
+    "total_ms": 2507
   },
   "cache_stats": {
     "hits": 9,

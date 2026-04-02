@@ -1,6 +1,6 @@
 {
   "domain": "hosingeborg.dk",
-  "job_id": "scan-2026-04-01-193051bd",
+  "job_id": "scan-2026-04-02-3afa5ed5",
   "status": "completed",
   "scan_result": {
     "domain": "hosingeborg.dk",
@@ -13,8 +13,13 @@
     "ssl_days_remaining": 37,
     "detected_plugins": [
       "complianz-gdpr",
-      "tablepress"
+      "tablepress",
+      "wordpress-seo"
     ],
+    "plugin_versions": {
+      "wordpress-seo": "27.3"
+    },
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -122,7 +127,7 @@
     "domain": "hosingeborg.dk",
     "cvr": "prospect",
     "company_name": "hosingeborg.dk",
-    "scan_date": "2026-04-01",
+    "scan_date": "2026-04-02",
     "bucket": "A",
     "gdpr_sensitive": false,
     "gdpr_reasons": [],
@@ -139,8 +144,13 @@
       "server": "Apache",
       "detected_plugins": [
         "Complianz Gdpr",
-        "Tablepress"
+        "Tablepress",
+        "Wordpress Seo"
       ],
+      "plugin_versions": {
+        "Wordpress Seo": "27.3"
+      },
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
@@ -159,6 +169,9 @@
       "jQuery",
       "jQuery Migrate:3.4.1"
     ],
+    "plugin_versions": {
+      "wordpress-seo": "27.3"
+    },
     "subdomains": {
       "count": 1,
       "list": [
@@ -208,7 +221,7 @@
       },
       {
         "severity": "info",
-        "description": "2 WordPress plugins detected",
+        "description": "3 WordPress plugins detected",
         "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
       },
       {
@@ -220,6 +233,18 @@
         "severity": "info",
         "description": "1 subdomain detected",
         "risk": "Each subdomain is a separate entry point that may run different software and have its own vulnerabilities. Subdomains are often forgotten and left unpatched."
+      },
+      {
+        "severity": "high",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5 (CVE-2023-33333)",
+        "risk": "CVE-2023-33333: WordPress  Complianz – GDPR/CCPA Cookie Consent Plugin  <= 6.4.4 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "twin-derived",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-33333",
+          "confidence": "medium-inference"
+        }
       },
       {
         "severity": "high",
@@ -235,17 +260,17 @@
       }
     ],
     "twin_scan": {
-      "twin_scan_date": "2026-04-01",
+      "twin_scan_date": "2026-04-02",
       "scan_tools": [
         "wpvulnerability"
       ],
-      "duration_ms": 169,
+      "duration_ms": 319,
       "note": "Findings derived from passive fingerprinting, not confirmed against live target"
     }
   },
   "timing": {
-    "robots_txt": 1247,
-    "total_ms": 1773
+    "robots_txt": 1687,
+    "total_ms": 2217
   },
   "cache_stats": {
     "hits": 9,

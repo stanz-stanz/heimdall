@@ -1,6 +1,6 @@
 {
   "domain": "langolo.dk",
-  "job_id": "scan-2026-04-01-a5d86734",
+  "job_id": "scan-2026-04-02-992bfff1",
   "status": "completed",
   "scan_result": {
     "domain": "langolo.dk",
@@ -12,6 +12,8 @@
     "ssl_expiry": "2026-05-13",
     "ssl_days_remaining": 41,
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -96,7 +98,7 @@
     "domain": "langolo.dk",
     "cvr": "prospect",
     "company_name": "langolo.dk",
-    "scan_date": "2026-04-01",
+    "scan_date": "2026-04-02",
     "bucket": "C",
     "gdpr_sensitive": false,
     "gdpr_reasons": [],
@@ -112,6 +114,8 @@
       },
       "server": "Pepyaka",
       "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
@@ -128,6 +132,7 @@
       "React",
       "Wix"
     ],
+    "plugin_versions": {},
     "subdomains": {
       "count": 0,
       "list": []
@@ -148,8 +153,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 194,
-    "total_ms": 199
+    "robots_txt": 200,
+    "total_ms": 201
   },
   "cache_stats": {
     "hits": 5,

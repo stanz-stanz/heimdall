@@ -1,17 +1,19 @@
 {
-  "domain": "1401.dk",
-  "job_id": "scan-2026-04-01-970dd1bd",
+  "domain": "onlyfood.dk",
+  "job_id": "scan-2026-04-02-287a6190",
   "status": "completed",
   "scan_result": {
-    "domain": "1401.dk",
+    "domain": "onlyfood.dk",
     "cms": "",
-    "server": "Apache",
+    "server": "",
     "hosting": "",
     "ssl_valid": true,
     "ssl_issuer": "Let's Encrypt",
-    "ssl_expiry": "2026-06-01",
-    "ssl_days_remaining": 61,
+    "ssl_expiry": "2026-06-25",
+    "ssl_days_remaining": 84,
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
@@ -19,39 +21,35 @@
       "x_content_type_options": false
     },
     "tech_stack": [
-      "Apache HTTP Server",
-      "Varnish"
+      "HTTP/3",
+      "Plesk"
     ],
     "meta_author": "",
     "footer_credit": "",
     "raw_httpx": {
-      "timestamp": "2026-04-01T18:06:39.266284861Z",
+      "timestamp": "2026-04-01T18:07:00.992554044Z",
       "port": "443",
-      "url": "https://1401.dk",
-      "input": "1401.dk",
-      "title": "1401",
+      "url": "https://onlyfood.dk",
+      "input": "onlyfood.dk",
+      "title": "Onlyfood.dk",
       "scheme": "https",
-      "webserver": "Apache",
       "content_type": "text/html",
       "method": "GET",
-      "host": "1401.dk",
-      "host_ip": "46.30.215.49",
+      "host": "onlyfood.dk",
+      "host_ip": "46.17.94.187",
       "path": "/",
-      "time": "120.963728ms",
+      "time": "225.42964ms",
       "a": [
-        "46.30.215.49"
-      ],
-      "aaaa": [
-        "2a02:2350:5:10e:808d:3bea:a2b4:8b82"
+        "46.17.94.187"
       ],
       "tech": [
-        "Apache HTTP Server",
-        "Varnish"
+        "HTTP/3",
+        "Plesk"
       ],
-      "words": 4008,
-      "lines": 58,
+      "words": 22,
+      "lines": 18,
       "status_code": 200,
-      "content_length": 237092,
+      "content_length": 371,
       "failed": false,
       "knowledgebase": {
         "pHash": 0
@@ -67,10 +65,10 @@
     "exposed_cloud_storage": []
   },
   "brief": {
-    "domain": "1401.dk",
+    "domain": "onlyfood.dk",
     "cvr": "prospect",
-    "company_name": "1401.dk",
-    "scan_date": "2026-04-01",
+    "company_name": "onlyfood.dk",
+    "scan_date": "2026-04-02",
     "bucket": "E",
     "gdpr_sensitive": false,
     "gdpr_reasons": [],
@@ -81,11 +79,13 @@
       "ssl": {
         "valid": true,
         "issuer": "Let's Encrypt",
-        "expiry": "2026-06-01",
-        "days_remaining": 61
+        "expiry": "2026-06-25",
+        "days_remaining": 84
       },
-      "server": "Apache",
+      "server": "",
       "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
@@ -94,9 +94,10 @@
       }
     },
     "tech_stack": [
-      "Apache HTTP Server",
-      "Varnish"
+      "HTTP/3",
+      "Plesk"
     ],
+    "plugin_versions": {},
     "subdomains": {
       "count": 0,
       "list": []
@@ -127,8 +128,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 116,
-    "total_ms": 117
+    "robots_txt": 159,
+    "total_ms": 160
   },
   "cache_stats": {
     "hits": 5,

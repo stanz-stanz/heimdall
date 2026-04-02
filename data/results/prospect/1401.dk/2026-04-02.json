@@ -1,55 +1,59 @@
 {
-  "domain": "casablancavejle.dk",
-  "job_id": "scan-2026-04-01-628cbf0e",
+  "domain": "1401.dk",
+  "job_id": "scan-2026-04-02-4662aeb6",
   "status": "completed",
   "scan_result": {
-    "domain": "casablancavejle.dk",
+    "domain": "1401.dk",
     "cms": "",
-    "server": "ESF",
+    "server": "Apache",
     "hosting": "",
-    "ssl_valid": false,
-    "ssl_issuer": "",
-    "ssl_expiry": "",
-    "ssl_days_remaining": -1,
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-01",
+    "ssl_days_remaining": 61,
     "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
       "x_content_type_options": false
     },
-    "tech_stack": [],
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
     "meta_author": "",
     "footer_credit": "",
     "raw_httpx": {
-      "timestamp": "2026-04-01T18:08:37.122045987Z",
-      "cdn_name": "aws",
-      "cdn_type": "cloud",
-      "port": "80",
-      "url": "http://casablancavejle.dk",
-      "input": "casablancavejle.dk",
-      "title": "CASABLANCE VEJLE",
-      "scheme": "http",
-      "webserver": "ESF",
+      "timestamp": "2026-04-01T18:06:39.266284861Z",
+      "port": "443",
+      "url": "https://1401.dk",
+      "input": "1401.dk",
+      "title": "1401",
+      "scheme": "https",
+      "webserver": "Apache",
       "content_type": "text/html",
       "method": "GET",
-      "host": "casablancavejle.dk",
-      "host_ip": "15.197.142.173",
+      "host": "1401.dk",
+      "host_ip": "46.30.215.49",
       "path": "/",
-      "final_url": "https://www.casablancavejle.dk",
-      "time": "426.637789ms",
-      "chain_status_codes": [
-        301,
-        200
-      ],
+      "time": "120.963728ms",
       "a": [
-        "15.197.142.173",
-        "3.33.152.147"
+        "46.30.215.49"
       ],
-      "words": 7069,
-      "lines": 100,
+      "aaaa": [
+        "2a02:2350:5:10e:808d:3bea:a2b4:8b82"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Varnish"
+      ],
+      "words": 4008,
+      "lines": 58,
       "status_code": 200,
-      "content_length": 138674,
+      "content_length": 237092,
       "failed": false,
       "knowledgebase": {
         "pHash": 0
@@ -57,13 +61,6 @@
       "resolvers": [
         "1.1.1.1:53",
         "1.0.0.1:53"
-      ],
-      "cpe": [
-        {
-          "product": "webp_server_go",
-          "vendor": "webp",
-          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
-        }
       ]
     },
     "subdomains": [],
@@ -72,10 +69,10 @@
     "exposed_cloud_storage": []
   },
   "brief": {
-    "domain": "casablancavejle.dk",
+    "domain": "1401.dk",
     "cvr": "prospect",
-    "company_name": "casablancavejle.dk",
-    "scan_date": "2026-04-01",
+    "company_name": "1401.dk",
+    "scan_date": "2026-04-02",
     "bucket": "E",
     "gdpr_sensitive": false,
     "gdpr_reasons": [],
@@ -84,13 +81,15 @@
       "cms": "",
       "hosting": "Unknown",
       "ssl": {
-        "valid": false,
-        "issuer": "",
-        "expiry": "",
-        "days_remaining": -1
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-01",
+        "days_remaining": 61
       },
-      "server": "ESF",
+      "server": "Apache",
       "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
       "headers": {
         "x_frame_options": false,
         "content_security_policy": false,
@@ -98,7 +97,11 @@
         "x_content_type_options": false
       }
     },
-    "tech_stack": [],
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Varnish"
+    ],
+    "plugin_versions": {},
     "subdomains": {
       "count": 0,
       "list": []
@@ -106,11 +109,6 @@
     "dns": {},
     "cloud_exposure": [],
     "findings": [
-      {
-        "severity": "critical",
-        "description": "No SSL certificate detected",
-        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
-      },
       {
         "severity": "medium",
         "description": "Missing HSTS header (HTTP Strict Transport Security)",
@@ -134,8 +132,8 @@
     ]
   },
   "timing": {
-    "robots_txt": 30067,
-    "total_ms": 30068
+    "robots_txt": 113,
+    "total_ms": 148
   },
   "cache_stats": {
     "hits": 5,
