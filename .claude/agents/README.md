@@ -20,6 +20,7 @@ Heimdall uses specialised Claude Code agents, each with a defined role, toolset,
 | DevOps | `devops/` | Infrastructure config, Docker, deployment, monitoring |
 | Marketing | `marketing/` | Outreach strategy, channel rules, prospect communication |
 | Fullstack Guy | `fullstack-guy/` | Real-time FastAPI + frontend patterns, WebSocket, CSS animations |
+| OSINT | `osint/` | Web application fingerprinting, passive recon, technology detection, attack surface enumeration |
 
 ## Chain Architecture
 
