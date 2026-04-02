@@ -57,6 +57,8 @@ Scanning without written consent may **only** read information that the server v
 | dig / nslookup | DNS record queries |
 | curl / wget | Fetching public pages only (homepage, sitemap.xml, robots.txt, security.txt) |
 | GrayHatWarfare | Querying a third-party public index of exposed cloud storage buckets. No direct requests to the target's infrastructure. See Valdí classification note below. |
+| WordPress REST API (`/wp-json/`) | Reading the REST API index when the site explicitly advertises it via `<link rel="https://api.w.org/">` in its HTML or HTTP `Link` header. This is a publicly linked URL — the site invites clients to discover it. Reveals plugin namespaces. **Only Layer 1 when advertised. Do NOT probe `/wp-json/` if the site doesn't link to it.** |
+| WordPress.org Plugin API | Querying `api.wordpress.org/plugins/info/1.0/{slug}.json` for latest plugin versions. Public API, no auth required. No requests to the target — queries WordPress.org's servers. |
 
 ---
 

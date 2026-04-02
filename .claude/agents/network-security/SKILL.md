@@ -3,7 +3,7 @@ name: network-security
 description: >
   Network Security agent for Heimdall. Configures, executes, and validates vulnerability
   scans against authorised targets. Use this agent when: configuring scan tools (Nuclei,
-  Nmap, WPScan, httpx, subfinder); executing consent-gated scans; reviewing scan
+  Nmap, httpx, subfinder); executing consent-gated scans; reviewing scan
   configurations; troubleshooting scan failures; evaluating new scanning tools; discussing
   scan methodology. Also use when the user mentions "scan configuration", "Nuclei templates",
   "vulnerability scan", "port scan", "tool configuration", "scan execution",
@@ -65,7 +65,6 @@ Before ANY scan execution, you MUST verify:
 | Tool | Purpose | Version |
 |------|---------|---------|
 | Nuclei | Template-based vulnerability scanning | v3.7.1 |
-| WPScan | WordPress-specific scanning (Redis sidecar) | 3.8.28 |
 | CMSeek | CMS deep fingerprinting | pinned commit 20f9780 |
 | Nikto | Web server vulnerability scanning | to be implemented |
 | Nmap | Port scanning, service detection | to be implemented |
@@ -136,7 +135,7 @@ Before ANY scan execution, you MUST verify:
 
 ### Layer 2: Active Vulnerability Probing (Written consent required)
 - Nuclei with curated template set (no DoS, no exploitation)
-- WPScan (WordPress targets only, via Redis sidecar)
+- WPVulnerability API (WordPress CVE lookups, replaces WPScan sidecar)
 - CMSeek: CMS deep fingerprinting (admin paths, versions, plugins)
 - Nikto: web server vulnerability scanning (to be implemented)
 - Nmap: service detection, top-100 ports (to be implemented)

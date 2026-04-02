@@ -192,6 +192,8 @@ The digital twin runs as a Docker Compose service under profile `["twin"]`, expo
 | GrayHatWarfare | Exposed cloud storage index search | 1 | https://grayhatwarfare.com |
 | Nuclei | Template-based vulnerability scanner | 2 | https://github.com/projectdiscovery/nuclei |
 | WPVulnerability API | WordPress plugin/core CVE lookups (free, CVSS-scored) | 1 | https://www.wpvulnerability.net/ |
+| WordPress.org API | Plugin latest version checks (outdated plugin detection) | 1 | https://api.wordpress.org/plugins/info/1.0/ |
+| WordPress REST API | Plugin enumeration via namespace discovery (when site advertises /wp-json/) | 1 | Built-in WordPress feature |
 | CMSeek | CMS deep fingerprinting | 2 | https://github.com/Tuhinshubhra/CMSeeK |
 | Nikto | Web server vulnerability scanner | 2 | https://github.com/sullo/nikto |
 | Nmap | Port scanning, service detection | 2 | https://github.com/nmap/nmap |
@@ -307,7 +309,7 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 2. Apply pre-scan filters from `config/filters.json` (industry_code, contactable)
 3. Derive website domains from company email addresses (discard free webmail)
 4. Resolve domains (check website exists + robots.txt compliance)
-5. Layer 1 scanning with Valdí-approved scan types (`webanalyze`, `httpx`) — all scan types must pass Valdí Gate 1 review before execution
+5. Layer 1 scanning with Valdí-approved scan types (`webanalyze`, `httpx`) + WordPress-specific passive detection (plugin `?ver=` version extraction, REST API namespace enumeration, meta generator tags, CSS class signatures) — all scan types must pass Valdí Gate 1 review before execution
 6. Auto-bucket results:
    - **Bucket A (HIGHEST):** Self-hosted WordPress on shared hosting
    - **Bucket B (HIGH):** Other self-hosted CMS (Joomla, Drupal, PrestaShop)
@@ -318,7 +320,7 @@ No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remedia
 8. Flag GDPR-sensitive industries via CVR branchekoder (healthcare, legal, accounting, real estate, dental)
 9. Detect web agencies via footer credits and meta author tags
 10. Generate per-site brief: CMS, hosting provider, SSL status, detected plugins, risk profile
-11. WordPress domains: enrich with twin-derived Layer 2 findings (Nuclei against local digital twin replica) + WPVulnerability API lookups for plugin/core CVEs (no consent required)
+11. WordPress domains: check installed plugin versions against wordpress.org latest (flag outdated), enrich with twin-derived Layer 2 findings (Nuclei against local digital twin replica) + WPVulnerability API lookups for plugin/core CVEs (no consent required)
 12. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs
 
 **Output notes:**

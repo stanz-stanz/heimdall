@@ -5,6 +5,37 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-02 — WordPress plugin version extraction, OSINT agent, HackerTarget gap analysis
+
+**Decided**
+- Plugin version extraction from HTML `?ver=` params — two-pass regex captures slug + version from `/wp-content/plugins/` paths. Extended to handle `&#038;ver=` and `&amp;ver=` HTML entities.
+- REST API namespace enumeration — if WordPress advertises `/wp-json/` via `<link rel="https://api.w.org/">`, fetch it and parse `namespaces` array. One HTTP request replaces thousands of fingerprinting rules. Layer 1 compliant (site explicitly links to it).
+- Meta generator tag parsing — multiple `<meta name="generator">` tags per page (WooCommerce, Elementor add their own). Extracts plugin name + version.
+- CSS class signature detection — `.woocommerce`, `.et_pb_` (Divi), `.elementor` body classes reveal plugins not visible in asset paths.
+- Tech_stack → detected_plugins merge — httpx/webanalyze detect plugins (Yoast SEO, WP Rocket) in tech_stack but these never reached vulndb lookup. Now merged via `slug_map.json` display-name-to-slug mapping.
+- WordPress.org API for latest version checks — new `wp_versions.py` queries `api.wordpress.org/plugins/info/1.0/{slug}.json`, caches 24h in vulndb SQLite. Generates "Outdated plugin" findings (medium severity).
+- Outdated plugin check moved from `generate_brief` (pure compute) to `scan_job.py` (I/O layer) — network calls don't belong in brief generation.
+- `slug_map.json` expanded: LiteSpeed Cache corrected from `null` to `litespeed-cache` (it IS a plugin), Divi Builder, Tablepress, Complianz GDPR added.
+- Pi5 aliases fixed: `--no-cache` removed (caused 15-30 min ARM64 rebuilds), replaced with `--force-recreate` (uses layer cache, ~1 min). New `heimdall-quick` alias for Python-only deploys (~20-30s).
+- Finding confidence split (Option C): brief findings will be split into "Confirmed" (version-matched) and "Potential" (version unknown) sections. Prevents false alarm from critical CVEs on unknown-version plugins. Queued for interpretation/delivery sprint.
+- OSINT agent created — web application fingerprinting, passive recon, technology detection. Carries forward REST API namespace tables, CSS signature patterns, lessons from HackerTarget comparison and March 22 Layer 2 incident.
+- WPVulnerability API `impact` field handled as list (was crashing on Pi5 — `AttributeError: 'list' object has no attribute 'get'`).
+- Enriched CVR database deployed to Pi5 via git commit (5.6MB). Scheduler auto-detects SQLite DB, skips legacy Excel pipeline.
+
+**Rejected**
+- Volume-mounting `src/` in Docker containers for instant code updates — Docker expert recommended against it: partial git pulls during active scans can load half-updated code, `__pycache__` issues with `:ro` mounts, doesn't translate to multi-node/CI.
+- Using HackerTarget as a data source — adds $10/month dependency, couples pipeline to third-party uptime. The only gap (IP reputation) is better covered by planned abuse.ch URLhaus + WHOIS integration with free, direct sources.
+- Keeping all CVE findings at original CVSS severity regardless of confidence — cries wolf, erodes trust. A restaurant owner's developer runs HackerTarget free scan, sees no CVE mentions, concludes we're inflating findings.
+
+**Unresolved**
+- Confidence split implementation — brief structure change affects Finding Interpreter, Message Composer, Telegram templates. Queued for interpretation sprint.
+- conrads.dk still shows 6 plugins (not 9 like HackerTarget) — REST API + meta generator + CSS detection deployed but pipeline ran before these commits on Pi5. Next run should improve. 3 remaining gaps: `divi-builder` (may need REST API namespace `divi/v1` or `et/v1`), `woocommerce` (should appear via meta generator or CSS class), `gravityforms` duplicate (dedup difference, not a real gap).
+- Nikto + Nmap implementation still pending
+- API key rotation still pending (SERPER_API_KEY, CLAUDE_API_KEY)
+- Network Security SKILL.md still references WPScan sidecar in Layer 2 tools table
+
+---
+
 ## 2026-04-01 — Enriched DB deployment to Pi5, WPVulnerability docs gap identified
 
 **Decided**
