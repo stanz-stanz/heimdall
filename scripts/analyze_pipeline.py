@@ -102,7 +102,8 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
     # Buckets
     buckets = Counter(b.get("bucket", "?") for b in briefs)
     print(f"\n  BUCKETS")
-    print(f"    A: {buckets.get('A', 0):>4d}   B: {buckets.get('B', 0):>4d}   E: {buckets.get('E', 0):>4d}   C: {buckets.get('C', 0):>4d}   D: {buckets.get('D', 0):>4d}")
+    for bucket in ["A", "B", "E", "C", "D"]:
+        print(f"    {bucket}: {buckets.get(bucket, 0):>4d}")
 
     # GDPR
     gdpr_count = sum(1 for b in briefs if b.get("gdpr_sensitive"))
@@ -118,7 +119,10 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
     ssl_valid = sum(1 for b in briefs if b.get("technology", {}).get("ssl", {}).get("valid"))
     no_ssl = sum(1 for b in briefs if b.get("technology", {}).get("ssl", {}).get("days_remaining", -1) == -1)
     expiring_soon = sum(1 for b in briefs if 0 < b.get("technology", {}).get("ssl", {}).get("days_remaining", 999) < 30)
-    print(f"\n  SSL: {ssl_valid} valid, {no_ssl} missing, {expiring_soon} expiring <30 days")
+    print(f"\n  SSL")
+    print(f"    Valid:           {ssl_valid}")
+    print(f"    No certificate:  {no_ssl}")
+    print(f"    Expiring <30d:   {expiring_soon}")
 
     # Findings
     total_findings = 0
@@ -131,10 +135,9 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
             finding_types[f.get("description", "")] += 1
             severity_counts[f.get("severity", "unknown")] += 1
 
-    print(f"\n  FINDINGS: {total_findings} total, {total_findings / total:.1f} avg/domain — "
-          f"{severity_counts.get('critical', 0)} critical, {severity_counts.get('high', 0)} high, "
-          f"{severity_counts.get('medium', 0)} medium, {severity_counts.get('low', 0)} low, "
-          f"{severity_counts.get('info', 0)} info")
+    print(f"\n  FINDINGS: {total_findings} total, {total_findings / total:.1f} avg/domain")
+    for sev in ["critical", "high", "medium", "low", "info"]:
+        print(f"    {sev:<10s} {severity_counts.get(sev, 0):>5d}")
 
     # Top finding types — deduplicate by base description (strip version-specific CVE suffixes)
     grouped_types: Counter = Counter()
