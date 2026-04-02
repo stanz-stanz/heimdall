@@ -82,6 +82,7 @@ Pi5 (Docker Compose)
 ├── heimdall-scheduler # Creates scan jobs per client schedule
 ├── heimdall-worker ×3 # Pulls jobs from Redis, executes scans, stores results
 ├── heimdall-api       # Results API + Telegram delivery
+├── heimdall-delivery  # Telegram delivery bot (scan-complete → send)
 └── volumes
     ├── /data/cache    # Tool-specific scan cache
     ├── /data/results  # Scan results per client

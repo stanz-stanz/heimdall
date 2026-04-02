@@ -1,0 +1,44 @@
+# =============================================================================
+# Heimdall Delivery Bot — Lightweight Dockerfile
+# Target: linux/arm64 (Raspberry Pi 5)
+# Resource budget: 128 MB RAM, 0.25 CPU
+# Mostly idle — wakes on Redis pub/sub scan-complete events
+# =============================================================================
+
+FROM python:3.11-slim
+
+LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
+LABEL description="Heimdall delivery bot — Telegram scan report delivery with operator approval"
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN groupadd --gid 1000 heimdall \
+ && useradd --uid 1000 --gid 1000 --create-home heimdall
+
+# Create data directories the volumes will mount into
+RUN mkdir -p /data/clients /data/messages /config \
+ && chown -R heimdall:heimdall /data /config
+
+WORKDIR /app
+
+# Install Python deps first (layer caching)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code and config
+COPY src/ ./src/
+COPY config/ ./config/
+
+# Own everything by non-root user
+RUN chown -R heimdall:heimdall /app
+
+USER heimdall
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD python -c "import redis, os; r = redis.from_url(os.environ.get('REDIS_URL','redis://redis:6379/0')); r.ping()" || exit 1
+
+ENTRYPOINT ["python", "-m", "src.delivery"]

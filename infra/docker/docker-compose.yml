@@ -156,6 +156,37 @@ services:
       timeout: 5s
       retries: 3
 
+  delivery:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.delivery
+    command: ["--redis-url", "redis://redis:6379/0", "--db-path", "/data/clients/clients.db"]
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - TELEGRAM_OPERATOR_CHAT_ID=${TELEGRAM_OPERATOR_CHAT_ID:-}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
+    volumes:
+      - client-data:/data/clients:ro
+      - message-data:/data/messages
+      - config-data:/config:ro
+    networks:
+      - internal
+    depends_on:
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import redis, os; r = redis.from_url(os.environ.get('REDIS_URL','redis://redis:6379/0')); r.ping()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
   twin:
     build:
       context: ../..

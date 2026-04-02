@@ -11,6 +11,7 @@ Pi5 (Docker Compose)
 ├── redis                  # Job queue + result cache
 ├── ct-collector           # CertStream subscriber → local SQLite CT database
 ├── heimdall-api           # Results API (for Telegram delivery)
+├── heimdall-delivery      # Telegram delivery bot (scan-complete → interpret → send)
 ├── dozzle                 # Live container log viewer (:8080)
 ├── prometheus             # Metrics collection (:9090)
 ├── grafana                # Dashboards (:3000)
@@ -85,6 +86,22 @@ Environment variables: `REDIS_URL`, `RESULTS_DIR`, `MESSAGES_DIR`, `CLAUDE_API_K
 
 Volumes: `result-data` (read-only), `client-data` (read-only), `message-data` (writable), `config-data` (read-only).
 
+### heimdall-delivery
+
+Telegram delivery bot (128 MB RAM, 0.25 CPU). Subscribes to Redis `scan-complete` pub/sub events and runs the delivery pipeline:
+
+1. **Event listener** — subscribes to `scan-complete` channel, wakes on each event
+2. **Client lookup** — finds client by domain in SQLite DB, checks for `telegram_chat_id`
+3. **Interpretation** — calls Claude API (Sonnet) to interpret raw findings into plain-language Danish
+4. **Composition** — formats interpreted findings for Telegram (4096-char auto-splitting)
+5. **Routing** — sends through operator approval flow or auto-sends based on `config/delivery.json`
+
+Mostly idle between events. Uses synchronous Redis pubsub with a 1-second poll timeout so the event loop can yield. Reconnects automatically on Redis connection loss.
+
+Environment variables: `REDIS_URL`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_OPERATOR_CHAT_ID`, `CLAUDE_API_KEY`.
+
+Volumes: `client-data` (read-only), `message-data` (writable), `config-data` (read-only).
+
 ### heimdall-twin (profile: twin)
 
 Brief-to-website simulator. Reads a prospect brief JSON from the `/config` volume and serves HTTP/HTTPS responses that replicate the prospect's detected tech stack (WordPress version, plugin headers, missing security headers, exposed endpoints). Used for Layer 2 scanning without prospect consent -- the twin is Heimdall-owned infrastructure, so Straffeloven ss.263 does not apply.
@@ -150,12 +167,13 @@ Workers check Redis cache before each scan type. If the cached result exists and
 | CT Collector | 256 MB | 0.25 core | CertStream WebSocket + SQLite writer |
 | Scheduler | 256 MB | Shared | Lightweight, mostly sleeping |
 | API | 256 MB | 0.5 CPU | FastAPI + thread pool for LLM interpretation |
+| Delivery Bot | 128 MB | 0.25 core | Mostly idle, wakes on scan-complete events |
 | Prometheus | 256 MB | Shared | 30-day / 2GB retention |
 | Grafana | 256 MB | Shared | Dashboards |
 | Dozzle | 128 MB | Shared | Live log viewer |
 | Twin | 256 MB | 0.25 core | Profile-gated, not in default stack |
 | Raspberry Pi OS | 1.5 GB | — | Base system + Docker daemon |
-| **Buffer** | **1.5 GB** | — | Headroom for spikes |
+| **Buffer** | **~1.4 GB** | — | Headroom for spikes |
 
 ### Throughput (measured, Vejle 204 domains)
 
