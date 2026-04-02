@@ -167,7 +167,7 @@ services:
       - TELEGRAM_OPERATOR_CHAT_ID=${TELEGRAM_OPERATOR_CHAT_ID:-}
       - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
     volumes:
-      - client-data:/data/clients:ro
+      - client-data:/data/clients
       - message-data:/data/messages
       - config-data:/config:ro
     networks:
