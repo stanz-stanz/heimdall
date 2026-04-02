@@ -5,6 +5,34 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-02 — Client SQLite DB implemented, Telegram bot delivery pipeline built
+
+**Decided**
+- Client DB schema implemented as SQLite at `data/clients/clients.db`. 11 tables, 9 views, 34+ indexes. Schema loaded from `docs/architecture/client-db-schema.sql` at runtime via `executescript()`.
+- Schema patched with 3 additions: 7 client profile columns (contact_role, preferred_channel, technical_context, has_developer, developer_contact, scan_schedule, next_scan_date), `finding_status_log` table for remediation audit trail, `read_at`/`replied_at` on delivery_log.
+- JSON-based `AtomicFileStore` in `src/client_memory/` kept functional for backward compat — not retired yet. New `DBClientHistory` in `src/db/client_history.py` is the SQLite replacement. `DeltaDetector` and `RemediationTracker` reused unchanged.
+- Telegram bot runs as separate process (`python -m src.delivery`). Uses `python-telegram-bot>=21.0` async API with polling mode.
+- Operator approval flow: bot sends preview to Federico's personal Telegram chat with inline [Approve][Reject] buttons. Global toggle `require_approval` in `config/delivery.json` — set to `true` for pilot, `false` for autonomous operation at scale.
+- Worker DB hook: fail-safe try/except block in `src/worker/main.py` saves scan results to SQLite after each scan. DB errors logged, never fatal to scan pipeline.
+- Bot token (`TELEGRAM_BOT_TOKEN`) and operator chat ID (`TELEGRAM_OPERATOR_CHAT_ID`) from environment variables only — never committed.
+- Message sender handles RetryAfter (Telegram rate limit), TimedOut, NetworkError with exponential backoff.
+- Full message chunks stashed in `bot_data` (in-memory) during approval flow. If bot restarts between request and approval, falls back to DB preview. Acceptable for pilot scale.
+
+**Rejected**
+- Retiring `src/client_memory/` module entirely — backward compat needed for 561 existing tests. Dual-mode approach instead.
+- Embedding schema SQL inline in Python — schema is 600+ lines, loaded from `.sql` file at runtime instead.
+- Async Redis client — used sync `redis.from_url()` with `get_message(timeout=1.0)` poll in async loop. Simpler, sufficient for pilot throughput.
+- Storing full message content in delivery_log — only preview (200 chars) + hash stored. Full content in bot_data in-memory during approval window.
+
+**Unresolved**
+- `src/client_memory/` JSON module retirement — can be done once all consumers migrate to `src/db/`
+- Full message persistence in DB for approval flow — stashing in bot_data is a pilot tradeoff
+- Telegram bot Docker container — not containerized yet, needs adding to docker-compose
+- Client onboarding workflow — no way to register a client's telegram_chat_id yet
+- PR #14 open — needs merge to main
+
+---
+
 ## 2026-04-02 — Client DB schema design, 1,179-domain pipeline run, loguru migration planned
 
 **Decided**

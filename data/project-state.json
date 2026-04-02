@@ -1,11 +1,13 @@
 {
-  "last_updated": "2026-03-29T18:00:00Z",
-  "phase": "sprint-4-staging",
+  "last_updated": "2026-04-02T23:30:00Z",
+  "phase": "sprint-4-in-progress",
   "current_sprint": {
     "name": "Sprint 4 — Pilot Launch (Vejle, 5 clients)",
     "started": "2026-03-30",
     "target_end": "2026-04-30",
-    "status": "not-started"
+    "status": "in-progress",
+    "progress_pct": 45,
+    "notes": "Pipeline fully operational at 1,179 domains. Client SQLite DB implemented (11 tables, 150 tests). Telegram delivery bot built (operator approval flow, auto-send toggle). PR #14 open. Client onboarding and bot containerization not started."
   },
   "completed_sprints": [
     {
@@ -19,9 +21,9 @@
       "notes": "204 domains in 8.5 min (9x improvement). Subfinder batch enrichment, local CT database, observability stack. 217 tests."
     },
     {
-      "name": "Sprint 3 — Level 1 Pipeline (3.0-3.5)",
+      "name": "Sprint 3 — Consent-Gated Pipeline (3.0-3.5)",
       "status": "complete",
-      "notes": "Results API, consent management, Level 1 scanners (Nuclei/WPScan/CMSeek), finding interpreter, message composer, client memory, digital twin, mobile console, deployment hardening. 500 tests. All versions pinned. Smoke test integrated into pipeline command."
+      "notes": "Results API, consent management, Layer 2 scanners (Nuclei/CMSeek), finding interpreter, message composer, client memory, digital twin, mobile console, deployment hardening. 500 tests. All versions pinned. Smoke test integrated into pipeline command."
     }
   ],
   "milestones": [
@@ -50,22 +52,69 @@
       "notes": "CMSeek commit 20f9780, Nuclei v3.7.1, httpx v1.9.0, webanalyze v0.4.1, subfinder v2.13.0, dnsx v1.2.3."
     },
     {
+      "id": "M23",
+      "name": "WPScan sidecar replaced with WPVulnerability API",
+      "status": "complete",
+      "completed_date": "2026-04-02",
+      "owner_agent": "network-security",
+      "notes": "WPVulnerability API + local SQLite cache. No Ruby sidecar. Docs updated across CLAUDE.md, SCANNING_RULES.md, briefing.md."
+    },
+    {
+      "id": "M24",
+      "name": "CVR enriched database operational",
+      "status": "complete",
+      "completed_date": "2026-04-02",
+      "owner_agent": "prospecting",
+      "notes": "5.6MB SQLite deployed to Pi5 via git. Scheduler auto-detects, skips legacy Excel pipeline. 1,179 domains loaded."
+    },
+    {
+      "id": "M25",
+      "name": "WordPress plugin detection parity with competitors",
+      "status": "complete",
+      "completed_date": "2026-04-02",
+      "owner_agent": "osint",
+      "notes": "HTML ver= extraction, REST API namespace enumeration, meta generator parsing, CSS class signatures, slug_map.json merge, WordPress.org API latest-version checks."
+    },
+    {
+      "id": "M26",
+      "name": "OSINT agent created",
+      "status": "complete",
+      "completed_date": "2026-04-02",
+      "owner_agent": "project-coordinator",
+      "notes": "Web fingerprinting knowledge base. 13 agents total."
+    },
+    {
+      "id": "M27",
+      "name": "Full pipeline at scale (1,179 domains)",
+      "status": "in-progress",
+      "owner_agent": "devops",
+      "notes": "Running on Pi5. Previous: 10 restaurants-only. Local CSV export shows 210 briefs from partial/test run. Awaiting full 1,179-domain completion."
+    },
+    {
+      "id": "M28",
+      "name": "Client SQLite DB implemented",
+      "status": "complete",
+      "completed_date": "2026-04-02",
+      "owner_agent": "client-memory",
+      "notes": "11 tables, 9 views, 34+ indexes. src/db/ module with full CRUD. DB-backed delta detection. Worker hook saves scan results to DB. 92 tests. PR #14."
+    },
+    {
       "id": "M30",
-      "name": "Telegram delivery (Sprint 4, Increment 4.1)",
-      "target_date": "2026-04-30",
-      "status": "pending",
+      "name": "Telegram delivery bot (Sprint 4, Increment 4.1)",
+      "status": "implemented",
+      "completed_date": "2026-04-02",
       "owner_agent": "message-composer",
       "blockers": [],
-      "notes": "Bot setup, human-in-the-loop approval, message delivery."
+      "notes": "Bot setup, operator approval flow (inline keyboard), message sender with retry, delivery runner (Redis pub/sub). python -m src.delivery. 58 tests. PR #14. Not yet containerized."
     },
     {
       "id": "M31",
       "name": "Client onboarding — first 5 Vejle businesses (Sprint 4, Increment 4.2)",
       "target_date": "2026-04-30",
-      "status": "pending",
+      "status": "not-started",
       "owner_agent": "project-coordinator",
-      "blockers": ["M30"],
-      "notes": "Real clients, real scans, real messages. Free first month."
+      "blockers": [],
+      "notes": "Real clients, real scans, real messages. Free first month. No onboarding workflow exists. Need to register telegram_chat_id per client."
     },
     {
       "id": "M32",
@@ -75,23 +124,41 @@
       "owner_agent": "devops",
       "blockers": [],
       "notes": "Remote console, Grafana, Dozzle access. Soft dependency."
+    },
+    {
+      "id": "M33",
+      "name": "Finding Interpreter integration with Claude API",
+      "target_date": "2026-04-20",
+      "status": "not-started",
+      "owner_agent": "finding-interpreter",
+      "blockers": [],
+      "notes": "Interpreter code exists (src/interpreter/) but not wired to live pipeline. Needs Claude API key in prod. Finding confidence split (Confirmed vs Potential) queued."
+    },
+    {
+      "id": "M34",
+      "name": "Finding confidence split (Confirmed vs Potential)",
+      "target_date": "2026-04-20",
+      "status": "decided-not-implemented",
+      "owner_agent": "finding-interpreter",
+      "blockers": ["M33"],
+      "notes": "Decision made: Option C. Affects interpreter, composer, Telegram templates. Queued for interpretation sprint."
     }
   ],
   "external_deadlines": [
     {
       "name": "Lawyer consultation — outreach legal questions",
       "date": "2026-03-31",
-      "status": "scheduled",
+      "status": "overdue — check outcome",
       "owner_agent": "project-coordinator",
-      "notes": "8 questions prepared in docs/legal/legal-briefing-outreach-2026-03-29.md"
+      "notes": "Was scheduled for week of 2026-03-31. 16 questions prepared. Outcome determines viable outreach channels. Status unknown."
     },
     {
       "name": "Startup Denmark (SIRI) application",
       "date": "TBD",
-      "status": "drafting — strong (digital twin + Valdí featured)",
+      "status": "drafting — strong (digital twin + Valdi featured)",
       "owner_agent": "grant-funding",
       "dependency_type": "soft",
-      "notes": "Ready for final review and submission."
+      "notes": "Ready for final review and submission. Video pitch script still unwritten (mandatory)."
     },
     {
       "name": "NCC-DK grant application",
@@ -99,7 +166,7 @@
       "status": "blocked (no CVR)",
       "owner_agent": "grant-funding",
       "dependency_type": "soft",
-      "notes": "Requires CVR from SIRI approval."
+      "notes": "Requires CVR from SIRI approval. 13 days remaining. Likely miss unless SIRI submitted immediately."
     }
   ],
   "clients": {
@@ -108,30 +175,54 @@
     "scanned": 0
   },
   "pipeline_run": {
-    "last_run": "2026-03-29",
-    "domains_scanned": 203,
-    "bucket_a": 85,
-    "bucket_b": 7,
-    "wordpress": 85,
-    "gdpr_sensitive": 108,
-    "total_findings": 979,
-    "cvr_enriched": 203,
-    "twin_enriched": 0,
-    "notes": "Full pipeline operational. CMS detection, CVR enrichment, smoke test passing. Twin runs but Nuclei templates don't match simplified responses (design limitation). WPScan sidecar integration pending verification."
+    "last_run": "2026-04-02",
+    "domains_loaded": 1179,
+    "briefs_generated": 210,
+    "domains_in_csv": 10,
+    "bucket_a_sample": "jellingkro.dk (39 findings), conrads.dk (15 findings), hosingeborg.dk (9 findings)",
+    "wordpress_detection": "10 plugins (jellingkro.dk), 6 plugins (conrads.dk) — up from 4 pre-session",
+    "cvr_enriched": true,
+    "twin_enriched": true,
+    "wpvulnerability_operational": true,
+    "wpscan_sidecar": "removed",
+    "notes": "Full 1,179-domain pipeline running on Pi5. Client DB now saves scan results via worker hook."
   },
-  "test_count": 500,
-  "blockers": [],
+  "test_count": 711,
+  "blockers": [
+    {
+      "id": "B1",
+      "description": "Lawyer consultation outcome unknown — determines viable outreach channels",
+      "severity": "high",
+      "affects": ["M31", "marketing"],
+      "notes": "Physical letters and phone removed. If email/contact-form also restricted, no outreach path to clients."
+    },
+    {
+      "id": "B2",
+      "description": "API keys exposed (SERPER_API_KEY, CLAUDE_API_KEY)",
+      "severity": "high",
+      "affects": ["security"],
+      "notes": "Pending rotation since 2026-03-30. Security debt accumulating."
+    }
+  ],
   "next_actions": [
-    "Verify current Pi5 run — check twin WPScan sidecar logs",
-    "Tailscale setup for remote monitoring",
-    "Telegram bot + human-in-the-loop approval (Sprint 4.1)",
-    "Onboard first 5 Vejle clients (Sprint 4.2)",
-    "Lawyer meeting — outreach legal questions (week of 2026-03-31)"
+    "Merge PR #14 (client DB + Telegram delivery)",
+    "Add delivery bot to docker-compose",
+    "Onboard first test client with telegram_chat_id",
+    "Finding Interpreter wired to live pipeline (Claude API in prod)",
+    "Finding confidence split implementation (Confirmed vs Potential)",
+    "API key rotation (SERPER_API_KEY, CLAUDE_API_KEY)",
+    "Verify 1,179-domain pipeline completion on Pi5",
+    "Confirm lawyer consultation outcome — outreach channels"
   ],
   "follow_ups": [
+    "Nikto + Nmap implementation",
+    "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",
+    "Grafana pipeline operations dashboard",
+    "Tailscale remote access",
     "Marketing strategy finalization (post legal consultation)",
-    "Threat feed integration: abuse.ch URLhaus + WHOIS domain age (Sprint 4+)",
-    "Grafana custom dashboards for Heimdall runs",
-    "Professional indemnity insurance quote"
+    "Threat feed integration: abuse.ch URLhaus + WHOIS domain age",
+    "Professional indemnity insurance quote",
+    "SIRI video pitch script",
+    "Retire src/client_memory/ JSON module (once all consumers migrated)"
   ]
 }
