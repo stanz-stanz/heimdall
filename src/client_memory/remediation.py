@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import logging
+import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -64,10 +65,23 @@ class RemediationTracker:
         new_status: FindingStatus,
         source: str,
         timestamp: Optional[str] = None,
+        conn: Optional[sqlite3.Connection] = None,
+        occurrence_id: Optional[int] = None,
     ) -> FindingRecord:
         """Validate and apply a forward transition.
 
-        Raises InvalidTransition if the transition is not allowed.
+        Args:
+            finding: The finding to transition.
+            new_status: Target status (must be a valid successor).
+            source: What triggered the change (e.g. "scan", "operator").
+            timestamp: ISO-8601 timestamp. Defaults to now (UTC).
+            conn: Optional DB connection. When provided together with
+                ``occurrence_id``, the transition is also written to the
+                ``finding_status_log`` table and the occurrence row is updated.
+            occurrence_id: Optional PK of the ``finding_occurrences`` row.
+
+        Raises:
+            InvalidTransition: If the transition is not allowed.
         """
         if not self.is_valid_transition(finding.status, new_status):
             raise InvalidTransition(
@@ -75,6 +89,7 @@ class RemediationTracker:
                 f"Valid targets: {self.transitions.get(finding.status, [])}"
             )
 
+        old_status = finding.status
         ts = timestamp or datetime.now(timezone.utc).isoformat()
         finding.status = new_status
         finding.status_history.append({
@@ -88,10 +103,16 @@ class RemediationTracker:
 
         log.info("remediation_transition", extra={"context": {
             "finding_id": finding.finding_id,
-            "from_status": finding.status_history[-2]["status"] if len(finding.status_history) > 1 else "unknown",
+            "from_status": old_status,
             "to_status": new_status,
             "source": source,
         }})
+
+        if conn is not None and occurrence_id is not None:
+            from src.db.findings import log_status_transition, update_occurrence_status
+
+            update_occurrence_status(conn, occurrence_id, new_status)
+            log_status_transition(conn, occurrence_id, old_status, new_status, source)
 
         return finding
 
@@ -100,8 +121,20 @@ class RemediationTracker:
         finding: FindingRecord,
         source: str,
         timestamp: Optional[str] = None,
+        conn: Optional[sqlite3.Connection] = None,
+        occurrence_id: Optional[int] = None,
     ) -> FindingRecord:
-        """Regression: finding reappeared. Any state → open."""
+        """Regression: finding reappeared. Any state -> open.
+
+        Args:
+            finding: The finding to reopen.
+            source: What triggered the regression (e.g. "scan:regression").
+            timestamp: ISO-8601 timestamp. Defaults to now (UTC).
+            conn: Optional DB connection. When provided together with
+                ``occurrence_id``, the regression is also written to the
+                ``finding_status_log`` table and the occurrence row is updated.
+            occurrence_id: Optional PK of the ``finding_occurrences`` row.
+        """
         ts = timestamp or datetime.now(timezone.utc).isoformat()
         old_status = finding.status
         finding.status = self.regression_target
@@ -118,5 +151,11 @@ class RemediationTracker:
             "to_status": self.regression_target,
             "source": source,
         }})
+
+        if conn is not None and occurrence_id is not None:
+            from src.db.findings import log_status_transition, update_occurrence_status
+
+            update_occurrence_status(conn, occurrence_id, self.regression_target)
+            log_status_transition(conn, occurrence_id, old_status, self.regression_target, source)
 
         return finding

@@ -27,9 +27,10 @@ class FindingRecord:
     resolved_date: str | None = None
     risk: str = ""
     provenance: str = ""
+    _occurrence_id: int | None = None
 
     def to_dict(self) -> dict:
-        return {
+        d = {
             "finding_id": self.finding_id,
             "description": self.description,
             "severity": self.severity,
@@ -43,6 +44,9 @@ class FindingRecord:
             "risk": self.risk,
             "provenance": self.provenance,
         }
+        if self._occurrence_id is not None:
+            d["_occurrence_id"] = self._occurrence_id
+        return d
 
     @classmethod
     def from_dict(cls, data: dict) -> FindingRecord:
@@ -59,6 +63,7 @@ class FindingRecord:
             resolved_date=data.get("resolved_date"),
             risk=data.get("risk", ""),
             provenance=data.get("provenance", ""),
+            _occurrence_id=data.get("_occurrence_id"),
         )
 
 

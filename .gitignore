@@ -15,6 +15,9 @@ data/benchmarks/*.json
 # Valdí compliance logs (regenerated on each run)
 .claude/agents/valdi/compliance/
 
+# Git worktrees (Claude Code)
+.claude/worktrees/
+
 # Python
 __pycache__/
 *.pyc

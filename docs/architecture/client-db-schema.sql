@@ -69,6 +69,13 @@ CREATE TABLE IF NOT EXISTS clients (
     contact_name    TEXT,
     contact_email   TEXT,
     contact_phone   TEXT,
+    contact_role    TEXT,                            -- e.g. "Owner", "IT Manager"
+    preferred_channel TEXT NOT NULL DEFAULT 'telegram', -- telegram | email | whatsapp
+    technical_context TEXT,                           -- self_manages_wordpress | has_developer | hosted_platform | no_technical_resource
+    has_developer   INTEGER NOT NULL DEFAULT 0,     -- 1 if client has a developer contact
+    developer_contact TEXT,                          -- developer name/email/phone as free text
+    scan_schedule   TEXT,                            -- weekly | daily | NULL (derived from plan)
+    next_scan_date  TEXT,                            -- ISO-8601 date of next scheduled scan
     notes           TEXT,
     gdpr_sensitive  INTEGER NOT NULL DEFAULT 0,     -- 1 if company handles GDPR-sensitive data (industry + website functionality)
     gdpr_reasons    TEXT NOT NULL DEFAULT '[]',     -- JSON array of reason strings
@@ -373,6 +380,27 @@ CREATE INDEX IF NOT EXISTS idx_findocc_first_seen
     ON finding_occurrences(first_seen_at DESC);
 
 
+-- -----------------------------------------------------------------
+-- finding_status_log
+-- -----------------------------------------------------------------
+-- Audit trail of status transitions for finding occurrences.
+-- The RemediationTracker appends a row on every status change,
+-- preserving the full lifecycle (open → acknowledged → in_progress
+-- → resolved) with who/what triggered each transition.
+
+CREATE TABLE IF NOT EXISTS finding_status_log (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    occurrence_id   INTEGER NOT NULL,                -- FK to finding_occurrences.id
+    from_status     TEXT,                            -- NULL for initial status
+    to_status       TEXT NOT NULL,                   -- new status after transition
+    source          TEXT NOT NULL,                   -- e.g. "scan:scan-2026-04-02-abc", "client:telegram", "operator:federico"
+    created_at      TEXT NOT NULL                    -- ISO-8601 UTC timestamp
+);
+
+CREATE INDEX IF NOT EXISTS idx_status_log_occurrence
+    ON finding_status_log(occurrence_id, created_at DESC);
+
+
 -- =================================================================
 -- SECTION 5: Briefs — versioned snapshots of per-domain analysis
 -- =================================================================
@@ -499,6 +527,8 @@ CREATE TABLE IF NOT EXISTS delivery_log (
     -- Timestamps
     sent_at         TEXT,
     delivered_at    TEXT,
+    read_at         TEXT,                            -- when client read the message (from Telegram webhook)
+    replied_at      TEXT,                            -- when client replied (from Telegram webhook)
     created_at      TEXT NOT NULL
 );
 
