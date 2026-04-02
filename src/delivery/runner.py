@@ -1,0 +1,294 @@
+"""Delivery runner -- the main loop for the Telegram delivery bot.
+
+Subscribes to Redis 'scan-complete' events, processes each scan result
+through the interpretation -> composition -> approval/send pipeline.
+
+Run as: python -m src.delivery
+"""
+
+from __future__ import annotations
+
+import asyncio
+import json
+import logging
+import os
+import signal
+import sys
+
+import redis
+
+from telegram.ext import CallbackQueryHandler
+
+from src.db.connection import init_db
+from src.db.scans import get_latest_brief
+from src.db.clients import get_client_by_domain, get_client
+from src.delivery.bot import load_config, get_bot_token, get_operator_chat_id, create_application
+from src.delivery.approval import (
+    request_approval, handle_approval_callback, should_require_approval,
+)
+from src.delivery.sender import send_with_logging
+from src.interpreter.interpreter import interpret_brief
+from src.composer.telegram import compose_telegram
+
+log = logging.getLogger(__name__)
+
+
+class DeliveryRunner:
+    """Orchestrates the scan-complete -> interpret -> compose -> deliver pipeline.
+
+    Connects to Redis for scan-complete pub/sub events, looks up clients and
+    briefs from the SQLite DB, interprets findings via the LLM backend,
+    composes Telegram messages, and routes them through operator approval or
+    direct send depending on configuration.
+    """
+
+    def __init__(
+        self,
+        redis_url: str = "redis://localhost:6379/0",
+        db_path: str | None = None,
+        config_path: str | None = None,
+    ) -> None:
+        self.redis_url = redis_url
+        self.db_path = db_path
+        self.config = load_config(config_path)
+        self._running = False
+        self._conn = None
+        self._app = None
+
+    async def start(self) -> None:
+        """Initialize connections and start the delivery pipeline.
+
+        Sets up the SQLite DB, Telegram application with callback handler,
+        and starts both the Telegram polling loop and the Redis subscriber
+        concurrently.
+        """
+        # Init DB
+        self._conn = init_db(self.db_path) if self.db_path else init_db()
+
+        # Create Telegram application
+        token = get_bot_token()
+        self._app = create_application(token)
+
+        # Store DB connection in bot_data for callback handlers
+        self._app.bot_data["db_conn"] = self._conn
+
+        # Store config for approval flow
+        self._app.bot_data["config"] = self.config
+
+        # Register callback handler for approval buttons
+        self._app.add_handler(CallbackQueryHandler(handle_approval_callback))
+
+        # Initialize the application (sets up the bot)
+        await self._app.initialize()
+
+        self._running = True
+
+        log.info("delivery_runner_started", extra={"context": {
+            "redis_url": self.redis_url,
+            "require_approval": self.config.get("require_approval", True),
+        }})
+
+        # Run polling (for callbacks) and Redis subscriber concurrently
+        try:
+            await self._app.start()
+            await self._app.updater.start_polling()
+            await self._subscribe_and_process()
+        finally:
+            await self.stop()
+
+    async def stop(self) -> None:
+        """Graceful shutdown of Telegram application and DB connection."""
+        self._running = False
+        if self._app:
+            try:
+                await self._app.updater.stop()
+                await self._app.stop()
+                await self._app.shutdown()
+            except Exception:
+                log.exception("error_during_shutdown")
+        if self._conn:
+            try:
+                self._conn.close()
+            except Exception:
+                pass
+        log.info("delivery_runner_stopped")
+
+    async def _subscribe_and_process(self) -> None:
+        """Subscribe to Redis scan-complete channel and process events.
+
+        Uses the synchronous Redis client's pubsub with a 1-second poll
+        timeout so the event loop can yield between checks. Reconnects
+        automatically on connection loss.
+        """
+        try:
+            r = redis.from_url(self.redis_url, decode_responses=True)
+            pubsub = r.pubsub()
+            pubsub.subscribe("scan-complete")
+            log.info("redis_subscribed", extra={"context": {"channel": "scan-complete"}})
+        except redis.ConnectionError as exc:
+            log.error("redis_connection_failed: %s", exc)
+            return
+
+        while self._running:
+            try:
+                message = pubsub.get_message(timeout=1.0)
+                if message and message.get("type") == "message":
+                    await self._handle_scan_complete(message["data"])
+            except redis.ConnectionError:
+                log.warning("redis_connection_lost, reconnecting in 5s")
+                await asyncio.sleep(5)
+                try:
+                    pubsub = r.pubsub()
+                    pubsub.subscribe("scan-complete")
+                except redis.ConnectionError:
+                    pass
+            except Exception:
+                log.exception("error_processing_scan_event")
+
+            # Yield to event loop
+            await asyncio.sleep(0.1)
+
+    async def _handle_scan_complete(self, data: str) -> None:
+        """Process a single scan-complete event.
+
+        Flow:
+            1. Parse event JSON -> extract domain
+            2. Look up client by domain
+            3. Skip if no client or no telegram_chat_id
+            4. Load latest brief from DB
+            5. Interpret brief (Claude API / Ollama)
+            6. Compose Telegram messages
+            7. Route: approval flow or direct send
+        """
+        try:
+            event = json.loads(data)
+        except (json.JSONDecodeError, TypeError):
+            log.warning("invalid_scan_event", extra={"context": {"data": str(data)[:200]}})
+            return
+
+        domain = event.get("domain", "")
+        if not domain:
+            return
+
+        log.info("processing_scan_event", extra={"context": {
+            "domain": domain, "job_id": event.get("job_id"),
+        }})
+
+        # Look up client
+        client = get_client_by_domain(self._conn, domain)
+        if not client:
+            log.debug("no_client_for_domain", extra={"context": {"domain": domain}})
+            return
+
+        chat_id = client.get("telegram_chat_id")
+        if not chat_id:
+            log.debug("no_chat_id_for_client", extra={"context": {
+                "domain": domain, "cvr": client.get("cvr"),
+            }})
+            return
+
+        # Load latest brief
+        brief_row = get_latest_brief(self._conn, domain)
+        if not brief_row:
+            log.warning("no_brief_for_domain", extra={"context": {"domain": domain}})
+            return
+
+        brief_json = brief_row.get("brief_json")
+        if not brief_json:
+            log.warning("empty_brief_json", extra={"context": {"domain": domain}})
+            return
+
+        try:
+            brief = json.loads(brief_json)
+        except (json.JSONDecodeError, TypeError):
+            log.warning("invalid_brief_json", extra={"context": {"domain": domain}})
+            return
+
+        # Interpret
+        try:
+            interpreted = interpret_brief(brief)
+        except Exception:
+            log.exception("interpretation_failed for %s", domain)
+            return
+
+        # Compose
+        messages = compose_telegram(interpreted)
+        if not messages:
+            log.warning("empty_composition", extra={"context": {"domain": domain}})
+            return
+
+        cvr = client.get("cvr", "")
+        company_name = client.get("company_name", "")
+
+        # Route: approval or direct send
+        if should_require_approval(self.config):
+            operator_chat_id = get_operator_chat_id()
+            await request_approval(
+                self._app.bot, operator_chat_id, messages,
+                cvr=cvr, domain=domain, conn=self._conn,
+                company_name=company_name,
+                bot_data=self._app.bot_data,
+            )
+        else:
+            await send_with_logging(
+                self._app.bot, chat_id, messages,
+                conn=self._conn, cvr=cvr, domain=domain,
+                approved_by="auto",
+            )
+
+
+def main() -> None:
+    """CLI entry point for the delivery bot."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Heimdall Telegram delivery bot")
+    parser.add_argument(
+        "--redis-url",
+        default=os.environ.get("REDIS_URL", "redis://localhost:6379/0"),
+        help="Redis connection URL (default: REDIS_URL env or redis://localhost:6379/0)",
+    )
+    parser.add_argument(
+        "--db-path",
+        default=None,
+        help="Path to SQLite client database (default: data/clients/clients.db)",
+    )
+    parser.add_argument(
+        "--config",
+        default=None,
+        help="Path to delivery config JSON (default: config/delivery.json)",
+    )
+    parser.add_argument(
+        "--log-level",
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
+        help="Logging level (default: INFO)",
+    )
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        level=getattr(logging, args.log_level.upper(), logging.INFO),
+        format="%(asctime)s %(name)s %(levelname)s %(message)s",
+    )
+
+    runner = DeliveryRunner(
+        redis_url=args.redis_url,
+        db_path=args.db_path,
+        config_path=args.config,
+    )
+
+    # Handle SIGINT/SIGTERM gracefully
+    loop = asyncio.new_event_loop()
+
+    def _shutdown(sig: signal.Signals) -> None:
+        log.info("received_signal_%s", sig.name)
+        loop.create_task(runner.stop())
+
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        loop.add_signal_handler(sig, _shutdown, sig)
+
+    try:
+        loop.run_until_complete(runner.start())
+    except KeyboardInterrupt:
+        pass
+    finally:
+        loop.close()
