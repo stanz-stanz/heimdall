@@ -26,8 +26,9 @@ data/
 # Tests
 tests/
 
-# Documentation
+# Documentation (but keep schema SQL needed by init_db at runtime)
 docs/
+!docs/architecture/client-db-schema.sql
 *.md
 !requirements.txt
 

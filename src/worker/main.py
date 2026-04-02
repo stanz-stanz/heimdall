@@ -467,7 +467,9 @@ def main(argv: Optional[list] = None) -> None:
             from src.db.worker_hook import save_scan_to_db
             from src.db.connection import init_db
 
-            db_conn = init_db()
+            client_data_dir = os.environ.get("CLIENT_DATA_DIR", "data/clients")
+            db_path = os.path.join(client_data_dir, "clients.db")
+            db_conn = init_db(db_path)
             save_scan_to_db(db_conn, job, result)
         except Exception:
             log.exception("db_hook_error for %s", domain)

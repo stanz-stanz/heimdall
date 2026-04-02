@@ -100,7 +100,7 @@ services:
       - VULNDB_PATH=/data/cache/vulndb.sqlite3
     volumes:
       - valdi-data:/data/valdi
-      - client-data:/data/clients:ro
+      - client-data:/data/clients
       - ../../data/results:/data/results
       - cache-data:/data/cache
       - config-data:/config:ro

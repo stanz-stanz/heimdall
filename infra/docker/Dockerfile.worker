@@ -76,12 +76,13 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code, agent data, and scripts
+# Copy application code, agent data, scripts, and schema
 COPY src/ ./src/
 COPY config/ ./config/
 COPY tools/ ./tools/
 COPY .claude/agents/ ./.claude/agents/
 COPY scripts/ ./scripts/
+COPY docs/architecture/client-db-schema.sql ./docs/architecture/client-db-schema.sql
 
 # Own everything by non-root user
 RUN chown -R heimdall:heimdall /app
