@@ -21,7 +21,7 @@ SEVERITY_EMOJI = {
     "high": "\U0001f7e0",      # 🟠
 }
 
-FOOTER = "<i>The Heimdall team</i>\n<i>We'll keep watching</i>"
+FOOTER = "<b>The Heimdall team</b>\n<i>We'll keep watching</i>"
 
 
 def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> list[str]:
@@ -66,7 +66,7 @@ def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> li
             sections.append(_format_finding(f))
 
     if potential:
-        sections.append("Potential issues\n<i>We can't confirm without explicit consent</i>")
+        sections.append("<b>Potential issues</b>\n<i>(i.e. we can't confirm without your explicit consent)</i>")
         for f in potential:
             sections.append(_format_finding(f))
 
