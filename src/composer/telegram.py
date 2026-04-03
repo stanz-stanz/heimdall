@@ -125,11 +125,7 @@ def _format_finding(f: dict) -> str:
     if explanation:
         parts.append(explanation)
     if action:
-        fix_line = f"\u21b3 <b>Fix:</b> "
-        if who_label:
-            fix_line += f"Ask {who_label.lower()} to " if who_label != "You" else ""
-        fix_line += action
-        parts.append(fix_line)
+        parts.append(f"\u21b3 <b>Fix:</b> {action}")
 
     return "\n".join(parts)
 

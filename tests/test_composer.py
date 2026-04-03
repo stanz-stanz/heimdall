@@ -50,7 +50,7 @@ class TestComposeTelegram:
         msg = messages[0]
         assert "example.dk" in msg
         assert "Your contact form is not fully protected" in msg
-        assert "Your web host" in msg.lower() or "web host" in msg.lower()
+        assert "enable HSTS" in msg
         assert "Heimdall team" in msg
 
     def test_greeting_with_contact_name(self):
