@@ -64,7 +64,7 @@ SAMPLE_BRIEF = {
             "severity": "critical",
             "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
             "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
-            "provenance": "twin-derived",
+            "provenance": "unconfirmed",
             "provenance_detail": {"source_layer": 1, "twin_scan_tool": "wpvulnerability",
                                   "template_id": "CVE-2024-28000", "confidence": "medium-inference"},
         },
@@ -72,7 +72,7 @@ SAMPLE_BRIEF = {
             "severity": "critical",
             "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
             "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
-            "provenance": "twin-derived",
+            "provenance": "unconfirmed",
             "provenance_detail": {"source_layer": 1, "twin_scan_tool": "wpvulnerability",
                                   "template_id": "CVE-2024-44000", "confidence": "medium-inference"},
         },
@@ -85,7 +85,7 @@ SAMPLE_BRIEF = {
             "severity": "high",
             "description": "Elementor Website Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
             "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-            "provenance": "twin-derived",
+            "provenance": "unconfirmed",
             "provenance_detail": {"source_layer": 1, "twin_scan_tool": "wpvulnerability",
                                   "template_id": "CVE-2022-1329", "confidence": "high-inference"},
         },
@@ -109,6 +109,8 @@ def main():
     parser.add_argument("--language", default=None, help="Language override (en/da)")
     parser.add_argument("--contact-name", default="Martin", help="Contact name for greeting")
     parser.add_argument("--output", default=None, help="Output file path")
+    parser.add_argument("--send", action="store_true",
+                        help="Send the composed message to the operator's Telegram chat")
     args = parser.parse_args()
 
     # Load brief
@@ -156,6 +158,42 @@ def main():
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(interpreted, f, indent=2, ensure_ascii=False)
     print(f"Raw interpretation saved to: {json_path}")
+
+    # --send: deliver to operator's Telegram chat
+    if args.send:
+        import asyncio
+
+        from telegram import Bot
+
+        from src.delivery.bot import get_bot_token, get_operator_chat_id
+        from src.delivery.buttons import build_client_buttons
+
+        try:
+            token = get_bot_token()
+            chat_id = get_operator_chat_id()
+        except RuntimeError as exc:
+            print(f"\nERROR: {exc}")
+            print("Set TELEGRAM_BOT_TOKEN and TELEGRAM_OPERATOR_CHAT_ID env vars.")
+            raise SystemExit(1)
+
+        domain = brief.get("domain", "unknown")
+        buttons = build_client_buttons("00000000", domain)
+        bot = Bot(token=token)
+
+        async def _send():
+            for i, chunk in enumerate(messages):
+                is_last = i == len(messages) - 1
+                msg = await bot.send_message(
+                    chat_id=chat_id,
+                    text=chunk,
+                    parse_mode="HTML",
+                    reply_markup=buttons if is_last else None,
+                )
+                print(f"Sent chunk {i + 1}/{len(messages)} — message_id={msg.message_id}")
+
+        print(f"\nSending to Telegram (chat_id={chat_id})...")
+        asyncio.run(_send())
+        print("Done.")
 
 
 def _detect_output_path():
