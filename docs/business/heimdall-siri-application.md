@@ -1,9 +1,8 @@
-# Heimdall — Startup Denmark Application
+## Startup Denmark Application
 
-**External Attack Surface Management for Small Businesses**
+## Project Heimdall
+### An AI-Powered Cybersecurity for Small Businesses**
 **March 2026 — Vejle, Denmark**
-
-*Application for Startup Denmark residence permit to establish Heimdall ApS*
 
 ---
 
@@ -509,7 +508,7 @@ Heimdall's digital twin system constructs replicas of prospect websites on Heimd
 
 A digital twin is not another person's data system. It is built by Heimdall, hosted by Heimdall, and owned by Heimdall. The data used to construct it — CMS versions, plugin versions, server software, SSL configuration — is publicly served information that any browser visitor receives. Running Layer 2 scanning tools against this self-owned replica cannot constitute a §263 violation.
 
-This distinction enables Heimdall to produce CVE-level vulnerability findings for prospecting purposes without requiring customer consent and without making any active probes against the prospect's live infrastructure. The input is lawful (Layer 1 public data), the scanning target is self-owned (the twin), and the output is high-confidence inference (marked with `provenance: "twin-derived"` throughout the pipeline).
+This distinction enables Heimdall to produce CVE-level vulnerability findings for prospecting purposes without requiring customer consent and without making any active probes against the prospect's live infrastructure. The input is lawful (Layer 1 public data), the scanning target is self-owned (the twin), and the output is high-confidence inference (marked with `provenance: "unconfirmed"` throughout the pipeline).
 
 Confirmation of this legal interpretation is included in the planned legal counsel engagement (see Section 11.5).
 

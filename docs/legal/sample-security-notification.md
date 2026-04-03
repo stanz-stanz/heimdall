@@ -19,7 +19,7 @@ The message is intended to be reviewed by legal counsel to determine whether:
 2. This message can lawfully be sent to Reklamebeskyttet businesses using website-sourced contact data (Q2)
 3. The responsible disclosure framing provides protection for a commercial sender (Q6)
 
-Two finding variants are included — one for directly observed findings (`provenance: direct`) and one for twin-derived findings (`provenance: twin-derived`). The provenance distinction affects what language is legally defensible.
+Two finding variants are included — one for directly observed findings (`provenance: direct`) and one for twin-derived findings (`provenance: unconfirmed`). The provenance distinction affects what language is legally defensible.
 
 ---
 

@@ -282,7 +282,7 @@ def save_brief_snapshot(
 
     # Twin-derived finding detection
     twin_finding_count = sum(
-        1 for f in findings if f.get("provenance") == "twin-derived"
+        1 for f in findings if f.get("provenance") == "unconfirmed"
     )
     has_twin_scan = 1 if twin_finding_count > 0 else 0
 

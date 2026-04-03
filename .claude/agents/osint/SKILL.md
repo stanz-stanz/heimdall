@@ -125,7 +125,7 @@ These are hard-won lessons from previous sessions. Do not repeat these mistakes.
 
 5. **Version-less CVE lookups flood briefs.** Without a plugin version, the vulndb matcher returns every high/critical + unfixed CVE. jellingkro.dk went from 195 findings to 19 after we added version filtering. Always push for version extraction — it's the difference between useful and useless vulnerability data.
 
-6. **The digital twin extends Layer 1 into Layer 2 territory legally.** By reconstructing a prospect's CMS locally, Nuclei and other Layer 2 tools can run against Heimdall's own infrastructure. Twin-derived findings carry `provenance: "twin-derived"` markers. This is Heimdall's competitive advantage.
+6. **The digital twin extends Layer 1 into Layer 2 territory legally.** By reconstructing a prospect's CMS locally, Nuclei and other Layer 2 tools can run against Heimdall's own infrastructure. Twin-derived findings carry `provenance: "unconfirmed"` markers. This is Heimdall's competitive advantage.
 
 7. **Free tools set the quality floor.** HackerTarget's free WordPress scan detected 9 plugins with versions while Heimdall detected 4. If a free tool delivers better passive intelligence, paying clients have no reason to choose us. The OSINT agent exists specifically to prevent this gap.
 

@@ -178,7 +178,7 @@ async def _stream_nuclei_scan(port: int, publish) -> list[dict]:
                 "severity": severity,
                 "description": entry.get("info", {}).get("name", "Unknown"),
                 "risk": entry.get("info", {}).get("description", ""),
-                "provenance": "twin-derived",
+                "provenance": "unconfirmed",
             }
             publish(finding)
             findings.append(finding)
@@ -287,7 +287,7 @@ async def run_demo_live(
                         "severity": f.get("severity", "info"),
                         "description": f.get("description", ""),
                         "risk": f.get("risk", ""),
-                        "provenance": "twin-derived",
+                        "provenance": "unconfirmed",
                     })
                 publish({"type": "scan_complete", "scan_type": "wpscan",
                          "duration_ms": 0, "index": 2, "total": 2})

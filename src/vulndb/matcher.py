@@ -114,7 +114,7 @@ def build_findings(
     slug: str,
     installed_version: str | None,
     vulns: list[dict],
-    provenance: str = "twin-derived",
+    provenance: str = "unconfirmed",
 ) -> list[dict]:
     """Generate finding dicts from vulnerabilities affecting the installed version.
 

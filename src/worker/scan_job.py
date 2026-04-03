@@ -452,7 +452,7 @@ def execute_scan_job(
             twin_result = run_twin_scan(brief)
             if twin_result and twin_result.get("findings"):
                 for finding in twin_result["findings"]:
-                    finding["provenance"] = "twin-derived"
+                    finding["provenance"] = "unconfirmed"
                 brief["findings"].extend(twin_result["findings"])
                 brief["twin_scan"] = {
                     "twin_scan_date": twin_result["twin_scan_date"],

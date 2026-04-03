@@ -17,8 +17,8 @@ TELEGRAM_MAX_CHARS = 4096
 _MESSAGE_BUDGET = TELEGRAM_MAX_CHARS - 50
 
 SEVERITY_LABEL = {
-    "critical": "Critical",
-    "high": "High",
+    "critical": "\U0001f534 Critical",
+    "high": "\U0001f7e0 High",
 }
 
 FOOTER = "<b>The Heimdall team</b>\n<i>We'll keep watching</i>"
@@ -52,8 +52,8 @@ def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> li
 
     # Findings — split into confirmed and potential
     findings = interpreted.get("findings", [])
-    confirmed = [f for f in findings if f.get("provenance") != "twin-derived"]
-    potential = [f for f in findings if f.get("provenance") == "twin-derived"]
+    confirmed = [f for f in findings if f.get("provenance") != "unconfirmed"]
+    potential = [f for f in findings if f.get("provenance") == "unconfirmed"]
 
     # Sort each group: critical first, then high
     severity_order = {"critical": 0, "high": 1}
@@ -121,7 +121,7 @@ def _format_finding(f: dict) -> str:
     explanation = html.escape(f.get("explanation", ""), quote=False)
     action = html.escape(f.get("action", ""), quote=False)
 
-    parts = [f"<b>[{label}] {title}</b>"]
+    parts = [f"<b>{label}: {title}</b>"]
     if explanation:
         parts.append(explanation)
     if action:

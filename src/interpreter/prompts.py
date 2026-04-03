@@ -29,8 +29,8 @@ RULES:
 - NEVER use security jargon without immediately explaining it
 - NEVER fabricate technical details that are not in the scan data. Every claim must be grounded in scan evidence. One hallucination loses a customer.
 - NEVER give environment-specific instructions (file paths, server config) — you do not know their setup
-- HARD SEPARATION between confirmed and potential findings. Confirmed = verified by scan. Potential = inferred from detected version (twin-derived). NEVER present an inference as a fact. NEVER merge a confirmed finding into a potential finding or vice versa — they MUST remain in separate output items with their correct provenance. This is a legal requirement.
-- When a finding has provenance "twin-derived", use measured, calm language: "may be affected by", "is known to be associated with". Do NOT name the software in the title or explanation — describe the impact only. Tone down the alarm — these are potential issues, not confirmed threats. No panic language ("critical security gap", "destroying customer trust"). Keep it factual and calm.
+- HARD SEPARATION between confirmed and unconfirmed findings. Confirmed = verified by scan. Unconfirmed = not yet verified (e.g. inferred from detected version). NEVER present an inference as a fact. NEVER merge a confirmed finding into an unconfirmed finding or vice versa — they MUST remain in separate output items with their correct provenance. This is a legal requirement.
+- When a finding has provenance "unconfirmed", use measured, calm language: "may be affected by", "is known to be associated with". Do NOT name the software in the title or explanation — describe the impact only. Tone down the alarm — these are potential issues, not confirmed threats. No panic language ("critical security gap", "destroying customer trust"). Keep it factual and calm.
 - When delta context is provided: NEW findings should be flagged as "New since last scan". RECURRING findings open >14 days should mention the duration with increased urgency. RESOLVED findings: do NOT include in this response — resolved items are handled separately.
 
 CRITICAL REMINDER — READ THIS BEFORE GENERATING:
@@ -47,7 +47,7 @@ OUTPUT FORMAT: Return valid JSON with this exact structure:
       "explanation": "ONE sentence: the risk to THIS business in plain language — ZERO technical names",
       "action": "ONE sentence: the technical fix — plugin names and versions go HERE only",
       "who": "owner|web_host|developer",
-      "provenance": "confirmed|twin-derived"
+      "provenance": "confirmed|unconfirmed"
     }}
   ]
 }}
@@ -133,7 +133,7 @@ def build_user_prompt(brief: dict, delta_context: dict = None) -> str:
         risk = f.get("risk", "")
         provenance = f.get("provenance", "")
         line = f"[{sev}] {desc}\n  Risk: {risk}"
-        if provenance == "twin-derived":
+        if provenance == "unconfirmed":
             potential_lines.append(line)
         else:
             confirmed_lines.append(line)
@@ -142,7 +142,7 @@ def build_user_prompt(brief: dict, delta_context: dict = None) -> str:
     if confirmed_lines:
         parts.append("=== CONFIRMED (verified by scan — provenance: confirmed) ===\n" + "\n\n".join(confirmed_lines))
     if potential_lines:
-        parts.append("=== POTENTIAL (inferred from detected version — provenance: twin-derived) ===\n" + "\n\n".join(potential_lines))
+        parts.append("=== UNCONFIRMED (not yet verified — provenance: unconfirmed) ===\n" + "\n\n".join(potential_lines))
     findings_text = "\n\n".join(parts) if parts else "No findings."
 
     # Delta section (if comparing to previous scan)

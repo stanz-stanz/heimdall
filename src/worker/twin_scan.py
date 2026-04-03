@@ -2,7 +2,7 @@
 
 Starts the twin server in a background thread on loopback, runs Nuclei
 (and WPVulnerability lookup if WordPress) against it, and returns enriched
-findings with ``provenance: "twin-derived"`` markers.
+findings with ``provenance: "unconfirmed"`` markers.
 
 The twin is pure stdlib Python with no dependencies — it runs in-process
 within the worker container.  No Docker-in-Docker required.
@@ -130,7 +130,7 @@ def _run_nuclei_against_twin(port: int) -> List[dict]:
                 "severity": severity,
                 "description": entry.get("info", {}).get("name", "Unknown finding"),
                 "risk": entry.get("info", {}).get("description", ""),
-                "provenance": "twin-derived",
+                "provenance": "unconfirmed",
                 "provenance_detail": {
                     "source_layer": 1,
                     "twin_scan_tool": "nuclei",
@@ -207,7 +207,7 @@ def run_twin_scan(brief: dict) -> Optional[dict]:
                     plugin_slugs=resolved,
                     plugin_versions=brief_plugin_versions,
                     wp_version=wp_version,
-                    provenance="twin-derived",
+                    provenance="unconfirmed",
                     db_path=vulndb_path,
                 )
                 if vuln_findings:

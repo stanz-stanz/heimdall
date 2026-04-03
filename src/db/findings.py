@@ -41,7 +41,7 @@ def upsert_definition(
         risk: Risk explanation text.
         cve_id: CVE identifier if applicable (e.g. "CVE-2024-28000").
         plugin_slug: WordPress plugin slug if applicable.
-        provenance: Origin marker (e.g. "twin-derived").
+        provenance: Origin marker ("confirmed" or "unconfirmed").
         category: Finding type (cve|outdated_plugin|missing_header|ssl|exposure|info).
         first_seen_at: ISO-8601 date when first encountered globally.
             Defaults to ``_now()`` if not provided.

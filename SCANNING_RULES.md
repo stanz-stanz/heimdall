@@ -145,7 +145,7 @@ Straffeloven §263 criminalizes unauthorized access to **another person's data s
 
 ### Data provenance requirement
 
-Any finding produced by scanning a twin must carry a `provenance: "twin-derived"` marker. This indicates the finding was inferred from passive data, not confirmed by direct scanning of the prospect's live infrastructure. This distinction must be preserved through the interpretation and message composition pipeline.
+Any finding produced by scanning a twin must carry a `provenance: "unconfirmed"` marker. This indicates the finding was inferred from passive data, not confirmed by direct scanning of the prospect's live infrastructure. This distinction must be preserved through the interpretation and message composition pipeline.
 
 Client-facing language must reflect this: use "is known to be affected by" or "detected version is associated with," not "has this vulnerability." Twin-derived findings are high-confidence inferences, not confirmed observations.
 

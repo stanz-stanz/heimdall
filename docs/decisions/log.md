@@ -5,6 +5,29 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-03 — Provenance rename, severity circles, Telegram test tooling
+
+**Decided**
+- Provenance model simplified to binary: `confirmed` / `unconfirmed`. Source-agnostic — doesn't matter if unconfirmed came from twin, version inference, or future sources.
+- Internal categories are a black box to the client. No "previously potential, now confirmed" messaging.
+- Severity labels restored to colored circles: 🔴 Critical: / 🟠 High: (no brackets).
+- `preview_message.py` extended with `--send` flag for instant visual testing (bypasses Redis, approval, DB).
+- Telethon added as dev dependency for automated E2E button testing (`test_telegram_e2e.py`).
+- When a Sentinel scan disproves a twin inference, the finding silently resolves — no Telegram celebration. Goes into weekly email only.
+
+**Rejected**
+- Pyrogram for testing — same capabilities as Telethon, no advantage.
+- Local Telegram Bot API server — messages still go to real Telegram, no speed benefit.
+- Acknowledging provenance upgrades in client messages ("previously potential, now confirmed") — black box principle.
+
+**Unresolved**
+- Client Telegram onboarding guide (backlogged)
+- Telethon first-run auth not yet done (needs `TELETHON_API_ID`, `TELETHON_API_HASH`)
+- Button callback handler untested on live Telegram (`--send` sends buttons but no handler runs to process clicks)
+- API key rotation still overdue since 2026-03-30
+
+---
+
 ## 2026-04-03 — Telegram message redesign: content rules, format, buttons
 
 **Decided**

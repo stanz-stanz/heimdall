@@ -69,7 +69,7 @@ We also need guidance on scanning legality. Our passive/active distinction (Laye
 
 **Context:** Heimdall reconstructs a prospect's website on its own infrastructure from Layer 1 data, then runs vulnerability scanners against the replica. The legal argument: §263 criminalizes access to "en andens datasystem" — the twin is Heimdall's system, built from public data.
 
-**Legal framework:** Straffeloven §263 (18 months / 6 years) — if the twin is deemed to circumvent §263's intent, twin scans become unauthorized access. Sharing inaccurate twin-derived findings could also create tort liability.
+**Legal framework:** Straffeloven §263 (18 months / 6 years) — if the twin is deemed to circumvent §263's intent, twin scans become unauthorized access. Sharing inaccurate unconfirmed findings could also create tort liability.
 
 **Our reasoning:** The twin is demonstrably our infrastructure. Input data was lawfully collected. No requests touch the prospect's live systems beyond the initial passive visit.
 

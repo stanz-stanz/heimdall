@@ -25,7 +25,7 @@ def lookup_wordpress_vulns(
     plugin_slugs: list[str],
     plugin_versions: dict[str, str] | None = None,
     wp_version: str | None = None,
-    provenance: str = "twin-derived",
+    provenance: str = "unconfirmed",
     max_cache_age_days: int = 7,
     db_path: str | None = None,
 ) -> list[dict]:
