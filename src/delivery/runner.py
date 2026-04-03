@@ -212,6 +212,21 @@ class DeliveryRunner:
             log.warning("invalid_brief_json", extra={"context": {"domain": domain}})
             return
 
+        # Pre-filter: only send High or Critical findings to the interpreter
+        all_findings = brief.get("findings", [])
+        actionable_input = [
+            f for f in all_findings
+            if f.get("severity", "").lower() in ("critical", "high")
+        ]
+        if not actionable_input:
+            log.info("no_actionable_findings", extra={"context": {
+                "domain": domain,
+                "total_findings": len(all_findings),
+            }})
+            return
+
+        brief["findings"] = actionable_input
+
         # Interpret (use client's preferred language, fall back to config default)
         language = client.get("preferred_language")
         try:
@@ -219,21 +234,6 @@ class DeliveryRunner:
         except Exception:
             log.exception("interpretation_failed for %s", domain)
             return
-
-        # Filter: only High or Critical findings trigger a Telegram message
-        findings = interpreted.get("findings", [])
-        actionable = [
-            f for f in findings
-            if f.get("severity", "").lower() in ("critical", "high")
-        ]
-        if not actionable:
-            log.info("no_actionable_findings", extra={"context": {
-                "domain": domain,
-                "total_findings": len(findings),
-            }})
-            return
-
-        interpreted["findings"] = actionable
 
         # Inject contact_name for the greeting
         interpreted["contact_name"] = client.get("contact_name", "")

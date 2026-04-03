@@ -121,14 +121,15 @@ def main():
         brief = dict(SAMPLE_BRIEF)
         print("Using built-in sample brief (jellingkro.dk)")
 
+    # Pre-filter: only High/Critical findings go to the interpreter (same as runner)
+    all_findings = brief.get("findings", [])
+    actionable_input = [f for f in all_findings if f.get("severity", "").lower() in ("critical", "high")]
+    brief["findings"] = actionable_input
+    print(f"Pre-filtered: {len(all_findings)} findings -> {len(actionable_input)} high/critical")
+
     # Interpret
     print("Interpreting via LLM...")
     interpreted = interpret_brief(brief, language=args.language)
-
-    # Filter high/critical (same as runner)
-    findings = interpreted.get("findings", [])
-    actionable = [f for f in findings if f.get("severity", "").lower() in ("critical", "high")]
-    interpreted["findings"] = actionable
     interpreted["contact_name"] = args.contact_name
 
     print(f"Interpreter returned {len(findings)} findings, {len(actionable)} are high/critical")

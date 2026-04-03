@@ -55,6 +55,11 @@ def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> li
     confirmed = [f for f in findings if f.get("provenance") != "twin-derived"]
     potential = [f for f in findings if f.get("provenance") == "twin-derived"]
 
+    # Sort each group: critical first, then high
+    severity_order = {"critical": 0, "high": 1}
+    confirmed.sort(key=lambda f: severity_order.get(f.get("severity", "").lower(), 9))
+    potential.sort(key=lambda f: severity_order.get(f.get("severity", "").lower(), 9))
+
     for f in confirmed:
         sections.append(_format_finding(f))
 
