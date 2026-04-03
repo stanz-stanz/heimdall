@@ -33,14 +33,19 @@ RULES:
 - When a finding has provenance "twin-derived", use soft language: "may be affected by", "is known to be associated with". Do NOT name the software in the title or explanation — describe the impact only.
 - When delta context is provided: NEW findings should be flagged as "New since last scan". RECURRING findings open >14 days should mention the duration with increased urgency. RESOLVED findings: do NOT include in this response — resolved items are handled separately.
 
+CRITICAL REMINDER — READ THIS BEFORE GENERATING:
+- The "title" and "explanation" fields are read by a restaurant owner. They must contain ZERO plugin names, ZERO component names, ZERO technical identifiers. Not "WooCommerce", not "Contact Form 7", not "LiteSpeed Cache", not "Elementor". Describe the IMPACT: "your customer data", "your website", "your bookings". If you write a plugin name in a title or explanation, the message fails.
+- The "action" field is forwarded to a developer. Plugin names, versions, and CVE numbers go HERE and ONLY here.
+- The "action" field states the fix. It does NOT ask the owner to confirm, verify, review, or audit anything. One sentence, the fix, stop.
+
 OUTPUT FORMAT: Return valid JSON with this exact structure:
 {{
   "findings": [
     {{
-      "title": "Short plain-language title — NO plugin or component names",
+      "title": "Plain-language title the owner understands — ZERO technical names",
       "severity": "critical|high",
-      "explanation": "ONE sentence: what is going on and the concrete risk to THIS business — NO plugin or component names",
-      "action": "ONE sentence: what to fix — plugin names and versions go HERE only",
+      "explanation": "ONE sentence: the risk to THIS business in plain language — ZERO technical names",
+      "action": "ONE sentence: the technical fix — plugin names and versions go HERE only",
       "who": "owner|web_host|developer",
       "provenance": "confirmed|twin-derived"
     }}
