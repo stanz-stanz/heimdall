@@ -41,7 +41,7 @@ def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> li
         One or more HTML message strings, each within Telegram's 4096 char limit.
     """
     domain = html.escape(interpreted.get("domain", ""))
-    contact_name = html.escape(interpreted.get("contact_name", ""))
+    contact_name = html.escape(interpreted.get("contact_name") or "")
     sections = []
 
     # Greeting
