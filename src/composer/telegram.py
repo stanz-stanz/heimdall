@@ -21,7 +21,7 @@ SEVERITY_EMOJI = {
     "high": "\U0001f7e0",      # 🟠
 }
 
-FOOTER = "<i>The Heimdall team</i>\n<i>We'll keep watching</i> \U0001f52d"
+FOOTER = "<i>The Heimdall team</i>\n<i>We'll keep watching</i>"
 
 
 def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> list[str]:

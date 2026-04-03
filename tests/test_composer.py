@@ -115,7 +115,7 @@ class TestComposeTelegram:
         messages = compose_telegram(_sample_interpreted())
         assert "Heimdall team" in messages[0]
         assert "keep watching" in messages[0]
-        assert "\U0001f52d" in messages[0]  # 🔭
+        assert "keep watching" in messages[0]
 
     def test_twin_derived_separate_section(self):
         interpreted = _sample_interpreted(findings=[
