@@ -125,7 +125,8 @@ def build_user_prompt(brief: dict, delta_context: dict = None) -> str:
     gdpr_str = "; ".join(gdpr_reasons) if gdpr_reasons else "no signals"
 
     findings = brief.get("findings", [])
-    findings_lines = []
+    confirmed_lines = []
+    potential_lines = []
     for f in findings:
         sev = f.get("severity", "unknown").upper()
         desc = f.get("description", "")
@@ -133,9 +134,16 @@ def build_user_prompt(brief: dict, delta_context: dict = None) -> str:
         provenance = f.get("provenance", "")
         line = f"[{sev}] {desc}\n  Risk: {risk}"
         if provenance == "twin-derived":
-            line += "\n  (Provenance: inferred from detected version, not confirmed by direct testing)"
-        findings_lines.append(line)
-    findings_text = "\n\n".join(findings_lines) if findings_lines else "No findings."
+            potential_lines.append(line)
+        else:
+            confirmed_lines.append(line)
+
+    parts = []
+    if confirmed_lines:
+        parts.append("=== CONFIRMED (verified by scan — provenance: confirmed) ===\n" + "\n\n".join(confirmed_lines))
+    if potential_lines:
+        parts.append("=== POTENTIAL (inferred from detected version — provenance: twin-derived) ===\n" + "\n\n".join(potential_lines))
+    findings_text = "\n\n".join(parts) if parts else "No findings."
 
     # Delta section (if comparing to previous scan)
     delta_text = ""
