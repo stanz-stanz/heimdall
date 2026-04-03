@@ -156,16 +156,17 @@ def main():
         pass  # Already linked
         print(f"Created test client (CVR 99999999, chat_id={chat_id})")
 
-    # Save brief — use unique scan_date to avoid UNIQUE constraint
+    # Save brief — delete any existing for today so we always use fresh data
     scan_date = date.today().isoformat()
+    conn.execute(
+        "DELETE FROM brief_snapshots WHERE domain = ? AND scan_date = ?",
+        ("jellingkro.dk", scan_date),
+    )
+    conn.commit()
     brief = dict(SAMPLE_BRIEF)
     brief["scan_date"] = scan_date
-    try:
-        save_brief_snapshot(conn, "jellingkro.dk", scan_date, brief,
-                            company_name="Jelling Kro", cvr="99999999")
-    except sqlite3.IntegrityError:
-        # Already exists for today — that's fine
-        pass
+    save_brief_snapshot(conn, "jellingkro.dk", scan_date, brief,
+                        company_name="Jelling Kro", cvr="99999999")
     conn.commit()
     print(f"Brief ready for jellingkro.dk ({scan_date})")
 
