@@ -118,13 +118,6 @@ def _format_finding(f: dict) -> str:
     title = html.escape(f.get("title", ""))
     explanation = html.escape(f.get("explanation", ""))
     action = html.escape(f.get("action", ""))
-    who = f.get("who", "")
-
-    who_label = {
-        "owner": "You",
-        "web_host": "Your web host",
-        "developer": "Your developer",
-    }.get(who, html.escape(who) if who else "")
 
     parts = [f"{emoji} <b>{title}</b>"]
     if explanation:

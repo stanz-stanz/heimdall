@@ -17,7 +17,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import sys
 from pathlib import Path
 
 from src.interpreter.interpreter import interpret_brief
@@ -132,7 +131,8 @@ def main():
     interpreted = interpret_brief(brief, language=args.language)
     interpreted["contact_name"] = args.contact_name
 
-    print(f"Interpreter returned {len(findings)} findings, {len(actionable)} are high/critical")
+    out_findings = interpreted.get("findings", [])
+    print(f"Interpreter returned {len(out_findings)} findings")
 
     # Compose
     messages = compose_telegram(interpreted)
