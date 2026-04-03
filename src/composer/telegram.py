@@ -16,9 +16,9 @@ TELEGRAM_MAX_CHARS = 4096
 # Reserve space for message numbering ("(1/3)\n\n") and safety margin
 _MESSAGE_BUDGET = TELEGRAM_MAX_CHARS - 50
 
-SEVERITY_EMOJI = {
-    "critical": "\U0001f534",  # 🔴
-    "high": "\U0001f7e0",      # 🟠
+SEVERITY_LABEL = {
+    "critical": "Critical",
+    "high": "High",
 }
 
 FOOTER = "<b>The Heimdall team</b>\n<i>We'll keep watching</i>"
@@ -116,12 +116,12 @@ def compose_celebration(domain: str, celebration_text: str, contact_name: str = 
 def _format_finding(f: dict) -> str:
     """Format a single finding as an HTML block."""
     severity = f.get("severity", "high").lower()
-    emoji = SEVERITY_EMOJI.get(severity, SEVERITY_EMOJI["high"])
+    label = SEVERITY_LABEL.get(severity, SEVERITY_LABEL["high"])
     title = html.escape(f.get("title", ""), quote=False)
     explanation = html.escape(f.get("explanation", ""), quote=False)
     action = html.escape(f.get("action", ""), quote=False)
 
-    parts = [f"{emoji} <b>{title}</b>"]
+    parts = [f"<b>[{label}] {title}</b>"]
     if explanation:
         parts.append(explanation)
     if action:

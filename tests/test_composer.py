@@ -99,7 +99,7 @@ class TestComposeTelegram:
         assert "</b>" in msg
         assert "<i>" in msg
 
-    def test_severity_emoji(self):
+    def test_severity_label(self):
         interpreted = _sample_interpreted(findings=[{
             "title": "Critical issue",
             "severity": "critical",
@@ -109,7 +109,7 @@ class TestComposeTelegram:
             "provenance": "confirmed",
         }])
         messages = compose_telegram(interpreted)
-        assert "\U0001f534" in messages[0]  # 🔴
+        assert "[Critical]" in messages[0]
 
     def test_footer(self):
         messages = compose_telegram(_sample_interpreted())
