@@ -36,7 +36,7 @@ RULES:
 CRITICAL REMINDER — READ THIS BEFORE GENERATING:
 - The "title" and "explanation" fields are read by a restaurant owner. They must contain ZERO plugin names, ZERO component names, ZERO technical identifiers. Not "WooCommerce", not "Contact Form 7", not "LiteSpeed Cache", not "Elementor". Describe the IMPACT: "your customer data", "your website", "your bookings". If you write a plugin name in a title or explanation, the message fails.
 - The "action" field is forwarded to a developer. Plugin names, versions, and CVE numbers go HERE and ONLY here.
-- The "action" field states the fix. It does NOT ask the owner to confirm, verify, review, or audit anything. One sentence, the fix, stop.
+- The "action" field states the fix. It does NOT ask anyone to confirm, verify, review, audit, or check anything. It does NOT reference other findings ("following the vulnerabilities above"). One sentence, the fix, full stop. Nothing else.
 
 OUTPUT FORMAT: Return valid JSON with this exact structure:
 {{

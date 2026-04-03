@@ -60,11 +60,13 @@ def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> li
     confirmed.sort(key=lambda f: severity_order.get(f.get("severity", "").lower(), 9))
     potential.sort(key=lambda f: severity_order.get(f.get("severity", "").lower(), 9))
 
-    for f in confirmed:
-        sections.append(_format_finding(f))
+    if confirmed:
+        sections.append("<b>Confirmed issues</b>")
+        for f in confirmed:
+            sections.append(_format_finding(f))
 
     if potential:
-        sections.append("<i>Potential issues based on detected versions:</i>")
+        sections.append("Potential issues\n<i>We can't confirm without explicit consent</i>")
         for f in potential:
             sections.append(_format_finding(f))
 
@@ -115,9 +117,9 @@ def _format_finding(f: dict) -> str:
     """Format a single finding as an HTML block."""
     severity = f.get("severity", "high").lower()
     emoji = SEVERITY_EMOJI.get(severity, SEVERITY_EMOJI["high"])
-    title = html.escape(f.get("title", ""))
-    explanation = html.escape(f.get("explanation", ""))
-    action = html.escape(f.get("action", ""))
+    title = html.escape(f.get("title", ""), quote=False)
+    explanation = html.escape(f.get("explanation", ""), quote=False)
+    action = html.escape(f.get("action", ""), quote=False)
 
     parts = [f"{emoji} <b>{title}</b>"]
     if explanation:
