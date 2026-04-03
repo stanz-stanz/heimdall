@@ -66,8 +66,8 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/api/` | Results API + Mobile Console — FastAPI service serving scan results, pub/sub listener, console PWA (monitor dashboard + demo mode with live twin scanning) |
 | `src/api/console.py` | Console API router — operator monitor, demo replay, live twin demo endpoints |
 | `src/consent/validator.py` | Consent validator — Gate 2 enforcement, fail-closed on all error paths |
-| `src/interpreter/` | Finding Interpreter — LLM-powered scan interpretation (Claude API / Ollama abstraction) |
-| `src/composer/telegram.py` | Message Composer — Telegram formatting with 4096-char auto-splitting |
+| `src/interpreter/` | Finding Interpreter — LLM-powered scan interpretation (Claude API / Ollama abstraction). Telegram prompt: no plugin names in titles/explanations, GDPR verbatim sentence for confirmed data findings only, calm tone for potential findings. Output: `findings[]` with `title`, `severity`, `explanation`, `action`, `who`, `provenance`. |
+| `src/composer/telegram.py` | Message Composer — Telegram HTML formatting with `[Critical]`/`[High]` severity labels, Confirmed/Potential sections, greeting, footer, 4096-char auto-splitting. Also `compose_celebration()` for fix acknowledgements. |
 | `docs/digital-twin-use-cases.md` | Digital twin architecture, use cases, legal foundation |
 | `config/synthetic_targets.json` | Config: synthetic target registry for twin consent bypass |
 | `docs/legal/legal-briefing-outreach-2026-03-29.md` | Legal briefing for lawyer meeting — 16 questions on outreach (§10, Reklamebeskyttet), scanning (§263), consent, and GDPR |
@@ -79,11 +79,13 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/vulndb/wp_versions.py` | WordPress.org API client — checks installed plugin versions against latest release, 24h SQLite cache |
 | `.claude/agents/osint/SKILL.md` | **OSINT Agent** — web application fingerprinting, passive recon, REST API namespace tables, CSS signature patterns, technology detection |
 | `src/db/` | Client SQLite DB — CRUD layer for clients, findings (normalised definitions + occurrences), scans, briefs, consent, delivery log. Schema loaded from `docs/architecture/client-db-schema.sql`. DB at `data/clients/clients.db`. |
-| `src/delivery/` | Telegram delivery bot — separate process (`python -m src.delivery`). Subscribes to Redis `scan-complete`, interprets findings, composes messages, routes through operator approval or auto-send. |
+| `src/delivery/` | Telegram delivery bot — separate process (`python -m src.delivery`). Subscribes to Redis `scan-complete`, pre-filters to High/Critical, interprets findings, composes HTML messages, routes through operator approval or auto-send. Operator sees exact client message. |
+| `src/delivery/buttons.py` | Client inline buttons — "Got it" (audit trail) + "Can Heimdall fix this?" (remediation hook) with callback handlers. |
 | `config/delivery.json` | Config: Telegram delivery settings (require_approval toggle, retry, rate limit) |
 | `config/interpreter.json` | Config: LLM backend, model, tone, language (default: English). Per-client language override via `clients.preferred_language` column. |
 | `docs/architecture/client-db-schema.sql` | Authoritative SQLite schema for client management DB (11 tables, 9 views, 34+ indexes) |
-| `scripts/test_delivery.py` | E2E delivery test — seeds test client, saves brief, publishes Redis event. Auto-detects Docker vs host paths. |
+| `scripts/test_delivery.py` | E2E delivery test — seeds test client (jellingkro.dk, real brief data), saves brief, publishes Redis event. Run inside delivery container. |
+| `scripts/preview_message.py` | Message preview tool — runs interpret → compose pipeline without Telegram, prints output to terminal and saves to file. Permanent dev tool for message iteration. |
 
 ---
 
@@ -106,7 +108,7 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 ## Build Priority: Sprint 3 — Consent-Gated Pipeline
 
-**Sprints 1-3 complete (485 tests). Sprint 4 in progress — Telegram delivery implemented, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Layer 2 scanners (Nuclei/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning). Sprint 4 delivered so far: mid-scan bucket filter, CVR column fix, WPScan sidecar replaced by WPVulnerability API + local SQLite cache (saves 512MB RAM), CVR enrichment tool with SQLite DB, WordPress plugin version extraction (HTML `?ver=` params + REST API namespaces + meta generators + CSS class signatures), wordpress.org outdated plugin checks, OSINT agent, Pi5 alias fixes (`--force-recreate`, `heimdall-quick`), **client SQLite DB** (`src/db/`, 11 tables, 150 tests), **Telegram bot delivery** (`src/delivery/`, operator approval flow, `python -m src.delivery`). Sprint 4 in progress: finding confidence split (Confirmed vs Potential), Nikto + Nmap implementation, client onboarding, delivery bot containerization.
+**Sprints 1-3 complete (485 tests). Sprint 4 in progress — Telegram delivery implemented, pilot launch (5 Vejle clients).** Sprint 3 delivered: Results API, consent management, Layer 2 scanners (Nuclei/CMSeek), finding interpreter, message composer, client memory + delta detection, digital twin, mobile console, deployment hardening (smoke tests, version pinning). Sprint 4 delivered so far: mid-scan bucket filter, CVR column fix, WPScan sidecar replaced by WPVulnerability API + local SQLite cache (saves 512MB RAM), CVR enrichment tool with SQLite DB, WordPress plugin version extraction (HTML `?ver=` params + REST API namespaces + meta generators + CSS class signatures), wordpress.org outdated plugin checks, OSINT agent, Pi5 alias fixes (`--force-recreate`, `heimdall-quick`), **client SQLite DB** (`src/db/`, 11 tables, 150 tests), **Telegram bot delivery** (`src/delivery/`, operator approval flow, `python -m src.delivery`), **Telegram message redesign** (10 content rules, HTML format, `[Critical]`/`[High]` severity labels, Confirmed/Potential sections, "Got it" + "Can Heimdall fix this?" inline buttons, per-client language, `preview_message.py` dev tool). Sprint 4 in progress: Nikto + Nmap implementation, client onboarding, message tone iteration, ticketing integration (osTicket).
 
 Goal: consent-gated scanning for paying clients, AI-interpreted findings in Danish, Telegram delivery.
 

@@ -5,34 +5,44 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
-## 2026-04-03 — Telegram message content rules defined
+## 2026-04-03 — Telegram message redesign: content rules, format, buttons
 
 **Decided**
 - Telegram is an alert channel only. Full weekly briefs go by email (separate thread).
-- 9 rules defined for Telegram content: (1) No message unless action required, (2) Merge by impact not component (what → risk → fix), (3) Get to the point, (4) Who + what to do (no time estimates), (5) Natural human tone, (6) Phone-first Instagram short, (7) Facts only zero hallucination, (8) Chinese wall confirmed vs potential, (9) Delta awareness + celebrate fixes.
-- Celebrate-a-fix messages are the one exception to Rule 1 — every fix gets its own encouraging message.
-- `preferred_language` wired into delivery runner (reads from client record, passes to interpreter).
-- `preferred_language` added to `_CLIENT_MUTABLE_COLS` in `src/db/clients.py`.
+- 10 rules defined for Telegram content: (1) No message unless action required — High/Critical only, (2) Merge by impact not component, (3) Get to the point, (4) Who + what to do — no time estimates, (5) Natural human tone, (6) Phone-first Instagram short, (7) Facts only zero hallucination, (8) Chinese wall confirmed vs potential, (9) Delta awareness + celebrate fixes, (10) GDPR in confirmed findings only with verbatim sentence.
+- GDPR sentence is verbatim, never adapted: "Just imagine losing your customers' trust while putting your business in breach of GDPR regulations, all at the same time."
+- GDPR must NEVER appear in potential findings — alarmist for unconfirmed issues.
+- Confirmed and potential findings must NEVER be merged across provenance boundaries (legal requirement).
+- Plugin/component names forbidden in titles and explanations — only in the action field (forwarded to developer).
+- Action field states the fix and stops. No verify, confirm, audit, or review instructions.
+- Severity labels: plain text `[Critical]` `[High]` — colored circles dropped (not relatable for SMB owners).
+- HTML `parse_mode="HTML"` for all Telegram messages.
+- Operator approval preview shows exact client message — no separate format.
+- Two inline client buttons: "Got it" (audit trail) + "Can Heimdall fix this?" (remediation upsell, ticketing hook).
+- Footer: bold "The Heimdall team" / italic "We'll keep watching" — no emoji.
+- Confirmed issues section header, Potential issues section with "(i.e. we can't confirm without your explicit consent)".
+- Findings sorted critical-first within each provenance group.
+- Brief pre-filtered to High/Critical BEFORE interpretation — LLM never sees medium/low.
+- Max 3 findings per message. One sentence explanation, one sentence action.
+- Celebrate-a-fix messages are the exception to Rule 1 — every fix gets acknowledged.
+- `preferred_language` wired from client record into delivery runner → interpreter.
+- `preview_message.py` added as permanent dev tool for message iteration.
 
 **Rejected**
-- "Reassurance first" for Telegram — moved to email only. Telegram silence = good news.
-- Time estimates per finding — double-edged sword, dropped.
-- "Actionable = paragraph, info = one line" — redundant given Rules 1 and 3.
-
-- Rule 10 added: GDPR findings must reference the law — regulatory breach and fines as concrete business risk.
-- Visual format decided: HTML parse_mode, functional emoji only, severity circles (🔴 Critical, 🟠 High), mixed finding layout, greeting with name + domain, footer "The Heimdall team / We'll keep watching 🔭".
-- Telegram only fires for High or Critical severity — medium/low/info are silent.
-- Two inline buttons: "Got it" (audit trail) + "Can Heimdall fix this?" (ticketing hook, remediation upsell).
-- No CTA implying conversation — Heimdall is not a chatbot.
-- Ticketing system needed for "fix it" button — explore osTicket, don't build from scratch.
-- Follow-up after X days if no acknowledgement (X TBD).
+- "Reassurance first" for Telegram — email only. Telegram silence = good news.
+- Time estimates per finding — double-edged sword.
+- Severity emoji (colored circles) — not relatable for target audience.
+- Separate operator preview format — operator must see exactly what client sees.
+- Examples/analogies in explanations — state risk and stop.
+- Footer emoji (telescope/binoculars) — dropped entirely.
 
 **Unresolved**
 - Email brief format — separate thread
-- Prompt and composer code changes — ready to implement
-- osTicket integration — explore, scope TBD
-- Follow-up reminder timing (X days) — TBD
+- osTicket / Open Ticket AI integration for "Can Heimdall fix this?" button
+- Follow-up reminder timing (X days) if no acknowledgement — TBD
 - "Can Heimdall fix this?" auto-reply wording — draft exists, needs refinement
+- Message tone still being iterated — closer but not final
+- `client_interactions` table not yet in schema (buttons log to it with fallback)
 
 ---
 
