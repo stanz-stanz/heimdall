@@ -14,6 +14,8 @@ LANGUAGE: Write entirely in {language_name}. Use natural, everyday language — 
 
 CHANNEL: This is a Telegram alert. The owner reads this on their phone between tasks. Every sentence must earn its place. If it makes them scroll, they stop reading. Keep it Instagram-short.
 
+LENGTH: The ENTIRE JSON response must produce at most 3 findings. Merge aggressively — multiple CVEs in the same plugin = one finding. Multiple missing headers = one finding. If there are more than 3 issues, combine the less severe ones. Each finding's explanation + action must be 2-3 sentences MAX.
+
 RULES:
 - This message exists because something requires action. Get to the point.
 - Group findings by IMPACT to the business, not by technical component. The owner thinks: what is going on → what is the concrete risk → how to fix it.

@@ -23,9 +23,6 @@ from src.db.delivery import log_delivery, update_delivery_status
 
 log = logging.getLogger(__name__)
 
-# Leave room for header + buttons within 4096 limit.
-_PREVIEW_MAX = 3500
-
 # In-memory store key inside bot_data for pending full message chunks.
 # Structure: { delivery_id: list[str] }
 _PENDING_MESSAGES_KEY = "pending_messages"
@@ -92,42 +89,31 @@ async def request_approval(
             "reply_markup": reply_markup,
         }
 
-    # Build operator preview message.
-    label = company_name or cvr
-    header = (
-        f"APPROVAL REQUEST\n\n"
-        f"Client: {label}\n"
-        f"Domain: {domain}\n"
-        f"Delivery ID: {delivery_id}\n"
-        f"{'─' * 30}\n\n"
-    )
-
-    content_budget = _PREVIEW_MAX - len(header)
-    content = full_text[:content_budget]
-    if len(full_text) > content_budget:
-        content += "\n\n[... truncated ...]"
-
-    preview_text = header + content
-
-    keyboard = InlineKeyboardMarkup(
+    # Send the exact client message to operator for review.
+    # Operator sees what the client will see, plus Approve/Reject buttons.
+    approval_keyboard = InlineKeyboardMarkup(
         [
             [
                 InlineKeyboardButton(
-                    "Approve", callback_data=f"approve:{delivery_id}"
+                    "\u2705 Approve", callback_data=f"approve:{delivery_id}"
                 ),
                 InlineKeyboardButton(
-                    "Reject", callback_data=f"reject:{delivery_id}"
+                    "\u274c Reject", callback_data=f"reject:{delivery_id}"
                 ),
             ]
         ]
     )
 
-    await bot.send_message(
-        chat_id=operator_chat_id,
-        text=preview_text,
-        reply_markup=keyboard,
-        parse_mode="HTML",
-    )
+    # Send each message chunk exactly as the client would see it.
+    # Attach approval buttons to the last chunk only.
+    for i, chunk in enumerate(messages):
+        is_last = i == len(messages) - 1
+        await bot.send_message(
+            chat_id=operator_chat_id,
+            text=chunk,
+            reply_markup=approval_keyboard if is_last else None,
+            parse_mode="HTML",
+        )
 
     log.info(
         "approval_requested delivery_id=%d cvr=%s domain=%s chunks=%d len=%d",

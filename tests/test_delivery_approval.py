@@ -104,8 +104,8 @@ class TestRequestApproval:
         assert row["domain"] == "test.dk"
         assert row["message_hash"] is not None
 
-    def test_sends_preview_to_operator(self, db, mock_bot) -> None:
-        """Bot.send_message is called with the operator chat ID and a keyboard."""
+    def test_sends_exact_client_messages_to_operator(self, db, mock_bot) -> None:
+        """Operator receives the exact message chunks the client would see."""
         asyncio.run(
             request_approval(
                 bot=mock_bot,
@@ -118,32 +118,38 @@ class TestRequestApproval:
             )
         )
 
-        mock_bot.send_message.assert_called_once()
-        call_kwargs = mock_bot.send_message.call_args
-        assert call_kwargs.kwargs["chat_id"] == "op_123"
-        assert "Test Restaurant" in call_kwargs.kwargs["text"]
-        assert "APPROVAL REQUEST" in call_kwargs.kwargs["text"]
+        # Two chunks = two send_message calls
+        assert mock_bot.send_message.call_count == 2
+        first_call = mock_bot.send_message.call_args_list[0]
+        assert first_call.kwargs["chat_id"] == "op_123"
+        assert first_call.kwargs["text"] == "Finding 1"
+        assert first_call.kwargs["parse_mode"] == "HTML"
 
-    def test_keyboard_has_approve_reject_buttons(self, db, mock_bot) -> None:
-        """The InlineKeyboardMarkup has exactly two buttons: Approve and Reject."""
+    def test_approve_reject_buttons_on_last_chunk(self, db, mock_bot) -> None:
+        """Approve/Reject buttons are attached to the last message chunk only."""
         delivery_id = asyncio.run(
             request_approval(
                 bot=mock_bot,
                 operator_chat_id="op_123",
-                messages=["Some findings"],
+                messages=["Chunk 1", "Chunk 2"],
                 cvr="12345678",
                 domain="test.dk",
                 conn=db,
             )
         )
 
-        call_kwargs = mock_bot.send_message.call_args
-        markup = call_kwargs.kwargs["reply_markup"]
+        # First chunk: no buttons
+        first_call = mock_bot.send_message.call_args_list[0]
+        assert first_call.kwargs.get("reply_markup") is None
+
+        # Last chunk: has Approve/Reject
+        last_call = mock_bot.send_message.call_args_list[-1]
+        markup = last_call.kwargs["reply_markup"]
         buttons = markup.inline_keyboard[0]
         assert len(buttons) == 2
-        assert buttons[0].text == "Approve"
+        assert "Approve" in buttons[0].text
         assert buttons[0].callback_data == f"approve:{delivery_id}"
-        assert buttons[1].text == "Reject"
+        assert "Reject" in buttons[1].text
         assert buttons[1].callback_data == f"reject:{delivery_id}"
 
     def test_stashes_full_messages_in_bot_data(self, db, mock_bot) -> None:
@@ -168,8 +174,8 @@ class TestRequestApproval:
         assert stashed["messages"] == chunks
         assert stashed["reply_markup"] is None
 
-    def test_preview_truncated_for_long_messages(self, db, mock_bot) -> None:
-        """Messages exceeding preview budget are truncated with a marker."""
+    def test_long_message_sent_as_is(self, db, mock_bot) -> None:
+        """Long messages are sent exactly as the client would receive them."""
         long_msg = "x" * 5000
         asyncio.run(
             request_approval(
@@ -184,8 +190,7 @@ class TestRequestApproval:
 
         call_kwargs = mock_bot.send_message.call_args
         text = call_kwargs.kwargs["text"]
-        assert "[... truncated ...]" in text
-        assert len(text) <= 4096
+        assert text == long_msg
 
     def test_message_preview_stored_in_db(self, db, mock_bot) -> None:
         """The first 200 chars of the message are stored as message_preview."""
@@ -207,8 +212,8 @@ class TestRequestApproval:
         ).fetchone()
         assert len(row["message_preview"]) == 200
 
-    def test_uses_cvr_when_no_company_name(self, db, mock_bot) -> None:
-        """If company_name is empty, the preview header uses CVR."""
+    def test_single_chunk_gets_buttons(self, db, mock_bot) -> None:
+        """A single-chunk message gets Approve/Reject buttons directly."""
         asyncio.run(
             request_approval(
                 bot=mock_bot,
@@ -221,9 +226,10 @@ class TestRequestApproval:
             )
         )
 
+        mock_bot.send_message.assert_called_once()
         call_kwargs = mock_bot.send_message.call_args
-        text = call_kwargs.kwargs["text"]
-        assert "Client: 12345678" in text
+        assert call_kwargs.kwargs["text"] == "Finding"
+        assert call_kwargs.kwargs["reply_markup"] is not None
 
 
 # ---------------------------------------------------------------------------
