@@ -33,21 +33,77 @@ SAMPLE_BRIEF = {
     "domain": "jellingkro.dk",
     "bucket": "A",
     "company_name": "Jelling Kro",
-    "industry": "Restaurant",
+    "industry": "Restaurant with online booking and webshop",
+    "gdpr_sensitive": True,
+    "gdpr_reasons": [
+        "Data-handling plugins: Woocommerce, Contact Form 7",
+        "E-commerce plugin: WooCommerce:9.6.4",
+    ],
     "technology": {
         "cms": "WordPress",
         "hosting": "LiteSpeed",
-        "server": "LiteSpeed/6.0",
-        "ssl": {"valid": True, "issuer": "Let's Encrypt", "days_remaining": 45},
-        "detected_plugins": ["yoast-seo", "woocommerce", "contact-form-7"],
-        "detected_themes": ["flavor"],
+        "server": "LiteSpeed",
+        "ssl": {"valid": True, "issuer": "Sectigo Limited", "expiry": "2027-01-21", "days_remaining": 295},
+        "detected_plugins": [
+            "Woocommerce", "Custom Facebook Feed", "Instagram Feed",
+            "Contact Form 7", "Elementor", "Cookie Law Info",
+            "Litespeed Cache", "Wordpress Seo",
+        ],
+        "plugin_versions": {
+            "Contact Form 7": "6.0.3",
+            "Elementor": "3.27.3",
+            "Woocommerce": "9.6.4",
+        },
+        "detected_themes": [],
+        "headers": {
+            "x_frame_options": False,
+            "content_security_policy": False,
+            "strict_transport_security": False,
+            "x_content_type_options": False,
+        },
     },
+    "subdomains": {"count": 0},
     "findings": [
-        {"severity": "high", "description": "Missing HSTS header", "risk": "Browser connections not forced to HTTPS"},
-        {"severity": "medium", "description": "Missing Content-Security-Policy header"},
-        {"severity": "info", "description": "Server version disclosed: LiteSpeed/6.0"},
+        {
+            "severity": "critical",
+            "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
+            "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
+            "provenance": "twin-derived",
+            "provenance_detail": {"source_layer": 1, "twin_scan_tool": "wpvulnerability",
+                                  "template_id": "CVE-2024-28000", "confidence": "medium-inference"},
+        },
+        {
+            "severity": "critical",
+            "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
+            "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
+            "provenance": "twin-derived",
+            "provenance_detail": {"source_layer": 1, "twin_scan_tool": "wpvulnerability",
+                                  "template_id": "CVE-2024-44000", "confidence": "medium-inference"},
+        },
+        {
+            "severity": "high",
+            "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
+            "risk": "These plugins collect or process user data (form submissions, payments). If the site or plugin has a vulnerability, this data could be exposed.",
+        },
+        {
+            "severity": "high",
+            "description": "Elementor Website Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+            "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+            "provenance": "twin-derived",
+            "provenance_detail": {"source_layer": 1, "twin_scan_tool": "wpvulnerability",
+                                  "template_id": "CVE-2022-1329", "confidence": "high-inference"},
+        },
+        {
+            "severity": "medium",
+            "description": "Missing HSTS header (HTTP Strict Transport Security)",
+            "risk": "Browsers are not instructed to always use HTTPS.",
+        },
+        {
+            "severity": "medium",
+            "description": "Outdated plugin: Contact Form 7 (installed 6.0.3, latest 6.1.5)",
+            "risk": "Outdated plugins may contain known vulnerabilities.",
+        },
     ],
-    "subdomains": {"count": 2},
 }
 
 
@@ -76,14 +132,20 @@ def main():
     # Create or update test client — always ensure chat_id and domain are correct
     existing = get_client(conn, "99999999")
     if existing:
+        updates = {}
         if existing.get("telegram_chat_id") != chat_id:
-            update_client(conn, "99999999", {"telegram_chat_id": chat_id})
-            print(f"Updated test client chat_id to {chat_id}")
+            updates["telegram_chat_id"] = chat_id
+        if existing.get("contact_name") != "Martin":
+            updates["contact_name"] = "Martin"
+        if updates:
+            update_client(conn, "99999999", updates)
+            print(f"Updated test client: {', '.join(updates.keys())}")
         else:
-            print("Test client exists with correct chat_id")
+            print("Test client exists with correct settings")
     else:
         create_client(conn, "99999999", "Jelling Kro",
-                      telegram_chat_id=chat_id, status="active", plan="watchman")
+                      telegram_chat_id=chat_id, status="active", plan="watchman",
+                      contact_name="Martin")
         print(f"Created test client (CVR 99999999, chat_id={chat_id})")
 
     # Always ensure domain link exists
