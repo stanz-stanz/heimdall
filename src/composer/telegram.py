@@ -1,103 +1,70 @@
 """Telegram message composer.
 
 Formats interpreted findings for Telegram delivery.
-Respects the 4096-character message limit, uses Telegram MarkdownV2,
+Respects the 4096-character message limit, uses Telegram HTML parse mode,
 and splits into multiple messages when needed.
 """
 
 from __future__ import annotations
 
+import html
 import logging
 
 log = logging.getLogger(__name__)
 
 TELEGRAM_MAX_CHARS = 4096
-# Reserve space for message numbering ("1/3\n\n") and safety margin
+# Reserve space for message numbering ("(1/3)\n\n") and safety margin
 _MESSAGE_BUDGET = TELEGRAM_MAX_CHARS - 50
 
+SEVERITY_EMOJI = {
+    "critical": "\U0001f534",  # 🔴
+    "high": "\U0001f7e0",      # 🟠
+}
 
-def compose_telegram(interpreted: dict, delta_context: dict = None) -> list[str]:
-    """Format an interpreted brief into Telegram message(s).
+FOOTER = "<i>The Heimdall team</i>\n<i>We'll keep watching</i> \U0001f52d"
+
+
+def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> list[str]:
+    """Format an interpreted brief into Telegram HTML message(s).
 
     Parameters
     ----------
     interpreted : dict
-        Output from ``interpret_brief``: ``good_news``, ``findings``,
-        ``summary``, ``domain``, ``company_name``, ``scan_date``.
+        Output from ``interpret_brief``: ``findings``,
+        ``domain``, ``company_name``, ``scan_date``.
+    delta_context : dict, optional
+        Delta context with resolved/new/recurring lists.
 
     Returns
     -------
     list[str]
-        One or more message strings, each within Telegram's 4096 char limit.
-        Ready to send via Telegram Bot API (plain text, not MarkdownV2 —
-        the bot layer handles formatting).
+        One or more HTML message strings, each within Telegram's 4096 char limit.
     """
-    domain = interpreted.get("domain", "")
-    scan_date = interpreted.get("scan_date", "")
-
+    domain = html.escape(interpreted.get("domain", ""))
+    contact_name = html.escape(interpreted.get("contact_name", ""))
     sections = []
 
-    # Header
-    header = f"Security Report — {domain}"
-    if scan_date:
-        header += f" ({scan_date})"
-    sections.append(header)
+    # Greeting
+    greeting = f"Hi {contact_name}, " if contact_name else ""
+    sections.append(
+        f"{greeting}Heimdall has a security alert for <b>{domain}</b>"
+    )
 
-    # Good news
-    good_news = interpreted.get("good_news", [])
-    if good_news:
-        good_lines = "\n".join(f"  + {item}" for item in good_news)
-        sections.append(good_lines)
-
-    # Resolved findings (delta context)
-    if delta_context and delta_context.get("resolved"):
-        resolved_lines = [f"  + Fixed: {r['description']}" for r in delta_context["resolved"]]
-        sections.append("Fixed since last scan:\n" + "\n".join(resolved_lines))
-
-    # Findings — split into confirmed and twin-derived groups
+    # Findings — split into confirmed and potential
     findings = interpreted.get("findings", [])
     confirmed = [f for f in findings if f.get("provenance") != "twin-derived"]
-    twin_derived = [f for f in findings if f.get("provenance") == "twin-derived"]
+    potential = [f for f in findings if f.get("provenance") == "twin-derived"]
 
-    def _format_finding(f: dict, idx: int) -> str:
-        title = f.get("title", "")
-        explanation = f.get("explanation", "")
-        action = f.get("action", "")
-        who = f.get("who", "")
-        effort = f.get("effort", "")
-
-        parts = [f"{idx}. {title}"]
-        if explanation:
-            parts.append(explanation)
-        if action:
-            action_line = f"-> {action}"
-            if who:
-                who_label = {"owner": "You", "web_host": "Your web host",
-                             "developer": "Your developer"}.get(who, who)
-                action_line += f" ({who_label}"
-                if effort:
-                    action_line += f", ~{effort}"
-                action_line += ")"
-            elif effort:
-                action_line += f" (~{effort})"
-            parts.append(action_line)
-        return "\n".join(parts)
-
-    idx = 1
     for f in confirmed:
-        sections.append(_format_finding(f, idx))
-        idx += 1
+        sections.append(_format_finding(f))
 
-    if twin_derived:
-        sections.append("--- Probable findings (based on detected versions) ---")
-        for f in twin_derived:
-            sections.append(_format_finding(f, idx))
-            idx += 1
+    if potential:
+        sections.append("<i>Potential issues based on detected versions:</i>")
+        for f in potential:
+            sections.append(_format_finding(f))
 
-    # Summary
-    summary = interpreted.get("summary", "")
-    if summary:
-        sections.append(f"---\n{summary}")
+    # Footer
+    sections.append(FOOTER)
 
     # Join and split if needed
     full_message = "\n\n".join(sections)
@@ -106,6 +73,65 @@ def compose_telegram(interpreted: dict, delta_context: dict = None) -> list[str]
         return [full_message]
 
     return _split_message(sections)
+
+
+def compose_celebration(domain: str, celebration_text: str, contact_name: str = "") -> list[str]:
+    """Format a fix-celebration message in Telegram HTML.
+
+    Parameters
+    ----------
+    domain : str
+        The domain where the fix was confirmed.
+    celebration_text : str
+        The celebration sentence from the interpreter.
+    contact_name : str, optional
+        Client's contact name for greeting.
+
+    Returns
+    -------
+    list[str]
+        Single-element list with the celebration message.
+    """
+    safe_domain = html.escape(domain)
+    safe_name = html.escape(contact_name) if contact_name else ""
+    safe_text = html.escape(celebration_text)
+
+    greeting = f"Hi {safe_name}, " if safe_name else ""
+    message = (
+        f"{greeting}good news for <b>{safe_domain}</b>\n\n"
+        f"\u2705 {safe_text}\n\n"
+        f"{FOOTER}"
+    )
+
+    return [message]
+
+
+def _format_finding(f: dict) -> str:
+    """Format a single finding as an HTML block."""
+    severity = f.get("severity", "high").lower()
+    emoji = SEVERITY_EMOJI.get(severity, SEVERITY_EMOJI["high"])
+    title = html.escape(f.get("title", ""))
+    explanation = html.escape(f.get("explanation", ""))
+    action = html.escape(f.get("action", ""))
+    who = f.get("who", "")
+
+    who_label = {
+        "owner": "You",
+        "web_host": "Your web host",
+        "developer": "Your developer",
+    }.get(who, html.escape(who) if who else "")
+
+    parts = [f"{emoji} <b>{title}</b>"]
+    if explanation:
+        parts.append(explanation)
+    if action:
+        fix_line = f"\u21b3 <b>Fix:</b> "
+        if who_label:
+            fix_line += f"Ask {who_label.lower()} to " if who_label != "You" else ""
+        fix_line += action
+        parts.append(fix_line)
+
+    return "\n".join(parts)
 
 
 def _split_message(sections: list[str]) -> list[str]:

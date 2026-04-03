@@ -55,7 +55,9 @@ class TestSendMessage:
         assert result["success"] is True
         assert result["message_id"] == 42
         assert result["error"] is None
-        mock_bot.send_message.assert_awaited_once_with(chat_id="999", text="Hello")
+        mock_bot.send_message.assert_awaited_once_with(
+            chat_id="999", text="Hello", parse_mode="HTML",
+        )
 
     def test_send_message_retry_after_then_success(
         self, mock_bot: AsyncMock

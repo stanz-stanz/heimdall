@@ -139,22 +139,25 @@ class TestFullDeltaFlow:
             "resolved": [{"description": r.description, "severity": r.severity} for r in delta2.resolved],
         }
 
-        # Mock an interpreted output
+        # Mock an interpreted output (new HTML alert format)
         interpreted = {
             "domain": "restaurant-nordlys.dk",
             "scan_date": "2026-03-28",
-            "good_news": ["SSL is valid"],
+            "contact_name": "",
             "findings": [
-                {"title": "SSL expiring soon", "explanation": "Certificate expires in 7 days",
-                 "action": "Renew certificate", "who": "web_host", "effort": "5 minutes"},
+                {"title": "SSL expiring soon", "severity": "high",
+                 "explanation": "Certificate expires in 7 days",
+                 "action": "Renew certificate", "who": "web_host",
+                 "provenance": "confirmed"},
             ],
-            "summary": "1 urgent item, 1 issue resolved.",
         }
 
         messages = compose_telegram(interpreted, delta_context=delta_context)
         full_text = " ".join(messages)
-        assert "Fixed since last scan" in full_text
-        assert "Missing HSTS header" in full_text
+        # Resolved findings are now sent as separate celebration messages,
+        # so we verify the alert message contains the active finding.
+        assert "SSL expiring soon" in full_text
+        assert "restaurant-nordlys.dk" in full_text
 
 
 # --- Backward compatibility ---

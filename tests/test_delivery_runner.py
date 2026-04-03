@@ -39,13 +39,18 @@ _BRIEF_DICT = {
 }
 
 _INTERPRETED = {
-    "findings": [{"title": "Missing HSTS header", "explanation": "...", "action": "Enable HSTS"}],
-    "good_news": ["SSL certificate is valid"],
-    "summary": "Your site has one issue to address.",
+    "findings": [{
+        "title": "Missing HSTS header",
+        "severity": "high",
+        "explanation": "...",
+        "action": "Enable HSTS",
+        "who": "web_host",
+        "provenance": "confirmed",
+    }],
     "domain": "test.dk",
     "company_name": "Test Restaurant",
     "scan_date": "2026-04-02",
-    "meta": {"tone": "balanced", "language": "da", "model": "test", "duration_ms": 50},
+    "meta": {"tone": "balanced", "language": "en", "model": "test", "duration_ms": 50},
 }
 
 _COMPOSED = ["Security Report -- test.dk (2026-04-02)\n\nTest message content"]
@@ -194,12 +199,14 @@ class TestHandleScanCompleteNoChatId:
 class TestHandleScanCompleteApproval:
     """Client with chat_id, require_approval=True -- routes through approval."""
 
+    @patch("src.delivery.runner.build_client_buttons")
     @patch("src.delivery.runner.interpret_brief", return_value=_INTERPRETED)
     @patch("src.delivery.runner.compose_telegram", return_value=_COMPOSED)
     @patch("src.delivery.runner.request_approval", new_callable=AsyncMock)
     @patch("src.delivery.runner.get_operator_chat_id", return_value="op-123")
     def test_routes_through_approval(
-        self, mock_op_id, mock_approval, mock_compose, mock_interpret, db,
+        self, mock_op_id, mock_approval, mock_compose, mock_interpret,
+        mock_buttons, db,
     ) -> None:
         runner = _make_runner(db, config={"require_approval": True})
         event = json.dumps({"domain": "test.dk", "job_id": "j-3"})
@@ -207,7 +214,7 @@ class TestHandleScanCompleteApproval:
         asyncio.run(runner._handle_scan_complete(event))
 
         mock_interpret.assert_called_once()
-        mock_compose.assert_called_once_with(_INTERPRETED)
+        mock_compose.assert_called_once()
         mock_approval.assert_called_once()
 
         call_kwargs = mock_approval.call_args
@@ -220,11 +227,12 @@ class TestHandleScanCompleteApproval:
 class TestHandleScanCompleteAutoSend:
     """require_approval=False -- sends directly to client."""
 
+    @patch("src.delivery.runner.build_client_buttons")
     @patch("src.delivery.runner.interpret_brief", return_value=_INTERPRETED)
     @patch("src.delivery.runner.compose_telegram", return_value=_COMPOSED)
     @patch("src.delivery.runner.send_with_logging", new_callable=AsyncMock)
     def test_auto_send_direct(
-        self, mock_send, mock_compose, mock_interpret, db,
+        self, mock_send, mock_compose, mock_interpret, mock_buttons, db,
     ) -> None:
         runner = _make_runner(db, config={"require_approval": False})
         event = json.dumps({"domain": "test.dk", "job_id": "j-4"})
@@ -232,7 +240,7 @@ class TestHandleScanCompleteAutoSend:
         asyncio.run(runner._handle_scan_complete(event))
 
         mock_interpret.assert_called_once()
-        mock_compose.assert_called_once_with(_INTERPRETED)
+        mock_compose.assert_called_once()
         mock_send.assert_called_once()
 
         call_kwargs = mock_send.call_args

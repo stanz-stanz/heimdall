@@ -5,6 +5,37 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-03 — Telegram message content rules defined
+
+**Decided**
+- Telegram is an alert channel only. Full weekly briefs go by email (separate thread).
+- 9 rules defined for Telegram content: (1) No message unless action required, (2) Merge by impact not component (what → risk → fix), (3) Get to the point, (4) Who + what to do (no time estimates), (5) Natural human tone, (6) Phone-first Instagram short, (7) Facts only zero hallucination, (8) Chinese wall confirmed vs potential, (9) Delta awareness + celebrate fixes.
+- Celebrate-a-fix messages are the one exception to Rule 1 — every fix gets its own encouraging message.
+- `preferred_language` wired into delivery runner (reads from client record, passes to interpreter).
+- `preferred_language` added to `_CLIENT_MUTABLE_COLS` in `src/db/clients.py`.
+
+**Rejected**
+- "Reassurance first" for Telegram — moved to email only. Telegram silence = good news.
+- Time estimates per finding — double-edged sword, dropped.
+- "Actionable = paragraph, info = one line" — redundant given Rules 1 and 3.
+
+- Rule 10 added: GDPR findings must reference the law — regulatory breach and fines as concrete business risk.
+- Visual format decided: HTML parse_mode, functional emoji only, severity circles (🔴 Critical, 🟠 High), mixed finding layout, greeting with name + domain, footer "The Heimdall team / We'll keep watching 🔭".
+- Telegram only fires for High or Critical severity — medium/low/info are silent.
+- Two inline buttons: "Got it" (audit trail) + "Can Heimdall fix this?" (ticketing hook, remediation upsell).
+- No CTA implying conversation — Heimdall is not a chatbot.
+- Ticketing system needed for "fix it" button — explore osTicket, don't build from scratch.
+- Follow-up after X days if no acknowledgement (X TBD).
+
+**Unresolved**
+- Email brief format — separate thread
+- Prompt and composer code changes — ready to implement
+- osTicket integration — explore, scope TBD
+- Follow-up reminder timing (X days) — TBD
+- "Can Heimdall fix this?" auto-reply wording — draft exists, needs refinement
+
+---
+
 ## 2026-04-02 — Delivery bot deployed to Pi5, Docker review, language default
 
 **Decided**

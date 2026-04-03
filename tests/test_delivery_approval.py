@@ -164,7 +164,9 @@ class TestRequestApproval:
         )
 
         assert _PENDING_MESSAGES_KEY in bot_data
-        assert bot_data[_PENDING_MESSAGES_KEY][delivery_id] == chunks
+        stashed = bot_data[_PENDING_MESSAGES_KEY][delivery_id]
+        assert stashed["messages"] == chunks
+        assert stashed["reply_markup"] is None
 
     def test_preview_truncated_for_long_messages(self, db, mock_bot) -> None:
         """Messages exceeding preview budget are truncated with a marker."""

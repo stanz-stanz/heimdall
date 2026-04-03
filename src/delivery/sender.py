@@ -19,6 +19,9 @@ from telegram.error import NetworkError, RetryAfter, TimedOut
 from src.db.connection import _now
 from src.db.delivery import log_delivery, update_delivery_status
 
+# Type alias for reply markup (avoid hard import for flexibility)
+ReplyMarkup = object  # telegram.InlineKeyboardMarkup at runtime
+
 log = logging.getLogger(__name__)
 
 
@@ -28,6 +31,7 @@ async def send_message(
     text: str,
     max_retries: int = 3,
     retry_delay: float = 5.0,
+    reply_markup: ReplyMarkup | None = None,
 ) -> dict:
     """Send a single Telegram message with retry logic.
 
@@ -48,7 +52,10 @@ async def send_message(
     """
     for attempt in range(max_retries):
         try:
-            msg = await bot.send_message(chat_id=chat_id, text=text)
+            kwargs = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
+            if reply_markup is not None:
+                kwargs["reply_markup"] = reply_markup
+            msg = await bot.send_message(**kwargs)
             return {"success": True, "message_id": msg.message_id, "error": None}
         except RetryAfter as exc:
             wait = exc.retry_after
@@ -89,6 +96,7 @@ async def send_messages(
     max_retries: int = 3,
     retry_delay: float = 5.0,
     rate_limit: float = 1.0,
+    reply_markup: ReplyMarkup | None = None,
 ) -> list[dict]:
     """Send multiple message chunks with rate limiting between them.
 
@@ -111,7 +119,9 @@ async def send_messages(
     for i, text in enumerate(messages):
         if i > 0:
             await asyncio.sleep(rate_limit)
-        result = await send_message(bot, chat_id, text, max_retries, retry_delay)
+        # Attach reply_markup only to the last message
+        chunk_markup = reply_markup if i == len(messages) - 1 else None
+        result = await send_message(bot, chat_id, text, max_retries, retry_delay, reply_markup=chunk_markup)
         results.append(result)
         if not result["success"]:
             log.error(
@@ -141,6 +151,7 @@ async def send_with_logging(
     message_type: str = "scan_report",
     max_retries: int = 3,
     retry_delay: float = 5.0,
+    reply_markup: ReplyMarkup | None = None,
 ) -> bool:
     """Send messages and log to ``delivery_log`` in the database.
 
@@ -181,7 +192,7 @@ async def send_with_logging(
     )
 
     t0 = time.monotonic()
-    results = await send_messages(bot, chat_id, messages, max_retries, retry_delay)
+    results = await send_messages(bot, chat_id, messages, max_retries, retry_delay, reply_markup=reply_markup)
     duration_ms = int((time.monotonic() - t0) * 1000)
 
     all_sent = all(r["success"] for r in results)

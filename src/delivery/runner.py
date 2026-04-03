@@ -27,6 +27,7 @@ from src.delivery.approval import (
     request_approval, handle_approval_callback, should_require_approval,
 )
 from src.delivery.sender import send_with_logging
+from src.delivery.buttons import build_client_buttons, handle_client_callback
 from src.interpreter.interpreter import interpret_brief
 from src.composer.telegram import compose_telegram
 
@@ -75,8 +76,15 @@ class DeliveryRunner:
         # Store config for approval flow
         self._app.bot_data["config"] = self.config
 
-        # Register callback handler for approval buttons
-        self._app.add_handler(CallbackQueryHandler(handle_approval_callback))
+        # Register callback handlers for approval and client buttons
+        self._app.add_handler(CallbackQueryHandler(
+            handle_approval_callback,
+            pattern=r"^(approve|reject):",
+        ))
+        self._app.add_handler(CallbackQueryHandler(
+            handle_client_callback,
+            pattern=r"^(got_it|fix_it):",
+        ))
 
         # Initialize the application (sets up the bot)
         await self._app.initialize()
@@ -204,12 +212,31 @@ class DeliveryRunner:
             log.warning("invalid_brief_json", extra={"context": {"domain": domain}})
             return
 
-        # Interpret
+        # Interpret (use client's preferred language, fall back to config default)
+        language = client.get("preferred_language")
         try:
-            interpreted = interpret_brief(brief)
+            interpreted = interpret_brief(brief, language=language)
         except Exception:
             log.exception("interpretation_failed for %s", domain)
             return
+
+        # Filter: only High or Critical findings trigger a Telegram message
+        findings = interpreted.get("findings", [])
+        actionable = [
+            f for f in findings
+            if f.get("severity", "").lower() in ("critical", "high")
+        ]
+        if not actionable:
+            log.info("no_actionable_findings", extra={"context": {
+                "domain": domain,
+                "total_findings": len(findings),
+            }})
+            return
+
+        interpreted["findings"] = actionable
+
+        # Inject contact_name for the greeting
+        interpreted["contact_name"] = client.get("contact_name", "")
 
         # Compose
         messages = compose_telegram(interpreted)
@@ -220,6 +247,9 @@ class DeliveryRunner:
         cvr = client.get("cvr", "")
         company_name = client.get("company_name", "")
 
+        # Build client inline buttons (Got it / Can Heimdall fix this?)
+        reply_markup = build_client_buttons(cvr, domain)
+
         # Route: approval or direct send
         if should_require_approval(self.config):
             operator_chat_id = get_operator_chat_id()
@@ -228,12 +258,14 @@ class DeliveryRunner:
                 cvr=cvr, domain=domain, conn=self._conn,
                 company_name=company_name,
                 bot_data=self._app.bot_data,
+                reply_markup=reply_markup,
             )
         else:
             await send_with_logging(
                 self._app.bot, chat_id, messages,
                 conn=self._conn, cvr=cvr, domain=domain,
                 approved_by="auto",
+                reply_markup=reply_markup,
             )
 
 

@@ -32,6 +32,7 @@ _CLIENT_MUTABLE_COLS: set[str] = {
     "notes",
     "gdpr_sensitive",
     "gdpr_reasons",
+    "preferred_language",
 }
 
 # ---------------------------------------------------------------------------

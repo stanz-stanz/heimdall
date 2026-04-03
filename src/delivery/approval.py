@@ -41,6 +41,7 @@ async def request_approval(
     scan_id: str | None = None,
     company_name: str = "",
     bot_data: dict | None = None,
+    reply_markup: InlineKeyboardMarkup | None = None,
 ) -> int:
     """Send a message preview to the operator for approval.
 
@@ -81,12 +82,15 @@ async def request_approval(
         message_hash=msg_hash,
     )
 
-    # Stash full message chunks for later forwarding on approval.
+    # Stash full message chunks and client reply_markup for later forwarding.
     if bot_data is not None:
-        pending: dict[int, list[str]] = bot_data.setdefault(
+        pending: dict[int, dict] = bot_data.setdefault(
             _PENDING_MESSAGES_KEY, {}
         )
-        pending[delivery_id] = list(messages)
+        pending[delivery_id] = {
+            "messages": list(messages),
+            "reply_markup": reply_markup,
+        }
 
     # Build operator preview message.
     label = company_name or cvr
@@ -122,6 +126,7 @@ async def request_approval(
         chat_id=operator_chat_id,
         text=preview_text,
         reply_markup=keyboard,
+        parse_mode="HTML",
     )
 
     log.info(
@@ -225,11 +230,22 @@ async def _handle_approve(
         )
         return
 
-    # Retrieve stashed full message chunks.
-    pending: dict[int, list[str]] = context.bot_data.get(
+    # Retrieve stashed full message chunks and client reply_markup.
+    pending: dict[int, dict] = context.bot_data.get(
         _PENDING_MESSAGES_KEY, {}
     )
-    chunks = pending.pop(delivery_id, None)
+    stashed = pending.pop(delivery_id, None)
+
+    if stashed and isinstance(stashed, dict):
+        chunks = stashed.get("messages", [])
+        client_reply_markup = stashed.get("reply_markup")
+    elif stashed and isinstance(stashed, list):
+        # Legacy format (list of strings) — no reply_markup
+        chunks = stashed
+        client_reply_markup = None
+    else:
+        chunks = None
+        client_reply_markup = None
 
     if not chunks:
         # Fallback: no in-memory chunks (e.g. bot restarted between
@@ -256,8 +272,13 @@ async def _handle_approve(
 
     try:
         external_ids: list[str] = []
-        for chunk in chunks:
-            msg = await context.bot.send_message(chat_id=chat_id, text=chunk)
+        for i, chunk in enumerate(chunks):
+            # Attach client buttons only to the last message chunk
+            markup = client_reply_markup if i == len(chunks) - 1 else None
+            msg = await context.bot.send_message(
+                chat_id=chat_id, text=chunk, parse_mode="HTML",
+                reply_markup=markup,
+            )
             external_ids.append(str(msg.message_id))
 
         update_delivery_status(
