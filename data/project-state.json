@@ -105,7 +105,7 @@
       "completed_date": "2026-04-04",
       "owner_agent": "message-composer",
       "blockers": [],
-      "notes": "Deployed on Pi5. Finding status flow (open→sent→acknowledged|fix_requested→in_progress→resolved). Button redesign: Got it (silent ack), fix request (reply). E2E Telethon test passing. GDPR sentence flexible."
+      "notes": "Deployed on Pi5. Finding status flow (open→sent→acknowledged|fix_requested→in_progress→resolved). Button redesign: Got it (silent ack), fix request (reply). E2E Telethon test passing. GDPR sentence flexible. Loguru migration (31 modules)."
     },
     {
       "id": "M31",
@@ -199,16 +199,15 @@
     },
     {
       "id": "B2",
-      "description": "API keys exposed (SERPER_API_KEY, CLAUDE_API_KEY)",
-      "severity": "high",
+      "description": "API keys rotated (SERPER_API_KEY, CLAUDE_API_KEY)",
+      "severity": "resolved",
       "affects": ["security"],
-      "notes": "Pending rotation since 2026-03-30. Security debt accumulating."
+      "notes": "Rotated 2026-04-04. No longer a blocker."
     }
   ],
   "next_actions": [
     "Onboard first test client with telegram_chat_id",
     "Finding Interpreter wired to live pipeline (Claude API in prod)",
-    "API key rotation (SERPER_API_KEY, CLAUDE_API_KEY)",
     "Verify 1,179-domain pipeline completion on Pi5",
     "Confirm lawyer consultation outcome — outreach channels",
     "Unit tests for _transition_findings",

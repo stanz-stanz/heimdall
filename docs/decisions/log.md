@@ -16,6 +16,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 - GDPR sentence made flexible — "adaptation of this sentence" instead of verbatim. Framing: "we're not the police: we're the bodyguards."
 - E2E Telegram test rewritten: loads real brief (auto-picks richest from `data/output/briefs/`), interprets via LLM, composes, sends, Telethon receives and clicks buttons. No more hardcoded fixtures.
 - Telethon first-run auth completed. Session file saved for future automated runs.
+- Loguru migration completed (31 modules, PR #15). All `src/` code uses loguru instead of stdlib logging.
 
 **Rejected**
 - Editing the message on "Got it" (appending "Acknowledged") — nothing to say, keep it silent.
@@ -32,7 +33,6 @@ Running record of architectural decisions, rejections, and reasoning made during
 **Unresolved**
 - `in_progress → resolved` transitions — needs ticketing/remediation flow (osTicket)
 - Unit tests for `_transition_findings` — tested indirectly via E2E, not isolated
-- API key rotation still overdue since 2026-03-30
 
 ---
 

@@ -27,6 +27,9 @@ dist/
 build/
 .eggs/
 
+# Telethon session (credentials)
+*.session
+
 # Environment
 .env
 .venv/
