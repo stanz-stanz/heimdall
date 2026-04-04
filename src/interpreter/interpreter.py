@@ -21,6 +21,7 @@ def interpret_brief(
     tone: Optional[str] = None,
     language: Optional[str] = None,
     delta_context: Optional[dict] = None,
+    tier: Optional[str] = None,
 ) -> dict:
     """Interpret a scan brief into a client-ready report.
 
@@ -32,6 +33,9 @@ def interpret_brief(
         Override the tone from config ("concise", "balanced", "detailed").
     language : str, optional
         Override the language from config ("da", "en").
+    tier : str, optional
+        Client tier ("watchman", "sentinel", "guardian"). Controls whether
+        the action field is generated. Defaults to "sentinel".
 
     Returns
     -------
@@ -48,6 +52,7 @@ def interpret_brief(
     config = _load_config()
     tone = tone or config.get("tone", "balanced")
     language = language or config.get("language", "da")
+    tier = tier or "sentinel"
 
     tone_descriptions = config.get("tone_descriptions", {})
     tone_description = tone_descriptions.get(tone, tone_descriptions.get("balanced", ""))
@@ -57,6 +62,7 @@ def interpret_brief(
         tone=tone,
         tone_description=tone_description,
         language=language,
+        tier=tier,
     )
     user = build_user_prompt(brief, delta_context=delta_context)
 

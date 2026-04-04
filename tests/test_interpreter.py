@@ -59,14 +59,12 @@ _MOCK_LLM_RESPONSE = json.dumps({
             "title": "Your contact form is not fully protected",
             "explanation": "Your Gravity Forms plugin collects customer data, but the site is missing a security setting (HSTS) that protects the connection.",
             "action": "Ask your web host to enable HSTS",
-            "who": "web_host",
             "effort": "5 minutes",
         },
         {
             "title": "WordPress version is visible",
             "explanation": "Anyone can see you run WordPress 6.9.4 by viewing the page source.",
             "action": "Install a security plugin to hide the version number",
-            "who": "developer",
             "effort": "10 minutes",
         },
     ],
@@ -111,6 +109,44 @@ class TestPrompts:
         brief["technology"]["detected_plugins"] = []
         prompt = build_user_prompt(brief)
         assert "none detected" in prompt
+
+    def test_system_prompt_watchman_no_action(self):
+        """Watchman tier output format omits the action field."""
+        prompt = build_system_prompt(
+            industry="restaurant",
+            tone="balanced",
+            tone_description="test",
+            language="en",
+            tier="watchman",
+        )
+        # Find the OUTPUT FORMAT section and verify 'action' is absent
+        output_section = prompt[prompt.index("OUTPUT FORMAT"):]
+        assert "action" not in output_section
+
+    def test_system_prompt_sentinel_has_action(self):
+        """Sentinel tier output format includes the action field."""
+        prompt = build_system_prompt(
+            industry="restaurant",
+            tone="balanced",
+            tone_description="test",
+            language="en",
+            tier="sentinel",
+        )
+        output_section = prompt[prompt.index("OUTPUT FORMAT"):]
+        assert "action" in output_section
+
+    def test_system_prompt_no_who_any_tier(self):
+        """No tier produces a 'who' field in the output format."""
+        for tier in ("watchman", "sentinel", "guardian"):
+            prompt = build_system_prompt(
+                industry="restaurant",
+                tone="balanced",
+                tone_description="test",
+                language="en",
+                tier=tier,
+            )
+            output_section = prompt[prompt.index("OUTPUT FORMAT"):]
+            assert "who" not in output_section, f"'who' found in output format for tier={tier}"
 
 
 # ---------------------------------------------------------------------------
@@ -218,6 +254,17 @@ class TestInterpretBrief:
         )
         with pytest.raises(InterpreterError, match="Failed to parse"):
             interpret_brief(_sample_brief())
+
+    def test_interpret_brief_default_tier(self, monkeypatch):
+        """Calling interpret_brief without a tier works (backwards compat)."""
+        monkeypatch.setattr(
+            "src.interpreter.interpreter.complete",
+            lambda prompt, system="": _MOCK_LLM_RESPONSE,
+        )
+        brief = _sample_brief()
+        result = interpret_brief(brief, tone="balanced", language="en")
+        assert result["domain"] == "example.dk"
+        assert len(result["findings"]) == 2
 
 
 # ---------------------------------------------------------------------------

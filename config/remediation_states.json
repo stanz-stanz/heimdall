@@ -1,10 +1,7 @@
 {
   "transitions": {
     "open": ["acknowledged"],
-    "acknowledged": ["in_progress"],
-    "in_progress": ["completed"],
-    "completed": ["verified"],
-    "verified": ["resolved"]
+    "acknowledged": ["resolved"]
   },
   "regression_target": "open",
   "escalation_threshold_days": 14,

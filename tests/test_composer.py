@@ -22,7 +22,6 @@ def _sample_interpreted(**overrides):
                 "severity": "high",
                 "explanation": "Gravity Forms collects data but HSTS is missing.",
                 "action": "enable HSTS",
-                "who": "web_host",
                 "provenance": "confirmed",
             },
             {
@@ -30,7 +29,6 @@ def _sample_interpreted(**overrides):
                 "severity": "high",
                 "explanation": "Version 6.9.4 is exposed in page source.",
                 "action": "install a security plugin to hide it",
-                "who": "developer",
                 "provenance": "confirmed",
             },
         ],
@@ -74,7 +72,6 @@ class TestComposeTelegram:
             "severity": "high",
             "explanation": "Plugins are outdated.",
             "action": "Go to WordPress > Plugins > Update All",
-            "who": "owner",
             "provenance": "confirmed",
         }])
         messages = compose_telegram(interpreted)
@@ -86,7 +83,6 @@ class TestComposeTelegram:
             "severity": "high",
             "explanation": "Not critical.",
             "action": "Consider fixing",
-            "who": "",
             "provenance": "confirmed",
         }])
         messages = compose_telegram(interpreted)
@@ -105,7 +101,6 @@ class TestComposeTelegram:
             "severity": "critical",
             "explanation": "Bad.",
             "action": "Fix now",
-            "who": "developer",
             "provenance": "confirmed",
         }])
         messages = compose_telegram(interpreted)
@@ -124,7 +119,6 @@ class TestComposeTelegram:
                 "severity": "high",
                 "explanation": "Found by scan.",
                 "action": "Fix it",
-                "who": "developer",
                 "provenance": "confirmed",
             },
             {
@@ -132,7 +126,6 @@ class TestComposeTelegram:
                 "severity": "high",
                 "explanation": "Version-based.",
                 "action": "Check it",
-                "who": "developer",
                 "provenance": "unconfirmed",
             },
         ])
@@ -194,7 +187,6 @@ class TestMessageSplitting:
                 "severity": "high",
                 "explanation": f"Explanation {i}: {'y' * 80}",
                 "action": f"Action {i}: {'z' * 40}",
-                "who": "developer",
                 "provenance": "confirmed",
             })
         interpreted = _sample_interpreted(findings=findings)
@@ -208,7 +200,7 @@ class TestMessageSplitting:
         findings = [
             {"title": f"Issue {i}", "severity": "high",
              "explanation": "x" * 200,
-             "action": "Fix it", "who": "developer", "provenance": "confirmed"}
+             "action": "Fix it", "provenance": "confirmed"}
             for i in range(30)
         ]
         interpreted = _sample_interpreted(findings=findings)
@@ -247,3 +239,45 @@ class TestEdgeCases:
         ])
         messages = compose_telegram(interpreted)
         assert "Minor thing" in messages[0]
+
+
+# ---------------------------------------------------------------------------
+# Tier-aware rendering
+# ---------------------------------------------------------------------------
+
+class TestTierRendering:
+    def test_watchman_no_fix_line(self):
+        """Watchman tier suppresses the Fix: line even when action is present."""
+        interpreted = _sample_interpreted(findings=[{
+            "title": "Missing security header",
+            "severity": "high",
+            "explanation": "Connection not enforced.",
+            "action": "Enable HSTS on the server",
+            "provenance": "confirmed",
+        }])
+        messages = compose_telegram(interpreted, tier="watchman")
+        assert "Fix:" not in messages[0]
+
+    def test_sentinel_renders_fix_line(self):
+        """Sentinel tier renders the Fix: line when action is present."""
+        interpreted = _sample_interpreted(findings=[{
+            "title": "Missing security header",
+            "severity": "high",
+            "explanation": "Connection not enforced.",
+            "action": "Enable HSTS on the server",
+            "provenance": "confirmed",
+        }])
+        messages = compose_telegram(interpreted, tier="sentinel")
+        assert "Fix:" in messages[0]
+
+    def test_default_tier_renders_fix_line(self):
+        """Default tier (no tier argument) renders the Fix: line for backward compat."""
+        interpreted = _sample_interpreted(findings=[{
+            "title": "Missing security header",
+            "severity": "high",
+            "explanation": "Connection not enforced.",
+            "action": "Enable HSTS on the server",
+            "provenance": "confirmed",
+        }])
+        messages = compose_telegram(interpreted)
+        assert "Fix:" in messages[0]

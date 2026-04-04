@@ -107,6 +107,8 @@ def main():
     parser = argparse.ArgumentParser(description="Preview Telegram message without sending")
     parser.add_argument("--brief", help="Path to a brief JSON file (default: built-in sample)")
     parser.add_argument("--language", default=None, help="Language override (en/da)")
+    parser.add_argument("--tier", default="sentinel", choices=["watchman", "sentinel", "guardian"],
+                        help="Client tier — controls whether fix instructions are included (default: sentinel)")
     parser.add_argument("--contact-name", default="Martin", help="Contact name for greeting")
     parser.add_argument("--output", default=None, help="Output file path")
     parser.add_argument("--send", action="store_true",
@@ -129,15 +131,15 @@ def main():
     print(f"Pre-filtered: {len(all_findings)} findings -> {len(actionable_input)} high/critical")
 
     # Interpret
-    print("Interpreting via LLM...")
-    interpreted = interpret_brief(brief, language=args.language)
+    print(f"Interpreting via LLM (tier={args.tier})...")
+    interpreted = interpret_brief(brief, language=args.language, tier=args.tier)
     interpreted["contact_name"] = args.contact_name
 
     out_findings = interpreted.get("findings", [])
     print(f"Interpreter returned {len(out_findings)} findings")
 
     # Compose
-    messages = compose_telegram(interpreted)
+    messages = compose_telegram(interpreted, tier=args.tier)
 
     # Output
     output_path = args.output or _detect_output_path()

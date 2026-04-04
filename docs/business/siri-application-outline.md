@@ -21,7 +21,7 @@ The Startup Denmark program is administered by the Danish Business Authority and
 **Key constraints:**
 - "Do not fabricate capabilities" — all budget figures must trace back to documented estimates in the briefing
 - Unit economics included to demonstrate self-sustainability
-- Pricing: Watchman 199 / Sentinel 399 / Guardian 799 kr./mo (annual Guardian: 599 kr./mo). All prices excl. moms.
+- Pricing: Watchman 199 / Sentinel 399 / Guardian 799 kr./mo (annual: Watchman 169 / Sentinel 339 / Guardian 669 kr./mo). All prices excl. moms.
 - No CVR required at application — CVR registration happens after approval
 
 ---
@@ -67,7 +67,7 @@ The Startup Denmark program is administered by the Danish Business Authority and
 - "First Finding Free" — Layer 1 scan produces real findings at zero cost
 - Mock Telegram message example (from Message Composer SKILL.md)
 - Tier logic: Watchman tells what, Sentinel tells how, Guardian tests and verifies
-- **Remediation service (optional, hourly):** Heimdall fixes it for the client. Reference pricing: 599 kr. first hour, 399 kr./hr after (indicative, subject to pilot adjustment, excl. moms). No competitor offers this — Intruder.io and HostedScan stop at advisory.
+- Tier differentiation: Watchman tells what's wrong, Sentinel adds how to fix it (written report), Guardian adds active testing
 - Frame as: "This delivery model represents a fundamentally new approach — no existing product operates this way"
 
 ### 4. How It Works (1 page) — C1
@@ -100,10 +100,10 @@ Directly addresses SIRI Criterion 1. Synthesize from existing sections:
 
 ### 7. Business Model & Unit Economics (1 page) — C2
 
-- Pricing tiers: Watchman 199 / Sentinel 399 / Guardian 799 kr./mo (annual: 599)
-- Unit economics per client (monthly): revenue ~350 kr. blended, COGS ~95–115, gross margin ~67–73%
+- Pricing tiers: Watchman 199 / Sentinel 399 / Guardian 799 kr./mo (annual: 169 / 339 / 669)
+- Unit economics per client (monthly): revenue ~305 kr. blended, COGS ~95–125, gross margin ~59–69%
 - Acquisition economics: Layer 1 scan = near-zero cost; agency partnerships = high leverage
-- Break-even: ~10 paying clients
+- Break-even: ~13–14 paying clients
 - Frame: "199 kr./mo eliminates price as an objection. Volume compensates for margin."
 
 ### 8. Go-to-Market Strategy (1 page) — C2, C3
@@ -134,7 +134,7 @@ Directly addresses SIRI Criterion 3.
 - Comparison table: Heimdall vs Intruder.io vs Detectify vs HostedScan vs Sucuri
 - Counter: "Why can't Intruder just add Telegram?" → Architecture argument
 - Counter: "HostedScan is free" → Dashboard vs. messaging for non-technical users
-- Four durable differentiators: messaging-first, persistent memory, shadow AI detection, per-event remediation service (no competitor offers hands-on fixes)
+- Four durable differentiators: messaging-first, persistent memory, shadow AI detection, tiered fix guidance (Sentinel/Guardian written reports)
 
 ### 11. Regulatory & Legal Framework (0.5 pages) — C2
 

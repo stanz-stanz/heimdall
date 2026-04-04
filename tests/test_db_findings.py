@@ -366,13 +366,13 @@ class TestStatusLog:
         time.sleep(0.01)
         log_status_transition(db, occ_id, "open", "acknowledged", "operator")
         time.sleep(0.01)
-        log_status_transition(db, occ_id, "acknowledged", "in_progress", "client")
+        log_status_transition(db, occ_id, "acknowledged", "resolved", "scan")
 
         log = get_status_log(db, occ_id)
         assert len(log) == 3
         assert log[0]["to_status"] == "open"
         assert log[1]["to_status"] == "acknowledged"
-        assert log[2]["to_status"] == "in_progress"
+        assert log[2]["to_status"] == "resolved"
         # Verify chronological order
         assert log[0]["created_at"] <= log[1]["created_at"]
         assert log[1]["created_at"] <= log[2]["created_at"]

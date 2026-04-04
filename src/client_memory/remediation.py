@@ -1,6 +1,6 @@
 """Remediation tracker — state machine for finding lifecycle.
 
-Transitions: open → acknowledged → in_progress → completed → verified → resolved
+Transitions: open → acknowledged → resolved
 Regression: any state → open (when a finding reappears after resolution)
 
 Valid transitions are loaded from config/remediation_states.json.
@@ -22,10 +22,7 @@ _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "remed
 
 _DEFAULT_TRANSITIONS = {
     "open": ["acknowledged"],
-    "acknowledged": ["in_progress"],
-    "in_progress": ["completed"],
-    "completed": ["verified"],
-    "verified": ["resolved"],
+    "acknowledged": ["resolved"],
 }
 
 

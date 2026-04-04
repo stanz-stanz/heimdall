@@ -252,7 +252,6 @@ _MOCK_LLM_RESPONSE = json.dumps({
             "title": "Missing HSTS",
             "explanation": "Connection not fully protected.",
             "action": "Ask your host to enable HSTS",
-            "who": "web_host",
             "effort": "5 minutes",
         },
     ],

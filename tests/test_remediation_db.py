@@ -94,9 +94,6 @@ def test_reopen_writes_to_db(tracker, open_finding, db):
 
     # Walk to resolved first (in-memory only, no DB writes)
     tracker.transition(open_finding, "acknowledged", "client_reply")
-    tracker.transition(open_finding, "in_progress", "client_reply")
-    tracker.transition(open_finding, "completed", "client_reply")
-    tracker.transition(open_finding, "verified", "scan")
     tracker.transition(open_finding, "resolved", "scan")
     assert open_finding.status == "resolved"
 
@@ -147,31 +144,24 @@ def test_reopen_without_db_unchanged(tracker, open_finding):
 
 
 def test_full_lifecycle_db_log(tracker, open_finding, db):
-    """Walk through the full lifecycle with DB writes, verify 5 log entries."""
+    """Walk through the full lifecycle with DB writes, verify 2 log entries."""
     conn, occ_id = db
 
     steps = [
         ("acknowledged", "client_reply"),
-        ("in_progress", "client_reply"),
-        ("completed", "client_reply"),
-        ("verified", "scan"),
         ("resolved", "scan"),
     ]
-    previous_status = "open"
     for new_status, source in steps:
         tracker.transition(
             open_finding, new_status, source, conn=conn, occurrence_id=occ_id
         )
 
     log_entries = get_status_log(conn, occ_id)
-    assert len(log_entries) == 5
+    assert len(log_entries) == 2
 
     expected = [
         ("open", "acknowledged", "client_reply"),
-        ("acknowledged", "in_progress", "client_reply"),
-        ("in_progress", "completed", "client_reply"),
-        ("completed", "verified", "scan"),
-        ("verified", "resolved", "scan"),
+        ("acknowledged", "resolved", "scan"),
     ]
     for entry, (exp_from, exp_to, exp_source) in zip(log_entries, expected):
         assert entry["from_status"] == exp_from

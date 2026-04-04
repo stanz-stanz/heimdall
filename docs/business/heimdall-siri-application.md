@@ -30,17 +30,17 @@
 
 Forty percent of Danish small and medium businesses do not have a security level matching the severity of the threats they face.¹ The Danish government knows this — in January 2026 it allocated 211 million kr. over four years specifically to close this gap.² Meanwhile, every cybersecurity tool on the market delivers findings through technical dashboards designed for security professionals. The restaurant owner with an online booking system running on outdated WordPress does not have a security professional. She has a Telegram account.
 
-**Heimdall** is an External Attack Surface Management (EASM) service that continuously monitors a business's public-facing digital surface — domains, certificates, web servers, CMS platforms, plugins — and delivers findings as plain-language messages through Telegram and WhatsApp. Not a dashboard. Not a PDF report. A conversation, in the business owner's own language, that tells them what is wrong, who should fix it, and what to say to that person.
+**Heimdall** is an External Attack Surface Management (EASM) service that continuously monitors a business's public-facing digital surface — domains, certificates, web servers, CMS platforms, plugins — and delivers findings as plain-language messages through Telegram and WhatsApp. Not a dashboard. Not a PDF report. A conversation, in the business owner's own language, that tells them what is wrong and why it matters — in language they understand.
 
 **The innovation:** No existing EASM product delivers findings through messaging apps to non-technical business owners. Heimdall's architecture is built from the ground up around conversational delivery, persistent memory of each client's infrastructure, AI-powered interpretation of technical findings, and automated legal compliance governance. Two technical innovations are particularly distinctive. First, a **digital twin** system that reconstructs a prospect's website from publicly available data and runs it on Heimdall's own infrastructure — enabling CVE-level vulnerability scanning without touching the prospect's systems or requiring their consent, because Danish criminal law (Straffeloven §263) only protects "another person's data system." Second, **Valdí**, a programmatic compliance agent with two-gate validation and forensic logging, built as a systemic response to a real compliance incident — demonstrating a governance maturity that most startups never achieve. This is not an incremental improvement — it is a fundamentally different approach to cybersecurity for SMBs.
 
-**Business model:** Three subscription tiers at 199, 399, and 799 kr./month — Watchman is cheaper than every competitor's entry tier. Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~10 paying clients.
+**Business model:** Three subscription tiers at 199, 399, and 799 kr./month — Watchman is cheaper than every competitor's entry tier. Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~13–14 paying clients.
 
-**Current state:** The product is being built. The lead generation pipeline is operational — 14 Python modules, a 10-agent architecture, a programmatic legal compliance system (Valdí) with two-gate validation and forensic logging, and a complete legal risk assessment of Danish scanning law. The pipeline has been tested against 203 live Vejle-area domains.
+**Current state:** I am building the product. The lead generation pipeline is operational — 14 Python modules, a 10-agent architecture, a programmatic legal compliance system (Valdí) with two-gate validation and forensic logging, and a complete legal risk assessment of Danish scanning law. I have tested the pipeline against 203 live Vejle-area domains.
 
-**Why Denmark:** Denmark's cybersecurity investment, GDPR-first regulatory environment, dense SMB market, and grant ecosystem create the ideal conditions for this business. The founder has been based in Vejle since 2019 and has already tested the pipeline against local domains.
+**Why Denmark:** Denmark's cybersecurity investment, GDPR-first regulatory environment, dense SMB market, and grant ecosystem create the ideal conditions for this business. I have been based in Vejle since 2019 and have already tested the pipeline against local domains.
 
-This application is for a Startup Denmark residence permit to establish Heimdall ApS in Denmark.
+I am applying for a Startup Denmark residence permit to establish Heimdall ApS in Denmark.
 
 ---
 
@@ -89,25 +89,21 @@ The problem is not just discovery. It is the last mile between "you have a vulne
 
 ### 3.1 Conversational Delivery
 
-Heimdall delivers security findings through Telegram and WhatsApp — the messaging apps the business owner already uses daily. Findings arrive as plain-language messages in their preferred language, not technical reports. Each message explains what was found, why it matters, and who should fix it.
+Heimdall delivers security findings through Telegram and WhatsApp — the messaging apps the business owner already uses daily. Findings arrive as plain-language messages in their preferred language, not technical reports. Each message explains what was found and why it matters — in language the owner understands.
 
 This delivery model represents a fundamentally new approach to cybersecurity for SMBs — no existing product operates this way.
 
 **Example Telegram message (Watchman tier):**
 
-> **Heimdall Sikkerhedsrapport — uge 12**
+> **Heimdall Sikkerhedsadvarsel — uge 12**
 >
 > Vi fandt 2 ting på jeres hjemmeside der kræver opmærksomhed:
 >
-> **1. Jeres WordPress-version er forældet**
-> I kører version 5.8.3 — den nuværende er 6.5. De versioner imellem indeholder 47 sikkerhedsrettelser. Det er som at lade hoveddøren stå ulåst.
+> **1. Jeres hjemmeside kører på en forældet version**
+> Versionen I kører har 47 kendte sikkerhedshuller. Det svarer til at lade hoveddøren stå ulåst.
 >
-> *Hvem skal fikse det:* Den der har adgang til jeres WordPress admin-panel (wp-admin). Hvis I ikke ved hvem det er, så spørg jeres webhoster.
->
-> **2. SSL-certifikatet udløber om 12 dage**
+> **2. Jeres SSL-certifikat udløber om 12 dage**
 > Når det udløber, vil kunderne se en advarsel i browseren når de prøver at booke bord. Det skræmmer folk væk.
->
-> *Hvem skal fikse det:* Jeres webhoster (det er ofte automatisk — men jeres er det ikke).
 
 No login portal. No dashboard. The owner reads it on the bus.
 
@@ -142,38 +138,12 @@ Heimdall's prospecting scan (Layer 1 — passive observation) reads publicly ser
 ### 3.5 Service Tiers
 
 | Tier | Price | What It Does |
-|------|-------|-------------|
-| **Watchman** | 199 kr./mo | Finds problems, explains them, tells you who should fix them |
-| **Sentinel** | 399 kr./mo | Daily monitoring + step-by-step fix instructions + draft messages to forward to your developer or hosting provider |
-| **Guardian** | 799 kr./mo (annual: 599 kr./mo) | Active defence testing (with written consent) + fix verification + quarterly security report for your accountant or insurer |
+|------|-------|------------|
+| **Watchman** | 199 kr./mo (annual: 169 kr./mo) | Finds problems and explains them in plain language |
+| **Sentinel** | 399 kr./mo (annual: 339 kr./mo) | Daily monitoring + step-by-step fix instructions (written report) |
+| **Guardian** | 799 kr./mo (annual: 669 kr./mo) | Active defence testing (with written consent) + fix verification + quarterly security report |
 
 *All prices excl. moms (Danish VAT).*
-
-### 3.6 Remediation Service (Optional, Billed Per Event)
-
-Every tier tells the client what is wrong and who should fix it. Sentinel and Guardian add the how. But many small business owners have no developer, no IT contact, and no idea how to apply even step-by-step instructions. When the guide says "log into wp-admin and update WordPress," there is nobody to do it.
-
-Heimdall offers an optional, per-event remediation service: we fix it for you. This is billed separately from the subscription — the client pays only when they choose to use it, and only for the specific fix performed. It is not a retainer. It is not bundled. The client can always choose to follow the guide themselves, forward the drafted message to their own developer, or engage Heimdall to handle it directly.
-
-**Neither of the two closest competitors offers this.** Intruder.io and HostedScan are scanning and advisory platforms only — they identify vulnerabilities and provide guidance, but the actual fix is the customer's problem. For an SMB owner with no technical resources, this is where the process breaks down. Heimdall closes the loop: find it, explain it, fix it.
-
-**Reference pricing (indicative — subject to adjustment during pilot, excl. moms):**
-
-| Component | Price |
-|-----------|-------|
-| Minimum charge (first hour) | 599 kr. |
-| Each additional hour | 399 kr./hr |
-
-This positions Heimdall between a general web developer (~325 kr./hr in Denmark) and a cybersecurity specialist (~500 kr./hr). Most common SMB fixes (WordPress update, SSL renewal, security header configuration) resolve within one hour. More complex work (malware cleanup, server hardening) is quoted transparently.
-
-| Scenario | Typical Resolution | Without Remediation | With Remediation |
-|----------|-------------------|---------------------|-----------------|
-| WordPress update | 30 min – 1 hr | Guide sent → client forwards to developer (if they have one) | Heimdall applies the update directly |
-| SSL certificate renewal | 30 min – 1 hr | Hosting provider contact instructions sent | Heimdall coordinates with host or renews |
-| Plugin removal/replacement | 1 – 3 hrs | Removal/replacement steps sent | Heimdall removes or replaces the plugin |
-| Security headers config | 1 – 2 hrs | Technical configuration guide sent | Heimdall configures the headers |
-
-This creates an additional high-margin revenue stream while deepening the client relationship. Clients who use the remediation service have a stronger reason to stay subscribed — Heimdall becomes their de facto security team, not just their scanner.
 
 ---
 
@@ -229,25 +199,25 @@ Most compliance systems audit what already happened. Valdí blocks what is about
 
 What Valdí is not: a silver bullet. It is an LLM reviewing code against documented rules — it can be wrong. It is as good as the rules in `SCANNING_RULES.md` and the quality of the model's reasoning. That is why the forensic logs exist — so a human can review the reasoning and catch errors the system misses. The ambition is not perfection. It is demonstrable due diligence: a live, auditable record that the boundary was enforced before every scan, not reconstructed after an incident.
 
-For a pre-revenue, single-founder startup that does not yet have a CVR number, this level of programmatic governance is unusual. Companies at this stage do not typically have compliance systems. They have a plan to figure out legal later. Heimdall has a two-gate automated compliance agent with forensic logging before it has its first paying client. That is a deliberate choice about what kind of company this is.
+For a pre-revenue, single-founder startup that does not yet have a CVR number, this level of programmatic governance is unusual. Companies at this stage do not typically have compliance systems. They have a plan to figure out legal later. I built a two-gate automated compliance agent with forensic logging before Heimdall has its first paying client. That is a deliberate choice about what kind of company this is.
 
 ### 4.4 Governance Maturity
 
-During early pipeline development, a scanning function crossed the Layer 1 boundary undetected. The violation was caught by manual review. The response was immediate: the offending code was removed, all tainted data was scrubbed, and the root cause was documented.
+During early pipeline development, I discovered that a scanning function had crossed the Layer 1 boundary undetected. I caught the violation during manual review. My response was immediate: I removed the offending code, scrubbed all tainted data, and documented the root cause.
 
-The systemic response was Valdí — designed and built as a direct result, to make this class of error structurally impossible going forward.
+The systemic response was Valdí — I designed and built it as a direct result, to make this class of error structurally impossible going forward.
 
-**This is stronger evidence of governance maturity than a clean record.** Any organization can claim it has never had a compliance incident. Heimdall can demonstrate that when a boundary violation occurred, the system detected it, corrected it, and built an automated gate to prevent recurrence. The correction mechanism is proven — not theoretical.
+**This is stronger evidence of governance maturity than a clean record.** Any organization can claim it has never had a compliance incident. I can demonstrate that when a boundary violation occurred, the system detected it, I corrected it, and built an automated gate to prevent recurrence. The correction mechanism is proven — not theoretical.
 
 ---
 
 ## 5. Innovation
 
-Heimdall introduces seven distinct innovations to the External Attack Surface Management market. These are not incremental improvements to existing products — they represent a fundamentally different approach to delivering cybersecurity to non-technical users.
+Heimdall introduces six distinct innovations to the External Attack Surface Management market. These are not incremental improvements to existing products — they represent a fundamentally different approach to delivering cybersecurity to non-technical users.
 
 ### 5.1 Messaging-First Delivery Model
 
-Every existing EASM product delivers findings through web dashboards. Heimdall delivers through Telegram and WhatsApp — the apps the business owner already uses. The entire product architecture is built around conversational delivery: plain-language interpretation, "who should fix this" routing, drafted messages to forward, and escalating follow-up. This is not a notification feature bolted onto a dashboard — it is the product.
+Every existing EASM product delivers findings through web dashboards. Heimdall delivers through Telegram and WhatsApp — the apps the business owner already uses. The entire product architecture is built around conversational delivery: plain-language interpretation, actionable next steps, and escalating follow-up. This is not a notification feature bolted onto a dashboard — it is the product.
 
 ### 5.2 Shadow AI and Agent Detection
 
@@ -282,15 +252,11 @@ Heimdall builds a longitudinal understanding of each client's infrastructure, fi
 
 Heimdall operates on the boundary defined by Straffeloven §263. The distance between "reading a public webpage" and "unauthorized access to a data system" can be a single HTTP request to the wrong path. Most companies in this space manage that boundary with policy documents and training. Heimdall manages it with a programmatic gate that reads every scanning function, classifies its activities against documented legal rules, and blocks execution if it crosses the line — before anything touches a target.
 
-This was not designed in theory. During early development, a scanning function crossed the Layer 1 boundary undetected (see section 4.4). The response was not a policy update — it was Valdí: a two-gate automated compliance system with forensic logging that makes this class of error structurally impossible. The correction mechanism is proven, not theoretical.
+This was not designed in theory. During early development, I discovered that a scanning function had crossed the Layer 1 boundary undetected (see section 4.4). My response was not a policy update — it was Valdí: a two-gate automated compliance system with forensic logging that makes this class of error structurally impossible. The correction mechanism is proven, not theoretical.
 
 ### 5.6 AI-Powered Interpretation Chain
 
-Open-source scanning tools produce structured technical data. The Claude API interprets that data in plain language for non-technical users, including routing ("who should fix this") and actionable next steps. The LLM never decides what is vulnerable — it explains what the tools found. This separation of detection from interpretation is a novel architecture for SMB security products.
-
-### 5.7 End-to-End Remediation (Find It, Explain It, Fix It)
-
-Every existing competitor stops at advisory — the customer must find someone to execute the fix. Heimdall offers an optional, per-event remediation service that closes the loop entirely. For the SMB owner with no developer and no IT resources, this is the difference between receiving advice they cannot act on and having the problem solved. No EASM competitor currently offers this.
+Open-source scanning tools produce structured technical data. The Claude API interprets that data in plain language for non-technical users with actionable next steps. The LLM never decides what is vulnerable — it explains what the tools found. This separation of detection from interpretation is a novel architecture for SMB security products.
 
 ---
 
@@ -300,11 +266,11 @@ Every existing competitor stops at advisory — the customer must find someone t
 
 | Metric | Calculation | Annual Value |
 |--------|------------|-------------|
-| **TAM** | ~200,000 Danish SMBs with websites × 350 kr./mo blended × 12 | ~840M kr./yr |
-| **SAM** | ~80,000 (the 40% with inadequate security) × 350 kr./mo × 12 | ~336M kr./yr |
-| **SOM** | 200 clients in 36 months × 350 kr./mo × 12 | ~840K kr./yr |
+| **TAM** | ~200,000 Danish SMBs with websites × 305 kr./mo blended × 12 | ~732M kr./yr |
+| **SAM** | ~80,000 (the 40% with inadequate security) × 305 kr./mo × 12 | ~293M kr./yr |
+| **SOM** | 200 clients in 36 months × 305 kr./mo × 12 | ~732K kr./yr |
 
-The TAM is a theoretical ceiling — clearly labeled as such. The SAM applies the 40% gap statistic. The SOM is deliberately conservative: 200 paying clients in three years represents 0.25% of the SAM. The upside depends on agency partnerships (one relationship = 10–35 clients) and remediation service revenue.
+The TAM is a theoretical ceiling — clearly labeled as such. The SAM applies the 40% gap statistic. The SOM is deliberately conservative: 200 paying clients in three years represents 0.25% of the SAM. The upside depends on agency partnerships (one relationship = 10–35 clients) and tier migration (Watchman → Sentinel → Guardian).
 
 ### 6.2 Regulatory Tailwinds
 
@@ -339,15 +305,15 @@ The conservative financial projections assume Denmark only. EU expansion is upsi
 
 ### 7.1 Pricing
 
-| Tier | Monthly Price | Annual Option | Scan Frequency | Key Value |
-|------|-------------|---------------|----------------|-----------|
-| Watchman | 199 kr. | — | Weekly | What is wrong + who should fix it |
-| Sentinel | 399 kr. | — | Daily | How to fix it + drafted messages to forward |
-| Guardian | 799 kr. | 599 kr./mo × 12 | Daily | Active testing + fix verification + quarterly report |
+| Tier | Monthly Price | Annual Option | Scanning Type | Key Value |
+|------|-------------|---------------|---------------|-----------|
+| Watchman | 199 kr. | 169 kr./mo | Passive | What is wrong, in plain language |
+| Sentinel | 399 kr. | 339 kr./mo | Passive | What's wrong + how to fix it (written report) |
+| Guardian | 799 kr. | 669 kr./mo × 12 | Passive + Active | All of the above, plus active scanning |
 
 *All prices excl. moms.*
 
-Blended average revenue per client: ~350 kr./month (early mix weighted toward Watchman). Increases to ~420 kr./month as tier mix matures.
+Blended average revenue per client (ARPC): ~305 kr./month (early mix weighted toward Watchman, 30% annual uptake). Increases to ~370 kr./month as tier mix matures.
 
 At 199 kr./mo, Watchman is cheaper than every competitor's entry tier — including HostedScan's paid plan (~215 kr./mo). For a restaurant owner, 199 kr./month is less than a single dinner delivery. Price is eliminated as an objection.
 
@@ -355,17 +321,17 @@ At 199 kr./mo, Watchman is cheaper than every competitor's entry tier — includ
 
 | Cost Component | Amount | Notes |
 |---------------|--------|-------|
-| Revenue (blended) | ~350 kr. | Weighted average, early mix |
+| Revenue (blended) | ~305 kr. | Weighted average, early mix |
 | Claude API | ~50 kr. | Interpretation + follow-up (lower tiers = less processing) |
 | Infrastructure | ~15–30 kr. | At 50+ clients; higher per-client at pilot scale |
-| Tool licensing | ~10–20 kr. | WPScan commercial API (Sentinel/Guardian only, pro-rated); amortised across client base |
+| Tool licensing | ~0 kr. | WPVulnerability API (free) |
 | Insurance allocation | ~30–45 kr. | Professional indemnity, pro-rated |
-| **Total COGS** | **~105–145 kr.** | |
-| **Gross margin** | **~59–70%** | Improves with scale, tier migration, and licensing amortisation |
+| **Total COGS** | **~95–125 kr.** | |
+| **Gross margin** | **~59–69%** | Improves with scale and tier migration |
 
 The margin is lower than premium-priced competitors but the pricing creates a fundamentally different market dynamic: 199 kr./mo eliminates price as an objection. Volume compensates for margin.
 
-**Remediation consultancy revenue** (per-event, optional) is not included in these unit economics. It is billed separately when clients choose to have Heimdall execute a fix directly. This creates an additional high-margin revenue stream: the subscription finds the problem, the consultancy fixes it. Neither Intruder.io nor HostedScan offers this — it is unique to Heimdall.
+Revenue projections are based on subscription fees only. Tier migration (Watchman → Sentinel → Guardian) is the primary upsell mechanism.
 
 ### 7.3 Acquisition Economics
 
@@ -377,7 +343,7 @@ The margin is lower than premium-priced competitors but the pricing creates a fu
 
 ### 7.4 Break-Even
 
-At ~350 kr. blended revenue and fixed costs of ~2,800 kr./month (including tool licensing), break-even occurs at approximately **11–12 paying clients**. At the aggressive pricing, this requires a larger client base than a premium model — but the lower price point makes each conversion significantly easier. The pipeline has already identified 68 prime targets in Vejle alone; the pilot needs 5–10.
+At ~305 kr. blended revenue and fixed costs of ~2,600 kr./month (tool licensing removed with WPVulnerability API), break-even occurs at approximately **~13–14 paying clients**. At the aggressive pricing, this requires a larger client base than a premium model — but the lower price point makes each conversion significantly easier. The pipeline has already identified 68 prime targets in Vejle alone; the pilot needs 5–10.
 
 ---
 
@@ -393,7 +359,7 @@ Danish marketing law (Markedsføringsloven) prohibits unsolicited electronic mar
 - 5 pilot clients recruited through in-person visits
 - "First finding free" — show a real scan result before asking for anything
 - Free first month; convert to paid Watchman (199 kr./mo)
-- Human-in-the-loop: founder reviews every message before delivery
+- Human-in-the-loop: I review every message before delivery
 
 **Phase 2 — Agency Partnerships (Month 3–6)**
 - Approach local web agencies with aggregate scan data: "22 of your 35 client sites have issues"
@@ -455,14 +421,14 @@ The same agent architecture runs at every tier. The scanning pipeline, Valdí co
 
 ### 10.1 Direct Competitors
 
-| Competitor | Starting Price | Interface | Shadow AI | SMB Messaging | Remediation Service |
-|-----------|---------------|-----------|-----------|---------------|-------------------|
-| **Heimdall** | 199 kr./mo | Telegram/WhatsApp | Yes | Yes | **Yes (per-event)** |
-| Intruder.io | ~740 kr./mo | Dashboard + Slack/Jira | No | No | No |
-| Detectify | ~610 kr./mo (app) | Dashboard | No | No | No |
-| HostedScan | Free tier; paid ~215 kr./mo | Dashboard + API | No | No | No |
-| Beagle Security | ~885 kr./mo | Dashboard | No | No | No |
-| Sucuri (GoDaddy) | ~1,480 kr./yr | Dashboard + WAF | No | No | No |
+| Competitor | Starting Price | Interface | Shadow AI | SMB Messaging |
+|-----------|---------------|-----------|-----------|---------------|
+| **Heimdall** | 199 kr./mo | Telegram/WhatsApp | Yes | Yes |
+| Intruder.io | ~740 kr./mo | Dashboard + Slack/Jira | No | No |
+| Detectify | ~610 kr./mo (app) | Dashboard | No | No |
+| HostedScan | Free tier; paid ~215 kr./mo | Dashboard + API | No | No |
+| Beagle Security | ~885 kr./mo | Dashboard | No | No |
+| Sucuri (GoDaddy) | ~1,480 kr./yr | Dashboard + WAF | No | No |
 
 Closest competitor: **Intruder.io** — founded 2015, GCHQ Cyber Accelerator alumni, 1,000+ customers.⁹ Delivers through a web dashboard with Slack and Jira integrations.
 
@@ -472,7 +438,7 @@ Enterprise EASM players (CrowdStrike, Qualys, Censys) are moving upmarket, not d
 
 **"Why can't Intruder just add Telegram delivery?"**
 
-They could add a Telegram notification. But notification is not delivery. Heimdall's architecture is built around non-technical users from the ground up — plain-language interpretation, "who should fix this" routing, persistent memory, escalating follow-up, drafted messages to forward. Adding a Telegram webhook to a dashboard product does not replicate this. It would require rebuilding the product's entire communication layer, output format, and user model.
+They could add a Telegram notification. But notification is not delivery. Heimdall's architecture is built around non-technical users from the ground up — plain-language interpretation, persistent memory, escalating follow-up, and actionable next steps. Adding a Telegram webhook to a dashboard product does not replicate this. It would require rebuilding the product's entire communication layer, output format, and user model.
 
 **"HostedScan has a free tier — why pay 199 kr.?"**
 
@@ -488,7 +454,7 @@ If the business owner can navigate a vulnerability scanning dashboard, configure
 
 4. **Shadow AI/agent detection:** Scanning for exposed AI agent infrastructure (MCP servers, autonomous agents, and similar endpoints). First-mover position in a rapidly growing attack surface.¹⁰ ¹¹ ¹³
 
-5. **Optional remediation service:** No competitor offers hands-on fixes. Intruder.io and HostedScan stop at guidance — the client must find someone to execute. Heimdall closes the loop with per-event consultancy, becoming the client's de facto security team.
+5. **Tiered fix guidance:** Sentinel and Guardian tiers provide step-by-step fix instructions and written reports — closing the gap between "you have a problem" and "here is how to solve it." Competitors stop at raw findings.
 
 ---
 
@@ -557,7 +523,7 @@ Markedsføringsloven prohibits unsolicited electronic marketing. This forces a h
 
 ### 12.6 Founder's Existing Presence
 
-Federico has been based in Vejle since 2019 — seven years in Denmark by the time of this application. He has worked at LEGO and JYSK, is embedded in the local business environment, and has already tested the Heimdall pipeline against 203 Vejle-area domains. The product is being built here, for this market.
+I have been based in Vejle since 2019 — seven years in Denmark by the time of this application. I have worked at LEGO and JYSK, am embedded in the local business environment, and have already tested the Heimdall pipeline against 203 Vejle-area domains. I am building the product here, for this market.
 
 ---
 
@@ -565,16 +531,16 @@ Federico has been based in Vejle since 2019 — seven years in Denmark by the ti
 
 ### 13.1 Founder — Federico Alvarez
 
-Federico brings nearly 20 years of enterprise software engineering experience to Heimdall, with a track record of delivering complex technical solutions across multiple industries and geographies.
+I bring nearly 20 years of enterprise software engineering experience to Heimdall, with a track record of delivering complex technical solutions across multiple industries and geographies.
 
-**Current role:** Senior SAP Engineer at LEGO (Vejle, Denmark, since January 2023). Arrived in Denmark on the Fast-Track employment scheme — a government-approved path for highly skilled workers.
+**Current role:** I am a Senior SAP Engineer at LEGO (Vejle, Denmark, since January 2023). I arrived in Denmark on the Fast-Track employment scheme — a government-approved path for highly skilled workers.
 
 **Enterprise engineering career:**
-- **LEGO (2023–present):** Architected SAP BTP integrations, built syslog drain pipelines (Cloud Foundry → Elastic stack), developed Databricks ingestion pipelines in Python, led S/4HANA clean core transformation, mentored teams on SAP CAP adoption.
+- **LEGO (2023–present):** I architected SAP BTP integrations, built syslog drain pipelines (Cloud Foundry → Elastic stack), developed Databricks ingestion pipelines in Python, led S/4HANA clean core transformation, and mentored teams on SAP CAP adoption.
 - **JYSK (2020–2022):** Delivered SAP CAR developments for POS migration, built OData services, enhanced HANA calculation views, optimized forecast reports.
 - **LEGO via Hays (2019–2020):** Led application architecture review and ABAP solution redesign, defined REST API integration patterns, achieved 90% runtime reduction in database stored procedures.
 - **Medtronic via IBM (2018):** Coordinated worldwide SAP deployment activities across multiple geographies.
-- **Grupo Bancolombia via Deloitte (2009–2011):** Led a team of approximately 30 SAP CRM consultants through a full implementation, managing over 170 developments — sprint planning, workload distribution, stakeholder communication.
+- **Grupo Bancolombia via Deloitte (2009–2011):** I led a team of approximately 30 SAP CRM consultants through a full implementation, managing over 170 developments — sprint planning, workload distribution, stakeholder communication.
 - **Earlier career at Deloitte (2006–2008):** Multi-client, multi-country SAP consulting across Argentina, Mexico, and Colombia.
 - **NIS National Insurance Board (Barbados, 2013–2017):** Led full SAP CRM and Social Services implementation for a national public-sector institution.
 
@@ -584,20 +550,27 @@ Federico brings nearly 20 years of enterprise software engineering experience to
 
 **Languages:** Spanish (native), English (professional).
 
-**Entrepreneurial experience:** Building the Fjordleather brand alongside Heimdall — leather goods, separate business, shared entrepreneurial drive.
+**Entrepreneurial experience:** I am also building the Fjordleather brand alongside Heimdall — leather goods, separate business, shared entrepreneurial drive.
 
 **In Denmark since 2019.** Based in Vejle.
 
 ### 13.2 What Has Already Been Built
 
-This is not a slide deck. The product is being built:
+This is not a slide deck. I have built and am running:
 
-- 14-module Python pipeline for lead generation
-- 10 agent specifications with documented boundaries and handoff protocols
-- Valdí legal compliance system with two-gate validation and forensic logging
-- Complete legal risk assessment of Danish scanning law under §263
-- Valdí born from a real compliance boundary violation — correction mechanism proven
-- Prospecting pipeline tested against 203 live Vejle-area domains
+- **Lead generation pipeline** — 20+ module Python pipeline processing CVR company data, resolving domains, scanning, bucketing, and generating per-site briefs. Tested against 204 live Vejle-area domains in 8.5 minutes.
+- **AI-powered finding interpreter** — Claude API agent translates raw scan data into plain-language findings, tier-aware (Watchman: what's wrong, Sentinel/Guardian: + how to fix it). No plugin names in client-facing text.
+- **Telegram delivery bot** — full pipeline from scan completion to client notification. Redis pub/sub, operator approval flow, inline acknowledge button, HTML formatting with severity labels and confirmed/potential separation.
+- **Client database** — SQLite schema with 11 tables, normalised findings (definitions + occurrences), delivery log, consent registry. 150+ tests.
+- **Digital twin framework** — reconstructs client WordPress environments locally for safe vulnerability testing without touching real sites. Legal foundation documented.
+- **Valdí legal compliance system** — two-gate validation (scan-type approval + consent check), forensic logging, approval token registry. Born from a real compliance boundary violation — correction mechanism proven.
+- **WordPress passive detection** — plugin version extraction via HTML `?ver=` params, REST API namespace enumeration, meta generator tags, CSS class signatures. Outdated plugin checks against wordpress.org.
+- **Vulnerability enrichment** — WPVulnerability API integration for plugin/core CVE lookups with local SQLite cache. CertStream CT log collector for .dk domains.
+- **CVR enrichment tool** — 7-step pipeline: Excel ingestion → static enrichments → email domain extraction → name-match validation → search-based discovery → deduplication → summary. SQLite output.
+- **Docker Compose deployment** — Pi5 production stack with two-phase architecture (subfinder batch → per-domain scans), warm caching, smoke tests, version pinning.
+- **12 agent specifications** with documented boundaries, handoff protocols, and chain architecture.
+- **Complete legal risk assessment** of Danish scanning law under Straffeloven §263.
+- **690+ automated tests** across the full codebase.
 
 ### 13.3 Network Security Partner
 
@@ -605,7 +578,7 @@ A network security specialist provides domain expertise, technical credibility, 
 
 ### 13.4 Claude Code as Force Multiplier
 
-The codebase was built with Claude Code — Anthropic's AI development assistant. A solo developer with Claude Code operates at the output level of a small team for code generation, documentation, research, and specification writing. The agent specifications encode domain knowledge in a structured, transferable format — new team members onboard by reading the specifications.
+I built the codebase with Claude Code — Anthropic's AI development assistant. With Claude Code, I operate at the output level of a small team for code generation, documentation, research, and specification writing. The agent specifications encode domain knowledge in a structured, transferable format — new team members onboard by reading the specifications.
 
 ### 13.5 Post-Establishment Advisory
 
@@ -622,15 +595,15 @@ The codebase was built with Claude Code — Anthropic's AI development assistant
 
 ### 14.1 Three Scenarios
 
-All scenarios use the aggressive pricing. Blended ARPC: ~350 kr./month (early, Watchman-heavy mix), growing to ~420 kr./month as tier mix matures. Churn: 30–40% Year 1. Tool licensing (WPScan commercial API) included in COGS.
+All scenarios use the aggressive pricing. Blended ARPC: ~305 kr./month (early, Watchman-heavy mix, 30% annual uptake), growing to ~370 kr./month as tier mix matures. Churn: 30–40% Year 1. Tool licensing costs eliminated (WPVulnerability API is free).
 
 **Conservative (base case):**
 
 | | Month 12 | Month 24 | Month 36 |
 |---|---------|---------|---------|
 | Active clients | 10 | 50 | 100 |
-| MRR | 3,500 kr. | 19,000 kr. | 40,000 kr. |
-| ARR | 42,000 kr. | 228,000 kr. | 480,000 kr. |
+| MRR | 3,050 kr. | 17,500 kr. | 37,000 kr. |
+| ARR | 36,600 kr. | 210,000 kr. | 444,000 kr. |
 | Gross margin | ~58% | ~65% | ~68% |
 
 Assumptions: Organic growth only. No agency partnerships beyond 1. Weighted toward Watchman tier.
@@ -640,8 +613,8 @@ Assumptions: Organic growth only. No agency partnerships beyond 1. Weighted towa
 | | Month 12 | Month 24 | Month 36 |
 |---|---------|---------|---------|
 | Active clients | 20 | 80 | 200 |
-| MRR | 7,000 kr. | 30,400 kr. | 84,000 kr. |
-| ARR | 84,000 kr. | 364,800 kr. | 1,008,000 kr. |
+| MRR | 6,100 kr. | 29,600 kr. | 74,000 kr. |
+| ARR | 73,200 kr. | 355,200 kr. | 888,000 kr. |
 | Gross margin | ~62% | ~68% | ~70% |
 
 Assumptions: 2 agency partnerships. Tier mix shifts toward Sentinel. Local business association traction.
@@ -651,34 +624,33 @@ Assumptions: 2 agency partnerships. Tier mix shifts toward Sentinel. Local busin
 | | Month 12 | Month 24 | Month 36 |
 |---|---------|---------|---------|
 | Active clients | 30 | 120 | 300 |
-| MRR | 10,800 kr. | 48,000 kr. | 126,000 kr. |
-| ARR | 129,600 kr. | 576,000 kr. | 1,512,000 kr. |
+| MRR | 9,150 kr. | 44,400 kr. | 111,000 kr. |
+| ARR | 109,800 kr. | 532,800 kr. | 1,332,000 kr. |
 | Gross margin | ~64% | ~69% | ~72% |
 
-Assumptions: 3+ agency partnerships. Strong tier migration and remediation revenue. EU pilot begins in Month 24.
+Assumptions: 3+ agency partnerships. Strong tier migration. EU pilot begins in Month 24.
 
 ### 14.2 Break-Even Analysis
 
 | Metric | Value |
 |--------|-------|
-| Fixed monthly costs (infra + API + insurance + tool licensing) | ~2,800 kr. |
-| Blended ARPC | ~350 kr. |
-| Margin per client | ~205–245 kr. |
-| **Break-even point** | **~11–12 paying clients** |
+| Fixed monthly costs (infra + API + insurance) | ~2,600 kr. |
+| Blended ARPC | ~305 kr. |
+| Margin per client | ~180–210 kr. |
+| **Break-even point** | **~13–14 paying clients** |
 
-The trade-off is explicit: aggressive pricing requires ~12 clients to break even instead of 5–6 at premium pricing. But at 199 kr./mo, each conversion is significantly easier. The pipeline has identified 68 prime targets in Vejle alone — a 6× surplus over the break-even requirement.
+The trade-off is explicit: aggressive pricing requires ~14 clients to break even instead of 5–6 at premium pricing. But at 199 kr./mo, each conversion is significantly easier. The pipeline has identified 68 prime targets in Vejle alone — a ~5× surplus over the break-even requirement.
 
-Tool licensing costs (primarily WPScan commercial API for Sentinel/Guardian tiers) are amortised across the client base. As the client base grows, per-client licensing cost decreases.
+Tool licensing costs have been eliminated by replacing the WPScan commercial API with the free WPVulnerability API.
 
 ### 14.3 Self-Sustainability
 
-The business model is designed to be self-sustaining on subscription revenue alone. The founder has proof of financial capacity for the establishment phase as required by Startup Denmark.
+The business model is designed to be self-sustaining on subscription revenue alone. I have proof of financial capacity for the establishment phase as required by Startup Denmark.
 
 The financial projections are based on subscription revenue only. They do not account for:
-- **Remediation consultancy fees** — per-event revenue when clients choose Heimdall to execute fixes directly (no competitor offers this)
 - **Grant funding** (Digital Europe Programme, Industriens Fond, and similar programmes) — non-dilutive growth capital available to Danish cybersecurity companies
 - **Upsell revenue** from tier migration (Watchman → Sentinel → Guardian)
-- **Annual Guardian discount** (599 kr./mo × 12 = cash flow advantage)
+- **Annual discounts across all tiers** (Watchman 169, Sentinel 339, Guardian 669 kr./mo × 12) — locks in recurring revenue and improves cash flow predictability
 
 These are excluded deliberately. The conservative case stands on subscription revenue alone.
 

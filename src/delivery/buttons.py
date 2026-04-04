@@ -1,16 +1,13 @@
 """Client-facing inline buttons for Telegram messages.
 
-Two buttons appear at the bottom of every alert message:
-- "Got it" — acknowledges receipt (no visible response)
-- "Can Heimdall fix this?" — signals interest in remediation service
+A single "Got it" button appears at the bottom of every alert message,
+acknowledging receipt (no visible response to the client).
 
 Callback data format:
     got_it:{cvr}:{domain}
-    fix_it:{cvr}:{domain}
 
 Status flow for finding_occurrences:
-    open → sent → acknowledged        ("Got it")
-    open → sent → fix_requested → in_progress → resolved  ("Can Heimdall fix this?")
+    open → sent → acknowledged
 """
 
 from __future__ import annotations
@@ -67,21 +64,10 @@ def _update_delivery_read(conn: sqlite3.Connection, domain: str) -> None:
     conn.commit()
 
 
-def _update_delivery_replied(conn: sqlite3.Connection, domain: str) -> None:
-    """Set replied_at on the most recent delivery_log entry for this domain."""
-    conn.execute(
-        "UPDATE delivery_log SET replied_at = ? "
-        "WHERE domain = ? AND replied_at IS NULL "
-        "ORDER BY created_at DESC LIMIT 1",
-        (_now(), domain),
-    )
-    conn.commit()
-
-
 def build_client_buttons(cvr: str, domain: str) -> InlineKeyboardMarkup:
     """Build the inline keyboard for client alert messages.
 
-    Returns an InlineKeyboardMarkup with two buttons on one row.
+    Returns an InlineKeyboardMarkup with a single "Got it" button.
     """
     return InlineKeyboardMarkup(
         [
@@ -89,10 +75,6 @@ def build_client_buttons(cvr: str, domain: str) -> InlineKeyboardMarkup:
                 InlineKeyboardButton(
                     "\u2705 Got it",
                     callback_data=f"got_it:{cvr}:{domain}",
-                ),
-                InlineKeyboardButton(
-                    "\U0001f6e0 Can Heimdall fix this?",
-                    callback_data=f"fix_it:{cvr}:{domain}",
                 ),
             ]
         ]
@@ -120,10 +102,9 @@ async def handle_client_callback(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
 ) -> None:
-    """Handle client button presses (Got it / Can Heimdall fix this?).
+    """Handle client button presses (Got it).
 
-    Callback data format: ``"got_it:{cvr}:{domain}"`` or
-    ``"fix_it:{cvr}:{domain}"``.
+    Callback data format: ``"got_it:{cvr}:{domain}"``.
     """
     query = update.callback_query
     await query.answer()
@@ -140,13 +121,11 @@ async def handle_client_callback(
 
     if action == "got_it":
         await _handle_got_it(query, conn, cvr, domain)
-    elif action == "fix_it":
-        await _handle_fix_it(query, conn, cvr, domain)
     else:
         logger.warning("unknown_client_callback action={}", action)
         return
 
-    # Remove buttons after any valid click to prevent double-actions
+    # Remove buttons after click to prevent double-actions
     try:
         await query.edit_message_reply_markup(reply_markup=None)
     except Exception:
@@ -170,20 +149,3 @@ async def _handle_got_it(query, conn, cvr: str, domain: str) -> None:
         logger.info("client_acknowledged cvr={} domain={} (no db)", cvr, domain)
 
 
-async def _handle_fix_it(query, conn, cvr: str, domain: str) -> None:
-    """Record fix request and reply to client.
-
-    Transitions: sent → fix_requested (finding_occurrences)
-    Updates: delivery_log.replied_at
-    """
-    if conn:
-        try:
-            n = _transition_findings(conn, domain, "sent", "fix_requested", "client:telegram")
-            _update_delivery_replied(conn, domain)
-            logger.info("client_fix_requested cvr={} domain={} findings={}", cvr, domain, n)
-        except Exception:
-            logger.exception("failed_to_record_fix_request cvr={} domain={}", cvr, domain)
-    else:
-        logger.info("client_fix_requested cvr={} domain={} (no db)", cvr, domain)
-
-    await query.message.reply_text("One of our developers will contact you soon.")

@@ -248,52 +248,41 @@ CrowdStrike Falcon Surface, Trend Micro Cyber Risk Exposure Management, Censys A
 
 ## Service Tiers and Pricing (all prices excl. moms)
 
-### Watchman — 199 kr./month
+### Watchman — 199 kr./month (annual: 169 kr./month)
 
-*We find problems on your website, explain them in plain language, and tell you what needs fixing.*
+*We find problems on your website and explain them in plain language.*
 
-Weekly scan. Findings delivered straight to Telegram. We track what's changed since last time and follow up on anything unresolved.
+Passive scanning. Findings delivered straight to Telegram. We track what's changed since last time and follow up on anything unresolved.
 
-### Sentinel — 399 kr./month
+### Sentinel — 399 kr./month (annual: 339 kr./month)
 
-*We watch your website every day. If something changes or a new threat hits your setup, you'll know the same day — with step-by-step instructions and a message ready to forward to whoever handles it.*
+*We watch your website every day. If something changes or a new threat hits your setup, you'll know the same day — with step-by-step fix instructions in a written report.*
 
-Everything in Watchman, plus: daily scans, uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, drafted emails to your developer or hosting provider.
+Everything in Watchman, plus: daily scans, uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, detailed fix instructions for your developer or hosting provider.
 
-### Guardian — 799 kr./month (annual: 599 kr./month)
+### Guardian — 799 kr./month (annual: 669 kr./month)
 
 *We actively test your defences, confirm that fixes worked, and give you a report you can show your accountant or insurer.*
 
-Everything in Sentinel, plus: active vulnerability testing (with your written permission), detection of exposed AI tools and agent infrastructure, remediation verification, quarterly security report.
+Everything in Sentinel, plus: active vulnerability testing (with your written permission), detection of exposed AI tools and agent infrastructure, fix verification, quarterly security report.
 
 ### Tier Logic
 
-The tiers are structured around how much Heimdall takes off the client's plate:
+The tiers are structured around how much the client learns and how deeply Heimdall investigates:
 
-- **Watchman** tells you *what* is wrong.
-- **Sentinel** tells you *how* to fix it and writes the message for you.
+- **Watchman** tells you *what* is wrong — in plain language.
+- **Sentinel** tells you *what* is wrong and *how* to fix it — with a written report.
 - **Guardian** *tests* your defences, *verifies* fixes, and *documents* your security posture.
-
-The "Who Do I Send This To?" problem (see Pilot Plan) is resolved differently at each tier. Watchman identifies the category of person responsible (your developer, your hosting provider). Sentinel provides the specific steps and a ready-to-forward message. Guardian verifies the fix was applied.
-
-### Remediation Service (Optional, All Tiers)
-
-Available as an optional add-on across all tiers. When the client has no developer, no IT contact, and no ability to follow the fixing guide — Heimdall executes the fix directly. Billed hourly, separately from the subscription. Totally optional: the client can always follow the guide themselves or forward the drafted message to their own resources.
-
-**Reference pricing (indicative — subject to adjustment during pilot):** Minimum charge (first hour) 599 kr., each additional hour 399 kr./hr. Positioned between a general web developer (~325 kr./hr) and a cybersecurity specialist (~500 kr./hr). Most common SMB fixes resolve within one hour.
-
-No competitor (Intruder.io, HostedScan, Detectify, etc.) offers hands-on remediation. They all stop at advisory. This closes the last-mile gap between "you have a vulnerability" and "it is fixed."
 
 ### Pricing Summary
 
-| Tier | Price | Scan Frequency | Remediation Guidance | Active Testing |
-|------|-------|---------------|---------------------|---------------|
-| Watchman | 199 kr./month | Weekly | What to fix | No |
-| Sentinel | 399 kr./month | Daily | How to fix it + draft message | No |
-| Guardian | 799 kr./month (annual: 599) | Daily | How to fix it + verification | Yes (with consent) |
-| Remediation (add-on) | 599 kr. first hr, 399 kr./hr after* | On demand | Heimdall executes the fix | N/A |
+| Tier | Price | Scanning Type | What the Client Gets |
+|------|-------|--------------|---------------------|
+| Watchman | 199 kr./month (annual: 169) | Passive | Plain-language alert: what is wrong |
+| Sentinel | 399 kr./month (annual: 339) | Passive | Alert + written fix report |
+| Guardian | 799 kr./month (annual: 669) | Passive + Active | Alert + fix report + active testing + verification |
 
-*Reference pricing — subject to adjustment during pilot. All prices excl. moms (Danish VAT).
+*All prices excl. moms (Danish VAT).*
 
 ---
 
@@ -380,9 +369,9 @@ Contingency    |~800–1.500 kr.
 | Has a web developer | Identifies the issue and who should handle it | Message designed to be forwarded directly to the developer |
 | Self-manages WordPress | Identifies the issue and that it's a wp-admin task | Step-by-step wp-admin instructions |
 | Fully hosted (Shopify/Squarespace) | Identifies the issue and the platform | Platform-specific settings or drafted support ticket |
-| Nobody manages it | Identifies the issue and suggests contacting hosting provider | Draft hosting provider support ticket + option to use Heimdall's remediation service (per-event, excl. moms) |
+| Nobody manages it | Identifies the issue and suggests contacting hosting provider | Draft hosting provider support ticket + step-by-step fix instructions |
 
-Every finding ends with a clear "who should fix this" line. Sentinel and Guardian add the "how" — specific steps and ready-to-send messages.
+Every finding ends with a clear next step. Sentinel and Guardian add the "how" — specific instructions and ready-to-send messages.
 
 ---
 
