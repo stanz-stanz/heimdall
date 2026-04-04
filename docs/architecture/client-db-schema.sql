@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS finding_occurrences (
     confidence      TEXT,                            -- confirmed | potential | NULL
 
     -- Lifecycle
-    status          TEXT NOT NULL DEFAULT 'open',    -- open | acknowledged | in_progress | resolved
+    status          TEXT NOT NULL DEFAULT 'open',    -- open | sent | acknowledged | fix_requested | in_progress | resolved
     first_seen_at   TEXT NOT NULL,                   -- ISO-8601 date of first detection on THIS domain
     last_seen_at    TEXT NOT NULL,                   -- ISO-8601 date of most recent detection on THIS domain
     resolved_at     TEXT,                            -- ISO-8601 date when status changed to resolved

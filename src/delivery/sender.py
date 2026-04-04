@@ -18,6 +18,7 @@ from telegram.error import NetworkError, RetryAfter, TimedOut
 
 from src.db.connection import _now
 from src.db.delivery import log_delivery, update_delivery_status
+from src.delivery.buttons import _transition_findings
 
 # Type alias for reply markup (avoid hard import for flexibility)
 ReplyMarkup = object  # telegram.InlineKeyboardMarkup at runtime
@@ -188,6 +189,13 @@ async def send_with_logging(
             status="sent",
             external_id=",".join(external_ids),
         )
+        # Transition findings: open → sent
+        if domain and conn:
+            try:
+                n = _transition_findings(conn, domain, "open", "sent", f"delivery:{delivery_id}")
+                logger.bind(context={"domain": domain, "count": n}).info("findings_marked_sent")
+            except Exception:
+                logger.exception("failed_to_transition_findings domain={}", domain)
         logger.bind(context={
             "delivery_id": delivery_id,
             "cvr": cvr,

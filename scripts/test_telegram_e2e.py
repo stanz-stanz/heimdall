@@ -3,6 +3,9 @@
 Sends a test message from the Heimdall bot, receives it as a user via
 Telethon, clicks inline buttons, and verifies the bot's response.
 
+Uses a real brief (from data/output/briefs/) interpreted by the LLM,
+not a hardcoded fixture.
+
 First run requires interactive auth (phone + SMS code).
 Subsequent runs use the saved session file.
 
@@ -10,6 +13,7 @@ Requirements: pip install telethon
 
 Usage:
     python3 scripts/test_telegram_e2e.py
+    python3 scripts/test_telegram_e2e.py --brief data/output/briefs/jellingkro.dk.json
     python3 scripts/test_telegram_e2e.py --click-fix   # test "Can Heimdall fix this?" instead
 """
 
@@ -17,8 +21,15 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import json
 import os
 import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+load_dotenv()
 
 # ---------------------------------------------------------------------------
 # Env-var check (fail fast before any heavy imports)
@@ -63,52 +74,36 @@ from src.delivery.buttons import (  # noqa: E402
     build_client_buttons,
     handle_client_callback,
 )
+from src.interpreter.interpreter import interpret_brief  # noqa: E402
 
 from loguru import logger  # noqa: E402
 from src.prospecting.logging_config import setup_logging  # noqa: E402
 
 setup_logging(level="INFO")
 
-# ---------------------------------------------------------------------------
-# Static fixture — no LLM needed
-# ---------------------------------------------------------------------------
+BRIEFS_DIR = Path("data/output/briefs")
 
-SAMPLE_INTERPRETED = {
-    "domain": "test.example.dk",
-    "company_name": "Test Company",
-    "contact_name": "Martin",
-    "scan_date": "2026-04-03",
-    "findings": [
-        {
-            "title": "Your website login is exposed to the internet",
-            "severity": "critical",
-            "explanation": (
-                "Anyone can access the admin login page, making it a target "
-                "for automated attacks."
-            ),
-            "action": (
-                "Restrict wp-login.php access by IP or add two-factor "
-                "authentication."
-            ),
-            "who": "developer",
-            "provenance": "confirmed",
-        },
-        {
-            "title": "A component on your website may have a known security flaw",
-            "severity": "high",
-            "explanation": (
-                "The detected version of a website component is known to be "
-                "associated with a security vulnerability."
-            ),
-            "action": (
-                "Update LiteSpeed Cache plugin to version 6.5.0.1 or later "
-                "(CVE-2024-44000)."
-            ),
-            "who": "developer",
-            "provenance": "unconfirmed",
-        },
-    ],
-}
+
+def _pick_richest_brief() -> Path:
+    """Return the brief file with the most high/critical findings."""
+    best_path = None
+    best_count = -1
+    for p in BRIEFS_DIR.glob("*.json"):
+        try:
+            brief = json.loads(p.read_text())
+        except (json.JSONDecodeError, OSError):
+            continue
+        count = sum(
+            1 for f in brief.get("findings", [])
+            if f.get("severity", "").lower() in ("critical", "high")
+        )
+        if count > best_count:
+            best_count = count
+            best_path = p
+    if best_path is None:
+        print(f"ERROR: No brief files found in {BRIEFS_DIR}")
+        sys.exit(1)
+    return best_path
 
 
 # ---------------------------------------------------------------------------
@@ -165,6 +160,20 @@ async def _wait_for_message(
 async def main() -> None:
     parser = argparse.ArgumentParser(description="Telegram E2E test")
     parser.add_argument(
+        "--brief",
+        help="Path to a brief JSON file (default: auto-pick richest brief)",
+    )
+    parser.add_argument(
+        "--contact-name",
+        default="Martin",
+        help="Contact name for greeting (default: Martin)",
+    )
+    parser.add_argument(
+        "--language",
+        default=None,
+        help="Language override (en/da)",
+    )
+    parser.add_argument(
         "--click-fix",
         action="store_true",
         help='Click "Can Heimdall fix this?" instead of "Got it"',
@@ -173,10 +182,39 @@ async def main() -> None:
     button_index = 1 if args.click_fix else 0
     button_label = "Can Heimdall fix this?" if args.click_fix else "Got it"
 
+    # Load brief
+    if args.brief:
+        brief_path = Path(args.brief)
+    else:
+        brief_path = _pick_richest_brief()
+    with open(brief_path) as f:
+        brief = json.load(f)
+    print(f"Brief: {brief_path.name}")
+
+    # Pre-filter to high/critical (same as delivery runner)
+    all_findings = brief.get("findings", [])
+    actionable = [
+        f for f in all_findings
+        if f.get("severity", "").lower() in ("critical", "high")
+    ]
+    brief["findings"] = actionable
+    print(f"Findings: {len(all_findings)} total -> {len(actionable)} high/critical")
+
+    if not actionable:
+        print("ERROR: No high/critical findings in this brief. Pick another.")
+        sys.exit(1)
+
+    # Interpret via LLM
+    print("Interpreting via LLM...")
+    interpreted = interpret_brief(brief, language=args.language)
+    interpreted["contact_name"] = args.contact_name
+    print(f"Interpreter returned {len(interpreted.get('findings', []))} findings")
+
     # Compose message
-    messages = compose_telegram(SAMPLE_INTERPRETED)
+    domain = brief.get("domain", "unknown")
+    messages = compose_telegram(interpreted)
     message_html = messages[0]
-    reply_markup = build_client_buttons("00000000", "test.example.dk")
+    reply_markup = build_client_buttons("00000000", domain)
 
     # Build PTB Application (with callback handler for button presses)
     app = (
@@ -202,28 +240,39 @@ async def main() -> None:
 
     ok = False
     try:
+        # Set up listener BEFORE sending so we don't miss the message
+        print("Waiting for message via Telethon...")
+        listen_task = asyncio.create_task(
+            _wait_for_message(client, bot_id, timeout=15.0)
+        )
+        await asyncio.sleep(0.3)  # let the handler register
+
         # Send message from bot
         msg_id = await _run_bot(app, message_html, reply_markup)
 
-        # Wait for message via Telethon
-        print("Waiting for message via Telethon...")
-        msg = await _wait_for_message(client, bot_id, timeout=15.0)
+        msg = await listen_task
         if msg is None:
             print("FAIL: Timed out waiting for bot message (15s)")
             sys.exit(1)
 
         print(f"Message received (id={msg.id})")
 
-        # Verify message content
+        # Verify message content against what the interpreter actually returned
         text = msg.raw_text or ""
+        findings = interpreted.get("findings", [])
+        has_confirmed = any(f.get("provenance") == "confirmed" for f in findings)
+        has_potential = any(f.get("provenance") != "confirmed" for f in findings)
+        has_critical = any(f.get("severity", "").lower() == "critical" for f in findings)
+        has_high = any(f.get("severity", "").lower() == "high" for f in findings)
+
         errors = []
-        if "Confirmed issues" not in text:
-            errors.append('Missing "Confirmed issues" section')
-        if "Potential issues" not in text:
-            errors.append('Missing "Potential issues" section')
-        if "\U0001f534" not in text and "Critical" not in text:
+        if has_confirmed and "Confirmed" not in text:
+            errors.append('Missing "Confirmed" section')
+        if has_potential and "Potential" not in text:
+            errors.append('Missing "Potential" section')
+        if has_critical and "Critical" not in text:
             errors.append("Missing critical severity indicator")
-        if "\U0001f7e0" not in text and "High" not in text:
+        if has_high and "High" not in text:
             errors.append("Missing high severity indicator")
 
         # Check buttons exist
@@ -246,35 +295,26 @@ async def main() -> None:
         print(f'Clicking button [{button_index}]: "{button_label}"...')
         await msg.click(button_index)
 
-        # Wait for bot to edit the message
-        print("Waiting 3s for bot to process callback...")
-        await asyncio.sleep(3)
-
-        # Re-fetch the message to see edits
-        edited = await client.get_messages(CHAT_ID, ids=msg.id)
-        if edited is None:
-            print("FAIL: Could not re-fetch message after button click")
-            sys.exit(1)
-
-        edited_text = edited.raw_text or ""
+        # Verify bot response
         if args.click_fix:
-            expected = "We'll be in touch"
-            if expected not in edited_text:
+            # Bot should reply with a separate message
+            print("Waiting for bot reply...")
+            reply = await _wait_for_message(client, bot_id, timeout=10.0)
+            if reply is None:
+                print("FAIL: No reply from bot after fix-it click")
+                sys.exit(1)
+            reply_text = reply.raw_text or ""
+            expected = "One of our developers will contact you soon."
+            if expected not in reply_text:
                 print(
-                    f'FAIL: Expected "{expected}" in edited message, '
-                    f"got:\n{edited_text[-200:]}"
+                    f'FAIL: Expected "{expected}", '
+                    f"got: {reply_text}"
                 )
                 sys.exit(1)
-            print("PASS: Fix-request response verified")
+            print("PASS: Fix-request reply verified")
         else:
-            expected = "Acknowledged"
-            if expected not in edited_text:
-                print(
-                    f'FAIL: Expected "{expected}" in edited message, '
-                    f"got:\n{edited_text[-200:]}"
-                )
-                sys.exit(1)
-            print("PASS: Button response verified")
+            # "Got it" — no visible response, just log silently
+            print("PASS: Got-it acknowledged (no visible response expected)")
 
         ok = True
 

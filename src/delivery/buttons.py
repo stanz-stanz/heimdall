@@ -1,12 +1,16 @@
 """Client-facing inline buttons for Telegram messages.
 
 Two buttons appear at the bottom of every alert message:
-- "Got it" — acknowledges receipt (audit trail / proof of delivery)
+- "Got it" — acknowledges receipt (no visible response)
 - "Can Heimdall fix this?" — signals interest in remediation service
 
 Callback data format:
     got_it:{cvr}:{domain}
     fix_it:{cvr}:{domain}
+
+Status flow for finding_occurrences:
+    open → sent → acknowledged        ("Got it")
+    open → sent → fix_requested → in_progress → resolved  ("Can Heimdall fix this?")
 """
 
 from __future__ import annotations
@@ -18,6 +22,60 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
 from src.db.connection import _now
+
+
+def _transition_findings(
+    conn: sqlite3.Connection,
+    domain: str,
+    from_status: str,
+    to_status: str,
+    source: str,
+) -> int:
+    """Transition all findings for a domain from one status to another.
+
+    Updates finding_occurrences and appends to finding_status_log.
+    Returns the number of rows transitioned.
+    """
+    now = _now()
+    cursor = conn.execute(
+        "UPDATE finding_occurrences SET status = ? "
+        "WHERE domain = ? AND status = ?",
+        (to_status, domain, from_status),
+    )
+    count = cursor.rowcount
+
+    if count > 0:
+        conn.execute(
+            "INSERT INTO finding_status_log (occurrence_id, from_status, to_status, source, created_at) "
+            "SELECT id, ?, ?, ?, ? FROM finding_occurrences "
+            "WHERE domain = ? AND status = ?",
+            (from_status, to_status, source, now, domain, to_status),
+        )
+        conn.commit()
+
+    return count
+
+
+def _update_delivery_read(conn: sqlite3.Connection, domain: str) -> None:
+    """Set read_at on the most recent delivery_log entry for this domain."""
+    conn.execute(
+        "UPDATE delivery_log SET read_at = ? "
+        "WHERE domain = ? AND read_at IS NULL "
+        "ORDER BY created_at DESC LIMIT 1",
+        (_now(), domain),
+    )
+    conn.commit()
+
+
+def _update_delivery_replied(conn: sqlite3.Connection, domain: str) -> None:
+    """Set replied_at on the most recent delivery_log entry for this domain."""
+    conn.execute(
+        "UPDATE delivery_log SET replied_at = ? "
+        "WHERE domain = ? AND replied_at IS NULL "
+        "ORDER BY created_at DESC LIMIT 1",
+        (_now(), domain),
+    )
+    conn.commit()
 
 
 def build_client_buttons(cvr: str, domain: str) -> InlineKeyboardMarkup:
@@ -89,47 +147,36 @@ async def handle_client_callback(
 
 
 async def _handle_got_it(query, conn, cvr: str, domain: str) -> None:
-    """Log acknowledgement and update the message."""
+    """Acknowledge receipt — no visible response to client.
+
+    Transitions: sent → acknowledged (finding_occurrences)
+    Updates: delivery_log.read_at
+    """
     if conn:
         try:
-            conn.execute(
-                "INSERT INTO client_interactions (cvr, domain, action, created_at) "
-                "VALUES (?, ?, 'acknowledged', ?)",
-                (cvr, domain, _now()),
-            )
-            conn.commit()
+            n = _transition_findings(conn, domain, "sent", "acknowledged", "client:telegram")
+            _update_delivery_read(conn, domain)
+            logger.info("client_acknowledged cvr={} domain={} findings={}", cvr, domain, n)
         except Exception:
-            # Table may not exist yet — log but don't crash
-            logger.debug("client_interactions table not available, skipping DB log")
-
-    logger.info("client_acknowledged cvr={} domain={}", cvr, domain)
-
-    # Remove buttons, keep the original message
-    original = query.message.text_html or query.message.text or ""
-    await query.edit_message_text(
-        text=original + "\n\n\u2705 <i>Acknowledged</i>",
-        parse_mode="HTML",
-    )
+            logger.exception("failed_to_record_acknowledgement cvr={} domain={}", cvr, domain)
+    else:
+        logger.info("client_acknowledged cvr={} domain={} (no db)", cvr, domain)
 
 
 async def _handle_fix_it(query, conn, cvr: str, domain: str) -> None:
-    """Log remediation interest and notify operator."""
+    """Record fix request and reply to client.
+
+    Transitions: sent → fix_requested (finding_occurrences)
+    Updates: delivery_log.replied_at
+    """
     if conn:
         try:
-            conn.execute(
-                "INSERT INTO client_interactions (cvr, domain, action, created_at) "
-                "VALUES (?, ?, 'fix_requested', ?)",
-                (cvr, domain, _now()),
-            )
-            conn.commit()
+            n = _transition_findings(conn, domain, "sent", "fix_requested", "client:telegram")
+            _update_delivery_replied(conn, domain)
+            logger.info("client_fix_requested cvr={} domain={} findings={}", cvr, domain, n)
         except Exception:
-            logger.debug("client_interactions table not available, skipping DB log")
+            logger.exception("failed_to_record_fix_request cvr={} domain={}", cvr, domain)
+    else:
+        logger.info("client_fix_requested cvr={} domain={} (no db)", cvr, domain)
 
-    logger.info("client_fix_requested cvr={} domain={}", cvr, domain)
-
-    # Update message to confirm receipt
-    original = query.message.text_html or query.message.text or ""
-    await query.edit_message_text(
-        text=original + "\n\n\U0001f6e0 <i>We'll be in touch about fixing this!</i>",
-        parse_mode="HTML",
-    )
+    await query.message.reply_text("One of our developers will contact you soon.")
