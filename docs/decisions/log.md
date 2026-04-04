@@ -30,6 +30,9 @@ Running record of architectural decisions, rejections, and reasoning made during
 - ~~Button callback handler untested on live Telegram~~ → E2E test passes for both buttons.
 - ~~Telethon first-run auth not yet done~~ → Completed, session saved.
 
+**Also decided (late session)**
+- Full document consistency sweep: WPScan references purged from all legal/business docs (replaced with WPVulnerability API). OpenClaw references genericized to "AI agent infrastructure" in SIRI application (citations kept). NCC-DK removed from business plans (kept as market context). "in Danish" language claims updated to "client's preferred language" across all docs. Valdí accent standardized. 5 missing `src/` modules added to CLAUDE.md. API key rotation (B2) confirmed resolved.
+
 **Unresolved**
 - `in_progress → resolved` transitions — needs ticketing/remediation flow (osTicket)
 - Unit tests for `_transition_findings` — tested indirectly via E2E, not isolated
