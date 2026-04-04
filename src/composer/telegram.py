@@ -8,9 +8,6 @@ and splits into multiple messages when needed.
 from __future__ import annotations
 
 import html
-import logging
-
-log = logging.getLogger(__name__)
 
 TELEGRAM_MAX_CHARS = 4096
 # Reserve space for message numbering ("(1/3)\n\n") and safety margin

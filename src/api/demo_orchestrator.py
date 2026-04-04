@@ -11,13 +11,12 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 import random
 import shutil
 import uuid
 from typing import Optional
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 # Scan types shown in the demo timeline (Layer 1 only)
 SCAN_SEQUENCE = [
@@ -75,7 +74,7 @@ async def run_demo_replay(
                 pass
 
     domain = brief.get("domain", "unknown")
-    log.info("demo_started", extra={"context": {"scan_id": scan_id, "domain": domain}})
+    logger.bind(context={"scan_id": scan_id, "domain": domain}).info("demo_started")
 
     # --- Phase 1: Initialisation ------------------------------------------
     publish({"type": "phase", "phase": "initializing",
@@ -132,10 +131,10 @@ async def run_demo_replay(
         "findings_count": len(findings),
         "company_name": brief.get("company_name", ""),
     })
-    log.info("demo_completed", extra={"context": {
+    logger.bind(context={
         "scan_id": scan_id, "domain": domain,
         "findings_count": len(findings),
-    }})
+    }).info("demo_completed")
 
 
 # --- Live twin demo mode ---------------------------------------------------
@@ -213,7 +212,7 @@ async def run_demo_live(
                 pass
 
     domain = brief.get("domain", "unknown")
-    log.info("demo_live_started", extra={"context": {"scan_id": scan_id, "domain": domain}})
+    logger.bind(context={"scan_id": scan_id, "domain": domain}).info("demo_live_started")
 
     if not _live_demo_lock.locked():
         pass  # will acquire below
@@ -250,7 +249,7 @@ async def run_demo_live(
             thread = threading.Thread(target=server.serve_forever, daemon=True)
             thread.start()
         except Exception as exc:
-            log.error("demo_live_twin_failed: %s", exc)
+            logger.error("demo_live_twin_failed: {}", exc)
             publish({"type": "phase", "phase": "error",
                      "message": "Twin failed to start. Falling back to replay."})
             await run_demo_replay(scan_id, brief, redis_conn)
@@ -321,9 +320,9 @@ async def run_demo_live(
                 "company_name": brief.get("company_name", ""),
                 "mode": "live",
             })
-            log.info("demo_live_completed", extra={"context": {
+            logger.bind(context={
                 "scan_id": scan_id, "domain": domain,
                 "findings_count": len(findings),
-            }})
+            }).info("demo_live_completed")
         finally:
             server.shutdown()

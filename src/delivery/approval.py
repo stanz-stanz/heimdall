@@ -11,17 +11,15 @@ to clients without the preview step.
 from __future__ import annotations
 
 import hashlib
-import logging
 import sqlite3
 
+from loguru import logger
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
 from src.db.clients import get_client
 from src.db.connection import _now
 from src.db.delivery import log_delivery, update_delivery_status
-
-log = logging.getLogger(__name__)
 
 # In-memory store key inside bot_data for pending full message chunks.
 # Structure: { delivery_id: list[str] }
@@ -115,8 +113,8 @@ async def request_approval(
             parse_mode="HTML",
         )
 
-    log.info(
-        "approval_requested delivery_id=%d cvr=%s domain=%s chunks=%d len=%d",
+    logger.info(
+        "approval_requested delivery_id={} cvr={} domain={} chunks={} len={}",
         delivery_id,
         cvr,
         domain,
@@ -151,19 +149,19 @@ async def handle_approval_callback(
 
     data = query.data or ""
     if ":" not in data:
-        log.warning("invalid_callback_data data=%s", data)
+        logger.warning("invalid_callback_data data={}", data)
         return
 
     action, delivery_id_str = data.split(":", 1)
     try:
         delivery_id = int(delivery_id_str)
     except ValueError:
-        log.warning("invalid_delivery_id data=%s", data)
+        logger.warning("invalid_delivery_id data={}", data)
         return
 
     conn: sqlite3.Connection | None = context.bot_data.get("db_conn")
     if conn is None:
-        log.error("no_db_connection_in_context")
+        logger.error("no_db_connection_in_context")
         await query.edit_message_text("Error: No database connection")
         return
 
@@ -172,7 +170,7 @@ async def handle_approval_callback(
     elif action == "reject":
         await _handle_reject(query, conn, delivery_id)
     else:
-        log.warning("unknown_callback_action action=%s", action)
+        logger.warning("unknown_callback_action action={}", action)
 
 
 async def _handle_approve(
@@ -280,8 +278,8 @@ async def _handle_approve(
             reply_markup=None,
         )
 
-        log.info(
-            "approval_granted delivery_id=%d cvr=%s domain=%s",
+        logger.info(
+            "approval_granted delivery_id={} cvr={} domain={}",
             delivery_id,
             cvr,
             domain,
@@ -292,7 +290,7 @@ async def _handle_approve(
             conn, delivery_id, "failed", error_message=str(exc)
         )
         await query.edit_message_text(f"SEND FAILED: {exc}")
-        log.exception("approval_send_failed delivery_id=%d", delivery_id)
+        logger.opt(exception=True).error("approval_send_failed delivery_id={}", delivery_id)
 
 
 async def _handle_reject(
@@ -314,7 +312,7 @@ async def _handle_reject(
         reply_markup=None,
     )
 
-    log.info("approval_rejected delivery_id=%d", delivery_id)
+    logger.info("approval_rejected delivery_id={}", delivery_id)
 
 
 def should_require_approval(config: dict | None = None) -> bool:
