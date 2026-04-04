@@ -30,7 +30,7 @@
 
 Forty percent of Danish small and medium businesses do not have a security level matching the severity of the threats they face.¹ The Danish government knows this — in January 2026 it allocated 211 million kr. over four years specifically to close this gap.² Meanwhile, every cybersecurity tool on the market delivers findings through technical dashboards designed for security professionals. The restaurant owner with an online booking system running on outdated WordPress does not have a security professional. She has a Telegram account.
 
-**Heimdall** is an External Attack Surface Management (EASM) service that continuously monitors a business's public-facing digital surface — domains, certificates, web servers, CMS platforms, plugins — and delivers findings as plain-language messages through Telegram and WhatsApp. Not a dashboard. Not a PDF report. A conversation, in Danish, that tells the owner what is wrong, who should fix it, and what to say to that person.
+**Heimdall** is an External Attack Surface Management (EASM) service that continuously monitors a business's public-facing digital surface — domains, certificates, web servers, CMS platforms, plugins — and delivers findings as plain-language messages through Telegram and WhatsApp. Not a dashboard. Not a PDF report. A conversation, in the business owner's own language, that tells them what is wrong, who should fix it, and what to say to that person.
 
 **The innovation:** No existing EASM product delivers findings through messaging apps to non-technical business owners. Heimdall's architecture is built from the ground up around conversational delivery, persistent memory of each client's infrastructure, AI-powered interpretation of technical findings, and automated legal compliance governance. Two technical innovations are particularly distinctive. First, a **digital twin** system that reconstructs a prospect's website from publicly available data and runs it on Heimdall's own infrastructure — enabling CVE-level vulnerability scanning without touching the prospect's systems or requiring their consent, because Danish criminal law (Straffeloven §263) only protects "another person's data system." Second, **Valdí**, a programmatic compliance agent with two-gate validation and forensic logging, built as a systemic response to a real compliance incident — demonstrating a governance maturity that most startups never achieve. This is not an incremental improvement — it is a fundamentally different approach to cybersecurity for SMBs.
 
@@ -89,7 +89,7 @@ The problem is not just discovery. It is the last mile between "you have a vulne
 
 ### 3.1 Conversational Delivery
 
-Heimdall delivers security findings through Telegram and WhatsApp — the messaging apps the business owner already uses daily. Findings arrive as plain-language messages in Danish, not technical reports. Each message explains what was found, why it matters, and who should fix it.
+Heimdall delivers security findings through Telegram and WhatsApp — the messaging apps the business owner already uses daily. Findings arrive as plain-language messages in their preferred language, not technical reports. Each message explains what was found, why it matters, and who should fix it.
 
 This delivery model represents a fundamentally new approach to cybersecurity for SMBs — no existing product operates this way.
 
@@ -124,10 +124,10 @@ This persistent memory also creates a natural switching cost — a new provider 
 
 ### 3.3 Shadow AI and Agent Detection
 
-As of March 2026, over 21,000 OpenClaw instances are publicly exposed on the internet, many running agent skills with access to internal tools and APIs.¹⁰ ¹¹ Kaspersky's security audit of OpenClaw identified 512 vulnerabilities in the platform.¹² Microsoft's 2025 research found that 71% of UK employees used unapproved AI tools at work.¹⁹ No SMB-focused security tool currently scans for exposed AI agent infrastructure.
+As of March 2026, over 21,000 AI agent instances are publicly exposed on the internet, many running agent skills with access to internal tools and APIs.¹⁰ ¹¹ Kaspersky's security audit of one major platform identified 512 vulnerabilities.¹² Microsoft's 2025 research found that 71% of UK employees used unapproved AI tools at work.¹⁹ No SMB-focused security tool currently scans for exposed AI agent infrastructure.
 
 Heimdall detects:
-- Exposed OpenClaw instances and MCP servers
+- Exposed AI agent infrastructure (MCP servers, autonomous agents, and similar endpoints)
 - Rogue AI agents operating on client infrastructure
 - Shadow AI tools deployed without organizational awareness
 
@@ -251,7 +251,7 @@ Every existing EASM product delivers findings through web dashboards. Heimdall d
 
 ### 5.2 Shadow AI and Agent Detection
 
-Over 21,000 OpenClaw instances are publicly exposed.¹⁰ Kaspersky found 512 vulnerabilities in the platform.¹² Businesses are deploying AI agents without understanding the security implications. No SMB-focused security tool scans for exposed AI agent infrastructure. Heimdall is the first to address this attack surface for small businesses.
+Over 21,000 AI agent instances are publicly exposed.¹⁰ Kaspersky found 512 vulnerabilities in one major platform.¹² Businesses are deploying AI agents without understanding the security implications. No SMB-focused security tool scans for exposed AI agent infrastructure. Heimdall is the first to address this attack surface for small businesses.
 
 ### 5.3 Digital Twin — CVE-Level Findings Without Consent or Contact
 
@@ -304,7 +304,7 @@ Every existing competitor stops at advisory — the customer must find someone t
 | **SAM** | ~80,000 (the 40% with inadequate security) × 350 kr./mo × 12 | ~336M kr./yr |
 | **SOM** | 200 clients in 36 months × 350 kr./mo × 12 | ~840K kr./yr |
 
-The TAM is a theoretical ceiling — clearly labeled as such. The SAM applies the 40% gap statistic. The SOM is deliberately conservative: 200 paying clients in three years represents 0.25% of the SAM. The upside depends on agency partnerships (one relationship = 10–35 clients) and post-CVR grant funding.
+The TAM is a theoretical ceiling — clearly labeled as such. The SAM applies the 40% gap statistic. The SOM is deliberately conservative: 200 paying clients in three years represents 0.25% of the SAM. The upside depends on agency partnerships (one relationship = 10–35 clients) and remediation service revenue.
 
 ### 6.2 Regulatory Tailwinds
 
@@ -446,7 +446,7 @@ The same agent architecture runs at every tier. The scanning pipeline, Valdí co
 - **Direct employment:** 6–10 positions in Denmark within 3 years, growing with EU expansion
 - **Tax revenue:** Employer and employee contributions from Danish-based roles
 - **SMB resilience:** Strengthening the cybersecurity posture of Danish small businesses — directly aligned with government policy objectives
-- **Grant ecosystem participation:** Post-CVR access to NCC-DK, Digital Europe Programme, and Industriens Fond — keeping grant funding productive within the Danish economy
+- **Grant ecosystem alignment:** Denmark's cybersecurity grant ecosystem (NCC-DK, Digital Europe Programme, Industriens Fond) creates non-dilutive funding pathways for Danish cybersecurity startups
 - **Knowledge economy:** Building cybersecurity expertise and AI-powered security tooling in Denmark
 
 ---
@@ -486,7 +486,7 @@ If the business owner can navigate a vulnerability scanning dashboard, configure
 
 3. **Persistent memory:** Longitudinal understanding of each client's infrastructure, findings history, and remediation patterns. Creates switching costs and compounds in value.
 
-4. **Shadow AI/agent detection:** Scanning for exposed OpenClaw instances, MCP servers, and rogue AI agents. First-mover position in a rapidly growing attack surface.¹⁰ ¹¹ ¹³
+4. **Shadow AI/agent detection:** Scanning for exposed AI agent infrastructure (MCP servers, autonomous agents, and similar endpoints). First-mover position in a rapidly growing attack surface.¹⁰ ¹¹ ¹³
 
 5. **Optional remediation service:** No competitor offers hands-on fixes. Intruder.io and HostedScan stop at guidance — the client must find someone to execute. Heimdall closes the loop with per-event consultancy, becoming the client's de facto security team.
 
@@ -611,7 +611,7 @@ The codebase was built with Claude Code — Anthropic's AI development assistant
 
 | Role | Purpose | Status |
 |------|---------|--------|
-| University partner (AAU/SDU/DTU) | Research validation, grant consortium | Target for post-CVR grants |
+| University partner (AAU/SDU/DTU) | Research validation, technical credibility | Outreach post-establishment |
 | Legal counsel (Plesner/Kromann/Bech-Bruun) | §263 confirmation, authorization template | Planned post-establishment |
 | Industriens Fond | Cybersikkerhedsprogram alignment | Research stage |
 | Operations hire (part-time) | Client communication, pilot support | First hire priority |
@@ -655,7 +655,7 @@ Assumptions: 2 agency partnerships. Tier mix shifts toward Sentinel. Local busin
 | ARR | 129,600 kr. | 576,000 kr. | 1,512,000 kr. |
 | Gross margin | ~64% | ~69% | ~72% |
 
-Assumptions: 3+ agency partnerships. Post-CVR grant funding accelerates growth. EU pilot begins in Month 24.
+Assumptions: 3+ agency partnerships. Strong tier migration and remediation revenue. EU pilot begins in Month 24.
 
 ### 14.2 Break-Even Analysis
 
@@ -676,7 +676,7 @@ The business model is designed to be self-sustaining on subscription revenue alo
 
 The financial projections are based on subscription revenue only. They do not account for:
 - **Remediation consultancy fees** — per-event revenue when clients choose Heimdall to execute fixes directly (no competitor offers this)
-- **Grant funding** (NCC-DK, Digital Europe Programme, Industriens Fond) — non-dilutive growth capital, accessible post-CVR
+- **Grant funding** (Digital Europe Programme, Industriens Fond, and similar programmes) — non-dilutive growth capital available to Danish cybersecurity companies
 - **Upsell revenue** from tier migration (Watchman → Sentinel → Guardian)
 - **Annual Guardian discount** (599 kr./mo × 12 = cash flow advantage)
 

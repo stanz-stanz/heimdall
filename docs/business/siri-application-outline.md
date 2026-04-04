@@ -61,9 +61,9 @@ The Startup Denmark program is administered by the Danish Business Authority and
 
 ### 3. The Solution (1.5 pages) — C1, C2
 
-- Conversational delivery via Telegram/WhatsApp — plain Danish, not jargon
+- Conversational delivery via Telegram/WhatsApp — plain language (Danish for Denmark pilot), not jargon
 - Persistent memory + escalating follow-up (1wk/2wk/3wk)
-- Shadow AI/agent detection (21,000 exposed OpenClaw instances, no competitor does this)
+- Shadow AI/agent detection (21,000+ exposed AI agent instances discovered by SecurityScorecard, no competitor scans for this)
 - "First Finding Free" — Layer 1 scan produces real findings at zero cost
 - Mock Telegram message example (from Message Composer SKILL.md)
 - Tier logic: Watchman tells what, Sentinel tells how, Guardian tests and verifies
@@ -83,7 +83,7 @@ The Startup Denmark program is administered by the Danish Business Authority and
 Directly addresses SIRI Criterion 1. Synthesize from existing sections:
 
 - **Messaging-first EASM delivery:** No competitor delivers findings through messaging apps to non-technical users. The entire product architecture is built around conversational delivery — not a notification bolted onto a dashboard.
-- **Shadow AI/agent detection:** First-mover in scanning for exposed AI agent infrastructure (OpenClaw instances, MCP servers). No SMB-focused security tool does this.
+- **Shadow AI/agent detection:** First-mover in scanning for exposed AI agent infrastructure (MCP servers, autonomous agents). No SMB-focused security tool does this.
 - **Persistent memory architecture:** Longitudinal client knowledge as a product feature — the agent remembers what it told the client, what changed, and what was fixed.
 - **Programmatic legal compliance (Valdí):** Novel approach to automated scanning governance with two-gate validation, forensic logging, and approval tokens.
 - **AI-powered interpretation chain:** Open-source tools produce findings; Claude API interprets them in plain language for non-technical users. The LLM never decides what is vulnerable — it explains what the tools found.
@@ -93,8 +93,8 @@ Directly addresses SIRI Criterion 1. Synthesize from existing sections:
 ### 6. Market Opportunity (1 page) — C2
 
 - TAM/SAM/SOM calculations (same data)
-- Regulatory tailwinds table (211M kr., NCC-DK, NIS2, EU programmes)
-- Reframe: grants (NCC-DK, EU) are non-dilutive growth capital accessible post-CVR
+- Regulatory tailwinds table (211M kr. government allocation, NCC-DK 43M kr. budget as market signal, NIS2, EU programmes)
+- Reframe: Danish/EU grant ecosystem as non-dilutive growth capital accessible post-CVR
 - Expansion path: Denmark → EU (GDPR framework translates, messaging delivery is language-agnostic)
 - SOM is conservative; upside depends on agency partnerships and post-CVR grant funding
 
@@ -149,7 +149,7 @@ Directly addresses SIRI Criterion 3.
 Mandatory for Startup Denmark. Explains why Denmark is the right place to build this business:
 
 - **Regulatory alignment:** Denmark's 211M kr. cybersecurity investment creates the market. Government policy explicitly targets SMBs. Heimdall serves this policy-created demand.
-- **Grant ecosystem (post-CVR):** NCC-DK (43M kr. 2026–2029), Digital Europe Programme (up to €60K/SME), Industriens Fond, EU SECURE Project — all accessible once Heimdall has a CVR via Startup Denmark approval.
+- **Grant ecosystem (post-CVR):** Denmark's cybersecurity grant landscape (NCC-DK 43M kr. 2026–2029, Digital Europe Programme up to €60K/SME, Industriens Fond, EU SECURE Project) becomes accessible once Heimdall has a CVR via Startup Denmark approval.
 - **GDPR-first strategy:** Building in Denmark means building for the strictest data protection regime. The compliance framework translates to all 27 EU member states.
 - **SMB density:** 200,000+ Danish SMBs with websites. High digital adoption + high regulatory requirements = ideal first market.
 - **Danish marketing law as moat:** Markedsføringsloven forces high-trust local acquisition. This rewards physical presence in Denmark and creates a barrier to remote-first competitors.
@@ -189,7 +189,7 @@ Directly addresses SIRI Criterion 4.
 - Three scenarios: Conservative (10→50→100), Moderate (20→80→200), Optimistic (30→120→300)
 - Break-even analysis: 5–6 clients covers operating costs
 - **Self-sustainability statement:** Business reaches break-even at 5–6 clients. Founder has proof of financial capacity for establishment phase (DKK amount per SIRI requirements).
-- **Post-CVR funding path:** Grants (NCC-DK, Digital Europe Programme, Industriens Fond) become accessible with a CVR. These are non-dilutive growth capital — the business does not depend on them to survive.
+- **Post-CVR funding path:** Denmark's grant ecosystem (Digital Europe Programme, Industriens Fond, and others) becomes accessible with a CVR. These are non-dilutive growth capital — the business does not depend on them to survive.
 - Projections demonstrate the business can sustain itself and grow on subscription revenue alone.
 
 ### References

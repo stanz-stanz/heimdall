@@ -69,7 +69,7 @@ Heimdall's operations span multiple types of scanning. Their legal risk profiles
 
 ### Layer 2 — Active Vulnerability Probing
 
-**What it involves:** Sending crafted HTTP requests designed to detect specific vulnerabilities. Tools such as Nuclei (template-based vulnerability scanner), WPScan (WordPress vulnerability scanner), Nikto (web server scanner), Nmap (port scanning and service detection), and CMSeek (CMS fingerprinting) operate at this layer. These tools go beyond reading what the server voluntarily presents — they send requests specifically designed to test whether known vulnerabilities (CVEs) are exploitable.
+**What it involves:** Sending crafted HTTP requests designed to detect specific vulnerabilities. Tools such as Nuclei (template-based vulnerability scanner), Nikto (web server scanner), Nmap (port scanning and service detection), and CMSeek (CMS fingerprinting) operate at this layer. WPVulnerability API (WordPress CVE database lookups) is Layer 1 — it queries a public database, not the target. These tools go beyond reading what the server voluntarily presents — they send requests specifically designed to test whether known vulnerabilities (CVEs) are exploitable.
 
 **Legal risk assessment:** This is the gray zone. The ICLG commentary quoted above applies here. While these tools do not exploit vulnerabilities or extract data, they actively probe the system in ways the site owner did not invite. No Danish court ruling was found addressing this specific activity. However, the law is written broadly enough that a prosecutor could argue this constitutes gaining access to a data system without authorization.
 
@@ -87,7 +87,7 @@ Sources: Nmap legal guide (https://nmap.org/book/legal-issues.html), SCRIPTed jo
 
 *Added March 28, 2026. See the Scanning Rules document, section "Heimdall-Owned Test Infrastructure", and the Digital Twin Use Cases document for full details.*
 
-**What it involves:** Heimdall constructs a replica ("digital twin") of a prospect's website on its own infrastructure. The twin is a Docker container that simulates the prospect's technology stack (WordPress version, plugin versions, missing headers, exposed endpoints) by replaying data collected during Layer 1 scanning. Layer 2 vulnerability scanners (Nuclei, WPScan) then run against this replica — never against the prospect's live server.
+**What it involves:** Heimdall constructs a replica ("digital twin") of a prospect's website on its own infrastructure. The twin is a Docker container that simulates the prospect's technology stack (WordPress version, plugin versions, missing headers, exposed endpoints) by replaying data collected during Layer 1 scanning. Layer 2 vulnerability scanners (Nuclei, CMSeek) then run against this replica — never against the prospect's live server. Twin-derived findings are enriched with WPVulnerability API lookups (public CVE database queries, no requests to the target).
 
 **The legal argument:** Straffeloven §263, stk. 1 criminalizes unauthorized access to *"en andens datasystem"* (another person's data system). The digital twin is Heimdall's own system, built from lawfully obtained public data. Scanning it cannot constitute a §263 violation because the target system belongs to the scanner operator, not to a third party.
 

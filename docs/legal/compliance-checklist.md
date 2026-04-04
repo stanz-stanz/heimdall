@@ -1,6 +1,6 @@
 # Heimdall Compliance Checklist
 
-Maintained by Valdi (Legal Compliance Agent).
+Maintained by Valdí (Legal Compliance Agent).
 
 ---
 
@@ -15,12 +15,12 @@ Maintained by Valdi (Legal Compliance Agent).
 
 ## Per-Scan-Type Registration
 
-- [ ] Function submitted to Valdi for Gate 1 review
+- [ ] Function submitted to Valdí for Gate 1 review
 - [ ] Forensic log entry created (approval or rejection)
 - [ ] Approval token generated and recorded
 - [ ] Scan type registered in the scan type registry
 - [ ] Function handles robots.txt denial correctly
-- [ ] Operator (Federico) has reviewed Valdi's reasoning and confirmed
+- [ ] Operator (Federico) has reviewed Valdí's reasoning and confirmed
 
 ## Per-Scan Execution
 

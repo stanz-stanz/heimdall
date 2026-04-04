@@ -81,6 +81,11 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/db/` | Client SQLite DB — CRUD layer for clients, findings (normalised definitions + occurrences), scans, briefs, consent, delivery log. Schema loaded from `docs/architecture/client-db-schema.sql`. DB at `data/clients/clients.db`. |
 | `src/delivery/` | Telegram delivery bot — separate process (`python -m src.delivery`). Subscribes to Redis `scan-complete`, pre-filters to High/Critical, interprets findings, composes HTML messages, routes through operator approval or auto-send. Operator sees exact client message. |
 | `src/delivery/buttons.py` | Client inline buttons — "Got it" (silent ack, `sent→acknowledged`) + "Can Heimdall fix this?" (replies to client, `sent→fix_requested`). Status flow: `open→sent→acknowledged \| fix_requested→in_progress→resolved`. Writes to `finding_occurrences` + `finding_status_log`. |
+| `src/prospecting/` | Lead generation pipeline — CVR ingestion, domain resolution, Layer 1 scanning, bucketing, brief generation, agency detection. Core pipeline orchestration. |
+| `src/scheduler/` | Scan job creator — builds jobs from CVR data or client schedules for worker consumption. |
+| `src/worker/` | Worker process — executes scan jobs, manages caching, runs twin scans. Entry point for all scanning operations. |
+| `src/ct_collector/` | CertStream CT log collector — subscribes to Certificate Transparency logs for .dk domains, maintains local SQLite CT database (replaces remote crt.sh API). |
+| `src/client_memory/` | Client history and remediation tracking — delta detection, remediation state machine, client profiles. JSON-based storage (migration to src/db/ in progress). |
 | `config/delivery.json` | Config: Telegram delivery settings (require_approval toggle, retry, rate limit) |
 | `config/interpreter.json` | Config: LLM backend, model, tone, language (default: English). Per-client language override via `clients.preferred_language` column. |
 | `docs/architecture/client-db-schema.sql` | Authoritative SQLite schema for client management DB (11 tables, 9 views, 34+ indexes) |

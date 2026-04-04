@@ -13,7 +13,7 @@ Heimdall is an External Attack Surface Management (EASM) service for Danish smal
 
 From this, Heimdall produces a brief per domain: detected CMS, missing security headers, SSL status, plugin versions, and a plain-language risk assessment.
 
-Heimdall also operates a **digital twin**: it reconstructs a replica of the target's website on its own infrastructure from passively collected data, then runs vulnerability scanners (Nuclei, WPScan) against the replica — never against the target's live server.
+Heimdall also operates a **digital twin**: it reconstructs a replica of the target's website on its own infrastructure from passively collected data, then runs vulnerability scanners (Nuclei) against the replica — never against the target's live server. Twin-derived findings are enriched with WPVulnerability API lookups (a public CVE database for WordPress plugins/core — no requests to the target).
 
 Business model: inform Danish SMBs of their security exposure and offer monitoring subscriptions (199–799 kr./month).
 
@@ -122,7 +122,7 @@ We also need guidance on scanning legality. Our passive/active distinction (Laye
 
 **Context:** Heimdall classifies scanning into three layers:
 - **Layer 1 (Passive):** Reads only what the server sends to any visitor (headers, HTML, DNS, SSL, fingerprints)
-- **Layer 2 (Active):** Crafted requests to detect vulnerabilities (Nuclei, WPScan, Nmap)
+- **Layer 2 (Active):** Crafted requests to detect vulnerabilities (Nuclei, Nikto, Nmap)
 - **Layer 3 (Exploitation):** Permanently forbidden
 
 Without consent, only Layer 1 is performed.

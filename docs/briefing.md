@@ -195,8 +195,8 @@ The digital twin runs as a Docker Compose service under profile `["twin"]`, expo
 | WordPress.org API | Plugin latest version checks (outdated plugin detection) | 1 | https://api.wordpress.org/plugins/info/1.0/ |
 | WordPress REST API | Plugin enumeration via namespace discovery (when site advertises /wp-json/) | 1 | Built-in WordPress feature |
 | CMSeek | CMS deep fingerprinting | 2 | https://github.com/Tuhinshubhra/CMSeeK |
-| Nikto | Web server vulnerability scanner | 2 | https://github.com/sullo/nikto |
-| Nmap | Port scanning, service detection | 2 | https://github.com/nmap/nmap |
+| Nikto | Web server vulnerability scanner (not yet implemented) | 2 | https://github.com/sullo/nikto |
+| Nmap | Port scanning, service detection (not yet implemented) | 2 | https://github.com/nmap/nmap |
 
 ### What the Infrastructure Cannot Do
 

@@ -8,14 +8,14 @@ The digital twin reads a prospect brief JSON and spins up a local website that r
 
 ## Use Case 1: Layer 2 Scanning Without Consent
 
-**The problem:** Without written consent, we can only run Layer 1 passive scans against a prospect's real website. This limits findings to missing headers, exposed versions, and plugin detection. The highest-value findings — specific CVEs, known vulnerable plugin versions, WordPress misconfigurations — require Layer 2 tools (Nuclei, WPScan) which require written consent.
+**The problem:** Without written consent, we can only run Layer 1 passive scans against a prospect's real website. This limits findings to missing headers, exposed versions, and plugin detection. The highest-value findings — specific CVEs, known vulnerable plugin versions, WordPress misconfigurations — require Layer 2 tools (Nuclei) which require written consent.
 
-**The solution:** Build a twin from the Layer 1 brief. Run Nuclei and WPScan against the twin. The twin has the same WordPress version, the same plugin versions, the same missing headers. Layer 2 tools will surface the same CVEs and vulnerability matches they would find on the real site.
+**The solution:** Build a twin from the Layer 1 brief. Run Nuclei against the twin and enrich with WPVulnerability API lookups. The twin has the same WordPress version, the same plugin versions, the same missing headers. Nuclei surfaces misconfigurations and exploitable patterns; the WPVulnerability API matches detected plugin/core versions against known CVEs.
 
 **What this produces:**
 - Specific CVE identifiers for the detected WordPress version
 - Known vulnerabilities in the exact plugin versions detected (e.g. Gravity Forms 26.9, Yoast SEO 26.9)
-- WPScan vulnerability database matches for every detected plugin
+- WPVulnerability API CVE matches for every detected plugin
 - Nuclei template matches for exposed endpoints (/xmlrpc.php, /wp-json/, /readme.html)
 
 **Accuracy constraint:** Findings are only as accurate as the Layer 1 brief. If webanalyze misidentifies a plugin version, the twin will carry that error forward. This is documented in the output — findings from twin scans are marked as *derived from passive fingerprinting*, not confirmed against the live target.
@@ -62,13 +62,13 @@ The digital twin reads a prospect brief JSON and spins up a local website that r
 
 ## Use Case 4: New Tool Onboarding
 
-**The problem:** When adding a new scanning tool (as with Nuclei in Sprint 3.2, WPScan next), there's no safe target to validate it against. Running untested tool configurations against real websites risks unexpected behaviour, rate-limit violations, or legal exposure.
+**The problem:** When adding a new scanning tool (as with Nuclei in Sprint 3.2), there's no safe target to validate it against. Running untested tool configurations against real websites risks unexpected behaviour, rate-limit violations, or legal exposure.
 
 **The solution:** The twin is a controlled environment. Configure the new tool, run it against the twin, inspect the output. Iterate on configuration (excluded tags, rate limits, output format parsing) without touching a real target.
 
 **What this enables:**
 - Validate Nuclei template selections produce expected findings
-- Test WPScan output parsing against a known WordPress installation
+- Test WPVulnerability API output parsing against a known WordPress installation
 - Verify rate-limiting and timeout configurations work correctly
 - Confirm the tool respects robots.txt and other compliance gates
 
@@ -122,7 +122,7 @@ BRIEF_FILE=/config/conrads.dk.json docker compose -f infra/docker/docker-compose
 # Run Layer 2 tools against it
 httpx -u https://localhost:9443 -json -tech-detect -tls-no-verify
 nuclei -u https://localhost:9443 -severity low,medium,high,critical -tls-no-verify
-wpscan --url https://localhost:9443/ --disable-tls-checks --format json
+# WPVulnerability API lookups run separately (public database query, not against twin)
 ```
 
 For pipeline integration testing with SSL trust:
