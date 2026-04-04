@@ -5,6 +5,37 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-04 — Finding status flow, button behavior redesign, GDPR flexibility
+
+**Decided**
+- Finding status flow defined: `open → sent → acknowledged` ("Got it") or `open → sent → fix_requested → in_progress → resolved` ("Can Heimdall fix this?"). Transitions recorded in `finding_status_log` with source trail.
+- "Got it" button: silent acknowledgement — no visible response to client. Transitions `sent → acknowledged`, stamps `delivery_log.read_at`.
+- "Can Heimdall fix this?" button: replies "One of our developers will contact you soon." Transitions `sent → fix_requested`, stamps `delivery_log.replied_at`.
+- `open → sent` transition happens in `send_with_logging()` on successful Telegram delivery.
+- `client_interactions` table abandoned — status tracking uses existing `finding_occurrences` + `finding_status_log` tables instead. No new tables needed.
+- GDPR sentence made flexible — "adaptation of this sentence" instead of verbatim. Framing: "we're not the police: we're the bodyguards."
+- E2E Telegram test rewritten: loads real brief (auto-picks richest from `data/output/briefs/`), interprets via LLM, composes, sends, Telethon receives and clicks buttons. No more hardcoded fixtures.
+- Telethon first-run auth completed. Session file saved for future automated runs.
+
+**Rejected**
+- Editing the message on "Got it" (appending "Acknowledged") — nothing to say, keep it silent.
+- Editing the message on "Can Heimdall fix this?" (appending "We'll be in touch") — use a reply instead.
+- `client_interactions` table for audit trail — redundant when `finding_occurrences` already tracks status.
+- Random brief selection for E2E test — use the richest brief (most high/critical findings) for maximum coverage.
+
+**Resolved from 2026-04-03**
+- ~~"Can Heimdall fix this?" auto-reply wording~~ → "One of our developers will contact you soon."
+- ~~`client_interactions` table not yet in schema~~ → Approach abandoned; buttons write to `finding_occurrences` + `finding_status_log`.
+- ~~Button callback handler untested on live Telegram~~ → E2E test passes for both buttons.
+- ~~Telethon first-run auth not yet done~~ → Completed, session saved.
+
+**Unresolved**
+- `in_progress → resolved` transitions — needs ticketing/remediation flow (osTicket)
+- Unit tests for `_transition_findings` — tested indirectly via E2E, not isolated
+- API key rotation still overdue since 2026-03-30
+
+---
+
 ## 2026-04-03 — Provenance rename, severity circles, Telegram test tooling
 
 **Decided**
@@ -33,7 +64,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 **Decided**
 - Telegram is an alert channel only. Full weekly briefs go by email (separate thread).
 - 10 rules defined for Telegram content: (1) No message unless action required — High/Critical only, (2) Merge by impact not component, (3) Get to the point, (4) Who + what to do — no time estimates, (5) Natural human tone, (6) Phone-first Instagram short, (7) Facts only zero hallucination, (8) Chinese wall confirmed vs potential, (9) Delta awareness + celebrate fixes, (10) GDPR in confirmed findings only with verbatim sentence.
-- GDPR sentence is verbatim, never adapted: "Just imagine losing your customers' trust while putting your business in breach of GDPR regulations, all at the same time."
+- GDPR sentence is to be adapted: "Just imagine losing your customers' trust while putting your business in breach of GDPR regulations, all at the same time."
 - GDPR must NEVER appear in potential findings — alarmist for unconfirmed issues.
 - Confirmed and potential findings must NEVER be merged across provenance boundaries (legal requirement).
 - Plugin/component names forbidden in titles and explanations — only in the action field (forwarded to developer).

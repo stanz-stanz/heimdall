@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-04-02T23:30:00Z",
+  "last_updated": "2026-04-04T15:00:00Z",
   "phase": "sprint-4-in-progress",
   "current_sprint": {
     "name": "Sprint 4 — Pilot Launch (Vejle, 5 clients)",
     "started": "2026-03-30",
     "target_end": "2026-04-30",
     "status": "in-progress",
-    "progress_pct": 45,
-    "notes": "Pipeline fully operational at 1,179 domains. Client SQLite DB implemented (11 tables, 150 tests). Telegram delivery bot built (operator approval flow, auto-send toggle). PR #14 open. Client onboarding and bot containerization not started."
+    "progress_pct": 55,
+    "notes": "Pipeline fully operational at 1,179 domains. Client SQLite DB implemented (11 tables, 150 tests). Telegram delivery bot deployed. Finding status flow implemented (open→sent→acknowledged|fix_requested→in_progress→resolved). Button behavior finalized. E2E Telegram test passing (both buttons). Client onboarding not started."
   },
   "completed_sprints": [
     {
@@ -101,11 +101,11 @@
     {
       "id": "M30",
       "name": "Telegram delivery bot (Sprint 4, Increment 4.1)",
-      "status": "implemented",
-      "completed_date": "2026-04-02",
+      "status": "complete",
+      "completed_date": "2026-04-04",
       "owner_agent": "message-composer",
       "blockers": [],
-      "notes": "Deployed and tested on Pi5. Containerized (Dockerfile.delivery, 128MB RAM). Operator approval flow verified end-to-end. PR #14 merged. Docker review completed — 5 critical bugs fixed."
+      "notes": "Deployed on Pi5. Finding status flow (open→sent→acknowledged|fix_requested→in_progress→resolved). Button redesign: Got it (silent ack), fix request (reply). E2E Telethon test passing. GDPR sentence flexible."
     },
     {
       "id": "M31",
@@ -129,19 +129,20 @@
       "id": "M33",
       "name": "Finding Interpreter integration with Claude API",
       "target_date": "2026-04-20",
-      "status": "not-started",
+      "status": "in-progress",
       "owner_agent": "finding-interpreter",
       "blockers": [],
-      "notes": "Interpreter code exists (src/interpreter/) but not wired to live pipeline. Needs Claude API key in prod. Finding confidence split (Confirmed vs Potential) queued."
+      "notes": "Interpreter code exists and works (src/interpreter/). E2E test calls interpret_brief() with live Claude API. Needs Claude API key in prod for pipeline integration."
     },
     {
       "id": "M34",
       "name": "Finding confidence split (Confirmed vs Potential)",
       "target_date": "2026-04-20",
-      "status": "decided-not-implemented",
+      "status": "complete",
+      "completed_date": "2026-04-03",
       "owner_agent": "finding-interpreter",
-      "blockers": ["M33"],
-      "notes": "Decision made: Option C. Affects interpreter, composer, Telegram templates. Queued for interpretation sprint."
+      "blockers": [],
+      "notes": "Implemented: Confirmed/Potential sections in composer, interpreter respects provenance, Telegram templates split by provenance."
     }
   ],
   "external_deadlines": [
@@ -163,10 +164,10 @@
     {
       "name": "NCC-DK grant application",
       "date": "2026-04-15",
-      "status": "blocked (no CVR)",
+      "status": "removed",
       "owner_agent": "grant-funding",
-      "dependency_type": "soft",
-      "notes": "Requires CVR from SIRI approval. 13 days remaining. Likely miss unless SIRI submitted immediately."
+      "dependency_type": "none",
+      "notes": "Removed from all plans. SIRI eval takes months, CVR depends on SIRI. See memory: project_no_grant.md."
     }
   ],
   "clients": {
@@ -187,7 +188,7 @@
     "wpscan_sidecar": "removed",
     "notes": "Full 1,179-domain pipeline running on Pi5. Client DB now saves scan results via worker hook."
   },
-  "test_count": 711,
+  "test_count": 648,
   "blockers": [
     {
       "id": "B1",
@@ -205,14 +206,13 @@
     }
   ],
   "next_actions": [
-    "Merge PR #14 (client DB + Telegram delivery)",
-    "Add delivery bot to docker-compose",
     "Onboard first test client with telegram_chat_id",
     "Finding Interpreter wired to live pipeline (Claude API in prod)",
-    "Finding confidence split implementation (Confirmed vs Potential)",
     "API key rotation (SERPER_API_KEY, CLAUDE_API_KEY)",
     "Verify 1,179-domain pipeline completion on Pi5",
-    "Confirm lawyer consultation outcome — outreach channels"
+    "Confirm lawyer consultation outcome — outreach channels",
+    "Unit tests for _transition_findings",
+    "osTicket integration for fix_requested → in_progress flow"
   ],
   "follow_ups": [
     "Nikto + Nmap implementation",
