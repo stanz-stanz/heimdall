@@ -7,10 +7,9 @@ written by the worker process.
 from __future__ import annotations
 
 import json
-import logging
 from pathlib import Path
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 
 class ResultStore:
@@ -76,8 +75,5 @@ class ResultStore:
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except (json.JSONDecodeError, OSError) as exc:
-            log.warning(
-                "result_file_error",
-                extra={"context": {"path": str(path), "error": str(exc)}},
-            )
+            logger.bind(context={"path": str(path), "error": str(exc)}).warning("result_file_error")
             return None

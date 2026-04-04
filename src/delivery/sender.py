@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
-import logging
 import time
 
+from loguru import logger
 from telegram import Bot
 from telegram.error import NetworkError, RetryAfter, TimedOut
 
@@ -21,8 +21,6 @@ from src.db.delivery import log_delivery, update_delivery_status
 
 # Type alias for reply markup (avoid hard import for flexibility)
 ReplyMarkup = object  # telegram.InlineKeyboardMarkup at runtime
-
-log = logging.getLogger(__name__)
 
 
 async def send_message(
@@ -59,30 +57,20 @@ async def send_message(
             return {"success": True, "message_id": msg.message_id, "error": None}
         except RetryAfter as exc:
             wait = exc.retry_after
-            log.warning(
-                "telegram_rate_limited",
-                extra={
-                    "context": {
-                        "chat_id": chat_id,
-                        "wait_seconds": wait,
-                        "attempt": attempt + 1,
-                    }
-                },
-            )
+            logger.bind(context={
+                "chat_id": chat_id,
+                "wait_seconds": wait,
+                "attempt": attempt + 1,
+            }).warning("telegram_rate_limited")
             await asyncio.sleep(wait)
         except (TimedOut, NetworkError) as exc:
             delay = retry_delay * (2**attempt)
-            log.warning(
-                "telegram_send_error",
-                extra={
-                    "context": {
-                        "chat_id": chat_id,
-                        "error": str(exc),
-                        "attempt": attempt + 1,
-                        "next_retry_seconds": delay,
-                    }
-                },
-            )
+            logger.bind(context={
+                "chat_id": chat_id,
+                "error": str(exc),
+                "attempt": attempt + 1,
+                "next_retry_seconds": delay,
+            }).warning("telegram_send_error")
             if attempt < max_retries - 1:
                 await asyncio.sleep(delay)
 
@@ -124,16 +112,11 @@ async def send_messages(
         result = await send_message(bot, chat_id, text, max_retries, retry_delay, reply_markup=chunk_markup)
         results.append(result)
         if not result["success"]:
-            log.error(
-                "telegram_send_failed_stopping",
-                extra={
-                    "context": {
-                        "chat_id": chat_id,
-                        "message_index": i,
-                        "total": len(messages),
-                    }
-                },
-            )
+            logger.bind(context={
+                "chat_id": chat_id,
+                "message_index": i,
+                "total": len(messages),
+            }).error("telegram_send_failed_stopping")
             break
     return results
 
@@ -205,18 +188,13 @@ async def send_with_logging(
             status="sent",
             external_id=",".join(external_ids),
         )
-        log.info(
-            "delivery_sent",
-            extra={
-                "context": {
-                    "delivery_id": delivery_id,
-                    "cvr": cvr,
-                    "domain": domain,
-                    "message_count": len(messages),
-                    "duration_ms": duration_ms,
-                }
-            },
-        )
+        logger.bind(context={
+            "delivery_id": delivery_id,
+            "cvr": cvr,
+            "domain": domain,
+            "message_count": len(messages),
+            "duration_ms": duration_ms,
+        }).info("delivery_sent")
     else:
         error = next((r["error"] for r in results if r["error"]), "Unknown error")
         update_delivery_status(
@@ -225,17 +203,12 @@ async def send_with_logging(
             status="failed",
             error_message=error,
         )
-        log.error(
-            "delivery_failed",
-            extra={
-                "context": {
-                    "delivery_id": delivery_id,
-                    "cvr": cvr,
-                    "domain": domain,
-                    "error": error,
-                    "duration_ms": duration_ms,
-                }
-            },
-        )
+        logger.bind(context={
+            "delivery_id": delivery_id,
+            "cvr": cvr,
+            "domain": domain,
+            "error": error,
+            "duration_ms": duration_ms,
+        }).error("delivery_failed")
 
     return all_sent

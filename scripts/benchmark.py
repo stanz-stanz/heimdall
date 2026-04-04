@@ -358,12 +358,8 @@ def _timed_scan_domains(companies, mocked, domains_list):
 
 def run_benchmark(n_domains: int, mocked: bool, output_path: Path) -> dict:
     """Execute the full benchmark and return the results dict."""
-    import logging
-    logging.basicConfig(
-        level=logging.WARNING,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%H:%M:%S",
-    )
+    from src.prospecting.logging_config import setup_logging
+    setup_logging(level="WARNING")
 
     from prospecting.cvr import Company, derive_domains, read_excel
     from prospecting.filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters

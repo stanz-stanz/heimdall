@@ -8,12 +8,10 @@ skips. The pipeline works without cache; it is just slower.
 from __future__ import annotations
 
 import json
-import logging
 from typing import Dict, Optional
 
 import redis
-
-log = logging.getLogger(__name__)
+from loguru import logger
 
 # TTLs in seconds, keyed by scan type ID used in the worker.
 # Source of truth: docs/architecture/pi5-docker-architecture.md § Caching Strategy.
@@ -63,9 +61,9 @@ class ScanCache:
             # Verify connectivity with a lightweight command.
             self._redis.ping()
             self._available = True
-            log.info("ScanCache connected to Redis at %s", redis_url)
+            logger.info("ScanCache connected to Redis at {}", redis_url)
         except (redis.ConnectionError, redis.TimeoutError, OSError) as exc:
-            log.warning("Redis unavailable (%s) — cache disabled, pipeline will run without caching", exc)
+            logger.warning("Redis unavailable ({}) — cache disabled, pipeline will run without caching", exc)
             self._redis = None  # type: ignore[assignment]
 
     # ------------------------------------------------------------------
@@ -86,7 +84,7 @@ class ScanCache:
         try:
             raw: Optional[str] = self._redis.get(key)
         except (redis.ConnectionError, redis.TimeoutError) as exc:
-            log.warning("Redis GET failed for %s: %s", key, exc)
+            logger.warning("Redis GET failed for {}: {}", key, exc)
             self.misses += 1
             return None
 
@@ -97,7 +95,7 @@ class ScanCache:
         try:
             result = json.loads(raw)
         except (json.JSONDecodeError, TypeError) as exc:
-            log.warning("Corrupt cache entry for %s: %s", key, exc)
+            logger.warning("Corrupt cache entry for {}: {}", key, exc)
             self.misses += 1
             return None
 
@@ -114,4 +112,4 @@ class ScanCache:
         try:
             self._redis.setex(key, ttl, json.dumps(result))
         except (redis.ConnectionError, redis.TimeoutError) as exc:
-            log.warning("Redis SET failed for %s: %s", key, exc)
+            logger.warning("Redis SET failed for {}: {}", key, exc)

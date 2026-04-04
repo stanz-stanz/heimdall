@@ -77,7 +77,7 @@ Added columns extracted from real brief data that `analyze_pipeline.py` currentl
 - `low_count`, `info_count` -- full severity breakdown (was missing low + info)
 - `theme_count`, `subdomain_count` -- additional brief fields
 - `gdpr_reasons` (JSON array) -- specific GDPR trigger reasons
-- `twin_finding_count` -- count of twin-derived findings (was only has_twin_scan boolean)
+- `twin_finding_count` -- count of unconfirmed findings (was only has_twin_scan boolean)
 - `ssl_valid`, `ssl_issuer` -- full SSL status (was only days_remaining)
 - `meta_author`, `footer_credit` -- agency detection fields
 - `company_name`, `cvr` -- company reference

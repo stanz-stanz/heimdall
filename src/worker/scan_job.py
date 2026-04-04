@@ -9,13 +9,13 @@ from __future__ import annotations
 
 import functools
 import json
-import logging
 import os
 import time
 from dataclasses import asdict
 from typing import Any, Dict, List, Optional, Tuple
 
 import redis
+from loguru import logger
 
 from src.prospecting.brief_generator import generate_brief, _determine_gdpr_sensitivity
 from src.prospecting.bucketer import classify
@@ -40,8 +40,6 @@ from src.ct_collector.db import open_readonly, query_certificates
 
 from .cache import ScanCache
 
-log = logging.getLogger(__name__)
-
 # Load bucket filter once at import time
 _filters = load_filters(DEFAULT_FILTERS)
 _BUCKET_FILTER = None
@@ -64,7 +62,7 @@ def _query_local_ct(domain: str) -> tuple:
     ``(domain, [])``.
     """
     if not os.path.isfile(_CT_DB_PATH):
-        log.debug("ct_db_not_found", extra={"context": {"path": _CT_DB_PATH}})
+        logger.bind(context={"path": _CT_DB_PATH}).debug("ct_db_not_found")
         return domain, []
 
     try:
@@ -75,7 +73,7 @@ def _query_local_ct(domain: str) -> tuple:
         finally:
             conn.close()
     except Exception as exc:
-        log.debug("ct_db_query_failed", extra={"context": {"domain": domain, "error": str(exc)}})
+        logger.bind(context={"domain": domain, "error": str(exc)}).debug("ct_db_query_failed")
         return domain, []
 
 
@@ -166,10 +164,7 @@ def execute_scan_job(
     timing["robots_txt"] = round(robots_dt, 4)
 
     if not robots_allowed:
-        log.info(
-            "domain_skipped",
-            extra={"context": {"domain": domain, "reason": "robots.txt denied"}},
-        )
+        logger.bind(context={"domain": domain, "reason": "robots.txt denied"}).info("domain_skipped")
         return {
             "domain": domain,
             "job_id": job_id,
@@ -191,7 +186,7 @@ def execute_scan_job(
         cached = cache.get(scan_type, domain)
         if cached is not None:
             job_hits += 1
-            log.debug("cache_hit", extra={"context": {"domain": domain, "scan_type": scan_type}})
+            logger.bind(context={"domain": domain, "scan_type": scan_type}).debug("cache_hit")
             return cached
         job_misses += 1
         result, dt = _timed(fn, *args)
@@ -201,10 +196,7 @@ def execute_scan_job(
         if isinstance(result, tuple):
             serialisable = list(result)
         cache.set(scan_type, domain, serialisable)
-        log.info(
-            "scan_type_complete",
-            extra={"context": {"domain": domain, "scan_type": scan_type, "duration_ms": int(dt * 1000)}},
-        )
+        logger.bind(context={"domain": domain, "scan_type": scan_type, "duration_ms": int(dt * 1000)}).info("scan_type_complete")
         return result
 
     # --- individual per-domain scans ---
@@ -316,14 +308,11 @@ def execute_scan_job(
 
     if _BUCKET_FILTER and bucket not in _BUCKET_FILTER:
         total_ms = int((time.monotonic() - job_t0) * 1000)
-        log.info(
-            "domain_filtered",
-            extra={"context": {
-                "domain": domain, "bucket": bucket,
-                "allowed_buckets": sorted(_BUCKET_FILTER),
-                "duration_ms": total_ms,
-            }},
-        )
+        logger.bind(context={
+            "domain": domain, "bucket": bucket,
+            "allowed_buckets": sorted(_BUCKET_FILTER),
+            "duration_ms": total_ms,
+        }).info("domain_filtered")
         brief = generate_brief(company, scan, bucket)
         timing_ms = {k: int(v * 1000) if isinstance(v, float) else v for k, v in timing.items()}
         timing_ms["total_ms"] = total_ms
@@ -391,14 +380,11 @@ def execute_scan_job(
             "cmseek": cmseek_data,
         }
 
-        log.info(
-            "level1_nuclei_complete",
-            extra={"context": {
-                "domain": domain,
-                "job_id": job_id,
-                "nuclei_findings": len(nuclei_data.get("findings", [])),
-            }},
-        )
+        logger.bind(context={
+            "domain": domain,
+            "job_id": job_id,
+            "nuclei_findings": len(nuclei_data.get("findings", [])),
+        }).info("level1_nuclei_complete")
 
     # ------------------------------------------------------------------
     # 4c. WPVulnerability lookup — WordPress domains only
@@ -422,7 +408,7 @@ def execute_scan_job(
                 "finding_count": len(vuln_findings),
             }
         except Exception:
-            log.exception("vulndb_lookup_failed for %s", domain)
+            logger.opt(exception=True).error("vulndb_lookup_failed for {}", domain)
 
     # ------------------------------------------------------------------
     # 4d. Outdated plugin check — WordPress domains with known versions
@@ -436,7 +422,7 @@ def execute_scan_job(
                 db_path=os.environ.get("VULNDB_PATH", "/data/cache/vulndb.sqlite3"),
             )
         except Exception:
-            log.exception("outdated_plugin_check_failed for %s", domain)
+            logger.opt(exception=True).error("outdated_plugin_check_failed for {}", domain)
 
     # ------------------------------------------------------------------
     # 5. Generate findings + GDPR determination
@@ -452,7 +438,7 @@ def execute_scan_job(
             twin_result = run_twin_scan(brief)
             if twin_result and twin_result.get("findings"):
                 for finding in twin_result["findings"]:
-                    finding["provenance"] = "twin-derived"
+                    finding["provenance"] = "unconfirmed"
                 brief["findings"].extend(twin_result["findings"])
                 brief["twin_scan"] = {
                     "twin_scan_date": twin_result["twin_scan_date"],
@@ -460,17 +446,14 @@ def execute_scan_job(
                     "duration_ms": twin_result["duration_ms"],
                     "note": "Findings derived from passive fingerprinting, not confirmed against live target",
                 }
-                log.info(
-                    "twin_scan_enriched",
-                    extra={"context": {
-                        "domain": domain,
-                        "twin_findings": len(twin_result["findings"]),
-                        "twin_tools": twin_result["scan_tools"],
-                        "twin_duration_ms": twin_result["duration_ms"],
-                    }},
-                )
+                logger.bind(context={
+                    "domain": domain,
+                    "twin_findings": len(twin_result["findings"]),
+                    "twin_tools": twin_result["scan_tools"],
+                    "twin_duration_ms": twin_result["duration_ms"],
+                }).info("twin_scan_enriched")
         except Exception:
-            log.exception("twin_scan_failed for %s", domain)
+            logger.opt(exception=True).error("twin_scan_failed for {}", domain)
 
     # ------------------------------------------------------------------
     # 6. Build return dict
@@ -480,19 +463,14 @@ def execute_scan_job(
     timing_ms = {k: int(v * 1000) if isinstance(v, float) else v for k, v in timing.items()}
     timing_ms["total_ms"] = total_ms
 
-    log.info(
-        "domain_scan_complete",
-        extra={
-            "context": {
-                "domain": domain,
-                "job_id": job_id,
-                "duration_ms": total_ms,
-                "cache_hits": job_hits,
-                "cache_misses": job_misses,
-                "findings_count": len(brief.get("findings", [])),
-            },
-        },
-    )
+    logger.bind(context={
+        "domain": domain,
+        "job_id": job_id,
+        "duration_ms": total_ms,
+        "cache_hits": job_hits,
+        "cache_misses": job_misses,
+        "findings_count": len(brief.get("findings", [])),
+    }).info("domain_scan_complete")
 
     result = {
         "domain": domain,

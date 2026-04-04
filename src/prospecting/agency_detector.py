@@ -1,12 +1,11 @@
 """Agency detection: identify web agencies from footer credits, meta author tags, and shared hosting."""
 
-import logging
 from collections import defaultdict
+
+from loguru import logger
 
 from .cvr import Company
 from .scanner import ScanResult
-
-log = logging.getLogger(__name__)
 
 AGENCY_THRESHOLD = 5  # minimum sites to generate an agency brief
 
@@ -85,7 +84,7 @@ def detect_agencies(
             "pitch_angle": f"{sites_with_issues} of {len(domains)} client sites have at least one issue.",
         }
         briefs.append(brief)
-        log.info("Agency detected: %s (%d sites, %d with issues)", agency_name.title(), len(domains), sites_with_issues)
+        logger.info("Agency detected: {} ({} sites, {} with issues)", agency_name.title(), len(domains), sites_with_issues)
 
-    log.info("Agency detection complete: %d agencies found", len(briefs))
+    logger.info("Agency detection complete: {} agencies found", len(briefs))
     return briefs

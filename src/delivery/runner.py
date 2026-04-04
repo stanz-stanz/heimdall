@@ -10,12 +10,12 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 import os
 import signal
 import sys
 
 import redis
+from loguru import logger
 
 from telegram.ext import CallbackQueryHandler
 
@@ -30,8 +30,7 @@ from src.delivery.sender import send_with_logging
 from src.delivery.buttons import build_client_buttons, handle_client_callback
 from src.interpreter.interpreter import interpret_brief
 from src.composer.telegram import compose_telegram
-
-log = logging.getLogger(__name__)
+from src.prospecting.logging_config import setup_logging
 
 
 class DeliveryRunner:
@@ -91,10 +90,10 @@ class DeliveryRunner:
 
         self._running = True
 
-        log.info("delivery_runner_started", extra={"context": {
+        logger.bind(context={
             "redis_url": self.redis_url,
             "require_approval": self.config.get("require_approval", True),
-        }})
+        }).info("delivery_runner_started")
 
         # Run polling (for callbacks) and Redis subscriber concurrently
         try:
@@ -113,13 +112,13 @@ class DeliveryRunner:
                 await self._app.stop()
                 await self._app.shutdown()
             except Exception:
-                log.exception("error_during_shutdown")
+                logger.opt(exception=True).error("error_during_shutdown")
         if self._conn:
             try:
                 self._conn.close()
             except Exception:
                 pass
-        log.info("delivery_runner_stopped")
+        logger.info("delivery_runner_stopped")
 
     async def _subscribe_and_process(self) -> None:
         """Subscribe to Redis scan-complete channel and process events.
@@ -132,9 +131,9 @@ class DeliveryRunner:
             r = redis.from_url(self.redis_url, decode_responses=True)
             pubsub = r.pubsub()
             pubsub.subscribe("scan-complete")
-            log.info("redis_subscribed", extra={"context": {"channel": "scan-complete"}})
+            logger.bind(context={"channel": "scan-complete"}).info("redis_subscribed")
         except redis.ConnectionError as exc:
-            log.error("redis_connection_failed: %s", exc)
+            logger.error("redis_connection_failed: {}", exc)
             return
 
         while self._running:
@@ -143,7 +142,7 @@ class DeliveryRunner:
                 if message and message.get("type") == "message":
                     await self._handle_scan_complete(message["data"])
             except redis.ConnectionError:
-                log.warning("redis_connection_lost, reconnecting in 5s")
+                logger.warning("redis_connection_lost, reconnecting in 5s")
                 await asyncio.sleep(5)
                 try:
                     pubsub = r.pubsub()
@@ -151,7 +150,7 @@ class DeliveryRunner:
                 except redis.ConnectionError:
                     pass
             except Exception:
-                log.exception("error_processing_scan_event")
+                logger.opt(exception=True).error("error_processing_scan_event")
 
             # Yield to event loop
             await asyncio.sleep(0.1)
@@ -171,45 +170,45 @@ class DeliveryRunner:
         try:
             event = json.loads(data)
         except (json.JSONDecodeError, TypeError):
-            log.warning("invalid_scan_event", extra={"context": {"data": str(data)[:200]}})
+            logger.bind(context={"data": str(data)[:200]}).warning("invalid_scan_event")
             return
 
         domain = event.get("domain", "")
         if not domain:
             return
 
-        log.info("processing_scan_event", extra={"context": {
+        logger.bind(context={
             "domain": domain, "job_id": event.get("job_id"),
-        }})
+        }).info("processing_scan_event")
 
         # Look up client
         client = get_client_by_domain(self._conn, domain)
         if not client:
-            log.info("no_client_for_domain", extra={"context": {"domain": domain}})
+            logger.bind(context={"domain": domain}).info("no_client_for_domain")
             return
 
         chat_id = client.get("telegram_chat_id")
         if not chat_id:
-            log.info("no_chat_id_for_client", extra={"context": {
+            logger.bind(context={
                 "domain": domain, "cvr": client.get("cvr"),
-            }})
+            }).info("no_chat_id_for_client")
             return
 
         # Load latest brief
         brief_row = get_latest_brief(self._conn, domain)
         if not brief_row:
-            log.warning("no_brief_for_domain", extra={"context": {"domain": domain}})
+            logger.bind(context={"domain": domain}).warning("no_brief_for_domain")
             return
 
         brief_json = brief_row.get("brief_json")
         if not brief_json:
-            log.warning("empty_brief_json", extra={"context": {"domain": domain}})
+            logger.bind(context={"domain": domain}).warning("empty_brief_json")
             return
 
         try:
             brief = json.loads(brief_json)
         except (json.JSONDecodeError, TypeError):
-            log.warning("invalid_brief_json", extra={"context": {"domain": domain}})
+            logger.bind(context={"domain": domain}).warning("invalid_brief_json")
             return
 
         # Pre-filter: only send High or Critical findings to the interpreter
@@ -219,10 +218,10 @@ class DeliveryRunner:
             if f.get("severity", "").lower() in ("critical", "high")
         ]
         if not actionable_input:
-            log.info("no_actionable_findings", extra={"context": {
+            logger.bind(context={
                 "domain": domain,
                 "total_findings": len(all_findings),
-            }})
+            }).info("no_actionable_findings")
             return
 
         brief["findings"] = actionable_input
@@ -232,7 +231,7 @@ class DeliveryRunner:
         try:
             interpreted = interpret_brief(brief, language=language)
         except Exception:
-            log.exception("interpretation_failed for %s", domain)
+            logger.opt(exception=True).error("interpretation_failed for {}", domain)
             return
 
         # Inject contact_name for the greeting
@@ -241,7 +240,7 @@ class DeliveryRunner:
         # Compose
         messages = compose_telegram(interpreted)
         if not messages:
-            log.warning("empty_composition", extra={"context": {"domain": domain}})
+            logger.bind(context={"domain": domain}).warning("empty_composition")
             return
 
         cvr = client.get("cvr", "")
@@ -297,10 +296,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    logging.basicConfig(
-        level=getattr(logging, args.log_level.upper(), logging.INFO),
-        format="%(asctime)s %(name)s %(levelname)s %(message)s",
-    )
+    setup_logging(level=args.log_level.upper())
 
     runner = DeliveryRunner(
         redis_url=args.redis_url,
@@ -312,7 +308,7 @@ def main() -> None:
     loop = asyncio.new_event_loop()
 
     def _shutdown(sig: signal.Signals) -> None:
-        log.info("received_signal_%s", sig.name)
+        logger.info("received_signal_{}", sig.name)
         loop.create_task(runner.stop())
 
     for sig in (signal.SIGINT, signal.SIGTERM):

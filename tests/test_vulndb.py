@@ -331,7 +331,7 @@ class TestMatcher:
         f = findings[0]
         assert f["severity"] == "critical"
         assert "CVE-2020-35489" in f["description"]
-        assert f["provenance"] == "twin-derived"
+        assert f["provenance"] == "unconfirmed"
         assert f["provenance_detail"]["twin_scan_tool"] == "wpvulnerability"
         assert f["provenance_detail"]["template_id"] == "CVE-2020-35489"
 

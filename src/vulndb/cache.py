@@ -6,12 +6,9 @@ Follows the ct_collector/db.py pattern: WAL mode, Row factory, batch ops.
 from __future__ import annotations
 
 import json
-import logging
 import os
 import sqlite3
 from datetime import datetime, timezone
-
-log = logging.getLogger(__name__)
 
 _SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS plugin_vulns (

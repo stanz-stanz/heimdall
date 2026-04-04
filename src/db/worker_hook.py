@@ -8,14 +8,13 @@ fatal to the scan pipeline.
 from __future__ import annotations
 
 import json
-import logging
 import sqlite3
 import uuid
 
+from loguru import logger
+
 from src.db.connection import _now
 from src.db.scans import create_scan_entry, complete_scan_entry, save_brief_snapshot
-
-log = logging.getLogger(__name__)
 
 
 def save_scan_to_db(conn: sqlite3.Connection, job: dict, result: dict) -> None:
@@ -85,19 +84,19 @@ def save_scan_to_db(conn: sqlite3.Connection, job: dict, result: dict) -> None:
 
             history = DBClientHistory(conn)
             delta = history.record_scan(cvr, domain, brief, scan_id=scan_id)
-            log.info("db_hook_delta", extra={"context": {
+            logger.bind(context={
                 "domain": domain,
                 "new": len(delta.new),
                 "recurring": len(delta.recurring),
                 "resolved": len(delta.resolved),
-            }})
+            }).info("db_hook_delta")
         except Exception:
-            log.exception("db_hook_delta_failed for %s", domain)
+            logger.opt(exception=True).error("db_hook_delta_failed for {}", domain)
 
     conn.commit()
 
-    log.info("db_hook_saved", extra={"context": {
+    logger.bind(context={
         "domain": domain,
         "scan_id": scan_id,
         "finding_count": len(brief.get("findings", [])),
-    }})
+    }).info("db_hook_saved")

@@ -27,7 +27,7 @@ Keyed by `finding_hash` (sha256 of severity + normalized description, matching `
 
 - `finding_hash TEXT PRIMARY KEY`
 - `severity`, `description`, `risk`, `cve_id`, `plugin_slug`
-- `provenance` -- 'twin-derived' or '' or NULL
+- `provenance` -- 'unconfirmed' or 'confirmed' or NULL
 - `category` -- finding type classification: cve, outdated_plugin, missing_header, ssl, exposure, info
 - `first_seen_at` -- global first encounter date
 
@@ -63,7 +63,7 @@ A denormalised view `v_findings` joins definitions and occurrences to present th
 - `idx_finddef_cve_id` -- partial, cve_id IS NOT NULL
 - `idx_finddef_severity` -- for severity-filtered joins
 - `idx_finddef_category` -- partial, category IS NOT NULL
-- `idx_finddef_provenance` -- partial, twin-derived only
+- `idx_finddef_provenance` -- partial, unconfirmed only
 
 **`finding_occurrences` (8 indexes):**
 - `idx_findocc_status` -- partial, status != 'resolved' (all open findings)

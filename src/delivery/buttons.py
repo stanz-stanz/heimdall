@@ -11,15 +11,13 @@ Callback data format:
 
 from __future__ import annotations
 
-import logging
 import sqlite3
 
+from loguru import logger
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
 from src.db.connection import _now
-
-log = logging.getLogger(__name__)
 
 
 def build_client_buttons(cvr: str, domain: str) -> InlineKeyboardMarkup:
@@ -75,7 +73,7 @@ async def handle_client_callback(
     data = query.data or ""
     parts = data.split(":", 2)
     if len(parts) < 3:
-        log.warning("invalid_client_callback data=%s", data)
+        logger.warning("invalid_client_callback data={}", data)
         return
 
     action, cvr, domain = parts
@@ -87,7 +85,7 @@ async def handle_client_callback(
     elif action == "fix_it":
         await _handle_fix_it(query, conn, cvr, domain)
     else:
-        log.warning("unknown_client_callback action=%s", action)
+        logger.warning("unknown_client_callback action={}", action)
 
 
 async def _handle_got_it(query, conn, cvr: str, domain: str) -> None:
@@ -102,9 +100,9 @@ async def _handle_got_it(query, conn, cvr: str, domain: str) -> None:
             conn.commit()
         except Exception:
             # Table may not exist yet — log but don't crash
-            log.debug("client_interactions table not available, skipping DB log")
+            logger.debug("client_interactions table not available, skipping DB log")
 
-    log.info("client_acknowledged cvr=%s domain=%s", cvr, domain)
+    logger.info("client_acknowledged cvr={} domain={}", cvr, domain)
 
     # Remove buttons, keep the original message
     original = query.message.text_html or query.message.text or ""
@@ -125,9 +123,9 @@ async def _handle_fix_it(query, conn, cvr: str, domain: str) -> None:
             )
             conn.commit()
         except Exception:
-            log.debug("client_interactions table not available, skipping DB log")
+            logger.debug("client_interactions table not available, skipping DB log")
 
-    log.info("client_fix_requested cvr=%s domain=%s", cvr, domain)
+    logger.info("client_fix_requested cvr={} domain={}", cvr, domain)
 
     # Update message to confirm receipt
     original = query.message.text_html or query.message.text or ""

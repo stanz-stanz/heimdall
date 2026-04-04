@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 import json
-import logging
 from pathlib import Path
 
-from .cvr import Company
+from loguru import logger
 
-log = logging.getLogger(__name__)
+from .cvr import Company
 
 VALID_KEYS = {"industry_code", "contactable", "bucket"}
 
@@ -16,7 +15,7 @@ VALID_KEYS = {"industry_code", "contactable", "bucket"}
 def load_filters(path: Path) -> dict:
     """Load filters from a JSON file. Returns empty dict if file is missing."""
     if not path.exists():
-        log.info("No filters file at %s — processing all companies", path.name)
+        logger.info("No filters file at {} — processing all companies", path.name)
         return {}
 
     with open(path, encoding="utf-8") as f:
@@ -24,13 +23,13 @@ def load_filters(path: Path) -> dict:
 
     unknown = set(filters.keys()) - VALID_KEYS
     if unknown:
-        log.warning("Unknown filter keys ignored: %s", ", ".join(sorted(unknown)))
+        logger.warning("Unknown filter keys ignored: {}", ", ".join(sorted(unknown)))
 
     active = {k: v for k, v in filters.items() if k in VALID_KEYS}
     if active:
-        log.info("Active filters: %s", active)
+        logger.info("Active filters: {}", active)
     else:
-        log.info("Filters file loaded but empty — processing all companies")
+        logger.info("Filters file loaded but empty — processing all companies")
 
     return active
 
@@ -61,7 +60,7 @@ def apply_pre_scan_filters(companies: list[Company], filters: dict) -> list[Comp
                 excluded += 1
                 continue
 
-    log.info("Pre-scan filters excluded %d companies", excluded)
+    logger.info("Pre-scan filters excluded {} companies", excluded)
     return companies
 
 
@@ -85,5 +84,5 @@ def apply_post_scan_filters(
             company.discard_reason = f"filtered:bucket:{bucket}"
             excluded += 1
 
-    log.info("Post-scan bucket filter excluded %d companies", excluded)
+    logger.info("Post-scan bucket filter excluded {} companies", excluded)
     return companies

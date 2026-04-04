@@ -10,14 +10,13 @@ Interface: ``complete(prompt, system) → str``
 from __future__ import annotations
 
 import json
-import logging
 import os
 import time
 from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "interpreter.json"
 
@@ -117,13 +116,13 @@ def _complete_anthropic(prompt: str, system: str, config: dict) -> str:
             # Check for truncation
             stop_reason = response.stop_reason
             if stop_reason == "max_tokens":
-                log.warning("llm_truncated", extra={"context": {
+                logger.bind(context={
                     "model": config.get("model"),
                     "max_tokens": config.get("max_output_tokens"),
                     "output_tokens": response.usage.output_tokens,
-                }})
+                }).warning("llm_truncated")
 
-            log.info("llm_complete", extra={"context": {
+            logger.bind(context={
                 "backend": "anthropic",
                 "model": config.get("model"),
                 "input_tokens": response.usage.input_tokens,
@@ -131,7 +130,7 @@ def _complete_anthropic(prompt: str, system: str, config: dict) -> str:
                 "stop_reason": stop_reason,
                 "duration_ms": elapsed_ms,
                 "attempt": attempt + 1,
-            }})
+            }).info("llm_complete")
 
             return response.content[0].text
 
@@ -157,13 +156,13 @@ def _retry_wait(attempt: int, reason: str, config: dict) -> None:
         wait = _RETRY_BACKOFF[attempt]
     else:
         wait = _RETRY_BACKOFF[-1]
-    log.warning("llm_retry", extra={"context": {
+    logger.bind(context={
         "reason": reason,
         "attempt": attempt + 1,
         "max_retries": _MAX_RETRIES,
         "wait_seconds": wait,
         "model": config.get("model"),
-    }})
+    }).warning("llm_retry")
     time.sleep(wait)
 
 
@@ -194,11 +193,11 @@ def _complete_ollama(prompt: str, system: str, config: dict) -> str:
         text = resp.json().get("response", "")
         elapsed_ms = int((time.monotonic() - t0) * 1000)
 
-        log.info("llm_complete", extra={"context": {
+        logger.bind(context={
             "backend": "ollama",
             "model": model,
             "duration_ms": elapsed_ms,
-        }})
+        }).info("llm_complete")
 
         return text
 

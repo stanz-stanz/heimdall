@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 import re
 import time
 from contextlib import asynccontextmanager
@@ -12,6 +11,7 @@ from pathlib import Path
 from typing import Optional
 
 import redis
+from loguru import logger
 from fastapi import FastAPI, HTTPException, Query, Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
@@ -23,8 +23,6 @@ from src.composer.telegram import compose_telegram
 
 from .console import router as console_router
 from .result_store import ResultStore
-
-log = logging.getLogger(__name__)
 
 # Path parameter validation — rejects path traversal attempts
 _SAFE_NAME = re.compile(r"^[a-z0-9][a-z0-9.\-]{0,253}[a-z0-9]$")
@@ -48,26 +46,19 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             response: Response = await call_next(request)
         except Exception:
             elapsed_ms = int((time.monotonic() - t0) * 1000)
-            log.error(
-                "http_error",
-                extra={"context": {
-                    "method": request.method,
-                    "path": request.url.path,
-                    "duration_ms": elapsed_ms,
-                }},
-                exc_info=True,
-            )
-            raise
-        elapsed_ms = int((time.monotonic() - t0) * 1000)
-        log.info(
-            "http_request",
-            extra={"context": {
+            logger.bind(context={
                 "method": request.method,
                 "path": request.url.path,
-                "status": response.status_code,
                 "duration_ms": elapsed_ms,
-            }},
-        )
+            }).opt(exception=True).error("http_error")
+            raise
+        elapsed_ms = int((time.monotonic() - t0) * 1000)
+        logger.bind(context={
+            "method": request.method,
+            "path": request.url.path,
+            "status": response.status_code,
+            "duration_ms": elapsed_ms,
+        }).info("http_request")
         return response
 
 
@@ -92,9 +83,9 @@ async def _listen_scan_complete(
         try:
             pubsub = redis_conn.pubsub()
             await asyncio.to_thread(pubsub.subscribe, "scan-complete")
-            log.info("pubsub_subscribed", extra={"context": {
+            logger.bind(context={
                 "channel": "scan-complete", "reconnect_count": reconnect_count,
-            }})
+            }).info("pubsub_subscribed")
             reconnect_count = 0  # reset on successful subscribe
 
             while True:
@@ -104,18 +95,18 @@ async def _listen_scan_complete(
                 if msg and msg["type"] == "message":
                     try:
                         payload = json.loads(msg["data"])
-                        log.info("scan_complete_event", extra={"context": {
+                        logger.bind(context={
                             "job_id": payload.get("job_id"),
                             "domain": payload.get("domain"),
                             "client_id": payload.get("client_id"),
                             "status": payload.get("status"),
-                        }})
+                        }).info("scan_complete_event")
                         await asyncio.to_thread(
                             _handle_scan_complete, payload, result_store, messages_dir,
                             client_history, client_profile,
                         )
                     except (json.JSONDecodeError, TypeError) as exc:
-                        log.warning("scan_complete_parse_error", extra={"context": {"error": str(exc)}})
+                        logger.bind(context={"error": str(exc)}).warning("scan_complete_parse_error")
                 await asyncio.sleep(0.1)
 
         except asyncio.CancelledError:
@@ -124,15 +115,15 @@ async def _listen_scan_complete(
                 pubsub.close()
             except Exception:
                 pass
-            log.info("pubsub_unsubscribed")
+            logger.info("pubsub_unsubscribed")
             return  # clean shutdown — do not reconnect
 
         except Exception:
             reconnect_count += 1
             wait = _PUBSUB_RECONNECT_BACKOFF[min(reconnect_count - 1, len(_PUBSUB_RECONNECT_BACKOFF) - 1)]
-            log.warning("pubsub_reconnecting", extra={"context": {
+            logger.bind(context={
                 "reconnect_count": reconnect_count, "wait_seconds": wait,
-            }}, exc_info=True)
+            }).opt(exception=True).warning("pubsub_reconnecting")
             try:
                 pubsub.close()
             except Exception:
@@ -153,10 +144,10 @@ def _handle_scan_complete(
 
     # Validate path components from untrusted pub/sub data
     if not _SAFE_NAME.match(client_id) or not _SAFE_NAME.match(domain):
-        log.warning("interpret_invalid_path", extra={"context": {
+        logger.bind(context={
             "client_id": client_id, "domain": domain,
             "reason": "Invalid characters in client_id or domain from pub/sub",
-        }})
+        }).warning("interpret_invalid_path")
         return
 
     if payload.get("status") != "completed":
@@ -165,16 +156,16 @@ def _handle_scan_complete(
     # Load the scan result
     result = result_store.get_latest(client_id, domain)
     if not result:
-        log.warning("interpret_no_result", extra={"context": {
+        logger.bind(context={
             "client_id": client_id, "domain": domain,
-        }})
+        }).warning("interpret_no_result")
         return
 
     brief = result.get("brief")
     if not brief:
-        log.warning("interpret_no_brief", extra={"context": {
+        logger.bind(context={
             "client_id": client_id, "domain": domain,
-        }})
+        }).warning("interpret_no_brief")
         return
 
     # Delta detection (if client memory available)
@@ -192,17 +183,17 @@ def _handle_scan_complete(
                     "last_scan_date": brief.get("scan_date"),
                 })
         except Exception:
-            log.warning("client_memory_error", extra={"context": {
+            logger.bind(context={
                 "client_id": client_id, "domain": domain,
-            }}, exc_info=True)
+            }).opt(exception=True).warning("client_memory_error")
 
     # Interpret
     try:
         interpreted = interpret_brief(brief, delta_context=delta_context)
     except InterpreterError as exc:
-        log.error("interpret_failed", extra={"context": {
+        logger.bind(context={
             "client_id": client_id, "domain": domain, "error": str(exc),
-        }})
+        }).error("interpret_failed")
         return
 
     # Compose for Telegram
@@ -220,13 +211,13 @@ def _handle_scan_complete(
             "telegram_messages": messages,
         }, f, indent=2, ensure_ascii=False)
 
-    log.info("message_composed", extra={"context": {
+    logger.bind(context={
         "client_id": client_id,
         "domain": domain,
         "message_count": len(messages),
         "message_chars": sum(len(m) for m in messages),
         "path": str(out_path),
-    }})
+    }).info("message_composed")
 
 
 # ---------------------------------------------------------------------------
@@ -258,9 +249,9 @@ def create_app(
                 ),
             )
         except Exception:
-            log.warning("redis_unavailable", extra={"context": {"url": redis_url}})
+            logger.bind(context={"url": redis_url}).warning("redis_unavailable")
 
-        log.info("api_started", extra={"context": {"results_dir": results_dir}})
+        logger.bind(context={"results_dir": results_dir}).info("api_started")
         yield
         # Shutdown
         if app.state.pubsub_task:
@@ -271,7 +262,7 @@ def create_app(
                 pass
         if app.state.redis:
             app.state.redis.close()
-        log.info("api_stopped")
+        logger.info("api_stopped")
 
     app = FastAPI(
         title="Heimdall API",

@@ -5,13 +5,12 @@ Follows the ct_collector/db.py pattern: WAL mode, Row factory, batch ops.
 
 from __future__ import annotations
 
-import logging
 import os
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 _SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS companies (
@@ -92,7 +91,7 @@ def init_db(db_path: str | Path) -> sqlite3.Connection:
     conn.execute("PRAGMA cache_size=-8000")
     conn.executescript(_SCHEMA_SQL)
 
-    log.info("Database initialized: %s", db_path)
+    logger.info("Database initialized: {}", db_path)
     return conn
 
 

@@ -4,21 +4,20 @@ from __future__ import annotations
 
 import csv
 import json
-import logging
 from datetime import date
 from pathlib import Path
+
+from loguru import logger
 
 from .config import BRIEFS_DIR, DATA_DIR, INDUSTRY_CODES_PATH
 from .cvr import Company
 from .scanner import ScanResult
 
-log = logging.getLogger(__name__)
-
 
 def _load_industry_codes() -> dict[str, str]:
     """Load industry code-to-English-name mapping from JSON."""
     if not INDUSTRY_CODES_PATH.exists():
-        log.warning("Industry codes file not found: %s", INDUSTRY_CODES_PATH)
+        logger.warning("Industry codes file not found: {}", INDUSTRY_CODES_PATH)
         return {}
     with open(INDUSTRY_CODES_PATH, encoding="utf-8") as f:
         return json.load(f)
@@ -81,7 +80,7 @@ def write_csv(
         writer.writeheader()
         writer.writerows(rows)
 
-    log.info("Wrote %d rows to %s", len(rows), filepath)
+    logger.info("Wrote {} rows to {}", len(rows), filepath)
     return filepath
 
 
@@ -97,7 +96,7 @@ def write_briefs(briefs: dict[str, dict], output_dir: Path | None = None) -> int
             json.dump(brief, f, indent=2, ensure_ascii=False)
         count += 1
 
-    log.info("Wrote %d site briefs to %s", count, output_dir)
+    logger.info("Wrote {} site briefs to {}", count, output_dir)
     return count
 
 
@@ -113,5 +112,5 @@ def write_agency_briefs(agency_briefs: list[dict], output_dir: Path | None = Non
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(agency_briefs, f, indent=2, ensure_ascii=False)
 
-    log.info("Wrote %d agency briefs to %s", len(agency_briefs), filepath)
+    logger.info("Wrote {} agency briefs to {}", len(agency_briefs), filepath)
     return len(agency_briefs)

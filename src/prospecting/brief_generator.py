@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import logging
 from datetime import date
 
 from .config import (
@@ -14,8 +13,6 @@ from .config import (
 )
 from .cvr import Company
 from .scanner import ScanResult
-
-log = logging.getLogger(__name__)
 
 
 def _determine_gdpr_sensitivity(

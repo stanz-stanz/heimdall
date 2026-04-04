@@ -8,14 +8,13 @@ fuzzy fallback for minor description changes across scans.
 from __future__ import annotations
 
 import hashlib
-import logging
 import re
 from difflib import SequenceMatcher
 from typing import Optional
 
-from .models import DeltaResult, FindingRecord
+from loguru import logger
 
-log = logging.getLogger(__name__)
+from .models import DeltaResult, FindingRecord
 
 # Default fuzzy match threshold (overridable via config)
 _DEFAULT_THRESHOLD = 0.85
@@ -60,9 +59,9 @@ class DeltaDetector:
                 seen_ids.add(fid)
                 deduped_current.append(finding)
             else:
-                log.debug("delta_duplicate_finding", extra={"context": {
+                logger.bind(context={
                     "finding_id": fid, "description": finding.get("description", ""),
-                }})
+                }).debug("delta_duplicate_finding")
 
         new: list[dict] = []
         recurring: list[dict] = []

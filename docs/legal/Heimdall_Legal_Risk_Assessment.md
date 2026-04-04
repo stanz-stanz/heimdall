@@ -104,7 +104,7 @@ The risks are:
 - Twin-derived findings are inferences from detected software versions, not confirmed observations. If shared with prospects, inaccurate findings (e.g., claiming a vulnerability exists when it does not) could create tort liability
 - No Danish court has evaluated this argument. The legal basis is doctrinal (interpreting "en andens datasystem" literally), not precedential
 
-**Compliance controls:** Twin-targeted scans require Valdí Gate 1 approval tokens (tool validation) but bypass Gate 2 consent checks via a synthetic target registry. The registry is fail-closed: if the file is missing or malformed, all targets are treated as external. Findings carry a mandatory `provenance: "twin-derived"` marker through the entire pipeline.
+**Compliance controls:** Twin-targeted scans require Valdí Gate 1 approval tokens (tool validation) but bypass Gate 2 consent checks via a synthetic target registry. The registry is fail-closed: if the file is missing or malformed, all targets are treated as external. Findings carry a mandatory `provenance: "unconfirmed"` marker through the entire pipeline.
 
 **Relevance to Heimdall:** The twin is a significant competitive advantage — it enables CVE-level findings without a signed agreement. It is also the feature most likely to face legal scrutiny, because it deliberately operates Layer 2 tools without target consent. Counsel should evaluate the §263 interpretation and advise on acceptable framing for twin-derived findings in outreach materials. See legal briefing Q4, Q8.
 

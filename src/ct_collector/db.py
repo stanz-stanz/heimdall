@@ -8,13 +8,12 @@ and low-latency reads from the scan worker.
 from __future__ import annotations
 
 import json
-import logging
 import os
 import sqlite3
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 _SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS certificates (
@@ -61,7 +60,7 @@ def init_db(db_path: str) -> sqlite3.Connection:
     conn.executescript(_SCHEMA_SQL)
     conn.commit()
 
-    log.info("ct_db_initialised", extra={"context": {"db_path": db_path}})
+    logger.bind(context={"db_path": db_path}).info("ct_db_initialised")
     return conn
 
 
@@ -113,7 +112,7 @@ def insert_certificate(
         conn.commit()
         return cursor.rowcount > 0
     except sqlite3.Error as exc:
-        log.warning("insert_certificate_failed", extra={"context": {"error": str(exc)}})
+        logger.bind(context={"error": str(exc)}).warning("insert_certificate_failed")
         return False
 
 
@@ -147,7 +146,7 @@ def insert_certificates_batch(conn: sqlite3.Connection, certs: List[Dict[str, An
         conn.commit()
         return cursor.rowcount
     except sqlite3.Error as exc:
-        log.warning("insert_batch_failed", extra={"context": {"error": str(exc)}})
+        logger.bind(context={"error": str(exc)}).warning("insert_batch_failed")
         conn.rollback()
         return 0
 
@@ -207,7 +206,7 @@ def query_certificates(
             for row in rows
         ]
     except sqlite3.Error as exc:
-        log.warning("query_certificates_failed", extra={"context": {"domain": domain, "error": str(exc)}})
+        logger.bind(context={"domain": domain, "error": str(exc)}).warning("query_certificates_failed")
         return []
 
 
@@ -228,13 +227,10 @@ def cleanup_old_entries(conn: sqlite3.Connection, days: int = 90) -> int:
         deleted = cursor.rowcount
         conn.commit()
         conn.execute("PRAGMA incremental_vacuum")
-        log.info(
-            "cleanup_complete",
-            extra={"context": {"deleted": deleted, "cutoff": cutoff}},
-        )
+        logger.bind(context={"deleted": deleted, "cutoff": cutoff}).info("cleanup_complete")
         return deleted
     except sqlite3.Error as exc:
-        log.warning("cleanup_failed", extra={"context": {"error": str(exc)}})
+        logger.bind(context={"error": str(exc)}).warning("cleanup_failed")
         conn.rollback()
         return 0
 
@@ -270,6 +266,6 @@ def get_db_stats(conn: sqlite3.Connection) -> Dict[str, Any]:
         stats["db_size_bytes"] = page_count * page_size
 
     except sqlite3.Error as exc:
-        log.warning("get_db_stats_failed", extra={"context": {"error": str(exc)}})
+        logger.bind(context={"error": str(exc)}).warning("get_db_stats_failed")
 
     return stats

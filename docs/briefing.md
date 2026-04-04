@@ -119,7 +119,7 @@ Heimdall uses a programmatic compliance agent ("Valdí") that validates all scan
 
 ### Digital Twin System
 
-Heimdall extends Layer 1 findings with Layer 2 context through a digital twin system: replicas of prospect websites built from Layer 1 scan data, running entirely on Heimdall's own infrastructure. Scanning a system you own is not a §263 violation, so the twin enables vulnerability testing (Nuclei) without requiring client consent. Additionally, WPVulnerability API lookups provide CVSS-scored plugin/core CVEs as Layer 1 database queries (no requests to target). Findings carry `provenance: "twin-derived"` markers to distinguish them from direct scan results. See `SCANNING_RULES.md` for the full digital twin framework and constraints.
+Heimdall extends Layer 1 findings with Layer 2 context through a digital twin system: replicas of prospect websites built from Layer 1 scan data, running entirely on Heimdall's own infrastructure. Scanning a system you own is not a §263 violation, so the twin enables vulnerability testing (Nuclei) without requiring client consent. Additionally, WPVulnerability API lookups provide CVSS-scored plugin/core CVEs as Layer 1 database queries (no requests to target). Findings carry `provenance: "unconfirmed"` markers to distinguish them from direct scan results. See `SCANNING_RULES.md` for the full digital twin framework and constraints.
 
 ---
 

@@ -1,11 +1,11 @@
 """Structured logging configuration for the Heimdall pipeline.
 
 Supports two output formats:
-  - text: human-readable, same as previous basicConfig format
+  - text: human-readable colored output
   - json: machine-readable, one JSON object per line
 
 Usage:
-    from .logging_config import setup_logging
+    from src.prospecting.logging_config import setup_logging
     setup_logging(level="INFO", fmt="json")
 """
 
@@ -13,39 +13,71 @@ from __future__ import annotations
 
 import json
 import logging
-import time
+import sys
 from datetime import datetime, timezone
 
+from loguru import logger
 
-class JSONFormatter(logging.Formatter):
-    """Formats log records as single-line JSON objects.
 
-    Output keys: timestamp, level, module, message, context (optional).
-    The ``context`` dict is pulled from ``record.context`` if present
-    (passed via ``extra={"context": {...}}``).
+def _json_formatter(record: dict) -> str:
+    """Format a loguru record as a single-line JSON string.
+
+    Loguru calls format functions with a record dict and expects a format
+    template string in return.  We build the JSON, stash it in
+    ``record["extra"]["_serialized"]``, and return a template that
+    references it — avoiding brace-expansion issues with raw JSON.
+    """
+    entry: dict = {
+        "timestamp": datetime.fromtimestamp(
+            record["time"].timestamp(), tz=timezone.utc
+        ).isoformat(),
+        "level": record["level"].name,
+        "module": record["name"] or "root",
+        "message": record["message"],
+    }
+
+    context = record["extra"].get("context")
+    if context is not None:
+        entry["context"] = context
+
+    record["extra"]["_serialized"] = json.dumps(entry, default=str, ensure_ascii=False)
+    return "{extra[_serialized]}\n"
+
+
+_TEXT_FORMAT = (
+    "{time:HH:mm:ss} [{level.name}] {name}: {message}\n"
+)
+
+
+class _InterceptHandler(logging.Handler):
+    """Route stdlib logging records into loguru.
+
+    Installed on the root stdlib logger so that third-party libraries
+    (uvicorn, redis, telegram, etc.) emit through loguru's sinks.
     """
 
-    def format(self, record: logging.LogRecord) -> str:
-        entry: dict = {
-            "timestamp": datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(),
-            "level": record.levelname,
-            "module": record.name,
-            "message": record.getMessage(),
-        }
+    def emit(self, record: logging.LogRecord) -> None:
+        try:
+            level = logger.level(record.levelname).name
+        except ValueError:
+            level = record.levelno
 
-        context = getattr(record, "context", None)
-        if context is not None:
-            entry["context"] = context
+        frame, depth = logging.currentframe(), 2
+        while frame and frame.f_code.co_filename == logging.__file__:
+            frame = frame.f_back
+            depth += 1
 
-        return json.dumps(entry, default=str, ensure_ascii=False)
-
-
-_TEXT_FORMAT = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-_TEXT_DATEFMT = "%H:%M:%S"
+        logger.opt(depth=depth, exception=record.exc_info).log(
+            level, record.getMessage()
+        )
 
 
-def setup_logging(level: str = "INFO", fmt: str = "text") -> None:
-    """Configure the root logger with the requested format.
+def setup_logging(
+    level: str = "INFO",
+    fmt: str = "text",
+    sink=None,
+) -> None:
+    """Configure loguru with the requested format.
 
     Parameters
     ----------
@@ -54,18 +86,21 @@ def setup_logging(level: str = "INFO", fmt: str = "text") -> None:
     fmt:
         ``"text"`` for human-readable output (default),
         ``"json"`` for structured JSON lines.
+    sink:
+        Output destination. Defaults to ``sys.stderr``.
+        Pass a StringIO for testing.
     """
-    root = logging.getLogger()
+    if sink is None:
+        sink = sys.stderr
 
-    # Clear existing handlers to avoid duplicate output on repeated calls
-    root.handlers.clear()
-
-    handler = logging.StreamHandler()
+    logger.remove()
 
     if fmt == "json":
-        handler.setFormatter(JSONFormatter())
+        logger.add(sink, format=_json_formatter, level=level.upper(), colorize=False)
     else:
-        handler.setFormatter(logging.Formatter(_TEXT_FORMAT, datefmt=_TEXT_DATEFMT))
+        logger.add(sink, format=_TEXT_FORMAT, level=level.upper(), colorize=sink == sys.stderr)
 
-    root.setLevel(getattr(logging, level.upper(), logging.INFO))
-    root.addHandler(handler)
+    stdlib_root = logging.getLogger()
+    stdlib_root.handlers.clear()
+    stdlib_root.addHandler(_InterceptHandler())
+    stdlib_root.setLevel(logging.DEBUG)

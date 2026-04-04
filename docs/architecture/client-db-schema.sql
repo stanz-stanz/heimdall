@@ -277,7 +277,7 @@ CREATE TABLE IF NOT EXISTS finding_definitions (
     risk            TEXT NOT NULL DEFAULT '',        -- risk explanation text
     cve_id          TEXT,                            -- extracted CVE ID (e.g. "CVE-2024-28000"), NULL if not a CVE
     plugin_slug     TEXT,                            -- WP plugin slug (e.g. "litespeed-cache"), NULL if not plugin-related
-    provenance      TEXT,                            -- 'twin-derived' | '' | NULL
+    provenance      TEXT,                            -- 'confirmed' | 'unconfirmed' | NULL
     category        TEXT,                            -- finding type: cve | outdated_plugin | missing_header | ssl | exposure | info
     first_seen_at   TEXT NOT NULL                    -- ISO-8601 date when first encountered globally
 );
@@ -298,7 +298,7 @@ CREATE INDEX IF NOT EXISTS idx_finddef_severity
 CREATE INDEX IF NOT EXISTS idx_finddef_category
     ON finding_definitions(category) WHERE category IS NOT NULL;
 
--- "All twin-derived definitions"
+-- "All unconfirmed definitions"
 CREATE INDEX IF NOT EXISTS idx_finddef_provenance
     ON finding_definitions(provenance) WHERE provenance IS NOT NULL AND provenance != '';
 
@@ -443,7 +443,7 @@ CREATE TABLE IF NOT EXISTS brief_snapshots (
     theme_count     INTEGER NOT NULL DEFAULT 0,    -- len(technology.detected_themes[])
     subdomain_count INTEGER NOT NULL DEFAULT 0,    -- subdomains.count
     has_twin_scan   INTEGER NOT NULL DEFAULT 0,    -- 1 if twin_scan section present
-    twin_finding_count INTEGER NOT NULL DEFAULT 0, -- findings where provenance = "twin-derived"
+    twin_finding_count INTEGER NOT NULL DEFAULT 0, -- findings where provenance = "unconfirmed"
     ssl_valid       INTEGER,                        -- 1 = valid, 0 = invalid, NULL = no SSL
     ssl_issuer      TEXT,
     ssl_days_remaining INTEGER,                     -- technology.ssl.days_remaining, NULL if no SSL

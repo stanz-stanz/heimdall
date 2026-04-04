@@ -13,3 +13,8 @@ omit = ["tests/*"]
 [tool.coverage.report]
 show_missing = true
 fail_under = 0
+
+[dependency-groups]
+dev = [
+    "telethon>=1.42.0",
+]

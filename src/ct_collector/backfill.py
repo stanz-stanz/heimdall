@@ -19,7 +19,6 @@ from backfill and collector risk contention and missed CertStream messages.
 from __future__ import annotations
 
 import json
-import logging
 import os
 import time
 from datetime import datetime, timezone
@@ -27,12 +26,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import requests
+from loguru import logger
 
 from src.prospecting.logging_config import setup_logging
 
 from .db import init_db, insert_certificates_batch
-
-log = logging.getLogger(__name__)
 
 _CRT_SH_URL = "https://crt.sh"
 _USER_AGENT = "Heimdall-EASM/0.1 (CT backfill)"
@@ -88,16 +86,10 @@ def _backfill_chunk(
             break
         except (requests.RequestException, ValueError) as exc:
             if attempt == max_retries - 1:
-                log.warning(
-                    "backfill_chunk_failed",
-                    extra={"context": {"pattern": domain_pattern, "error": str(exc)}},
-                )
+                logger.bind(context={"pattern": domain_pattern, "error": str(exc)}).warning("backfill_chunk_failed")
                 return 0
 
-            log.info(
-                "backfill_retry",
-                extra={"context": {"pattern": domain_pattern, "attempt": attempt + 1, "backoff_s": backoff}},
-            )
+            logger.bind(context={"pattern": domain_pattern, "attempt": attempt + 1, "backoff_s": backoff}).info("backfill_retry")
             time.sleep(backoff)
             backoff = min(backoff * 2, max_backoff)
 
@@ -127,10 +119,7 @@ def _backfill_chunk(
     progress["last_updated"] = now
     _save_progress(progress, progress_file)
 
-    log.info(
-        "backfill_chunk_complete",
-        extra={"context": {"pattern": domain_pattern, "fetched": len(entries), "inserted": inserted}},
-    )
+    logger.bind(context={"pattern": domain_pattern, "fetched": len(entries), "inserted": inserted}).info("backfill_chunk_complete")
     return inserted
 
 
@@ -179,21 +168,15 @@ def backfill(
     remaining = [p for p in patterns if p not in completed]
 
     if not remaining:
-        log.info("backfill_already_complete", extra={"context": {"total_inserted": progress["total_inserted"]}})
+        logger.bind(context={"total_inserted": progress["total_inserted"]}).info("backfill_already_complete")
         conn.close()
         return
 
-    log.info(
-        "backfill_starting",
-        extra={"context": {"total_patterns": len(patterns), "remaining": len(remaining)}},
-    )
+    logger.bind(context={"total_patterns": len(patterns), "remaining": len(remaining)}).info("backfill_starting")
 
     total_inserted = 0
     for i, pattern in enumerate(remaining, 1):
-        log.info(
-            "backfill_progress",
-            extra={"context": {"pattern": pattern, "step": i, "of": len(remaining)}},
-        )
+        logger.bind(context={"pattern": pattern, "step": i, "of": len(remaining)}).info("backfill_progress")
 
         inserted = _backfill_chunk(conn, pattern, progress, progress_file)
         total_inserted += inserted
@@ -203,10 +186,7 @@ def backfill(
             time.sleep(5)
 
     conn.close()
-    log.info(
-        "backfill_complete",
-        extra={"context": {"total_inserted": total_inserted, "patterns_processed": len(remaining)}},
-    )
+    logger.bind(context={"total_inserted": total_inserted, "patterns_processed": len(remaining)}).info("backfill_complete")
 
 
 def main() -> None:

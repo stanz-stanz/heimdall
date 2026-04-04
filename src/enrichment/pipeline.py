@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-import logging
 import sqlite3
 from pathlib import Path
+
+from loguru import logger
 
 from .db import (
     init_db,
@@ -31,9 +32,6 @@ from .normalizers import (
 )
 from .search_fallback import SearchError, search_company_domain
 
-log = logging.getLogger(__name__)
-
-
 def run_pipeline(
     input_path: Path,
     db_path: Path,
@@ -58,34 +56,34 @@ def run_pipeline(
     conn = init_db(db_path)
 
     # Step 1: Excel ingestion
-    log.info("Step 1/7: Reading CVR Excel")
+    logger.info("Step 1/7: Reading CVR Excel")
     rows = read_cvr_excel(input_path)
     stats["total_ingested"] = upsert_companies(conn, rows)
-    log.info("Ingested %d companies", stats["total_ingested"])
+    logger.info("Ingested {} companies", stats["total_ingested"])
 
     # Step 2: Static enrichments
-    log.info("Step 2/7: Static enrichments")
+    logger.info("Step 2/7: Static enrichments")
     _apply_static_enrichments(conn, stats)
 
     # Step 3: Email domain extraction
-    log.info("Step 3/7: Email domain extraction")
+    logger.info("Step 3/7: Email domain extraction")
     _extract_email_domains(conn, stats)
 
     # Step 4: Domain name-match validation
-    log.info("Step 4/7: Domain name-match validation")
+    logger.info("Step 4/7: Domain name-match validation")
     _validate_domain_names(conn, stats)
 
     # Step 5: Search-based domain discovery
     if skip_search:
-        log.info("Step 5/7: Search-based discovery SKIPPED (--skip-search)")
+        logger.info("Step 5/7: Search-based discovery SKIPPED (--skip-search)")
     else:
-        log.info("Step 5/7: Search-based domain discovery")
+        logger.info("Step 5/7: Search-based domain discovery")
         _search_missing_domains(conn, stats, search_delay, force)
 
     # Step 6: Domain deduplication
-    log.info("Step 6/7: Domain deduplication")
+    logger.info("Step 6/7: Domain deduplication")
     domain_count = populate_domains(conn)
-    log.info("Populated %d unique domains", domain_count)
+    logger.info("Populated {} unique domains", domain_count)
 
     # Step 7: Summary
     stats["ready_for_scan"] = len(
@@ -100,11 +98,11 @@ def run_pipeline(
         "SELECT COUNT(*) as c FROM companies WHERE discard_reason LIKE 'filtered:%'"
     ).fetchone()["c"]
     if filtered_count > 0:
-        log.warning(
-            "DB contains %d companies with stale filter flags (discard_reason='filtered:...'). "
+        logger.warning(
+            "DB contains {} companies with stale filter flags (discard_reason='filtered:...'). "
             "These were set by the removed filter step. The domains table may have incorrect "
             "ready_for_scan values. Run: UPDATE companies SET discard_reason = '' "
-            "WHERE discard_reason LIKE 'filtered:%%' then re-run populate_domains().",
+            "WHERE discard_reason LIKE 'filtered:%' then re-run populate_domains().",
             filtered_count,
         )
 
@@ -165,7 +163,7 @@ def _apply_static_enrichments(conn: sqlite3.Connection, stats: dict) -> None:
         updates.append(update)
 
     updated = update_enrichments(conn, updates)
-    log.info("Enriched %d companies with static data", updated)
+    logger.info("Enriched {} companies with static data", updated)
 
 
 def _extract_email_domains(conn: sqlite3.Connection, stats: dict) -> None:
@@ -220,7 +218,7 @@ def _search_missing_domains(
     ).fetchall()
 
     if not rows:
-        log.info("No companies need search-based domain discovery")
+        logger.info("No companies need search-based domain discovery")
         return
 
     # Check which have already been searched (skip on re-run unless --force)
@@ -236,13 +234,13 @@ def _search_missing_domains(
     stats["search_skipped"] = skipped
 
     if skipped:
-        log.info("Skipping %d already-searched companies (use --force to retry)", skipped)
+        logger.info("Skipping {} already-searched companies (use --force to retry)", skipped)
 
     if not candidates:
-        log.info("No candidates for search-based discovery")
+        logger.info("No candidates for search-based discovery")
         return
 
-    log.info("Searching for domains for %d companies", len(candidates))
+    logger.info("Searching for domains for {} companies", len(candidates))
 
     for i, row in enumerate(candidates):
         try:
@@ -261,19 +259,19 @@ def _search_missing_domains(
             if domain:
                 update_domain(conn, row["cvr"], domain, "search", 1)
                 stats["search_derived"] += 1
-                log.info(
-                    "Found domain via search: %s → %s (%d/%d)",
+                logger.info(
+                    "Found domain via search: {} → {} ({}/{})",
                     row["name"], domain, i + 1, len(candidates),
                 )
             else:
-                log.info(
-                    "No domain found for: %s (%d/%d)",
+                logger.info(
+                    "No domain found for: {} ({}/{})",
                     row["name"], i + 1, len(candidates),
                 )
 
         except SearchError as exc:
             stats["search_errors"] += 1
-            log.warning("Search failed for %s: %s", row["name"], exc)
+            logger.warning("Search failed for {}: {}", row["name"], exc)
             log_enrichment(
                 conn, row["cvr"], "web_search",
                 f"{row['name']} in {row['city']}",

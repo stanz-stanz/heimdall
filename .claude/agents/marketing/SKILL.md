@@ -26,7 +26,7 @@ description: >
 >   "event_type": "outreach_sent",
 >   "channel": "postal_letter | linkedin_dm | responsible_disclosure | other",
 >   "finding_used": "title from findings[]",
->   "provenance": "direct | twin-derived",
+>   "provenance": "confirmed | unconfirmed",
 >   "timestamp": "ISO 8601",
 >   "notes": "optional free text"
 > }
@@ -105,14 +105,14 @@ Before drafting any outreach, read `data/output/briefs/{domain}.json`. The schem
 - `gdpr_flag` — top-level flag if any finding touches a GDPR-sensitive surface
 - `prospect_tier` — bucket from Prospecting (A / B / C)
 
-**Provenance rule — non-negotiable:** Every finding has a `provenance` field. When `provenance: "twin-derived"`, the finding was inferred from a known-vulnerable version of a detected technology, not directly observed. Draft copy must reflect this distinction:
+**Provenance rule — non-negotiable:** Every finding has a `provenance` field. When `provenance: "unconfirmed"`, the finding was inferred from a known-vulnerable version of a detected technology, not directly observed. Draft copy must reflect this distinction:
 
 | Provenance | Allowed framing | Prohibited framing |
 |------------|----------------|-------------------|
-| `direct` | "We detected an exposed login portal at…" | — |
-| `twin-derived` | "Your detected version is known to be affected by…" | "You have this vulnerability", "We found this vulnerability on your system" |
+| `confirmed` | "We detected an exposed login portal at…" | — |
+| `unconfirmed` | "Your detected version is known to be affected by…" | "You have this vulnerability", "We found this vulnerability on your system" |
 
-Overstating a twin-derived finding as directly observed is a misrepresentation under Markedsføringsloven §3. It also destroys trust if the prospect's IT person checks and sees the finding wasn't directly confirmed.
+Overstating an unconfirmed finding as directly observed is a misrepresentation under Markedsføringsloven §3. It also destroys trust if the prospect's IT person checks and sees the finding wasn't directly confirmed.
 
 ### Physical "first finding free" letter
 

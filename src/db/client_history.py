@@ -7,9 +7,10 @@ per-client JSON files.
 
 from __future__ import annotations
 
-import logging
 import sqlite3
 from datetime import date
+
+from loguru import logger
 
 from src.client_memory.delta import DeltaDetector
 from src.client_memory.models import DeltaResult, FindingRecord
@@ -21,9 +22,6 @@ from src.db.findings import (
     upsert_definition,
     upsert_occurrence,
 )
-
-log = logging.getLogger(__name__)
-
 
 class DBClientHistory:
     """Manages client history via SQLite instead of JSON files.
@@ -147,14 +145,14 @@ class DBClientHistory:
 
         self.conn.commit()
 
-        log.info("db_delta_detected", extra={"context": {
+        logger.bind(context={
             "cvr": cvr,
             "domain": domain,
             "scan_id": scan_id,
             "new_count": len(delta.new),
             "recurring_count": len(delta.recurring),
             "resolved_count": len(delta.resolved),
-        }})
+        }).info("db_delta_detected")
 
         return delta
 

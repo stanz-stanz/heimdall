@@ -7,14 +7,13 @@ and returns a structured interpretation suitable for message composition.
 from __future__ import annotations
 
 import json
-import logging
 import time
 from typing import Optional
 
+from loguru import logger
+
 from .llm import LLMError, _load_config, complete
 from .prompts import build_system_prompt, build_user_prompt
-
-log = logging.getLogger(__name__)
 
 
 def interpret_brief(
@@ -72,11 +71,11 @@ def interpret_brief(
     try:
         interpreted = _parse_response(raw_response)
     except (json.JSONDecodeError, ValueError) as exc:
-        log.warning("interpret_parse_error", extra={"context": {
+        logger.bind(context={
             "domain": brief.get("domain"),
             "error": str(exc),
             "raw_response": raw_response[:500],
-        }})
+        }).warning("interpret_parse_error")
         raise InterpreterError(f"Failed to parse LLM response: {exc}") from exc
 
     # Attach metadata
@@ -90,13 +89,13 @@ def interpret_brief(
         "duration_ms": elapsed_ms,
     }
 
-    log.info("brief_interpreted", extra={"context": {
+    logger.bind(context={
         "domain": brief.get("domain"),
         "findings_in": len(brief.get("findings", [])),
         "findings_out": len(interpreted.get("findings", [])),
         "duration_ms": elapsed_ms,
         "tone": tone,
-    }})
+    }).info("brief_interpreted")
 
     return interpreted
 

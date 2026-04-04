@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import logging
 import os
 import signal
 import sys
@@ -31,11 +30,10 @@ from src.prospecting.scanner import _init_scan_type_map, _LEVEL1_SCAN_FUNCTIONS,
 from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
 from src.consent.validator import check_consent
+from loguru import logger
 
 from .cache import ScanCache
 from .scan_job import execute_scan_job
-
-log = logging.getLogger(__name__)
 
 # Module-level flag for graceful shutdown
 _shutdown_requested: bool = False
@@ -46,7 +44,7 @@ def _handle_signal(signum: int, _frame: object) -> None:  # pragma: no cover
     global _shutdown_requested
     _shutdown_requested = True
     sig_name = signal.Signals(signum).name
-    log.info("Received %s — shutting down after current job", sig_name)
+    logger.info("Received %s — shutting down after current job", sig_name)
 
 
 def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
@@ -122,32 +120,27 @@ def _execute_enrichment_job(
     domains = job.get("domains", [])
     job_id = job.get("job_id", "")
 
-    log.info(
-        "enrichment_job_started",
-        extra={
-            "context": {
-                "job_id": job_id,
-                "batch_index": batch_index,
-                "total_batches": total_batches,
-                "domain_count": len(domains),
-                "stagger_delay": stagger_delay,
-            },
-        },
-    )
+    logger.bind(context={
+        "job_id": job_id,
+        "batch_index": batch_index,
+        "total_batches": total_batches,
+        "domain_count": len(domains),
+        "stagger_delay": stagger_delay,
+    }).info("enrichment_job_started")
 
     t0 = time.monotonic()
 
     try:
         # Stagger to avoid API rate-limit collisions between workers
         if stagger_delay > 0:
-            log.info(
+            logger.info(
                 "Staggering enrichment batch %d by %ds",
                 batch_index,
                 stagger_delay,
             )
             for _ in range(stagger_delay):
                 if _shutdown_requested:
-                    log.info("Shutdown requested during stagger — aborting enrichment batch %d", batch_index)
+                    logger.info("Shutdown requested during stagger — aborting enrichment batch %d", batch_index)
                     return  # finally block will increment counter
                 time.sleep(1)
 
@@ -165,38 +158,28 @@ def _execute_enrichment_job(
             cached_count += 1
 
         elapsed = time.monotonic() - t0
-        log.info(
-            "enrichment_job_completed",
-            extra={
-                "context": {
-                    "job_id": job_id,
-                    "batch_index": batch_index,
-                    "domain_count": len(domains),
-                    "cached_count": cached_count,
-                    "subdomains_found": sum(len(v) for v in results.values()),
-                    "duration_ms": int(elapsed * 1000),
-                },
-            },
-        )
+        logger.bind(context={
+            "job_id": job_id,
+            "batch_index": batch_index,
+            "domain_count": len(domains),
+            "cached_count": cached_count,
+            "subdomains_found": sum(len(v) for v in results.values()),
+            "duration_ms": int(elapsed * 1000),
+        }).info("enrichment_job_completed")
     except Exception:
         elapsed = time.monotonic() - t0
-        log.exception(
-            "enrichment_job_failed",
-            extra={
-                "context": {
-                    "job_id": job_id,
-                    "batch_index": batch_index,
-                    "domain_count": len(domains),
-                    "duration_ms": int(elapsed * 1000),
-                },
-            },
-        )
+        logger.opt(exception=True).bind(context={
+            "job_id": job_id,
+            "batch_index": batch_index,
+            "domain_count": len(domains),
+            "duration_ms": int(elapsed * 1000),
+        }).error("enrichment_job_failed")
     finally:
         # Always increment — don't hang the scheduler
         try:
             redis_conn.incr(ENRICHMENT_COUNTER_KEY)
         except (redis.ConnectionError, redis.TimeoutError) as exc:
-            log.warning(
+            logger.warning(
                 "Failed to increment enrichment counter: %s", exc
             )
 
@@ -212,21 +195,21 @@ def _run_subfinder_with_retry(
         try:
             results = _run_subfinder(domains)
             if attempt > 0:
-                log.info(
+                logger.info(
                     "subfinder succeeded on retry attempt %d", attempt
                 )
             return results
         except Exception as exc:
             last_error = exc
             if attempt < retry_limit:
-                log.warning(
+                logger.warning(
                     "subfinder failed (attempt %d/%d): %s — retrying",
                     attempt + 1,
                     1 + retry_limit,
                     exc,
                 )
             else:
-                log.error(
+                logger.error(
                     "subfinder failed after %d attempts: %s",
                     1 + retry_limit,
                     exc,
@@ -242,16 +225,16 @@ def main(argv: Optional[list] = None) -> None:
     args = _parse_args(argv)
     setup_logging(level=args.log_level, fmt=args.log_format)
 
-    log.info("Heimdall worker starting")
+    logger.info("Heimdall worker starting")
 
     # ------------------------------------------------------------------
     # 0. Check CT database availability
     # ------------------------------------------------------------------
     ct_db_path = args.ct_db
     if os.path.isfile(ct_db_path):
-        log.info("CT database found at %s", ct_db_path)
+        logger.info("CT database found at %s", ct_db_path)
     else:
-        log.warning("CT database not found at %s — crt.sh queries will return empty results", ct_db_path)
+        logger.warning("CT database not found at %s — crt.sh queries will return empty results", ct_db_path)
 
     # Set module-level CT_DB_PATH for scan_job to use
     from .scan_job import _CT_DB_PATH as _unused  # noqa: F401
@@ -265,9 +248,9 @@ def main(argv: Optional[list] = None) -> None:
     _init_scan_type_map()
     approvals = _validate_approval_tokens(max_level=max_level)
     if approvals is None:
-        log.error("BLOCKED — Valdi approval token validation failed. Worker refusing to start.")
+        logger.error("BLOCKED — Valdi approval token validation failed. Worker refusing to start.")
         sys.exit(1)
-    log.info("Valdi approval tokens validated (max_level=%d)", max_level)
+    logger.info("Valdi approval tokens validated (max_level=%d)", max_level)
 
     # ------------------------------------------------------------------
     # 2. Connect to Redis
@@ -280,9 +263,9 @@ def main(argv: Optional[list] = None) -> None:
         )
         redis_conn.ping()
     except (redis.ConnectionError, redis.TimeoutError, OSError) as exc:
-        log.error("Cannot connect to Redis at %s: %s", args.redis_url, exc)
+        logger.error("Cannot connect to Redis at %s: %s", args.redis_url, exc)
         sys.exit(1)
-    log.info("Connected to Redis at %s", args.redis_url)
+    logger.info("Connected to Redis at %s", args.redis_url)
 
     # ------------------------------------------------------------------
     # 3. Create ScanCache
@@ -298,7 +281,7 @@ def main(argv: Optional[list] = None) -> None:
     # ------------------------------------------------------------------
     # 5. BRPOP loop — enrichment queue has priority over scan queue
     # ------------------------------------------------------------------
-    log.info("Worker ready — waiting for jobs on queue:enrichment, queue:scan")
+    logger.info("Worker ready — waiting for jobs on queue:enrichment, queue:scan")
 
     while not _shutdown_requested:
         try:
@@ -306,7 +289,7 @@ def main(argv: Optional[list] = None) -> None:
                 ["queue:enrichment", "queue:scan"], timeout=30
             )
         except (redis.ConnectionError, redis.TimeoutError) as exc:
-            log.warning("Redis BRPOP error: %s — retrying", exc)
+            logger.warning("Redis BRPOP error: %s — retrying", exc)
             continue
 
         if item is None:
@@ -318,7 +301,7 @@ def main(argv: Optional[list] = None) -> None:
         try:
             job = json.loads(raw_job)
         except (json.JSONDecodeError, TypeError) as exc:
-            log.warning("Malformed job JSON: %s — skipping", exc)
+            logger.warning("Malformed job JSON: %s — skipping", exc)
             continue
 
         job_type = job.get("job_type", "scan")
@@ -328,10 +311,7 @@ def main(argv: Optional[list] = None) -> None:
         # Route: enrichment job
         # ------------------------------------------------------------------
         if job_type == "enrichment":
-            log.info(
-                "enrichment_job_received",
-                extra={"context": {"job_id": job_id, "queue": queue_name}},
-            )
+            logger.bind(context={"job_id": job_id, "queue": queue_name}).info("enrichment_job_received")
             _execute_enrichment_job(job, cache, redis_conn)
             continue
 
@@ -341,10 +321,7 @@ def main(argv: Optional[list] = None) -> None:
         domain = job.get("domain", "unknown")
         client_id = job.get("client_id", "prospect")
 
-        log.info(
-            "job_started",
-            extra={"context": {"job_id": job_id, "domain": domain, "client_id": client_id}},
-        )
+        logger.bind(context={"job_id": job_id, "domain": domain, "client_id": client_id}).info("job_started")
 
         # Gate 2: Consent check (Valdí) — Level 1+ requires valid consent
         # NOTE: a missing level field defaults to 0 (backward compat with
@@ -358,24 +335,18 @@ def main(argv: Optional[list] = None) -> None:
             # backward compatibility with existing prospect jobs, but
             # log a warning so it gets fixed.
             job_level = 0
-            log.warning(
-                "gate2_missing_level",
-                extra={"context": {
-                    "job_id": job_id, "domain": domain,
-                    "client_id": client_id,
-                    "message": "Job has no 'level' field — defaulting to 0",
-                }},
-            )
+            logger.bind(context={
+                "job_id": job_id, "domain": domain,
+                "client_id": client_id,
+                "message": "Job has no 'level' field — defaulting to 0",
+            }).warning("gate2_missing_level")
         elif not isinstance(raw_level, int) or isinstance(raw_level, bool):
-            log.error(
-                "gate2_invalid_level",
-                extra={"context": {
-                    "job_id": job_id, "domain": domain,
-                    "client_id": client_id,
-                    "raw_level": str(raw_level),
-                    "type": type(raw_level).__name__,
-                }},
-            )
+            logger.bind(context={
+                "job_id": job_id, "domain": domain,
+                "client_id": client_id,
+                "raw_level": str(raw_level),
+                "type": type(raw_level).__name__,
+            }).error("gate2_invalid_level")
             continue
         else:
             job_level = raw_level
@@ -389,78 +360,60 @@ def main(argv: Optional[list] = None) -> None:
             )
         except Exception:
             # SAFETY: if consent check crashes for ANY reason, BLOCK.
-            log.exception(
-                "gate2_crash — scan BLOCKED",
-                extra={"context": {
-                    "job_id": job_id, "domain": domain,
-                    "client_id": client_id, "level_requested": job_level,
-                }},
-            )
+            logger.opt(exception=True).bind(context={
+                "job_id": job_id, "domain": domain,
+                "client_id": client_id, "level_requested": job_level,
+            }).error("gate2_crash — scan BLOCKED")
             continue
 
-        log.info(
-            "gate2_consent_check",
-            extra={"context": {
-                "job_id": job_id, "domain": domain, "client_id": client_id,
-                "level_requested": job_level,
-                "level_authorised": consent.level_authorised,
-                "allowed": consent.allowed, "reason": consent.reason,
-                "authorised_by_role": consent.authorised_by_role,
-            }},
-        )
+        logger.bind(context={
+            "job_id": job_id, "domain": domain, "client_id": client_id,
+            "level_requested": job_level,
+            "level_authorised": consent.level_authorised,
+            "allowed": consent.allowed, "reason": consent.reason,
+            "authorised_by_role": consent.authorised_by_role,
+        }).info("gate2_consent_check")
         if not consent.allowed:
-            log.warning(
-                "gate2_blocked",
-                extra={"context": {
-                    "job_id": job_id, "domain": domain,
-                    "client_id": client_id, "reason": consent.reason,
-                }},
-            )
+            logger.bind(context={
+                "job_id": job_id, "domain": domain,
+                "client_id": client_id, "reason": consent.reason,
+            }).warning("gate2_blocked")
             continue
 
         # Level mismatch: re-queue if this worker can't handle the job's level
         if job_level > max_level:
             requeue_count = job.get("_requeue_count", 0) + 1
             if requeue_count > 5:
-                log.error(
-                    "level_mismatch_dropped — exceeded requeue limit",
-                    extra={"context": {
-                        "job_id": job_id, "domain": domain,
-                        "job_level": job_level, "requeue_count": requeue_count,
-                    }},
-                )
+                logger.bind(context={
+                    "job_id": job_id, "domain": domain,
+                    "job_level": job_level, "requeue_count": requeue_count,
+                }).error("level_mismatch_dropped — exceeded requeue limit")
                 continue
 
-            log.info(
-                "level_mismatch_requeue",
-                extra={"context": {
-                    "job_id": job_id, "domain": domain,
-                    "job_level": job_level, "worker_max_level": max_level,
-                    "requeue_count": requeue_count,
-                }},
-            )
+            logger.bind(context={
+                "job_id": job_id, "domain": domain,
+                "job_level": job_level, "worker_max_level": max_level,
+                "requeue_count": requeue_count,
+            }).info("level_mismatch_requeue")
             try:
                 job["_requeue_count"] = requeue_count
                 redis_conn.lpush("queue:scan", json.dumps(job))
             except (redis.ConnectionError, redis.TimeoutError) as exc:
-                log.error("Failed to re-queue level-%d job %s: %s", job_level, job_id, exc)
+                logger.error("Failed to re-queue level-%d job %s: %s", job_level, job_id, exc)
             continue
 
         try:
             result = execute_scan_job(job, cache, redis_conn=redis_conn)
         except Exception:
-            log.exception("Unhandled error processing job for %s", domain)
+            logger.opt(exception=True).error("Unhandled error processing job for %s", domain)
             continue
 
         # Write result to disk
         try:
             filepath = _write_result(args.results_dir, client_id, domain, result)
-            log.info(
-                "result_written",
-                extra={"context": {"domain": domain, "path": str(filepath)}},
-            )
+            logger.bind(context={"domain": domain, "path": str(filepath)}).info("result_written")
         except OSError as exc:
-            log.error("Failed to write result for %s: %s", domain, exc)
+            logger.error("Failed to write result for %s: %s", domain, exc)
 
         # Save to client database (fail-safe: errors logged, not fatal)
         try:
@@ -472,7 +425,7 @@ def main(argv: Optional[list] = None) -> None:
             db_conn = init_db(db_path)
             save_scan_to_db(db_conn, job, result)
         except Exception:
-            log.exception("db_hook_error for %s", domain)
+            logger.opt(exception=True).error("db_hook_error for %s", domain)
 
         # Publish scan-complete event
         try:
@@ -484,22 +437,17 @@ def main(argv: Optional[list] = None) -> None:
             })
             redis_conn.publish("scan-complete", event_payload)
         except (redis.ConnectionError, redis.TimeoutError) as exc:
-            log.warning("Failed to publish scan-complete for %s: %s", domain, exc)
+            logger.warning("Failed to publish scan-complete for %s: %s", domain, exc)
 
-        log.info(
-            "job_completed",
-            extra={
-                "context": {
-                    "job_id": job_id,
-                    "domain": domain,
-                    "status": result.get("status"),
-                    "cache_stats": result.get("cache_stats"),
-                    "total_ms": int(result.get("timing", {}).get("total_ms", 0)),
-                },
-            },
-        )
+        logger.bind(context={
+            "job_id": job_id,
+            "domain": domain,
+            "status": result.get("status"),
+            "cache_stats": result.get("cache_stats"),
+            "total_ms": int(result.get("timing", {}).get("total_ms", 0)),
+        }).info("job_completed")
 
-    log.info("Worker shut down gracefully")
+    logger.info("Worker shut down gracefully")
 
 
 if __name__ == "__main__":

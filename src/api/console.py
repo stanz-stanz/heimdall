@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
+from loguru import logger
 from fastapi import APIRouter, HTTPException, Request, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 
@@ -18,8 +18,6 @@ from .demo_orchestrator import (
     run_demo_live,
     run_demo_replay,
 )
-
-log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/console", tags=["console"])
 
@@ -91,7 +89,7 @@ async def console_status(request: Request):
             enrichment["total"] = int(results[3] or 0)
             cache_keys = results[4] or 0
         except Exception:
-            log.warning("console_redis_error", exc_info=True)
+            logger.opt(exception=True).warning("console_redis_error")
 
     # Recent scans from ResultStore
     recent_scans = []
@@ -103,7 +101,7 @@ async def console_status(request: Request):
             )
             recent_scans = domains
         except Exception:
-            log.warning("console_results_error", exc_info=True)
+            logger.opt(exception=True).warning("console_results_error")
 
     return {
         "queues": queues,
@@ -209,9 +207,9 @@ async def demo_websocket(websocket: WebSocket, scan_id: str):
                 pass
 
     except WebSocketDisconnect:
-        log.info("demo_ws_disconnected", extra={"context": {"scan_id": scan_id}})
+        logger.bind(context={"scan_id": scan_id}).info("demo_ws_disconnected")
     except Exception:
-        log.warning("demo_ws_error", extra={"context": {"scan_id": scan_id}}, exc_info=True)
+        logger.bind(context={"scan_id": scan_id}).opt(exception=True).warning("demo_ws_error")
     finally:
         task.cancel()
         cleanup_demo_queue(scan_id)

@@ -109,7 +109,7 @@ class TestComposeTelegram:
             "provenance": "confirmed",
         }])
         messages = compose_telegram(interpreted)
-        assert "[Critical]" in messages[0]
+        assert "\U0001f534 Critical:" in messages[0]
 
     def test_footer(self):
         messages = compose_telegram(_sample_interpreted())
@@ -133,7 +133,7 @@ class TestComposeTelegram:
                 "explanation": "Version-based.",
                 "action": "Check it",
                 "who": "developer",
-                "provenance": "twin-derived",
+                "provenance": "unconfirmed",
             },
         ])
         messages = compose_telegram(interpreted)

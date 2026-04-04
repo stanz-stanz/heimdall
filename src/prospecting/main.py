@@ -11,7 +11,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import logging
 import sys
 import time
 from pathlib import Path
@@ -26,8 +25,7 @@ from .agency_detector import detect_agencies
 from .brief_generator import generate_brief
 from .logging_config import setup_logging
 from .output import write_agency_briefs, write_briefs, write_csv
-
-log = logging.getLogger("pipeline")
+from loguru import logger
 
 
 def run(
@@ -42,47 +40,47 @@ def run(
     pipeline_start = time.monotonic()
 
     # Step 1: Read CVR data
-    log.info("=== Step 1: Reading CVR data from %s ===", input_path.name)
+    logger.info("=== Step 1: Reading CVR data from %s ===", input_path.name)
     companies = read_excel(input_path)
     if not companies:
-        log.error("No companies found in input file")
+        logger.error("No companies found in input file")
         return
 
     # Step 2: Load and apply pre-scan filters
-    log.info("=== Step 2: Applying pre-scan filters ===")
+    logger.info("=== Step 2: Applying pre-scan filters ===")
     filters = load_filters(filters_path)
     companies = apply_pre_scan_filters(companies, filters)
 
     # Step 3: Derive website domains from email addresses
-    log.info("=== Step 3: Deriving website domains ===")
+    logger.info("=== Step 3: Deriving website domains ===")
     companies = derive_domains(companies)
 
     # Step 4: Resolve domains (check website exists + robots.txt)
-    log.info("=== Step 4: Resolving domains ===")
+    logger.info("=== Step 4: Resolving domains ===")
     companies = resolve_domains(companies)
 
     # Step 5: Layer 1 scanning
     scan_results: dict[str, ScanResult] = {}
     if not skip_scan:
-        log.info("=== Step 5: Layer 1 scanning ===")
+        logger.info("=== Step 5: Layer 1 scanning ===")
         scan_results = scan_domains(companies, confirmed=confirmed)
     else:
-        log.info("=== Step 5: Skipping Layer 1 scan (--skip-scan) ===")
+        logger.info("=== Step 5: Skipping Layer 1 scan (--skip-scan) ===")
 
     # Step 6: Bucketing
-    log.info("=== Step 6: Assigning buckets ===")
+    logger.info("=== Step 6: Assigning buckets ===")
     buckets = assign_buckets(companies, scan_results)
 
     # Step 7: Apply post-scan filters (bucket)
-    log.info("=== Step 7: Applying post-scan filters ===")
+    logger.info("=== Step 7: Applying post-scan filters ===")
     companies = apply_post_scan_filters(companies, buckets, filters)
 
     # Step 8: Agency detection
-    log.info("=== Step 8: Agency detection ===")
+    logger.info("=== Step 8: Agency detection ===")
     agency_briefs = detect_agencies(companies, scan_results, buckets)
 
     # Step 9: Generate per-site briefs (includes evidence-based GDPR determination)
-    log.info("=== Step 9: Generating briefs (with GDPR determination) ===")
+    logger.info("=== Step 9: Generating briefs (with GDPR determination) ===")
     site_briefs: dict[str, dict] = {}
     for company in companies:
         if company.discarded or not company.website_domain:
@@ -95,7 +93,7 @@ def run(
         site_briefs[company.website_domain] = brief
 
     # Step 10: Write outputs
-    log.info("=== Step 10: Writing outputs ===")
+    logger.info("=== Step 10: Writing outputs ===")
     csv_path = write_csv(companies, buckets, site_briefs, scan_results, output_dir)
     brief_count = write_briefs(site_briefs, briefs_dir)
     agency_count = write_agency_briefs(agency_briefs, output_dir)
@@ -106,27 +104,24 @@ def run(
     discarded = sum(1 for c in companies if c.discarded)
     active = total - discarded
     gdpr_count = sum(1 for b in site_briefs.values() if b.get("gdpr_sensitive"))
-    log.info("=== Pipeline complete ===")
-    log.info("Total companies: %d", total)
-    log.info("Discarded: %d", discarded)
-    log.info("Active prospects: %d", active)
-    log.info("GDPR-sensitive (evidence-based): %d", gdpr_count)
-    log.info("Site briefs generated: %d", brief_count)
-    log.info("Agency briefs generated: %d", agency_count)
-    log.info("CSV output: %s", csv_path)
+    logger.info("=== Pipeline complete ===")
+    logger.info("Total companies: %d", total)
+    logger.info("Discarded: %d", discarded)
+    logger.info("Active prospects: %d", active)
+    logger.info("GDPR-sensitive (evidence-based): %d", gdpr_count)
+    logger.info("Site briefs generated: %d", brief_count)
+    logger.info("Agency briefs generated: %d", agency_count)
+    logger.info("CSV output: %s", csv_path)
 
-    log.info(
-        "pipeline_complete",
-        extra={"context": {
-            "total_companies": total,
-            "discarded": discarded,
-            "active": active,
-            "gdpr_sensitive": gdpr_count,
-            "briefs_generated": brief_count,
-            "agency_briefs": agency_count,
-            "duration_ms": int((pipeline_end - pipeline_start) * 1000),
-        }},
-    )
+    logger.bind(context={
+        "total_companies": total,
+        "discarded": discarded,
+        "active": active,
+        "gdpr_sensitive": gdpr_count,
+        "briefs_generated": brief_count,
+        "agency_briefs": agency_count,
+        "duration_ms": int((pipeline_end - pipeline_start) * 1000),
+    }).info("pipeline_complete")
 
 
 def main():
@@ -147,7 +142,7 @@ def main():
     )
 
     if not args.input.exists():
-        log.error("Input file not found: %s", args.input)
+        logger.error("Input file not found: %s", args.input)
         sys.exit(1)
 
     run(

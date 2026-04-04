@@ -317,7 +317,7 @@ class TestTwinScanModule:
         mock_findings = [
             {"severity": "critical", "description": "CF7 < 5.3.2 (CVE-2020-35489)",
              "risk": "CVE-2020-35489: Unrestricted File Upload",
-             "provenance": "twin-derived",
+             "provenance": "unconfirmed",
              "provenance_detail": {"twin_scan_tool": "wpvulnerability"}},
         ]
 
@@ -336,7 +336,7 @@ class TestTwinScanModule:
 
             assert result is not None
             assert len(result["findings"]) == 1
-            assert result["findings"][0]["provenance"] == "twin-derived"
+            assert result["findings"][0]["provenance"] == "unconfirmed"
             assert result["findings"][0]["provenance_detail"]["twin_scan_tool"] == "wpvulnerability"
 
     def test_non_wordpress_skips_vulndb(self):
@@ -360,5 +360,5 @@ class TestTwinScanModule:
         from src.worker.twin_scan import run_twin_scan
         result = run_twin_scan(wordpress_brief)
         for finding in result.get("findings", []):
-            assert finding.get("provenance") == "twin-derived"
+            assert finding.get("provenance") == "unconfirmed"
             assert "provenance_detail" in finding

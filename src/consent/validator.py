@@ -15,13 +15,12 @@ signer is validated by the operator at onboarding, not by this code.
 from __future__ import annotations
 
 import json
-import logging
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Optional
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 
 @dataclass(frozen=True)
@@ -67,16 +66,14 @@ def load_authorisation(client_dir: Path, client_id: str) -> Optional[dict]:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         if not isinstance(data, dict):
-            log.warning(
-                "authorisation_not_dict",
-                extra={"context": {"client_id": client_id, "type": type(data).__name__}},
+            logger.bind(context={"client_id": client_id, "type": type(data).__name__}).warning(
+                "authorisation_not_dict"
             )
             return None
         return data
     except (json.JSONDecodeError, OSError) as exc:
-        log.warning(
-            "authorisation_load_error",
-            extra={"context": {"client_id": client_id, "path": str(path), "error": str(exc)}},
+        logger.bind(context={"client_id": client_id, "path": str(path), "error": str(exc)}).warning(
+            "authorisation_load_error"
         )
         return None
 
@@ -101,14 +98,10 @@ def check_consent(
         return _check_consent_inner(client_dir, client_id, domain, level_requested, reference_date)
     except Exception as exc:
         # SAFETY NET: if anything unexpected happens, BLOCK.
-        log.error(
-            "consent_check_unexpected_error",
-            extra={"context": {
-                "client_id": client_id, "domain": domain,
-                "level_requested": level_requested, "error": str(exc),
-            }},
-            exc_info=True,
-        )
+        logger.bind(context={
+            "client_id": client_id, "domain": domain,
+            "level_requested": level_requested, "error": str(exc),
+        }).opt(exception=True).error("consent_check_unexpected_error")
         return _blocked(client_id, domain, level_requested if isinstance(level_requested, int) else -1,
                         f"Internal error during consent check: {exc}")
 

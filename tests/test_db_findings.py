@@ -140,7 +140,7 @@ class TestUpsertDefinition:
             risk="Unauthenticated admin access",
             cve_id="CVE-2024-28000",
             plugin_slug="litespeed-cache",
-            provenance="twin-derived",
+            provenance="unconfirmed",
             category="cve",
             first_seen_at="2026-04-01T00:00:00Z",
         )
@@ -149,7 +149,7 @@ class TestUpsertDefinition:
         assert row is not None
         assert row["cve_id"] == "CVE-2024-28000"
         assert row["plugin_slug"] == "litespeed-cache"
-        assert row["provenance"] == "twin-derived"
+        assert row["provenance"] == "unconfirmed"
         assert row["category"] == "cve"
 
 
@@ -402,7 +402,7 @@ class TestVFindingsView:
             risk="Unauthenticated admin access",
             cve_id="CVE-2024-28000",
             plugin_slug="litespeed-cache",
-            provenance="twin-derived",
+            provenance="unconfirmed",
             category="cve",
             first_seen_at="2026-04-01T00:00:00Z",
         )
@@ -430,7 +430,7 @@ class TestVFindingsView:
         assert vf["risk"] == "Unauthenticated admin access"
         assert vf["cve_id"] == "CVE-2024-28000"
         assert vf["plugin_slug"] == "litespeed-cache"
-        assert vf["provenance"] == "twin-derived"
+        assert vf["provenance"] == "unconfirmed"
         assert vf["category"] == "cve"
 
         # Occurrence columns

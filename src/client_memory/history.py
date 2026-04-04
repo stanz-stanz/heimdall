@@ -6,18 +6,16 @@ history.json with scan entries, finding records, and message tracking.
 
 from __future__ import annotations
 
-import logging
 import uuid
 from datetime import date
 from typing import Optional
+
+from loguru import logger
 
 from .delta import DeltaDetector
 from .models import DeltaResult, FindingRecord, ScanEntry
 from .remediation import RemediationTracker
 from .storage import AtomicFileStore
-
-log = logging.getLogger(__name__)
-
 
 def _empty_history(client_id: str) -> dict:
     return {
@@ -110,14 +108,14 @@ class ClientHistory:
 
         self.store.write_json(history, client_id, "history.json")
 
-        log.info("delta_detected", extra={"context": {
+        logger.bind(context={
             "client_id": client_id,
             "scan_id": scan_id,
             "new_count": len(delta.new),
             "recurring_count": len(delta.recurring),
             "resolved_count": len(delta.resolved),
             "total_findings": len(current_findings),
-        }})
+        }).info("delta_detected")
 
         return delta
 

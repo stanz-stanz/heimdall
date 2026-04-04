@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import logging
 import os
 import signal
 import sys
@@ -27,10 +26,9 @@ from typing import Any, Dict, Optional
 import certstream
 
 from src.prospecting.logging_config import setup_logging
+from loguru import logger
 
 from .db import cleanup_old_entries, get_db_stats, init_db
-
-log = logging.getLogger(__name__)
 
 # Module-level flag for graceful shutdown
 _shutdown_requested: bool = False
@@ -41,7 +39,7 @@ def _handle_signal(signum: int, _frame: object) -> None:  # pragma: no cover
     global _shutdown_requested
     _shutdown_requested = True
     sig_name = signal.Signals(signum).name
-    log.info("Received %s — shutting down", sig_name)
+    logger.info("Received %s — shutting down", sig_name)
 
 
 def _is_dk_domain(domain: str, suffix: str = ".dk") -> bool:
@@ -129,7 +127,7 @@ def _write_status(
             tmp_path = tmp.name
         os.replace(tmp_path, status_file)
     except OSError as exc:
-        log.warning("status_write_failed", extra={"context": {"error": str(exc)}})
+        logger.bind(context={"error": str(exc)}).warning("status_write_failed")
 
 
 def _cleanup_loop(db_path: str, interval_hours: int) -> None:
@@ -157,14 +155,11 @@ def _cleanup_loop(db_path: str, interval_hours: int) -> None:
             try:
                 deleted = cleanup_old_entries(conn, days=90)
                 conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-                log.info(
-                    "cleanup_loop_complete",
-                    extra={"context": {"deleted": deleted}},
-                )
+                logger.bind(context={"deleted": deleted}).info("cleanup_loop_complete")
             finally:
                 conn.close()
         except Exception as exc:
-            log.warning("cleanup_loop_error", extra={"context": {"error": str(exc)}})
+            logger.bind(context={"error": str(exc)}).warning("cleanup_loop_error")
 
 
 def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
@@ -214,11 +209,11 @@ def main(argv: Optional[list] = None) -> None:
     args = _parse_args(argv)
     setup_logging(level=args.log_level, fmt=args.log_format)
 
-    log.info("CertStream CT collector starting")
+    logger.info("CertStream CT collector starting")
 
     # Initialise database
     conn = init_db(args.db_path)
-    log.info("Database ready at %s", args.db_path)
+    logger.info("Database ready at %s", args.db_path)
 
     # Start cleanup daemon thread
     cleanup_thread = threading.Thread(
@@ -227,7 +222,7 @@ def main(argv: Optional[list] = None) -> None:
         daemon=True,
     )
     cleanup_thread.start()
-    log.info("Cleanup thread started (interval: %dh)", args.cleanup_interval_hours)
+    logger.info("Cleanup thread started (interval: %dh)", args.cleanup_interval_hours)
 
     # Register signal handlers
     signal.signal(signal.SIGTERM, _handle_signal)
@@ -279,10 +274,7 @@ def main(argv: Optional[list] = None) -> None:
         # Reset hourly counter
         elapsed = time.monotonic() - hour_start
         if elapsed >= 3600:
-            log.info(
-                "hourly_stats",
-                extra={"context": {"certs_inserted": certs_last_hour, "total": insert_count}},
-            )
+            logger.bind(context={"certs_inserted": certs_last_hour, "total": insert_count}).info("hourly_stats")
             certs_last_hour = 0
             hour_start = time.monotonic()
 
@@ -298,9 +290,9 @@ def main(argv: Optional[list] = None) -> None:
             last_status_write = time.monotonic()
 
     def _on_error(instance: Any, exception: Exception) -> None:
-        log.warning("certstream_error", extra={"context": {"error": str(exception)}})
+        logger.bind(context={"error": str(exception)}).warning("certstream_error")
 
-    log.info("Connecting to CertStream at %s", args.certstream_url)
+    logger.info("Connecting to CertStream at %s", args.certstream_url)
 
     while not _shutdown_requested:
         try:
@@ -312,10 +304,7 @@ def main(argv: Optional[list] = None) -> None:
         except Exception as exc:
             if _shutdown_requested:
                 break
-            log.warning(
-                "certstream_disconnected",
-                extra={"context": {"error": str(exc), "backoff_s": backoff_current}},
-            )
+            logger.bind(context={"error": str(exc), "backoff_s": backoff_current}).warning("certstream_disconnected")
             # Flush any remaining batch buffer before reconnect
             if batch_buffer:
                 from .db import insert_certificates_batch
@@ -341,7 +330,7 @@ def main(argv: Optional[list] = None) -> None:
         insert_certificates_batch(conn, batch_buffer)
 
     conn.close()
-    log.info("CertStream CT collector shut down gracefully (total inserted: %d)", insert_count)
+    logger.info("CertStream CT collector shut down gracefully (total inserted: %d)", insert_count)
 
 
 if __name__ == "__main__":

@@ -8,14 +8,13 @@ from __future__ import annotations
 
 import fcntl
 import json
-import logging
 import os
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 
 class AtomicFileStore:
@@ -39,15 +38,15 @@ class AtomicFileStore:
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
             if not isinstance(data, dict):
-                log.warning("storage_not_dict", extra={"context": {
+                logger.bind(context={
                     "path": str(path), "type": type(data).__name__,
-                }})
+                }).warning("storage_not_dict")
                 return None
             return data
         except (json.JSONDecodeError, OSError) as exc:
-            log.warning("storage_read_error", extra={"context": {
+            logger.bind(context={
                 "path": str(path), "error": str(exc),
-            }})
+            }).warning("storage_read_error")
             return None
 
     def write_json(self, data: dict, *path_parts: str) -> Path:

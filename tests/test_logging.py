@@ -1,87 +1,78 @@
-"""Tests for the structured logging configuration."""
+"""Tests for the loguru-based logging configuration."""
 
 import json
-import logging
+from io import StringIO
 
-from src.prospecting.logging_config import JSONFormatter, setup_logging
+from loguru import logger
 
-
-class TestJSONFormatter:
-    def test_outputs_valid_json(self):
-        formatter = JSONFormatter()
-        record = logging.LogRecord(
-            name="test", level=logging.INFO, pathname="", lineno=0,
-            msg="hello", args=(), exc_info=None,
-        )
-        output = formatter.format(record)
-        parsed = json.loads(output)
-        assert isinstance(parsed, dict)
-
-    def test_has_required_keys(self):
-        formatter = JSONFormatter()
-        record = logging.LogRecord(
-            name="test.module", level=logging.WARNING, pathname="", lineno=0,
-            msg="some warning", args=(), exc_info=None,
-        )
-        parsed = json.loads(formatter.format(record))
-        assert "timestamp" in parsed
-        assert "level" in parsed
-        assert "module" in parsed
-        assert "message" in parsed
-        assert parsed["level"] == "WARNING"
-        assert parsed["module"] == "test.module"
-        assert parsed["message"] == "some warning"
-
-    def test_includes_context(self):
-        formatter = JSONFormatter()
-        record = logging.LogRecord(
-            name="test", level=logging.INFO, pathname="", lineno=0,
-            msg="with context", args=(), exc_info=None,
-        )
-        record.context = {"key": "value", "count": 42}
-        parsed = json.loads(formatter.format(record))
-        assert "context" in parsed
-        assert parsed["context"]["key"] == "value"
-        assert parsed["context"]["count"] == 42
-
-    def test_no_context_when_absent(self):
-        formatter = JSONFormatter()
-        record = logging.LogRecord(
-            name="test", level=logging.INFO, pathname="", lineno=0,
-            msg="no context", args=(), exc_info=None,
-        )
-        parsed = json.loads(formatter.format(record))
-        assert "context" not in parsed
+from src.prospecting.logging_config import setup_logging
 
 
 class TestSetupLogging:
-    def _reset_root(self):
-        """Clear root logger state between tests."""
-        root = logging.getLogger()
-        root.handlers.clear()
-        root.setLevel(logging.WARNING)
+    def setup_method(self):
+        """Reset loguru state between tests."""
+        logger.remove()
 
-    def test_json_format(self):
-        self._reset_root()
-        setup_logging(fmt="json")
-        root = logging.getLogger()
-        assert len(root.handlers) == 1
-        assert isinstance(root.handlers[0].formatter, JSONFormatter)
+    def test_json_format_outputs_valid_json(self):
+        buf = StringIO()
+        setup_logging(level="INFO", fmt="json", sink=buf)
+        logger.info("hello")
+        line = buf.getvalue().strip().split("\n")[-1]
+        parsed = json.loads(line)
+        assert parsed["message"] == "hello"
+        assert parsed["level"] == "INFO"
+        assert "timestamp" in parsed
+        assert "module" in parsed
+
+    def test_json_format_includes_bound_context(self):
+        buf = StringIO()
+        setup_logging(level="INFO", fmt="json", sink=buf)
+        logger.bind(context={"key": "value", "count": 42}).info("with context")
+        line = buf.getvalue().strip().split("\n")[-1]
+        parsed = json.loads(line)
+        assert parsed["context"]["key"] == "value"
+        assert parsed["context"]["count"] == 42
+
+    def test_json_format_no_context_when_absent(self):
+        buf = StringIO()
+        setup_logging(level="INFO", fmt="json", sink=buf)
+        logger.info("no context")
+        line = buf.getvalue().strip().split("\n")[-1]
+        parsed = json.loads(line)
+        assert "context" not in parsed
 
     def test_text_format(self):
-        self._reset_root()
-        setup_logging(fmt="text")
-        root = logging.getLogger()
-        assert len(root.handlers) == 1
-        formatter = root.handlers[0].formatter
-        assert not isinstance(formatter, JSONFormatter)
-        assert isinstance(formatter, logging.Formatter)
+        buf = StringIO()
+        setup_logging(level="INFO", fmt="text", sink=buf)
+        logger.info("hello text")
+        output = buf.getvalue()
+        assert "hello text" in output
+        assert "INFO" in output
 
-    def test_level_setting(self):
-        self._reset_root()
-        setup_logging(level="DEBUG")
-        root = logging.getLogger()
-        assert root.level == logging.DEBUG
+    def test_level_filtering(self):
+        buf = StringIO()
+        setup_logging(level="WARNING", fmt="text", sink=buf)
+        logger.info("should be hidden")
+        logger.warning("should be visible")
+        output = buf.getvalue()
+        assert "should be hidden" not in output
+        assert "should be visible" in output
 
-        setup_logging(level="ERROR")
-        assert root.level == logging.ERROR
+    def test_repeated_setup_does_not_duplicate(self):
+        buf = StringIO()
+        setup_logging(level="INFO", fmt="text", sink=buf)
+        setup_logging(level="INFO", fmt="text", sink=buf)
+        logger.info("once")
+        lines = [l for l in buf.getvalue().strip().split("\n") if "once" in l]
+        assert len(lines) == 1
+
+    def test_stdlib_intercept(self):
+        """Third-party libraries using stdlib logging should route through loguru."""
+        import logging as stdlib_logging
+
+        buf = StringIO()
+        setup_logging(level="INFO", fmt="json", sink=buf)
+        stdlib_logger = stdlib_logging.getLogger("fake_thirdparty")
+        stdlib_logger.info("from stdlib")
+        output = buf.getvalue()
+        assert "from stdlib" in output

@@ -12,7 +12,7 @@
 
 Layer 2 vulnerability scanning requires written customer consent. Without paying clients, we couldn't test or demonstrate advanced capabilities.
 
-**Solution:** The digital twin system. By reconstructing prospect websites on our own infrastructure from Layer 1 (passive) scan data, we can run Nuclei and WPScan against our own systems. This produces CVE-level findings without requiring consent. Findings carry `provenance: "twin-derived"` markers — they are inferred from detected versions, not confirmed by direct testing.
+**Solution:** The digital twin system. By reconstructing prospect websites on our own infrastructure from Layer 1 (passive) scan data, we can run Nuclei and WPScan against our own systems. This produces CVE-level findings without requiring consent. Findings carry `provenance: "unconfirmed"` markers — they are inferred from detected versions, not confirmed by direct testing.
 
 The consent wall is not fully removed — twin-derived findings are inferences, not confirmations, and must be framed accordingly. But they are dramatically more valuable than Layer 1 surface observations alone.
 

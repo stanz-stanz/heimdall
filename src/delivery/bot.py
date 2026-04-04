@@ -13,14 +13,12 @@ Configuration:
 from __future__ import annotations
 
 import json
-import logging
 import os
 from pathlib import Path
 
+from loguru import logger
 from telegram import Bot
 from telegram.ext import Application, CallbackQueryHandler
-
-log = logging.getLogger(__name__)
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "delivery.json"
 
@@ -50,7 +48,7 @@ def load_config(config_path: Path | str | None = None) -> dict:
         if isinstance(file_config, dict):
             config.update(file_config)
     except (FileNotFoundError, json.JSONDecodeError, OSError):
-        log.warning("delivery_config_not_found, using defaults")
+        logger.warning("delivery_config_not_found, using defaults")
     return config
 
 
@@ -99,5 +97,5 @@ def create_application(token: str | None = None) -> Application:
     """
     bot_token = token or get_bot_token()
     app = Application.builder().token(bot_token).build()
-    log.info("telegram_application_created")
+    logger.info("telegram_application_created")
     return app
