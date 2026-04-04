@@ -21,7 +21,11 @@ SEVERITY_LABEL = {
 FOOTER = "<b>The Heimdall team</b>\n<i>We'll keep watching</i>"
 
 
-def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> list[str]:
+def compose_telegram(
+    interpreted: dict,
+    delta_context: dict | None = None,
+    tier: str = "sentinel",
+) -> list[str]:
     """Format an interpreted brief into Telegram HTML message(s).
 
     Parameters
@@ -31,6 +35,8 @@ def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> li
         ``domain``, ``company_name``, ``scan_date``.
     delta_context : dict, optional
         Delta context with resolved/new/recurring lists.
+    tier : str
+        Client tier. "watchman" suppresses the Fix line (defensive filter).
 
     Returns
     -------
@@ -60,12 +66,12 @@ def compose_telegram(interpreted: dict, delta_context: dict | None = None) -> li
     if confirmed:
         sections.append("<b>Confirmed issues</b>")
         for f in confirmed:
-            sections.append(_format_finding(f))
+            sections.append(_format_finding(f, tier=tier))
 
     if potential:
         sections.append("<b>Potential issues</b>\n<i>(i.e. we can't confirm without your explicit consent)</i>")
         for f in potential:
-            sections.append(_format_finding(f))
+            sections.append(_format_finding(f, tier=tier))
 
     # Footer
     sections.append(FOOTER)
@@ -110,19 +116,25 @@ def compose_celebration(domain: str, celebration_text: str, contact_name: str = 
     return [message]
 
 
-def _format_finding(f: dict) -> str:
-    """Format a single finding as an HTML block."""
+def _format_finding(f: dict, tier: str = "sentinel") -> str:
+    """Format a single finding as an HTML block.
+
+    For Watchman tier, the Fix line is suppressed (defensive filter —
+    the prompt should already omit the action field for Watchman).
+    """
     severity = f.get("severity", "high").lower()
     label = SEVERITY_LABEL.get(severity, SEVERITY_LABEL["high"])
     title = html.escape(f.get("title", ""), quote=False)
     explanation = html.escape(f.get("explanation", ""), quote=False)
-    action = html.escape(f.get("action", ""), quote=False)
 
     parts = [f"<b>{label}: {title}</b>"]
     if explanation:
         parts.append(explanation)
-    if action:
-        parts.append(f"\u21b3 <b>Fix:</b> {action}")
+
+    if (tier or "sentinel").lower() != "watchman":
+        action = html.escape(f.get("action", ""), quote=False)
+        if action:
+            parts.append(f"\u21b3 <b>Fix:</b> {action}")
 
     return "\n".join(parts)
 

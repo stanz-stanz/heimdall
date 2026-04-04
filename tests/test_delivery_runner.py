@@ -44,7 +44,6 @@ _INTERPRETED = {
         "severity": "high",
         "explanation": "...",
         "action": "Enable HSTS",
-        "who": "web_host",
         "provenance": "confirmed",
     }],
     "domain": "test.dk",

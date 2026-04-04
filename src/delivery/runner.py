@@ -82,7 +82,7 @@ class DeliveryRunner:
         ))
         self._app.add_handler(CallbackQueryHandler(
             handle_client_callback,
-            pattern=r"^(got_it|fix_it):",
+            pattern=r"^got_it:",
         ))
 
         # Initialize the application (sets up the bot)
@@ -226,10 +226,11 @@ class DeliveryRunner:
 
         brief["findings"] = actionable_input
 
-        # Interpret (use client's preferred language, fall back to config default)
+        # Interpret (use client's preferred language and tier)
         language = client.get("preferred_language")
+        tier = client.get("plan") or "sentinel"
         try:
-            interpreted = interpret_brief(brief, language=language)
+            interpreted = interpret_brief(brief, language=language, tier=tier)
         except Exception:
             logger.opt(exception=True).error("interpretation_failed for {}", domain)
             return
@@ -237,8 +238,8 @@ class DeliveryRunner:
         # Inject contact_name for the greeting
         interpreted["contact_name"] = client.get("contact_name", "")
 
-        # Compose
-        messages = compose_telegram(interpreted)
+        # Compose (tier controls whether Fix line is rendered)
+        messages = compose_telegram(interpreted, tier=tier)
         if not messages:
             logger.bind(context={"domain": domain}).warning("empty_composition")
             return
@@ -246,7 +247,7 @@ class DeliveryRunner:
         cvr = client.get("cvr", "")
         company_name = client.get("company_name", "")
 
-        # Build client inline buttons (Got it / Can Heimdall fix this?)
+        # Build client inline button (Got it)
         reply_markup = build_client_buttons(cvr, domain)
 
         # Route: approval or direct send

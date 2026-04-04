@@ -36,48 +36,14 @@ def test_open_to_acknowledged(tracker, open_finding):
     assert result.status_history[-1]["source"] == "client_reply"
 
 
-def test_acknowledged_to_in_progress(tracker, open_finding):
+def test_acknowledged_to_resolved(tracker, open_finding):
     tracker.transition(open_finding, "acknowledged", "client_reply")
-    result = tracker.transition(open_finding, "in_progress", "client_reply")
-    assert result.status == "in_progress"
-
-
-def test_in_progress_to_completed(tracker, open_finding):
-    tracker.transition(open_finding, "acknowledged", "client_reply")
-    tracker.transition(open_finding, "in_progress", "client_reply")
-    result = tracker.transition(open_finding, "completed", "client_reply")
-    assert result.status == "completed"
-
-
-def test_completed_to_verified(tracker, open_finding):
-    tracker.transition(open_finding, "acknowledged", "client_reply")
-    tracker.transition(open_finding, "in_progress", "client_reply")
-    tracker.transition(open_finding, "completed", "client_reply")
-    result = tracker.transition(open_finding, "verified", "scan")
-    assert result.status == "verified"
-
-
-def test_verified_to_resolved(tracker, open_finding):
-    tracker.transition(open_finding, "acknowledged", "client_reply")
-    tracker.transition(open_finding, "in_progress", "client_reply")
-    tracker.transition(open_finding, "completed", "client_reply")
-    tracker.transition(open_finding, "verified", "scan")
     result = tracker.transition(open_finding, "resolved", "scan")
     assert result.status == "resolved"
     assert result.resolved_date is not None
 
 
 # --- Invalid transitions ---
-
-
-def test_skip_open_to_in_progress_invalid(tracker, open_finding):
-    with pytest.raises(InvalidTransition):
-        tracker.transition(open_finding, "in_progress", "client_reply")
-
-
-def test_skip_open_to_completed_invalid(tracker, open_finding):
-    with pytest.raises(InvalidTransition):
-        tracker.transition(open_finding, "completed", "client_reply")
 
 
 def test_skip_open_to_resolved_invalid(tracker, open_finding):
@@ -96,9 +62,6 @@ def test_backward_acknowledged_to_open_invalid(tracker, open_finding):
 
 def test_reopen_from_resolved(tracker, open_finding):
     tracker.transition(open_finding, "acknowledged", "client_reply")
-    tracker.transition(open_finding, "in_progress", "client_reply")
-    tracker.transition(open_finding, "completed", "client_reply")
-    tracker.transition(open_finding, "verified", "scan")
     tracker.transition(open_finding, "resolved", "scan")
     assert open_finding.status == "resolved"
 

@@ -147,7 +147,7 @@ class TestFullDeltaFlow:
             "findings": [
                 {"title": "SSL expiring soon", "severity": "high",
                  "explanation": "Certificate expires in 7 days",
-                 "action": "Renew certificate", "who": "web_host",
+                 "action": "Renew certificate",
                  "provenance": "confirmed"},
             ],
         }
@@ -178,7 +178,7 @@ class TestBackwardCompatibility:
             "scan_date": "2026-03-28",
             "good_news": [],
             "findings": [{"title": "Issue", "explanation": "Explanation",
-                          "action": "Fix it", "who": "developer", "effort": "1 hour"}],
+                          "action": "Fix it", "effort": "1 hour"}],
             "summary": "One issue found.",
         }
         messages = compose_telegram(interpreted)
