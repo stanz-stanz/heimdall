@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import logging
 import time
 import uuid
 from datetime import datetime, timezone
@@ -11,12 +10,11 @@ from pathlib import Path
 from typing import Any
 
 import redis
+from loguru import logger
 
 from src.prospecting.config import ENRICHMENT_STAGGER_SECONDS, ENRICHMENT_WORKERS
 from src.prospecting.cvr import Company, derive_domains, read_excel
 from src.prospecting.filters import apply_pre_scan_filters, load_filters
-
-log = logging.getLogger(__name__)
 
 QUEUE_NAME = "queue:scan"
 ENRICHMENT_QUEUE = "queue:enrichment"
@@ -103,7 +101,7 @@ class JobCreator:
         # Legacy Excel pipeline
         companies = read_excel(input_path)
         if not companies:
-            log.info("No companies found in %s — 0 domains extracted", input_path)
+            logger.info("No companies found in {} — 0 domains extracted", input_path)
             return []
 
         filters = load_filters(filters_path)
@@ -120,8 +118,8 @@ class JobCreator:
                 seen_domains.add(company.website_domain)
                 unique_domains.append(company.website_domain)
 
-        log.info(
-            "Extracted %d unique domains from %d companies",
+        logger.info(
+            "Extracted {} unique domains from {} companies",
             len(unique_domains),
             len(companies),
         )
@@ -132,7 +130,7 @@ class JobCreator:
         """Read scan-ready domains from the pre-enriched SQLite database."""
         import sqlite3
 
-        log.info("Using pre-enriched database: %s", db_path)
+        logger.info("Using pre-enriched database: {}", db_path)
         conn = sqlite3.connect(f"file:{db_path}?immutable=1", uri=True, timeout=5)
         conn.row_factory = sqlite3.Row
 
@@ -144,16 +142,16 @@ class JobCreator:
         not_ready = total - ready
 
         if total > 0 and ready < total * 0.1:
-            log.warning(
-                "enriched_db_low_ready_ratio: %d/%d domains ready (%.0f%%). "
+            logger.warning(
+                "enriched_db_low_ready_ratio: {}/{} domains ready ({:.0f}%). "
                 "Possible stale filter flags in database. "
                 "Re-run enrichment pipeline or check domains table.",
                 ready, total, (ready / total) * 100,
             )
 
         if not_ready > 0:
-            log.info(
-                "enriched_db_stats: %d total, %d ready, %d filtered out",
+            logger.info(
+                "enriched_db_stats: {} total, {} ready, {} filtered out",
                 total, ready, not_ready,
             )
 
@@ -162,7 +160,7 @@ class JobCreator:
         ).fetchall()
         domains = [row["domain"] for row in rows]
         conn.close()
-        log.info("Extracted %d domains from enriched database", len(domains))
+        logger.info("Extracted {} domains from enriched database", len(domains))
         return domains
 
     def create_scan_jobs_for_domains(self, domains: list[str]) -> int:
@@ -176,7 +174,7 @@ class JobCreator:
             self._push_job(job)
             count += 1
 
-        log.info("Created %d scan jobs for %d domains", count, len(domains))
+        logger.info("Created {} scan jobs for {} domains", count, len(domains))
         return count
 
     def create_prospect_jobs(
@@ -209,7 +207,7 @@ class JobCreator:
         Returns the number of enrichment jobs created.
         """
         if not domains:
-            log.info("No domains for enrichment — 0 jobs created")
+            logger.info("No domains for enrichment — 0 jobs created")
             return 0
 
         # Cap workers to number of domains
@@ -234,8 +232,8 @@ class JobCreator:
             )
             self._conn.lpush(ENRICHMENT_QUEUE, json.dumps(job))
 
-        log.info(
-            "Created %d enrichment jobs (%d domains, stagger=%ds)",
+        logger.info(
+            "Created {} enrichment jobs ({} domains, stagger={}s)",
             actual_workers,
             len(domains),
             stagger_seconds,
@@ -253,23 +251,23 @@ class JobCreator:
         total = int(self._conn.get(ENRICHMENT_TOTAL_KEY) or 0)
 
         if total == 0:
-            log.warning("Enrichment total is 0 — nothing to wait for")
+            logger.warning("Enrichment total is 0 — nothing to wait for")
             return True
 
-        log.info("Waiting for %d enrichment batches (timeout=%ds)", total, timeout)
+        logger.info("Waiting for {} enrichment batches (timeout={}s)", total, timeout)
 
         while time.monotonic() < deadline:
             completed = int(self._conn.get(ENRICHMENT_COUNTER_KEY) or 0)
             if completed >= total:
-                log.info(
-                    "All %d enrichment batches completed", total
+                logger.info(
+                    "All {} enrichment batches completed", total
                 )
                 return True
             time.sleep(poll_interval)
 
         completed = int(self._conn.get(ENRICHMENT_COUNTER_KEY) or 0)
-        log.warning(
-            "Enrichment timeout after %ds: %d/%d batches completed",
+        logger.warning(
+            "Enrichment timeout after {}s: {}/{} batches completed",
             timeout,
             completed,
             total,
@@ -285,12 +283,12 @@ class JobCreator:
         Returns the number of jobs created.
         """
         if not client_dir.is_dir():
-            log.warning("Client directory %s does not exist", client_dir)
+            logger.warning("Client directory {} does not exist", client_dir)
             return 0
 
         profiles = sorted(client_dir.glob("*.json"))
         if not profiles:
-            log.info("No client profiles in %s", client_dir)
+            logger.info("No client profiles in {}", client_dir)
             return 0
 
         count = 0
@@ -315,8 +313,8 @@ class JobCreator:
                 self._push_job(job)
                 count += 1
 
-        log.info(
-            "Created %d client jobs from %d profiles (tier filter: %s)",
+        logger.info(
+            "Created {} client jobs from {} profiles (tier filter: {})",
             count,
             len(profiles),
             tier,

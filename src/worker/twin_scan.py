@@ -14,7 +14,6 @@ See SCANNING_RULES.md § "Heimdall-Owned Test Infrastructure".
 from __future__ import annotations
 
 import json
-import logging
 import os
 import shutil
 import socket
@@ -26,7 +25,7 @@ from http.server import HTTPServer
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 
 def _get_container_ip() -> str:
@@ -53,7 +52,7 @@ def _load_slug_map() -> dict:
         with open(_SLUG_MAP_PATH) as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as exc:
-        log.warning("twin_slug_map_load_failed: %s", exc)
+        logger.warning("twin_slug_map_load_failed: {}", exc)
         return {}
 
 
@@ -88,7 +87,7 @@ def _run_nuclei_against_twin(port: int) -> List[dict]:
     Returns a list of finding dicts.
     """
     if not shutil.which("nuclei"):
-        log.info("twin_nuclei_skipped: nuclei binary not found")
+        logger.info("twin_nuclei_skipped: nuclei binary not found")
         return []
 
     target = f"http://127.0.0.1:{port}"
@@ -113,10 +112,10 @@ def _run_nuclei_against_twin(port: int) -> List[dict]:
             timeout=120,
         )
     except subprocess.TimeoutExpired:
-        log.warning("twin_nuclei_timeout")
+        logger.warning("twin_nuclei_timeout")
         return []
     except FileNotFoundError:
-        log.info("twin_nuclei_skipped: nuclei binary not found")
+        logger.info("twin_nuclei_skipped: nuclei binary not found")
         return []
 
     findings = []
@@ -162,12 +161,12 @@ def run_twin_scan(brief: dict) -> Optional[dict]:
     t0 = time.monotonic()
     scan_tools = []
 
-    log.info("twin_start", extra={"context": {"domain": brief.get("domain", "")}})
+    logger.bind(context={"domain": brief.get("domain", "")}).info("twin_start")
 
     try:
         server, port, thread = _start_twin_server(brief, slug_map)
     except Exception as exc:
-        log.error("twin_start_failed: %s", exc)
+        logger.error("twin_start_failed: {}", exc)
         return None
 
     try:
@@ -214,19 +213,16 @@ def run_twin_scan(brief: dict) -> Optional[dict]:
                     findings.extend(vuln_findings)
                     scan_tools.append("wpvulnerability")
             except Exception:
-                log.exception("twin_vulndb_lookup_failed")
+                logger.opt(exception=True).error("twin_vulndb_lookup_failed")
 
         duration_ms = int((time.monotonic() - t0) * 1000)
 
-        log.info(
-            "twin_scan_complete",
-            extra={"context": {
-                "domain": brief.get("domain", ""),
-                "findings_count": len(findings),
-                "scan_tools": scan_tools,
-                "duration_ms": duration_ms,
-            }},
-        )
+        logger.bind(context={
+            "domain": brief.get("domain", ""),
+            "findings_count": len(findings),
+            "scan_tools": scan_tools,
+            "duration_ms": duration_ms,
+        }).info("twin_scan_complete")
 
         return {
             "findings": findings,

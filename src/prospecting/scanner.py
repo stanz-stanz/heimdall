@@ -8,7 +8,6 @@ from __future__ import annotations
 import hashlib
 import inspect
 import json
-import logging
 import os
 import re
 import shutil
@@ -24,6 +23,7 @@ from pathlib import Path
 from urllib.robotparser import RobotFileParser
 
 import requests
+from loguru import logger
 
 # Concurrency settings — tune based on network capacity and target politeness
 MAX_WORKERS_HTTP = 20    # for SSL, headers, meta, robots.txt
@@ -41,8 +41,6 @@ from .config import (
     USER_AGENT,
 )
 from .cvr import Company
-
-log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -90,7 +88,7 @@ def _check_ssl(domain: str) -> dict:
         result["issuer"] = issuer.get("organizationName", issuer.get("commonName", ""))
 
     except Exception as e:
-        log.debug("SSL check failed for %s: %s", domain, e)
+        logger.debug("SSL check failed for {}: {}", domain, e)
 
     return result
 
@@ -230,7 +228,7 @@ def _extract_page_meta(domain: str) -> tuple[str, str, list[str], dict[str, str]
             themes = list(dict.fromkeys(wp_theme_matches))  # deduplicate, preserve order
 
     except requests.RequestException as e:
-        log.debug("Page meta extraction failed for %s: %s", domain, e)
+        logger.debug("Page meta extraction failed for {}: {}", domain, e)
 
     return meta_author, footer_credit, plugins, plugin_versions, themes
 
@@ -265,7 +263,7 @@ def _extract_rest_api_plugins(
 def _run_httpx(domains: list[str]) -> dict[str, dict]:
     """Run httpx CLI tool against a list of domains. Returns dict keyed by domain."""
     if not shutil.which("httpx"):
-        log.warning("httpx not found in PATH — skipping httpx scan")
+        logger.warning("httpx not found in PATH — skipping httpx scan")
         return {}
 
     # Write domains to temp file
@@ -303,7 +301,7 @@ def _run_httpx(domains: list[str]) -> dict[str, dict]:
                 continue
         return results
     except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-        log.warning("httpx execution failed: %s", e)
+        logger.warning("httpx execution failed: {}", e)
         return {}
     finally:
 
@@ -313,7 +311,7 @@ def _run_httpx(domains: list[str]) -> dict[str, dict]:
 def _run_webanalyze(domains: list[str]) -> dict[str, list[str]]:
     """Run webanalyze CLI tool against a list of domains. Returns tech stack per domain."""
     if not shutil.which("webanalyze"):
-        log.warning("webanalyze not found in PATH — skipping webanalyze scan")
+        logger.warning("webanalyze not found in PATH — skipping webanalyze scan")
         return {}
 
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
@@ -352,7 +350,7 @@ def _run_webanalyze(domains: list[str]) -> dict[str, list[str]]:
                     continue
         return results
     except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-        log.warning("webanalyze execution failed: %s", e)
+        logger.warning("webanalyze execution failed: {}", e)
         return {}
     finally:
 
@@ -412,7 +410,7 @@ def _run_subfinder(domains: list[str]) -> dict[str, list[str]]:
     Uses subfinder CLI. No direct queries to the target's infrastructure beyond DNS.
     """
     if not shutil.which("subfinder"):
-        log.warning("subfinder not found in PATH — skipping subdomain enumeration")
+        logger.warning("subfinder not found in PATH — skipping subdomain enumeration")
         return {}
 
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
@@ -450,11 +448,11 @@ def _run_subfinder(domains: list[str]) -> dict[str, list[str]]:
         for domain in results:
             results[domain] = list(dict.fromkeys(results[domain]))
 
-        log.info("subfinder: found %d subdomains across %d domains",
-                 sum(len(v) for v in results.values()), len(results))
+        logger.info("subfinder: found {} subdomains across {} domains",
+                    sum(len(v) for v in results.values()), len(results))
         return results
     except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-        log.warning("subfinder execution failed: %s", e)
+        logger.warning("subfinder execution failed: {}", e)
         return {}
     finally:
         os.unlink(input_file)
@@ -466,7 +464,7 @@ def _run_dnsx(domains: list[str]) -> dict[str, dict]:
     Standard DNS queries to public resolvers. Public by design.
     """
     if not shutil.which("dnsx"):
-        log.warning("dnsx not found in PATH — skipping DNS enrichment")
+        logger.warning("dnsx not found in PATH — skipping DNS enrichment")
         return {}
 
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
@@ -499,10 +497,10 @@ def _run_dnsx(domains: list[str]) -> dict[str, dict]:
             except json.JSONDecodeError:
                 continue
 
-        log.info("dnsx: enriched DNS for %d domains", len(results))
+        logger.info("dnsx: enriched DNS for {} domains", len(results))
         return results
     except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-        log.warning("dnsx execution failed: %s", e)
+        logger.warning("dnsx execution failed: {}", e)
         return {}
     finally:
         os.unlink(input_file)
@@ -518,7 +516,7 @@ def _query_crt_sh_single(domain: str) -> tuple:
             headers={"User-Agent": USER_AGENT},
         )
         if resp.status_code != 200:
-            log.debug("crt.sh returned %d for %s", resp.status_code, domain)
+            logger.debug("crt.sh returned {} for {}", resp.status_code, domain)
             return domain, []
 
         data = resp.json()
@@ -540,7 +538,7 @@ def _query_crt_sh_single(domain: str) -> tuple:
         return domain, certs
 
     except (requests.RequestException, json.JSONDecodeError) as e:
-        log.debug("crt.sh query failed for %s: %s", domain, e)
+        logger.debug("crt.sh query failed for {}: {}", domain, e)
         return domain, []
 
 
@@ -560,9 +558,9 @@ def _query_crt_sh(domains: list[str]) -> dict[str, list[dict]]:
                 if certs:
                     results[domain] = certs
             except Exception as e:
-                log.debug("crt.sh thread error: %s", e)
+                logger.debug("crt.sh thread error: {}", e)
 
-    log.info("crt.sh: found certificates for %d/%d domains", len(results), len(domains))
+    logger.info("crt.sh: found certificates for {}/{} domains", len(results), len(domains))
     return results
 
 
@@ -572,7 +570,7 @@ def _query_grayhatwarfare(domains: list[str]) -> dict[str, list[dict]]:
     Queries a third-party public index. No requests to the target's infrastructure.
     """
     if not GRAYHATWARFARE_API_KEY:
-        log.warning("GRAYHATWARFARE_API_KEY not set — skipping cloud storage search")
+        logger.warning("GRAYHATWARFARE_API_KEY not set — skipping cloud storage search")
         return {}
 
     results: dict[str, list[dict]] = {}
@@ -586,7 +584,7 @@ def _query_grayhatwarfare(domains: list[str]) -> dict[str, list[dict]]:
                 timeout=30,
             )
             if resp.status_code != 200:
-                log.debug("GrayHatWarfare returned %d for %s", resp.status_code, domain)
+                logger.debug("GrayHatWarfare returned {} for {}", resp.status_code, domain)
                 continue
 
             data = resp.json()
@@ -603,9 +601,9 @@ def _query_grayhatwarfare(domains: list[str]) -> dict[str, list[dict]]:
                 ]
 
         except (requests.RequestException, json.JSONDecodeError) as e:
-            log.debug("GrayHatWarfare query failed for %s: %s", domain, e)
+            logger.debug("GrayHatWarfare query failed for {}: {}", domain, e)
 
-    log.info("GrayHatWarfare: found exposed storage for %d/%d domains", len(results), len(domains))
+    logger.info("GrayHatWarfare: found exposed storage for {}/{} domains", len(results), len(domains))
     return results
 
 
@@ -628,7 +626,7 @@ def _run_nuclei(domains: list[str]) -> dict[str, dict]:
     Returns ``{domain: {"findings": [...], "template_count": N}}``.
     """
     if not shutil.which("nuclei"):
-        log.warning("nuclei not found in PATH — skipping vulnerability scan")
+        logger.warning("nuclei not found in PATH — skipping vulnerability scan")
         return {}
 
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
@@ -660,7 +658,7 @@ def _run_nuclei(domains: list[str]) -> dict[str, dict]:
         )
 
         if result.returncode != 0 and result.stderr:
-            log.warning("nuclei exited with code %d: %s", result.returncode, result.stderr[:500])
+            logger.warning("nuclei exited with code {}: {}", result.returncode, result.stderr[:500])
 
         results: dict[str, dict] = {}
         for line in result.stdout.strip().split("\n"):
@@ -675,8 +673,8 @@ def _run_nuclei(domains: list[str]) -> dict[str, dict]:
                 host = host.split("/")[0].split(":")[0]
 
                 if not host:
-                    log.warning("nuclei finding dropped — unparseable host: %s (template: %s)",
-                                data.get("host", ""), data.get("template-id", "unknown"))
+                    logger.warning("nuclei finding dropped — unparseable host: {} (template: {})",
+                                   data.get("host", ""), data.get("template-id", "unknown"))
                     continue
 
                 if host not in results:
@@ -693,18 +691,18 @@ def _run_nuclei(domains: list[str]) -> dict[str, dict]:
             except json.JSONDecodeError:
                 continue
 
-        log.info(
-            "nuclei: scanned %d domains, found %d total findings",
+        logger.info(
+            "nuclei: scanned {} domains, found {} total findings",
             len(domains),
             sum(r["finding_count"] for r in results.values()),
         )
         return results
 
     except subprocess.TimeoutExpired:
-        log.warning("nuclei timed out after %ds", NUCLEI_TIMEOUT)
+        logger.warning("nuclei timed out after {}s", NUCLEI_TIMEOUT)
         return {}
     except FileNotFoundError:
-        log.warning("nuclei binary not found")
+        logger.warning("nuclei binary not found")
         return {}
     finally:
         os.unlink(input_file)
@@ -735,7 +733,7 @@ def _run_cmseek(domains: list[str]) -> dict[str, dict]:
     """
     cmseek_script = os.path.join(CMSEEK_PATH, "cmseek.py")
     if not os.path.isfile(cmseek_script):
-        log.warning("CMSeek not found at %s — skipping CMS deep scan", CMSEEK_PATH)
+        logger.warning("CMSeek not found at {} — skipping CMS deep scan", CMSEEK_PATH)
         return {}
 
     results: dict[str, dict] = {}
@@ -744,7 +742,7 @@ def _run_cmseek(domains: list[str]) -> dict[str, dict]:
     for domain in domains:
         # Validate domain format to prevent path traversal
         if not _DOMAIN_RE.match(domain):
-            log.warning("cmseek: invalid domain format %r — skipping", domain)
+            logger.warning("cmseek: invalid domain format {!r} — skipping", domain)
             continue
 
         url = f"https://{domain}"
@@ -752,7 +750,7 @@ def _run_cmseek(domains: list[str]) -> dict[str, dict]:
 
         # Path traversal guard
         if not os.path.realpath(result_dir).startswith(result_base):
-            log.error("cmseek: path traversal blocked for domain %r", domain)
+            logger.error("cmseek: path traversal blocked for domain {!r}", domain)
             continue
 
         try:
@@ -771,8 +769,8 @@ def _run_cmseek(domains: list[str]) -> dict[str, dict]:
             )
 
             if proc.returncode != 0:
-                log.warning("cmseek exited with code %d for %s: %s",
-                            proc.returncode, domain, proc.stderr[:500])
+                logger.warning("cmseek exited with code {} for {}: {}",
+                               proc.returncode, domain, proc.stderr[:500])
 
             # Read result file
             result_file = os.path.join(result_dir, "cms.json")
@@ -792,28 +790,28 @@ def _run_cmseek(domains: list[str]) -> dict[str, dict]:
                         "wp_users": data.get("wp_users", ""),
                     }
 
-                    log.info("cmseek_complete", extra={"context": {
+                    logger.bind(context={
                         "domain": domain,
                         "cms_id": data.get("cms_id", ""),
                         "cms_name": data.get("cms_name", ""),
-                    }})
+                    }).info("cmseek_complete")
 
                 except (json.JSONDecodeError, OSError) as exc:
-                    log.warning("cmseek result file unreadable for %s: %s", domain, exc)
+                    logger.warning("cmseek result file unreadable for {}: {}", domain, exc)
             else:
-                log.debug("cmseek produced no result file for %s", domain)
+                logger.debug("cmseek produced no result file for {}", domain)
 
         except subprocess.TimeoutExpired:
-            log.warning("cmseek timed out after %ds for %s", CMSEEK_TIMEOUT, domain)
+            logger.warning("cmseek timed out after {}s for {}", CMSEEK_TIMEOUT, domain)
         except FileNotFoundError:
-            log.warning("python3 not found — cannot run cmseek")
+            logger.warning("python3 not found — cannot run cmseek")
             return results
         finally:
             # Clean up result directory to avoid stale data on next run
             if os.path.isdir(result_dir):
                 shutil.rmtree(result_dir, ignore_errors=True)
 
-    log.info("cmseek: scanned %d/%d domains", len(results), len(domains))
+    logger.info("cmseek: scanned {}/{} domains", len(results), len(domains))
     return results
 
 
@@ -872,7 +870,7 @@ def _validate_approval_tokens(max_level: int = 0) -> dict | None:
         with open(approvals_path) as f:
             data = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        log.error("Cannot read approval tokens: %s", e)
+        logger.error("Cannot read approval tokens: {}", e)
         return None
 
     approvals = {a["scan_type_id"]: a for a in data.get("approvals", [])}
@@ -886,15 +884,15 @@ def _validate_approval_tokens(max_level: int = 0) -> dict | None:
     for scan_type_id, func in required_functions.items():
         approval = approvals.get(scan_type_id)
         if not approval:
-            log.error("No approval token for scan type: %s", scan_type_id)
+            logger.error("No approval token for scan type: {}", scan_type_id)
             return None
 
         current_hash = "sha256:" + hashlib.sha256(
             inspect.getsource(func).encode("utf-8")
         ).hexdigest()
         if current_hash != approval["function_hash"]:
-            log.error(
-                "Function hash mismatch for %s — approval token invalidated. "
+            logger.error(
+                "Function hash mismatch for {} — approval token invalidated. "
                 "Re-submit to Valdi for Gate 1 review.",
                 scan_type_id,
             )
@@ -930,7 +928,7 @@ def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
     filepath = check_dir / f"pre-scan-check-{now.strftime('%Y-%m-%d_%H-%M-%S')}.json"
     with open(filepath, "w") as f:
         json.dump(check, f, indent=2)
-    log.info("Pre-scan check written to %s", filepath)
+    logger.info("Pre-scan check written to {}", filepath)
     return filepath
 
 
@@ -955,17 +953,17 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
     # Gate check: validate all approval tokens and function hashes
     approvals_data = _validate_approval_tokens()
     if approvals_data is None:
-        log.error("BLOCKED — Valdi approval token validation failed. No scans will execute.")
+        logger.error("BLOCKED — Valdi approval token validation failed. No scans will execute.")
         return {}
 
     active = [c for c in companies if not c.discarded and c.website_domain]
     domains = list(set(c.website_domain for c in active))
-    log.info("Scanning %d unique domains (Layer 1 passive only)", len(domains))
+    logger.info("Scanning {} unique domains (Layer 1 passive only)", len(domains))
 
     # robots.txt pre-filter — BEFORE any scanning activity (concurrent)
     allowed_domains = []
     skipped_domains = []
-    log.info("Checking robots.txt for %d domains (concurrent, %d workers)", len(domains), MAX_WORKERS_HTTP)
+    logger.info("Checking robots.txt for {} domains (concurrent, {} workers)", len(domains), MAX_WORKERS_HTTP)
     with ThreadPoolExecutor(max_workers=MAX_WORKERS_HTTP) as executor:
         futures = {executor.submit(_check_robots_txt, d): d for d in domains}
         for future in as_completed(futures):
@@ -975,24 +973,24 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
                     allowed_domains.append(domain)
                 else:
                     skipped_domains.append(domain)
-                    log.info("SKIPPED %s — robots.txt denies automated access", domain)
+                    logger.info("SKIPPED {} — robots.txt denies automated access", domain)
             except Exception as e:
                 allowed_domains.append(domain)  # fail-open: can't check = no restriction
-                log.debug("robots.txt check error for %s: %s", domain, e)
+                logger.debug("robots.txt check error for {}: {}", domain, e)
 
     if skipped_domains:
-        log.info(
-            "robots.txt filter: %d allowed, %d skipped",
+        logger.info(
+            "robots.txt filter: {} allowed, {} skipped",
             len(allowed_domains), len(skipped_domains),
         )
 
     if not allowed_domains:
-        log.warning("No domains passed robots.txt filter — nothing to scan")
+        logger.warning("No domains passed robots.txt filter — nothing to scan")
         return {}
 
     # Write pre-scan compliance check (Gate 2 batch check)
     pre_scan_path = _write_pre_scan_check(allowed_domains, skipped_domains)
-    log.info("Pre-scan check: %s", pre_scan_path)
+    logger.info("Pre-scan check: {}", pre_scan_path)
 
     # --- Operator notification ---
     print_gate1_summary(approvals_data)
@@ -1004,7 +1002,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
     # --- Hard confirmation gate ---
     if not confirmed:
         if not prompt_confirmation(len(allowed_domains)):
-            log.info("ABORTED — Operator declined confirmation. No scans executed.")
+            logger.info("ABORTED — Operator declined confirmation. No scans executed.")
             return {}
 
     start_time = datetime.now(timezone.utc)
@@ -1018,7 +1016,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
     subfinder_results = _run_subfinder(allowed_domains)
 
     # crt.sh and GrayHatWarfare are API queries — run concurrently with rate limiting
-    log.info("Querying APIs concurrently (crt.sh, GrayHatWarfare) for %d domains", len(allowed_domains))
+    logger.info("Querying APIs concurrently (crt.sh, GrayHatWarfare) for {} domains", len(allowed_domains))
     crt_sh_results = _query_crt_sh(allowed_domains)
     ghw_results = _query_grayhatwarfare(allowed_domains)
 
@@ -1039,7 +1037,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         # SSL check
         t0 = time.monotonic()
         ssl_info = _check_ssl(domain)
-        log.info("scan_type_complete", extra={"context": {"domain": domain, "scan_type": "ssl", "duration_ms": int((time.monotonic() - t0) * 1000)}})
+        logger.bind(context={"domain": domain, "scan_type": "ssl", "duration_ms": int((time.monotonic() - t0) * 1000)}).info("scan_type_complete")
         scan.ssl_valid = ssl_info["valid"]
         scan.ssl_issuer = ssl_info["issuer"]
         scan.ssl_expiry = ssl_info["expiry"]
@@ -1048,12 +1046,12 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         # Response headers
         t0 = time.monotonic()
         scan.headers = _get_response_headers(domain)
-        log.info("scan_type_complete", extra={"context": {"domain": domain, "scan_type": "headers", "duration_ms": int((time.monotonic() - t0) * 1000)}})
+        logger.bind(context={"domain": domain, "scan_type": "headers", "duration_ms": int((time.monotonic() - t0) * 1000)}).info("scan_type_complete")
 
         # Page meta extraction (author, footer credit, plugins)
         t0 = time.monotonic()
         meta_author, footer_credit, plugins = _extract_page_meta(domain)
-        log.info("scan_type_complete", extra={"context": {"domain": domain, "scan_type": "page_meta", "duration_ms": int((time.monotonic() - t0) * 1000)}})
+        logger.bind(context={"domain": domain, "scan_type": "page_meta", "duration_ms": int((time.monotonic() - t0) * 1000)}).info("scan_type_complete")
         scan.meta_author = meta_author
         scan.footer_credit = footer_credit
         if plugins:
@@ -1100,12 +1098,12 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
 
         total_ms = int((time.monotonic() - domain_t0) * 1000)
         findings_count = len(scan.tech_stack) + len(scan.subdomains) + len(scan.ct_certificates) + len(scan.exposed_cloud_storage)
-        log.info("domain_scan_complete", extra={"context": {"domain": domain, "duration_ms": total_ms, "findings_count": findings_count}})
+        logger.bind(context={"domain": domain, "duration_ms": total_ms, "findings_count": findings_count}).info("domain_scan_complete")
 
         return scan
 
     results: dict[str, ScanResult] = {}
-    log.info("Scanning %d domains concurrently (%d workers)", len(allowed_domains), MAX_WORKERS_HTTP)
+    logger.info("Scanning {} domains concurrently ({} workers)", len(allowed_domains), MAX_WORKERS_HTTP)
     completed = 0
     with ThreadPoolExecutor(max_workers=MAX_WORKERS_HTTP) as executor:
         futures = {executor.submit(_scan_single_domain, d): d for d in allowed_domains}
@@ -1114,10 +1112,10 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             try:
                 results[domain] = future.result()
             except Exception as e:
-                log.warning("Scan failed for %s: %s", domain, e)
+                logger.warning("Scan failed for {}: {}", domain, e)
             completed += 1
             if completed % 50 == 0:
-                log.info("Scanned %d/%d domains", completed, len(allowed_domains))
+                logger.info("Scanned {}/{} domains", completed, len(allowed_domains))
 
     end_time = datetime.now(timezone.utc)
 
@@ -1129,9 +1127,9 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         start_time, end_time, approvals_data,
     )
 
-    log.info(
-        "Layer 1 scanning complete: %d domains scanned, %d skipped (robots.txt)",
+    logger.info(
+        "Layer 1 scanning complete: {} domains scanned, {} skipped (robots.txt)",
         len(results), len(skipped_domains),
     )
-    log.info("Run summary: %s", summary_path)
+    logger.info("Run summary: {}", summary_path)
     return results

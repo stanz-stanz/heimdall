@@ -2,16 +2,14 @@
 
 from __future__ import annotations
 
-import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.robotparser import RobotFileParser
 
 import requests
+from loguru import logger
 
 from .config import REQUEST_TIMEOUT, USER_AGENT
 from .cvr import Company
-
-log = logging.getLogger(__name__)
 
 MAX_WORKERS = 20
 
@@ -72,7 +70,7 @@ def resolve_domains(companies: list[Company]) -> list[Company]:
         domain_to_companies.setdefault(c.website_domain, []).append(c)
 
     unique_domains = list(domain_to_companies.keys())
-    log.info("Resolving %d unique domains (%d companies)", len(unique_domains), len(to_check))
+    logger.info("Resolving {} unique domains ({} companies)", len(unique_domains), len(to_check))
 
     # Use first company per domain as the probe; propagate result to all sharing that domain
     probes = {d: cs[0] for d, cs in domain_to_companies.items()}
@@ -86,7 +84,7 @@ def resolve_domains(companies: list[Company]) -> list[Company]:
             try:
                 future.result()
             except Exception as e:
-                log.warning("Error resolving %s: %s", domain, e)
+                logger.warning("Error resolving {}: {}", domain, e)
                 probes[domain].discard_reason = "resolve_error"
 
             # Propagate result to all companies sharing this domain
@@ -97,8 +95,8 @@ def resolve_domains(companies: list[Company]) -> list[Company]:
                         c.discard_reason = probe.discard_reason
 
             if done % 50 == 0:
-                log.info("Resolved %d/%d domains", done, len(unique_domains))
+                logger.info("Resolved {}/{} domains", done, len(unique_domains))
 
     resolved = sum(1 for c in to_check if not c.discarded)
-    log.info("Domain resolution complete: %d alive, %d discarded", resolved, len(to_check) - resolved)
+    logger.info("Domain resolution complete: {} alive, {} discarded", resolved, len(to_check) - resolved)
     return companies

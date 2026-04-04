@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import openpyxl
+from loguru import logger
 
 from .config import (
     COL_ADDRESS,
@@ -21,9 +21,6 @@ from .config import (
     COL_POSTCODE,
     FREE_WEBMAIL,
 )
-
-log = logging.getLogger(__name__)
-
 
 @dataclass
 class Company:
@@ -91,7 +88,7 @@ def read_excel(path: Path) -> list[Company]:
         companies.append(company)
 
     wb.close()
-    log.info("Read %d companies from %s", len(companies), path.name)
+    logger.info("Read {} companies from {}", len(companies), path.name)
     return companies
 
 
@@ -118,5 +115,5 @@ def derive_domains(companies: list[Company]) -> list[Company]:
 
     kept = sum(1 for c in companies if not c.discarded)
     discarded = sum(1 for c in companies if c.discarded)
-    log.info("Domain derivation: %d kept, %d discarded", kept, discarded)
+    logger.info("Domain derivation: {} kept, {} discarded", kept, discarded)
     return companies

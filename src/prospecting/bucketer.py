@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import logging
+from loguru import logger
 
 from .config import BUCKET_A_CMS, BUCKET_B_CMS, BUCKET_C_PLATFORMS
 from .cvr import Company
 from .scanner import ScanResult
-
-log = logging.getLogger(__name__)
 
 BUCKET_LABELS = {
     "A": "HIGHEST — Self-hosted WordPress on shared hosting",
@@ -62,5 +60,5 @@ def assign_buckets(companies: list[Company], scan_results: dict[str, ScanResult]
     for b in buckets.values():
         counts[b] = counts.get(b, 0) + 1
 
-    log.info("Bucket distribution: %s", ", ".join(f"{k}: {v}" for k, v in sorted(counts.items())))
+    logger.info("Bucket distribution: {}", ", ".join(f"{k}: {v}" for k, v in sorted(counts.items())))
     return buckets
