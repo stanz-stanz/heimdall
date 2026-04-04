@@ -144,6 +144,13 @@ async def handle_client_callback(
         await _handle_fix_it(query, conn, cvr, domain)
     else:
         logger.warning("unknown_client_callback action={}", action)
+        return
+
+    # Remove buttons after any valid click to prevent double-actions
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:
+        logger.debug("could_not_remove_buttons domain={}", domain)
 
 
 async def _handle_got_it(query, conn, cvr: str, domain: str) -> None:
