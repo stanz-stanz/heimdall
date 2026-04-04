@@ -4,8 +4,8 @@ description: >
   Finding Interpreter agent for Heimdall. Translates raw scan output into plain-language
   findings for non-technical business owners via the Claude API. Use this agent when:
   interpreting scan results; generating plain-language finding descriptions; translating
-  technical vulnerabilities into business impact; creating "who should fix this" routing;
-  drafting remediation guidance. Also use when the user mentions "interpretation",
+  technical vulnerabilities into business impact; tier-aware output (Watchman: explanation only,
+  Sentinel/Guardian: + fix instructions). Also use when the user mentions "interpretation",
   "plain language", "findings translation", "Claude API interpretation",
   or asks "how do we explain this to the client?" or "translate this finding".
 ---

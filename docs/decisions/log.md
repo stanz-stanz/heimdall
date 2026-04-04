@@ -5,6 +5,30 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-04 — Service tier restructure + remediation service cut
+
+**Decided**
+- "Who should fix it" removed from all tiers — clients know who built their website. `who` field removed from interpreter output.
+- Annual pricing added for all tiers: Watchman 169, Sentinel 339, Guardian 669 kr./mo.
+- "Scan Frequency" column replaced by "Scanning Type": Passive (Watchman/Sentinel) vs Passive + Active (Guardian).
+- Watchman = plain language explanation only (no fix instructions). Prompt omits `action` field to save tokens.
+- Sentinel/Guardian = what's wrong + how to fix it (written report). `action` field = the tier differentiator / upsell.
+- Composer defensively strips `Fix:` line for Watchman even if LLM generates it (belt and suspenders).
+- **Remediation service cut entirely.** After reviewing real scan data: ~70% of findings are plugin updates (need credentials, risk breaking sites), ~25% are server-level (need hosting access we don't have). Promising to fix = liability, not revenue.
+- "Can Heimdall fix this?" button removed. Single "Got it" button on all tiers.
+- Status flow simplified: `open → sent → acknowledged`. `fix_requested` and `in_progress` removed.
+- osTicket integration removed from backlog.
+- Remediation service pricing (599 kr./hr) removed from all business documents.
+- Client base becomes referral honeypot for local web developers — aligns with agency partnership strategy.
+- Financial impact: blended ARPC ~305 kr./month (early), ~370 kr./month (mature). Break-even ~13-14 clients (up from 11-12).
+
+**Rejected**
+- Keeping the remediation service as an upsell — liability outweighs revenue. A broken booking system on a Friday night destroys pilot reputation.
+- Keeping "who should fix it" — adds no value, clients know who built their website.
+- Separate prompt templates per tier — single template with conditional blocks is cleaner.
+
+---
+
 ## 2026-04-04 — Pi5 smoke test, button removal after click
 
 **Decided**

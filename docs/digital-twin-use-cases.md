@@ -88,7 +88,7 @@ The digital twin reads a prospect brief JSON and spins up a local website that r
 - Prioritisation guidance: "fixing these 2 items removes 5 of your 9 findings"
 - QA for the Finding Interpreter: verify that resolved findings are correctly excluded from the updated report
 
-**When:** Post-pilot, when Heimdall offers remediation services. The twin infrastructure is already in place — this use case requires no additional code, only brief mutation.
+**When:** Post-pilot, when Heimdall extends fix verification capabilities. The twin infrastructure is already in place — this use case requires no additional code, only brief mutation.
 
 ---
 
