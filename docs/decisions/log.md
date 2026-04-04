@@ -5,6 +5,20 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-04 — Pi5 smoke test, button removal after click
+
+**Decided**
+- Pi5 smoke test passed: `preview_message.py --send` renders correctly (🔴/🟠 severity labels, bold/italic, Confirmed/Potential sections, inline buttons). Full delivery pipeline (`test_delivery.py`) works end-to-end (Redis pub/sub → operator approval → client message).
+- Buttons removed after click via `query.edit_message_reply_markup(reply_markup=None)` to prevent double-actions breaking the status chain. Branch: `fix/remove-buttons-after-click`.
+- Telethon E2E test not re-run on Pi — `telethon` and `python-dotenv` are dev deps, not in delivery container. Already verified locally in prior session.
+
+**Unresolved**
+- Telegram tone iteration
+- `in_progress → resolved` transitions (osTicket)
+- Unit tests for `_transition_findings`
+
+---
+
 ## 2026-04-04 — Finding status flow, button behavior redesign, GDPR flexibility
 
 **Decided**
