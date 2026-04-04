@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 
 import openpyxl
+from loguru import logger
 
 from src.prospecting.config import (
     COL_ADDRESS,
@@ -19,8 +19,6 @@ from src.prospecting.config import (
     COL_PHONE,
     COL_POSTCODE,
 )
-
-log = logging.getLogger(__name__)
 
 # Expected substrings in column headers (case-insensitive) for validation
 EXPECTED_HEADERS: dict[int, str] = {
@@ -114,5 +112,5 @@ def read_cvr_excel(path: Path) -> list[dict]:
         })
 
     wb.close()
-    log.info("Read %d companies from %s", len(rows), path.name)
+    logger.info("Read {} companies from {}", len(rows), path.name)
     return rows

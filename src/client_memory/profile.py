@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import logging
 from typing import Optional
 
-from .storage import AtomicFileStore
+from loguru import logger
 
-log = logging.getLogger(__name__)
+from .storage import AtomicFileStore
 
 _VALID_TIERS = {"watchman", "sentinel", "guardian"}
 
@@ -47,9 +46,9 @@ class ClientProfile:
         }
 
         self.store.write_json(profile, client_id, "profile.json")
-        log.info("profile_created", extra={"context": {
+        logger.bind(context={
             "client_id": client_id, "tier": tier, "domain": domain,
-        }})
+        }).info("profile_created")
         return profile
 
     def load_profile(self, client_id: str) -> Optional[dict]:
@@ -77,9 +76,9 @@ class ClientProfile:
             profile["scan_schedule"] = _tier_to_schedule(updates["tier"])
 
         self.store.write_json(profile, client_id, "profile.json")
-        log.info("profile_updated", extra={"context": {
+        logger.bind(context={
             "client_id": client_id, "fields": list(updates.keys()),
-        }})
+        }).info("profile_updated")
         return profile
 
 

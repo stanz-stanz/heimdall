@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-import logging
 import re
-
-log = logging.getLogger(__name__)
 
 CVSS_SEVERITY = {
     "c": "critical",

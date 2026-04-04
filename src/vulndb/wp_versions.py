@@ -6,7 +6,6 @@ Used to check if installed plugins are outdated.
 
 from __future__ import annotations
 
-import logging
 import os
 import time
 from datetime import datetime, timezone
@@ -14,8 +13,6 @@ from datetime import datetime, timezone
 import requests
 
 from .cache import init_db
-
-log = logging.getLogger(__name__)
 
 WP_API_URL = "https://api.wordpress.org/plugins/info/1.0/{slug}.json"
 REQUEST_TIMEOUT = 10

@@ -10,15 +10,13 @@ Two-step approach:
 
 from __future__ import annotations
 
-import logging
 import os
 import re
 import time
 from functools import lru_cache
 
 import requests
-
-log = logging.getLogger(__name__)
+from loguru import logger
 
 _RETRY_BACKOFF = [1, 3, 5]
 _MAX_RETRIES = 3
@@ -53,9 +51,9 @@ def _serper_search(query: str, api_key: str) -> list[dict]:
             resp = requests.get(SERPER_URL, params=params, timeout=10)
             if resp.status_code == 429:
                 wait = _RETRY_BACKOFF[min(attempt, len(_RETRY_BACKOFF) - 1)]
-                log.warning("serper_rate_limited", extra={"context": {
+                logger.bind(context={
                     "attempt": attempt + 1, "wait": wait,
-                }})
+                }).warning("serper_rate_limited")
                 time.sleep(wait)
                 continue
             resp.raise_for_status()
@@ -72,9 +70,9 @@ def _serper_search(query: str, api_key: str) -> list[dict]:
         except requests.RequestException as exc:
             if attempt < _MAX_RETRIES - 1:
                 wait = _RETRY_BACKOFF[min(attempt, len(_RETRY_BACKOFF) - 1)]
-                log.warning("serper_search_retry", extra={"context": {
+                logger.bind(context={
                     "attempt": attempt + 1, "wait": wait, "error": str(exc),
-                }})
+                }).warning("serper_search_retry")
                 time.sleep(wait)
             else:
                 raise SearchError(f"Serper search failed: {exc}") from exc
@@ -137,11 +135,11 @@ def _pick_domain_with_claude(
         )
         text = response.content[0].text.strip()
 
-        log.info("claude_pick_complete", extra={"context": {
+        logger.bind(context={
             "company": company_name,
             "input_tokens": response.usage.input_tokens,
             "output_tokens": response.usage.output_tokens,
-        }})
+        }).info("claude_pick_complete")
 
         domain = _extract_domain_from_response(text)
         return domain, f"Claude picked: {text}\n\nFrom results:\n{results_text}"
@@ -220,16 +218,16 @@ def search_company_domain(
 
     if not results:
         detail = f"Serper returned 0 results for: {query}"
-        log.info("serper_no_results", extra={"context": {
+        logger.bind(context={
             "company": company_name, "query": query,
-        }})
+        }).info("serper_no_results")
         return "", detail
 
-    log.info("serper_search_complete", extra={"context": {
+    logger.bind(context={
         "company": company_name,
         "query": query,
         "result_count": len(results),
-    }})
+    }).info("serper_search_complete")
 
     # Step 2: Claude picks the domain
     domain, detail = _pick_domain_with_claude(company_name, city, results)

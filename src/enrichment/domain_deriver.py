@@ -2,11 +2,8 @@
 
 from __future__ import annotations
 
-import logging
 import re
 from difflib import SequenceMatcher
-
-log = logging.getLogger(__name__)
 
 # Suffixes to strip from company names before matching
 _NAME_SUFFIXES = re.compile(

@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-import logging
 import os
+
+from loguru import logger
 
 from .cache import (
     get_core_vulns,
@@ -15,8 +16,6 @@ from .cache import (
 )
 from .client import fetch_core_vulns, fetch_plugin_vulns
 from .matcher import build_findings
-
-log = logging.getLogger(__name__)
 
 DEFAULT_DB_PATH = os.environ.get("VULNDB_PATH", "/data/cache/vulndb.sqlite3")
 
@@ -67,10 +66,10 @@ def lookup_wordpress_vulns(
         conn.close()
 
     if all_findings:
-        log.info("vulndb_findings", extra={"context": {
+        logger.bind(context={
             "plugin_count": len(plugin_slugs),
             "finding_count": len(all_findings),
-        }})
+        }).info("vulndb_findings")
 
     return all_findings
 
@@ -123,7 +122,7 @@ def refresh_stale_cache(db_path: str | None = None, max_age_days: int = 7) -> in
         refreshed += 1
 
     conn.close()
-    log.info("vulndb_refresh", extra={"context": {
+    logger.bind(context={
         "stale_count": len(stale), "refreshed": refreshed,
-    }})
+    }).info("vulndb_refresh")
     return refreshed

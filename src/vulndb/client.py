@@ -5,12 +5,10 @@ Free, no auth required. Aggregates CVE/NVD, WPScan, Wordfence, Patchstack data.
 
 from __future__ import annotations
 
-import logging
 import time
 
 import requests
-
-log = logging.getLogger(__name__)
+from loguru import logger
 
 BASE_URL = "https://www.wpvulnerability.net"
 REQUEST_TIMEOUT = 15
@@ -53,10 +51,10 @@ def _fetch_vulns(url: str, identifier: str, asset_type: str) -> tuple[int, list[
 
             if resp.status_code >= 500:
                 if attempt < MAX_RETRIES:
-                    log.warning("wpvuln_server_error", extra={"context": {
+                    logger.bind(context={
                         "url": url, "status": resp.status_code,
                         "attempt": attempt + 1,
-                    }})
+                    }).warning("wpvuln_server_error")
                     time.sleep(RETRY_DELAY)
                     continue
                 return resp.status_code, []
@@ -64,9 +62,9 @@ def _fetch_vulns(url: str, identifier: str, asset_type: str) -> tuple[int, list[
             data = resp.json()
 
             if data.get("error") == 1:
-                log.debug("wpvuln_api_error", extra={"context": {
+                logger.bind(context={
                     "identifier": identifier, "message": data.get("message"),
-                }})
+                }).debug("wpvuln_api_error")
                 return resp.status_code, []
 
             raw_vulns = (data.get("data") or {}).get("vulnerability")
@@ -75,23 +73,23 @@ def _fetch_vulns(url: str, identifier: str, asset_type: str) -> tuple[int, list[
 
             vulns = [_normalize_vuln(v) for v in raw_vulns]
 
-            log.info("wpvuln_fetch_ok", extra={"context": {
+            logger.bind(context={
                 "asset_type": asset_type,
                 "identifier": identifier,
                 "vuln_count": len(vulns),
-            }})
+            }).info("wpvuln_fetch_ok")
             return resp.status_code, vulns
 
         except requests.RequestException as exc:
             if attempt < MAX_RETRIES:
-                log.warning("wpvuln_request_error", extra={"context": {
+                logger.bind(context={
                     "url": url, "error": str(exc), "attempt": attempt + 1,
-                }})
+                }).warning("wpvuln_request_error")
                 time.sleep(RETRY_DELAY)
             else:
-                log.error("wpvuln_request_failed", extra={"context": {
+                logger.bind(context={
                     "url": url, "error": str(exc),
-                }})
+                }).error("wpvuln_request_failed")
                 return 0, []
 
     return 0, []

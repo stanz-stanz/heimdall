@@ -9,15 +9,14 @@ Valid transitions are loaded from config/remediation_states.json.
 from __future__ import annotations
 
 import json
-import logging
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-from .models import FindingRecord, FindingStatus
+from loguru import logger
 
-log = logging.getLogger(__name__)
+from .models import FindingRecord, FindingStatus
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "remediation_states.json"
 
@@ -101,12 +100,12 @@ class RemediationTracker:
         if new_status == "resolved":
             finding.resolved_date = ts
 
-        log.info("remediation_transition", extra={"context": {
+        logger.bind(context={
             "finding_id": finding.finding_id,
             "from_status": old_status,
             "to_status": new_status,
             "source": source,
-        }})
+        }).info("remediation_transition")
 
         if conn is not None and occurrence_id is not None:
             from src.db.findings import log_status_transition, update_occurrence_status
@@ -145,12 +144,12 @@ class RemediationTracker:
             "source": source,
         })
 
-        log.info("remediation_regression", extra={"context": {
+        logger.bind(context={
             "finding_id": finding.finding_id,
             "from_status": old_status,
             "to_status": self.regression_target,
             "source": source,
-        }})
+        }).info("remediation_regression")
 
         if conn is not None and occurrence_id is not None:
             from src.db.findings import log_status_transition, update_occurrence_status

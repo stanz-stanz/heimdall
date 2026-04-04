@@ -7,13 +7,12 @@ embedded inline (the client DB schema is too large to inline).
 
 from __future__ import annotations
 
-import logging
 import os
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-log = logging.getLogger(__name__)
+from loguru import logger
 
 # Resolve project root from this file's location:
 #   src/db/connection.py -> parents[2] = project root
@@ -53,7 +52,7 @@ def init_db(db_path: str | Path = _DEFAULT_DB_PATH) -> sqlite3.Connection:
     schema_sql = _load_schema()
     conn.executescript(schema_sql)
 
-    log.info("Client database initialized: %s", db_path)
+    logger.info("Client database initialized: {}", db_path)
     return conn
 
 

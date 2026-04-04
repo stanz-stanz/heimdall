@@ -3,10 +3,7 @@
 from __future__ import annotations
 
 import json
-import logging
 from pathlib import Path
-
-log = logging.getLogger(__name__)
 
 _CONFIG_DIR = Path(__file__).resolve().parent.parent.parent / "config"
 
