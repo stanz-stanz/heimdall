@@ -16,10 +16,11 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import logging
 from pathlib import Path
 
-log = logging.getLogger(__name__)
+from loguru import logger
+
+from src.prospecting.logging_config import setup_logging
 
 DEFAULT_RESULTS_DIR = "data/results"
 DEFAULT_OUTPUT_DIR = "data/output"
@@ -33,13 +34,13 @@ def _load_cvr_lookup(cvr_path: str) -> dict:
     """
     cvr_file = Path(cvr_path)
     if not cvr_file.is_file():
-        log.warning("CVR file not found: %s — contactable field will be empty", cvr_path)
+        logger.warning("CVR file not found: {} — contactable field will be empty", cvr_path)
         return {}
 
     try:
         import openpyxl
     except ImportError:
-        log.warning("openpyxl not installed — contactable field will be empty")
+        logger.warning("openpyxl not installed — contactable field will be empty")
         return {}
 
     try:
@@ -61,10 +62,10 @@ def _load_cvr_lookup(cvr_path: str) -> dict:
                 "contactable": not c.ad_protected,
                 "company_name": c.name,
             }
-        log.info("Loaded %d companies from CVR extract", len(lookup))
+        logger.info("Loaded {} companies from CVR extract", len(lookup))
         return lookup
     except Exception as exc:
-        log.warning("Failed to load CVR data: %s", exc)
+        logger.warning("Failed to load CVR data: {}", exc)
         return {}
 
 
@@ -98,7 +99,7 @@ def export(results_dir: str, output_dir: str, cvr_file: str = DEFAULT_CVR_FILE) 
     skipped = 0
 
     if not results_path.is_dir():
-        log.error("Results directory not found: %s", results_path)
+        logger.error("Results directory not found: {}", results_path)
         return {"domains": 0, "briefs": 0, "skipped": 0}
 
     for client_dir in sorted(results_path.iterdir()):
@@ -170,12 +171,12 @@ def export(results_dir: str, output_dir: str, cvr_file: str = DEFAULT_CVR_FILE) 
         "csv_path": str(csv_path),
         "cvr_enriched": sum(1 for r in csv_rows if r["contactable"] != ""),
     }
-    log.info("export_complete", extra={"context": summary})
+    logger.bind(context=summary).info("export_complete")
     return summary
 
 
 def main():
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    setup_logging(level="INFO")
 
     parser = argparse.ArgumentParser(description="Export worker results to CSV + briefs")
     parser.add_argument("--results-dir", default=DEFAULT_RESULTS_DIR)

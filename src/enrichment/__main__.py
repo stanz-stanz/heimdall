@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import argparse
-import logging
 import sys
 from pathlib import Path
+
+from loguru import logger
+
+from src.prospecting.logging_config import setup_logging
 
 from .pipeline import run_pipeline
 
@@ -53,13 +56,10 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
 
-    logging.basicConfig(
-        level=logging.DEBUG if args.verbose else logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s %(message)s",
-    )
+    setup_logging(level="DEBUG" if args.verbose else "INFO")
 
     if not args.input.exists():
-        logging.error("Input file not found: %s", args.input)
+        logger.error("Input file not found: {}", args.input)
         return 1
 
     stats = run_pipeline(

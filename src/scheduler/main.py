@@ -3,14 +3,14 @@
 from __future__ import annotations
 
 import argparse
-import logging
 import os
 import sys
 from pathlib import Path
 
-from src.scheduler.job_creator import JobCreator
+from loguru import logger
 
-log = logging.getLogger(__name__)
+from src.prospecting.logging_config import setup_logging
+from src.scheduler.job_creator import JobCreator
 
 DEFAULT_REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
 DEFAULT_INPUT_PATH = Path(os.environ.get("INPUT_DIR", "/data/input")) / "CVR-extract.xlsx"
@@ -59,20 +59,17 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     """Run the scheduler. Returns the number of jobs created (or 1 on error)."""
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s %(message)s",
-    )
+    setup_logging(level="INFO")
 
     args = _parse_args(argv)
 
     if args.mode == "scheduled":
-        log.error("Scheduled mode is not yet implemented.")
+        logger.error("Scheduled mode is not yet implemented.")
         return 1
 
     # -- prospect mode --
     if not args.input.exists():
-        log.error("Input file not found: %s", args.input)
+        logger.error("Input file not found: {}", args.input)
         return 1
 
     if not args.confirmed:
@@ -80,7 +77,7 @@ def main(argv: list[str] | None = None) -> int:
             f"Create prospect jobs from {args.input}? [y/N] "
         ).strip().lower()
         if answer != "y":
-            log.info("Aborted by user.")
+            logger.info("Aborted by user.")
             return 0
 
     creator = JobCreator(redis_url=args.redis_url)
@@ -88,42 +85,42 @@ def main(argv: list[str] | None = None) -> int:
     # Prevent concurrent schedulers (deploy scheduler + pipeline scheduler)
     lock_acquired = creator._conn.set("scheduler:lock", "1", nx=True, ex=3600)
     if not lock_acquired:
-        log.error("Another scheduler is already running — aborting to prevent duplicate jobs")
+        logger.error("Another scheduler is already running — aborting to prevent duplicate jobs")
         return 1
 
     try:
         # Phase 1: Extract domains
         domains = creator.extract_prospect_domains(args.input, args.filters)
         if not domains:
-            log.info("No domains extracted — nothing to do")
+            logger.info("No domains extracted — nothing to do")
             return 0
 
         # Phase 2: Enrichment pre-scan (unless skipped)
         if not args.skip_enrichment:
-            log.info("Phase 1/2: Starting subfinder batch enrichment for %d domains", len(domains))
+            logger.info("Phase 1/2: Starting subfinder batch enrichment for {} domains", len(domains))
             enrichment_count = creator.create_enrichment_jobs(domains)
             if enrichment_count > 0:
                 enrichment_ok = creator.wait_for_enrichment(timeout=3600)
                 if not enrichment_ok:
-                    log.warning(
+                    logger.warning(
                         "Enrichment did not complete within timeout — "
                         "proceeding with scan jobs (subfinder will run per-domain for uncached domains)"
                     )
-            log.info("Phase 1/2: Enrichment phase complete")
+            logger.info("Phase 1/2: Enrichment phase complete")
         else:
-            log.info("Enrichment phase skipped (--skip-enrichment)")
+            logger.info("Enrichment phase skipped (--skip-enrichment)")
 
         # Phase 3: Create per-domain scan jobs
-        log.info("Phase 2/2: Creating per-domain scan jobs for %d domains", len(domains))
+        logger.info("Phase 2/2: Creating per-domain scan jobs for {} domains", len(domains))
         count = creator.create_scan_jobs_for_domains(domains)
 
     except Exception:
-        log.exception("Failed to create prospect jobs")
+        logger.opt(exception=True).error("Failed to create prospect jobs")
         return 1
     finally:
         creator._conn.delete("scheduler:lock")
 
-    log.info("Done — %d jobs pushed to Redis", count)
+    logger.info("Done — {} jobs pushed to Redis", count)
     return count
 
 

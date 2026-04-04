@@ -13,7 +13,6 @@ from __future__ import annotations
 import argparse
 import base64
 import json
-import logging
 import os
 import random
 import signal
@@ -25,9 +24,11 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from threading import Thread
 
-from . import templates
+from loguru import logger
 
-log = logging.getLogger("twin")
+from src.prospecting.logging_config import setup_logging
+
+from . import templates
 
 # WordPress "W" favicon — 16x16 ICO, base64-encoded
 _WP_FAVICON_B64 = (
@@ -117,7 +118,7 @@ class TwinHandler(BaseHTTPRequestHandler):
             if include_body:
                 self.wfile.write(b"<html><body><h1>Not Found</h1></body></html>")
             duration = (time.monotonic() - start) * 1000
-            log.info(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "path": path, "method": self.command, "status": 404, "ms": round(duration, 1)}))
+            logger.info(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "path": path, "method": self.command, "status": 404, "ms": round(duration, 1)}))
             return
 
         if isinstance(route, tuple) and len(route) >= 3:
@@ -143,7 +144,7 @@ class TwinHandler(BaseHTTPRequestHandler):
             self.send_header("Location", body)
             self.end_headers()
             duration = (time.monotonic() - start) * 1000
-            log.info(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "path": path, "method": self.command, "status": 302, "ms": round(duration, 1)}))
+            logger.info(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "path": path, "method": self.command, "status": 302, "ms": round(duration, 1)}))
             return
 
         if isinstance(body, bytes):
@@ -159,7 +160,7 @@ class TwinHandler(BaseHTTPRequestHandler):
                 self.wfile.write(encoded)
 
         duration = (time.monotonic() - start) * 1000
-        log.info(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "path": path, "method": self.command, "status": status, "ms": round(duration, 1)}))
+        logger.info(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "path": path, "method": self.command, "status": status, "ms": round(duration, 1)}))
 
     def do_GET(self):
         self._send_response(self.path.split("?")[0])
@@ -277,7 +278,7 @@ def _run_http_redirect(http_port: int, https_port: int, host: str, jitter: bool)
             self.do_GET()
 
     server = HTTPServer((host, http_port), RedirectHandler)
-    log.info(f"HTTP redirect server on {host}:{http_port} -> https://localhost:{https_port}")
+    logger.info(f"HTTP redirect server on {host}:{http_port} -> https://localhost:{https_port}")
     server.serve_forever()
 
 
@@ -295,23 +296,19 @@ def main():
     args = parser.parse_args()
 
     # Logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(message)s",
-        stream=sys.stdout,
-    )
+    setup_logging(level="INFO")
 
     # Load brief
     brief_path = Path(args.brief)
     if not brief_path.exists():
-        log.error(f"Brief not found: {brief_path}")
+        logger.error(f"Brief not found: {brief_path}")
         sys.exit(1)
 
     with open(brief_path) as f:
         brief = json.load(f)
 
     domain = brief.get("domain", "localhost")
-    log.info(f"Loading twin for {domain} from {brief_path}")
+    logger.info(f"Loading twin for {domain} from {brief_path}")
 
     # Load slug map
     slug_map = templates.load_slug_map()
@@ -320,7 +317,7 @@ def main():
     routes = _build_routes(brief, slug_map)
     common_headers = _build_common_headers(brief)
 
-    log.info(f"Routes: {len(routes) - 1} paths, {len(routes.get('_plugin_slugs', set()))} plugins")
+    logger.info(f"Routes: {len(routes) - 1} paths, {len(routes.get('_plugin_slugs', set()))} plugins")
 
     # Configure handler
     TwinHandler.routes = routes
@@ -350,20 +347,20 @@ def main():
         key_file = cert_dir / "key.pem"
 
         if not cert_file.exists():
-            log.warning(f"Cert not found at {cert_file}, serving HTTP only on port {args.port}")
+            logger.warning(f"Cert not found at {cert_file}, serving HTTP only on port {args.port}")
         else:
             ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
             ctx.load_cert_chain(str(cert_file), str(key_file))
             server.socket = ctx.wrap_socket(server.socket, server_side=True)
-            log.info(f"HTTPS server on {args.host}:{args.port}")
+            logger.info(f"HTTPS server on {args.host}:{args.port}")
 
     else:
-        log.info(f"HTTP server on {args.host}:{args.port} (TLS disabled)")
+        logger.info(f"HTTP server on {args.host}:{args.port} (TLS disabled)")
 
     # Graceful shutdown
     def _shutdown(signum, frame):
         uptime = time.monotonic() - start_time
-        log.info(json.dumps({
+        logger.info(json.dumps({
             "event": "shutdown",
             "uptime_seconds": round(uptime, 1),
             "domain": domain,

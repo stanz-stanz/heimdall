@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import logging
 import os
 import sys
 
@@ -65,11 +64,10 @@ from src.delivery.buttons import (  # noqa: E402
     handle_client_callback,
 )
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-)
-log = logging.getLogger(__name__)
+from loguru import logger  # noqa: E402
+from src.prospecting.logging_config import setup_logging  # noqa: E402
+
+setup_logging(level="INFO")
 
 # ---------------------------------------------------------------------------
 # Static fixture — no LLM needed
@@ -129,7 +127,7 @@ async def _run_bot(app: Application, message_html: str, reply_markup) -> int:
         parse_mode="HTML",
         reply_markup=reply_markup,
     )
-    log.info("Message sent, message_id=%d", sent.message_id)
+    logger.info("Message sent, message_id={}", sent.message_id)
     return sent.message_id
 
 
