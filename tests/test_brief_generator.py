@@ -59,6 +59,58 @@ class TestSSLFindings:
 
 
 # ---------------------------------------------------------------------------
+# 1b. TLS version findings
+# ---------------------------------------------------------------------------
+
+class TestTLSFindings:
+    """Test TLS protocol version findings."""
+
+    def test_tls_1_0_is_high(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(tls_version="TLSv1")
+        brief = generate_brief(company, scan, "A")
+        tls_findings = [f for f in brief["findings"] if "encryption protocol" in f["description"].lower()]
+        assert len(tls_findings) == 1
+        assert tls_findings[0]["severity"] == "high"
+        assert "TLSv1" in tls_findings[0]["description"]
+
+    def test_tls_1_1_is_high(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(tls_version="TLSv1.1")
+        brief = generate_brief(company, scan, "A")
+        tls_findings = [f for f in brief["findings"] if "encryption protocol" in f["description"].lower()]
+        assert len(tls_findings) == 1
+        assert tls_findings[0]["severity"] == "high"
+
+    def test_tls_1_2_no_finding(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(tls_version="TLSv1.2")
+        brief = generate_brief(company, scan, "A")
+        tls_findings = [f for f in brief["findings"] if "encryption protocol" in f["description"].lower()]
+        assert len(tls_findings) == 0
+
+    def test_tls_1_3_no_finding(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(tls_version="TLSv1.3")
+        brief = generate_brief(company, scan, "A")
+        tls_findings = [f for f in brief["findings"] if "encryption protocol" in f["description"].lower()]
+        assert len(tls_findings) == 0
+
+    def test_no_tls_version_no_finding(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(tls_version="")
+        brief = generate_brief(company, scan, "A")
+        tls_findings = [f for f in brief["findings"] if "encryption protocol" in f["description"].lower()]
+        assert len(tls_findings) == 0
+
+    def test_tls_version_in_brief_ssl_dict(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(tls_version="TLSv1.3")
+        brief = generate_brief(company, scan, "A")
+        assert brief["technology"]["ssl"]["tls_version"] == "TLSv1.3"
+
+
+# ---------------------------------------------------------------------------
 # 2. Security header findings
 # ---------------------------------------------------------------------------
 
@@ -124,10 +176,76 @@ class TestHeaderFindings:
             "content_security_policy": True,
             "x_frame_options": True,
             "x_content_type_options": True,
+            "permissions_policy": True,
+            "referrer_policy": True,
+            "server_value": "",
+            "x_powered_by": "",
         })
         brief = generate_brief(company, scan, "A")
-        header_findings = [f for f in brief["findings"] if "header" in f["description"].lower() or "HSTS" in f["description"]]
+        header_findings = [f for f in brief["findings"] if "header" in f["description"].lower() or "HSTS" in f["description"] or "Policy" in f["description"]]
         assert len(header_findings) == 0
+
+    def test_missing_permissions_policy_is_low(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(headers={
+            "strict_transport_security": True,
+            "content_security_policy": True,
+            "x_frame_options": True,
+            "x_content_type_options": True,
+            "permissions_policy": False,
+            "referrer_policy": True,
+        })
+        brief = generate_brief(company, scan, "A")
+        pp = [f for f in brief["findings"] if "Permissions-Policy" in f["description"]]
+        assert len(pp) == 1
+        assert pp[0]["severity"] == "low"
+
+    def test_missing_referrer_policy_is_low(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(headers={
+            "strict_transport_security": True,
+            "content_security_policy": True,
+            "x_frame_options": True,
+            "x_content_type_options": True,
+            "permissions_policy": True,
+            "referrer_policy": False,
+        })
+        brief = generate_brief(company, scan, "A")
+        rp = [f for f in brief["findings"] if "Referrer-Policy" in f["description"]]
+        assert len(rp) == 1
+        assert rp[0]["severity"] == "low"
+
+    def test_x_powered_by_disclosure_is_info(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(headers={
+            "strict_transport_security": True,
+            "content_security_policy": True,
+            "x_frame_options": True,
+            "x_content_type_options": True,
+            "permissions_policy": True,
+            "referrer_policy": True,
+            "x_powered_by": "PHP/8.1.2",
+        })
+        brief = generate_brief(company, scan, "A")
+        xpb = [f for f in brief["findings"] if "X-Powered-By" in f["description"]]
+        assert len(xpb) == 1
+        assert xpb[0]["severity"] == "info"
+        assert "PHP/8.1.2" in xpb[0]["description"]
+
+    def test_no_x_powered_by_no_finding(self, sample_company, sample_scan_result):
+        company = sample_company()
+        scan = sample_scan_result(headers={
+            "strict_transport_security": True,
+            "content_security_policy": True,
+            "x_frame_options": True,
+            "x_content_type_options": True,
+            "permissions_policy": True,
+            "referrer_policy": True,
+            "x_powered_by": "",
+        })
+        brief = generate_brief(company, scan, "A")
+        xpb = [f for f in brief["findings"] if "X-Powered-By" in f["description"]]
+        assert len(xpb) == 0
 
 
 # ---------------------------------------------------------------------------

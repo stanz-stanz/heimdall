@@ -148,6 +148,46 @@ class TestPrompts:
             output_section = prompt[prompt.index("OUTPUT FORMAT"):]
             assert "who" not in output_section, f"'who' found in output format for tier={tier}"
 
+    def test_kev_finding_gets_actively_exploited_marker(self):
+        """known_exploited findings get [ACTIVELY EXPLOITED] marker in user prompt."""
+        brief = _sample_brief(findings=[
+            {
+                "severity": "critical",
+                "description": "Apache path traversal vulnerability",
+                "risk": "Allows file disclosure.",
+                "known_exploited": True,
+                "provenance": "confirmed",
+            },
+        ])
+        prompt = build_user_prompt(brief)
+        assert "[ACTIVELY EXPLOITED]" in prompt
+        assert "[CRITICAL] [ACTIVELY EXPLOITED] Apache path traversal" in prompt
+
+    def test_non_kev_finding_no_marker(self):
+        """Findings without known_exploited do not get the marker."""
+        brief = _sample_brief(findings=[
+            {
+                "severity": "high",
+                "description": "Outdated plugin detected",
+                "risk": "May contain known vulnerabilities.",
+                "provenance": "unconfirmed",
+            },
+        ])
+        prompt = build_user_prompt(brief)
+        assert "[ACTIVELY EXPLOITED]" not in prompt
+
+    def test_system_prompt_includes_kev_rule(self):
+        """System prompt includes the ACTIVELY EXPLOITED handling rule."""
+        prompt = build_system_prompt(
+            industry="restaurant",
+            tone="balanced",
+            tone_description="test",
+            language="en",
+            tier="sentinel",
+        )
+        assert "ACTIVELY EXPLOITED" in prompt
+        assert "CISA" in prompt
+
 
 # ---------------------------------------------------------------------------
 # Response parsing

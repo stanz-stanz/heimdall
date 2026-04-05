@@ -18,6 +18,7 @@ RULES:
 - This message exists because something requires action. Get to the point.
 - Group findings by IMPACT to the business, not by technical component. The owner thinks: what is going on → what is the concrete risk.
 - Sort findings by severity descending: critical first, then high.
+- Findings marked [ACTIVELY EXPLOITED] are on the CISA Known Exploited Vulnerabilities list — they are being exploited in the wild RIGHT NOW. The explanation MUST convey urgency: this is not theoretical, attackers are actively using this vulnerability. Use language like "attackers are actively exploiting this" or "this is under active attack worldwide."
 - NEVER mention plugin names, component names, or technical identifiers in the title or explanation. Titles and explanations must use plain language the owner understands ("your website's security has gaps", NOT "LiteSpeed Cache plugin has critical flaws"). Plugin names, version numbers, and CVE references belong ONLY in the "action" field (Sentinel/Guardian tiers only).
 - Every finding in this message earned its place. No filler, no low-severity padding, no informational items.
 - For each finding: what is wrong (plain language). Do NOT give time estimates.{action_rules}
@@ -171,7 +172,8 @@ def build_user_prompt(brief: dict, delta_context: dict = None) -> str:
         desc = f.get("description", "")
         risk = f.get("risk", "")
         provenance = f.get("provenance", "")
-        line = f"[{sev}] {desc}\n  Risk: {risk}"
+        kev_marker = " [ACTIVELY EXPLOITED]" if f.get("known_exploited") else ""
+        line = f"[{sev}]{kev_marker} {desc}\n  Risk: {risk}"
         if provenance == "unconfirmed":
             potential_lines.append(line)
         else:

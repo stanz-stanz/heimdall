@@ -64,17 +64,30 @@ class ScanResult:
     subdomains: list[str] = field(default_factory=list)
     dns_records: dict = field(default_factory=dict)
     ct_certificates: list[dict] = field(default_factory=list)
+    tls_version: str = ""
+    tls_cipher: str = ""
+    tls_bits: int = 0
     exposed_cloud_storage: list[dict] = field(default_factory=list)
 
 
 def _check_ssl(domain: str) -> dict:
     """Check SSL certificate details for a domain."""
-    result = {"valid": False, "issuer": "", "expiry": "", "days_remaining": -1}
+    result = {
+        "valid": False, "issuer": "", "expiry": "", "days_remaining": -1,
+        "tls_version": "", "tls_cipher": "", "tls_bits": 0,
+    }
     try:
         ctx = ssl.create_default_context()
         with ctx.wrap_socket(socket.socket(), server_hostname=domain) as sock:
             sock.settimeout(REQUEST_TIMEOUT)
             sock.connect((domain, 443))
+
+            result["tls_version"] = sock.version() or ""
+            cipher_info = sock.cipher()
+            if cipher_info:
+                result["tls_cipher"] = cipher_info[0]
+                result["tls_bits"] = cipher_info[2]
+
             cert = sock.getpeercert()
 
         not_after = cert.get("notAfter", "")
@@ -364,6 +377,10 @@ def _get_response_headers(domain: str) -> dict:
         "content_security_policy": False,
         "strict_transport_security": False,
         "x_content_type_options": False,
+        "permissions_policy": False,
+        "referrer_policy": False,
+        "server_value": "",
+        "x_powered_by": "",
     }
     try:
         resp = requests.head(
@@ -377,6 +394,10 @@ def _get_response_headers(domain: str) -> dict:
         headers["content_security_policy"] = "content-security-policy" in h
         headers["strict_transport_security"] = "strict-transport-security" in h
         headers["x_content_type_options"] = "x-content-type-options" in h
+        headers["permissions_policy"] = "permissions-policy" in h
+        headers["referrer_policy"] = "referrer-policy" in h
+        headers["server_value"] = h.get("server", "")
+        headers["x_powered_by"] = h.get("x-powered-by", "")
     except requests.RequestException:
         pass
     return headers
@@ -1042,6 +1063,9 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
         scan.ssl_issuer = ssl_info["issuer"]
         scan.ssl_expiry = ssl_info["expiry"]
         scan.ssl_days_remaining = ssl_info["days_remaining"]
+        scan.tls_version = ssl_info.get("tls_version", "")
+        scan.tls_cipher = ssl_info.get("tls_cipher", "")
+        scan.tls_bits = ssl_info.get("tls_bits", 0)
 
         # Response headers
         t0 = time.monotonic()

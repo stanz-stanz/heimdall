@@ -97,6 +97,14 @@ def generate_brief(
             "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site.",
         })
 
+    # TLS protocol version
+    if scan.tls_version and scan.tls_version in ("TLSv1", "TLSv1.1"):
+        findings.append({
+            "severity": "high",
+            "description": f"Outdated encryption protocol ({scan.tls_version})",
+            "risk": "This website uses a deprecated encryption protocol. Modern browsers are dropping support for it, and the connection can be intercepted. All major standards bodies recommend TLS 1.2 or higher.",
+        })
+
     # Security headers
     if not scan.headers.get("strict_transport_security"):
         findings.append({
@@ -121,6 +129,25 @@ def generate_brief(
             "severity": "low",
             "description": "Missing X-Content-Type-Options header",
             "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads.",
+        })
+    if not scan.headers.get("permissions_policy"):
+        findings.append({
+            "severity": "low",
+            "description": "Missing Permissions-Policy header",
+            "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions.",
+        })
+    if not scan.headers.get("referrer_policy"):
+        findings.append({
+            "severity": "low",
+            "description": "Missing Referrer-Policy header",
+            "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters.",
+        })
+    x_powered_by = scan.headers.get("x_powered_by", "")
+    if x_powered_by:
+        findings.append({
+            "severity": "info",
+            "description": f"X-Powered-By header discloses technology: {x_powered_by}",
+            "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities.",
         })
 
     # CMS version disclosure
@@ -239,6 +266,7 @@ def generate_brief(
                 "issuer": scan.ssl_issuer,
                 "expiry": scan.ssl_expiry,
                 "days_remaining": scan.ssl_days_remaining,
+                "tls_version": scan.tls_version,
             },
             "server": scan.server,
             "detected_plugins": plugin_names,
