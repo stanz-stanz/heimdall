@@ -236,6 +236,9 @@ def execute_scan_job(
         scan.ssl_issuer = ssl_info.get("issuer", "")
         scan.ssl_expiry = ssl_info.get("expiry", "")
         scan.ssl_days_remaining = ssl_info.get("days_remaining", -1)
+        scan.tls_version = ssl_info.get("tls_version", "")
+        scan.tls_cipher = ssl_info.get("tls_cipher", "")
+        scan.tls_bits = ssl_info.get("tls_bits", 0)
 
     # Headers
     if isinstance(headers, dict):

@@ -140,6 +140,7 @@ def build_findings(
             "severity": severity,
             "description": description,
             "risk": risk,
+            "cve_id": cve,
         }
         if provenance:
             finding["provenance"] = provenance
