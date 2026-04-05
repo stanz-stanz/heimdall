@@ -2,7 +2,7 @@
   "domain": "vandelefterskole.dk",
   "cvr": "prospect",
   "company_name": "vandelefterskole.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 40
+      "days_remaining": 37,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -39,7 +40,11 @@
       "x_frame_options": false,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -84,13 +89,17 @@
       "brian.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
       "spf2.0/pra",
+      "google-site-verification=vYpMNVUH45lovUcAIVQAndJp7KHN87lEu6i9bQBJsSA",
       "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:spf.gigahost.dk ip4:46.183.140.44 include:_spf.powerhosting.dk ~all",
       "MS=ms66185992"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -101,6 +110,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -136,7 +155,7 @@
       "severity": "medium",
       "description": "Flickr Justified Gallery [flickr-justified-gallery] <= 3.5 (unfixed + closed) (CVE-2023-25473)",
       "risk": "CVE-2023-25473: WordPress  Flickr Justified Gallery Plugin  <= 3.5 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -146,11 +165,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 385,
+    "duration_ms": 171,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

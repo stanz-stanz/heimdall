@@ -2,21 +2,22 @@
   "domain": "birgittelynggaard.dk",
   "cvr": "prospect",
   "company_name": "birgittelynggaard.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-24",
-      "days_remaining": 51
+      "days_remaining": 48,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Divi Mobile",
       "Breadcrumbs Divi Module",
@@ -40,11 +41,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Complianz",
     "Divi:4.6.6",
     "HTTP/3",
@@ -88,6 +92,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -103,6 +111,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -148,11 +166,11 @@
       "severity": "medium",
       "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
       "risk": "WordPress Overlay Image Divi Module plugin <= 1.3.1 - Toggle The Debug Mode via Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "a58e4cec8c19c6bd65672db06de7b998cd6513169d3f9619db5fc36b035acad4",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -160,11 +178,11 @@
       "severity": "medium",
       "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
       "risk": "WordPress Overlay Image Divi Module plugin <= 1.3.1 - Sensitive Information Disclosure vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "776b61aba7c859be194c4125ff9651c7d0728b54f1d84abeb4129668d4f68ea0",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -172,11 +190,11 @@
       "severity": "medium",
       "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
       "risk": "Freemius SDK <= 2.4.2 - Missing Authorization Checks",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "fd33149469c05b7fd732c8e0c6cd0ca4e45b3801e1f8d9d484792ef3c21c3f3f",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -184,7 +202,7 @@
       "severity": "medium",
       "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.5 (CVE-2023-33999)",
       "risk": "CVE-2023-33999: WordPress  Overlay Image Divi Module Plugin  < 1.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -196,7 +214,7 @@
       "severity": "medium",
       "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2 (CVE-2022-4974)",
       "risk": "CVE-2022-4974: Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -208,7 +226,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.0.0 (CVE-2022-0193)",
       "risk": "CVE-2022-0193: WordPress Complianz – GDPR/CCPA Cookie Consent plugin <= 5.5.2 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -220,7 +238,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.3.4 (CVE-2022-3494)",
       "risk": "CVE-2022-3494: WordPress Complianz plugin <= 6.3.3 - Auth. SQL Injection (SQLi) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -232,7 +250,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.2 (CVE-2023-1069)",
       "risk": "CVE-2023-1069: Complianz - GDPR/CCPA Cookie Consent <= 6.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -244,7 +262,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
       "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via maybe_install_suggested_plugins",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -256,7 +274,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
       "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via ajax_script_save",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -268,7 +286,7 @@
       "severity": "high",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5 (CVE-2023-33333)",
       "risk": "CVE-2023-33333: WordPress  Complianz – GDPR/CCPA Cookie Consent Plugin  <= 6.4.4 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -280,7 +298,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
       "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via cmplz_duplicate_cookiebanner",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -292,7 +310,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
       "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via cmplz_delete_cookiebanner",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -304,7 +322,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.5.6 (CVE-2023-6498)",
       "risk": "CVE-2023-6498: Complianz | GDPR/CCPA Cookie Consent <= 6.5.5 - Authenticated(Administrator+) Stored Cross-site Scripting via settings",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -316,7 +334,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 7.0.0 (CVE-2024-1592)",
       "risk": "CVE-2024-1592: Complianz – GDPR/CCPA Cookie Consent <= 6.5.6 - Cross-Site Request Forgery to Data Request Deletion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -328,7 +346,7 @@
       "severity": "medium",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 7.4.4 (CVE-2025-11185)",
       "risk": "CVE-2025-11185: Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 7.4.4",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -340,7 +358,7 @@
       "severity": "medium",
       "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
       "risk": "WordPress Sticky Menu, Sticky Header (or anything!) on Scroll plugin <= 2.2 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -352,7 +370,7 @@
       "severity": "medium",
       "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
       "risk": "Sticky Menu & Sticky Header <= 2.20 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -364,7 +382,7 @@
       "severity": "medium",
       "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
       "risk": "Sticky Menu, Sticky Header (or anything!) on Scroll &lt; 2.21 - CSRF &amp; XSS",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -376,7 +394,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -388,7 +406,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -400,7 +418,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] < 4.25.1 (CVE-2024-4490)",
       "risk": "CVE-2024-4490: Elegant Themes Divi Theme, Extra Theme, Divi Page Builder &lt;= 4.25.0 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -412,7 +430,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] < 4.27.2",
       "risk": "Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Magnific Popups JavaScript Library",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -422,11 +440,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 635,
+    "duration_ms": 183,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

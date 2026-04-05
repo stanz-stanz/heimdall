@@ -1,0 +1,257 @@
+{
+  "domain": "realmaeglerne.dk",
+  "job_id": "scan-2026-04-05-2f506e1a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "realmaeglerne.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-05-07",
+    "ssl_days_remaining": 31,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": "ASP.NET"
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Microsoft ASP.NET",
+      "ShareThis"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:32:31.379886568Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://realmaeglerne.dk",
+      "input": "realmaeglerne.dk",
+      "title": "Ejendomsmægler RealMæglerne - Vi er med dig i hele landet",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "realmaeglerne.dk",
+      "host_ip": "172.67.142.219",
+      "path": "/",
+      "final_url": "https://www.realmaeglerne.dk/",
+      "time": "499.242247ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "104.21.54.219",
+        "172.67.142.219"
+      ],
+      "aaaa": [
+        "2606:4700:3035::6815:36db",
+        "2606:4700:3036::ac43:8edb"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "Microsoft ASP.NET",
+        "ShareThis"
+      ],
+      "words": 142070,
+      "lines": 5029,
+      "status_code": 200,
+      "content_length": 343520,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "172.67.142.219",
+        "104.21.54.219"
+      ],
+      "aaaa": [
+        "2606:4700:3036::ac43:8edb",
+        "2606:4700:3035::6815:36db"
+      ],
+      "cname": [],
+      "mx": [
+        "realmaeglerne-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "dana.ns.cloudflare.com",
+        "kyle.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:80.160.77.114 include:spf.hosit.dk include:spf.mailreal.dk include:spf.protection.outlook.com ip4:80.198.193.80 ip4:62.243.44.101 ip4:217.195.189.0/24 ip4:93.164.172.6 ip4:93.163.128.130 -all",
+        "_globalsign-domain-verification=GelsM2hKCRaMoctWXmSOPWmRcvzouEQV60lR77iKE2",
+        "MS=ms92883799",
+        "_globalsign-domain-verification=RE5JdjOIBTiY0HREvmzz5WFMQZhuswNM31KfL8Gwe2",
+        "facebook-domain-verification=3pef2my82kuq5q0zhruczd1syo6acf",
+        "google-site-verification=mQJPmXVdvg3Es-7gAK5YW_tulFTfpQoi4wZlLZBKuSI",
+        "MS=3CD380167C028767594316FD8BD94D7D061F55BC"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "realmaeglerne.dk",
+    "cvr": "prospect",
+    "company_name": "realmaeglerne.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-05-07",
+        "days_remaining": 31,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": "ASP.NET"
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Microsoft ASP.NET",
+      "ShareThis"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "172.67.142.219",
+        "104.21.54.219"
+      ],
+      "aaaa": [
+        "2606:4700:3036::ac43:8edb",
+        "2606:4700:3035::6815:36db"
+      ],
+      "cname": [],
+      "mx": [
+        "realmaeglerne-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "dana.ns.cloudflare.com",
+        "kyle.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:80.160.77.114 include:spf.hosit.dk include:spf.mailreal.dk include:spf.protection.outlook.com ip4:80.198.193.80 ip4:62.243.44.101 ip4:217.195.189.0/24 ip4:93.164.172.6 ip4:93.163.128.130 -all",
+        "_globalsign-domain-verification=GelsM2hKCRaMoctWXmSOPWmRcvzouEQV60lR77iKE2",
+        "MS=ms92883799",
+        "_globalsign-domain-verification=RE5JdjOIBTiY0HREvmzz5WFMQZhuswNM31KfL8Gwe2",
+        "facebook-domain-verification=3pef2my82kuq5q0zhruczd1syo6acf",
+        "google-site-verification=mQJPmXVdvg3Es-7gAK5YW_tulFTfpQoi4wZlLZBKuSI",
+        "MS=3CD380167C028767594316FD8BD94D7D061F55BC"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: ASP.NET",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 241,
+    "ssl": 82,
+    "headers": 398,
+    "meta": 440,
+    "httpx": 3959,
+    "webanalyze": 6,
+    "dnsx": 665,
+    "total_ms": 5802
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

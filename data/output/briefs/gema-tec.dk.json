@@ -2,21 +2,22 @@
   "domain": "gema-tec.dk",
   "cvr": "prospect",
   "company_name": "gema-tec.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-29",
-      "days_remaining": 56
+      "days_remaining": 53,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Weglot",
       "Brizy",
@@ -34,11 +35,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "HTTP/3",
     "MySQL",
     "PHP",
@@ -76,6 +80,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -91,6 +99,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -121,7 +139,7 @@
       "severity": "medium",
       "description": "Brizy &#8211; Page Builder [brizy] <= 2.6.17 (unfixed) (CVE-2025-32198)",
       "risk": "CVE-2025-32198: Brizy &lt;= 2.6.14 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -133,7 +151,7 @@
       "severity": "medium",
       "description": "Brizy &#8211; Page Builder [brizy] <= 2.7.23 (unfixed) (CVE-2026-32408)",
       "risk": "CVE-2026-32408: Brizy &#8211; Page Builder [brizy] <= 2.7.23 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -145,7 +163,7 @@
       "severity": "high",
       "description": "Brizy Pro [brizy-pro] <= 2.6.1 (unfixed) (CVE-2025-22763)",
       "risk": "CVE-2025-22763: WordPress Brizy Pro Plugin <= 2.6.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -157,7 +175,7 @@
       "severity": "medium",
       "description": "Brizy Pro [brizy-pro] <= 2.6.1 (unfixed) (CVE-2025-26902)",
       "risk": "CVE-2025-26902: Brizy Pro &lt;= 2.6.1 - Cross-Site Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -169,7 +187,7 @@
       "severity": "medium",
       "description": "Brizy Pro [brizy-pro] <= 2.6.1 (unfixed) (CVE-2025-26901)",
       "risk": "CVE-2025-26901: Brizy Pro &lt;= 2.6.1 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -179,11 +197,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 828,
+    "duration_ms": 144,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

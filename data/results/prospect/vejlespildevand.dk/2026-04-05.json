@@ -1,0 +1,227 @@
+{
+  "domain": "vejlespildevand.dk",
+  "job_id": "scan-2026-04-05-59719bb3",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vejlespildevand.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Sectigo Limited",
+    "ssl_expiry": "2026-10-20",
+    "ssl_days_remaining": 198,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cookie Script",
+      "Google Maps",
+      "Microsoft Ajax Content Delivery Network",
+      "Typekit",
+      "jQuery:3.1.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:41:25.995947529Z",
+      "port": "443",
+      "url": "https://vejlespildevand.dk",
+      "input": "vejlespildevand.dk",
+      "title": "Vejle Spildevand - vand i balance",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vejlespildevand.dk",
+      "host_ip": "94.231.109.45",
+      "path": "/",
+      "final_url": "https://www.vejlespildevand.dk/",
+      "time": "309.940683ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "94.231.109.45"
+      ],
+      "tech": [
+        "Adobe Fonts",
+        "Cookie Script",
+        "Google Maps",
+        "Microsoft Ajax Content Delivery Network",
+        "Typekit",
+        "jQuery:3.1.1"
+      ],
+      "words": 27686,
+      "lines": 1826,
+      "status_code": 200,
+      "content_length": 96836,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.109.45"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vejlespildevand-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms81467681",
+        "v=spf1 ip4:62.242.43.19 a:smtp14.zitcom.dk include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vejlespildevand.dk",
+    "cvr": "prospect",
+    "company_name": "vejlespildevand.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Sectigo Limited",
+        "expiry": "2026-10-20",
+        "days_remaining": 198,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "Cookie Script",
+      "Google Maps",
+      "Microsoft Ajax Content Delivery Network",
+      "Typekit",
+      "jQuery:3.1.1"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.109.45"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vejlespildevand-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms81467681",
+        "v=spf1 ip4:62.242.43.19 a:smtp14.zitcom.dk include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 181,
+    "ssl": 73,
+    "headers": 176,
+    "meta": 230,
+    "httpx": 2500,
+    "webanalyze": 4,
+    "dnsx": 748,
+    "crtsh": 0,
+    "ghw": 197,
+    "total_ms": 4121
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "solvo.dk",
   "cvr": "prospect",
   "company_name": "solvo.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-13",
-      "days_remaining": 41
+      "days_remaining": 38,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -39,7 +40,11 @@
       "x_frame_options": false,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Apache",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -81,18 +86,27 @@
       "ns02.one.com"
     ],
     "txt": [
-      "ccvaqnu1m71tl09qea8daok6fb",
-      "v=spf1 include:spf.protection.outlook.com include:_custspf.one.com -all",
+      "google-site-verification=NloKo6RmZGkIclAX0aIEc9b4-AjCnVekdKQpeIXm_zc",
       "ms=ms54512506",
-      "google-site-verification=NloKo6RmZGkIclAX0aIEc9b4-AjCnVekdKQpeIXm_zc"
+      "v=spf1 include:spf.protection.outlook.com include:_custspf.one.com -all",
+      "ccvaqnu1m71tl09qea8daok6fb"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "low",
@@ -133,7 +147,7 @@
       "severity": "medium",
       "description": "Gutenverse &#8211; Ultimate WordPress FSE Blocks Addons &amp; Ecosystem [gutenverse] < 3.0.0 (CVE-2025-2893)",
       "risk": "CVE-2025-2893: Gutenverse &lt;= 2.2.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via countdown Block",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -145,7 +159,7 @@
       "severity": "medium",
       "description": "Gutenverse &#8211; Ultimate WordPress FSE Blocks Addons &amp; Ecosystem [gutenverse] < 3.1.1 (CVE-2025-7727)",
       "risk": "CVE-2025-7727: Gutenverse &lt;= 3.1.0 - Authenticated (Contributor+) Stored Cross-Site Scripting via Animated Text and Fun Fact Blocks",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -157,7 +171,7 @@
       "severity": "medium",
       "description": "Gutenverse &#8211; Ultimate WordPress FSE Blocks Addons &amp; Ecosystem [gutenverse] <= 3.2.1 (unfixed) (CVE-2025-66065)",
       "risk": "CVE-2025-66065: Gutenverse &#8211; Ultimate WordPress FSE Blocks Addons &amp; Ecosystem [gutenverse] <= 3.2.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -167,11 +181,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 323,
+    "duration_ms": 135,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

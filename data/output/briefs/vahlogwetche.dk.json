@@ -2,7 +2,7 @@
   "domain": "vahlogwetche.dk",
   "cvr": "prospect",
   "company_name": "vahlogwetche.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "nginx/1.28.0",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -52,11 +57,15 @@
       "ns-1708.awsdns-21.co.uk"
     ],
     "txt": [
-      "MS=ms87928155",
-      "v=spf1 ip4:152.115.36.112 +a +mx include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.simply.com include:spf.nembedemand.dk ~all"
+      "v=spf1 ip4:152.115.36.112 +a +mx include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.simply.com include:spf.nembedemand.dk ~all",
+      "MS=ms87928155"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -82,6 +91,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

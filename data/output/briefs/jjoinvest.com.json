@@ -2,21 +2,22 @@
   "domain": "jjoinvest.com",
   "cvr": "prospect",
   "company_name": "jjoinvest.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-27",
-      "days_remaining": 85
+      "days_remaining": 82,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Menu Image",
       "Oxygen"
@@ -33,11 +34,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "HTTP/3",
     "MySQL",
     "Oxygen",
@@ -70,11 +74,15 @@
       "ns4.wwi.eu"
     ],
     "txt": [
-      "MS=ms97867677",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms97867677"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -90,6 +98,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -120,7 +138,7 @@
       "severity": "medium",
       "description": "Menu Image, Icons made easy [menu-image] < 3.11 (CVE-2023-50826)",
       "risk": "CVE-2023-50826: Menu Image, Icons made easy <= 3.10 - Authenticated (Administrator+) Stored Cross-Site Scripting via settings",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -132,7 +150,7 @@
       "severity": "medium",
       "description": "Oxygen [oxygen] < 4.4 (CVE-2022-46841)",
       "risk": "CVE-2022-46841: Oxygen < 4.4 - Cross-Site Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -144,7 +162,7 @@
       "severity": "critical",
       "description": "Oxygen [oxygen] <= 4.9 (unfixed) (CVE-2024-31380)",
       "risk": "CVE-2024-31380: WordPress  Oxygen Builder Plugin    <= 4.8.2 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -154,11 +172,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 395,
+    "duration_ms": 139,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

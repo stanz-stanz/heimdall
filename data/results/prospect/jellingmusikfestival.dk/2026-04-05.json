@@ -1,0 +1,248 @@
+{
+  "domain": "jellingmusikfestival.dk",
+  "job_id": "scan-2026-04-05-1337129a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jellingmusikfestival.dk",
+    "cms": "",
+    "server": "Microsoft-IIS/10.0",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-07-04",
+    "ssl_days_remaining": 89,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Microsoft-IIS/10.0",
+      "x_powered_by": "ASP.NET"
+    },
+    "tech_stack": [
+      "Bootstrap:5.3.2",
+      "Cloudflare",
+      "Cookie Script",
+      "Font Awesome",
+      "Google Analytics",
+      "Google Tag Manager",
+      "IIS:10.0",
+      "Microsoft ASP.NET",
+      "Windows Server",
+      "cdnjs",
+      "jQuery:3.6.0",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:15:31.733282851Z",
+      "port": "443",
+      "url": "https://jellingmusikfestival.dk",
+      "input": "jellingmusikfestival.dk",
+      "title": "Jelling Musikfestival",
+      "scheme": "https",
+      "webserver": "Microsoft-IIS/10.0",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jellingmusikfestival.dk",
+      "host_ip": "195.178.15.249",
+      "path": "/",
+      "time": "134.829137ms",
+      "a": [
+        "195.178.15.249"
+      ],
+      "tech": [
+        "Bootstrap:5.3.2",
+        "Cloudflare",
+        "Cookie Script",
+        "Font Awesome",
+        "Google Analytics",
+        "Google Tag Manager",
+        "IIS:10.0",
+        "Microsoft ASP.NET",
+        "Windows Server",
+        "cdnjs",
+        "jQuery:3.6.0",
+        "reCAPTCHA"
+      ],
+      "words": 11543,
+      "lines": 1862,
+      "status_code": 200,
+      "content_length": 125966,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "element",
+          "vendor": "matrix",
+          "cpe": "cpe:2.3:a:matrix:element:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "195.178.15.249"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "jellingmusikfestival-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 a a:selfcare.jellingmusikfestival.dk include:spf.curanet.dk include:spf.protection.outlook.com ip4:81.95.247.0/24 include:spf.mandrillapp.com  ip4:89.188.72.21 -all",
+        "google-site-verification=8nBMAPJ6VGReE4mwr2YmKvEkCbFUb6bWArm30BGqOzs",
+        "mandrill_verify.ivNUEOfrZNb6BNzB_7AOFg"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jellingmusikfestival.dk",
+    "cvr": "prospect",
+    "company_name": "jellingmusikfestival.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-07-04",
+        "days_remaining": 89,
+        "tls_version": ""
+      },
+      "server": "Microsoft-IIS/10.0",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Microsoft-IIS/10.0",
+        "x_powered_by": "ASP.NET"
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:5.3.2",
+      "Cloudflare",
+      "Cookie Script",
+      "Font Awesome",
+      "Google Analytics",
+      "Google Tag Manager",
+      "IIS:10.0",
+      "Microsoft ASP.NET",
+      "Windows Server",
+      "cdnjs",
+      "jQuery:3.6.0",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "195.178.15.249"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "jellingmusikfestival-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 a a:selfcare.jellingmusikfestival.dk include:spf.curanet.dk include:spf.protection.outlook.com ip4:81.95.247.0/24 include:spf.mandrillapp.com  ip4:89.188.72.21 -all",
+        "google-site-verification=8nBMAPJ6VGReE4mwr2YmKvEkCbFUb6bWArm30BGqOzs",
+        "mandrill_verify.ivNUEOfrZNb6BNzB_7AOFg"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: ASP.NET",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 118,
+    "ssl": 60,
+    "headers": 90,
+    "meta": 133,
+    "httpx": 2419,
+    "webanalyze": 4,
+    "dnsx": 729,
+    "crtsh": 0,
+    "ghw": 200,
+    "total_ms": 3766
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

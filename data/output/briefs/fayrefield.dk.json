@@ -2,7 +2,7 @@
   "domain": "fayrefield.dk",
   "cvr": "prospect",
   "company_name": "fayrefield.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -11,14 +11,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-06",
-      "days_remaining": 64
+      "days_remaining": 61,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Wordfence",
       "Wordpress Seo"
@@ -33,11 +34,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Cookiebot",
     "Font Awesome",
     "Google Analytics",
@@ -51,7 +55,7 @@
     "WordPress Block Editor",
     "Yoast SEO:27.2",
     "jQuery",
-    "jQuery Migrate:3.4.1.1775119742"
+    "jQuery Migrate:3.4.1.1775401602"
   ],
   "plugin_versions": {
     "wordpress-seo": "27.2"
@@ -67,23 +71,27 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "dk.mx2.mx25.net",
-      "dk.mx3.mailanyone.net",
+      "dk.mx4.mx25.net",
       "dk.mx1.mailanyone.net",
-      "dk.mx4.mx25.net"
+      "dk.mx2.mx25.net",
+      "dk.mx3.mailanyone.net"
     ],
     "ns": [
       "ns1.dlx.dk",
       "ns2.dlx.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.mailanyone.net include:_spf.mail.dlx.dk ip4:80.209.42.201 include:spf.protection.outlook.com -all",
-      "_globalsign-domain-verification=RrGsfGoSu_ddbgpO5VwY1mGh-s7oOOAI7u1BJY88Qt",
       "mandrill_verify.F9q-fKtehMU5mHVgf6hf6A",
-      "MS=ms65109281"
+      "MS=ms65109281",
+      "_globalsign-domain-verification=RrGsfGoSu_ddbgpO5VwY1mGh-s7oOOAI7u1BJY88Qt",
+      "v=spf1 include:spf.mailanyone.net include:_spf.mail.dlx.dk ip4:80.209.42.201 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -99,6 +107,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

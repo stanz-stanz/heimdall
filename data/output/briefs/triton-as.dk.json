@@ -2,7 +2,7 @@
   "domain": "triton-as.dk",
   "cvr": "prospect",
   "company_name": "triton-as.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-28",
-      "days_remaining": 87
+      "days_remaining": 84,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -39,7 +40,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -84,6 +89,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -94,6 +103,11 @@
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
       "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -129,7 +143,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -141,7 +155,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -153,7 +167,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -163,11 +177,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 135,
+    "duration_ms": 154,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

@@ -2,7 +2,7 @@
   "domain": "johansens-planteskole.dk",
   "cvr": "prospect",
   "company_name": "johansens-planteskole.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,7 +18,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-09",
-      "days_remaining": 37
+      "days_remaining": 34,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -47,7 +48,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": "PleskLin"
     }
   },
   "tech_stack": [
@@ -98,11 +103,15 @@
       "dimitris.ns.cloudflare.com"
     ],
     "txt": [
-      "v=spf1 mx ip4:152.115.36.112 ip4:152.115.149.38 include:spf.protection.outlook.com  include:dedicated.mysmtp.com ip4:185.163.189.23 ~all",
-      "MS=ms90539111"
+      "MS=ms90539111",
+      "v=spf1 mx ip4:152.115.36.112 ip4:152.115.149.38 include:spf.protection.outlook.com  include:dedicated.mysmtp.com ip4:185.163.189.23 ~all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -123,6 +132,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",
@@ -163,7 +182,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
       "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,7 +194,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
       "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -187,7 +206,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -199,7 +218,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -211,7 +230,7 @@
       "severity": "medium",
       "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
       "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -223,7 +242,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
       "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -233,11 +252,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 690,
+    "duration_ms": 181,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

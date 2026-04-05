@@ -2,7 +2,7 @@
   "domain": "vejleadm.dk",
   "cvr": "prospect",
   "company_name": "vejleadm.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -34,7 +35,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -80,6 +85,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -105,6 +114,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -140,7 +159,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
       "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -152,7 +171,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
       "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -164,7 +183,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
       "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -176,7 +195,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
       "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -188,7 +207,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
       "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -200,7 +219,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
       "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -210,11 +229,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 141,
+    "duration_ms": 156,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

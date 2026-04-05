@@ -2,7 +2,7 @@
   "domain": "menykaffe.dk",
   "cvr": "prospect",
   "company_name": "menykaffe.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "B",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -11,14 +11,15 @@
   "industry": "",
   "technology": {
     "cms": "Joomla",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-04",
-      "days_remaining": 62
+      "days_remaining": 59,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [],
     "plugin_versions": {},
     "detected_themes": [],
@@ -26,12 +27,15 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
     "Adobe Fonts",
-    "Apache HTTP Server",
     "Cookiebot",
     "Google Analytics",
     "HTTP/3",
@@ -66,6 +70,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "Søren Bjerg",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -81,6 +89,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

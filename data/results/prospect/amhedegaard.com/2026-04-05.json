@@ -1,0 +1,205 @@
+{
+  "domain": "amhedegaard.com",
+  "job_id": "scan-2026-04-05-0a184ee8",
+  "status": "completed",
+  "scan_result": {
+    "domain": "amhedegaard.com",
+    "cms": "",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": false,
+    "ssl_issuer": "",
+    "ssl_expiry": "",
+    "ssl_days_remaining": -1,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Apache HTTP Server"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:50:39.57102732Z",
+      "port": "443",
+      "url": "https://amhedegaard.com",
+      "input": "amhedegaard.com",
+      "title": "Webshop, Webhosting, Domæner og Cloud Server - A/S ScanNet",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "amhedegaard.com",
+      "host_ip": "185.21.40.214",
+      "path": "/",
+      "time": "166.399297ms",
+      "a": [
+        "185.21.40.214"
+      ],
+      "tech": [
+        "Apache HTTP Server"
+      ],
+      "words": 943,
+      "lines": 105,
+      "status_code": 200,
+      "content_length": 3812,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.40.214"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 include=spf.scannet.dk ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "amhedegaard.com",
+    "cvr": "prospect",
+    "company_name": "amhedegaard.com",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": false,
+        "issuer": "",
+        "expiry": "",
+        "days_remaining": -1,
+        "tls_version": ""
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.40.214"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 include=spf.scannet.dk ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "critical",
+        "description": "No SSL certificate detected",
+        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 99,
+    "ssl": 64,
+    "headers": 74,
+    "meta": 81,
+    "httpx": 2439,
+    "webanalyze": 4,
+    "dnsx": 774,
+    "total_ms": 3544
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

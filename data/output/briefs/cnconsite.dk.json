@@ -2,7 +2,7 @@
   "domain": "cnconsite.dk",
   "cvr": "prospect",
   "company_name": "cnconsite.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-05",
-      "days_remaining": 33
+      "days_remaining": 29,
+      "tls_version": ""
     },
     "server": "Apache/2.4.66 (Debian)",
     "detected_plugins": [
@@ -30,7 +31,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache/2.4.66 (Debian)",
+      "x_powered_by": "PHP/8.3.30"
     }
   },
   "tech_stack": [
@@ -65,14 +70,23 @@
       "simon.ns.cloudflare.com"
     ],
     "txt": [
+      "mandrill_verify.Mff5_GfbJN37Nb-jWRc6DQ",
       "v=spf1 ip4:46.36.211.197 +a +mx include:spf.protection.outlook.com include:servers.mcsv.net include:erp.uniconta.com -all",
       "MS=ms54656533",
-      "google-site-verification=h-hkiTUuvxG9IMVE5c0KBujmk8cCHCRGUoei4hQw5u8",
-      "mandrill_verify.Mff5_GfbJN37Nb-jWRc6DQ"
+      "google-site-verification=h-hkiTUuvxG9IMVE5c0KBujmk8cCHCRGUoei4hQw5u8"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
+    {
+      "severity": "medium",
+      "description": "SSL certificate expires in 29 days",
+      "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
+    },
     {
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
@@ -87,6 +101,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.3.30",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -112,7 +141,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
       "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -124,7 +153,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
       "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -136,7 +165,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
       "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -148,7 +177,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
       "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -160,7 +189,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
       "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -170,11 +199,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 143,
+    "duration_ms": 160,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

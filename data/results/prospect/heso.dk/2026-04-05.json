@@ -1,0 +1,259 @@
+{
+  "domain": "heso.dk",
+  "job_id": "scan-2026-04-05-fe886cfd",
+  "status": "completed",
+  "scan_result": {
+    "domain": "heso.dk",
+    "cms": "",
+    "server": "Simply.com",
+    "hosting": "simply.com",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-20",
+    "ssl_days_remaining": 75,
+    "detected_plugins": [
+      "elementor",
+      "sticky-header-effects-for-elementor",
+      "astra-addon",
+      "ultimate-elementor",
+      "elementor-pro",
+      "page-links-to",
+      "wp-rocket",
+      "woocommerce"
+    ],
+    "plugin_versions": {
+      "elementor": "3.33.4",
+      "sticky-header-effects-for-elementor": "2.1.6",
+      "astra-addon": "4.11.12",
+      "elementor-pro": "1.2.1",
+      "ultimate-elementor": "1.42.0",
+      "page-links-to": "3.3.7"
+    },
+    "detected_themes": [
+      "astra",
+      "erhvervshjemmesider-child"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
+    },
+    "tech_stack": [],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:11:22.057838073Z",
+      "port": "443",
+      "url": "https://heso.dk",
+      "input": "heso.dk",
+      "title": "455 Security Incident Detected",
+      "scheme": "https",
+      "webserver": "Simply.com",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "heso.dk",
+      "host_ip": "94.231.103.100",
+      "path": "/",
+      "final_url": "https://cleentek.com",
+      "time": "243.980594ms",
+      "chain_status_codes": [
+        301,
+        455
+      ],
+      "a": [
+        "94.231.103.100"
+      ],
+      "words": 95,
+      "lines": 22,
+      "status_code": 455,
+      "content_length": 763,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.103.100"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "heso-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:199.115.117.7 include:spf.protection.outlook.com -all",
+        "MS=ms36747395"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "heso.dk",
+    "cvr": "prospect",
+    "company_name": "heso.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "simply.com",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-20",
+        "days_remaining": 75,
+        "tls_version": ""
+      },
+      "server": "Simply.com",
+      "detected_plugins": [
+        "Elementor",
+        "Sticky Header Effects For Elementor",
+        "Astra Addon",
+        "Ultimate Elementor",
+        "Elementor Pro",
+        "Page Links To",
+        "Wp Rocket",
+        "Woocommerce"
+      ],
+      "plugin_versions": {
+        "Elementor": "3.33.4",
+        "Sticky Header Effects For Elementor": "2.1.6",
+        "Astra Addon": "4.11.12",
+        "Elementor Pro": "1.2.1",
+        "Ultimate Elementor": "1.42.0",
+        "Page Links To": "3.3.7"
+      },
+      "detected_themes": [
+        "Astra",
+        "Erhvervshjemmesider Child"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Simply.com",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [],
+    "plugin_versions": {
+      "elementor": "3.33.4",
+      "sticky-header-effects-for-elementor": "2.1.6",
+      "astra-addon": "4.11.12",
+      "elementor-pro": "1.2.1",
+      "ultimate-elementor": "1.42.0",
+      "page-links-to": "3.3.7"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.103.100"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "heso-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:199.115.117.7 include:spf.protection.outlook.com -all",
+        "MS=ms36747395"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "8 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Astra, Erhvervshjemmesider Child",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 345,
+    "ssl": 92,
+    "headers": 189,
+    "meta": 250,
+    "httpx": 1668,
+    "webanalyze": 4,
+    "dnsx": 789,
+    "total_ms": 3348
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

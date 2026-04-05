@@ -1,0 +1,194 @@
+{
+  "domain": "fh-v.dk",
+  "job_id": "scan-2026-04-05-d63a4c3f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "fh-v.dk",
+    "cms": "",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-02",
+    "ssl_days_remaining": 57,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:06:48.147164976Z",
+      "port": "443",
+      "url": "https://fh-v.dk",
+      "input": "fh-v.dk",
+      "title": "Foreningernes Hus Vejle - Forside",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "fh-v.dk",
+      "host_ip": "138.201.82.135",
+      "path": "/",
+      "time": "302.705318ms",
+      "a": [
+        "138.201.82.135"
+      ],
+      "tech": [
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "UIKit"
+      ],
+      "words": 10304,
+      "lines": 991,
+      "status_code": 200,
+      "content_length": 39767,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.webexchange.nu",
+        "mx2.webexchange.nu"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "fh-v.dk",
+    "cvr": "prospect",
+    "company_name": "fh-v.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-02",
+        "days_remaining": 57,
+        "tls_version": ""
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "LiteSpeed",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.webexchange.nu",
+        "mx2.webexchange.nu"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 137,
+    "ssl": 92,
+    "headers": 260,
+    "meta": 268,
+    "httpx": 2021,
+    "webanalyze": 4,
+    "dnsx": 711,
+    "total_ms": 3501
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

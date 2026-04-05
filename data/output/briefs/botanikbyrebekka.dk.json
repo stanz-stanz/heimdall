@@ -2,7 +2,7 @@
   "domain": "botanikbyrebekka.dk",
   "cvr": "prospect",
   "company_name": "botanikbyrebekka.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 39
+      "days_remaining": 36,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -26,7 +27,7 @@
     "plugin_versions": {
       "Blossomthemes Instagram Feed": "2.0.5",
       "Raratheme Companion": "1.4.4",
-      "Wordpress Seo": "27.2"
+      "Wordpress Seo": "27.3"
     },
     "detected_themes": [
       "Chic Lite"
@@ -35,7 +36,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.0.30"
     }
   },
   "tech_stack": [
@@ -47,7 +52,7 @@
     "PHP:8.0.30",
     "Varnish",
     "WordPress:6.9.4",
-    "Yoast SEO:27.2",
+    "Yoast SEO:27.3",
     "imagesLoaded:5.0.0",
     "jQuery",
     "jQuery Migrate:3.4.1"
@@ -55,7 +60,7 @@
   "plugin_versions": {
     "blossomthemes-instagram-feed": "2.0.5",
     "raratheme-companion": "1.4.4",
-    "wordpress-seo": "27.2"
+    "wordpress-seo": "27.3"
   },
   "subdomains": {
     "count": 0,
@@ -70,10 +75,10 @@
     ],
     "cname": [],
     "mx": [
-      "mx4.mailpod15-cph3.g1i.one.com",
-      "mx2.mailpod15-cph3.g1i.one.com",
       "mx1.mailpod15-cph3.g1i.one.com",
-      "mx3.mailpod15-cph3.g1i.one.com"
+      "mx2.mailpod15-cph3.g1i.one.com",
+      "mx3.mailpod15-cph3.g1i.one.com",
+      "mx4.mailpod15-cph3.g1i.one.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -82,6 +87,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -102,6 +111,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.0.30",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -125,28 +149,23 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Wordpress Seo (installed 27.2, latest 27.3)",
-      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
-    },
-    {
-      "severity": "medium",
       "description": "BlossomThemes Social Feed [blossomthemes-instagram-feed] <= 2.0.5 (unfixed + closed)",
       "risk": "Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Magnific Popups JavaScript Library",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "fb1b880401badce6d53557a7de9a847739b1b52dd7c3be94f6417f01a82b469e",
+        "template_id": "",
         "confidence": "high-inference"
       }
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 441,
+    "duration_ms": 165,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

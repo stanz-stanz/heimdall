@@ -2,7 +2,7 @@
   "domain": "3f.dk",
   "cvr": "prospect",
   "company_name": "3f.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -13,8 +13,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
-      "expiry": "2026-05-06",
-      "days_remaining": 33
+      "expiry": "2026-07-04",
+      "days_remaining": 89,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -39,8 +44,8 @@
   },
   "dns": {
     "a": [
-      "172.66.40.249",
-      "172.66.43.7"
+      "172.66.43.7",
+      "172.66.40.249"
     ],
     "aaaa": [
       "2606:4700:3108::ac42:28f9",
@@ -55,18 +60,27 @@
       "lisa.ns.cloudflare.com"
     ],
     "txt": [
+      "v=spf1 ip4:52.232.5.115 ip4:77.66.57.123 ip4:168.245.61.203 ip4:168.245.67.108 ip4:193.163.134.0/24 ip4:159.183.35.2 include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.mph1.com include:spf.hatteland.com -all",
+      "MS=ms12157205",
+      "google-site-verification=H1dyJKnjA-UgTyLq-I0XYAE3oTlg-syy-_vdRs7IbnM",
+      "mindmanager-verification=79b0e23d95d2d253211befb91a68fa41f6edbf5a8bbe869976831f0fddb0cff4",
+      "_nn3od9bbc7n791yym1ek0m8rat2giko",
+      "9b57k4tmyw99cxyd647lkst0bb5yl9nt",
       "apple-domain-verification=I7NcqCXHmBPnQvA3",
       "facebook-domain-verification=cx1i1lglcowp198g4bgigvaes4baeo",
-      "google-site-verification=H1dyJKnjA-UgTyLq-I0XYAE3oTlg-syy-_vdRs7IbnM",
-      "google-site-verification=ZT0IrlPw0Or4SHyagAvP5ye8oJGI4c2PPuDBVrluaAo",
-      "mindmanager-verification=79b0e23d95d2d253211befb91a68fa41f6edbf5a8bbe869976831f0fddb0cff4",
-      "v=spf1 ip4:52.232.5.115 ip4:77.66.57.123 ip4:168.245.61.203 ip4:168.245.67.108 ip4:193.163.134.0/24 ip4:159.183.35.2 include:spf.protection.outlook.com include:dedicated.mysmtp.com include:spf.mph1.com include:spf.hatteland.com -all",
-      "9b57k4tmyw99cxyd647lkst0bb5yl9nt",
-      "MS=ms12157205",
-      "_nn3od9bbc7n791yym1ek0m8rat2giko"
+      "google-site-verification=ZT0IrlPw0Or4SHyagAvP5ye8oJGI4c2PPuDBVrluaAo"
     ]
   },
-  "cloud_exposure": [],
+  "cloud_exposure": [
+    {
+      "bucket_name": "mp20-assets.storage.googleapis.com",
+      "file_count": 10
+    }
+  ],
+  "agency": {
+    "meta_author": "3F – Fagligt F&#230;lles Forbund",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -77,6 +91,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "high",
+      "description": "1 exposed cloud storage bucket detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
     }
   ]
 }

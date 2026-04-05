@@ -2,7 +2,7 @@
   "domain": "bca.com",
   "cvr": "prospect",
   "company_name": "bca.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-16",
-      "days_remaining": 74
+      "days_remaining": 71,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -38,8 +43,8 @@
   },
   "dns": {
     "a": [
-      "172.64.146.145",
-      "104.18.41.111"
+      "104.18.41.111",
+      "172.64.146.145"
     ],
     "aaaa": [
       "2a06:98c1:3104::ac40:9291",
@@ -47,21 +52,14 @@
     ],
     "cname": [],
     "mx": [
-      "mxb-001c1001.gslb.pphosted.com",
-      "mxa-001c1001.gslb.pphosted.com"
+      "mxa-001c1001.gslb.pphosted.com",
+      "mxb-001c1001.gslb.pphosted.com"
     ],
     "ns": [
       "ns1.bca.com",
       "ns2.bca.com"
     ],
     "txt": [
-      "apple-domain-verification=bLDKcTIW6W195FKj",
-      "atlassian-domain-verification=/jwIloTuZZhxBynlCwZxBQz09tjsPZFkxtZIMe14fJYZfjP9yCTc/5LJMgRs4Uzb",
-      "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
-      "dpp1dsv7u93pl9vprerh3gr70b",
-      "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
-      "fgbo4gnbmsupeqmjgjilfda4aq",
-      "gilj8s5m909qkampc34s4ohk8l",
       "google-site-verification=P93STc9plMaBjqpI3odbkeU_4lyfx6ubNVhAk3wyxGQ",
       "google-site-verification=nnwfSAwSBjaGMx-Hv_xW-j-a4KR4shrygrwwPtKietw",
       "miro-verification=bc6bf7cbcfaef3f64b8b7ac985ac266ade7841ca",
@@ -79,10 +77,78 @@
       "access-domain-verification=84182c45906b98291e631728981308ccc7ef4c8e7c8e50967620a921fac3587e",
       "adobe-idp-site-verification=1d029db73b9070784feaadfdea3ffdb1cbece813da1bcb5dcbf0e26b4bb6590e",
       "amazonses:Mt7c0brhnGth0wcmhk47IH/knQVn5EfOXyXhOifo/wE=",
-      "apple-domain-verification=61HOSJskwKSYhix8"
+      "apple-domain-verification=61HOSJskwKSYhix8",
+      "apple-domain-verification=bLDKcTIW6W195FKj",
+      "atlassian-domain-verification=/jwIloTuZZhxBynlCwZxBQz09tjsPZFkxtZIMe14fJYZfjP9yCTc/5LJMgRs4Uzb",
+      "dk6rhwgrnrlldtxwx3014pwxb4ryw8c2",
+      "dpp1dsv7u93pl9vprerh3gr70b",
+      "duo_sso_verification=NTTciaSMkpCXYAQUQnDs3DEi0FSZLqVc0RBsTiLWYZLvcJpsEOkM5MjirkHmntst",
+      "fgbo4gnbmsupeqmjgjilfda4aq",
+      "gilj8s5m909qkampc34s4ohk8l"
     ]
   },
-  "cloud_exposure": [],
+  "cloud_exposure": [
+    {
+      "bucket_name": "image-korankaltim.sgp1.digitaloceanspaces.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "mqcdn.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "ad-production.nyc3.digitaloceanspaces.com",
+      "file_count": 19
+    },
+    {
+      "bucket_name": "lazismu-cdn.sgp1.digitaloceanspaces.com",
+      "file_count": 43
+    },
+    {
+      "bucket_name": "demo99.sgp1.digitaloceanspaces.com",
+      "file_count": 4
+    },
+    {
+      "bucket_name": "mitraruma.storage.googleapis.com",
+      "file_count": 39
+    },
+    {
+      "bucket_name": "bowlerhq.nyc3.digitaloceanspaces.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "ipapi-object.sgp1.digitaloceanspaces.com",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "driveme.sgp1.digitaloceanspaces.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "studium-nba.sgp1.digitaloceanspaces.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "webcrawler.fra1.digitaloceanspaces.com",
+      "file_count": 7
+    },
+    {
+      "bucket_name": "aqtivehr.sgp1.digitaloceanspaces.com",
+      "file_count": 17
+    },
+    {
+      "bucket_name": "fun-storage.sgp1.digitaloceanspaces.com",
+      "file_count": 13
+    },
+    {
+      "bucket_name": "webadmisi-sttaa.sgp1.digitaloceanspaces.com",
+      "file_count": 2
+    }
+  ],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -93,6 +159,11 @@
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
       "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "high",
+      "description": "14 exposed cloud storage buckets detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
     }
   ]
 }

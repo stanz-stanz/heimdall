@@ -1,0 +1,182 @@
+{
+  "domain": "scarpi.com",
+  "job_id": "scan-2026-04-05-0822d98f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "scarpi.com",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-30",
+    "ssl_days_remaining": 85,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify",
+      "Trustpilot"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:33:57.883276015Z",
+      "port": "443",
+      "url": "https://scarpi.com",
+      "input": "scarpi.com",
+      "title": "Ekspert i Genius weft hårextensions – Scarpi Studio",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "scarpi.com",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "time": "355.642349ms",
+      "a": [
+        "23.227.38.65"
+      ],
+      "aaaa": [
+        "2620:127:f00f:5::"
+      ],
+      "tech": [
+        "Bootstrap:5",
+        "Cloudflare",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo",
+        "Shopify",
+        "Trustpilot"
+      ],
+      "words": 19467,
+      "lines": 1884,
+      "status_code": 200,
+      "content_length": 164582,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "scarpi.com",
+    "cvr": "prospect",
+    "company_name": "scarpi.com",
+    "scan_date": "2026-04-05",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify",
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-30",
+        "days_remaining": 85,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify",
+      "Trustpilot"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 218,
+    "ssl": 78,
+    "headers": 420,
+    "meta": 410,
+    "httpx": 3226,
+    "webanalyze": 5,
+    "total_ms": 4365
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

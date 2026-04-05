@@ -2,7 +2,7 @@
   "domain": "henrikchristensen.dk",
   "cvr": "prospect",
   "company_name": "henrikchristensen.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-06",
-      "days_remaining": 33
+      "days_remaining": 30,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -40,7 +41,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": "PHP/7.4.33, PleskLin"
     }
   },
   "tech_stack": [
@@ -88,6 +93,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -108,6 +117,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/7.4.33, PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -138,7 +162,7 @@
       "severity": "high",
       "description": "WP Google Review Slider [wp-google-places-review-slider] < 16.1 (CVE-2025-30783)",
       "risk": "CVE-2025-30783: WordPress WP Google Review Slider Plugin <= 16.0 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -150,7 +174,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -162,7 +186,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -172,11 +196,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 275,
+    "duration_ms": 188,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

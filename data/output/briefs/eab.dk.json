@@ -2,7 +2,7 @@
   "domain": "eab.dk",
   "cvr": "prospect",
   "company_name": "eab.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
-      "days_remaining": 54
+      "days_remaining": 50,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -31,7 +32,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "Apache",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -67,12 +72,16 @@
       "ns4.abedns.net"
     ],
     "txt": [
-      "ca3-1fa54a79c7404890bb67ce464597b45c",
+      "v=spf1 ip4:5.103.28.180/32 ip4:212.181.86.240/28 include:spf.protection.outlook.com include:emsd1.com include:emsd1.com ~all",
       "google-site-verification=IzOh8fSyTdN2zG0JCnsFO6q7-5fJwGnYygi3Sca9P68",
-      "v=spf1 ip4:5.103.28.180/32 ip4:212.181.86.240/28 include:spf.protection.outlook.com include:emsd1.com include:emsd1.com ~all"
+      "ca3-1fa54a79c7404890bb67ce464597b45c"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -103,7 +112,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
       "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -115,7 +124,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
       "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -127,7 +136,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
       "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -139,7 +148,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
       "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -151,7 +160,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
       "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -161,11 +170,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 145,
+    "duration_ms": 133,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

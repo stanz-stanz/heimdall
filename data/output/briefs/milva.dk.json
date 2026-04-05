@@ -2,7 +2,7 @@
   "domain": "milva.dk",
   "cvr": "prospect",
   "company_name": "milva.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-20",
-      "days_remaining": 79
+      "days_remaining": 75,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -68,13 +73,17 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "google-site-verification=UiUe67ByzHUSw6xSIiOxTngugp2dnf64bBFpBdnl2WU",
       "firebase=milva-e-prod",
-      "MS=ms24298479",
-      "v=spf1 include:_spf.google.com include:spf.protection.outlook.com include:48390094.spf08.hubspotemail.net ~all"
+      "google-site-verification=UiUe67ByzHUSw6xSIiOxTngugp2dnf64bBFpBdnl2WU",
+      "v=spf1 include:_spf.google.com include:spf.protection.outlook.com include:48390094.spf08.hubspotemail.net ~all",
+      "MS=ms24298479"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -85,6 +94,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     }
   ]
 }

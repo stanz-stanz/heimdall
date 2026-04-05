@@ -2,7 +2,7 @@
   "domain": "danskemink.dk",
   "cvr": "prospect",
   "company_name": "danskemink.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,7 +18,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-07",
-      "days_remaining": 35
+      "days_remaining": 32,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -52,7 +53,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": "PHP/8.1.34, PleskLin"
     }
   },
   "tech_stack": [
@@ -96,12 +101,12 @@
   },
   "dns": {
     "a": [
-      "172.67.210.7",
-      "104.21.50.194"
+      "104.21.50.194",
+      "172.67.210.7"
     ],
     "aaaa": [
-      "2606:4700:3037::6815:32c2",
-      "2606:4700:3035::ac43:d207"
+      "2606:4700:3035::ac43:d207",
+      "2606:4700:3037::6815:32c2"
     ],
     "cname": [],
     "mx": [
@@ -112,11 +117,15 @@
       "louis.ns.cloudflare.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com ip4:178.63.12.225 -all",
-      "MS=ms48831820"
+      "MS=ms48831820",
+      "v=spf1 include:spf.protection.outlook.com ip4:178.63.12.225 -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -137,6 +146,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.1.34, PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -197,7 +221,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
       "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -209,7 +233,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
       "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -221,7 +245,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.1.3 (CVE-2024-39666)",
       "risk": "CVE-2024-39666: WordPress WooCommerce Plugin <= 9.1.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -233,7 +257,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.1.0 (CVE-2024-9944)",
       "risk": "CVE-2024-9944: WordPress WooCommerce Plugin <= 9.0.2 is vulnerable to Content Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -245,7 +269,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.4.3",
       "risk": "WordPress WooCommerce Plugin < 9.4.3 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -257,7 +281,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.7.1 (CVE-2025-26762)",
       "risk": "CVE-2025-26762: WooCommerce &lt;= 9.7.0 - Authenticated (Shop Manager+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -269,7 +293,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -281,7 +305,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -293,7 +317,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 10.4.3 (CVE-2025-15033)",
       "risk": "CVE-2025-15033: WooCommerce [woocommerce] < 10.4.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -305,7 +329,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
       "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -317,7 +341,7 @@
       "severity": "medium",
       "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] < 2.5.9 (closed) (CVE-2025-11186)",
       "risk": "CVE-2025-11186: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] < 2.5.9 (closed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -329,7 +353,7 @@
       "severity": "medium",
       "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed) (CVE-2025-67554)",
       "risk": "CVE-2025-67554: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -341,7 +365,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1805)",
       "risk": "CVE-2024-1805: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Button onclick attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -353,7 +377,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1840)",
       "risk": "CVE-2024-1840: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Author",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -365,7 +389,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1841)",
       "risk": "CVE-2024-1841: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Title tag attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -377,7 +401,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1842)",
       "risk": "CVE-2024-1842: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Custom Heading tag attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -389,7 +413,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.7 (CVE-2024-5265)",
       "risk": "CVE-2024-5265: WPBakery Page Builder <= 7.6 - Authenticated (Contributor+) Stored Cross-Site Scripting via VC Single Image link attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -401,7 +425,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.8 (CVE-2024-5708)",
       "risk": "CVE-2024-5708: WPBakery <= 7.7 - Authenticated (Author+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -413,7 +437,7 @@
       "severity": "high",
       "description": "WPBakery [js_composer] < 7.8 (CVE-2024-5709)",
       "risk": "CVE-2024-5709: WPBakery <= 7.7 - Authenticated (Author+) Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -425,7 +449,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4965)",
       "risk": "CVE-2025-4965: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Author+) Stored Cross-Site Scripting via Grid Builder",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -437,7 +461,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4968)",
       "risk": "CVE-2025-4968: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Multiple Page Builder Elements",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -449,7 +473,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.6 (CVE-2025-7502)",
       "risk": "CVE-2025-7502: WPBakery Page Builder for WordPress &lt;= 8.5 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -461,7 +485,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11161)",
       "risk": "CVE-2025-11161: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via vc_custom_heading Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -473,7 +497,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11160)",
       "risk": "CVE-2025-11160: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via Custom JS Module",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -485,7 +509,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-10006)",
       "risk": "CVE-2025-10006: WPBakery [js_composer] < 8.7",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -497,7 +521,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 1.1.3 (CVE-2011-4673)",
       "risk": "CVE-2011-4673: WordPress Jetpack Plugin - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -509,7 +533,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] >= 5.1 - <= 7.9",
       "risk": "Jetpack 5.1-7.9 - Vulnerability in Shortcode Embed Code",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -521,7 +545,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 7.9",
       "risk": "Jetpack <= 7.9 - Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -533,7 +557,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.9.1 (CVE-2024-9926)",
       "risk": "CVE-2024-9926: WordPress Jetpack Plugin < 13.9.1 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -545,7 +569,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.9.1",
       "risk": "Jetpack < 13.9.1 - Missing Authorization to Authenticated (Subscriber+) Sensitive Information Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -557,7 +581,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] >= 13.0 - < 14.1 (CVE-2024-10858)",
       "risk": "CVE-2024-10858: WordPress Jetpack Plugin 13.0-14.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -569,7 +593,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.8 (CVE-2024-10076)",
       "risk": "CVE-2024-10076: EUVD-2025-15337",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -581,7 +605,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.8 (CVE-2024-10075)",
       "risk": "CVE-2024-10075: EUVD-2025-15352",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -593,7 +617,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
       "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -605,7 +629,7 @@
       "severity": "high",
       "description": "WooPayments: Integrated WooCommerce Payments [woocommerce-payments] < 5.9.1 (CVE-2023-35915)",
       "risk": "CVE-2023-35915: WordPress  WooCommerce Payments Plugin  <= 5.9.0 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -617,7 +641,7 @@
       "severity": "high",
       "description": "WooPayments: Integrated WooCommerce Payments [woocommerce-payments] < 5.9.1 (CVE-2023-35916)",
       "risk": "CVE-2023-35916: WordPress  WooCommerce Payments Plugin  <= 5.9.0 is vulnerable to Insecure Direct Object References (IDOR)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -629,7 +653,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
       "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -641,7 +665,7 @@
       "severity": "high",
       "description": "Slider Revolution [revslider] < 6.6.16 (CVE-2023-47784)",
       "risk": "CVE-2023-47784: WordPress  Slider Revolution Plugin  <= 6.6.15 is vulnerable to Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -653,7 +677,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.6.19 (CVE-2023-6528)",
       "risk": "CVE-2023-6528: Slider Revolution &lt; 6.6.19 - Author+ Insecure Deserialization leading to RCE",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -665,7 +689,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.0 (CVE-2024-2306)",
       "risk": "CVE-2024-2306: Revslider <= 6.6.20 - Authenticated (Author+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -677,7 +701,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.8 (CVE-2024-4092)",
       "risk": "CVE-2024-4092: Slider Revolution <= 6.7.7 - Authenticated (Author+) Stored Cross-Site Scripting via htmltag Parameter",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -689,7 +713,7 @@
       "severity": "high",
       "description": "Slider Revolution [revslider] < 6.7.0 (CVE-2024-34444)",
       "risk": "CVE-2024-34444: WordPress Slider Revolution Plugin < 6.7.0 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -701,7 +725,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-34443)",
       "risk": "CVE-2024-34443: WordPress Slider Revolution Plugin < 6.7.11 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -713,7 +737,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-4581)",
       "risk": "CVE-2024-4581: Slider Revolution <= 6.7.11 - Authenticated (Author+) Stored Cross-Site Scripting via Add Layer class, id, and title Attributes",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -725,7 +749,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-4637)",
       "risk": "CVE-2024-4637: Slider Revolution <= 6.7.10 - Authenticated (Contributor+) Stored Cross-Site Scripting via Elementor wrapperid and zindex",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -737,7 +761,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.14 (CVE-2024-37449)",
       "risk": "CVE-2024-37449: WordPress Slider Revolution Plugin <= 6.7.13 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -749,7 +773,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.19 (CVE-2024-8107)",
       "risk": "CVE-2024-8107: WordPress Slider Revolution Plugin <= 6.7.18 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -761,7 +785,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.37 (CVE-2025-9217)",
       "risk": "CVE-2025-9217: WordPress Slider Revolution Plugin <= 6.7.36 is vulnerable to Arbitrary File Download",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -773,7 +797,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.38 (CVE-2025-10249)",
       "risk": "CVE-2025-10249: Slider Revolution &lt;= 6.7.37 - Missing Authorization to Authenticated (Contributor+) Arbitrary File Read",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -785,7 +809,7 @@
       "severity": "medium",
       "description": "MC4WP: Mailchimp for WordPress [mailchimp-for-wp] >= 4.9.9 - <= 4.9.16 (CVE-2024-8850)",
       "risk": "CVE-2024-8850: MC4WP: Mailchimp for WordPress 4.9.9 - 4.9.16 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -797,7 +821,7 @@
       "severity": "medium",
       "description": "MC4WP: Mailchimp for WordPress [mailchimp-for-wp] < 4.9.17 (CVE-2024-8680)",
       "risk": "CVE-2024-8680: MailChimp for Wordpress <= 4.9.16 - Authenticated (Administrator+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -809,7 +833,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -821,7 +845,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47504)",
       "risk": "CVE-2023-47504: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -833,7 +857,7 @@
       "severity": "critical",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2 (CVE-2023-48777)",
       "risk": "CVE-2023-48777: WordPress  Elementor Website Builder Plugin  3.3.0-3.18.1 is vulnerable to Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -845,7 +869,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1 (CVE-2024-24934)",
       "risk": "CVE-2024-24934: Elementor <= 3.19.0 - Authenticated(Contributor+) Arbitrary File Deletion and PHAR Deserialization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -857,7 +881,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -869,7 +893,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -881,7 +905,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -891,11 +915,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 284,
+    "duration_ms": 173,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

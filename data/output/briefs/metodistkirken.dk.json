@@ -2,7 +2,7 @@
   "domain": "metodistkirken.dk",
   "cvr": "prospect",
   "company_name": "metodistkirken.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-02",
-      "days_remaining": 61
+      "days_remaining": 58,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -43,7 +44,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Apache",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -87,8 +92,8 @@
     "cname": [],
     "mx": [
       "mx3.pub.mailpod12-cph3.one.com",
-      "mx1.pub.mailpod12-cph3.one.com",
       "mx2.pub.mailpod12-cph3.one.com",
+      "mx1.pub.mailpod12-cph3.one.com",
       "mx4.pub.mailpod12-cph3.one.com"
     ],
     "ns": [
@@ -100,11 +105,20 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
       "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "medium",
@@ -140,7 +154,7 @@
       "severity": "high",
       "description": "The Events Calendar [the-events-calendar] < 6.6.4 (CVE-2024-6931)",
       "risk": "CVE-2024-6931: WordPress The Events Calendar Plugin <= 6.5.1.6 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -152,7 +166,7 @@
       "severity": "critical",
       "description": "The Events Calendar [the-events-calendar] < 6.6.4.1 (CVE-2024-8275)",
       "risk": "CVE-2024-8275: WordPress The Events Calendar Plugin <= 6.6.4 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -164,7 +178,7 @@
       "severity": "high",
       "description": "The Events Calendar [the-events-calendar] < 6.15.10 (CVE-2025-12197)",
       "risk": "CVE-2025-12197: The Events Calendar [the-events-calendar] < 6.15.10",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -176,7 +190,7 @@
       "severity": "medium",
       "description": "The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed) (CVE-2025-69352)",
       "risk": "CVE-2025-69352: The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -186,11 +200,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 317,
+    "duration_ms": 163,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

@@ -1,0 +1,241 @@
+{
+  "domain": "apoteket.dk",
+  "job_id": "scan-2026-04-05-b3a0992c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "apoteket.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "GlobalSign nv-sa",
+    "ssl_expiry": "2027-03-20",
+    "ssl_days_remaining": 348,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": "ASP.NET"
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Front Door",
+      "Cludo",
+      "Microsoft ASP.NET"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:51:13.424858495Z",
+      "port": "443",
+      "url": "https://apoteket.dk",
+      "input": "apoteket.dk",
+      "title": "apoteket.dk | apoteket.dk",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "apoteket.dk",
+      "host_ip": "94.18.193.126",
+      "path": "/",
+      "final_url": "https://www.apoteket.dk/",
+      "time": "426.207221ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "94.18.193.126"
+      ],
+      "tech": [
+        "Azure",
+        "Azure Front Door",
+        "Cludo",
+        "Microsoft ASP.NET"
+      ],
+      "words": 18846,
+      "lines": 1196,
+      "status_code": 200,
+      "content_length": 91773,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.18.193.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "apoteket-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "google-site-verification=Haed7j9wgvy_ciVqoAYCeOHtZ0Gza2Gtc48Sw6XZ5zM",
+        "v=spf1 include:_spf.atlassian.net ip4:185.163.189.149 include:spf.nnithosting.com include:sendgrid.net include:_spf.eu.sparkpostmail.com include:stspg-customer.com include:spf.protection.outlook.com ip4:81.27.217.0/26 -all",
+        "atlassian-sending-domain-verification=9d1a1b5c-4351-4967-bfdb-c7e4f623d247",
+        "MS=ms14267344",
+        "status-page-domain-verification=w847j4k28s3h",
+        "n/I/5uu62x3mQTjsPCCJ/AY3Ar9yEn/y3BNG/xSwsRd7O7a73I3muOECd4Sckh/kzYAI1YtSzgBZJ1sGhICz/Q==",
+        "_globalsign-domain-verification=nbaJnrOgFuFJ9wCUiXWcgj0XIHE1Wj1xR_SL4Uf5O7",
+        "H6JwigUuQU/or0Y5G2+mQFuVGuzjVAxGG9VnnrpZfE0kq78jpNyzKRRd1EATU9PhO8ssYnSXMB2Qmye9E7CUvA==",
+        "_globalsign-domain-verification=xZHGqgN_XtmQvxwIwPxliqmsBi2bxOqQNPnlqaR1x-"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "apoteket.dk",
+    "cvr": "prospect",
+    "company_name": "apoteket.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "GlobalSign nv-sa",
+        "expiry": "2027-03-20",
+        "days_remaining": 348,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": "ASP.NET"
+      }
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Front Door",
+      "Cludo",
+      "Microsoft ASP.NET"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.18.193.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "apoteket-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "google-site-verification=Haed7j9wgvy_ciVqoAYCeOHtZ0Gza2Gtc48Sw6XZ5zM",
+        "v=spf1 include:_spf.atlassian.net ip4:185.163.189.149 include:spf.nnithosting.com include:sendgrid.net include:_spf.eu.sparkpostmail.com include:stspg-customer.com include:spf.protection.outlook.com ip4:81.27.217.0/26 -all",
+        "atlassian-sending-domain-verification=9d1a1b5c-4351-4967-bfdb-c7e4f623d247",
+        "MS=ms14267344",
+        "status-page-domain-verification=w847j4k28s3h",
+        "n/I/5uu62x3mQTjsPCCJ/AY3Ar9yEn/y3BNG/xSwsRd7O7a73I3muOECd4Sckh/kzYAI1YtSzgBZJ1sGhICz/Q==",
+        "_globalsign-domain-verification=nbaJnrOgFuFJ9wCUiXWcgj0XIHE1Wj1xR_SL4Uf5O7",
+        "H6JwigUuQU/or0Y5G2+mQFuVGuzjVAxGG9VnnrpZfE0kq78jpNyzKRRd1EATU9PhO8ssYnSXMB2Qmye9E7CUvA==",
+        "_globalsign-domain-verification=xZHGqgN_XtmQvxwIwPxliqmsBi2bxOqQNPnlqaR1x-"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: ASP.NET",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 547,
+    "ssl": 87,
+    "headers": 314,
+    "meta": 366,
+    "httpx": 2618,
+    "webanalyze": 4,
+    "dnsx": 752,
+    "total_ms": 4700
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

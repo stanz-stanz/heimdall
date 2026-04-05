@@ -2,7 +2,7 @@
   "domain": "dmmas.dk",
   "cvr": "prospect",
   "company_name": "dmmas.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-06",
-      "days_remaining": 34
+      "days_remaining": 30,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -39,7 +40,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -85,6 +90,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -105,6 +114,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "low",
@@ -150,7 +164,7 @@
       "severity": "high",
       "description": "MapGeo &#8211; Interactive Geo Maps [interactive-geo-maps] < 1.6.25 (CVE-2025-32525)",
       "risk": "CVE-2025-32525: WordPress Interactive Geo Maps Plugin <= 1.6.24 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -162,7 +176,7 @@
       "severity": "medium",
       "description": "Smush Image Optimization – Optimize Images | Compress &amp; Lazy Load Images | Convert WebP &amp; AVIF | Image CDN [wp-smushit] < 3.9.9 (CVE-2022-1009)",
       "risk": "CVE-2022-1009: WordPress Smush plugin <= 3.9.8 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -174,11 +188,11 @@
       "severity": "medium",
       "description": "Smush Image Optimization – Optimize Images | Compress &amp; Lazy Load Images | Convert WebP &amp; AVIF | Image CDN [wp-smushit] < 3.9.9",
       "risk": "Smush Image Compression and Optimization &lt;= 2.9.1 - Authenticated Phar Deserialization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "9e026a7556aacf58736395dba4bc039d94a2a9df829c8dc0c09f1f78f39d9a43",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -186,7 +200,7 @@
       "severity": "medium",
       "description": "Smush Image Optimization – Optimize Images | Compress &amp; Lazy Load Images | Convert WebP &amp; AVIF | Image CDN [wp-smushit] < 3.16.5 (CVE-2023-3352)",
       "risk": "CVE-2023-3352: Smush – Lazy Load Images, Optimize & Compress Images <= 3.16.4 - Missing Authorization to Resmush List Deletion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -198,7 +212,7 @@
       "severity": "medium",
       "description": "Smush Image Optimization – Optimize Images | Compress &amp; Lazy Load Images | Convert WebP &amp; AVIF | Image CDN [wp-smushit] < 3.17.1 (CVE-2025-22288)",
       "risk": "CVE-2025-22288: WordPress Smush Image Compression and Optimization Plugin <= 3.17.0 is vulnerable to Directory Traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -210,7 +224,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -222,7 +236,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -234,7 +248,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -246,7 +260,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -258,7 +272,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] < 4.25.1 (CVE-2024-4490)",
       "risk": "CVE-2024-4490: Elegant Themes Divi Theme, Extra Theme, Divi Page Builder &lt;= 4.25.0 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -270,7 +284,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] < 4.27.2",
       "risk": "Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Magnific Popups JavaScript Library",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -280,11 +294,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 423,
+    "duration_ms": 144,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

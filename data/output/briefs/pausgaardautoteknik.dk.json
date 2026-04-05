@@ -2,7 +2,7 @@
   "domain": "pausgaardautoteknik.dk",
   "cvr": "prospect",
   "company_name": "pausgaardautoteknik.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-08",
-      "days_remaining": 67
+      "days_remaining": 64,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -36,7 +37,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": "PleskLin"
     }
   },
   "tech_stack": [
@@ -63,12 +68,12 @@
   },
   "dns": {
     "a": [
-      "172.67.140.127",
-      "104.21.49.27"
+      "104.21.49.27",
+      "172.67.140.127"
     ],
     "aaaa": [
-      "2a06:98c1:3121::3",
-      "2a06:98c1:3120::3"
+      "2a06:98c1:3120::3",
+      "2a06:98c1:3121::3"
     ],
     "cname": [],
     "mx": [
@@ -79,12 +84,16 @@
       "dimitris.ns.cloudflare.com"
     ],
     "txt": [
+      "google-site-verification=7a_K8pH7vcALQSy1gs7oD21-TiNkaTg5mESIktfaPBk",
       "MS=ms37544055",
-      "v=spf1 include:spf.protection.outlook.com include:dedicated.mysmtp.com -all",
-      "google-site-verification=7a_K8pH7vcALQSy1gs7oD21-TiNkaTg5mESIktfaPBk"
+      "v=spf1 include:spf.protection.outlook.com include:dedicated.mysmtp.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -100,6 +109,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -130,7 +149,7 @@
       "severity": "high",
       "description": "W3 Total Cache [w3-total-cache] < 2.2.3 (CVE-2022-31090)",
       "risk": "CVE-2022-31090: Guzzle <= 6.5.7 and 7.0-7.4.4 - Information Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -142,7 +161,7 @@
       "severity": "high",
       "description": "W3 Total Cache [w3-total-cache] < 2.8.2 (CVE-2024-12365)",
       "risk": "CVE-2024-12365: W3 Total Cache <= 2.8.1 - Authenticated (Subscriber+) Missing Authorization to Server-Side Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -154,7 +173,7 @@
       "severity": "medium",
       "description": "W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed) (CVE-2026-27384)",
       "risk": "CVE-2026-27384: W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -164,11 +183,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 179,
+    "duration_ms": 144,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

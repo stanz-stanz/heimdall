@@ -1,0 +1,250 @@
+{
+  "domain": "bredenoord.com",
+  "job_id": "scan-2026-04-05-3764366b",
+  "status": "completed",
+  "scan_result": {
+    "domain": "bredenoord.com",
+    "cms": "Craft CMS",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-23",
+    "ssl_days_remaining": 79,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": "Craft CMS, SEOmatic"
+    },
+    "tech_stack": [
+      "Craft CMS",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "SEOmatic",
+      "Yii"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:55:24.495042542Z",
+      "port": "443",
+      "url": "https://bredenoord.com",
+      "input": "bredenoord.com",
+      "title": "Our energy, your power | Bredenoord",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "bredenoord.com",
+      "host_ip": "185.173.20.127",
+      "path": "/",
+      "final_url": "https://www.bredenoord.com/en/",
+      "time": "946.481465ms",
+      "chain_status_codes": [
+        301,
+        302,
+        200
+      ],
+      "a": [
+        "185.173.20.127"
+      ],
+      "aaaa": [
+        "2a0b:3100:20::4f"
+      ],
+      "tech": [
+        "Craft CMS",
+        "Google Tag Manager",
+        "HSTS",
+        "Nginx",
+        "SEOmatic",
+        "Yii"
+      ],
+      "words": 12850,
+      "lines": 963,
+      "status_code": 200,
+      "content_length": 64796,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "element",
+          "vendor": "matrix",
+          "cpe": "cpe:2.3:a:matrix:element:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.173.20.127"
+      ],
+      "aaaa": [
+        "2a0b:3100:20::4f"
+      ],
+      "cname": [],
+      "mx": [
+        "bredenoord-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1-03.azure-dns.com",
+        "ns2-03.azure-dns.net",
+        "ns3-03.azure-dns.org",
+        "ns4-03.azure-dns.info"
+      ],
+      "txt": [
+        "v=spf1 ip4:80.112.196.80/28 ip4:217.77.156.140 include:spf.protection.outlook.com include:spf.eu.exclaimer.net include:cmail1.com include:servers.mcsv.net include:spf.mandrillapp.com include:carerix.net include:spf.afas.online include:amazonses.com include:_spf.facilitor.nl ~all",
+        "atlassian-sending-domain-verification=f97af139-513e-48e4-97e9-ead1cf9a27bf",
+        "apple-domain-verification=yEUWXYhiuSA67Lti",
+        "d365mktkey=btq8LnmhryehHNx7dsyM9IzeEyxoWUmvWKXSet0KvM0x",
+        "autodesk-domain-verification=bshgsTMvUqZFflZcgjua",
+        "openai-domain-verification=dv-JARcpnZ84mtYQemokzHxl2l3",
+        "atlassian-domain-verification=4OgvBigVPze6Gpk4mOrc3onVtcTO7jrX9X0nLzs8OmhKaPQAevsHNYwRLtKD85ur",
+        "MS=ms24047612"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "bredenoord.com",
+    "cvr": "prospect",
+    "company_name": "bredenoord.com",
+    "scan_date": "2026-04-05",
+    "bucket": "B",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Craft CMS",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-23",
+        "days_remaining": 79,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": "Craft CMS, SEOmatic"
+      }
+    },
+    "tech_stack": [
+      "Craft CMS",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "SEOmatic",
+      "Yii"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.173.20.127"
+      ],
+      "aaaa": [
+        "2a0b:3100:20::4f"
+      ],
+      "cname": [],
+      "mx": [
+        "bredenoord-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1-03.azure-dns.com",
+        "ns2-03.azure-dns.net",
+        "ns3-03.azure-dns.org",
+        "ns4-03.azure-dns.info"
+      ],
+      "txt": [
+        "v=spf1 ip4:80.112.196.80/28 ip4:217.77.156.140 include:spf.protection.outlook.com include:spf.eu.exclaimer.net include:cmail1.com include:servers.mcsv.net include:spf.mandrillapp.com include:carerix.net include:spf.afas.online include:amazonses.com include:_spf.facilitor.nl ~all",
+        "atlassian-sending-domain-verification=f97af139-513e-48e4-97e9-ead1cf9a27bf",
+        "apple-domain-verification=yEUWXYhiuSA67Lti",
+        "d365mktkey=btq8LnmhryehHNx7dsyM9IzeEyxoWUmvWKXSet0KvM0x",
+        "autodesk-domain-verification=bshgsTMvUqZFflZcgjua",
+        "openai-domain-verification=dv-JARcpnZ84mtYQemokzHxl2l3",
+        "atlassian-domain-verification=4OgvBigVPze6Gpk4mOrc3onVtcTO7jrX9X0nLzs8OmhKaPQAevsHNYwRLtKD85ur",
+        "MS=ms24047612"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: Craft CMS, SEOmatic",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 308,
+    "ssl": 106,
+    "headers": 795,
+    "meta": 823,
+    "httpx": 2839,
+    "webanalyze": 4,
+    "dnsx": 775,
+    "total_ms": 5660
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

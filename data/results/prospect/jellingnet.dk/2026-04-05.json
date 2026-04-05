@@ -1,0 +1,507 @@
+{
+  "domain": "jellingnet.dk",
+  "job_id": "scan-2026-04-05-3ca8edec",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jellingnet.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-16",
+    "ssl_days_remaining": 71,
+    "detected_plugins": [
+      "pwa-for-wp",
+      "divi-builder",
+      "jetpack",
+      "better-wp-security",
+      "wordfence",
+      "complianz-gdpr",
+      "gravityforms",
+      "litespeed-cache"
+    ],
+    "plugin_versions": {
+      "divi-builder": "5.2.0"
+    },
+    "detected_themes": [
+      "Divi"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Divi:5.2.0",
+      "Google Analytics",
+      "HTTP/3",
+      "LiteSpeed",
+      "LiteSpeed Cache",
+      "Litespeed Cache",
+      "MySQL",
+      "PHP",
+      "Site Kit:1.175.0",
+      "WordPress",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:15:36.193985505Z",
+      "port": "443",
+      "url": "https://jellingnet.dk",
+      "input": "jellingnet.dk",
+      "title": "JELLINGNET - Din lokale leverandør af Internet og Tv i Jelling",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jellingnet.dk",
+      "host_ip": "94.231.101.82",
+      "path": "/",
+      "time": "133.740361ms",
+      "a": [
+        "94.231.101.82"
+      ],
+      "tech": [
+        "Divi:5.2.0",
+        "Google Analytics",
+        "HTTP/3",
+        "LiteSpeed",
+        "LiteSpeed Cache",
+        "Litespeed Cache",
+        "MySQL",
+        "PHP",
+        "Site Kit:1.175.0",
+        "WordPress",
+        "jQuery"
+      ],
+      "words": 6062,
+      "lines": 1028,
+      "status_code": 200,
+      "content_length": 103571,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "element",
+          "vendor": "matrix",
+          "cpe": "cpe:2.3:a:matrix:element:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "pwa-for-wp"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.101.82"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.foreningsmail.dk"
+      ],
+      "ns": [
+        "ns1.eurodns.com",
+        "ns2.eurodns.com",
+        "ns3.eurodns.com",
+        "ns4.eurodns.com"
+      ],
+      "txt": [
+        "v=spf1 include:_spf_forening.mail.dk ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jellingnet.dk",
+    "cvr": "prospect",
+    "company_name": "jellingnet.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Gravityforms",
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-16",
+        "days_remaining": 71,
+        "tls_version": ""
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Pwa For Wp",
+        "Divi Builder",
+        "Jetpack",
+        "Better Wp Security",
+        "Wordfence",
+        "Complianz Gdpr",
+        "Gravityforms",
+        "Litespeed Cache"
+      ],
+      "plugin_versions": {
+        "Divi Builder": "5.2.0"
+      },
+      "detected_themes": [
+        "Divi"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "LiteSpeed",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Divi:5.2.0",
+      "Google Analytics",
+      "HTTP/3",
+      "LiteSpeed",
+      "LiteSpeed Cache",
+      "Litespeed Cache",
+      "MySQL",
+      "PHP",
+      "Site Kit:1.175.0",
+      "WordPress",
+      "jQuery"
+    ],
+    "plugin_versions": {
+      "divi-builder": "5.2.0"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.101.82"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.foreningsmail.dk"
+      ],
+      "ns": [
+        "ns1.eurodns.com",
+        "ns2.eurodns.com",
+        "ns3.eurodns.com",
+        "ns4.eurodns.com"
+      ],
+      "txt": [
+        "v=spf1 include:_spf_forening.mail.dk ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Gravityforms",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "8 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Divi",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "high",
+        "description": "PWA for WP &#8211; Progressive Web Apps Made Simple [pwa-for-wp] < 1.7.33 (CVE-2021-4354)",
+        "risk": "CVE-2021-4354: PWA for WP &#8211; Progressive Web Apps Made Simple [pwa-for-wp] < 1.7.33",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2021-4354",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+        "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35945",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
+        "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
+        "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-54332",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5 (CVE-2023-33333)",
+        "risk": "CVE-2023-33333: WordPress  Complianz – GDPR/CCPA Cookie Consent Plugin  <= 6.4.4 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-33333",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Gravity Forms [gravityforms] < 2.7.4 (CVE-2023-28782)",
+        "risk": "CVE-2023-28782: WordPress  Gravity Forms  Plugin  <= 2.7.3 is vulnerable to PHP Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-28782",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Gravity Forms [gravityforms] < 2.9.2 (CVE-2024-13377)",
+        "risk": "CVE-2024-13377: GravityForms <= 2.9.1.3 - Unauthenticated Stored Cross-Site Scripting via 'alt' parameter",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-13377",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Gravity Forms [gravityforms] < 2.9.21 (CVE-2025-12352)",
+        "risk": "CVE-2025-12352: Gravity Forms [gravityforms] < 2.9.21",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-12352",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Gravity Forms [gravityforms] < 2.9.22 (CVE-2025-12974)",
+        "risk": "CVE-2025-12974: Gravity Forms [gravityforms] < 2.9.22",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-12974",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
+        "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-45000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
+        "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-40000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
+        "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-28000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
+        "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-44000",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
+        "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-47637",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
+        "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-47374",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
+        "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-50550",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 137,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 104,
+    "ssl": 65,
+    "headers": 95,
+    "meta": 704,
+    "httpx": 2734,
+    "webanalyze": 4,
+    "dnsx": 706,
+    "total_ms": 5315
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

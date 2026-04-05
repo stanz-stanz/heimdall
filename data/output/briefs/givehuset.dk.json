@@ -2,7 +2,7 @@
   "domain": "givehuset.dk",
   "cvr": "prospect",
   "company_name": "givehuset.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,13 +17,13 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-28",
-      "days_remaining": 56
+      "days_remaining": 53,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
       "Contact Form 7",
       "Go_Pricing",
-      "Price Calculator",
       "Recent Tweets Widget",
       "Js_Composer",
       "Dt The7 Core",
@@ -35,7 +35,6 @@
     "plugin_versions": {
       "Contact Form 7": "6.1.5",
       "Go_Pricing": "3.4",
-      "Price Calculator": "1.0.0",
       "Recent Tweets Widget": "1.0",
       "Js_Composer": "8.7.2",
       "Dt The7 Core": "2.7.12",
@@ -51,11 +50,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Bootstrap:3.3.6",
     "Cloudflare",
     "Contact Form 7:6.1.5",
     "Cookiebot",
@@ -77,7 +79,6 @@
   "plugin_versions": {
     "contact-form-7": "6.1.5",
     "go_pricing": "3.4",
-    "price-calculator": "1.0.0",
     "recent-tweets-widget": "1.0",
     "js_composer": "8.7.2",
     "dt-the7-core": "2.7.12",
@@ -103,11 +104,15 @@
       "ns2.addcon.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com -all",
-      "MS=ms14307776"
+      "MS=ms14307776",
+      "v=spf1 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -125,6 +130,11 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
       "severity": "medium",
       "description": "WordPress version 6.9.4 publicly disclosed",
       "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
@@ -136,7 +146,7 @@
     },
     {
       "severity": "info",
-      "description": "10 WordPress plugins detected",
+      "description": "9 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
@@ -151,14 +161,9 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Price Calculator (installed 1.0.0, latest 1.1.0)",
-      "risk": "The installed version of Price Calculator is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
-    },
-    {
-      "severity": "medium",
       "description": "The7 Core [dt-the7-core] <= 2.7.11 (unfixed) (CVE-2025-63076)",
       "risk": "CVE-2025-63076: The7 Core [dt-the7-core] <= 2.7.11 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -170,7 +175,7 @@
       "severity": "high",
       "description": "Ultimate Addons for Visual Composer [ultimate_vc_addons] < 3.19.15 (CVE-2023-46205)",
       "risk": "CVE-2023-46205: WordPress  Ultimate Addons for WPBakery Page Builder Plugin  <= 3.19.14 is vulnerable to Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -182,7 +187,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
       "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -192,11 +197,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 604,
+    "duration_ms": 153,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

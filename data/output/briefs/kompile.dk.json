@@ -2,7 +2,7 @@
   "domain": "kompile.dk",
   "cvr": "prospect",
   "company_name": "kompile.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Amazon",
       "expiry": "2026-12-07",
-      "days_remaining": 249
+      "days_remaining": 246,
+      "tls_version": ""
     },
     "server": "AmazonS3",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "AmazonS3",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -40,30 +45,30 @@
   },
   "dns": {
     "a": [
-      "3.174.18.60",
       "3.174.18.5",
+      "3.174.18.46",
       "3.174.18.48",
-      "3.174.18.46"
+      "3.174.18.60"
     ],
     "aaaa": [
-      "2600:9000:28e5:a400:10:783d:ef80:93a1",
-      "2600:9000:28e5:d600:10:783d:ef80:93a1",
-      "2600:9000:28e5:ae00:10:783d:ef80:93a1",
-      "2600:9000:28e5:d400:10:783d:ef80:93a1",
-      "2600:9000:28e5:6800:10:783d:ef80:93a1",
-      "2600:9000:28e5:4e00:10:783d:ef80:93a1",
-      "2600:9000:28e5:b000:10:783d:ef80:93a1",
-      "2600:9000:28e5:5400:10:783d:ef80:93a1"
+      "2600:9000:28e5:3c00:10:783d:ef80:93a1",
+      "2600:9000:28e5:ee00:10:783d:ef80:93a1",
+      "2600:9000:28e5:f400:10:783d:ef80:93a1",
+      "2600:9000:28e5:6a00:10:783d:ef80:93a1",
+      "2600:9000:28e5:f600:10:783d:ef80:93a1",
+      "2600:9000:28e5:7a00:10:783d:ef80:93a1",
+      "2600:9000:28e5:1e00:10:783d:ef80:93a1",
+      "2600:9000:28e5:b000:10:783d:ef80:93a1"
     ],
     "cname": [],
     "mx": [
-      "alt4.aspmx.l.google.com",
+      "mxa.mailgun.org",
       "mxb.mailgun.org",
       "alt1.aspmx.l.google.com",
       "alt2.aspmx.l.google.com",
       "aspmx.l.google.com",
-      "mxa.mailgun.org",
-      "alt3.aspmx.l.google.com"
+      "alt3.aspmx.l.google.com",
+      "alt4.aspmx.l.google.com"
     ],
     "ns": [
       "ns-401.awsdns-50.com",
@@ -78,6 +83,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "Kompile ApS",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -98,6 +107,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

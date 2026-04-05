@@ -2,7 +2,7 @@
   "domain": "gmail.dk",
   "cvr": "prospect",
   "company_name": "gmail.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "ESF",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -38,16 +43,16 @@
   },
   "dns": {
     "a": [
-      "142.250.147.17",
-      "142.250.147.83",
       "142.250.147.18",
-      "142.250.147.19"
+      "142.250.147.17",
+      "142.250.147.19",
+      "142.250.147.83"
     ],
     "aaaa": [
-      "2a00:1450:4001:c15::11",
-      "2a00:1450:4001:c15::13",
-      "2a00:1450:4001:c15::12",
-      "2a00:1450:4001:c15::53"
+      "2a00:1450:4001:c0f::12",
+      "2a00:1450:4001:c0f::53",
+      "2a00:1450:4001:c0f::11",
+      "2a00:1450:4001:c0f::13"
     ],
     "cname": [],
     "mx": [
@@ -73,6 +78,10 @@
       "file_count": 4
     }
   ],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -98,6 +107,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "high",

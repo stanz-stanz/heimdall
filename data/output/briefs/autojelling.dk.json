@@ -2,7 +2,7 @@
   "domain": "autojelling.dk",
   "cvr": "prospect",
   "company_name": "autojelling.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-29",
-      "days_remaining": 57
+      "days_remaining": 53,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -45,7 +46,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.5.4"
     }
   },
   "tech_stack": [
@@ -82,10 +87,10 @@
     ],
     "cname": [],
     "mx": [
+      "mx3.pub.mailpod14-cph3.one.com",
       "mx2.pub.mailpod14-cph3.one.com",
-      "mx4.pub.mailpod14-cph3.one.com",
       "mx1.pub.mailpod14-cph3.one.com",
-      "mx3.pub.mailpod14-cph3.one.com"
+      "mx4.pub.mailpod14-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -94,6 +99,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -114,6 +123,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.5.4",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -159,7 +183,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
       "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -171,7 +195,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
       "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -183,7 +207,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
       "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -195,7 +219,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.7.1 (CVE-2025-26762)",
       "risk": "CVE-2025-26762: WooCommerce &lt;= 9.7.0 - Authenticated (Shop Manager+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -207,7 +231,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -219,7 +243,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -231,7 +255,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 10.4.3 (CVE-2025-15033)",
       "risk": "CVE-2025-15033: WooCommerce [woocommerce] < 10.4.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -243,7 +267,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
       "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -255,7 +279,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.37 (CVE-2025-9217)",
       "risk": "CVE-2025-9217: WordPress Slider Revolution Plugin <= 6.7.36 is vulnerable to Arbitrary File Download",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -267,7 +291,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.38 (CVE-2025-10249)",
       "risk": "CVE-2025-10249: Slider Revolution &lt;= 6.7.37 - Missing Authorization to Authenticated (Contributor+) Arbitrary File Read",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -279,7 +303,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
       "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -289,11 +313,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 687,
+    "duration_ms": 163,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

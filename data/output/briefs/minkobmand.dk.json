@@ -2,7 +2,7 @@
   "domain": "minkobmand.dk",
   "cvr": "prospect",
   "company_name": "minkobmand.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "nginx/1.21.0",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -36,7 +41,7 @@
     "Nginx:1.21.0",
     "Node.js",
     "React",
-    "Varnish:6.2",
+    "Varnish",
     "Webpack"
   ],
   "plugin_versions": {},
@@ -60,20 +65,24 @@
       "ns4.eurodns.com"
     ],
     "txt": [
-      "8ru7friv9fogj0gc0qpgf5tr4",
-      "SFMC-cT4QDyhzXRrUP6m-HiiZJ2GeLNr8rGGy7Oj4PYbs",
-      "34VD891SKEKQ00MR89QHJQCOUV",
-      "hopeqt2f0vbkdia1vskubs03t3",
-      "b7qltttcq41td56m0i42i0d222",
-      "_globalsign-domain-verification=bRsLsfi-Kj3rwyidHxA_7IIrZsi1R9GksLlBU2ahIp",
       "google-site-verification=9-6_XmZ4hdsyEYD1Zf9AnvZBSZafcmiFbaONclFB114",
+      "_globalsign-domain-verification=bRsLsfi-Kj3rwyidHxA_7IIrZsi1R9GksLlBU2ahIp",
+      "MS=ms60996601",
       "hosting-site=minkobmand-c36d5",
-      "tjs8f5gngsabrlrsf58e6r1gjj",
+      "SFMC-cT4QDyhzXRrUP6m-HiiZJ2GeLNr8rGGy7Oj4PYbs",
       "v=spf1 include:spf.protection.outlook.com include:_spf.google.com include:_spf.easycruit.com include:_spf.salesforce.com include:mail.zendesk.com include:spf.logicalware.com ip4:194.255.122.145 ip4:109.123.121.107 ip4:37.123.114.36 -all",
-      "MS=ms60996601"
+      "8ru7friv9fogj0gc0qpgf5tr4",
+      "tjs8f5gngsabrlrsf58e6r1gjj",
+      "b7qltttcq41td56m0i42i0d222",
+      "34VD891SKEKQ00MR89QHJQCOUV",
+      "hopeqt2f0vbkdia1vskubs03t3"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -99,6 +108,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

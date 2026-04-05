@@ -2,7 +2,7 @@
   "domain": "pers-group.com",
   "cvr": "prospect",
   "company_name": "pers-group.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -34,7 +35,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -83,6 +88,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -111,6 +120,16 @@
     },
     {
       "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "low",
       "description": "WordPress detected (version not determined)",
       "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
     },
@@ -133,7 +152,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -143,11 +162,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 150,
+    "duration_ms": 170,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

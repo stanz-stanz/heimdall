@@ -2,26 +2,29 @@
   "domain": "copenhagenpublishing.com",
   "cvr": "prospect",
   "company_name": "copenhagenpublishing.com",
-  "scan_date": "2026-04-02",
-  "bucket": "E",
+  "scan_date": "2026-04-05",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-24",
-      "days_remaining": 82
+      "days_remaining": 79,
+      "tls_version": ""
     },
-    "server": "nginx",
+    "server": "Simply.com",
     "detected_plugins": [
       "Divi Builder",
       "Wordfence"
     ],
-    "plugin_versions": {},
+    "plugin_versions": {
+      "Divi Builder": "4.4.0"
+    },
     "detected_themes": [
       "Divi",
       "Divi Child"
@@ -30,13 +33,27 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Nginx"
+    "Divi:4.4.0",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "W3 Total Cache",
+    "WordPress:6.8.5",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "jsDelivr"
   ],
-  "plugin_versions": {},
+  "plugin_versions": {
+    "divi-builder": "4.4.0"
+  },
   "subdomains": {
     "count": 0,
     "list": []
@@ -59,6 +76,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -76,14 +97,85 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.8.5 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "info",
       "description": "2 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
       "severity": "info",
       "description": "WordPress themes detected: Divi, Divi Child",
       "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "critical",
+      "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+      "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-35945",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
+      "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Divi Builder [divi-builder] < 4.25.1 (CVE-2024-4490)",
+      "risk": "CVE-2024-4490: Elegant Themes Divi Theme, Extra Theme, Divi Page Builder &lt;= 4.25.0 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4490",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Divi Builder [divi-builder] < 4.27.2",
+      "risk": "Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Magnific Popups JavaScript Library",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-05",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 155,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

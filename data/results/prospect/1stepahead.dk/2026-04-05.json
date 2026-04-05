@@ -1,0 +1,220 @@
+{
+  "domain": "1stepahead.dk",
+  "job_id": "scan-2026-04-05-252a1fc1",
+  "status": "completed",
+  "scan_result": {
+    "domain": "1stepahead.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-14",
+    "ssl_days_remaining": 69,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Cloudflare",
+      "Google Hosted Libraries",
+      "Microsoft ASP.NET",
+      "Microsoft Ajax Content Delivery Network",
+      "cdnjs",
+      "jQuery CDN",
+      "jQuery UI:1.11.4",
+      "jQuery:2.1.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:48:03.462271463Z",
+      "port": "443",
+      "url": "https://1stepahead.dk",
+      "input": "1stepahead.dk",
+      "title": "Billetsystemet Integra fra 1StepAhead - billetsystem, SMS-billetter, mm. | 1StepAhead billetsystem",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "1stepahead.dk",
+      "host_ip": "188.180.76.204",
+      "path": "/",
+      "time": "148.773124ms",
+      "a": [
+        "188.180.76.204"
+      ],
+      "tech": [
+        "Bootstrap",
+        "Cloudflare",
+        "Google Hosted Libraries",
+        "Microsoft ASP.NET",
+        "Microsoft Ajax Content Delivery Network",
+        "cdnjs",
+        "jQuery CDN",
+        "jQuery UI:1.11.4",
+        "jQuery:2.1.1"
+      ],
+      "words": 5135,
+      "lines": 431,
+      "status_code": 200,
+      "content_length": 22124,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "188.180.76.204"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "1stepahead-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:_spf.herodesk-mails.io -all",
+        "MS=ms40284164"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "1stepahead.dk",
+    "cvr": "prospect",
+    "company_name": "1stepahead.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-14",
+        "days_remaining": 69,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "Cloudflare",
+      "Google Hosted Libraries",
+      "Microsoft ASP.NET",
+      "Microsoft Ajax Content Delivery Network",
+      "cdnjs",
+      "jQuery CDN",
+      "jQuery UI:1.11.4",
+      "jQuery:2.1.1"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "188.180.76.204"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "1stepahead-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:_spf.herodesk-mails.io -all",
+        "MS=ms40284164"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1296,
+    "ssl": 91,
+    "headers": 116,
+    "meta": 126,
+    "httpx": 1945,
+    "webanalyze": 4,
+    "dnsx": 792,
+    "total_ms": 9021
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

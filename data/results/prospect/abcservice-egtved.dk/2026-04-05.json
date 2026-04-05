@@ -1,0 +1,217 @@
+{
+  "domain": "abcservice-egtved.dk",
+  "job_id": "scan-2026-04-05-0c9c3af7",
+  "status": "completed",
+  "scan_result": {
+    "domain": "abcservice-egtved.dk",
+    "cms": "",
+    "server": "Vercel",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-14",
+    "ssl_days_remaining": 39,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Vercel",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "HSTS",
+      "Vercel"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:48:55.010368072Z",
+      "port": "443",
+      "url": "https://abcservice-egtved.dk",
+      "input": "abcservice-egtved.dk",
+      "title": "Rengøring Vejle | Hovedrengøring & Hverdagsrengøring | ABC Service Egtved",
+      "scheme": "https",
+      "webserver": "Vercel",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "abcservice-egtved.dk",
+      "host_ip": "216.198.79.1",
+      "path": "/",
+      "time": "172.137855ms",
+      "a": [
+        "216.198.79.1"
+      ],
+      "tech": [
+        "HSTS",
+        "Vercel"
+      ],
+      "words": 2488,
+      "lines": 17,
+      "status_code": 200,
+      "content_length": 40389,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "zeit",
+          "cpe": "cpe:2.3:a:zeit:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "vercel",
+          "cpe": "cpe:2.3:a:vercel:next.js:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "216.198.79.1"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms54107220",
+        "v=spf1 a include:spf.curanet.dk ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "abcservice-egtved.dk",
+    "cvr": "prospect",
+    "company_name": "abcservice-egtved.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-14",
+        "days_remaining": 39,
+        "tls_version": ""
+      },
+      "server": "Vercel",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Vercel",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "HSTS",
+      "Vercel"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "216.198.79.1"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms54107220",
+        "v=spf1 a include:spf.curanet.dk ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1145,
+    "ssl": 93,
+    "headers": 175,
+    "meta": 122,
+    "httpx": 1877,
+    "webanalyze": 4,
+    "dnsx": 794,
+    "total_ms": 4219
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

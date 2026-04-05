@@ -1,0 +1,230 @@
+{
+  "domain": "provacances.dk",
+  "job_id": "scan-2026-04-05-aa24c336",
+  "status": "completed",
+  "scan_result": {
+    "domain": "provacances.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-11",
+    "ssl_days_remaining": 66,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Browser Insights",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:31:37.152261868Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://provacances.dk",
+      "input": "provacances.dk",
+      "title": "Feriehusudlejning i Sydfrankrig | Book hos Provacances",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "provacances.dk",
+      "host_ip": "104.26.13.12",
+      "path": "/",
+      "final_url": "https://www.provacances.dk/",
+      "time": "354.132572ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "104.26.13.12",
+        "104.26.12.12",
+        "172.67.74.251"
+      ],
+      "aaaa": [
+        "2606:4700:20::681a:c0c",
+        "2606:4700:20::ac43:4afb",
+        "2606:4700:20::681a:d0c"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Browser Insights",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3"
+      ],
+      "words": 80252,
+      "lines": 2861,
+      "status_code": 200,
+      "content_length": 557809,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.26.12.12",
+        "104.26.13.12",
+        "172.67.74.251"
+      ],
+      "aaaa": [
+        "2606:4700:20::681a:c0c",
+        "2606:4700:20::ac43:4afb",
+        "2606:4700:20::681a:d0c"
+      ],
+      "cname": [],
+      "mx": [
+        "provacances-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "plato.ns.cloudflare.com",
+        "evangeline.ns.cloudflare.com"
+      ],
+      "txt": [
+        "google-site-verification=D2IgTA9-AUdbIbNdFT6pAPj_UzvNLmvtuZMwrym-Hqk",
+        "MS=ms72046406",
+        "v=spf1 include:spf.protection.outlook.com include:email.bookingstudio.dk a:mail.provacances.dk ip4:217.195.176.181 -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "provacances.dk",
+    "cvr": "prospect",
+    "company_name": "provacances.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-11",
+        "days_remaining": 66,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Browser Insights",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.26.12.12",
+        "104.26.13.12",
+        "172.67.74.251"
+      ],
+      "aaaa": [
+        "2606:4700:20::681a:c0c",
+        "2606:4700:20::ac43:4afb",
+        "2606:4700:20::681a:d0c"
+      ],
+      "cname": [],
+      "mx": [
+        "provacances-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "plato.ns.cloudflare.com",
+        "evangeline.ns.cloudflare.com"
+      ],
+      "txt": [
+        "google-site-verification=D2IgTA9-AUdbIbNdFT6pAPj_UzvNLmvtuZMwrym-Hqk",
+        "MS=ms72046406",
+        "v=spf1 include:spf.protection.outlook.com include:email.bookingstudio.dk a:mail.provacances.dk ip4:217.195.176.181 -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 242,
+    "ssl": 66,
+    "headers": 273,
+    "meta": 376,
+    "httpx": 4717,
+    "webanalyze": 4,
+    "dnsx": 666,
+    "total_ms": 6353
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "danskearkiver.dk",
   "cvr": "prospect",
   "company_name": "danskearkiver.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-22",
-      "days_remaining": 81
+      "days_remaining": 77,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -48,7 +49,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -95,14 +100,18 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
+      "brevo-code:4dc88543d62828d7e3f0dd109b462509",
       "MS=ms40629277",
       "v=spf1 ip4:94.231.110.109 include:spf.wannafind.dk include:spf.protection.outlook.com include:web.shared.mysmtp.com -all",
-      "brevo-code:4dc88543d62828d7e3f0dd109b462509",
       "google-site-verification=MdY9LNZdFpt201tTWXuE_dAFjqn3u1X_kU7zhPxBo8o",
       "MS=ms58415506"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -123,6 +132,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -153,7 +167,7 @@
       "severity": "medium",
       "description": "3D FlipBook – PDF Embedder, PDF Flipbook Viewer, Flipbook Image Gallery [interactive-3d-flipbook-powered-physics-engine] <= 1.16.16 (unfixed) (CVE-2025-58226)",
       "risk": "CVE-2025-58226: 3D FlipBook – PDF Embedder, PDF Flipbook Viewer, Flipbook Image Gallery [interactive-3d-flipbook-powered-physics-engine] <= 1.16.16 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -165,7 +179,7 @@
       "severity": "high",
       "description": "The Events Calendar [the-events-calendar] < 6.6.4 (CVE-2024-6931)",
       "risk": "CVE-2024-6931: WordPress The Events Calendar Plugin <= 6.5.1.6 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -177,7 +191,7 @@
       "severity": "critical",
       "description": "The Events Calendar [the-events-calendar] < 6.6.4.1 (CVE-2024-8275)",
       "risk": "CVE-2024-8275: WordPress The Events Calendar Plugin <= 6.6.4 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -189,7 +203,7 @@
       "severity": "high",
       "description": "The Events Calendar [the-events-calendar] < 6.15.10 (CVE-2025-12197)",
       "risk": "CVE-2025-12197: The Events Calendar [the-events-calendar] < 6.15.10",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -201,7 +215,7 @@
       "severity": "medium",
       "description": "The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed) (CVE-2025-69352)",
       "risk": "CVE-2025-69352: The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -213,7 +227,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -225,7 +239,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -237,7 +251,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -249,7 +263,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -261,7 +275,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
       "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -273,7 +287,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
       "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -285,7 +299,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
       "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -297,7 +311,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
       "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -309,7 +323,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
       "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -321,7 +335,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
       "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -333,7 +347,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
       "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -343,11 +357,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 762,
+    "duration_ms": 185,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

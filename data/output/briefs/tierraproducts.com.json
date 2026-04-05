@@ -2,7 +2,7 @@
   "domain": "tierraproducts.com",
   "cvr": "prospect",
   "company_name": "tierraproducts.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-12",
-      "days_remaining": 71
+      "days_remaining": 67,
+      "tls_version": ""
     },
     "server": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
     "detected_plugins": [
@@ -41,7 +42,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -88,12 +93,16 @@
       "ns6.dns-123.net"
     ],
     "txt": [
+      "v=spf1 include:spf.protection.outlook.com -all",
       "MS=ms89740084",
-      "google-site-verification=lB3BhMYv2x25GTH5Zbl2bYuJrN0KuZDRt_xCWq7NdiA",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "google-site-verification=lB3BhMYv2x25GTH5Zbl2bYuJrN0KuZDRt_xCWq7NdiA"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -109,6 +118,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -139,7 +158,7 @@
       "severity": "medium",
       "description": "JetFormBuilder — Dynamic Blocks Form Builder [jetformbuilder] <= 3.5.3 (unfixed) (CVE-2025-64384)",
       "risk": "CVE-2025-64384: JetFormBuilder — Dynamic Blocks Form Builder [jetformbuilder] <= 3.5.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -151,7 +170,7 @@
       "severity": "medium",
       "description": "JetFormBuilder — Dynamic Blocks Form Builder [jetformbuilder] <= 3.5.6.1 (unfixed) (CVE-2026-32525)",
       "risk": "CVE-2026-32525: JetFormBuilder — Dynamic Blocks Form Builder [jetformbuilder] <= 3.5.6.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -163,7 +182,7 @@
       "severity": "medium",
       "description": "PixelYourSite Professional [pixelyoursite-pro] < 9.6.2 (CVE-2023-2584)",
       "risk": "CVE-2023-2584: WordPress  PixelYourSite PRO Plugin  < 9.6.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,7 +194,7 @@
       "severity": "medium",
       "description": "PixelYourSite Professional [pixelyoursite-pro] < 10.4.3 (CVE-2024-7870)",
       "risk": "CVE-2024-7870: PixelYourSite – Your smart PIXEL (TAG) & API Manager <= 9.7.1 and PixelYourSite PRO <= 10.4.2 - Unauthenticated Information Exposure and Log Deletion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -185,11 +204,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 346,
+    "duration_ms": 197,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

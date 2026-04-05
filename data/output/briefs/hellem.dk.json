@@ -2,7 +2,7 @@
   "domain": "hellem.dk",
   "cvr": "prospect",
   "company_name": "hellem.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-29",
-      "days_remaining": 87
+      "days_remaining": 84,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": "PHP/7.0.33"
     }
   },
   "tech_stack": [
@@ -45,9 +50,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx2.gigahost.dk",
       "mx3.gigahost.dk",
-      "mx1.gigahost.dk"
+      "mx1.gigahost.dk",
+      "mx2.gigahost.dk"
     ],
     "ns": [
       "ns1.gigahost.dk",
@@ -57,11 +62,15 @@
       "ns5.gigahost.dk"
     ],
     "txt": [
-      "v=spf1 mx include:spf.gigahost.dk -all",
-      "spf2.0/pra"
+      "spf2.0/pra",
+      "v=spf1 mx include:spf.gigahost.dk -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -82,6 +91,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/7.0.33",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",

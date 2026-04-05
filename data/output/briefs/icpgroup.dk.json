@@ -2,7 +2,7 @@
   "domain": "icpgroup.dk",
   "cvr": "prospect",
   "company_name": "icpgroup.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-14",
-      "days_remaining": 41
+      "days_remaining": 38,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -42,9 +43,9 @@
       "The Post Grid": "7.9.0",
       "Wp Job Openings": "3.6.0",
       "Elementor": "5.48.0",
-      "Ultimate Elementor": "1.44.1",
+      "Ultimate Elementor": "1.44.2",
       "Wpforms Lite": "1.10.0.2",
-      "Elementor Pro": "4.0.0",
+      "Elementor Pro": "4.0.1",
       "Astra Addon": "4.12.4"
     },
     "detected_themes": [
@@ -54,7 +55,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": "PHP/8.2.30, PleskLin"
     }
   },
   "tech_stack": [
@@ -77,9 +82,9 @@
     "the-post-grid": "7.9.0",
     "wp-job-openings": "3.6.0",
     "elementor": "5.48.0",
-    "ultimate-elementor": "1.44.1",
+    "ultimate-elementor": "1.44.2",
     "wpforms-lite": "1.10.0.2",
-    "elementor-pro": "4.0.0",
+    "elementor-pro": "4.0.1",
     "astra-addon": "4.12.4"
   },
   "subdomains": {
@@ -101,14 +106,18 @@
       "ns3.simply.com"
     ],
     "txt": [
-      "apple-domain-verification=E1KjcpXt2cUHc8Np",
       "MS=ms94585817",
+      "apple-domain-verification=E1KjcpXt2cUHc8Np",
+      "1password-site-verification=XJT4CZ5P6ZEMZH22E7VFIXVSQY",
       "mailerlite-domain-verification=f576da3641dcaa549cf715036f5839de66dc406c",
-      "v=spf1 include:_spf.mlsend.com a mx ip4:87.52.100.208 include:spf.protection.outlook.com include:_spf.odoo.com -all",
-      "1password-site-verification=XJT4CZ5P6ZEMZH22E7VFIXVSQY"
+      "v=spf1 include:_spf.mlsend.com a mx ip4:87.52.100.208 include:spf.protection.outlook.com include:_spf.odoo.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -124,6 +133,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.2.30, PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -159,7 +178,7 @@
       "severity": "high",
       "description": "Rank Math SEO PRO [seo-by-rank-math-pro] < 3.0.36 (CVE-2023-32800)",
       "risk": "CVE-2023-32800: WordPress  Rank Math SEO PRO Plugin  <= 3.0.35 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -171,7 +190,7 @@
       "severity": "medium",
       "description": "Rank Math SEO PRO [seo-by-rank-math-pro] <= 3.0.95 (unfixed) (CVE-2026-28080)",
       "risk": "CVE-2026-28080: Rank Math SEO PRO [seo-by-rank-math-pro] <= 3.0.95 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -183,7 +202,7 @@
       "severity": "medium",
       "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-6815)",
       "risk": "CVE-2025-6815: EUVD-2025-31705",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -195,7 +214,7 @@
       "severity": "medium",
       "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-6941)",
       "risk": "CVE-2025-6941: EUVD-2025-31704",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -207,7 +226,7 @@
       "severity": "medium",
       "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-7038)",
       "risk": "CVE-2025-7038: EUVD-2025-31703",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -219,7 +238,7 @@
       "severity": "medium",
       "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.0 (CVE-2025-7052)",
       "risk": "CVE-2025-7052: EUVD-2025-31702",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -231,7 +250,7 @@
       "severity": "medium",
       "description": "LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.6 (CVE-2025-14873)",
       "risk": "CVE-2025-14873: LatePoint &#8211; Calendar Booking Plugin for Appointments and Events [latepoint] < 5.2.6",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -243,7 +262,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -255,7 +274,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -267,7 +286,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -279,7 +298,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -291,7 +310,7 @@
       "severity": "high",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] >= 1.8.4 - <= 1.9.2.1 (CVE-2024-11205)",
       "risk": "CVE-2024-11205: WPForms 1.8.4 - 1.9.2.1 - Missing Authorization to Authenticated (Subscriber+) Payment Refund and Subscription Cancellation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -303,7 +322,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed) (CVE-2020-36919)",
       "risk": "CVE-2020-36919: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -315,7 +334,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed) (CVE-2026-32446)",
       "risk": "CVE-2026-32446: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -327,7 +346,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed) (CVE-2026-25339)",
       "risk": "CVE-2026-25339: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -339,7 +358,7 @@
       "severity": "high",
       "description": "Starter Templates Pro [astra-pro-sites] < 3.2.5 (CVE-2023-41804)",
       "risk": "CVE-2023-41804: Starter Templates <= 3.2.4 - Authenticated (Contributor+) Server-Side Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -351,7 +370,7 @@
       "severity": "high",
       "description": "Starter Templates Pro [astra-pro-sites] < 3.2.5 (CVE-2023-34370)",
       "risk": "CVE-2023-34370: Starter Templates Pro [astra-pro-sites] < 3.2.5",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -363,7 +382,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -375,7 +394,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -387,7 +406,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
       "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -399,7 +418,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
       "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -411,7 +430,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
       "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -423,7 +442,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
       "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -435,7 +454,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
       "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -445,11 +464,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 850,
+    "duration_ms": 161,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

@@ -1,0 +1,192 @@
+{
+  "domain": "teddythomsen.dk",
+  "job_id": "scan-2026-04-05-a7b75dd4",
+  "status": "completed",
+  "scan_result": {
+    "domain": "teddythomsen.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-19",
+    "ssl_days_remaining": 74,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "iubenda",
+      "jQuery:1.12.2",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:37:58.413648053Z",
+      "port": "443",
+      "url": "https://teddythomsen.dk",
+      "input": "teddythomsen.dk",
+      "title": "Entreprenør firmaet og murermesteren fra Gadbjerg - Teddy H. Thomsen ApS",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "teddythomsen.dk",
+      "host_ip": "193.8.37.83",
+      "path": "/",
+      "final_url": "https://www.teddythomsen.dk/",
+      "time": "513.47316ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "193.8.37.83"
+      ],
+      "tech": [
+        "Google Analytics",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "iubenda",
+        "jQuery:1.12.2",
+        "reCAPTCHA"
+      ],
+      "words": 7001,
+      "lines": 760,
+      "status_code": 200,
+      "content_length": 250812,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.8.37.83"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "teddythomsen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.jeppo-dns.dk",
+        "ns2.jeppo-dns.dk"
+      ],
+      "txt": [
+        "<24.02.2025>",
+        "v=spf1 include:_spf.tnha.dk include:spf.protection.outlook.com  -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "teddythomsen.dk",
+    "cvr": "prospect",
+    "company_name": "teddythomsen.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-19",
+        "days_remaining": 74,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "iubenda",
+      "jQuery:1.12.2",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.8.37.83"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "teddythomsen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.jeppo-dns.dk",
+        "ns2.jeppo-dns.dk"
+      ],
+      "txt": [
+        "<24.02.2025>",
+        "v=spf1 include:_spf.tnha.dk include:spf.protection.outlook.com  -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 112,
+    "ssl": 84,
+    "headers": 353,
+    "meta": 358,
+    "httpx": 3148,
+    "webanalyze": 3,
+    "dnsx": 815,
+    "total_ms": 4882
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

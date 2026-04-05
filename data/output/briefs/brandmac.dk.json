@@ -2,21 +2,22 @@
   "domain": "brandmac.dk",
   "cvr": "prospect",
   "company_name": "brandmac.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-30",
-      "days_remaining": 88
+      "days_remaining": 85,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Instagram Feed"
     ],
@@ -30,11 +31,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "HTTP/3",
     "MySQL",
     "PHP",
@@ -66,11 +70,15 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:spf.simply.com include:_spf.spysystem.dk -all",
-      "MS=ms72521919"
+      "MS=ms72521919",
+      "v=spf1 include:spf.protection.outlook.com include:spf.simply.com include:_spf.spysystem.dk -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -86,6 +94,11 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "medium",
@@ -116,7 +129,7 @@
       "severity": "medium",
       "description": "Smash Balloon Social Photo Feed – Easy Social Feeds Plugin [instagram-feed] < 6.9.1 (CVE-2025-4583)",
       "risk": "CVE-2025-4583: WordPress Instagram Feed Plugin <= 6.9.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -126,11 +139,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 135,
+    "duration_ms": 140,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

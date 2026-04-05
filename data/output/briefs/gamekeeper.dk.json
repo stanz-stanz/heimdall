@@ -2,7 +2,7 @@
   "domain": "gamekeeper.dk",
   "cvr": "prospect",
   "company_name": "gamekeeper.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,7 +18,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-12",
-      "days_remaining": 39
+      "days_remaining": 36,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -36,7 +37,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -79,12 +84,26 @@
     ],
     "txt": [
       "MS=ms72083889",
-      "mIXcD/9aRYgTdIe40Cp3m0q9bxo3z8rj33yAQam/W9pqp4d42I/ki5pB45v+3p81g1u1PrcbmSt8HBKRsfts5Q==",
-      "v=spf1 ip4:93.90.117.1/24 ip4:93.90.115.1/24 ip4:94.231.106.100 ip4:199.255.192.0/22 ip4:199.127.232.0/22 ip4:54.240.0.0/18 ip4:69.169.224.0/20 include:spf.comendosystems.com include:spf.wannafind.dk include:servers.mcsv.net  include:spf.protection.outlook.com -all"
+      "v=spf1 ip4:93.90.117.1/24 ip4:93.90.115.1/24 ip4:94.231.106.100 ip4:199.255.192.0/22 ip4:199.127.232.0/22 ip4:54.240.0.0/18 ip4:69.169.224.0/20 include:spf.comendosystems.com include:spf.wannafind.dk include:servers.mcsv.net  include:spf.protection.outlook.com -all",
+      "mIXcD/9aRYgTdIe40Cp3m0q9bxo3z8rj33yAQam/W9pqp4d42I/ki5pB45v+3p81g1u1PrcbmSt8HBKRsfts5Q=="
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
     {
       "severity": "medium",
       "description": "WordPress version 6.3.1 publicly disclosed",

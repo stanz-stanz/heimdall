@@ -2,7 +2,7 @@
   "domain": "helge-frandsen-as.dk",
   "cvr": "prospect",
   "company_name": "helge-frandsen-as.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-27",
-      "days_remaining": 55
+      "days_remaining": 52,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -44,7 +45,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -77,18 +82,18 @@
   },
   "dns": {
     "a": [
-      "172.67.185.196",
-      "104.21.19.104"
+      "104.21.19.104",
+      "172.67.185.196"
     ],
     "aaaa": [
-      "2606:4700:3033::ac43:b9c4",
-      "2606:4700:3032::6815:1368"
+      "2606:4700:3032::6815:1368",
+      "2606:4700:3033::ac43:b9c4"
     ],
     "cname": [],
     "mx": [
-      "helge-frandsen-as-dk.mx1-dk.mailanyone.net",
       "helge-frandsen-as-dk.mx3-dk.mailanyone.net",
-      "helge-frandsen-as-dk.mx2-dk.mailanyone.net"
+      "helge-frandsen-as-dk.mx2-dk.mailanyone.net",
+      "helge-frandsen-as-dk.mx1-dk.mailanyone.net"
     ],
     "ns": [
       "meiling.ns.cloudflare.com",
@@ -99,6 +104,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -119,6 +128,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -154,7 +173,7 @@
       "severity": "medium",
       "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
       "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -166,7 +185,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -178,7 +197,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -190,7 +209,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -202,7 +221,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -214,7 +233,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -224,11 +243,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 179,
+    "duration_ms": 144,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

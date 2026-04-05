@@ -2,7 +2,7 @@
   "domain": "fdf-middelgrunden.dk",
   "cvr": "prospect",
   "company_name": "fdf-middelgrunden.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-18",
-      "days_remaining": 45
+      "days_remaining": 42,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -33,7 +34,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.3.30"
     }
   },
   "tech_stack": [
@@ -63,10 +68,10 @@
     ],
     "cname": [],
     "mx": [
+      "mx2.pub.mailpod11-cph3.one.com",
       "mx4.pub.mailpod11-cph3.one.com",
       "mx1.pub.mailpod11-cph3.one.com",
-      "mx3.pub.mailpod11-cph3.one.com",
-      "mx2.pub.mailpod11-cph3.one.com"
+      "mx3.pub.mailpod11-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -75,6 +80,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -95,6 +104,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.3.30",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -125,7 +144,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.36 (CVE-2021-24132)",
       "risk": "CVE-2021-24132: Slider by 10Web <= 1.2.35 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -137,7 +156,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.52 (CVE-2022-1320)",
       "risk": "CVE-2022-1320: WordPress Sliderby10Web plugin <= 1.2.51 - Stored Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -149,11 +168,11 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.36",
       "risk": "WordPress Slider by 10Web plugin <= 1.2.35 - Multiple Authenticated SQL Injection (SQLi) vulnerabilities",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "9e9d0efcb063b750e1a86855cb37035a598526360a0cd2055e883b45b47a9a43",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -161,11 +180,11 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.53",
       "risk": "WordPress Slider by 10Web Plugin <= 1.2.52 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "c2b9c1a7cf8ebf407965b67b1b2cb09ab58314733e23fb71dc83b32ad66067a7",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -173,7 +192,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.53 (CVE-2022-4197)",
       "risk": "CVE-2022-4197: Sliderby10Web <= 1.2.52 - Authenticated (Admin+) Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -185,7 +204,7 @@
       "severity": "high",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.55 (CVE-2024-32578)",
       "risk": "CVE-2024-32578: WordPress Slider by 10Web Plugin <= 1.2.54 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -197,7 +216,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.56 (CVE-2024-6026)",
       "risk": "CVE-2024-6026: Slider by 10Web <= 1.2.55 - Authenticated (Editor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -209,7 +228,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.57 (CVE-2024-6408)",
       "risk": "CVE-2024-6408: WordPress Slider by 10Web Plugin < 1.2.57 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -221,7 +240,7 @@
       "severity": "high",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.58 (CVE-2024-7150)",
       "risk": "CVE-2024-7150: Slider by 10Web – Responsive Image Slider <= 1.2.57 - Authenticated (Contributor+) SQL Injection via id Parameter",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -233,7 +252,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.59 (CVE-2024-8283)",
       "risk": "CVE-2024-8283: WordPress Slider by 10Web Plugin < 1.2.59 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -245,7 +264,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.62 (CVE-2024-10566)",
       "risk": "CVE-2024-10566: WordPress Slider by 10Web Plugin < 1.2.62 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -257,7 +276,7 @@
       "severity": "medium",
       "description": "Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.62 (CVE-2024-10565)",
       "risk": "CVE-2024-10565: Slider by 10Web &#8211; Responsive Image Slider [slider-wd] < 1.2.62",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -267,11 +286,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 549,
+    "duration_ms": 164,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

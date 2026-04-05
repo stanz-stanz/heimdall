@@ -2,7 +2,7 @@
   "domain": "igus.dk",
   "cvr": "prospect",
   "company_name": "igus.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Amazon",
       "expiry": "2026-11-18",
-      "days_remaining": 230
+      "days_remaining": 227,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -37,8 +42,8 @@
   },
   "dns": {
     "a": [
-      "52.29.224.32",
       "18.199.137.127",
+      "52.29.224.32",
       "18.197.72.117"
     ],
     "aaaa": [],
@@ -53,14 +58,18 @@
       "ns4.eurodns.com"
     ],
     "txt": [
+      "atlassian-domain-verification=ACSjMAT7caIDbX62lCRhBdBvfp6NabhyMBtoBelE61ViHj0jiUdzInGNxsLDPxCy",
+      "figma-domain-verification=f5358064dda2b10e6c6fe74f3559573be315daaa330830f5158d59b9e9f29f52-1723707657",
       "MS=ms89816988",
       "38dda8bcb5cc4f0b8d4031e0cd206ab7",
-      "v=spf1 include:igus.net -all",
-      "atlassian-domain-verification=ACSjMAT7caIDbX62lCRhBdBvfp6NabhyMBtoBelE61ViHj0jiUdzInGNxsLDPxCy",
-      "figma-domain-verification=f5358064dda2b10e6c6fe74f3559573be315daaa330830f5158d59b9e9f29f52-1723707657"
+      "v=spf1 include:igus.net -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",

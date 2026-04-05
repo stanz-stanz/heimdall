@@ -2,7 +2,7 @@
   "domain": "stockgroup.dk",
   "cvr": "prospect",
   "company_name": "stockgroup.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-23",
-      "days_remaining": 81
+      "days_remaining": 78,
+      "tls_version": ""
     },
     "server": "Vercel",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Vercel",
+      "x_powered_by": "Next.js"
     }
   },
   "tech_stack": [
@@ -60,13 +65,17 @@
     "txt": [
       "google-site-verification=QQHfgtStpHLWhOx-Uq4NhmHCgeKuimuPRj0nkNzZP4g",
       "klaviyo-site-verification=VS2NwY",
-      "MS=6BB29BD0653586C55CB37C257BE80BF27C24A5DB",
       "v=spf1 include:spf.protection.outlook.com include:spf.simply.com include:spf-eu.emailsignatures365.com include:emsend1.com ~all",
       "google-site-verification=bdTa308RIrAxyHrHfvFOITDUKwnAf3KQ09AmGrJR9SA",
-      "MS=msXXXXXXXX"
+      "MS=msXXXXXXXX",
+      "MS=6BB29BD0653586C55CB37C257BE80BF27C24A5DB"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -82,6 +91,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: Next.js",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",

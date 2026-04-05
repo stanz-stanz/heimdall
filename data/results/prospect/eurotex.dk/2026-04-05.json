@@ -1,0 +1,234 @@
+{
+  "domain": "eurotex.dk",
+  "job_id": "scan-2026-04-05-a7658b13",
+  "status": "completed",
+  "scan_result": {
+    "domain": "eurotex.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-13",
+    "ssl_days_remaining": 68,
+    "detected_plugins": [
+      "cookie-law-info"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "CookieYes",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:05:48.528947681Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://eurotex.dk",
+      "input": "eurotex.dk",
+      "title": "Eurotex | Alt i Oeko-Tex Certificerede Produkter",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "eurotex.dk",
+      "host_ip": "172.67.139.10",
+      "path": "/",
+      "time": "148.495437ms",
+      "a": [
+        "104.21.40.217",
+        "172.67.139.10"
+      ],
+      "aaaa": [
+        "2606:4700:3033::6815:28d9",
+        "2606:4700:3035::ac43:8b0a"
+      ],
+      "tech": [
+        "Cloudflare",
+        "CookieYes",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo"
+      ],
+      "words": 14080,
+      "lines": 694,
+      "status_code": 200,
+      "content_length": 115598,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.21.40.217",
+        "172.67.139.10"
+      ],
+      "aaaa": [
+        "2606:4700:3035::ac43:8b0a",
+        "2606:4700:3033::6815:28d9"
+      ],
+      "cname": [],
+      "mx": [
+        "alt4.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com"
+      ],
+      "ns": [
+        "eva.ns.cloudflare.com",
+        "zod.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 include:_spf.powerhosting.dk include:spf.scannet.dk include:_spf.google.com mx ~all",
+        "google-site-verification=nk-CPOejo8SvLKpX474tkN-ZIq64zTgKTXShObNd8Js"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "eurotex.dk",
+    "cvr": "prospect",
+    "company_name": "eurotex.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-13",
+        "days_remaining": 68,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [
+        "Cookie Law Info"
+      ],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "CookieYes",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.21.40.217",
+        "172.67.139.10"
+      ],
+      "aaaa": [
+        "2606:4700:3035::ac43:8b0a",
+        "2606:4700:3033::6815:28d9"
+      ],
+      "cname": [],
+      "mx": [
+        "alt4.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com"
+      ],
+      "ns": [
+        "eva.ns.cloudflare.com",
+        "zod.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 include:_spf.powerhosting.dk include:spf.scannet.dk include:_spf.google.com mx ~all",
+        "google-site-verification=nk-CPOejo8SvLKpX474tkN-ZIq64zTgKTXShObNd8Js"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "1 WordPress plugin detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 132,
+    "ssl": 71,
+    "headers": 114,
+    "meta": 461,
+    "httpx": 2375,
+    "webanalyze": 4,
+    "dnsx": 652,
+    "total_ms": 3862
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

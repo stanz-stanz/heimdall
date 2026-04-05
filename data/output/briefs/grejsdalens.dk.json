@@ -2,7 +2,7 @@
   "domain": "grejsdalens.dk",
   "cvr": "prospect",
   "company_name": "grejsdalens.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-18",
-      "days_remaining": 46
+      "days_remaining": 42,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -46,7 +47,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -78,19 +83,19 @@
   },
   "dns": {
     "a": [
-      "104.21.59.112",
-      "172.67.175.158"
+      "172.67.175.158",
+      "104.21.59.112"
     ],
     "aaaa": [
-      "2a06:98c1:3120::3",
-      "2a06:98c1:3121::3"
+      "2606:4700:3034::ac43:af9e",
+      "2606:4700:3036::6815:3b70"
     ],
     "cname": [],
     "mx": [
+      "aspmx.l.google.com",
+      "alt4.aspmx.l.google.com",
       "alt3.aspmx.l.google.com",
       "alt1.aspmx.l.google.com",
-      "alt4.aspmx.l.google.com",
-      "aspmx.l.google.com",
       "alt2.aspmx.l.google.com"
     ],
     "ns": [
@@ -102,6 +107,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -122,6 +131,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -157,7 +176,7 @@
       "severity": "high",
       "description": "Gravity Forms [gravityforms] < 2.7.4 (CVE-2023-28782)",
       "risk": "CVE-2023-28782: WordPress  Gravity Forms  Plugin  <= 2.7.3 is vulnerable to PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -169,7 +188,7 @@
       "severity": "high",
       "description": "Gravity Forms [gravityforms] < 2.9.2 (CVE-2024-13377)",
       "risk": "CVE-2024-13377: GravityForms <= 2.9.1.3 - Unauthenticated Stored Cross-Site Scripting via 'alt' parameter",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -181,7 +200,7 @@
       "severity": "critical",
       "description": "Gravity Forms [gravityforms] < 2.9.21 (CVE-2025-12352)",
       "risk": "CVE-2025-12352: Gravity Forms [gravityforms] < 2.9.21",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -193,7 +212,7 @@
       "severity": "high",
       "description": "Gravity Forms [gravityforms] < 2.9.22 (CVE-2025-12974)",
       "risk": "CVE-2025-12974: Gravity Forms [gravityforms] < 2.9.22",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -205,7 +224,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -217,7 +236,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -229,7 +248,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -241,7 +260,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -253,7 +272,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -265,7 +284,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -277,7 +296,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47504)",
       "risk": "CVE-2023-47504: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -289,7 +308,7 @@
       "severity": "critical",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2 (CVE-2023-48777)",
       "risk": "CVE-2023-48777: WordPress  Elementor Website Builder Plugin  3.3.0-3.18.1 is vulnerable to Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -301,7 +320,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1 (CVE-2024-24934)",
       "risk": "CVE-2024-24934: Elementor <= 3.19.0 - Authenticated(Contributor+) Arbitrary File Deletion and PHAR Deserialization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -313,7 +332,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -325,7 +344,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -337,7 +356,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -347,11 +366,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 316,
+    "duration_ms": 148,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

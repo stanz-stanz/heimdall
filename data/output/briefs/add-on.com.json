@@ -2,7 +2,7 @@
   "domain": "add-on.com",
   "cvr": "prospect",
   "company_name": "add-on.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-27",
-      "days_remaining": 85
+      "days_remaining": 82,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -41,7 +42,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -84,10 +89,10 @@
       "dilbert.ns.cloudflare.com"
     ],
     "txt": [
-      "brevo-code:7dc12685d5d873254391732a879b8cec",
       "google-site-verification=UpIaLTufT2Wos7XTpQF_ckAVo0cGTE3ZT5Z5pbyNLno",
-      "google-site-verification=ia75i8NfjGOvxj9lERcvVfADBiG0q7M6Heg3QDeCWOs",
-      "v=spf1 ip4:46.23.72.27 ip4:213.184.84.11 include:spf.protection.outlook.com include:musvc.com include:48581623.spf10.hubspotemail.net ~all"
+      "brevo-code:7dc12685d5d873254391732a879b8cec",
+      "v=spf1 ip4:46.23.72.27 ip4:213.184.84.11 include:spf.protection.outlook.com include:musvc.com include:48581623.spf10.hubspotemail.net ~all",
+      "google-site-verification=ia75i8NfjGOvxj9lERcvVfADBiG0q7M6Heg3QDeCWOs"
     ]
   },
   "cloud_exposure": [
@@ -112,6 +117,10 @@
       "file_count": 2
     }
   ],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -132,6 +141,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -167,7 +186,7 @@
       "severity": "medium",
       "description": "Fluent Forms – Customizable Contact Forms, Survey, Quiz, &amp; Conversational Form Builder [fluentform] <= 6.1.11 (unfixed) (CVE-2025-69001)",
       "risk": "CVE-2025-69001: Fluent Forms – Customizable Contact Forms, Survey, Quiz, &amp; Conversational Form Builder [fluentform] <= 6.1.11 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -179,7 +198,7 @@
       "severity": "medium",
       "description": "Fluent Forms – Customizable Contact Forms, Survey, Quiz, &amp; Conversational Form Builder [fluentform] <= 6.1.14 (unfixed) (CVE-2026-25313)",
       "risk": "CVE-2026-25313: Fluent Forms – Customizable Contact Forms, Survey, Quiz, &amp; Conversational Form Builder [fluentform] <= 6.1.14 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -191,7 +210,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
       "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -203,7 +222,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
       "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -215,7 +234,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
       "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -227,7 +246,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
       "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -239,7 +258,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
       "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -251,7 +270,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
       "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -263,7 +282,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
       "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -273,11 +292,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 846,
+    "duration_ms": 190,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

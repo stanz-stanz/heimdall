@@ -2,7 +2,7 @@
   "domain": "idashoj.dk",
   "cvr": "prospect",
   "company_name": "idashoj.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -18,7 +18,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-04",
-      "days_remaining": 63
+      "days_remaining": 60,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -47,7 +48,11 @@
       "x_frame_options": false,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -87,8 +92,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mailscanner.powerhosting.dk",
-      "backup-mx.powerhosting.dk"
+      "backup-mx.powerhosting.dk",
+      "mailscanner.powerhosting.dk"
     ],
     "ns": [
       "ns-475.awsdns-59.com",
@@ -101,6 +106,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -111,6 +120,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -166,7 +185,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
       "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -178,7 +197,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
       "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -190,7 +209,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 7.9.0",
       "risk": "WooCommerce <= 7.8.2 - Sensitive Information Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -202,7 +221,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 7.9",
       "risk": "WooCommerce &lt; 7.9 - Unauthenticated Sensitive Information Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -214,7 +233,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.2.0 (CVE-2023-47777)",
       "risk": "CVE-2023-47777: WordPress  WooCommerce Plugin  <= 8.1.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -226,7 +245,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 7.9.0",
       "risk": "WooCommerce &lt; 7.9.0 - Sensitive Information Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -238,7 +257,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.3.0 (CVE-2023-52222)",
       "risk": "CVE-2023-52222: WordPress  WooCommerce Plugin  <= 8.2.2 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -250,7 +269,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.4.0",
       "risk": "WooCommerce < 8.4.0 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -262,7 +281,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.6.0 (CVE-2024-22155)",
       "risk": "CVE-2024-22155: WordPress  WooCommerce Plugin    <= 8.5.2 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -274,7 +293,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.4.0",
       "risk": "WordPress  WooCommerce Plugin    <= 8.3.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -286,7 +305,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.6 (CVE-2024-1310)",
       "risk": "CVE-2024-1310: WordPress WooCommerce Plugin < 8.6 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -298,7 +317,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.9.3",
       "risk": "WordPress WooCommerce Plugin <= 8.9.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -310,7 +329,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.9.3 (CVE-2024-37297)",
       "risk": "CVE-2024-37297: WooCommerce 8.8.0 - 8.9.2 - Reflected Cross-Site Scripting via Order Attribution",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -322,7 +341,7 @@
       "severity": "low",
       "description": "WooCommerce [woocommerce] < 9.0.0 (CVE-2024-35777)",
       "risk": "CVE-2024-35777: WordPress WooCommerce Plugin <= 8.9.2 is vulnerable to Content Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -334,7 +353,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 8.4.0",
       "risk": "WooCommerce &lt; 8.4.0 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -346,7 +365,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.1.3 (CVE-2024-39666)",
       "risk": "CVE-2024-39666: WordPress WooCommerce Plugin <= 9.1.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -358,7 +377,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.1.0 (CVE-2024-9944)",
       "risk": "CVE-2024-9944: WordPress WooCommerce Plugin <= 9.0.2 is vulnerable to Content Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -370,7 +389,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.4.3",
       "risk": "WordPress WooCommerce Plugin < 9.4.3 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -382,7 +401,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 9.7.1 (CVE-2025-26762)",
       "risk": "CVE-2025-26762: WooCommerce &lt;= 9.7.0 - Authenticated (Shop Manager+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -394,7 +413,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -406,7 +425,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -418,7 +437,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] < 10.4.3 (CVE-2025-15033)",
       "risk": "CVE-2025-15033: WooCommerce [woocommerce] < 10.4.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -430,7 +449,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
       "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -442,7 +461,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
       "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -454,7 +473,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
       "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -466,7 +485,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
       "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -478,7 +497,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 6.13.0 (CVE-2023-31213)",
       "risk": "CVE-2023-31213: WordPress  WPBakery Page Builder Plugin  < 6.13.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -490,7 +509,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1805)",
       "risk": "CVE-2024-1805: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Button onclick attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -502,7 +521,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1840)",
       "risk": "CVE-2024-1840: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Author",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -514,7 +533,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1841)",
       "risk": "CVE-2024-1841: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Title tag attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -526,7 +545,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.6 (CVE-2024-1842)",
       "risk": "CVE-2024-1842: WPBakery Visual Composer <= 7.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via Custom Heading tag attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -538,7 +557,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.7 (CVE-2024-5265)",
       "risk": "CVE-2024-5265: WPBakery Page Builder <= 7.6 - Authenticated (Contributor+) Stored Cross-Site Scripting via VC Single Image link attribute",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -550,7 +569,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 7.8 (CVE-2024-5708)",
       "risk": "CVE-2024-5708: WPBakery <= 7.7 - Authenticated (Author+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -562,7 +581,7 @@
       "severity": "high",
       "description": "WPBakery [js_composer] < 7.8 (CVE-2024-5709)",
       "risk": "CVE-2024-5709: WPBakery <= 7.7 - Authenticated (Author+) Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -574,7 +593,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4965)",
       "risk": "CVE-2025-4965: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Author+) Stored Cross-Site Scripting via Grid Builder",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -586,7 +605,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4968)",
       "risk": "CVE-2025-4968: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Multiple Page Builder Elements",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -598,7 +617,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.6 (CVE-2025-7502)",
       "risk": "CVE-2025-7502: WPBakery Page Builder for WordPress &lt;= 8.5 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -610,7 +629,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11161)",
       "risk": "CVE-2025-11161: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via vc_custom_heading Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -622,7 +641,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11160)",
       "risk": "CVE-2025-11160: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via Custom JS Module",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -634,7 +653,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-10006)",
       "risk": "CVE-2025-10006: WPBakery [js_composer] < 8.7",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -646,7 +665,7 @@
       "severity": "medium",
       "description": "ARI Fancy Lightbox &#8211; Popup for WordPress [ari-fancy-lightbox] < 1.3.15 (closed) (CVE-2024-4367)",
       "risk": "CVE-2024-4367: WordPress ARI Fancy Lightbox Plugin <= 1.3.14 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -658,7 +677,7 @@
       "severity": "medium",
       "description": "ARI Fancy Lightbox &#8211; Popup for WordPress [ari-fancy-lightbox] < 1.3.18 (closed) (CVE-2024-47310)",
       "risk": "CVE-2024-47310: WordPress ARI Fancy Lightbox Plugin <= 1.3.17 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -670,7 +689,7 @@
       "severity": "medium",
       "description": "ARI Fancy Lightbox &#8211; Popup for WordPress [ari-fancy-lightbox] <= 1.4.0 (unfixed) (CVE-2025-58784)",
       "risk": "CVE-2025-58784: WordPress ARI Fancy Lightbox Plugin <= 1.4.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -682,7 +701,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
       "risk": "Yoast SEO <= 20.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -694,7 +713,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
       "risk": "WordPress  Yoast SEO Plugin  <= 20.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -706,7 +725,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
       "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -718,7 +737,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
       "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -730,7 +749,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
       "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -740,11 +759,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 366,
+    "duration_ms": 149,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

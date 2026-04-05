@@ -1,0 +1,1237 @@
+{
+  "domain": "linemarkinternational.com",
+  "job_id": "scan-2026-04-05-1e48264a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "linemarkinternational.com",
+    "cms": "WordPress",
+    "server": "Apache/2",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-05",
+    "ssl_days_remaining": 29,
+    "detected_plugins": [
+      "woocommerce",
+      "contact-form-7",
+      "yith-woocommerce-catalog-mode",
+      "ajax-search-for-woocommerce",
+      "megamenu",
+      "wordfence",
+      "wordpress-seo",
+      "jetpack"
+    ],
+    "plugin_versions": {
+      "contact-form-7": "6.1.5",
+      "yith-woocommerce-catalog-mode": "2.53.0",
+      "ajax-search-for-woocommerce": "1.32.2",
+      "woocommerce": "2.7.0",
+      "megamenu": "3.7",
+      "wordpress-seo": "27.1.1"
+    },
+    "detected_themes": [
+      "enfold",
+      "enfold-child",
+      "x-child"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache/2",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Apache HTTP Server:2",
+      "Contact Form 7:6.1.5",
+      "Lightbox",
+      "Magnific Popup:4.8.8.1",
+      "Max Mega Menu:4.8.8.1",
+      "MySQL",
+      "PHP",
+      "ProgressBar.js:6.9.1",
+      "WooCommerce:10.5.3",
+      "WordPress",
+      "Yoast SEO:27.1.1",
+      "YouTube",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:21:53.576562586Z",
+      "port": "443",
+      "url": "https://linemarkinternational.com",
+      "input": "linemarkinternational.com",
+      "title": "Home - Linemark International",
+      "scheme": "https",
+      "webserver": "Apache/2",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "linemarkinternational.com",
+      "host_ip": "5.200.2.167",
+      "path": "/",
+      "final_url": "https://www.linemarkinternational.com/",
+      "time": "3.020229651s",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "5.200.2.167"
+      ],
+      "tech": [
+        "Apache HTTP Server:2",
+        "Contact Form 7:6.1.5",
+        "Lightbox",
+        "Magnific Popup:4.8.8.1",
+        "Max Mega Menu:4.8.8.1",
+        "MySQL",
+        "PHP",
+        "ProgressBar.js:6.9.1",
+        "WooCommerce:10.5.3",
+        "WordPress",
+        "Yoast SEO:27.1.1",
+        "YouTube",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 7223,
+      "lines": 872,
+      "status_code": 200,
+      "content_length": 171160,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "woocommerce",
+          "contact-form-7",
+          "yith-woocommerce-catalog-mode",
+          "ajax-search-for-woocommerce",
+          "megamenu"
+        ],
+        "themes": [
+          "enfold"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "5.200.2.167"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns1.openprovider.nl",
+        "ns2.openprovider.be",
+        "ns3.openprovider.eu"
+      ],
+      "txt": [
+        "v=spf1 include:spf.scannet.dk ?all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "linemarkinternational.com",
+    "cvr": "prospect",
+    "company_name": "linemarkinternational.com",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce, Contact Form 7",
+      "E-commerce plugin: WooCommerce:10.5.3"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-05",
+        "days_remaining": 29,
+        "tls_version": ""
+      },
+      "server": "Apache/2",
+      "detected_plugins": [
+        "Woocommerce",
+        "Contact Form 7",
+        "Yith Woocommerce Catalog Mode",
+        "Ajax Search For Woocommerce",
+        "Megamenu",
+        "Wordfence",
+        "Wordpress Seo",
+        "Jetpack"
+      ],
+      "plugin_versions": {
+        "Contact Form 7": "6.1.5",
+        "Yith Woocommerce Catalog Mode": "2.53.0",
+        "Ajax Search For Woocommerce": "1.32.2",
+        "Woocommerce": "2.7.0",
+        "Megamenu": "3.7",
+        "Wordpress Seo": "27.1.1"
+      },
+      "detected_themes": [
+        "Enfold",
+        "Enfold Child",
+        "X Child"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Apache/2",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server:2",
+      "Contact Form 7:6.1.5",
+      "Lightbox",
+      "Magnific Popup:4.8.8.1",
+      "Max Mega Menu:4.8.8.1",
+      "MySQL",
+      "PHP",
+      "ProgressBar.js:6.9.1",
+      "WooCommerce:10.5.3",
+      "WordPress",
+      "Yoast SEO:27.1.1",
+      "YouTube",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "contact-form-7": "6.1.5",
+      "yith-woocommerce-catalog-mode": "2.53.0",
+      "ajax-search-for-woocommerce": "1.32.2",
+      "woocommerce": "2.7.0",
+      "megamenu": "3.7",
+      "wordpress-seo": "27.1.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "5.200.2.167"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.spamfilter.io"
+      ],
+      "ns": [
+        "ns1.openprovider.nl",
+        "ns2.openprovider.be",
+        "ns3.openprovider.eu"
+      ],
+      "txt": [
+        "v=spf1 include:spf.scannet.dk ?all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "SSL certificate expires in 29 days",
+        "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugins detected: Woocommerce, Contact Form 7",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "8 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Enfold, Enfold Child, X Child",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Yith Woocommerce Catalog Mode (installed 2.53.0, latest 2.54.0)",
+        "risk": "The installed version of Yith Woocommerce Catalog Mode is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Woocommerce (installed 2.7.0, latest 10.6.2)",
+        "risk": "The installed version of Woocommerce is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Megamenu (installed 3.7, latest 3.8.1)",
+        "risk": "The installed version of Megamenu is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 27.1.1, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.6.0 (CVE-2021-32790)",
+        "risk": "CVE-2021-32790: WooCommerce < 5.5 - Authenticated Blind SQL Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2021-32790",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 5.2.0 (CVE-2021-24323)",
+        "risk": "CVE-2021-24323: WooCommerce <= 5.1.3 - Authenticated (Admin+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2021-24323",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.7.0 (CVE-2020-29156)",
+        "risk": "CVE-2020-29156: WordPress WooCommerce plugin <= 4.6.2 - Sensitive Information Disclosure vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-29156",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.2.4 (CVE-2017-18356)",
+        "risk": "CVE-2017-18356: WooCommerce <= 3.2.3 - Authenticated PHP Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2017-18356",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.6 (CVE-2018-20714)",
+        "risk": "CVE-2018-20714: WooCommerce <= 3.4.5 - WooCommerce File Deletion",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2018-20714",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
+        "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-2329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.0 (CVE-2017-17058)",
+        "risk": "CVE-2017-17058: WooCommerce [woocommerce] < 4.0",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2017-17058",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.3.1",
+        "risk": "WordPress WooCommerce plugin <= 6.3.0 - Orders Status Change (via PayPal Standard Gateway) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.2.1",
+        "risk": "WordPress WooCommerce plugin <= 6.2.0 - Path Traversal via Importers vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.2.1",
+        "risk": "WordPress WooCommerce plugin <= 6.2.0 - Arbitrary Comment Deletion vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 5.7.0",
+        "risk": "WordPress WooCommerce plugin <= 5.6.0 - Analytics Report Leaks vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 5.5.1",
+        "risk": "WordPress WooCommerce plugin <= 5.5.0 - Unauthenticated SQL Injection (SQLi) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 5.2.0",
+        "risk": "WordPress WooCommerce plugin <= 5.1.0 - Authenticated Persistent Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.6.2",
+        "risk": "WordPress WooCommerce plugin <= 4.6.1 - Guest Account Creation vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.6.5",
+        "risk": "WordPress WooCommerce plugin <= 3.6.4 - Cross-Site Request Forgery (CSRF) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.5.5 (CVE-2019-9168)",
+        "risk": "CVE-2019-9168: WordPress WooCommerce plugin <= 3.5.4 - Stored Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2019-9168",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.5.1",
+        "risk": "WordPress WooCommerce plugin <= 3.5.0 - Authenticated Stored Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.6",
+        "risk": "WordPress WooCommerce plugin <= 3.4.5 - Authenticated Stored Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.6",
+        "risk": "WordPress WooCommerce plugin <= 3.4.5 - Authenticated File Deletion to Privilege Escalation vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.6",
+        "risk": "WordPress WooCommerce plugin <= 3.4.5 - Authenticated Object Injection vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.5",
+        "risk": "WordPress WooCommerce plugin <= 3.4.4 - Potential Object Injection vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.2.4",
+        "risk": "WordPress WooCommerce plugin <=3.2.3 - Authenticated PHP Object Injection vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.6.0 (CVE-2022-2099)",
+        "risk": "CVE-2022-2099: WordPress WooCommerce plugin <= 6.5.1 - Authenticated Stored HTML Injection vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-2099",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 5.7.0",
+        "risk": "WooCommerce < 5.7.0 & WooCommerce Admin < 2.6.4 - Information Disclosure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.3.1",
+        "risk": "WooCommerce < 6.3.1 - Unauthorized Order Status Change",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.2.1",
+        "risk": "WooCommerce <= 6.2.0 - Incorrect Authorization Checks on REST API Endpoints",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.2.1",
+        "risk": "WooCommerce <= 6.2.0 - Path Traversal via Tax Importer",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.6.2",
+        "risk": "WooCommerce <= 4.6.1 & WooCommerce Blocks <= 3.7.0 - Settings Bypass leading to Account Creation",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.2.1",
+        "risk": "WooCommerce <= 4.2.0 - Reflected Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.1.0",
+        "risk": "WooCommerce <= 4.0.4 - Unauthorized Post Meta Creation/Modification",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.6.5",
+        "risk": "WooCommerce <= 3.6.4 - Missing File Type Validation",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.6.5",
+        "risk": "WooCommerce <= 3.6.4 - Cross-Site Request Forgery to Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.5.2",
+        "risk": "WooCommerce <= 3.5.1 - Authenticated Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.5",
+        "risk": "WooCommerce <= 3.4.4 - Authenticated PHP Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
+        "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.2.1",
+        "risk": "WooCommerce &lt; 6.3.1 - Orders Marked as Paid (via PayPal Standard Gateway)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 5.7.0",
+        "risk": "WooCommerce &lt; 6.2.1 - Path Traversal via Importers",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 6.2.1 (CVE-2022-0775)",
+        "risk": "CVE-2022-0775: WooCommerce &lt; 6.2.1 - Subscriber+ Arbitrary Comment Deletion",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-0775",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 5.7.0",
+        "risk": "WooCommerce &lt; 5.7.0 &amp; WooCommerce Admin &lt; 2.6.4 - Analytics Report Leaks",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.6.2",
+        "risk": "WooCommerce &lt; 4.6.2 - Guest Account Creation",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.2.1",
+        "risk": "WooCommerce &lt; 4.2.1 - Potential Cross-Site Scripting (XSS) via SelectWoo",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 4.1.0",
+        "risk": "WooCommerce &lt; 4.1.0 - Unescaped Metadata when Duplicating Products",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.6.5",
+        "risk": "WooCommerce &lt;= 3.6.4 - Cross-Site Request Forgery (CSRF) &amp; File Type Check",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.5.1",
+        "risk": "WooCommerce &lt;= 3.5.0 - Authenticated Stored XSS",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.6",
+        "risk": "WooCommerce &lt;= 3.4.5 - Authenticated Phar Deserialization",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.6",
+        "risk": "WooCommerce &lt;= 3.4.5 - Authenticated Stored XSS",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.6",
+        "risk": "WooCommerce &lt;= 3.4.5 - Authenticated Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 3.4.5",
+        "risk": "WooCommerce &lt;= 3.4.4 - Potential Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 7.0.1",
+        "risk": "WooCommerce <= 7.0.0 - Authenticated(Shop Manager+) Sensitive Information Exposure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 7.9.0",
+        "risk": "WooCommerce <= 7.8.2 - Sensitive Information Exposure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 7.0.1",
+        "risk": "WooCommerce &lt; 7.0.1 - Shop Manager+ User Metadata Disclosure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 7.9",
+        "risk": "WooCommerce &lt; 7.9 - Unauthenticated Sensitive Information Disclosure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.2.0 (CVE-2023-47777)",
+        "risk": "CVE-2023-47777: WordPress  WooCommerce Plugin  <= 8.1.1 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-47777",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 7.0.1",
+        "risk": "WooCommerce &lt; 7.0.1 - Authenticated(Shop Manager+) Sensitive Information Exposure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 7.9.0",
+        "risk": "WooCommerce &lt; 7.9.0 - Sensitive Information Exposure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.3.0 (CVE-2023-52222)",
+        "risk": "CVE-2023-52222: WordPress  WooCommerce Plugin  <= 8.2.2 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-52222",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.4.0",
+        "risk": "WooCommerce < 8.4.0 - Reflected Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.6.0 (CVE-2024-22155)",
+        "risk": "CVE-2024-22155: WordPress  WooCommerce Plugin    <= 8.5.2 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-22155",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.4.0",
+        "risk": "WordPress  WooCommerce Plugin    <= 8.3.0 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.6 (CVE-2024-1310)",
+        "risk": "CVE-2024-1310: WordPress WooCommerce Plugin < 8.6 is vulnerable to Broken Access Control",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1310",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.9.3",
+        "risk": "WordPress WooCommerce Plugin <= 8.9.2 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.9.3 (CVE-2024-37297)",
+        "risk": "CVE-2024-37297: WooCommerce 8.8.0 - 8.9.2 - Reflected Cross-Site Scripting via Order Attribution",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-37297",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "low",
+        "description": "WooCommerce [woocommerce] < 9.0.0 (CVE-2024-35777)",
+        "risk": "CVE-2024-35777: WordPress WooCommerce Plugin <= 8.9.2 is vulnerable to Content Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-35777",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 8.4.0",
+        "risk": "WooCommerce &lt; 8.4.0 - Reflected Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 9.1.3 (CVE-2024-39666)",
+        "risk": "CVE-2024-39666: WordPress WooCommerce Plugin <= 9.1.2 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-39666",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 9.1.0 (CVE-2024-9944)",
+        "risk": "CVE-2024-9944: WordPress WooCommerce Plugin <= 9.0.2 is vulnerable to Content Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-9944",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 9.4.3",
+        "risk": "WordPress WooCommerce Plugin < 9.4.3 is vulnerable to Broken Access Control",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 9.7.1 (CVE-2025-26762)",
+        "risk": "CVE-2025-26762: WooCommerce &lt;= 9.7.0 - Authenticated (Shop Manager+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-26762",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] < 10.4.3 (CVE-2025-15033)",
+        "risk": "CVE-2025-15033: WooCommerce [woocommerce] < 10.4.3",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-15033",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
+        "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-54332",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 164,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 2814,
+    "ssl": 89,
+    "headers": 2715,
+    "meta": 4890,
+    "httpx": 6765,
+    "webanalyze": 4,
+    "dnsx": 953,
+    "total_ms": 19158
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "dmoge.dk",
   "cvr": "prospect",
   "company_name": "dmoge.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-01",
-      "days_remaining": 60
+      "days_remaining": 57,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -39,7 +40,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -68,8 +73,8 @@
   },
   "dns": {
     "a": [
-      "172.67.219.210",
-      "104.21.94.52"
+      "104.21.94.52",
+      "172.67.219.210"
     ],
     "aaaa": [
       "2606:4700:3030::ac43:dbd2",
@@ -89,6 +94,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -104,6 +113,11 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "medium",
@@ -134,7 +148,7 @@
       "severity": "medium",
       "description": "PDF Viewer &amp; 3D PDF Flipbook &#8211; DearPDF [dearpdf-lite] <= 2.0.38 (unfixed + closed) (CVE-2024-23505)",
       "risk": "CVE-2024-23505: PDF Viewer & 3D PDF Flipbook – DearPDF <= 2.0.38 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -144,11 +158,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 321,
+    "duration_ms": 155,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

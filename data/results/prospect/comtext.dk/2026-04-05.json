@@ -1,0 +1,553 @@
+{
+  "domain": "comtext.dk",
+  "job_id": "scan-2026-04-05-3b5f8e7c",
+  "status": "completed",
+  "scan_result": {
+    "domain": "comtext.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-20",
+    "ssl_days_remaining": 75,
+    "detected_plugins": [
+      "jet-engine",
+      "elementor",
+      "elementor-pro",
+      "connect-polylang-elementor",
+      "wp-rocket"
+    ],
+    "plugin_versions": {
+      "jet-engine": "1734354204",
+      "elementor": "3.25.11",
+      "elementor-pro": "3.25.5",
+      "connect-polylang-elementor": "2.4.5"
+    },
+    "detected_themes": [
+      "hello-elementor"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Elementor:3.25.11",
+      "MySQL",
+      "PHP",
+      "WP Rocket",
+      "WordPress",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:59:01.768378439Z",
+      "port": "443",
+      "url": "https://comtext.dk",
+      "input": "comtext.dk",
+      "title": "ComText A/S – Danmarks hurtigste leveringstid på oversættelse",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "comtext.dk",
+      "host_ip": "78.46.3.99",
+      "path": "/",
+      "time": "176.086054ms",
+      "a": [
+        "78.46.3.99"
+      ],
+      "aaaa": [
+        "2a01:4f8:d0a:329c::2"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Cookiebot",
+        "Elementor:3.25.11",
+        "MySQL",
+        "PHP",
+        "WP Rocket",
+        "WordPress",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 3275,
+      "lines": 611,
+      "status_code": 200,
+      "content_length": 83558,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "elementor",
+          "connect-polylang-elementor"
+        ],
+        "themes": [
+          "hello-elementor"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "78.46.3.99"
+      ],
+      "aaaa": [
+        "2a01:4f8:d0a:329c::2"
+      ],
+      "cname": [],
+      "mx": [
+        "comtext-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.123hotel.dk",
+        "ns2.123hotel.dk"
+      ],
+      "txt": [
+        "google-site-verification=9dHy5oGezC4UJ8e71s7KnqG7FSt6o6cYaVxNZyLVnm8",
+        "v=spf1 include:spf.protection.outlook.com include:mailgun.org ~all",
+        "MS=ms21630353"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "comtext.dk",
+    "cvr": "prospect",
+    "company_name": "comtext.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-20",
+        "days_remaining": 75,
+        "tls_version": ""
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Jet Engine",
+        "Elementor",
+        "Elementor Pro",
+        "Connect Polylang Elementor",
+        "Wp Rocket"
+      ],
+      "plugin_versions": {
+        "Jet Engine": "1734354204",
+        "Elementor": "3.25.11",
+        "Elementor Pro": "3.25.5",
+        "Connect Polylang Elementor": "2.4.5"
+      },
+      "detected_themes": [
+        "Hello Elementor"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Apache",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Cookiebot",
+      "Elementor:3.25.11",
+      "MySQL",
+      "PHP",
+      "WP Rocket",
+      "WordPress",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "jet-engine": "1734354204",
+      "elementor": "3.25.11",
+      "elementor-pro": "3.25.5",
+      "connect-polylang-elementor": "2.4.5"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "78.46.3.99"
+      ],
+      "aaaa": [
+        "2a01:4f8:d0a:329c::2"
+      ],
+      "cname": [],
+      "mx": [
+        "comtext-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.123hotel.dk",
+        "ns2.123hotel.dk"
+      ],
+      "txt": [
+        "google-site-verification=9dHy5oGezC4UJ8e71s7KnqG7FSt6o6cYaVxNZyLVnm8",
+        "v=spf1 include:spf.protection.outlook.com include:mailgun.org ~all",
+        "MS=ms21630353"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "info",
+        "description": "5 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Hello Elementor",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Elementor (installed 3.25.11, latest 4.0.1)",
+        "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Connect Polylang Elementor (installed 2.4.5, latest 2.5.5)",
+        "risk": "The installed version of Connect Polylang Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.7.3 (unfixed) (CVE-2025-49938)",
+        "risk": "CVE-2025-49938: JetEngine [jet-engine] <= 3.7.3 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49938",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.8.1.1 (unfixed) (CVE-2025-69333)",
+        "risk": "CVE-2025-69333: JetEngine [jet-engine] <= 3.8.1.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-69333",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.7.7 (unfixed) (CVE-2025-67923)",
+        "risk": "CVE-2025-67923: JetEngine [jet-engine] <= 3.7.7 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67923",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.8.0 (unfixed) (CVE-2025-68495)",
+        "risk": "CVE-2025-68495: JetEngine [jet-engine] <= 3.8.0 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-68495",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "JetEngine [jet-engine] <= 3.7.2 (unfixed) (CVE-2026-28134)",
+        "risk": "CVE-2026-28134: JetEngine [jet-engine] <= 3.7.2 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28134",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.27.5 (CVE-2024-13445)",
+        "risk": "CVE-2024-13445: Elementor Website Builder &ndash; More Than Just a Page Builder &lt;= 3.27.4 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-13445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2024-50555)",
+        "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-50555",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-4566)",
+        "risk": "CVE-2025-4566: Elementor &lt;= 3.30.2 - Authenticated (Contributor+) Stored Cross-Site Scripting via Text Path Widget",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-4566",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2025-3075)",
+        "risk": "CVE-2025-3075: Elementor &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-3075",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-8081)",
+        "risk": "CVE-2025-8081: Elementor &lt;= 3.30.2 - Authenticated (Administrator+) Arbitrary File Read via Image Import",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-8081",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4 (CVE-2025-11220)",
+        "risk": "CVE-2025-11220: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-11220",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
+        "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-8494",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
+        "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-3076",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
+        "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-50555",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+        "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28044",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 148,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 3120,
+    "ssl": 79,
+    "headers": 136,
+    "meta": 568,
+    "httpx": 2476,
+    "webanalyze": 4,
+    "dnsx": 788,
+    "total_ms": 9080
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

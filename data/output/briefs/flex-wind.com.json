@@ -2,7 +2,7 @@
   "domain": "flex-wind.com",
   "cvr": "prospect",
   "company_name": "flex-wind.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-09",
-      "days_remaining": 68
+      "days_remaining": 64,
+      "tls_version": ""
     },
     "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Microsoft-IIS/10.0",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -55,14 +60,18 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "MS=ms84086824",
-      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all",
       "google-site-verification=SpPLgFvP318NmhNFjIHqJVKjV1nf5MpnRB6zkNTQZ7U",
+      "apple-domain-verification=lv5ylHKvUBXT2c9L",
       "652BDD2BB8",
-      "apple-domain-verification=lv5ylHKvUBXT2c9L"
+      "MS=ms84086824",
+      "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": "Dynamic-it"
+  },
   "findings": [
     {
       "severity": "medium",
@@ -83,6 +92,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

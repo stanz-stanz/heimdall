@@ -1,0 +1,526 @@
+{
+  "domain": "daltec.com",
+  "job_id": "scan-2026-04-05-d0cbac6b",
+  "status": "completed",
+  "scan_result": {
+    "domain": "daltec.com",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-05",
+    "ssl_days_remaining": 29,
+    "detected_plugins": [
+      "all-in-one-seo-pack",
+      "complianz-gdpr",
+      "vision-core",
+      "translatepress-multilingual",
+      "elementor",
+      "essential-addons-for-elementor-lite",
+      "google-analytics-for-wordpress",
+      "elementor-pro",
+      "woocommerce",
+      "wordfence"
+    ],
+    "plugin_versions": {
+      "all-in-one-seo-pack": "4.9.5.1",
+      "complianz-gdpr": "1773995308",
+      "vision-core": "1.2.3",
+      "translatepress-multilingual": "3.1.3",
+      "elementor": "5.47.0",
+      "essential-addons-for-elementor-lite": "6.5.13",
+      "google-analytics-for-wordpress": "10.1.2",
+      "elementor-pro": "3.35.1"
+    },
+    "detected_themes": [
+      "agama-pro"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "All in One SEO Pack:4.9.5.1",
+      "All in One SEO:4.9.5.1",
+      "Complianz",
+      "Elementor:3.35.7",
+      "Google Maps",
+      "HTTP/3",
+      "LiteSpeed",
+      "MonsterInsights:10.1.2",
+      "MySQL",
+      "PHP",
+      "Swiper",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "particles.js"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:00:03.455762423Z",
+      "port": "443",
+      "url": "https://daltec.com",
+      "input": "daltec.com",
+      "title": "Forside - Daltec",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "daltec.com",
+      "host_ip": "185.21.42.35",
+      "path": "/",
+      "final_url": "https://daltec.dk/",
+      "time": "1.014884809s",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "185.21.42.35"
+      ],
+      "aaaa": [
+        "2001:67c:3c0:12::53"
+      ],
+      "tech": [
+        "All in One SEO Pack:4.9.5.1",
+        "All in One SEO:4.9.5.1",
+        "Complianz",
+        "Elementor:3.35.7",
+        "Google Maps",
+        "HTTP/3",
+        "LiteSpeed",
+        "MonsterInsights:10.1.2",
+        "MySQL",
+        "PHP",
+        "Swiper",
+        "WordPress:6.9.4",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "particles.js"
+      ],
+      "words": 10442,
+      "lines": 2174,
+      "status_code": 200,
+      "content_length": 175447,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "all-in-one-seo-pack",
+          "complianz-gdpr",
+          "translatepress-multilingual",
+          "elementor",
+          "essential-addons-for-elementor-lite",
+          "google-analytics-for-wordpress"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.42.35"
+      ],
+      "aaaa": [
+        "2001:67c:3c0:12::53"
+      ],
+      "cname": [],
+      "mx": [
+        "dk.mx1.mailanyone.net",
+        "daltec-com.mail.protection.outlook.com",
+        "dk.mx3.mailanyone.net",
+        "dk.mx4.mx25.net",
+        "dk.mx2.mx25.net"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.mailanyone.net  include:spf.protection.outlook.com ~all",
+        "v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApI9MhowNmn1JStZxv2szVyMQ/j6tNCuyrbcRlfb+60AAxls45DCop9N93P7JatxODfpkWG16/SLcyvQQctNnoa8kOu5MF/d0tMrdPZNRoPcyG5z/holy4KjKDxJ7IUxfzy5NfzX8KQjMX7jO6b+xidIXqYreaZT6wVELq0pbseh10LrVYFn31ZxFe8iRO529E/QoQVwbiBLW2qJXNlTmQr79x5Go9WC/XxpfuNveYXyEziw/AI3epPLvcB+2a5jz7wd+soHYxw6VoJGieYmUTpGuOpq03AHNCz74fd1WT8V+qwHdiwoxLYjozfBCU3QhbK5pFTD4MK1xjUJvVs4r/wIDAQAB",
+        "b1mo1kotnq6ltmlnqed9r3ocl9",
+        "MS=ms99881335",
+        "37f0p197lstgu8d2hvkjunfbo6",
+        "_globalsign-domain-verification=HDxIhycSryOBZ416QlGS9Ll7TQINg7ix1rc-81f8JQ"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "daltec.com",
+    "cvr": "prospect",
+    "company_name": "daltec.com",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-05",
+        "days_remaining": 29,
+        "tls_version": ""
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "All In One Seo Pack",
+        "Complianz Gdpr",
+        "Vision Core",
+        "Translatepress Multilingual",
+        "Elementor",
+        "Essential Addons For Elementor Lite",
+        "Google Analytics For Wordpress",
+        "Elementor Pro",
+        "Woocommerce",
+        "Wordfence"
+      ],
+      "plugin_versions": {
+        "All In One Seo Pack": "4.9.5.1",
+        "Complianz Gdpr": "1773995308",
+        "Vision Core": "1.2.3",
+        "Translatepress Multilingual": "3.1.3",
+        "Elementor": "5.47.0",
+        "Essential Addons For Elementor Lite": "6.5.13",
+        "Google Analytics For Wordpress": "10.1.2",
+        "Elementor Pro": "3.35.1"
+      },
+      "detected_themes": [
+        "Agama Pro"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": true,
+        "referrer_policy": false,
+        "server_value": "LiteSpeed",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "All in One SEO Pack:4.9.5.1",
+      "All in One SEO:4.9.5.1",
+      "Complianz",
+      "Elementor:3.35.7",
+      "Google Maps",
+      "HTTP/3",
+      "LiteSpeed",
+      "MonsterInsights:10.1.2",
+      "MySQL",
+      "PHP",
+      "Swiper",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "particles.js"
+    ],
+    "plugin_versions": {
+      "all-in-one-seo-pack": "4.9.5.1",
+      "complianz-gdpr": "1773995308",
+      "vision-core": "1.2.3",
+      "translatepress-multilingual": "3.1.3",
+      "elementor": "5.47.0",
+      "essential-addons-for-elementor-lite": "6.5.13",
+      "google-analytics-for-wordpress": "10.1.2",
+      "elementor-pro": "3.35.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.42.35"
+      ],
+      "aaaa": [
+        "2001:67c:3c0:12::53"
+      ],
+      "cname": [],
+      "mx": [
+        "dk.mx1.mailanyone.net",
+        "daltec-com.mail.protection.outlook.com",
+        "dk.mx3.mailanyone.net",
+        "dk.mx4.mx25.net",
+        "dk.mx2.mx25.net"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.mailanyone.net  include:spf.protection.outlook.com ~all",
+        "v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApI9MhowNmn1JStZxv2szVyMQ/j6tNCuyrbcRlfb+60AAxls45DCop9N93P7JatxODfpkWG16/SLcyvQQctNnoa8kOu5MF/d0tMrdPZNRoPcyG5z/holy4KjKDxJ7IUxfzy5NfzX8KQjMX7jO6b+xidIXqYreaZT6wVELq0pbseh10LrVYFn31ZxFe8iRO529E/QoQVwbiBLW2qJXNlTmQr79x5Go9WC/XxpfuNveYXyEziw/AI3epPLvcB+2a5jz7wd+soHYxw6VoJGieYmUTpGuOpq03AHNCz74fd1WT8V+qwHdiwoxLYjozfBCU3QhbK5pFTD4MK1xjUJvVs4r/wIDAQAB",
+        "b1mo1kotnq6ltmlnqed9r3ocl9",
+        "MS=ms99881335",
+        "37f0p197lstgu8d2hvkjunfbo6",
+        "_globalsign-domain-verification=HDxIhycSryOBZ416QlGS9Ll7TQINg7ix1rc-81f8JQ"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "SSL certificate expires in 29 days",
+        "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "10 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Agama Pro",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Translatepress Multilingual (installed 3.1.3, latest 3.1.4)",
+        "risk": "The installed version of Translatepress Multilingual is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.9.1 (unfixed) (CVE-2025-67950)",
+        "risk": "CVE-2025-67950: All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.9.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67950",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.8.6.1 (unfixed) (CVE-2025-64295)",
+        "risk": "CVE-2025-64295: All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.8.6.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64295",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed) (CVE-2025-64352)",
+        "risk": "CVE-2025-64352: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed) (CVE-2025-69092)",
+        "risk": "CVE-2025-69092: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-69092",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed) (CVE-2026-23543)",
+        "risk": "CVE-2026-23543: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-23543",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 170,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 1544,
+    "ssl": 64,
+    "headers": 560,
+    "meta": 1297,
+    "httpx": 3944,
+    "webanalyze": 4,
+    "dnsx": 804,
+    "crtsh": 0,
+    "ghw": 272,
+    "total_ms": 9923
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

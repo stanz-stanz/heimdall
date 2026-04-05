@@ -2,7 +2,7 @@
   "domain": "lokalbolig.dk",
   "cvr": "prospect",
   "company_name": "lokalbolig.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-02",
-      "days_remaining": 61
+      "days_remaining": 57,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": "Next.js"
     }
   },
   "tech_stack": [
@@ -56,15 +61,19 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "MS=ms80146899",
-      "google-site-verification=R8wti32i3nbZOyIb0y8zi9uKWv5w1BysG4DkpswsqtQ",
-      "_globalsign-domain-verification=-qAeWvNvF8pZ8KHSkJn_zNNHam8Ffglxfm_finCP2T",
-      "v=spf1 a:mail.e-filing.dk include:spf.hosit.dk include:spf.curanet.dk include:spf.protection.outlook.com include:spf.web.mindworking.dk include:amazonses.com include:sendgrid.net include:spf.mandrillapp.com ip4:91.223.235.140 ip4:46.51.187.7 ip4:54.217.220.254 ip4:217.195.189.244 -all",
       "google-site-verification=4bzDbUFvyWbsZrvUEpIWWy2lCqNgRzRYE6SL7rsTAs8",
-      "_globalsign-domain-verification=LOWe8o5b8M5jF91_NdqFCcp55JzNqaG9vaYxpU1A2p"
+      "v=spf1 a:mail.e-filing.dk include:spf.hosit.dk include:spf.curanet.dk include:spf.protection.outlook.com include:spf.web.mindworking.dk include:amazonses.com include:sendgrid.net include:spf.mandrillapp.com ip4:91.223.235.140 ip4:46.51.187.7 ip4:54.217.220.254 ip4:217.195.189.244 -all",
+      "_globalsign-domain-verification=-qAeWvNvF8pZ8KHSkJn_zNNHam8Ffglxfm_finCP2T",
+      "_globalsign-domain-verification=LOWe8o5b8M5jF91_NdqFCcp55JzNqaG9vaYxpU1A2p",
+      "MS=ms80146899",
+      "google-site-verification=R8wti32i3nbZOyIb0y8zi9uKWv5w1BysG4DkpswsqtQ"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -80,6 +89,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: Next.js",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",

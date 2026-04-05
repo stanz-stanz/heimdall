@@ -2,7 +2,7 @@
   "domain": "arkibas.dk",
   "cvr": "prospect",
   "company_name": "arkibas.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "DigiCert Inc",
       "expiry": "2026-09-01",
-      "days_remaining": 152
+      "days_remaining": 149,
+      "tls_version": ""
     },
     "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Microsoft-IIS/10.0",
+      "x_powered_by": "ASP.NET"
     }
   },
   "tech_stack": [
@@ -52,14 +57,18 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "google-site-verification=CS6oJKCplGhlvb_qCsZa5038hC-E7-S8lqk1OUkrjuw",
+      "v=spf1 ip4:94.231.110.109 include:spf.wannafind.dk include:spf.protection.outlook.com -all",
       "brevo-code:4dc88543d62828d7e3f0dd109b462509",
       "MS=ms95475147",
-      "v=spf1 ip4:94.231.110.109 include:spf.wannafind.dk include:spf.protection.outlook.com -all",
+      "google-site-verification=CS6oJKCplGhlvb_qCsZa5038hC-E7-S8lqk1OUkrjuw",
       "MS=38938C341619CF297FAD0BF160F9CDE1391ECEBC"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -70,6 +79,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: ASP.NET",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     }
   ]
 }

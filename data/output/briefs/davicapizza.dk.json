@@ -2,7 +2,7 @@
   "domain": "davicapizza.dk",
   "cvr": "prospect",
   "company_name": "davicapizza.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-31",
-      "days_remaining": 59
+      "days_remaining": 55,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -60,6 +65,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",

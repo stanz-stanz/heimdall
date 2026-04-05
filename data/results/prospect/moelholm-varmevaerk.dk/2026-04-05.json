@@ -1,0 +1,204 @@
+{
+  "domain": "moelholm-varmevaerk.dk",
+  "job_id": "scan-2026-04-05-a22c9432",
+  "status": "completed",
+  "scan_result": {
+    "domain": "moelholm-varmevaerk.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "GlobalSign nv-sa",
+    "ssl_expiry": "2026-10-31",
+    "ssl_days_remaining": 208,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Edge Network",
+      "HSTS",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:25:12.889302733Z",
+      "cdn_name": "azure",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://moelholm-varmevaerk.dk",
+      "input": "moelholm-varmevaerk.dk",
+      "title": "Mølholm Varmeværk",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "moelholm-varmevaerk.dk",
+      "host_ip": "20.50.64.13",
+      "path": "/",
+      "time": "254.988127ms",
+      "a": [
+        "20.50.64.13"
+      ],
+      "tech": [
+        "Azure",
+        "Azure Edge Network",
+        "HSTS",
+        "jsDelivr"
+      ],
+      "words": 5943,
+      "lines": 600,
+      "status_code": 200,
+      "content_length": 33923,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "20.50.64.13"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "moelholmvarmevaerk-dk02b.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 a mx include:spf.mailanyone.net include:spf.protection.outlook.com -all",
+        "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
+        "MS=ms86289017",
+        "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM",
+        "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
+        "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "moelholm-varmevaerk.dk",
+    "cvr": "prospect",
+    "company_name": "moelholm-varmevaerk.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "GlobalSign nv-sa",
+        "expiry": "2026-10-31",
+        "days_remaining": 208,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Azure",
+      "Azure Edge Network",
+      "HSTS",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "20.50.64.13"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "moelholmvarmevaerk-dk02b.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 a mx include:spf.mailanyone.net include:spf.protection.outlook.com -all",
+        "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
+        "MS=ms86289017",
+        "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM",
+        "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
+        "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 225,
+    "ssl": 144,
+    "headers": 173,
+    "meta": 174,
+    "httpx": 2171,
+    "webanalyze": 3,
+    "dnsx": 710,
+    "crtsh": 0,
+    "ghw": 1243,
+    "total_ms": 4858
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

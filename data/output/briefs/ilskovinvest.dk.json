@@ -2,7 +2,7 @@
   "domain": "ilskovinvest.dk",
   "cvr": "prospect",
   "company_name": "ilskovinvest.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-07",
-      "days_remaining": 34
+      "days_remaining": 31,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -50,7 +51,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -90,10 +95,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx3.pub.mailpod11-cph3.one.com",
       "mx2.pub.mailpod11-cph3.one.com",
       "mx1.pub.mailpod11-cph3.one.com",
-      "mx4.pub.mailpod11-cph3.one.com"
+      "mx4.pub.mailpod11-cph3.one.com",
+      "mx3.pub.mailpod11-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -102,6 +107,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -122,6 +131,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -157,7 +176,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -169,7 +188,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -181,7 +200,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -193,7 +212,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -205,7 +224,7 @@
       "severity": "medium",
       "description": "Themesflat Addons For Elementor [themesflat-addons-for-elementor] <= 2.2.6 (unfixed) (CVE-2025-31567)",
       "risk": "CVE-2025-31567: EUVD-2025-8816",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -217,7 +236,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] < 3.6.3 (CVE-2025-0369)",
       "risk": "CVE-2025-0369: WordPress JetEngine Plugin <= 3.6.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -229,7 +248,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] < 3.6.5 (CVE-2025-26870)",
       "risk": "CVE-2025-26870: JetEngine &lt;= 3.6.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -241,7 +260,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] < 3.7.1.1 (CVE-2025-53195)",
       "risk": "CVE-2025-53195: JetEngine &lt;= 3.7.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -253,7 +272,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] < 3.7.1.1 (CVE-2025-53196)",
       "risk": "CVE-2025-53196: JetEngine &lt;= 3.7.0 - Authenticated (Subscriber+) Information Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -265,7 +284,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] < 3.7.2 (CVE-2025-54688)",
       "risk": "CVE-2025-54688: JetEngine &lt;= 3.7.1.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -277,7 +296,7 @@
       "severity": "high",
       "description": "JetEngine [jet-engine] < 3.7.1.1 (CVE-2025-53194)",
       "risk": "CVE-2025-53194: JetEngine [jet-engine] < 3.7.1.1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -289,7 +308,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.7.3 (unfixed) (CVE-2025-49938)",
       "risk": "CVE-2025-49938: JetEngine [jet-engine] <= 3.7.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -301,7 +320,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.8.1.1 (unfixed) (CVE-2025-69333)",
       "risk": "CVE-2025-69333: JetEngine [jet-engine] <= 3.8.1.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -313,7 +332,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.7.7 (unfixed) (CVE-2025-67923)",
       "risk": "CVE-2025-67923: JetEngine [jet-engine] <= 3.7.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -325,7 +344,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.8.0 (unfixed) (CVE-2025-68495)",
       "risk": "CVE-2025-68495: JetEngine [jet-engine] <= 3.8.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -337,7 +356,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.7.2 (unfixed) (CVE-2026-28134)",
       "risk": "CVE-2026-28134: JetEngine [jet-engine] <= 3.7.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -349,7 +368,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] < 3.8.4.1 (CVE-2026-32355)",
       "risk": "CVE-2026-32355: JetEngine [jet-engine] < 3.8.4.1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -361,7 +380,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] < 2.6.20.1 (CVE-2024-7144)",
       "risk": "CVE-2024-7144: JetElements <= 2.6.20 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -373,7 +392,7 @@
       "severity": "high",
       "description": "JetElements For Elementor [jet-elements] < 2.6.20.1 (CVE-2024-7145)",
       "risk": "CVE-2024-7145: JetElements <= 2.6.20 - Authenticated (Contributor+) Arbitrary Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -385,7 +404,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] < 2.7.3 (CVE-2025-0371)",
       "risk": "CVE-2025-0371: Jet Elements <= 2.7.2.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Multiple Widgets",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -397,7 +416,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] < 2.7.4.2 (CVE-2025-39448)",
       "risk": "CVE-2025-39448: JetElements For Elementor &lt;= 2.7.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -409,7 +428,7 @@
       "severity": "high",
       "description": "JetElements For Elementor [jet-elements] < 2.7.4.2 (CVE-2025-39447)",
       "risk": "CVE-2025-39447: JetElements For Elementor &lt;= 2.7.4.1 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -421,7 +440,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] < 2.7.7.1 (CVE-2025-53982)",
       "risk": "CVE-2025-53982: JetElements For Elementor &lt;= 2.7.7 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -433,7 +452,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] < 2.7.7.1 (CVE-2025-53983)",
       "risk": "CVE-2025-53983: JetElements For Elementor &lt;= 2.7.7 - Authenticated (Subscriber+) Information Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -445,7 +464,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] < 2.7.9.1 (CVE-2025-55714)",
       "risk": "CVE-2025-55714: JetElements For Elementor &lt;= 2.7.9 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -457,7 +476,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed) (CVE-2025-49939)",
       "risk": "CVE-2025-49939: JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -469,7 +488,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed) (CVE-2025-64355)",
       "risk": "CVE-2025-64355: JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -481,7 +500,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed) (CVE-2026-24958)",
       "risk": "CVE-2026-24958: JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -493,7 +512,7 @@
       "severity": "high",
       "description": "JetTabs [jet-tabs] < 2.2.3.1 (CVE-2024-7146)",
       "risk": "CVE-2024-7146: JetTabs <= 2.2.3 - Authenticated (Contributor+) Arbitrary Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -505,7 +524,7 @@
       "severity": "medium",
       "description": "JetTabs [jet-tabs] < 2.2.8 (CVE-2025-39450)",
       "risk": "CVE-2025-39450: WordPress JetTabs Plugin <= 2.2.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -517,7 +536,7 @@
       "severity": "medium",
       "description": "JetTabs [jet-tabs] < 2.2.9.1 (CVE-2025-53984)",
       "risk": "CVE-2025-53984: JetTabs &lt;= 2.2.9 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -529,7 +548,7 @@
       "severity": "medium",
       "description": "JetTabs [jet-tabs] < 2.2.9.1 (CVE-2025-53985)",
       "risk": "CVE-2025-53985: JetTabs &lt;= 2.2.9 - Authenticated (Subscriber+) Information Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -541,7 +560,7 @@
       "severity": "medium",
       "description": "JetTabs [jet-tabs] < 2.2.9.2 (CVE-2025-54687)",
       "risk": "CVE-2025-54687: JetTabs &lt;= 2.2.9.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -553,7 +572,7 @@
       "severity": "medium",
       "description": "JetTabs [jet-tabs] <= 2.2.12 (unfixed) (CVE-2025-68499)",
       "risk": "CVE-2025-68499: JetTabs [jet-tabs] <= 2.2.12 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -565,7 +584,7 @@
       "severity": "medium",
       "description": "JetTabs [jet-tabs] <= 2.2.12 (unfixed) (CVE-2025-68498)",
       "risk": "CVE-2025-68498: JetTabs [jet-tabs] <= 2.2.12 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -577,7 +596,7 @@
       "severity": "critical",
       "description": "ElementsKit Elementor Addons and Templates [elementskit-lite] < 3.7.9 (CVE-2026-23693)",
       "risk": "CVE-2026-23693: ElementsKit Elementor Addons and Templates [elementskit-lite] < 3.7.9",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -587,11 +606,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 323,
+    "duration_ms": 160,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

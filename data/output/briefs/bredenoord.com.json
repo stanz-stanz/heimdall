@@ -2,7 +2,7 @@
   "domain": "bredenoord.com",
   "cvr": "prospect",
   "company_name": "bredenoord.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "B",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-23",
-      "days_remaining": 82
+      "days_remaining": 79,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": "Craft CMS, SEOmatic"
     }
   },
   "tech_stack": [
@@ -60,17 +65,21 @@
       "ns4-03.azure-dns.info"
     ],
     "txt": [
-      "apple-domain-verification=yEUWXYhiuSA67Lti",
-      "autodesk-domain-verification=bshgsTMvUqZFflZcgjua",
-      "d365mktkey=btq8LnmhryehHNx7dsyM9IzeEyxoWUmvWKXSet0KvM0x",
       "v=spf1 ip4:80.112.196.80/28 ip4:217.77.156.140 include:spf.protection.outlook.com include:spf.eu.exclaimer.net include:cmail1.com include:servers.mcsv.net include:spf.mandrillapp.com include:carerix.net include:spf.afas.online include:amazonses.com include:_spf.facilitor.nl ~all",
-      "MS=ms24047612",
+      "atlassian-sending-domain-verification=f97af139-513e-48e4-97e9-ead1cf9a27bf",
+      "apple-domain-verification=yEUWXYhiuSA67Lti",
+      "d365mktkey=btq8LnmhryehHNx7dsyM9IzeEyxoWUmvWKXSet0KvM0x",
+      "autodesk-domain-verification=bshgsTMvUqZFflZcgjua",
       "openai-domain-verification=dv-JARcpnZ84mtYQemokzHxl2l3",
       "atlassian-domain-verification=4OgvBigVPze6Gpk4mOrc3onVtcTO7jrX9X0nLzs8OmhKaPQAevsHNYwRLtKD85ur",
-      "atlassian-sending-domain-verification=f97af139-513e-48e4-97e9-ead1cf9a27bf"
+      "MS=ms24047612"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -81,6 +90,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: Craft CMS, SEOmatic",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     }
   ]
 }

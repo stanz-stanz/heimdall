@@ -2,7 +2,7 @@
   "domain": "vanillachokolade.dk",
   "cvr": "prospect",
   "company_name": "vanillachokolade.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -15,8 +15,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-03",
-      "days_remaining": 30
+      "expiry": "2026-07-02",
+      "days_remaining": 88,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -56,11 +61,15 @@
       "ns2.dnsserver.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all",
       "MS=ms97590837",
+      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all",
       "MS=F005C36A23F40F891E972BCC8B8119B73DFA5508"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": []
 }

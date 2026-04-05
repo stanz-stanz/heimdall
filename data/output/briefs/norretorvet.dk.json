@@ -2,39 +2,85 @@
   "domain": "norretorvet.dk",
   "cvr": "prospect",
   "company_name": "norretorvet.dk",
-  "scan_date": "2026-04-02",
-  "bucket": "D",
+  "scan_date": "2026-04-05",
+  "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
-    "server": "",
-    "detected_plugins": [],
-    "plugin_versions": {},
+    "server": "nginx",
+    "detected_plugins": [
+      "Elementor"
+    ],
+    "plugin_versions": {
+      "Elementor": "2.8.4"
+    },
     "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
-  "tech_stack": [],
-  "plugin_versions": {},
+  "tech_stack": [
+    "Elementor:2.8.4",
+    "HSTS",
+    "Lightbox",
+    "Magnific Popup:1.7.4",
+    "MySQL",
+    "Nginx",
+    "PHP:7.3.33",
+    "Swiper",
+    "WordPress Block Editor",
+    "WordPress:5.3.21",
+    "imagesLoaded:3.2.0",
+    "jQuery",
+    "jQuery Migrate:1.4.1"
+  ],
+  "plugin_versions": {
+    "elementor": "2.8.4"
+  },
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {},
+  "dns": {
+    "a": [
+      "46.30.215.191"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "norretorvet-dk.mail.protection.outlook.com"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": [
+      "MS=ms52644796",
+      "v=spf1 include:spf.protection.outlook.com -all"
+    ]
+  },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -60,6 +106,644 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 5.3.21 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "info",
+      "description": "1 WordPress plugin detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:7.3.33",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Elementor (installed 2.8.4, latest 4.0.1)",
+      "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.6.3 (CVE-2021-24891)",
+      "risk": "CVE-2021-24891: WordPress Elementor Website Builder plugin <= 3.1.3 - DOM Cross-Site Scripting (XSS) vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-24891",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.1.4 (CVE-2021-24202)",
+      "risk": "CVE-2021-24202: Elementor Website Builder <= 3.1.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via header_size",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-24202",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.1.4 (CVE-2021-24203)",
+      "risk": "CVE-2021-24203: Elementor Website Builder <= 3.1.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via html_tag",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-24203",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.1.4 (CVE-2021-24204)",
+      "risk": "CVE-2021-24204: Elementor Website Builder <= 3.1.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via title_html_tag",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-24204",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.1.4 (CVE-2021-24205)",
+      "risk": "CVE-2021-24205: Elementor Website Builder <= 3.1.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via title_size Parameter",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-24205",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.1.4 (CVE-2021-24206)",
+      "risk": "CVE-2021-24206: Elementor Website Builder <= 3.1.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via title_size",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-24206",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.1.4 (CVE-2021-24201)",
+      "risk": "CVE-2021-24201: Elementor Website Builder <= 3.1.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via html_tag",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2021-24201",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.0.14 (CVE-2020-36171)",
+      "risk": "CVE-2020-36171: WordPress Elementor Website Builder plugin <= 3.0.13 - Unrestricted SVG Uploads vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-36171",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.3 (CVE-2020-20406)",
+      "risk": "CVE-2020-20406: Elementor Website Builder <= 2.9.2 - Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-20406",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.14 (CVE-2020-15020)",
+      "risk": "CVE-2020-15020: WordPress Elementor Website Builder plugin <= 2.9.13 - Authenticated Stored Cross-Site Scripting (XSS) vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-15020",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.6 (CVE-2020-20634)",
+      "risk": "CVE-2020-20634: Elementor Website Builder <= 2.9.5 - Authorization Bypass",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-20634",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.9 (CVE-2020-13864)",
+      "risk": "CVE-2020-13864: Elementor Website Builder <= 2.9.8 - Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-13864",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.10 (CVE-2020-13865)",
+      "risk": "CVE-2020-13865: Elementor Website Builder <= 2.9.8 - Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-13865",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.8.5 (CVE-2020-8426)",
+      "risk": "CVE-2020-8426: WordPress Elementor Page Builder plugin <= 2.8.4 - Authenticated Reflected Cross-Site Scripting (XSS) vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-8426",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+      "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-1329",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.1.4",
+      "risk": "WordPress Elementor Website Builder plugin <= 3.1.1 - Multiple Authenticated Stored Cross-Site Scripting (XSS) vulnerabilities",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.5.6 (CVE-2022-29455)",
+      "risk": "CVE-2022-29455: WordPress Elementor plugin <= 3.5.5 - Unauthenticated DOM-based Reflected Cross-Site Scripting (XSS) vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-29455",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.8",
+      "risk": "Elementor Website Builder <= 2.9.7 - Authenticated Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.8",
+      "risk": "Elementor &lt; 2.9.8 - SVG Sanitizer Bypass leading to Authenticated Stored XSS",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2",
+      "risk": "Elementor <= 3.12.1 - Authenticated(Administrator+) SQL Injection via 'replace_urls'",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2",
+      "risk": "WordPress  Elementor Website Builder Plugin  <= 3.12.1 is vulnerable to SQL Injection",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
+      "risk": "Elementor <= 3.13.1 - Missing Authorization to Settings Update",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
+      "risk": "WordPress  Elementor Website Builder Plugin  <= 3.13.1 is vulnerable to Broken Access Control",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.3 (CVE-2023-33922)",
+      "risk": "CVE-2023-33922: WordPress  Elementor Website Builder Plugin  <= 3.13.2 is vulnerable to Broken Access Control",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-33922",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2 (CVE-2023-0329)",
+      "risk": "CVE-2023-0329: Elementor Website Builder &lt; 3.12.2 - Admin+ SQLi",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-0329",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.8 (CVE-2020-36703)",
+      "risk": "CVE-2020-36703: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 2.9.8",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-36703",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.5.5 (CVE-2022-4953)",
+      "risk": "CVE-2022-4953: Elementor <= 3.5.4 - DOM-Based iFrame Injection",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2022-4953",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
+      "risk": "Elementor Website Builder &lt; 3.13.2 - Missing Authorization",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47505)",
+      "risk": "CVE-2023-47505: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-47505",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47504)",
+      "risk": "CVE-2023-47504: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Broken Access Control",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-47504",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2 (CVE-2023-48777)",
+      "risk": "CVE-2023-48777: WordPress  Elementor Website Builder Plugin  3.3.0-3.18.1 is vulnerable to Arbitrary File Upload",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-48777",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.0 (CVE-2024-0506)",
+      "risk": "CVE-2024-0506: Elementor Website Builder – More than Just a Page Builder <= 3.18.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via get_image_alt",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-0506",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1 (CVE-2024-24934)",
+      "risk": "CVE-2024-24934: Elementor <= 3.19.0 - Authenticated(Contributor+) Arbitrary File Deletion and PHAR Deserialization",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-24934",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.20.3 (CVE-2024-2117)",
+      "risk": "CVE-2024-2117: Elementor Website Builder – More than Just a Page Builder <= 3.20.2 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting via Path Widget",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-2117",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.22.0-beta2 (CVE-2024-4619)",
+      "risk": "CVE-2024-4619: WordPress Elementor Website Builder Plugin <= 3.21.4 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-4619",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.22.2 (CVE-2024-37437)",
+      "risk": "CVE-2024-37437: WordPress Elementor Website Builder Plugin <= 3.22.1 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-37437",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.24.0 (CVE-2024-5416)",
+      "risk": "CVE-2024-5416: Elementor Website Builder – More than Just a Page Builder <= 3.23.4 - Authenticated (Contributor+) Stored Cross-Site Scripting in the URL Parameter in Multiple Widgets",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-5416",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.24.6 (CVE-2024-6757)",
+      "risk": "CVE-2024-6757: WordPress Elementor Website Builder Plugin <= 3.24.5 is vulnerable to Sensitive Data Exposure",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-6757",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.8 (CVE-2024-8236)",
+      "risk": "CVE-2024-8236: Elementor Website Builder – More than Just a Page Builder <= 3.25.7 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-8236",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.10 (CVE-2024-10453)",
+      "risk": "CVE-2024-10453: Elementor Website Builder – More than Just a Page Builder <= 3.25.9 - Authenticated (Contributor+) Stored Cross-Site Scripting via Typography Settings",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-10453",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.27.5 (CVE-2024-13445)",
+      "risk": "CVE-2024-13445: Elementor Website Builder &ndash; More Than Just a Page Builder &lt;= 3.27.4 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-13445",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.11 (CVE-2024-54444)",
+      "risk": "CVE-2024-54444: Elementor Website Builder &lt;= 3.25.10 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-54444",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2024-50555)",
+      "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-50555",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-4566)",
+      "risk": "CVE-2025-4566: Elementor &lt;= 3.30.2 - Authenticated (Contributor+) Stored Cross-Site Scripting via Text Path Widget",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-4566",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2025-3075)",
+      "risk": "CVE-2025-3075: Elementor &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-3075",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-8081)",
+      "risk": "CVE-2025-8081: Elementor &lt;= 3.30.2 - Authenticated (Administrator+) Arbitrary File Read via Image Import",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-8081",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+      "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-67588",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4 (CVE-2025-11220)",
+      "risk": "CVE-2025-11220: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-11220",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+      "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32445",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+      "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-32352",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-05",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 138,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

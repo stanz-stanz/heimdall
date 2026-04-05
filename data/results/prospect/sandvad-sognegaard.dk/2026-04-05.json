@@ -1,0 +1,207 @@
+{
+  "domain": "sandvad-sognegaard.dk",
+  "job_id": "scan-2026-04-05-f391ce65",
+  "status": "completed",
+  "scan_result": {
+    "domain": "sandvad-sognegaard.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-17",
+    "ssl_days_remaining": 41,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cookie Script",
+      "Google Analytics",
+      "Google Maps",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "ZURB Foundation",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:33:36.42771803Z",
+      "port": "443",
+      "url": "https://sandvad-sognegaard.dk",
+      "input": "sandvad-sognegaard.dk",
+      "title": "Selskaber og koncerter i Sandvad - Sandvad Sognegaard",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "sandvad-sognegaard.dk",
+      "host_ip": "128.140.28.110",
+      "path": "/",
+      "time": "336.202066ms",
+      "a": [
+        "128.140.28.110"
+      ],
+      "tech": [
+        "Cookie Script",
+        "Google Analytics",
+        "Google Maps",
+        "Google Tag Manager",
+        "HSTS",
+        "Nginx",
+        "PHP",
+        "ZURB Foundation",
+        "reCAPTCHA"
+      ],
+      "words": 811,
+      "lines": 480,
+      "status_code": 200,
+      "content_length": 17373,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "128.140.28.110"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "alt2.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "sandvad-sognegaard.dk",
+    "cvr": "prospect",
+    "company_name": "sandvad-sognegaard.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-17",
+        "days_remaining": 41,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cookie Script",
+      "Google Analytics",
+      "Google Maps",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "ZURB Foundation",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "128.140.28.110"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "alt2.aspmx.l.google.com",
+        "alt4.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 170,
+    "ssl": 99,
+    "headers": 299,
+    "meta": 263,
+    "httpx": 2021,
+    "webanalyze": 4,
+    "dnsx": 763,
+    "crtsh": 0,
+    "ghw": 303,
+    "total_ms": 3931
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

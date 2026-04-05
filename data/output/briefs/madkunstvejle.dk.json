@@ -2,7 +2,7 @@
   "domain": "madkunstvejle.dk",
   "cvr": "prospect",
   "company_name": "madkunstvejle.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-15",
-      "days_remaining": 43
+      "days_remaining": 39,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -44,13 +49,13 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx2.googlemail.com",
-      "alt2.aspmx.l.google.com",
-      "aspmx4.googlemail.com",
-      "aspmx5.googlemail.com",
-      "aspmx3.googlemail.com",
       "aspmx.l.google.com",
-      "alt1.aspmx.l.google.com"
+      "alt2.aspmx.l.google.com",
+      "aspmx2.googlemail.com",
+      "aspmx5.googlemail.com",
+      "alt1.aspmx.l.google.com",
+      "aspmx3.googlemail.com",
+      "aspmx4.googlemail.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -61,6 +66,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "Madkunst Vejle",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -71,6 +80,11 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     }
   ]
 }

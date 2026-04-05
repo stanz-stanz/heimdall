@@ -2,7 +2,7 @@
   "domain": "lrs.dk",
   "cvr": "prospect",
   "company_name": "lrs.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-20",
-      "days_remaining": 79
+      "days_remaining": 76,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -55,16 +60,20 @@
       "ns02.one.com"
     ],
     "txt": [
-      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg==",
-      "MS=ms15107593",
       "_globalsign-domain-verification=3uTpsAdLmbS_WRpikrAEfyIJottedVDre-F4iSzyMW",
+      "MS=ms15107593",
       "google-site-verification=vwfJj0u0WjUabtlkIHLp8VCAhRRMSoP6TWaEpvzyY8o",
+      "_globalsign-domain-verification=INMYbMuY_iyM-eX3u5kzNu8i80WfXS6Z6g7NCi_Ht7",
       "v=spf1 ip4:80.63.33.64 ip4:167.89.100.223 ip4:167.89.106.69 ip4:185.40.44.230 include:brevo.com include:spf.mailanyone.net include:spf.protection.outlook.com -all",
       "apple-domain-verification=KrBwHezVBrsNkrMu",
-      "_globalsign-domain-verification=INMYbMuY_iyM-eX3u5kzNu8i80WfXS6Z6g7NCi_Ht7"
+      "/rV7UiIGifXudBwZUXM58DZQUieRI5/KvnNxd76bhY/gksRKS0is/RgkOfztt4PlIXNu9M/1y20t6bLGm5LARg=="
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -85,6 +94,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

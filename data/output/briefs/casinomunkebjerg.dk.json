@@ -2,7 +2,7 @@
   "domain": "casinomunkebjerg.dk",
   "cvr": "prospect",
   "company_name": "casinomunkebjerg.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "B",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-12-04",
-      "days_remaining": 246
+      "days_remaining": 243,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -58,25 +63,34 @@
       "ns3.komunikado.dk"
     ],
     "txt": [
-      "_39zc5o1t8848qk04y4pcm5a1z1k5pm5",
-      "_4dcj84me0v2v831mxfydeu69eea18iy",
-      "_globalsign-domain-verification=hZileiM3Js32teesVr85VFZ9AhC3q5vjNbBaj19ohr",
-      "Kw92AfYz/ZhHPnELFRW3nBqjo3i+4Chi/OxW11OWpnc=",
-      "_globalsign-domain-verification=7dUqEmLrwkrniPZFiFgf3xN4Pc-ZaixfebtybOh892",
-      "_8otq49k2gnvtp6l4gdu3wpz3cu1cmpz",
-      "MS=F0ED76ACA43494D6A8508BED9445BD09CC9805A1",
-      "MS=ms27970112",
-      "bjod5iK86QL/vZ+wGpBBSH940t7WV4iEJReVH/YEKfg=",
       "v=spf1 a mx ip4:144.76.98.53 ip4:91.235.232.0/24 ip4:78.153.187.18 include:_spf.createsend.com include:spf.protection.outlook.com include:mailmailmail.net -all",
-      "qZ3jLVC+vyf7IbMajmYnhoOWj0KYGNBCS89hkxT8q80mKhvOMD2zvEzbdLpzooaEEdwNxuLXI08RY6kul8V5uA=="
+      "_39zc5o1t8848qk04y4pcm5a1z1k5pm5",
+      "bjod5iK86QL/vZ+wGpBBSH940t7WV4iEJReVH/YEKfg=",
+      "_8otq49k2gnvtp6l4gdu3wpz3cu1cmpz",
+      "_globalsign-domain-verification=hZileiM3Js32teesVr85VFZ9AhC3q5vjNbBaj19ohr",
+      "MS=ms27970112",
+      "MS=F0ED76ACA43494D6A8508BED9445BD09CC9805A1",
+      "Kw92AfYz/ZhHPnELFRW3nBqjo3i+4Chi/OxW11OWpnc=",
+      "_4dcj84me0v2v831mxfydeu69eea18iy",
+      "qZ3jLVC+vyf7IbMajmYnhoOWj0KYGNBCS89hkxT8q80mKhvOMD2zvEzbdLpzooaEEdwNxuLXI08RY6kul8V5uA==",
+      "_globalsign-domain-verification=7dUqEmLrwkrniPZFiFgf3xN4Pc-ZaixfebtybOh892"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
       "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "low",

@@ -2,7 +2,7 @@
   "domain": "teddythomsen.dk",
   "cvr": "prospect",
   "company_name": "teddythomsen.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-19",
-      "days_remaining": 77
+      "days_remaining": 74,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -56,10 +61,14 @@
       "ns2.jeppo-dns.dk"
     ],
     "txt": [
-      "v=spf1 include:_spf.tnha.dk include:spf.protection.outlook.com  -all",
-      "<24.02.2025>"
+      "<24.02.2025>",
+      "v=spf1 include:_spf.tnha.dk include:spf.protection.outlook.com  -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": []
 }

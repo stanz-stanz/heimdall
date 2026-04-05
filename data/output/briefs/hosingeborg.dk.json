@@ -2,39 +2,48 @@
   "domain": "hosingeborg.dk",
   "cvr": "prospect",
   "company_name": "hosingeborg.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-09",
-      "days_remaining": 37
+      "days_remaining": 33,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Complianz Gdpr",
       "Tablepress",
+      "Wordfence",
       "Wordpress Seo"
     ],
     "plugin_versions": {
+      "Complianz Gdpr": "1769337173",
+      "Tablepress": "3.2.8",
       "Wordpress Seo": "27.3"
     },
-    "detected_themes": [],
+    "detected_themes": [
+      "Themify Ultra"
+    ],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "HTTP/3",
     "MySQL",
     "PHP",
@@ -45,6 +54,8 @@
     "jQuery Migrate:3.4.1"
   ],
   "plugin_versions": {
+    "complianz-gdpr": "1769337173",
+    "tablepress": "3.2.8",
     "wordpress-seo": "27.3"
   },
   "subdomains": {
@@ -71,6 +82,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -89,12 +104,22 @@
     },
     {
       "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "low",
       "description": "WordPress detected (version not determined)",
       "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
     },
     {
       "severity": "info",
-      "description": "3 WordPress plugins detected",
+      "description": "4 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
@@ -103,36 +128,9 @@
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
     },
     {
-      "severity": "high",
-      "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5 (CVE-2023-33333)",
-      "risk": "CVE-2023-33333: WordPress  Complianz – GDPR/CCPA Cookie Consent Plugin  <= 6.4.4 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
-      "provenance_detail": {
-        "source_layer": 1,
-        "twin_scan_tool": "wpvulnerability",
-        "template_id": "CVE-2023-33333",
-        "confidence": "medium-inference"
-      }
-    },
-    {
-      "severity": "high",
-      "description": "TablePress &#8211; Tables in WordPress made easy [tablepress] < 2.4.3 (CVE-2024-45293)",
-      "risk": "CVE-2024-45293: PHPSpreadsheet Library < 2.3.0 - XXE Injection",
-      "provenance": "twin-derived",
-      "provenance_detail": {
-        "source_layer": 1,
-        "twin_scan_tool": "wpvulnerability",
-        "template_id": "CVE-2024-45293",
-        "confidence": "medium-inference"
-      }
+      "severity": "info",
+      "description": "WordPress theme detected: Themify Ultra",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
     }
-  ],
-  "twin_scan": {
-    "twin_scan_date": "2026-04-02",
-    "scan_tools": [
-      "wpvulnerability"
-    ],
-    "duration_ms": 131,
-    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
-  }
+  ]
 }

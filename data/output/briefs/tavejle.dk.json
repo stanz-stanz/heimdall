@@ -2,21 +2,22 @@
   "domain": "tavejle.dk",
   "cvr": "prospect",
   "company_name": "tavejle.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-29",
-      "days_remaining": 56
+      "days_remaining": 53,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Pixelyoursite",
       "Elementor",
@@ -38,11 +39,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Draftpress HFCM",
     "HTTP/3",
     "MySQL",
@@ -68,10 +72,10 @@
     "cname": [],
     "mx": [
       "alt4.aspmx.l.google.com",
-      "alt3.aspmx.l.google.com",
-      "aspmx.l.google.com",
       "alt1.aspmx.l.google.com",
-      "alt2.aspmx.l.google.com"
+      "alt2.aspmx.l.google.com",
+      "aspmx.l.google.com",
+      "alt3.aspmx.l.google.com"
     ],
     "ns": [
       "ns1.simply.com",
@@ -84,6 +88,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -99,6 +107,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -139,7 +157,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 5.3.0 (CVE-2018-0578)",
       "risk": "CVE-2018-0578: WordPress plugin \"PixelYourSite\" vulnerable to cross-site scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -151,7 +169,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.1 (CVE-2023-22700)",
       "risk": "CVE-2023-22700: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.0 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -163,7 +181,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.7 (CVE-2023-2584)",
       "risk": "CVE-2023-2584: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.6 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,7 +193,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.6.2 (CVE-2024-37447)",
       "risk": "CVE-2024-37447: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 9.6.1.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -187,7 +205,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.7.2 (CVE-2024-7870)",
       "risk": "CVE-2024-7870: PixelYourSite – Your smart PIXEL (TAG) & API Manager <= 9.7.1 and PixelYourSite PRO <= 10.4.2 - Unauthenticated Information Exposure and Log Deletion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -199,7 +217,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.0.2 (CVE-2025-22300)",
       "risk": "CVE-2025-22300: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 10.0.1.2 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -211,7 +229,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.1.1.2 (CVE-2025-0769)",
       "risk": "CVE-2025-0769: PixelYourSite &ndash; Your smart PIXEL (TAG) &amp; API Manager &lt;= 10.1.1.1 - Unauthenticated PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -223,7 +241,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3 (CVE-2025-10588)",
       "risk": "CVE-2025-10588: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -235,7 +253,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2 (CVE-2025-10723)",
       "risk": "CVE-2025-10723: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -247,7 +265,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1 (CVE-2025-14280)",
       "risk": "CVE-2025-14280: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -259,7 +277,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed) (CVE-2026-27072)",
       "risk": "CVE-2026-27072: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -271,7 +289,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -283,7 +301,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2",
       "risk": "Elementor <= 3.12.1 - Authenticated(Administrator+) SQL Injection via 'replace_urls'",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -295,7 +313,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2",
       "risk": "WordPress  Elementor Website Builder Plugin  <= 3.12.1 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -307,7 +325,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
       "risk": "Elementor <= 3.13.1 - Missing Authorization to Settings Update",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -319,7 +337,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
       "risk": "WordPress  Elementor Website Builder Plugin  <= 3.13.1 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -331,7 +349,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.3 (CVE-2023-33922)",
       "risk": "CVE-2023-33922: WordPress  Elementor Website Builder Plugin  <= 3.13.2 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -343,7 +361,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2 (CVE-2023-0329)",
       "risk": "CVE-2023-0329: Elementor Website Builder &lt; 3.12.2 - Admin+ SQLi",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -355,7 +373,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
       "risk": "Elementor Website Builder &lt; 3.13.2 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -367,7 +385,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47505)",
       "risk": "CVE-2023-47505: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -379,7 +397,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47504)",
       "risk": "CVE-2023-47504: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -391,7 +409,7 @@
       "severity": "critical",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2 (CVE-2023-48777)",
       "risk": "CVE-2023-48777: WordPress  Elementor Website Builder Plugin  3.3.0-3.18.1 is vulnerable to Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -403,7 +421,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.0 (CVE-2024-0506)",
       "risk": "CVE-2024-0506: Elementor Website Builder – More than Just a Page Builder <= 3.18.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via get_image_alt",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -415,7 +433,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1 (CVE-2024-24934)",
       "risk": "CVE-2024-24934: Elementor <= 3.19.0 - Authenticated(Contributor+) Arbitrary File Deletion and PHAR Deserialization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -427,7 +445,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.20.3 (CVE-2024-2117)",
       "risk": "CVE-2024-2117: Elementor Website Builder – More than Just a Page Builder <= 3.20.2 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting via Path Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -439,7 +457,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.22.0-beta2 (CVE-2024-4619)",
       "risk": "CVE-2024-4619: WordPress Elementor Website Builder Plugin <= 3.21.4 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -451,7 +469,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.22.2 (CVE-2024-37437)",
       "risk": "CVE-2024-37437: WordPress Elementor Website Builder Plugin <= 3.22.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -463,7 +481,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.24.0 (CVE-2024-5416)",
       "risk": "CVE-2024-5416: Elementor Website Builder – More than Just a Page Builder <= 3.23.4 - Authenticated (Contributor+) Stored Cross-Site Scripting in the URL Parameter in Multiple Widgets",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -475,7 +493,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.24.6 (CVE-2024-6757)",
       "risk": "CVE-2024-6757: WordPress Elementor Website Builder Plugin <= 3.24.5 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -487,7 +505,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.8 (CVE-2024-8236)",
       "risk": "CVE-2024-8236: Elementor Website Builder – More than Just a Page Builder <= 3.25.7 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -499,7 +517,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.10 (CVE-2024-10453)",
       "risk": "CVE-2024-10453: Elementor Website Builder – More than Just a Page Builder <= 3.25.9 - Authenticated (Contributor+) Stored Cross-Site Scripting via Typography Settings",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -511,7 +529,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.27.5 (CVE-2024-13445)",
       "risk": "CVE-2024-13445: Elementor Website Builder &ndash; More Than Just a Page Builder &lt;= 3.27.4 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -523,7 +541,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.11 (CVE-2024-54444)",
       "risk": "CVE-2024-54444: Elementor Website Builder &lt;= 3.25.10 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -535,7 +553,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2024-50555)",
       "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -547,7 +565,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-4566)",
       "risk": "CVE-2025-4566: Elementor &lt;= 3.30.2 - Authenticated (Contributor+) Stored Cross-Site Scripting via Text Path Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -559,7 +577,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2025-3075)",
       "risk": "CVE-2025-3075: Elementor &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -571,7 +589,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-8081)",
       "risk": "CVE-2025-8081: Elementor &lt;= 3.30.2 - Authenticated (Administrator+) Arbitrary File Read via Image Import",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -583,7 +601,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -595,7 +613,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4 (CVE-2025-11220)",
       "risk": "CVE-2025-11220: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -607,7 +625,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -619,7 +637,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -631,7 +649,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.11.7",
       "risk": "Elementor Pro <= 3.11.6 - Authenticated(Subscriber+) Privilege Escalation via update_page_option",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -643,7 +661,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.11.7",
       "risk": "WordPress  Elementor Pro Plugin  <= 3.11.6 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -655,7 +673,7 @@
       "severity": "high",
       "description": "Elementor Pro [elementor-pro] < 3.11.7 (CVE-2023-3124)",
       "risk": "CVE-2023-3124: Elementor Pro &lt; 3.11.7 - Subscriber+ Arbitrary Options Update",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -667,7 +685,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.13.1 (CVE-2023-35050)",
       "risk": "CVE-2023-35050: WordPress  Elementor Pro Plugin  <= 3.13.0 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -679,7 +697,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.19.3 (CVE-2024-23523)",
       "risk": "CVE-2024-23523: WordPress  Elementor Pro Plugin    <= 3.19.2 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -691,7 +709,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2121)",
       "risk": "CVE-2024-2121: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -703,7 +721,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2120)",
       "risk": "CVE-2024-2120: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Post Navigation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -715,7 +733,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-2781)",
       "risk": "CVE-2024-2781: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting via video_html_tag",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -727,7 +745,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-1364)",
       "risk": "CVE-2024-1364: Elementor Website Builder Pro <= 3.20.1 - Authententicated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -739,7 +757,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.20.2 (CVE-2024-1521)",
       "risk": "CVE-2024-1521: Elementor Website Builder Pro <= 3.20.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Form Widget SVGZ File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -751,7 +769,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.21.2 (CVE-2024-4107)",
       "risk": "CVE-2024-4107: Elementor Website Builder Pro <= 3.21.0 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -763,7 +781,7 @@
       "severity": "high",
       "description": "Elementor Pro [elementor-pro] < 3.21.3 (CVE-2024-35656)",
       "risk": "CVE-2024-35656: WordPress Elementor Pro Plugin <= 3.21.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -775,7 +793,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
       "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -787,7 +805,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
       "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -799,7 +817,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
       "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -811,7 +829,7 @@
       "severity": "critical",
       "description": "10Web Booster &#8211; Website speed optimization, Cache &amp; Page Speed optimizer [tenweb-speed-optimizer] < 2.32.11 (CVE-2025-13377)",
       "risk": "CVE-2025-13377: 10Web Booster &#8211; Website speed optimization, Cache &amp; Page Speed optimizer [tenweb-speed-optimizer] < 2.32.11",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -823,7 +841,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
       "risk": "Yoast SEO <= 20.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -835,7 +853,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
       "risk": "WordPress  Yoast SEO Plugin  <= 20.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -847,7 +865,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
       "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -859,7 +877,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
       "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -871,7 +889,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
       "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -881,11 +899,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 361,
+    "duration_ms": 152,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

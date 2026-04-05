@@ -2,7 +2,7 @@
   "domain": "vejleoasekirke.dk",
   "cvr": "prospect",
   "company_name": "vejleoasekirke.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-14",
-      "days_remaining": 72
+      "days_remaining": 69,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Apache",
+      "x_powered_by": "CrafterCMS"
     }
   },
   "tech_stack": [
@@ -53,10 +58,25 @@
       "ns2.desec.org"
     ],
     "txt": [
-      "google-site-verification=G-UCwIaVWhu4BFXSBVLYODHeP3dS33v7k-Scjja7K_g",
-      "v=spf1 include:spf.emailsys.net include:email-messaging.com ip4:212.237.176.115 ip6:2a06:4005:9005:300::7612 -all"
+      "v=spf1 include:spf.emailsys.net include:email-messaging.com ip4:212.237.176.115 ip6:2a06:4005:9005:300::7612 -all",
+      "google-site-verification=G-UCwIaVWhu4BFXSBVLYODHeP3dS33v7k-Scjja7K_g"
     ]
   },
   "cloud_exposure": [],
-  "findings": []
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: CrafterCMS",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+    }
+  ]
 }

@@ -2,7 +2,7 @@
   "domain": "gormshallen.dk",
   "cvr": "prospect",
   "company_name": "gormshallen.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-17",
-      "days_remaining": 76
+      "days_remaining": 72,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -50,7 +51,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -106,6 +111,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -121,6 +130,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -154,7 +173,7 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Reviews Feed (installed 1.1.2, latest 2.4.6)",
+      "description": "Outdated plugin: Reviews Feed (installed 1.1.2, latest 2.5.0)",
       "risk": "The installed version of Reviews Feed is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
     },
     {
@@ -181,7 +200,7 @@
       "severity": "medium",
       "description": "Social Feed Gallery [insta-gallery] < 4.4.0 (CVE-2024-39640)",
       "risk": "CVE-2024-39640: WordPress WP Social Feed Gallery Plugin <= 4.3.9 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -193,7 +212,7 @@
       "severity": "medium",
       "description": "Social Feed Gallery [insta-gallery] < 4.9.3 (CVE-2025-10637)",
       "risk": "CVE-2025-10637: WordPress WP Social Feed Gallery Plugin <= 4.9.2 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -205,11 +224,11 @@
       "severity": "medium",
       "description": "10Web Social Post Feed [wd-facebook-feed] < 1.1.27 (closed)",
       "risk": "WordPress 10Web Social Post Feed plugin <= 1.1.26 - Authenticated SQL Injection (SQLi) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "3f9e635c8ce53bd5e3064edad1f3202c06838b6cc0b742fb98dec50a0c76e373",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -217,11 +236,11 @@
       "severity": "medium",
       "description": "10Web Social Post Feed [wd-facebook-feed] < 1.1.27 (closed)",
       "risk": "wpscan.com",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "dd8c04636c863fd61474be47427823c380cfed612ea099eb891f183854d78b67",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -229,11 +248,11 @@
       "severity": "medium",
       "description": "10Web Social Post Feed [wd-facebook-feed] < 1.1.27 (closed)",
       "risk": "10WebSocial <= 1.1.26 - Authenticated (Admin+) SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "81affb73c1f5191129a05f6e71203cd46523a352b920c1768fdb2159ca9f21a5",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -241,11 +260,11 @@
       "severity": "medium",
       "description": "10Web Social Post Feed [wd-facebook-feed] < 1.2.9 (closed)",
       "risk": "WordPress  10Web Social Post Feed Plugin  <= 1.2.8 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "bcb29823731537f7d7a2ccc731291fa46cb3e94b88d8d2881c76529ae91ec2f8",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -253,7 +272,7 @@
       "severity": "medium",
       "description": "10Web Social Post Feed [wd-facebook-feed] < 1.2.9 (closed) (CVE-2023-2503)",
       "risk": "CVE-2023-2503: 10Web Social Post Feed <= 1.2.8 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -265,7 +284,7 @@
       "severity": "medium",
       "description": "10Web Social Post Feed [wd-facebook-feed] <= 1.2.9 (unfixed + closed) (CVE-2024-9607)",
       "risk": "CVE-2024-9607: 10Web Social Post Feed <= 1.2.9 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -277,7 +296,7 @@
       "severity": "medium",
       "description": "Reviews Feed – Add Testimonials and Customer Reviews From Google Reviews, Yelp, TripAdvisor, and More [reviews-feed] < 1.2.0 (CVE-2024-8200)",
       "risk": "CVE-2024-8200: Reviews Feed – Add Testimonials and Customer Reviews From Google Reviews, Yelp, TripAdvisor, and More <= 1.1.2 - Cross-Site Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -289,7 +308,7 @@
       "severity": "medium",
       "description": "Reviews Feed – Add Testimonials and Customer Reviews From Google Reviews, Yelp, TripAdvisor, and More [reviews-feed] < 1.2.0 (CVE-2024-8199)",
       "risk": "CVE-2024-8199: Reviews Feed – Add Testimonials and Customer Reviews From Google Reviews, Yelp, TripAdvisor, and More <= 1.1.2 - Missing Authorization to Authenticated (Subscriber+) Limited Settings Update",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -301,7 +320,7 @@
       "severity": "medium",
       "description": "Smash Balloon Social Photo Feed – Easy Social Feeds Plugin [instagram-feed] < 6.9.1 (CVE-2025-4583)",
       "risk": "CVE-2025-4583: WordPress Instagram Feed Plugin <= 6.9.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -313,7 +332,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
       "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -325,7 +344,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
       "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -337,7 +356,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
       "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -349,7 +368,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
       "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -361,7 +380,7 @@
       "severity": "medium",
       "description": "Custom Twitter Feeds &#8211; A Tweets Widget or X Feed Widget [custom-twitter-feeds] < 2.2.3 (CVE-2024-8983)",
       "risk": "CVE-2024-8983: WordPress Custom Twitter Feeds (Tweets Widget) Plugin < 2.2.3 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -373,7 +392,7 @@
       "severity": "medium",
       "description": "Custom Twitter Feeds &#8211; A Tweets Widget or X Feed Widget [custom-twitter-feeds] < 2.2.4 (CVE-2024-49685)",
       "risk": "CVE-2024-49685: WordPress Custom Twitter Feeds (Tweets Widget) Plugin <= 2.2.3 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -385,7 +404,7 @@
       "severity": "medium",
       "description": "Custom Twitter Feeds &#8211; A Tweets Widget or X Feed Widget [custom-twitter-feeds] < 2.3.0 (CVE-2025-1314)",
       "risk": "CVE-2025-1314: WordPress Custom Twitter Feeds (Tweets Widget) Plugin <= 2.2.5 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -397,7 +416,7 @@
       "severity": "medium",
       "description": "Smash Balloon Social Post Feed &#8211; Simple Social Feeds for WordPress [custom-facebook-feed] < 4.3.2 (CVE-2025-4577)",
       "risk": "CVE-2025-4577: WordPress Smash Balloon Social Post Feed Plugin <= 4.3.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -409,7 +428,7 @@
       "severity": "medium",
       "description": "Smash Balloon Social Post Feed &#8211; Simple Social Feeds for WordPress [custom-facebook-feed] <= 4.3.2 (unfixed) (CVE-2025-49937)",
       "risk": "CVE-2025-49937: Smash Balloon Social Post Feed &#8211; Simple Social Feeds for WordPress [custom-facebook-feed] <= 4.3.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -419,11 +438,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 560,
+    "duration_ms": 144,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

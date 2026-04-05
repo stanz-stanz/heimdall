@@ -2,7 +2,7 @@
   "domain": "lik.dk",
   "cvr": "prospect",
   "company_name": "lik.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -13,14 +13,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-15",
-      "days_remaining": 42
+      "days_remaining": 39,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Woocommerce Ajax Filters",
       "Woolentor Addons",
@@ -61,11 +62,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Elementor:4.0.1",
     "Font Awesome",
     "Google Analytics",
@@ -116,12 +120,16 @@
       "ns02.one.com"
     ],
     "txt": [
+      "MS=ms87918575",
       "MS=ms37522188",
-      "v=spf1 ip4:213.83.136.18 include:spf.protection.outlook.com include:_custspf.one.com -all",
-      "MS=ms87918575"
+      "v=spf1 ip4:213.83.136.18 include:spf.protection.outlook.com include:_custspf.one.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -137,6 +145,11 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "medium",
@@ -182,7 +195,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -194,7 +207,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -206,7 +219,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -218,7 +231,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -230,7 +243,7 @@
       "severity": "medium",
       "description": "Prime Slider &#8211; Addons for Elementor [bdthemes-prime-slider-lite] <= 4.0.10 (unfixed) (CVE-2025-68500)",
       "risk": "CVE-2025-68500: Prime Slider &#8211; Addons for Elementor [bdthemes-prime-slider-lite] <= 4.0.10 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -242,7 +255,7 @@
       "severity": "medium",
       "description": "Happy Addons for Elementor [happy-elementor-addons] <= 3.20.2 (unfixed) (CVE-2025-63077)",
       "risk": "CVE-2025-63077: Happy Addons for Elementor [happy-elementor-addons] <= 3.20.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -254,7 +267,7 @@
       "severity": "medium",
       "description": "Happy Addons for Elementor [happy-elementor-addons] <= 3.20.4 (unfixed) (CVE-2025-68999)",
       "risk": "CVE-2025-68999: Happy Addons for Elementor [happy-elementor-addons] <= 3.20.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -266,7 +279,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5 (CVE-2015-2329)",
       "risk": "CVE-2015-2329: WooCommerce <= 2.3.5 - Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -278,7 +291,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
       "risk": "WooCommerce <= 2.3.10 - PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -290,7 +303,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -302,7 +315,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -314,7 +327,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
       "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -326,7 +339,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
       "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -338,7 +351,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
       "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -350,7 +363,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
       "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -362,7 +375,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
       "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -374,7 +387,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
       "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -384,11 +397,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 491,
+    "duration_ms": 148,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

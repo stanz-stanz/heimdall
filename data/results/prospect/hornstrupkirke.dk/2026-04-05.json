@@ -1,0 +1,385 @@
+{
+  "domain": "hornstrupkirke.dk",
+  "job_id": "scan-2026-04-05-c183fcd2",
+  "status": "completed",
+  "scan_result": {
+    "domain": "hornstrupkirke.dk",
+    "cms": "WordPress",
+    "server": "Simply.com",
+    "hosting": "simply.com",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-24",
+    "ssl_days_remaining": 79,
+    "detected_plugins": [
+      "complianz-gdpr",
+      "the-events-calendar",
+      "all-in-one-seo-pack",
+      "akismet"
+    ],
+    "plugin_versions": {
+      "complianz-gdpr": "1765210317",
+      "all-in-one-seo-pack": "4.9.0"
+    },
+    "detected_themes": [
+      "twentytwentyfive"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "All in One SEO Pack:4.9.0",
+      "All in One SEO:4.9.0",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "The Events Calendar",
+      "W3 Total Cache",
+      "WordPress",
+      "WordPress Block Editor",
+      "WordPress Site Editor"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:12:04.075088572Z",
+      "port": "443",
+      "url": "https://hornstrupkirke.dk",
+      "input": "hornstrupkirke.dk",
+      "title": "Ak - Hornstrup Kirke",
+      "scheme": "https",
+      "webserver": "Simply.com",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "hornstrupkirke.dk",
+      "host_ip": "94.231.103.23",
+      "path": "/",
+      "time": "132.992452ms",
+      "a": [
+        "94.231.103.23"
+      ],
+      "tech": [
+        "All in One SEO Pack:4.9.0",
+        "All in One SEO:4.9.0",
+        "HTTP/3",
+        "MySQL",
+        "PHP",
+        "The Events Calendar",
+        "W3 Total Cache",
+        "WordPress",
+        "WordPress Block Editor",
+        "WordPress Site Editor"
+      ],
+      "words": 2374,
+      "lines": 371,
+      "status_code": 200,
+      "content_length": 81106,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "the_events_calendar",
+          "vendor": "stellarwp",
+          "cpe": "cpe:2.3:a:stellarwp:the_events_calendar:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "the-events-calendar",
+          "vendor": "developer",
+          "cpe": "cpe:2.3:a:developer:the-events-calendar:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "complianz-gdpr",
+          "the-events-calendar",
+          "all-in-one-seo-pack"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.103.23"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "hornstrupkirke.dk",
+    "cvr": "prospect",
+    "company_name": "hornstrupkirke.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "simply.com",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-24",
+        "days_remaining": 79,
+        "tls_version": ""
+      },
+      "server": "Simply.com",
+      "detected_plugins": [
+        "Complianz Gdpr",
+        "The Events Calendar",
+        "All In One Seo Pack",
+        "Akismet"
+      ],
+      "plugin_versions": {
+        "Complianz Gdpr": "1765210317",
+        "All In One Seo Pack": "4.9.0"
+      },
+      "detected_themes": [
+        "Twentytwentyfive"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "Simply.com",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "All in One SEO Pack:4.9.0",
+      "All in One SEO:4.9.0",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "The Events Calendar",
+      "W3 Total Cache",
+      "WordPress",
+      "WordPress Block Editor",
+      "WordPress Site Editor"
+    ],
+    "plugin_versions": {
+      "complianz-gdpr": "1765210317",
+      "all-in-one-seo-pack": "4.9.0"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.103.23"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "info",
+        "description": "4 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Twentytwentyfive",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: All In One Seo Pack (installed 4.9.0, latest 4.9.5.1)",
+        "risk": "The installed version of All In One Seo Pack is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "high",
+        "description": "The Events Calendar [the-events-calendar] < 6.6.4 (CVE-2024-6931)",
+        "risk": "CVE-2024-6931: WordPress The Events Calendar Plugin <= 6.5.1.6 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-6931",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "The Events Calendar [the-events-calendar] < 6.6.4.1 (CVE-2024-8275)",
+        "risk": "CVE-2024-8275: WordPress The Events Calendar Plugin <= 6.6.4 is vulnerable to SQL Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-8275",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "The Events Calendar [the-events-calendar] < 6.15.10 (CVE-2025-12197)",
+        "risk": "CVE-2025-12197: The Events Calendar [the-events-calendar] < 6.15.10",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-12197",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed) (CVE-2025-69352)",
+        "risk": "CVE-2025-69352: The Events Calendar [the-events-calendar] <= 6.15.12.2 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-69352",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.9.1 (unfixed) (CVE-2025-67950)",
+        "risk": "CVE-2025-67950: All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.9.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67950",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.8.6.1 (unfixed) (CVE-2025-64295)",
+        "risk": "CVE-2025-64295: All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] <= 4.8.6.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64295",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.9.3 (CVE-2025-14384)",
+        "risk": "CVE-2025-14384: All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.9.3",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-14384",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 176,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 1589,
+    "ssl": 66,
+    "headers": 93,
+    "meta": 422,
+    "httpx": 1993,
+    "webanalyze": 3,
+    "dnsx": 785,
+    "total_ms": 5475
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

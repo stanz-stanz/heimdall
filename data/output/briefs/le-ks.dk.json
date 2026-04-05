@@ -2,7 +2,7 @@
   "domain": "le-ks.dk",
   "cvr": "prospect",
   "company_name": "le-ks.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-29",
-      "days_remaining": 88
+      "days_remaining": 85,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [],
@@ -28,7 +29,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -64,11 +69,15 @@
       "ns4.bdm.microsoftonline.com"
     ],
     "txt": [
-      "mscid=d2Pm8QEeWg95vgHg2O205uRaHFXyjcBQad+zo36vNe6GEnSRf3hKlE3G3CZjqIgTUQjYY4tkkCYN+SZkTgsXyA==",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "mscid=d2Pm8QEeWg95vgHg2O205uRaHFXyjcBQad+zo36vNe6GEnSRf3hKlE3G3CZjqIgTUQjYY4tkkCYN+SZkTgsXyA=="
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -84,6 +93,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "medium",

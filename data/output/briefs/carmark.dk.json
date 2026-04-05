@@ -2,7 +2,7 @@
   "domain": "carmark.dk",
   "cvr": "prospect",
   "company_name": "carmark.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "DigiCert Inc",
       "expiry": "2026-10-23",
-      "days_remaining": 204
+      "days_remaining": 201,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -30,7 +31,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -63,17 +68,21 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "ca3-dd96c83df14f4312aa078d1a489639e5",
-      "2b24fcbqhpdh95gnrb7nnup2tc",
       "ca3-55db67ea1fc04ba687b9866b9b0fee57",
-      "v=spf1 include:spf.simply.com -all",
+      "2b24fcbqhpdh95gnrb7nnup2tc",
+      "MS=ms30955919",
+      "ca3-dd96c83df14f4312aa078d1a489639e5",
       "google-site-verification=CznzGXlLiwl7hkajJfGq_da7-owb_Q82BwCkz9d7bww",
-      "apple-domain-verification=K9wplneJNEYnvfM7",
       "ca3-cdea80358cde4978ab7eadbe8fe59f63",
-      "MS=ms30955919"
+      "apple-domain-verification=K9wplneJNEYnvfM7",
+      "v=spf1 include:spf.simply.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -94,6 +103,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

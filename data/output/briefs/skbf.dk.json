@@ -2,7 +2,7 @@
   "domain": "skbf.dk",
   "cvr": "prospect",
   "company_name": "skbf.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -31,7 +32,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -69,11 +74,15 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "MS=ms71615110",
-      "v=spf1 ip4:185.40.46.10 ip4:94.130.143.234 ip4:93.191.153.212 ip4:91.133.34.161 ip4:78.46.35.55 include:spf.azehosting.net include:spf.mailjet.com include:spf.protection.outlook.com include:servers.mcsv.net -all"
+      "v=spf1 ip4:185.40.46.10 ip4:94.130.143.234 ip4:93.191.153.212 ip4:91.133.34.161 ip4:78.46.35.55 include:spf.azehosting.net include:spf.mailjet.com include:spf.protection.outlook.com include:servers.mcsv.net -all",
+      "MS=ms71615110"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -102,6 +111,16 @@
     },
     {
       "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "low",
       "description": "WordPress detected (version not determined)",
       "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
     },
@@ -124,7 +143,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -134,11 +153,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 143,
+    "duration_ms": 135,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

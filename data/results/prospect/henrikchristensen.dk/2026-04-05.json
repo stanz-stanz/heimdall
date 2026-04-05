@@ -1,0 +1,377 @@
+{
+  "domain": "henrikchristensen.dk",
+  "job_id": "scan-2026-04-05-662ddf5b",
+  "status": "completed",
+  "scan_result": {
+    "domain": "henrikchristensen.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-06",
+    "ssl_days_remaining": 30,
+    "detected_plugins": [
+      "wp-google-places-review-slider",
+      "divi-modal-popup",
+      "autoit-dealer-tools",
+      "divi-builder",
+      "redirection",
+      "wordpress-seo",
+      "wp-rocket"
+    ],
+    "plugin_versions": {
+      "autoit-dealer-tools": "1.0.2",
+      "wordpress-seo": "27.2"
+    },
+    "detected_themes": [
+      "Divi",
+      "divi-child"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": "PHP/7.4.33, PleskLin"
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cookiebot",
+      "FitVids.JS",
+      "Google Analytics",
+      "Google Tag Manager",
+      "MySQL",
+      "Nginx",
+      "PHP:7.4.33",
+      "Unpkg",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.2",
+      "cdnjs",
+      "jQuery",
+      "jQuery Migrate",
+      "jQuery Mobile",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:11:22.119972715Z",
+      "port": "443",
+      "url": "https://henrikchristensen.dk",
+      "input": "henrikchristensen.dk",
+      "title": "Velkommen til Henrik Christensen Bilforhandler i Vejle og Fredericia",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "henrikchristensen.dk",
+      "host_ip": "77.221.253.122",
+      "path": "/",
+      "final_url": "https://www.henrikchristensen.dk/",
+      "time": "396.952807ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "77.221.253.122"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cookiebot",
+        "FitVids.JS",
+        "Google Analytics",
+        "Google Tag Manager",
+        "MySQL",
+        "Nginx",
+        "PHP:7.4.33",
+        "Unpkg",
+        "WP Rocket",
+        "WordPress:6.9.4",
+        "Yoast SEO:27.2",
+        "cdnjs",
+        "jQuery",
+        "jQuery Migrate",
+        "jQuery Mobile",
+        "reCAPTCHA"
+      ],
+      "words": 8145,
+      "lines": 1414,
+      "status_code": 200,
+      "content_length": 135331,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "wp-google-places-review-slider"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "77.221.253.122"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "henrikchristensen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 a include:web.shared.mysmtp.com include:_spf.keyloop.io ip4:87.104.222.59 include:mailgun.org -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "henrikchristensen.dk",
+    "cvr": "prospect",
+    "company_name": "henrikchristensen.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-06",
+        "days_remaining": 30,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Wp Google Places Review Slider",
+        "Divi Modal Popup",
+        "Autoit Dealer Tools",
+        "Divi Builder",
+        "Redirection",
+        "Wordpress Seo",
+        "Wp Rocket"
+      ],
+      "plugin_versions": {
+        "Autoit Dealer Tools": "1.0.2",
+        "Wordpress Seo": "27.2"
+      },
+      "detected_themes": [
+        "Divi",
+        "Divi Child"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "nginx",
+        "x_powered_by": "PHP/7.4.33, PleskLin"
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cookiebot",
+      "FitVids.JS",
+      "Google Analytics",
+      "Google Tag Manager",
+      "MySQL",
+      "Nginx",
+      "PHP:7.4.33",
+      "Unpkg",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.2",
+      "cdnjs",
+      "jQuery",
+      "jQuery Migrate",
+      "jQuery Mobile",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {
+      "autoit-dealer-tools": "1.0.2",
+      "wordpress-seo": "27.2"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "77.221.253.122"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "henrikchristensen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 a include:web.shared.mysmtp.com include:_spf.keyloop.io ip4:87.104.222.59 include:mailgun.org -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: PHP/7.4.33, PleskLin",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "7 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:7.4.33",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Divi, Divi Child",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 27.2, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "high",
+        "description": "WP Google Review Slider [wp-google-places-review-slider] < 16.1 (CVE-2025-30783)",
+        "risk": "CVE-2025-30783: WordPress WP Google Review Slider Plugin <= 16.0 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-30783",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+        "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35945",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+        "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28044",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 188,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 233,
+    "ssl": 68,
+    "headers": 319,
+    "meta": 3593,
+    "httpx": 2913,
+    "webanalyze": 4,
+    "dnsx": 836,
+    "total_ms": 8889
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

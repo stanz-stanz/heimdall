@@ -1,0 +1,357 @@
+{
+  "domain": "vejle-danhostel.dk",
+  "job_id": "scan-2026-04-05-ef1eea39",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vejle-danhostel.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-26",
+    "ssl_days_remaining": 50,
+    "detected_plugins": [
+      "gutenslider",
+      "gravityforms",
+      "gtranslate",
+      "redirection",
+      "wordfence",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "gutenslider": "1706789847",
+      "gravityforms": "2.9.28",
+      "gtranslate": "6.9.4",
+      "wordpress-seo": "27.1.1"
+    },
+    "detected_themes": [
+      "test",
+      "charlottevejle"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Gravity Forms:2.9.28",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "Site Kit:1.175.0",
+      "WordPress Block Editor",
+      "WordPress Site Editor",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "ZURB Foundation",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:40:27.556398998Z",
+      "port": "443",
+      "url": "https://vejle-danhostel.dk",
+      "input": "vejle-danhostel.dk",
+      "title": "Billig overnatning i Vejle tæt på Legoland og Givskud Zoo",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vejle-danhostel.dk",
+      "host_ip": "94.231.106.24",
+      "path": "/",
+      "time": "271.597511ms",
+      "a": [
+        "94.231.106.24"
+      ],
+      "tech": [
+        "Google Analytics",
+        "Gravity Forms:2.9.28",
+        "HTTP/3",
+        "LiteSpeed",
+        "MySQL",
+        "PHP",
+        "Site Kit:1.175.0",
+        "WordPress Block Editor",
+        "WordPress Site Editor",
+        "WordPress:6.9.4",
+        "Yoast SEO:27.1.1",
+        "ZURB Foundation",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 9344,
+      "lines": 1146,
+      "status_code": 200,
+      "content_length": 197955,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "translate_wordpress_with_gtranslate",
+          "vendor": "gtranslate",
+          "cpe": "cpe:2.3:a:gtranslate:translate_wordpress_with_gtranslate:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "gtranslate",
+          "vendor": "gtranslate",
+          "cpe": "cpe:2.3:a:gtranslate:gtranslate:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "gutenslider",
+          "gtranslate"
+        ],
+        "themes": [
+          "test"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.106.24"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vejledanhostel-dk01c.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "MS=ms22866624",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vejle-danhostel.dk",
+    "cvr": "prospect",
+    "company_name": "vejle-danhostel.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Gravityforms",
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-26",
+        "days_remaining": 50,
+        "tls_version": ""
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Gutenslider",
+        "Gravityforms",
+        "Gtranslate",
+        "Redirection",
+        "Wordfence",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Gutenslider": "1706789847",
+        "Gravityforms": "2.9.28",
+        "Gtranslate": "6.9.4",
+        "Wordpress Seo": "27.1.1"
+      },
+      "detected_themes": [
+        "Test",
+        "Charlottevejle"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "LiteSpeed",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "Gravity Forms:2.9.28",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "Site Kit:1.175.0",
+      "WordPress Block Editor",
+      "WordPress Site Editor",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "ZURB Foundation",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "gutenslider": "1706789847",
+      "gravityforms": "2.9.28",
+      "gtranslate": "6.9.4",
+      "wordpress-seo": "27.1.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.106.24"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vejledanhostel-dk01c.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "MS=ms22866624",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Gravityforms",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "6 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Test, Charlottevejle",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 27.1.1, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
+        "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-2260",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 148,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 328,
+    "ssl": 71,
+    "headers": 152,
+    "meta": 592,
+    "httpx": 3125,
+    "webanalyze": 3,
+    "dnsx": 764,
+    "crtsh": 0,
+    "ghw": 270,
+    "total_ms": 6731
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

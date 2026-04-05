@@ -2,7 +2,7 @@
   "domain": "optidev.se",
   "cvr": "prospect",
   "company_name": "optidev.se",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-30",
-      "days_remaining": 89
+      "days_remaining": 85,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -33,7 +34,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": "PHP/8.4.19"
     }
   },
   "tech_stack": [
@@ -71,23 +76,27 @@
       "ns4.p201.dns.oraclecloud.net"
     ],
     "txt": [
-      "ZOOM_verify_eucfe4GI8PyyeeJK0KPbBK",
-      "MS=ms82715743",
       "have-i-been-pwned-verification=bfea378de0ed06038a21dc16b191a087",
       "MS=ms53409548",
-      "v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com include:servers.mcsv.net include:amazonses.com include:_spf.atlassian.net include:_spf.salesforce.com -all",
-      "miro-verification=ed6de7f9f8d8dfd9fb2da8aeab0c9a93a2d49bb4",
-      "j5fm65s7gydhbfffn7xvkq2cn57w8kqy",
-      "7hr9vvg2bwdgdzhsbcdsd63jlp11ktnf",
-      "zrrcpzx8kx1c7811gc3kmq1ynn3k52gw",
-      "atlassian-domain-verification=X1duKbxrq8mXf2sVqBnh6HvK0RkEU0Oyzbin59ZDy36H3LXkOqQQh47eg4K7wuda",
       "knowbe4-site-verification=fd5fc6c2816d33c00dc250e43d993091",
-      "apple-domain-verification=z9T6AEPzKn4iczNq",
+      "ZOOM_verify_eucfe4GI8PyyeeJK0KPbBK",
+      "miro-verification=ed6de7f9f8d8dfd9fb2da8aeab0c9a93a2d49bb4",
+      "7hr9vvg2bwdgdzhsbcdsd63jlp11ktnf",
+      "v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com include:servers.mcsv.net include:amazonses.com include:_spf.atlassian.net include:_spf.salesforce.com -all",
+      "j5fm65s7gydhbfffn7xvkq2cn57w8kqy",
+      "MS=ms82715743",
       "detectify-verification=76c68a18ecd25073a0fd50d5e4684841",
+      "zrrcpzx8kx1c7811gc3kmq1ynn3k52gw",
+      "apple-domain-verification=z9T6AEPzKn4iczNq",
+      "atlassian-domain-verification=X1duKbxrq8mXf2sVqBnh6HvK0RkEU0Oyzbin59ZDy36H3LXkOqQQh47eg4K7wuda",
       "anthropic-domain-verification-2vx4gn=PBUfoFWRYl4os1aqSu2d9ZmJ6"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -108,6 +117,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.4.19",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",

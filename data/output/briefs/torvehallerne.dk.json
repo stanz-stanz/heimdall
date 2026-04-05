@@ -2,7 +2,7 @@
   "domain": "torvehallerne.dk",
   "cvr": "prospect",
   "company_name": "torvehallerne.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-08",
-      "days_remaining": 36
+      "days_remaining": 33,
+      "tls_version": ""
     },
     "server": "Netlify",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Netlify",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -55,12 +60,16 @@
       "ns2.wannafind.dk"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com ip4:31.208.18.69 ip4:31.208.18.70 ip4:31.208.18.73 include:_spf.stejtech.net include:mail.techosting.dk -all",
       "F4C8D3AF9E521886BA93E4FB06A8EC4C295A7D3551C9E4E26B596B8FD7945788",
-      "MS=ms25478469"
+      "MS=ms25478469",
+      "v=spf1 include:spf.protection.outlook.com ip4:31.208.18.69 ip4:31.208.18.70 ip4:31.208.18.73 include:_spf.stejtech.net include:mail.techosting.dk -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -76,6 +85,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

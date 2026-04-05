@@ -2,7 +2,7 @@
   "domain": "attent.dk",
   "cvr": "prospect",
   "company_name": "attent.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -11,14 +11,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-24",
-      "days_remaining": 82
+      "days_remaining": 79,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Popup Maker",
       "Dlm Buttons",
@@ -44,12 +45,15 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
     "ActiveCampaign",
-    "Apache HTTP Server",
     "Download Monitor:5.1.11",
     "FancyBox",
     "Google Hosted Libraries",
@@ -96,11 +100,15 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "MS=ms51774086",
-      "v=spf1 ip4:128.76.145.150 ip4:92.62.194.115 include:spf.protection.outlook.com include:spf.simply.com include:emsd1.com include:spf.eu.exclaimer.net -all"
+      "v=spf1 ip4:128.76.145.150 ip4:92.62.194.115 include:spf.protection.outlook.com include:spf.simply.com include:emsd1.com include:spf.eu.exclaimer.net -all",
+      "MS=ms51774086"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -151,11 +159,11 @@
       "severity": "medium",
       "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
       "risk": "WordPress Sticky Menu, Sticky Header (or anything!) on Scroll plugin <= 2.2 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "cacf8b9b271912d39583690ccd5793bceb3355379ad890480124877fff6b12e2",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -163,11 +171,11 @@
       "severity": "medium",
       "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
       "risk": "Sticky Menu & Sticky Header <= 2.20 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "3aaf55c82095d17ca7e6f7c4ef3219ead2b6b6b73ae1d62a913b116b87ce7b3d",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -175,11 +183,11 @@
       "severity": "medium",
       "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
       "risk": "Sticky Menu, Sticky Header (or anything!) on Scroll &lt; 2.21 - CSRF &amp; XSS",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "8233b8229bc9e38dbca99096e694ff49c205996ae9ab1a4da4f9565cf959bf09",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -187,7 +195,7 @@
       "severity": "medium",
       "description": "ActiveCampaign &#8211; Forms, Site Tracking, Live Chat [activecampaign-subscription-forms] < 8.0.2 (CVE-2021-24133)",
       "risk": "CVE-2021-24133: ActiveCampaign &lt; 8.0.2 - Cross-Site Request Forgery in Settings",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -199,11 +207,11 @@
       "severity": "medium",
       "description": "ActiveCampaign &#8211; Forms, Site Tracking, Live Chat [activecampaign-subscription-forms] < 8.0.2",
       "risk": "WordPress ActiveCampaign plugin <= 8.0.1 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "7193d837684a72b5aa51ba26ad736cd5b903d9c93230d47c3e2bbc247a5161c6",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -211,7 +219,7 @@
       "severity": "medium",
       "description": "ActiveCampaign &#8211; Forms, Site Tracking, Live Chat [activecampaign-subscription-forms] < 8.1.12 (CVE-2023-0233)",
       "risk": "CVE-2023-0233: WordPress  ActiveCampaign Plugin  < 8.1.12 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -223,7 +231,7 @@
       "severity": "medium",
       "description": "ActiveCampaign &#8211; Forms, Site Tracking, Live Chat [activecampaign-subscription-forms] < 8.1.15 (CVE-2024-32430)",
       "risk": "CVE-2024-32430: WordPress  ActiveCampaign Plugin    <= 8.1.14 is vulnerable to Server Side Request Forgery (SSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -235,7 +243,7 @@
       "severity": "medium",
       "description": "ActiveCampaign &#8211; Forms, Site Tracking, Live Chat [activecampaign-subscription-forms] < 8.1.17 (CVE-2025-32136)",
       "risk": "CVE-2025-32136: WordPress ActiveCampaign Plugin <= 8.1.16 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -247,11 +255,11 @@
       "severity": "medium",
       "description": "Download Monitor [download-monitor] <= 1.6.4",
       "risk": "Download Monitor <= 1.6.4 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "a2e9bbab84f6888cc01ca154671dd5233ad083f7086f92a6873a2c7b9fae40ed",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -259,7 +267,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 5.3.0 (CVE-2018-0578)",
       "risk": "CVE-2018-0578: WordPress plugin \"PixelYourSite\" vulnerable to cross-site scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -271,7 +279,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.1 (CVE-2023-22700)",
       "risk": "CVE-2023-22700: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.0 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -283,7 +291,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.7 (CVE-2023-2584)",
       "risk": "CVE-2023-2584: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.6 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -295,7 +303,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.6.2 (CVE-2024-37447)",
       "risk": "CVE-2024-37447: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 9.6.1.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -307,7 +315,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.7.2 (CVE-2024-7870)",
       "risk": "CVE-2024-7870: PixelYourSite – Your smart PIXEL (TAG) & API Manager <= 9.7.1 and PixelYourSite PRO <= 10.4.2 - Unauthenticated Information Exposure and Log Deletion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -319,7 +327,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.0.2 (CVE-2025-22300)",
       "risk": "CVE-2025-22300: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 10.0.1.2 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -331,7 +339,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.1.1.2 (CVE-2025-0769)",
       "risk": "CVE-2025-0769: PixelYourSite &ndash; Your smart PIXEL (TAG) &amp; API Manager &lt;= 10.1.1.1 - Unauthenticated PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -343,7 +351,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3 (CVE-2025-10588)",
       "risk": "CVE-2025-10588: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -355,7 +363,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2 (CVE-2025-10723)",
       "risk": "CVE-2025-10723: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -367,7 +375,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1 (CVE-2025-14280)",
       "risk": "CVE-2025-14280: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -379,7 +387,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed) (CVE-2026-27072)",
       "risk": "CVE-2026-27072: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -389,11 +397,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 1063,
+    "duration_ms": 145,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

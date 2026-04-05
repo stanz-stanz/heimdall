@@ -1,0 +1,300 @@
+{
+  "domain": "fdf-son.dk",
+  "job_id": "scan-2026-04-05-86d08bb4",
+  "status": "completed",
+  "scan_result": {
+    "domain": "fdf-son.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": false,
+    "ssl_issuer": "",
+    "ssl_expiry": "",
+    "ssl_days_remaining": -1,
+    "detected_plugins": [
+      "divi-builder"
+    ],
+    "plugin_versions": {
+      "divi-builder": "4.27.5"
+    },
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Divi:4.27.5",
+      "FitVids.JS:4.27.5",
+      "Magnific Popup:4.27.5",
+      "MailChimp",
+      "MailChimp for WordPress:4.12.1",
+      "MySQL",
+      "PHP:8.1.18",
+      "WordPress:6.9.4",
+      "YouTube",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:06:53.842550928Z",
+      "port": "80",
+      "url": "http://fdf-son.dk",
+      "input": "fdf-son.dk",
+      "title": "FDF Fredericia Søndermarken | FDF i Fredericia",
+      "scheme": "http",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "fdf-son.dk",
+      "host_ip": "217.116.232.219",
+      "path": "/",
+      "time": "6.585167317s",
+      "a": [
+        "217.116.232.219"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Divi:4.27.5",
+        "FitVids.JS:4.27.5",
+        "Magnific Popup:4.27.5",
+        "MailChimp",
+        "MailChimp for WordPress:4.12.1",
+        "MySQL",
+        "PHP:8.1.18",
+        "WordPress:6.9.4",
+        "YouTube",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 10931,
+      "lines": 1635,
+      "status_code": 200,
+      "content_length": 372133,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "wordpress": {
+        "plugins": [
+          "mailchimp-for-wp"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "217.116.232.219"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail.gigahost.dk"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "fdf-son.dk",
+    "cvr": "prospect",
+    "company_name": "fdf-son.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: MailChimp, MailChimp for WordPress:4.12.1"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": false,
+        "issuer": "",
+        "expiry": "",
+        "days_remaining": -1,
+        "tls_version": ""
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Divi Builder"
+      ],
+      "plugin_versions": {
+        "Divi Builder": "4.27.5"
+      },
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Divi:4.27.5",
+      "FitVids.JS:4.27.5",
+      "Magnific Popup:4.27.5",
+      "MailChimp",
+      "MailChimp for WordPress:4.12.1",
+      "MySQL",
+      "PHP:8.1.18",
+      "WordPress:6.9.4",
+      "YouTube",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "divi-builder": "4.27.5"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "217.116.232.219"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mail.gigahost.dk"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "critical",
+        "description": "No SSL certificate detected",
+        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 4.12.1 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "1 WordPress plugin detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.1.18",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "critical",
+        "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+        "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35945",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
+        "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 160,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 47,
+    "ssl": 49,
+    "headers": 35,
+    "meta": 38,
+    "httpx": 9930,
+    "webanalyze": 4,
+    "dnsx": 769,
+    "crtsh": 0,
+    "ghw": 297,
+    "total_ms": 12078
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

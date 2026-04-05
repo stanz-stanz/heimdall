@@ -2,21 +2,22 @@
   "domain": "fysiodanmarkvejle.dk",
   "cvr": "prospect",
   "company_name": "fysiodanmarkvejle.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-21",
-      "days_remaining": 48
+      "days_remaining": 45,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Elementor",
       "Elementor Pro",
@@ -41,11 +42,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Cookiebot",
     "Elementor:3.35.5",
     "HTTP/3",
@@ -74,22 +78,26 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx2.googlemail.com",
-      "alt2.aspmx.l.google.com",
-      "alt1.aspmx.l.google.com",
+      "aspmx.l.google.com",
       "aspmx3.googlemail.com",
-      "aspmx.l.google.com"
+      "aspmx2.googlemail.com",
+      "alt1.aspmx.l.google.com",
+      "alt2.aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:_spf.google.com ~all",
-      "google-site-verification=ZN2xOZUg2A485LV8-HOiU__oJYE7x0WTpIqLeMu39kQ"
+      "google-site-verification=ZN2xOZUg2A485LV8-HOiU__oJYE7x0WTpIqLeMu39kQ",
+      "v=spf1 include:_spf.google.com ~all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -105,6 +113,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -145,7 +163,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -157,7 +175,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -169,7 +187,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -181,7 +199,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -193,7 +211,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
       "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -205,7 +223,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
       "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -217,7 +235,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
       "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -227,11 +245,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 132,
+    "duration_ms": 201,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

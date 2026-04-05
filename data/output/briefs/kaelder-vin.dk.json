@@ -2,7 +2,7 @@
   "domain": "kaelder-vin.dk",
   "cvr": "prospect",
   "company_name": "kaelder-vin.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -11,14 +11,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-09",
-      "days_remaining": 36
+      "days_remaining": 33,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Elementor",
       "Cookie Law Info",
@@ -39,11 +40,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "CookieYes:3.4.0",
     "Elementor:3.26.4",
     "Font Awesome",
@@ -89,6 +93,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -139,7 +147,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -151,7 +159,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -163,7 +171,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,7 +183,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -187,7 +195,7 @@
       "severity": "high",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] >= 1.8.4 - <= 1.9.2.1 (CVE-2024-11205)",
       "risk": "CVE-2024-11205: WPForms 1.8.4 - 1.9.2.1 - Missing Authorization to Authenticated (Subscriber+) Payment Refund and Subscription Cancellation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -199,7 +207,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed) (CVE-2020-36919)",
       "risk": "CVE-2020-36919: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -211,7 +219,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed) (CVE-2026-32446)",
       "risk": "CVE-2026-32446: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -223,7 +231,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed) (CVE-2026-25339)",
       "risk": "CVE-2026-25339: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -235,7 +243,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -247,7 +255,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -257,11 +265,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 167,
+    "duration_ms": 159,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

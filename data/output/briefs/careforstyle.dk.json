@@ -2,7 +2,7 @@
   "domain": "careforstyle.dk",
   "cvr": "prospect",
   "company_name": "careforstyle.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-21",
-      "days_remaining": 48
+      "days_remaining": 45,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -38,7 +39,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.4.19"
     }
   },
   "tech_stack": [
@@ -75,8 +80,8 @@
     "cname": [],
     "mx": [
       "mx2.pub.mailpod6-cph3.one.com",
-      "mx1.pub.mailpod6-cph3.one.com",
-      "mx3.pub.mailpod6-cph3.one.com"
+      "mx3.pub.mailpod6-cph3.one.com",
+      "mx1.pub.mailpod6-cph3.one.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -85,6 +90,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -105,6 +114,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.4.19",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -150,7 +174,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] < 5.2.2 (CVE-2024-53801)",
       "risk": "CVE-2024-53801: Bold Page Builder <= 5.2.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -162,7 +186,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] < 5.3.3 (CVE-2025-47488)",
       "risk": "CVE-2025-47488: EUVD-2025-13834",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -174,7 +198,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] < 5.3.1 (CVE-2025-47525)",
       "risk": "CVE-2025-47525: EUVD-2025-13802",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -186,7 +210,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] < 5.3.6 (CVE-2025-3715)",
       "risk": "CVE-2025-3715: Bold Page Builder &lt;= 5.3.5 - Authenticated (Contributor+) Stored Cross-Site Scripting via &#039;data-text&#039; Parameter",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -198,7 +222,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] < 5.3.7 (CVE-2025-5286)",
       "risk": "CVE-2025-5286: Bold Builder &lt;= 5.3.6 - Authenticated (Contributor+) Stored Cross-Site Scripting via additional_settings Parameter",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -210,7 +234,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] < 5.4.2 (CVE-2025-54006)",
       "risk": "CVE-2025-54006: Bold Page Builder &lt;= 5.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -222,7 +246,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] < 5.4.4 (CVE-2025-58194)",
       "risk": "CVE-2025-58194: Bold Page Builder [bold-page-builder] < 5.4.4",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -234,7 +258,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.2 (unfixed) (CVE-2025-66057)",
       "risk": "CVE-2025-66057: Bold Page Builder [bold-page-builder] <= 5.5.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -246,7 +270,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.7 (unfixed) (CVE-2025-15267)",
       "risk": "CVE-2025-15267: Bold Page Builder [bold-page-builder] <= 5.5.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -258,7 +282,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.3 (unfixed) (CVE-2025-13463)",
       "risk": "CVE-2025-13463: Bold Page Builder [bold-page-builder] <= 5.5.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -270,7 +294,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.1 (unfixed) (CVE-2025-12803)",
       "risk": "CVE-2025-12803: Bold Page Builder [bold-page-builder] <= 5.5.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -282,7 +306,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.4.8 (unfixed) (CVE-2025-12159)",
       "risk": "CVE-2025-12159: Bold Page Builder [bold-page-builder] <= 5.4.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -294,7 +318,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.6.4 (unfixed) (CVE-2026-25451)",
       "risk": "CVE-2026-25451: Bold Page Builder [bold-page-builder] <= 5.6.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -306,7 +330,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
       "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -318,7 +342,7 @@
       "severity": "medium",
       "description": "Timetable and Event Schedule by MotoPress [mp-timetable] < 2.4.16 (CVE-2025-12954)",
       "risk": "CVE-2025-12954: Timetable and Event Schedule by MotoPress [mp-timetable] < 2.4.16",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -328,11 +352,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 134,
+    "duration_ms": 139,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

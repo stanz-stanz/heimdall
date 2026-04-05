@@ -1,0 +1,508 @@
+{
+  "domain": "jenshpedersen.dk",
+  "job_id": "scan-2026-04-05-f7f4013f",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jenshpedersen.dk",
+    "cms": "WordPress",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-28",
+    "ssl_days_remaining": 53,
+    "detected_plugins": [
+      "contact-form-7",
+      "revslider",
+      "cookie-notice",
+      "wordfence",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "contact-form-7": "5.2.1",
+      "revslider": "27",
+      "cookie-notice": "27",
+      "wordpress-seo": "13.3"
+    },
+    "detected_themes": [
+      "Savia"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Contact Form 7:5.2.1",
+      "Cookie Notice:2.0.4",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "Slider Revolution",
+      "Stellar.js",
+      "WordPress",
+      "Yoast SEO:13.3",
+      "jQuery",
+      "jQuery Migrate:1.4.1",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:15:46.612666835Z",
+      "port": "443",
+      "url": "https://jenshpedersen.dk",
+      "input": "jenshpedersen.dk",
+      "title": "Forside - Jens H. Pedersen",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jenshpedersen.dk",
+      "host_ip": "94.130.143.234",
+      "path": "/",
+      "final_url": "https://www.jenshpedersen.dk/",
+      "time": "814.950984ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "94.130.143.234"
+      ],
+      "aaaa": [
+        "2a01:4f8:13b:2c55::2"
+      ],
+      "tech": [
+        "Contact Form 7:5.2.1",
+        "Cookie Notice:2.0.4",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "MySQL",
+        "PHP",
+        "Slider Revolution",
+        "Stellar.js",
+        "WordPress",
+        "Yoast SEO:13.3",
+        "jQuery",
+        "jQuery Migrate:1.4.1",
+        "reCAPTCHA"
+      ],
+      "words": 1722,
+      "lines": 567,
+      "status_code": 200,
+      "content_length": 29773,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "contact-form-7",
+          "cookie-notice"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.130.143.234"
+      ],
+      "aaaa": [
+        "2a01:4f8:13b:2c55::2"
+      ],
+      "cname": [],
+      "mx": [
+        "jenshpedersen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.azehosting.net",
+        "ns2.azehosting.net",
+        "ns3.azehosting.net"
+      ],
+      "txt": [
+        "MS=ms42807196",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jenshpedersen.dk",
+    "cvr": "prospect",
+    "company_name": "jenshpedersen.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Contact Form 7",
+      "Visitor tracking: reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-28",
+        "days_remaining": 53,
+        "tls_version": ""
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [
+        "Contact Form 7",
+        "Revslider",
+        "Cookie Notice",
+        "Wordfence",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Contact Form 7": "5.2.1",
+        "Revslider": "27",
+        "Cookie Notice": "27",
+        "Wordpress Seo": "13.3"
+      },
+      "detected_themes": [
+        "Savia"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "LiteSpeed",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Contact Form 7:5.2.1",
+      "Cookie Notice:2.0.4",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "MySQL",
+      "PHP",
+      "Slider Revolution",
+      "Stellar.js",
+      "WordPress",
+      "Yoast SEO:13.3",
+      "jQuery",
+      "jQuery Migrate:1.4.1",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {
+      "contact-form-7": "5.2.1",
+      "revslider": "27",
+      "cookie-notice": "27",
+      "wordpress-seo": "13.3"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.130.143.234"
+      ],
+      "aaaa": [
+        "2a01:4f8:13b:2c55::2"
+      ],
+      "cname": [],
+      "mx": [
+        "jenshpedersen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.azehosting.net",
+        "ns2.azehosting.net",
+        "ns3.azehosting.net"
+      ],
+      "txt": [
+        "MS=ms42807196",
+        "v=spf1 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Contact Form 7",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "5 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Savia",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Contact Form 7 (installed 5.2.1, latest 6.1.5)",
+        "risk": "The installed version of Contact Form 7 is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 13.3, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.3.2 (CVE-2020-35489)",
+        "risk": "CVE-2020-35489: Contact Form 7 &lt; 5.3.2 - Unrestricted File Upload",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35489",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.3.2",
+        "risk": "WordPress Contact Form 7 plugin <= 5.3.1 - Unrestricted File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
+        "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-6449",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
+        "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-2242",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
+        "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4704",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
+        "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-3247",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
+        "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2015-1579",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed) (CVE-2025-67554)",
+        "risk": "CVE-2025-67554: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67554",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 17.3 (CVE-2021-25118)",
+        "risk": "CVE-2021-25118: WordPress Yoast SEO <= 17.2.1 - Unauthenticated Full Path Disclosure vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2021-25118",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
+        "risk": "Yoast SEO <= 20.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
+        "risk": "WordPress  Yoast SEO Plugin  <= 20.2 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
+        "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-40680",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
+        "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4041",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
+        "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4984",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 157,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 1035,
+    "ssl": 114,
+    "headers": 624,
+    "meta": 967,
+    "httpx": 2776,
+    "webanalyze": 3,
+    "dnsx": 745,
+    "total_ms": 7159
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

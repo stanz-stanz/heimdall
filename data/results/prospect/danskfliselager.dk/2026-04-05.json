@@ -1,0 +1,190 @@
+{
+  "domain": "danskfliselager.dk",
+  "job_id": "scan-2026-04-05-b1e29e67",
+  "status": "completed",
+  "scan_result": {
+    "domain": "danskfliselager.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-29",
+    "ssl_days_remaining": 85,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify",
+      "Tidio",
+      "jQuery CDN",
+      "jQuery Migrate:1.2.1",
+      "jQuery:1.11.0"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:00:35.615838678Z",
+      "port": "443",
+      "url": "https://danskfliselager.dk",
+      "input": "danskfliselager.dk",
+      "title": "Fliser | Stort udvalg af fliser og belægning - Dansk Flise Lager →",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "danskfliselager.dk",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "final_url": "https://www.danskfliselager.dk/",
+      "time": "414.529695ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "23.227.38.65"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "Klaviyo",
+        "Shopify",
+        "Tidio",
+        "jQuery CDN",
+        "jQuery Migrate:1.2.1",
+        "jQuery:1.11.0"
+      ],
+      "words": 76451,
+      "lines": 7896,
+      "status_code": 200,
+      "content_length": 414480,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "danskfliselager.dk",
+    "cvr": "prospect",
+    "company_name": "danskfliselager.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify",
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-29",
+        "days_remaining": 85,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "Klaviyo",
+      "Shopify",
+      "Tidio",
+      "jQuery CDN",
+      "jQuery Migrate:1.2.1",
+      "jQuery:1.11.0"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 430,
+    "ssl": 83,
+    "headers": 598,
+    "meta": 572,
+    "httpx": 4187,
+    "webanalyze": 4,
+    "total_ms": 5883
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

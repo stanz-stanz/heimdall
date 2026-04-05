@@ -1,0 +1,212 @@
+{
+  "domain": "lidocafeen.dk",
+  "job_id": "scan-2026-04-05-2c213ce7",
+  "status": "completed",
+  "scan_result": {
+    "domain": "lidocafeen.dk",
+    "cms": "",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-09",
+    "ssl_days_remaining": 64,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit"
+    ],
+    "meta_author": "Finn Moesborg",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:21:11.032356519Z",
+      "port": "443",
+      "url": "https://lidocafeen.dk",
+      "input": "lidocafeen.dk",
+      "title": "Forside",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "lidocafeen.dk",
+      "host_ip": "138.201.82.135",
+      "path": "/",
+      "time": "368.429849ms",
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "tech": [
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "UIKit"
+      ],
+      "words": 12508,
+      "lines": 1303,
+      "status_code": 200,
+      "content_length": 42084,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "cname": [],
+      "mx": [
+        "lidocafeen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns0.moesborg.dk",
+        "ns1.moesborg.dk"
+      ],
+      "txt": [
+        "google-site-verification=HItD5Ge73O0DDHXmag5o3zNS_t8LkN-DoQk86qDLoiU",
+        "v=spf1 ip4:152.115.180.210 ip4:217.157.151.78 include:spf.protection.outlook.com -all",
+        "MS=ms48061704"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "lidocafeen.dk",
+    "cvr": "prospect",
+    "company_name": "lidocafeen.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-09",
+        "days_remaining": 64,
+        "tls_version": ""
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "LiteSpeed",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "UIKit"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "138.201.82.135"
+      ],
+      "aaaa": [
+        "2a01:4f8:172:1e46::2"
+      ],
+      "cname": [],
+      "mx": [
+        "lidocafeen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns0.moesborg.dk",
+        "ns1.moesborg.dk"
+      ],
+      "txt": [
+        "google-site-verification=HItD5Ge73O0DDHXmag5o3zNS_t8LkN-DoQk86qDLoiU",
+        "v=spf1 ip4:152.115.180.210 ip4:217.157.151.78 include:spf.protection.outlook.com -all",
+        "MS=ms48061704"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "Finn Moesborg",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 136,
+    "ssl": 83,
+    "headers": 274,
+    "meta": 270,
+    "httpx": 2071,
+    "webanalyze": 6,
+    "dnsx": 737,
+    "total_ms": 3593
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

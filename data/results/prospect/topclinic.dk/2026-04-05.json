@@ -1,0 +1,201 @@
+{
+  "domain": "topclinic.dk",
+  "job_id": "scan-2026-04-05-ae0b11fa",
+  "status": "completed",
+  "scan_result": {
+    "domain": "topclinic.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-14",
+    "ssl_days_remaining": 69,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "OWL Carousel",
+      "jQuery Migrate:3.1.0",
+      "jQuery UI",
+      "jQuery:3.4.1",
+      "nopCommerce"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:38:50.764925047Z",
+      "port": "443",
+      "url": "https://topclinic.dk",
+      "input": "topclinic.dk",
+      "title": "TOP CLINIC - Kosmetolog, Hudplejeklinik & Skønhedssalon i Vejle",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "topclinic.dk",
+      "host_ip": "185.21.40.9",
+      "path": "/",
+      "time": "1.770414598s",
+      "a": [
+        "185.21.40.9"
+      ],
+      "tech": [
+        "Google Analytics",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "OWL Carousel",
+        "jQuery Migrate:3.1.0",
+        "jQuery UI",
+        "jQuery:3.4.1",
+        "nopCommerce"
+      ],
+      "words": 10991,
+      "lines": 1,
+      "status_code": 200,
+      "content_length": 146888,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.40.9"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.onlinemail.io",
+        "mx1.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.curanet.dk ?all",
+        "google-site-verification=kCsGYUfZvm_KSPRxH6jC1g0bU3uR44BStbcKR7zIQHE"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "topclinic.dk",
+    "cvr": "prospect",
+    "company_name": "topclinic.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-14",
+        "days_remaining": 69,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "OWL Carousel",
+      "jQuery Migrate:3.1.0",
+      "jQuery UI",
+      "jQuery:3.4.1",
+      "nopCommerce"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.40.9"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.onlinemail.io",
+        "mx1.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.curanet.dk ?all",
+        "google-site-verification=kCsGYUfZvm_KSPRxH6jC1g0bU3uR44BStbcKR7zIQHE"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 149,
+    "ssl": 71,
+    "headers": 1812,
+    "meta": 1854,
+    "httpx": 4569,
+    "webanalyze": 4,
+    "dnsx": 819,
+    "total_ms": 9289
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

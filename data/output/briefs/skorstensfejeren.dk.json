@@ -2,7 +2,7 @@
   "domain": "skorstensfejeren.dk",
   "cvr": "prospect",
   "company_name": "skorstensfejeren.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-16",
-      "days_remaining": 74
+      "days_remaining": 71,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -43,12 +48,12 @@
   },
   "dns": {
     "a": [
-      "172.66.0.96",
-      "162.159.140.98"
+      "162.159.140.98",
+      "172.66.0.96"
     ],
     "aaaa": [
-      "2606:4700:7::60",
-      "2a06:98c1:58::60"
+      "2a06:98c1:58::60",
+      "2606:4700:7::60"
     ],
     "cname": [],
     "mx": [
@@ -65,6 +70,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",

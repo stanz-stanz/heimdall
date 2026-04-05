@@ -2,7 +2,7 @@
   "domain": "tuba.dk",
   "cvr": "prospect",
   "company_name": "tuba.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-16",
-      "days_remaining": 44
+      "days_remaining": 41,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -58,13 +63,17 @@
       "ns02.one.com"
     ],
     "txt": [
-      "google-site-verification=L6XZAX0WKT-13yPVv28wtUytP1Nb-xi_JfK4lIKc55c",
-      "google-site-verification=RalyDeTM7oP0KIFOIZnLhONujA4VdLy_vNENEFZ06yI",
+      "MS=ms95814845",
       "v=spf1 include:spf.protection.outlook.com include:spf.solutio.dk include:servers.mcsv.net include:spf.comendosystems.com include:dedicated.mysmtp.com ip4:212.237.249.36 ~all",
-      "MS=ms95814845"
+      "google-site-verification=RalyDeTM7oP0KIFOIZnLhONujA4VdLy_vNENEFZ06yI",
+      "google-site-verification=L6XZAX0WKT-13yPVv28wtUytP1Nb-xi_JfK4lIKc55c"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -80,6 +89,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

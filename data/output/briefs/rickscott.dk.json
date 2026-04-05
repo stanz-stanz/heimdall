@@ -2,7 +2,7 @@
   "domain": "rickscott.dk",
   "cvr": "prospect",
   "company_name": "rickscott.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,8 +16,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-02",
-      "days_remaining": 30
+      "expiry": "2026-07-01",
+      "days_remaining": 87,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -35,7 +36,7 @@
       "Complianz Gdpr Premium": "1773243362",
       "Fusion Builder": "1768998245",
       "Fusion Core": "5.15.1",
-      "Wordpress Seo": "27.2"
+      "Wordpress Seo": "27.3"
     },
     "detected_themes": [
       "Avada"
@@ -44,7 +45,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -67,8 +72,8 @@
     "WP Rocket",
     "WordPress",
     "WordPress Block Editor",
-    "Yoast SEO Premium:27.2",
-    "Yoast SEO:27.2",
+    "Yoast SEO Premium:27.3",
+    "Yoast SEO:27.3",
     "imagesLoaded",
     "jQuery",
     "parallax.js"
@@ -77,7 +82,7 @@
     "complianz-gdpr-premium": "1773243362",
     "fusion-builder": "1768998245",
     "fusion-core": "5.15.1",
-    "wordpress-seo": "27.2"
+    "wordpress-seo": "27.3"
   },
   "subdomains": {
     "count": 0,
@@ -99,14 +104,18 @@
       "ns02.one.com"
     ],
     "txt": [
+      "google-site-verification=rs4pjxQkl9rNEWPfjqidfCvhZebDYyyoEel30IiP4HQ",
       "MS=ms18081585",
-      "v=spf1 include:_custspf.one.com include:spf.protection.outlook.com include:spf.hubspot.com include:mailgun.org ~all",
       "facebook-domain-verification=c5bhwrzpucrxmj77kprrabcyqyg1v4",
       "apple-domain-verification=Mkv9nR4nVrvGcneqC7hKPaLspRVnBySvCvQY37AjFxI",
-      "google-site-verification=rs4pjxQkl9rNEWPfjqidfCvhZebDYyyoEel30IiP4HQ"
+      "v=spf1 include:_custspf.one.com include:spf.protection.outlook.com include:spf.hubspot.com include:mailgun.org ~all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -127,6 +136,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -155,14 +174,9 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Wordpress Seo (installed 27.2, latest 27.3)",
-      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
-    },
-    {
-      "severity": "medium",
       "description": "Fusion Builder [fusion-builder] <= 3.13.2 (unfixed) (CVE-2025-49940)",
       "risk": "CVE-2025-49940: Fusion Builder [fusion-builder] <= 3.13.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -174,7 +188,7 @@
       "severity": "medium",
       "description": "Fusion Builder [fusion-builder] <= 3.14.3 (unfixed) (CVE-2026-25472)",
       "risk": "CVE-2026-25472: Fusion Builder [fusion-builder] <= 3.14.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -186,7 +200,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -198,7 +212,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -210,7 +224,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -222,7 +236,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -234,7 +248,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5 (CVE-2023-47504)",
       "risk": "CVE-2023-47504: WordPress  Elementor Website Builder Plugin  <= 3.16.4 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -246,7 +260,7 @@
       "severity": "critical",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2 (CVE-2023-48777)",
       "risk": "CVE-2023-48777: WordPress  Elementor Website Builder Plugin  3.3.0-3.18.1 is vulnerable to Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -258,7 +272,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1 (CVE-2024-24934)",
       "risk": "CVE-2024-24934: Elementor <= 3.19.0 - Authenticated(Contributor+) Arbitrary File Deletion and PHAR Deserialization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -270,7 +284,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -282,7 +296,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -294,7 +308,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -306,7 +320,7 @@
       "severity": "high",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5 (CVE-2023-33333)",
       "risk": "CVE-2023-33333: WordPress  Complianz – GDPR/CCPA Cookie Consent Plugin  <= 6.4.4 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -316,11 +330,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 147,
+    "duration_ms": 166,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

@@ -1,0 +1,221 @@
+{
+  "domain": "dtl.eu",
+  "job_id": "scan-2026-04-05-af2238c3",
+  "status": "completed",
+  "scan_result": {
+    "domain": "dtl.eu",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-09",
+    "ssl_days_remaining": 64,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Font Awesome",
+      "Google Tag Manager",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "Microsoft Ajax Content Delivery Network",
+      "Modernizr",
+      "jQuery CDN",
+      "jQuery:3.6.0"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:01:48.812771291Z",
+      "port": "443",
+      "url": "https://dtl.eu",
+      "input": "dtl.eu",
+      "title": "DTL - Danske Vognmænd: Forside",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "dtl.eu",
+      "host_ip": "84.22.108.126",
+      "path": "/",
+      "time": "207.432645ms",
+      "a": [
+        "84.22.108.126"
+      ],
+      "tech": [
+        "Font Awesome",
+        "Google Tag Manager",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "Microsoft Ajax Content Delivery Network",
+        "Modernizr",
+        "jQuery CDN",
+        "jQuery:3.6.0"
+      ],
+      "words": 63058,
+      "lines": 1826,
+      "status_code": 200,
+      "content_length": 137320,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "element",
+          "vendor": "matrix",
+          "cpe": "cpe:2.3:a:matrix:element:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "84.22.108.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dtl-eu.mail.eo.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:213.150.59.0/24 ip4:94.137.133.250 include:spf.defgo.com include:spf.mandrillapp.com include:spf.protection.outlook.com -all",
+        "facebook-domain-verification=msg0kldwwj9ab8qprzt1cs6utf74ps"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "dtl.eu",
+    "cvr": "prospect",
+    "company_name": "dtl.eu",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-09",
+        "days_remaining": 64,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Font Awesome",
+      "Google Tag Manager",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "Microsoft Ajax Content Delivery Network",
+      "Modernizr",
+      "jQuery CDN",
+      "jQuery:3.6.0"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "84.22.108.126"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dtl-eu.mail.eo.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:213.150.59.0/24 ip4:94.137.133.250 include:spf.defgo.com include:spf.mandrillapp.com include:spf.protection.outlook.com -all",
+        "facebook-domain-verification=msg0kldwwj9ab8qprzt1cs6utf74ps"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 135,
+    "ssl": 121,
+    "headers": 169,
+    "meta": 214,
+    "httpx": 2903,
+    "webanalyze": 4,
+    "dnsx": 749,
+    "total_ms": 4305
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

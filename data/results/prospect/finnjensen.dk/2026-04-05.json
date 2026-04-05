@@ -1,0 +1,237 @@
+{
+  "domain": "finnjensen.dk",
+  "job_id": "scan-2026-04-05-e43b2a3a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "finnjensen.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-07",
+    "ssl_days_remaining": 62,
+    "detected_plugins": [
+      "litespeed-cache"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "LiteSpeed Cache",
+      "Litespeed Cache"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:06:51.278464706Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://finnjensen.dk",
+      "input": "finnjensen.dk",
+      "title": "Velkommen til A-S FINN JENSEN",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "finnjensen.dk",
+      "host_ip": "104.21.80.242",
+      "path": "/",
+      "time": "269.254518ms",
+      "a": [
+        "104.21.80.242",
+        "172.67.155.154"
+      ],
+      "aaaa": [
+        "2606:4700:3030::6815:50f2",
+        "2606:4700:3031::ac43:9b9a"
+      ],
+      "tech": [
+        "Cloudflare",
+        "HSTS",
+        "HTTP/3",
+        "LiteSpeed",
+        "LiteSpeed Cache",
+        "Litespeed Cache"
+      ],
+      "words": 426,
+      "lines": 63,
+      "status_code": 200,
+      "content_length": 1665,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "104.21.80.242",
+        "172.67.155.154"
+      ],
+      "aaaa": [
+        "2a06:98c1:3120::3",
+        "2a06:98c1:3121::3"
+      ],
+      "cname": [],
+      "mx": [
+        "finnjensen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ali.ns.cloudflare.com",
+        "wesley.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:vip02.azehosting.net ~all",
+        "apple-domain-verification=pFZWwhbkhr21fGj1"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "finnjensen.dk",
+    "cvr": "prospect",
+    "company_name": "finnjensen.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-07",
+        "days_remaining": 62,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [
+        "Litespeed Cache"
+      ],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "LiteSpeed",
+      "LiteSpeed Cache",
+      "Litespeed Cache"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "104.21.80.242",
+        "172.67.155.154"
+      ],
+      "aaaa": [
+        "2a06:98c1:3120::3",
+        "2a06:98c1:3121::3"
+      ],
+      "cname": [],
+      "mx": [
+        "finnjensen-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ali.ns.cloudflare.com",
+        "wesley.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:vip02.azehosting.net ~all",
+        "apple-domain-verification=pFZWwhbkhr21fGj1"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "1 WordPress plugin detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 266,
+    "ssl": 81,
+    "headers": 174,
+    "meta": 116,
+    "httpx": 1760,
+    "webanalyze": 44,
+    "dnsx": 791,
+    "total_ms": 3242
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -1,0 +1,346 @@
+{
+  "domain": "t-online.de",
+  "job_id": "scan-2026-04-05-83a18ea0",
+  "status": "completed",
+  "scan_result": {
+    "domain": "t-online.de",
+    "cms": "",
+    "server": "envoy",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-23",
+    "ssl_days_remaining": 78,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "envoy",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Amazon CloudFront",
+      "Amazon Web Services",
+      "Envoy",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:37:27.655859315Z",
+      "cdn_name": "aws",
+      "cdn_type": "cloud",
+      "port": "443",
+      "url": "https://t-online.de",
+      "input": "t-online.de",
+      "title": "News & E-Mail bei t-online | Politik, Sport, Unterhaltung & Ratgeber",
+      "scheme": "https",
+      "webserver": "envoy",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "t-online.de",
+      "host_ip": "34.246.241.220",
+      "path": "/",
+      "final_url": "https://www.t-online.de/",
+      "time": "416.135754ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "54.217.253.146",
+        "52.209.116.123",
+        "34.246.241.220"
+      ],
+      "tech": [
+        "Amazon CloudFront",
+        "Amazon Web Services",
+        "Envoy",
+        "HSTS",
+        "HTTP/3"
+      ],
+      "words": 44749,
+      "lines": 136,
+      "status_code": 200,
+      "content_length": 1436388,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "zeit",
+          "cpe": "cpe:2.3:a:zeit:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "vercel",
+          "cpe": "cpe:2.3:a:vercel:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "element",
+          "vendor": "matrix",
+          "cpe": "cpe:2.3:a:matrix:element:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "52.209.116.123",
+        "34.246.241.220",
+        "54.217.253.146"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx01.t-online.de",
+        "mx00.t-online.de",
+        "mx03.t-online.de",
+        "mx02.t-online.de"
+      ],
+      "ns": [
+        "pns.dtag.de",
+        "dns00.dns.t-ipnet.de",
+        "dns02.dns.t-ipnet.de",
+        "dns20.dns.t-ipnet.de",
+        "dns50.dns.t-ipnet.de"
+      ],
+      "txt": [
+        "google-site-verification=YCYBJAGc1hE2hjEuhkLfNgzbAc1WWOi5AKyoCDlrhcE",
+        "google-site-verification=RuaGdsiIYwzDsAd0_s7yhFgYuYRc0Ylk01j209Mgvis",
+        "google-site-verification=kLomR9c2yDgU-AUYNr9ma0XbvmzaOR_ZCv_ppOvbB6Y",
+        "google-site-verification=pOdK8ndAYqDGA8-03SAwZoeJvnSWE50S25j_63u0FWw",
+        "v=spf1 ip4:194.25.134.16/28 ip4:194.25.134.80/28 ~all",
+        "google-site-verification=Zl48ijjwoVxIifNuZ5ozcydysO5owxNB1Z4V--dkgE0",
+        "google-site-verification=kOtokoaNZwnXoLMiWNnaX3leVCyA9DaOlP1IJKYu1DI",
+        "google-site-verification=cKQjq9M78jbRX073a91_V3oBM76hqbQDnK2uGelDpto",
+        "google-site-verification=dNVp8NLTkRfU1YikWSzxglE25kMfUtFNyoiIxcnxiRc",
+        "google-site-verification=s1qp7xSUgoBjWm5tTL7j8c-opGfm7YdlIBkutNbS_kA",
+        "BSI103622123645"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": [
+      {
+        "bucket_name": "cdn.123shapeme.com.s3.amazonaws.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "silenceapp.nyc3.digitaloceanspaces.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "kaashandelremijn.blob.core.windows.net",
+        "file_count": 2
+      },
+      {
+        "bucket_name": "mce-fiiles.fra1.digitaloceanspaces.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "resourcesbizagi.blob.core.windows.net",
+        "file_count": 2
+      },
+      {
+        "bucket_name": "farmerama.s3.amazonaws.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "static-imgs.storage.googleapis.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "cdn-livrodigital.nyc3.digitaloceanspaces.com",
+        "file_count": 192
+      },
+      {
+        "bucket_name": "ydccdn.blob.core.windows.net",
+        "file_count": 2
+      },
+      {
+        "bucket_name": "camworks-website.s3.amazonaws.com",
+        "file_count": 2
+      }
+    ]
+  },
+  "brief": {
+    "domain": "t-online.de",
+    "cvr": "prospect",
+    "company_name": "t-online.de",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-23",
+        "days_remaining": 78,
+        "tls_version": ""
+      },
+      "server": "envoy",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "envoy",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Amazon CloudFront",
+      "Amazon Web Services",
+      "Envoy",
+      "HSTS",
+      "HTTP/3"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "52.209.116.123",
+        "34.246.241.220",
+        "54.217.253.146"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx01.t-online.de",
+        "mx00.t-online.de",
+        "mx03.t-online.de",
+        "mx02.t-online.de"
+      ],
+      "ns": [
+        "pns.dtag.de",
+        "dns00.dns.t-ipnet.de",
+        "dns02.dns.t-ipnet.de",
+        "dns20.dns.t-ipnet.de",
+        "dns50.dns.t-ipnet.de"
+      ],
+      "txt": [
+        "google-site-verification=YCYBJAGc1hE2hjEuhkLfNgzbAc1WWOi5AKyoCDlrhcE",
+        "google-site-verification=RuaGdsiIYwzDsAd0_s7yhFgYuYRc0Ylk01j209Mgvis",
+        "google-site-verification=kLomR9c2yDgU-AUYNr9ma0XbvmzaOR_ZCv_ppOvbB6Y",
+        "google-site-verification=pOdK8ndAYqDGA8-03SAwZoeJvnSWE50S25j_63u0FWw",
+        "v=spf1 ip4:194.25.134.16/28 ip4:194.25.134.80/28 ~all",
+        "google-site-verification=Zl48ijjwoVxIifNuZ5ozcydysO5owxNB1Z4V--dkgE0",
+        "google-site-verification=kOtokoaNZwnXoLMiWNnaX3leVCyA9DaOlP1IJKYu1DI",
+        "google-site-verification=cKQjq9M78jbRX073a91_V3oBM76hqbQDnK2uGelDpto",
+        "google-site-verification=dNVp8NLTkRfU1YikWSzxglE25kMfUtFNyoiIxcnxiRc",
+        "google-site-verification=s1qp7xSUgoBjWm5tTL7j8c-opGfm7YdlIBkutNbS_kA",
+        "BSI103622123645"
+      ]
+    },
+    "cloud_exposure": [
+      {
+        "bucket_name": "cdn.123shapeme.com.s3.amazonaws.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "silenceapp.nyc3.digitaloceanspaces.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "kaashandelremijn.blob.core.windows.net",
+        "file_count": 2
+      },
+      {
+        "bucket_name": "mce-fiiles.fra1.digitaloceanspaces.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "resourcesbizagi.blob.core.windows.net",
+        "file_count": 2
+      },
+      {
+        "bucket_name": "farmerama.s3.amazonaws.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "static-imgs.storage.googleapis.com",
+        "file_count": 1
+      },
+      {
+        "bucket_name": "cdn-livrodigital.nyc3.digitaloceanspaces.com",
+        "file_count": 192
+      },
+      {
+        "bucket_name": "ydccdn.blob.core.windows.net",
+        "file_count": 2
+      },
+      {
+        "bucket_name": "camworks-website.s3.amazonaws.com",
+        "file_count": 2
+      }
+    ],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "high",
+        "description": "10 exposed cloud storage buckets detected",
+        "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 303,
+    "ssl": 127,
+    "headers": 321,
+    "meta": 576,
+    "httpx": 9879,
+    "webanalyze": 4,
+    "dnsx": 681,
+    "total_ms": 11900
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

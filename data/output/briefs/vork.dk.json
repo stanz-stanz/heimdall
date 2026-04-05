@@ -2,7 +2,7 @@
   "domain": "vork.dk",
   "cvr": "prospect",
   "company_name": "vork.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-02",
-      "days_remaining": 61
+      "days_remaining": 57,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -34,7 +35,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -64,11 +69,11 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "alt1.aspmx.l.google.com",
       "alt4.aspmx.l.google.com",
+      "alt1.aspmx.l.google.com",
+      "alt2.aspmx.l.google.com",
       "alt3.aspmx.l.google.com",
-      "aspmx.l.google.com",
-      "alt2.aspmx.l.google.com"
+      "aspmx.l.google.com"
     ],
     "ns": [
       "ns1.yayhosting.dk",
@@ -80,6 +85,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -100,6 +109,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -128,14 +147,14 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Gallery By Supsystic (installed 1.9.8, latest 1.15.33)",
+      "description": "Outdated plugin: Gallery By Supsystic (installed 1.9.8, latest 1.16.0)",
       "risk": "The installed version of Gallery By Supsystic is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
     },
     {
       "severity": "medium",
       "description": "Booking Calendar [booking] < 8.9.2 (CVE-2021-25040)",
       "risk": "CVE-2021-25040: WordPress Booking Calendar plugin <= 8.9.1 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -147,7 +166,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 8.4.5.15 (CVE-2018-20556)",
       "risk": "CVE-2018-20556: WordPress Booking Calendar plugin <= 8.4.5.14 - SQL Injection (SQLi) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -159,7 +178,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] <= 7.0 (CVE-2017-2150)",
       "risk": "CVE-2017-2150: WordPress plugin \"Booking Calendar\" vulnerable to directory traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -171,7 +190,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] <= 7.1 (CVE-2017-2151)",
       "risk": "CVE-2017-2151: WordPress plugin \"Booking Calendar\" vulnerable to cross-site scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -183,7 +202,7 @@
       "severity": "high",
       "description": "Booking Calendar [booking] < 9.1.1 (CVE-2022-1463)",
       "risk": "CVE-2022-1463: WordPress Booking Calendar plugin <= 9.1 - Insecure Deserialization/PHP Object Injection vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -195,11 +214,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "WordPress Booking Calendar plugin <= 6.2 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "b79175cf274dd96902494e7b1ebda3518f16c9a79a7509baf3710f097b19b3c1",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -207,11 +226,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "WordPress Booking Calendar plugin <= 6.2 - SQL Injection (SQLi) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "1c181f219041af61f1e966e1081426657a37ad08e40b9a60a615f4ce9afee6be",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -219,11 +238,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 4.1.6",
       "risk": "WordPress Booking Calendar plugin <= 4.1.5 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "5aa2d54ced7f5a51e15988ea0e9d8d444287fca3d625e8242c70bb059256df3e",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -231,7 +250,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 9.2.2 (CVE-2022-33177)",
       "risk": "CVE-2022-33177: WordPress Booking Calendar plugin <= 9.2.1 - Cross-Site Request Forgery (CSRF) leading to Translations Update",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -243,11 +262,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "Booking Calendar &lt;= 6.2 - Reflected Cross-Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "d88698646317b5493d705cb4732408bc64f461cb7cc6d20ac5c7120a8e50d2b5",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -255,11 +274,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "Booking Calendar &lt;= 6.2 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "3d1fb3e61c26ebc96c03f0376b3711f22164b4fecf84467c4eab0deb1e612d37",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -267,11 +286,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 4.1.6",
       "risk": "Booking Calendar &lt;= 4.1.5 - Cross-Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "2e6ceaae65be3c41407f179930376f64c1097e1ab0c84d3d21f292ff14f737a2",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -279,11 +298,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "Booking Calendar <= 6.2 - Cross-Site Request Forgery leading to Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "6a32bbfd89200ad2ae154d54f7c01a0463d8be02e5929655e99154813e76e50c",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -291,11 +310,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "Booking Calendar <= 6.2 - Cross-Site Request Forgery to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "c98ab408d9c27c561c70d05c43294811aa3924d2a9b3ccd749e34558dd0b5ac5",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -303,11 +322,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "Booking Calendar <= 6.2 - Authenticated (Editor+) SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "70c996ba20964e03660ba1db92b081c2bbdbf15f2ff2a72702f8610ad743c549",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -315,11 +334,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 4.1.6",
       "risk": "Booking Calendar < 4.1.6 - Cross-Site Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "234b5da46ea1c25fa2f7126670dcd3fbd61863dd875a53025660d6f237aa034e",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -327,7 +346,7 @@
       "severity": "high",
       "description": "Booking Calendar [booking] < 9.4.3.1 (CVE-2023-23991)",
       "risk": "CVE-2023-23991: WordPress  Booking Calendar Plugin  <= 9.4.2 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -339,11 +358,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "WordPress Booking Calendar Plugin <= 6.2 - Reflected Cross Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "f653ea2e4939a4f3ff68a50d28fce3440c2112dab86cd37963b4da4e6c3e08ef",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -351,11 +370,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "WordPress Booking Calendar Plugin 6.2 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "f79c23f9522f10d545d30a0e8a140de0c42c1b05c25b78b6449fe4e4a8bf4187",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -363,11 +382,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "WordPress  Booking Calendar Plugin  <= 6.2 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "b1688df1eb209ed9d575488f0654b4921f1c22e8b321247a20a5cc99b2f2184e",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -375,11 +394,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 6.2.1",
       "risk": "WordPress  Booking Calendar Plugin  <= 6.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "a9b3123d87ed7cbb43651905f977ebe3f9ced643937127b93af5ab27f226e165",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -387,7 +406,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 9.7.3.1 (CVE-2023-4620)",
       "risk": "CVE-2023-4620: Booking Calendar <= 9.7.3 - Unauthenticated Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -399,11 +418,11 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 9.7.4",
       "risk": "Booking Calendar <= 9.7.3.3 - Authenticated(Contributor+) Stored Cross-Site Scripting via shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "808df5b7df682135e6dc89621c7feee37c688b97d3f76a3b88ac2658c71b22e1",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -411,7 +430,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 9.7.4 (CVE-2023-51520)",
       "risk": "CVE-2023-51520: WordPress  Booking Calendar Plugin  < 9.7.4 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -423,7 +442,7 @@
       "severity": "critical",
       "description": "Booking Calendar [booking] < 9.9.1 (CVE-2024-1207)",
       "risk": "CVE-2024-1207: Booking Calendar <= 9.9 - Unauthenticated SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -435,7 +454,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.2.2 (CVE-2024-6930)",
       "risk": "CVE-2024-6930: WordPress Booking Calendar Plugin <= 10.2.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -447,7 +466,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.5.1 (CVE-2024-8274)",
       "risk": "CVE-2024-8274: WP Booking Calendar <= 10.5 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -459,7 +478,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.6.1 (CVE-2024-9306)",
       "risk": "CVE-2024-9306: WordPress Booking Calendar Plugin <= 10.6 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -471,7 +490,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.6.3 (CVE-2024-10027)",
       "risk": "CVE-2024-10027: WordPress Booking Calendar Plugin < 10.6.3 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -483,7 +502,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.6.5 (CVE-2024-10893)",
       "risk": "CVE-2024-10893: WP Booking Calendar <= 10.6.4 - Authenticated (Admin+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -495,7 +514,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.9.3 (CVE-2024-13323)",
       "risk": "CVE-2024-13323: WordPress Booking Calendar Plugin <= 10.9.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -507,7 +526,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.10.1 (CVE-2024-13821)",
       "risk": "CVE-2024-13821: WP Booking Calendar &lt;= 10.10 - Unauthenticated Post-Confirmation Booking Manipulation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -519,7 +538,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.11.2 (CVE-2025-4669)",
       "risk": "CVE-2025-4669: Booking Calendar &lt;= 10.11.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via wpbc Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -531,7 +550,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.14.8 (CVE-2025-64381)",
       "risk": "CVE-2025-64381: Booking Calendar [booking] < 10.14.8",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -543,7 +562,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.14.7 (CVE-2025-12804)",
       "risk": "CVE-2025-12804: Booking Calendar [booking] < 10.14.7",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -555,7 +574,7 @@
       "severity": "high",
       "description": "Booking Calendar [booking] < 10.14.9 (CVE-2025-14383)",
       "risk": "CVE-2025-14383: Booking Calendar [booking] < 10.14.9",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -567,7 +586,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.14.11 (CVE-2025-14146)",
       "risk": "CVE-2025-14146: Booking Calendar [booking] < 10.14.11",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -579,7 +598,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] < 10.14.12 (CVE-2025-14982)",
       "risk": "CVE-2025-14982: Booking Calendar [booking] < 10.14.12",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -591,7 +610,7 @@
       "severity": "medium",
       "description": "Booking Calendar [booking] <= 10.14.15 (unfixed) (CVE-2026-32358)",
       "risk": "CVE-2026-32358: Booking Calendar [booking] <= 10.14.15 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -603,7 +622,7 @@
       "severity": "medium",
       "description": "Photo Gallery by Supsystic [gallery-by-supsystic] < 1.15.6 (CVE-2021-36891)",
       "risk": "CVE-2021-36891: WordPress Photo Gallery by Supsystic plugin <= 1.15.5 - Cross-Site Request Forgery (CSRF) leading to Plugin Settings Change",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -615,7 +634,7 @@
       "severity": "medium",
       "description": "Photo Gallery by Supsystic [gallery-by-supsystic] < 1.15.17 (CVE-2024-29921)",
       "risk": "CVE-2024-29921: WordPress  Photo Gallery by Supsystic Plugin    <= 1.15.16 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -627,7 +646,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
       "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -639,7 +658,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
       "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -651,7 +670,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
       "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -663,7 +682,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
       "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -675,7 +694,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
       "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -687,7 +706,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
       "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -699,7 +718,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
       "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -709,11 +728,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 292,
+    "duration_ms": 169,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

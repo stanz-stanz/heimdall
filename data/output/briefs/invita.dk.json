@@ -2,7 +2,7 @@
   "domain": "invita.dk",
   "cvr": "prospect",
   "company_name": "invita.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "DigiCert Inc",
       "expiry": "2026-09-06",
-      "days_remaining": 157
+      "days_remaining": 154,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": "ASP.NET"
     }
   },
   "tech_stack": [
@@ -48,7 +53,8 @@
       "13.107.246.38"
     ],
     "aaaa": [
-      "2603:1061:14:72::1"
+      "2620:1ec:29:1::45",
+      "2620:1ec:48:1::45"
     ],
     "cname": [],
     "mx": [
@@ -59,21 +65,40 @@
       "udns2.cscdns.uk"
     ],
     "txt": [
-      "google-site-verification=M-sJfONceysFjzoMaEJNlO5Oy3Puz0dG6i5iQvlOz-U",
-      "v=spf1 include:spf.protection.outlook.com include:mktomail.com ip4:46.36.211.197 include:mailmailmail.net include:_spf_eucentral1.prod.hydra.sophos.com include:_spf.cmail.ondemand.com include:_spf.cloudmail.net.sap include:amazonses.com -all",
-      "MS=ms15215106",
       "yahoo-verification-key=tDyXDcz7LlgqvjsN4KlzV7QEc2n/1OJzsru/ZHlmNgA=",
+      "google-site-verification=M-sJfONceysFjzoMaEJNlO5Oy3Puz0dG6i5iQvlOz-U",
       "google-site-verification=lq4ohxhcQLOKI11CMUqLsWdlwOZVUkt5N0d7XQINPN4",
       "google-site-verification=n0Zodp0NvaUS6ADy4xM25jI_jExNo1E5U_YaWzCmDwo",
-      "BguTpQBCq36pNTKLj6H6ecD6B4jxeN/YsEivzC0b6u2vXg8tQOoRG/PTJux9TlASLd7AuRN84qcOn+gbBH/EGQ=="
+      "BguTpQBCq36pNTKLj6H6ecD6B4jxeN/YsEivzC0b6u2vXg8tQOoRG/PTJux9TlASLd7AuRN84qcOn+gbBH/EGQ==",
+      "v=spf1 include:spf.protection.outlook.com include:mktomail.com ip4:46.36.211.197 include:mailmailmail.net include:_spf_eucentral1.prod.hydra.sophos.com include:_spf.cmail.ondemand.com include:_spf.cloudmail.net.sap include:amazonses.com -all",
+      "MS=ms15215106"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
       "description": "Missing HSTS header (HTTP Strict Transport Security)",
       "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: ASP.NET",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     }
   ]
 }

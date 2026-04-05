@@ -1,0 +1,313 @@
+{
+  "domain": "jhejendomsinvest.dk",
+  "job_id": "scan-2026-04-05-b9235039",
+  "status": "completed",
+  "scan_result": {
+    "domain": "jhejendomsinvest.dk",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-22",
+    "ssl_days_remaining": 46,
+    "detected_plugins": [
+      "eu-cookie-law",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "eu-cookie-law": "6.7.5",
+      "wordpress-seo": "24.0"
+    },
+    "detected_themes": [
+      "cenote"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Hammer.js",
+      "Headroom.js:0.9.4",
+      "MySQL",
+      "PHP",
+      "Swiper",
+      "ThemeGrill Cenote",
+      "WordPress:6.7.5",
+      "Yoast SEO:24.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:16:06.039936515Z",
+      "port": "443",
+      "url": "https://jhejendomsinvest.dk",
+      "input": "jhejendomsinvest.dk",
+      "title": "Velkommen -",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "jhejendomsinvest.dk",
+      "host_ip": "217.195.185.218",
+      "path": "/",
+      "time": "664.921031ms",
+      "a": [
+        "217.195.185.218"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Hammer.js",
+        "Headroom.js:0.9.4",
+        "MySQL",
+        "PHP",
+        "Swiper",
+        "ThemeGrill Cenote",
+        "WordPress:6.7.5",
+        "Yoast SEO:24.0",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 2249,
+      "lines": 524,
+      "status_code": 200,
+      "content_length": 62027,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "eu-cookie-law"
+        ],
+        "themes": [
+          "cenote"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "217.195.185.218"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx-backup.hostonline.dk",
+        "he.hostonline.dk"
+      ],
+      "ns": [
+        "ns4.hostonline.dk",
+        "ns5.hostonline.dk",
+        "ns6.hostonline.dk"
+      ],
+      "txt": [
+        "v=spf1 a mx include:_spf.hostonline.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "jhejendomsinvest.dk",
+    "cvr": "prospect",
+    "company_name": "jhejendomsinvest.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-22",
+        "days_remaining": 46,
+        "tls_version": ""
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Eu Cookie Law",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Eu Cookie Law": "6.7.5",
+        "Wordpress Seo": "24.0"
+      },
+      "detected_themes": [
+        "Cenote"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Apache",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Hammer.js",
+      "Headroom.js:0.9.4",
+      "MySQL",
+      "PHP",
+      "Swiper",
+      "ThemeGrill Cenote",
+      "WordPress:6.7.5",
+      "Yoast SEO:24.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "eu-cookie-law": "6.7.5",
+      "wordpress-seo": "24.0"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "217.195.185.218"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx-backup.hostonline.dk",
+        "he.hostonline.dk"
+      ],
+      "ns": [
+        "ns4.hostonline.dk",
+        "ns5.hostonline.dk",
+        "ns6.hostonline.dk"
+      ],
+      "txt": [
+        "v=spf1 a mx include:_spf.hostonline.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.7.5 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "2 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Cenote",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 24.0, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "EU Cookie Law for GDPR/CCPA [eu-cookie-law] <= 3.1.6 (unfixed + closed) (CVE-2022-3811)",
+        "risk": "CVE-2022-3811: WordPress  EU Cookie Law (GDPR) Plugin  <= 3.1.6 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-3811",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 138,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 107,
+    "ssl": 83,
+    "headers": 1597,
+    "meta": 1405,
+    "httpx": 2813,
+    "webanalyze": 5,
+    "dnsx": 784,
+    "total_ms": 7693
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

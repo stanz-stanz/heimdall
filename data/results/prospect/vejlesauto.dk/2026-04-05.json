@@ -1,0 +1,399 @@
+{
+  "domain": "vejlesauto.dk",
+  "job_id": "scan-2026-04-05-7250eb7a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vejlesauto.dk",
+    "cms": "WordPress",
+    "server": "Simply.com",
+    "hosting": "simply.com",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-08",
+    "ssl_days_remaining": 32,
+    "detected_plugins": [
+      "wp-customer-reviews",
+      "popup-maker",
+      "everest-forms",
+      "siteorigin-panels",
+      "megamenu-pro",
+      "so-widgets-bundle",
+      "siteorigin-premium",
+      "megamenu",
+      "woocommerce"
+    ],
+    "plugin_versions": {
+      "wp-customer-reviews": "3.7.7",
+      "popup-maker": "7424",
+      "everest-forms": "3.4.4",
+      "siteorigin-panels": "2.34.0",
+      "megamenu-pro": "2.2.7",
+      "so-widgets-bundle": "6.8.5",
+      "siteorigin-premium": "1.74.1",
+      "megamenu": "3.8.1"
+    },
+    "detected_themes": [
+      "vantage"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "FitVids.JS:1.0",
+      "Google Tag Manager",
+      "HTTP/3",
+      "Mailcheck:1.1.2",
+      "Max Mega Menu:3.8.1",
+      "MySQL",
+      "PHP",
+      "Popup Maker",
+      "SiteOrigin Page Builder:2.34.0",
+      "SiteOrigin Vantage",
+      "SiteOrigin Widgets Bundle:3.2.0",
+      "TinyMCE",
+      "WordPress:6.8.5",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "mobile-detect.js:1.3.3"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:41:26.984091527Z",
+      "port": "443",
+      "url": "https://vejlesauto.dk",
+      "input": "vejlesauto.dk",
+      "title": "Vejles Autoværksted - Mekaniker i Vinding, Vejle.",
+      "scheme": "https",
+      "webserver": "Simply.com",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vejlesauto.dk",
+      "host_ip": "94.231.109.182",
+      "path": "/",
+      "final_url": "https://www.vejlesauto.dk/",
+      "time": "526.124723ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "94.231.109.182"
+      ],
+      "tech": [
+        "Cookiebot",
+        "FitVids.JS:1.0",
+        "Google Tag Manager",
+        "HTTP/3",
+        "Mailcheck:1.1.2",
+        "Max Mega Menu:3.8.1",
+        "MySQL",
+        "PHP",
+        "Popup Maker",
+        "SiteOrigin Page Builder:2.34.0",
+        "SiteOrigin Vantage",
+        "SiteOrigin Widgets Bundle:3.2.0",
+        "TinyMCE",
+        "WordPress:6.8.5",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "mobile-detect.js:1.3.3"
+      ],
+      "words": 4285,
+      "lines": 688,
+      "status_code": 200,
+      "content_length": 88515,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "popup_maker",
+          "vendor": "code-atlantic",
+          "cpe": "cpe:2.3:a:code-atlantic:popup_maker:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "wp-customer-reviews",
+          "popup-maker",
+          "everest-forms",
+          "siteorigin-panels",
+          "so-widgets-bundle",
+          "megamenu"
+        ],
+        "themes": [
+          "vantage"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.109.182"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all",
+        "facebook-domain-verification=552qz22369ft8ivc1rsov77pzzu0aw",
+        "google-site-verification=Jh1AqKSpoSxh4Rp6_NLqiL_keEp5omKJdYUooPzLks8"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vejlesauto.dk",
+    "cvr": "prospect",
+    "company_name": "vejlesauto.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Everest Forms, Woocommerce",
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "simply.com",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-08",
+        "days_remaining": 32,
+        "tls_version": ""
+      },
+      "server": "Simply.com",
+      "detected_plugins": [
+        "Wp Customer Reviews",
+        "Popup Maker",
+        "Everest Forms",
+        "Siteorigin Panels",
+        "Megamenu Pro",
+        "So Widgets Bundle",
+        "Siteorigin Premium",
+        "Megamenu",
+        "Woocommerce"
+      ],
+      "plugin_versions": {
+        "Wp Customer Reviews": "3.7.7",
+        "Popup Maker": "7424",
+        "Everest Forms": "3.4.4",
+        "Siteorigin Panels": "2.34.0",
+        "Megamenu Pro": "2.2.7",
+        "So Widgets Bundle": "6.8.5",
+        "Siteorigin Premium": "1.74.1",
+        "Megamenu": "3.8.1"
+      },
+      "detected_themes": [
+        "Vantage"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Simply.com",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "FitVids.JS:1.0",
+      "Google Tag Manager",
+      "HTTP/3",
+      "Mailcheck:1.1.2",
+      "Max Mega Menu:3.8.1",
+      "MySQL",
+      "PHP",
+      "Popup Maker",
+      "SiteOrigin Page Builder:2.34.0",
+      "SiteOrigin Vantage",
+      "SiteOrigin Widgets Bundle:3.2.0",
+      "TinyMCE",
+      "WordPress:6.8.5",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "mobile-detect.js:1.3.3"
+    ],
+    "plugin_versions": {
+      "wp-customer-reviews": "3.7.7",
+      "popup-maker": "7424",
+      "everest-forms": "3.4.4",
+      "siteorigin-panels": "2.34.0",
+      "megamenu-pro": "2.2.7",
+      "so-widgets-bundle": "6.8.5",
+      "siteorigin-premium": "1.74.1",
+      "megamenu": "3.8.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.109.182"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all",
+        "facebook-domain-verification=552qz22369ft8ivc1rsov77pzzu0aw",
+        "google-site-verification=Jh1AqKSpoSxh4Rp6_NLqiL_keEp5omKJdYUooPzLks8"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.8.5 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugins detected: Everest Forms, Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "9 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Vantage",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Everest Forms – Contact Form, Payment Form, Quiz, Survey &amp; Custom Form Builder [everest-forms] <= 3.4.1 (unfixed) (CVE-2026-22422)",
+        "risk": "CVE-2026-22422: Everest Forms – Contact Form, Payment Form, Quiz, Survey &amp; Custom Form Builder [everest-forms] <= 3.4.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-22422",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+        "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-5062",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+        "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-49042",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 528,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 992,
+    "ssl": 75,
+    "headers": 295,
+    "meta": 655,
+    "httpx": 3035,
+    "webanalyze": 4,
+    "dnsx": 782,
+    "total_ms": 8749
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

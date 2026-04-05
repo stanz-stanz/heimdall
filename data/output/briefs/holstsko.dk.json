@@ -2,7 +2,7 @@
   "domain": "holstsko.dk",
   "cvr": "prospect",
   "company_name": "holstsko.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "C",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-03",
-      "days_remaining": 62
+      "days_remaining": 59,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -48,5 +53,20 @@
   },
   "dns": {},
   "cloud_exposure": [],
-  "findings": []
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    }
+  ]
 }

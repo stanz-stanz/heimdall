@@ -2,21 +2,23 @@
   "domain": "fiberpartner.com",
   "cvr": "prospect",
   "company_name": "fiberpartner.com",
-  "scan_date": "2026-04-02",
-  "bucket": "E",
+  "scan_date": "2026-04-05",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Gravityforms"
+    "Data-handling plugins: Gravityforms",
+    "Visitor tracking: Google Analytics"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Cloudflare",
     "ssl": {
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-04",
-      "days_remaining": 63
+      "days_remaining": 59,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -32,13 +34,29 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": "WP Engine"
     }
   },
   "tech_stack": [
+    "Alpine.js",
     "Cloudflare",
     "Cloudflare Bot Management",
-    "HTTP/3"
+    "Cookiebot",
+    "Google Analytics",
+    "Gravity Forms:2.9.29",
+    "HTTP/3",
+    "MySQL",
+    "PHP",
+    "The SEO Framework",
+    "WP Engine",
+    "WordPress",
+    "WordPress Block Editor",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
   ],
   "plugin_versions": {
     "gravityforms": "2.9.29"
@@ -49,8 +67,8 @@
   },
   "dns": {
     "a": [
-      "141.193.213.11",
-      "141.193.213.10"
+      "141.193.213.10",
+      "141.193.213.11"
     ],
     "aaaa": [],
     "cname": [],
@@ -62,14 +80,18 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:emsd1.com include:146389209.spf01.hubspotemail.net -all",
       "google-site-verification=Leri6_VHo-YTg8Kkd9tcFq4a1_KgsOSZI-FSLi4oPIs",
+      "v=spf1 include:spf.protection.outlook.com include:servers.mcsv.net include:emsd1.com include:146389209.spf01.hubspotemail.net -all",
       "apple-domain-verification=YutEd8q18z3lg73z",
-      "openai-domain-verification=dv-SKeOSBzNFAMTRJ2eXbZMdZWu",
-      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875"
+      "linkedin-site-verification=a94055e2-56b6-414d-b69f-97f3db79b875",
+      "openai-domain-verification=dv-SKeOSBzNFAMTRJ2eXbZMdZWu"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -92,14 +114,59 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: WP Engine",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+    },
+    {
+      "severity": "low",
+      "description": "WordPress detected (version not determined)",
+      "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugin detected: Gravityforms",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
       "severity": "info",
       "description": "WordPress theme detected: Fiberpartner",
       "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
+      "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2015-2260",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-05",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 148,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

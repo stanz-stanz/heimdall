@@ -2,7 +2,7 @@
   "domain": "cdk.com",
   "cvr": "prospect",
   "company_name": "cdk.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -59,34 +64,38 @@
       "ns.ord.us.cdk.com"
     ],
     "txt": [
-      "apple-domain-verification=8MhRwRIXeeALA2pT",
-      "jamf-site-verification=zwBK0P-UzSE2nBEbn0AV_A",
       "MS=ms32783553",
-      "docusign=3079a8d1-8547-4138-8e5d-e10b1ede4587",
-      "docker-verification=0b7e8e95-14b6-410f-9240-5e7c7f5c3ecc",
-      "MS=ms82581122",
-      "1PnYGyNueHMYvU6fMerqvVkr3tlPUks2zm44a+hPP7KaruYFdwckEg/l4xucM+RkqPHm+pR14bQaSTLKOZ/ONA==",
-      "ciscocidomainverification=f3f15cedb9af079c40227d131ef5519b2cbd9296f7718b4be1045eb81a6a93a",
-      "docusign=d4845c49-2a37-4f19-bf6a-340855f4f546",
-      "webexdomainverification.=3f2fd88c-7968-42b1-b7ff-ebd159981d8e",
-      "zoho-verification=zb50099817.zmverify.zoho.com",
-      "atlassian-domain-verification=yZ3yECTHpj/rDNcTTXoTkQAM5EgpdFWNLNN0DCB4lJNp/r8a7k7HmiHRv6lg7G7X",
-      "MS=ms75756581",
-      "miro-verification=0132ef1af54b96dc2609ba11c513dc8ba0abb958",
-      "drbK/oXtfqGqzCwHtIzhHRx0ZbL0TdLLZna2xgl5ADGsgmdZ7KdthNmJZWw3GjF23R025n34ZsqPz84U7MQo/g==",
-      "v=spf1 include:_spf.cdkglobal.com -all",
       "twilio-domain-verification=5b672f4c4ff7f78f47f4f9610fc6d151",
-      "google-site-verification=m69wR1zCQhE5Bw5JjUdoST1GlBUgScU6V1tClAnf_n8",
-      "google-site-verification=AA07FPmBJccZmOhmuQLWIm1GxduiDUunpME80puV5BA",
-      "smartsheet-site-validation=AQTKWfHloZ-EMSrzR6K9qrzXXNHYB2xH",
-      "ZOOM_verify_q5_iOny6SpicsV-JZ8H1Ig",
       "+2ARBWr4Juc6NGQIRWchl5TCE6poUtW4Iy+LHcdYF6a0F5dtPq1QnUozW7rNT4tYsWMBdv1iMmMzDaxXWuWzHg==",
+      "ciscocidomainverification=f3f15cedb9af079c40227d131ef5519b2cbd9296f7718b4be1045eb81a6a93a",
+      "1PnYGyNueHMYvU6fMerqvVkr3tlPUks2zm44a+hPP7KaruYFdwckEg/l4xucM+RkqPHm+pR14bQaSTLKOZ/ONA==",
+      "docusign=3079a8d1-8547-4138-8e5d-e10b1ede4587",
+      "MS=ms82581122",
+      "smartsheet-site-validation=AQTKWfHloZ-EMSrzR6K9qrzXXNHYB2xH",
       "VgT5LcC0K/xa9f3KUjxUy7yIZrKM3Mv0kCRuloBX8V/foKPet30jmyE/SEZrVB9DINK29cKBGYUb5KA7zL5d8A==",
       "WhTliuTeT0Ekb8o3O1hcwZ8QVsah2fUCYpmPCZwf9YEHQc5pdXh60yr48w/2xsAixT9pj+4u9djCUX5wtdfBWg==",
-      "google-site-verification=qxAcrHB2GYwUzWl1533SYy0lkqKK2lX1yvtHB46abAQ"
+      "zoho-verification=zb50099817.zmverify.zoho.com",
+      "jamf-site-verification=zwBK0P-UzSE2nBEbn0AV_A",
+      "apple-domain-verification=8MhRwRIXeeALA2pT",
+      "MS=ms75756581",
+      "drbK/oXtfqGqzCwHtIzhHRx0ZbL0TdLLZna2xgl5ADGsgmdZ7KdthNmJZWw3GjF23R025n34ZsqPz84U7MQo/g==",
+      "miro-verification=0132ef1af54b96dc2609ba11c513dc8ba0abb958",
+      "webexdomainverification.=3f2fd88c-7968-42b1-b7ff-ebd159981d8e",
+      "docusign=d4845c49-2a37-4f19-bf6a-340855f4f546",
+      "google-site-verification=qxAcrHB2GYwUzWl1533SYy0lkqKK2lX1yvtHB46abAQ",
+      "google-site-verification=AA07FPmBJccZmOhmuQLWIm1GxduiDUunpME80puV5BA",
+      "ZOOM_verify_q5_iOny6SpicsV-JZ8H1Ig",
+      "google-site-verification=m69wR1zCQhE5Bw5JjUdoST1GlBUgScU6V1tClAnf_n8",
+      "atlassian-domain-verification=yZ3yECTHpj/rDNcTTXoTkQAM5EgpdFWNLNN0DCB4lJNp/r8a7k7HmiHRv6lg7G7X",
+      "v=spf1 include:_spf.cdkglobal.com -all",
+      "docker-verification=0b7e8e95-14b6-410f-9240-5e7c7f5c3ecc"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -112,6 +121,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

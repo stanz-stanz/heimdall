@@ -2,7 +2,7 @@
   "domain": "ungarbejde.dk",
   "cvr": "prospect",
   "company_name": "ungarbejde.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "DigiCert Inc",
       "expiry": "2026-05-18",
-      "days_remaining": 46
+      "days_remaining": 43,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -51,22 +56,26 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "alt3.aspmx.l.google.com",
       "alt2.aspmx.l.google.com",
       "alt4.aspmx.l.google.com",
-      "aspmx.l.google.com",
-      "alt1.aspmx.l.google.com"
+      "alt3.aspmx.l.google.com",
+      "alt1.aspmx.l.google.com",
+      "aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:_spf.google.com include:spf.simply.com include:spf.mandrillapp.com include:sparkpostmail.com -all",
-      "google-site-verification=XNzMDcAqdFqI0O0ZXfZl7-UgZGTupZEoqF3jJ__KMOs"
+      "google-site-verification=XNzMDcAqdFqI0O0ZXfZl7-UgZGTupZEoqF3jJ__KMOs",
+      "v=spf1 include:_spf.google.com include:spf.simply.com include:spf.mandrillapp.com include:sparkpostmail.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -87,6 +96,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

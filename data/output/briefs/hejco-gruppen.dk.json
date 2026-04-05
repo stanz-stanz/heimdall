@@ -2,7 +2,7 @@
   "domain": "hejco-gruppen.dk",
   "cvr": "prospect",
   "company_name": "hejco-gruppen.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-15",
-      "days_remaining": 74
+      "days_remaining": 70,
+      "tls_version": ""
     },
     "server": "Apache 2.4",
     "detected_plugins": [
@@ -38,7 +39,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache 2.4",
+      "x_powered_by": "PHP/8.4.19"
     }
   },
   "tech_stack": [
@@ -86,6 +91,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -106,6 +115,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.4.19",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",
@@ -136,7 +160,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4965)",
       "risk": "CVE-2025-4965: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Author+) Stored Cross-Site Scripting via Grid Builder",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -148,7 +172,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.5 (CVE-2025-4968)",
       "risk": "CVE-2025-4968: WPBakery Page Builder &lt;= 8.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting via Multiple Page Builder Elements",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -160,7 +184,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.6 (CVE-2025-7502)",
       "risk": "CVE-2025-7502: WPBakery Page Builder for WordPress &lt;= 8.5 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -172,7 +196,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11161)",
       "risk": "CVE-2025-11161: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via vc_custom_heading Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -184,7 +208,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-11160)",
       "risk": "CVE-2025-11160: WPBakery Page Builder &lt;= 8.6.1 - Stored Cross-Site Scripting via Custom JS Module",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -196,7 +220,7 @@
       "severity": "medium",
       "description": "WPBakery [js_composer] < 8.7 (CVE-2025-10006)",
       "risk": "CVE-2025-10006: WPBakery [js_composer] < 8.7",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -208,7 +232,7 @@
       "severity": "critical",
       "description": "Easy Real Estate [easy-real-estate] <= 2.2.6 (unfixed) (CVE-2024-32555)",
       "risk": "CVE-2024-32555: Easy Real Estate &lt;= 2.2.6 - Unauthenticated Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -218,11 +242,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 559,
+    "duration_ms": 137,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

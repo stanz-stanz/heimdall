@@ -2,7 +2,7 @@
   "domain": "4fire.dk",
   "cvr": "prospect",
   "company_name": "4fire.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -15,8 +15,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-03",
-      "days_remaining": 31
+      "expiry": "2026-07-02",
+      "days_remaining": 88,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -67,7 +72,16 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
     {
       "severity": "low",
       "description": "Backend technology exposed: PHP",

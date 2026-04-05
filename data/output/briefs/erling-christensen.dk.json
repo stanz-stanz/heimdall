@@ -2,7 +2,7 @@
   "domain": "erling-christensen.dk",
   "cvr": "prospect",
   "company_name": "erling-christensen.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-12-24",
-      "days_remaining": 266
+      "days_remaining": 263,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -49,8 +54,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mail.erling-christensen.dk",
-      "backup-mx.zitcom.dk"
+      "backup-mx.zitcom.dk",
+      "mail.erling-christensen.dk"
     ],
     "ns": [
       "ns.dandomain.dk",
@@ -59,16 +64,25 @@
     "txt": [
       "google-site-verification=N4zRAkuK0S2xOZtEou1Yurshb-cnmiQfNxlbXNYkuXg",
       "facebook-domain-verification=5atptuhcfn61u45vhi5xpl8bffmxew",
-      "v=spf1 a mx include:spf.curanet.dk  include:spf.dandomain.dk -all",
-      "klaviyo-site-verification=SaRLSR"
+      "klaviyo-site-verification=SaRLSR",
+      "v=spf1 a mx include:spf.curanet.dk  include:spf.dandomain.dk -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
       "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     }
   ]
 }

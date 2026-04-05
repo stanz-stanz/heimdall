@@ -1,0 +1,205 @@
+{
+  "domain": "digitalhuset.dk",
+  "job_id": "scan-2026-04-05-2870b1f7",
+  "status": "completed",
+  "scan_result": {
+    "domain": "digitalhuset.dk",
+    "cms": "",
+    "server": "LiteSpeed",
+    "hosting": "LiteSpeed",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-28",
+    "ssl_days_remaining": 83,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "HTTP/3",
+      "LiteSpeed"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:01:12.659016012Z",
+      "port": "443",
+      "url": "https://digitalhuset.dk",
+      "input": "digitalhuset.dk",
+      "title": "Digitalhuset - Digitalt trykkeri beliggende i Vejle - Alt indenfor tryk, print, web og storformat",
+      "scheme": "https",
+      "webserver": "LiteSpeed",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "digitalhuset.dk",
+      "host_ip": "94.231.106.31",
+      "path": "/",
+      "time": "112.157443ms",
+      "a": [
+        "94.231.106.31"
+      ],
+      "tech": [
+        "HTTP/3",
+        "LiteSpeed"
+      ],
+      "words": 413,
+      "lines": 101,
+      "status_code": 200,
+      "content_length": 5029,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.106.31"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "digitalhuset-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:77.233.229.211 include:spf.protection.outlook.com include:mail.digitalhuset.dk  -all",
+        "MS=ms59404024"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "digitalhuset.dk",
+    "cvr": "prospect",
+    "company_name": "digitalhuset.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "LiteSpeed",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-28",
+        "days_remaining": 83,
+        "tls_version": ""
+      },
+      "server": "LiteSpeed",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "LiteSpeed",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "HTTP/3",
+      "LiteSpeed"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.106.31"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "digitalhuset-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 ip4:77.233.229.211 include:spf.protection.outlook.com include:mail.digitalhuset.dk  -all",
+        "MS=ms59404024"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 87,
+    "ssl": 64,
+    "headers": 80,
+    "meta": 97,
+    "httpx": 1643,
+    "webanalyze": 4,
+    "dnsx": 821,
+    "total_ms": 2804
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

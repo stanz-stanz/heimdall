@@ -2,7 +2,7 @@
   "domain": "besma.dk",
   "cvr": "prospect",
   "company_name": "besma.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-10-04",
-      "days_remaining": 185
+      "days_remaining": 182,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -49,7 +50,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -98,11 +103,15 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "MS=ms96853519",
-      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all"
+      "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all",
+      "MS=ms96853519"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -123,6 +132,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -163,7 +182,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 5.3.0 (CVE-2018-0578)",
       "risk": "CVE-2018-0578: WordPress plugin \"PixelYourSite\" vulnerable to cross-site scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,7 +194,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.1 (CVE-2023-22700)",
       "risk": "CVE-2023-22700: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.0 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -187,7 +206,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.7 (CVE-2023-2584)",
       "risk": "CVE-2023-2584: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.6 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -199,7 +218,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.6.2 (CVE-2024-37447)",
       "risk": "CVE-2024-37447: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 9.6.1.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -211,7 +230,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.7.2 (CVE-2024-7870)",
       "risk": "CVE-2024-7870: PixelYourSite – Your smart PIXEL (TAG) & API Manager <= 9.7.1 and PixelYourSite PRO <= 10.4.2 - Unauthenticated Information Exposure and Log Deletion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -223,7 +242,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.0.2 (CVE-2025-22300)",
       "risk": "CVE-2025-22300: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 10.0.1.2 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -235,7 +254,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.1.1.2 (CVE-2025-0769)",
       "risk": "CVE-2025-0769: PixelYourSite &ndash; Your smart PIXEL (TAG) &amp; API Manager &lt;= 10.1.1.1 - Unauthenticated PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -247,7 +266,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3 (CVE-2025-10588)",
       "risk": "CVE-2025-10588: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -259,7 +278,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2 (CVE-2025-10723)",
       "risk": "CVE-2025-10723: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -271,7 +290,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1 (CVE-2025-14280)",
       "risk": "CVE-2025-14280: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -283,7 +302,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed) (CVE-2026-27072)",
       "risk": "CVE-2026-27072: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -295,7 +314,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -307,7 +326,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -319,7 +338,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -331,7 +350,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -343,7 +362,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
       "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -355,7 +374,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
       "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -367,7 +386,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
       "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -379,7 +398,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
       "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -391,7 +410,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
       "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -403,7 +422,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
       "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -415,7 +434,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
       "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -425,11 +444,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 711,
+    "duration_ms": 186,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

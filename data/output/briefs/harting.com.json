@@ -2,7 +2,7 @@
   "domain": "harting.com",
   "cvr": "prospect",
   "company_name": "harting.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-18",
-      "days_remaining": 46
+      "days_remaining": 42,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -46,35 +51,39 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx03.hornetsecurity.com",
-      "mx02.hornetsecurity.com",
+      "mx01.hornetsecurity.com",
       "mx04.hornetsecurity.com",
-      "mx01.hornetsecurity.com"
+      "mx03.hornetsecurity.com",
+      "mx02.hornetsecurity.com"
     ],
     "ns": [
       "ns1.telekom.net",
       "pns.dtag.de"
     ],
     "txt": [
-      "logmein-verification-code=eFT9TQkKWfiZ6m7g9ynPW4Zql",
-      "+7clppk57yAVy7uBGEhz+yTDfUCvF8DEtz9rIQ2p+THsXgIv1x+VFBqd8JuUEnS4JrXhgCKrF2STgN+blLfKpw==",
-      "bw=prCxUy7wHQJt5PZiLMJ0se83yQ1YUBFZjUYpddqhxv03",
-      "docusign=76963887-4af7-4f9e-886e-2b1a7ab15b58",
-      "apple-domain-verification=a0wbcFNI3HIkrmRQ",
-      "meltwater_sso_20250417_triton-28038",
-      "google-site-verification=6DPw3y54LC-08QOWhedAJnQ71K01X18UGz0DNaO66Vs",
+      "ia6ap167c4ld3sp6vgchgiqqmj",
+      "MS=ms92616187",
       "v=spf1 a mx ip4:209.10.241.15 ip4:87.230.106.226 ip6:2a01:488:42:1000:57e6:6ae2::/96 include:spf.hornetsecurity.com include:eur.pb-dynmktge.com ip4:139.2.207.19 include:amazonses.com -all",
+      "MS=05AFE6251E3E2793199F34F7E4BAAEF184F09FE4",
+      "apple-domain-verification=a0wbcFNI3HIkrmRQ",
+      "adobe-idp-site-verification=65f4ea9cdace4036ca0285656ec9c1321e3879fd34a973e2da6faad7918c5bf1",
+      "docusign=76963887-4af7-4f9e-886e-2b1a7ab15b58",
+      "+7clppk57yAVy7uBGEhz+yTDfUCvF8DEtz9rIQ2p+THsXgIv1x+VFBqd8JuUEnS4JrXhgCKrF2STgN+blLfKpw==",
       "d365mktkey=zdLKDw8u05N2xnmfn7qxfYODtZ0fkj3wz7RipKIS1HYx",
       "d365mktkey=1whQP2owhr6EGgv6Ge6PtvC4EOzUINxVwCFbuv6Gnk4x",
-      "MS=05AFE6251E3E2793199F34F7E4BAAEF184F09FE4",
-      "miro-verification=83723f31f08f8465be960b0c33fcb6db23f0fdf1",
-      "MS=ms92616187",
-      "d365mktkey=L3mEwP3ybAKxyreZCS6pAaT279zf4kzHRrEPibxIuAMx",
-      "ia6ap167c4ld3sp6vgchgiqqmj",
       "logmein-verification-code=350a5050-f81b-4433-85bf-d672e617bace",
-      "adobe-idp-site-verification=65f4ea9cdace4036ca0285656ec9c1321e3879fd34a973e2da6faad7918c5bf1"
+      "logmein-verification-code=eFT9TQkKWfiZ6m7g9ynPW4Zql",
+      "meltwater_sso_20250417_triton-28038",
+      "miro-verification=83723f31f08f8465be960b0c33fcb6db23f0fdf1",
+      "d365mktkey=L3mEwP3ybAKxyreZCS6pAaT279zf4kzHRrEPibxIuAMx",
+      "bw=prCxUy7wHQJt5PZiLMJ0se83yQ1YUBFZjUYpddqhxv03",
+      "google-site-verification=6DPw3y54LC-08QOWhedAJnQ71K01X18UGz0DNaO66Vs"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": []
 }

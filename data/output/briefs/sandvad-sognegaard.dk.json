@@ -2,7 +2,7 @@
   "domain": "sandvad-sognegaard.dk",
   "cvr": "prospect",
   "company_name": "sandvad-sognegaard.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-17",
-      "days_remaining": 45
+      "days_remaining": 41,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -53,10 +58,10 @@
     "cname": [],
     "mx": [
       "alt2.aspmx.l.google.com",
-      "alt1.aspmx.l.google.com",
+      "alt4.aspmx.l.google.com",
       "aspmx.l.google.com",
       "alt3.aspmx.l.google.com",
-      "alt4.aspmx.l.google.com"
+      "alt1.aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -65,6 +70,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",

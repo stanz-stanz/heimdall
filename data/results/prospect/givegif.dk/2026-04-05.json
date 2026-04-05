@@ -1,0 +1,195 @@
+{
+  "domain": "givegif.dk",
+  "job_id": "scan-2026-04-05-cf93eb2a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "givegif.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-16",
+    "ssl_days_remaining": 40,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Hosted Libraries",
+      "HSTS",
+      "jQuery:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:09:14.378666588Z",
+      "port": "443",
+      "url": "https://givegif.dk",
+      "input": "givegif.dk",
+      "title": "Give GIF",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "givegif.dk",
+      "host_ip": "89.188.72.90",
+      "path": "/",
+      "final_url": "https://www.givegif.dk/",
+      "time": "418.082841ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "89.188.72.90"
+      ],
+      "tech": [
+        "Google Hosted Libraries",
+        "HSTS",
+        "jQuery:3.4.1"
+      ],
+      "words": 21539,
+      "lines": 846,
+      "status_code": 200,
+      "content_length": 54216,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "89.188.72.90"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "givegif.dk",
+    "cvr": "prospect",
+    "company_name": "givegif.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-16",
+        "days_remaining": 40,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Hosted Libraries",
+      "HSTS",
+      "jQuery:3.4.1"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "89.188.72.90"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 115,
+    "ssl": 92,
+    "headers": 243,
+    "meta": 250,
+    "httpx": 2511,
+    "webanalyze": 3,
+    "dnsx": 755,
+    "total_ms": 3978
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "domain": "flex-wind.com",
+  "job_id": "scan-2026-04-05-54b746ef",
+  "status": "completed",
+  "scan_result": {
+    "domain": "flex-wind.com",
+    "cms": "",
+    "server": "Microsoft-IIS/10.0",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-09",
+    "ssl_days_remaining": 64,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Microsoft-IIS/10.0",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "IIS:10.0",
+      "Slick",
+      "Windows Server",
+      "jQuery",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "Dynamic-it",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:06:59.221130296Z",
+      "port": "443",
+      "url": "https://flex-wind.com",
+      "input": "flex-wind.com",
+      "title": "Flex Wind - Wind Turbine Installation, Maintenance, and Repair - Flex-wind.com",
+      "scheme": "https",
+      "webserver": "Microsoft-IIS/10.0",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "flex-wind.com",
+      "host_ip": "185.21.41.202",
+      "path": "/",
+      "final_url": "https://www.flex-wind.com/en/",
+      "time": "523.647638ms",
+      "chain_status_codes": [
+        301,
+        302,
+        200
+      ],
+      "a": [
+        "185.21.41.202"
+      ],
+      "tech": [
+        "IIS:10.0",
+        "Slick",
+        "Windows Server",
+        "jQuery",
+        "reCAPTCHA"
+      ],
+      "words": 4022,
+      "lines": 453,
+      "status_code": 200,
+      "content_length": 29197,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "piwigo",
+          "vendor": "piwigo",
+          "cpe": "cpe:2.3:a:piwigo:piwigo:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.41.202"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "flexwind-com01b.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=SpPLgFvP318NmhNFjIHqJVKjV1nf5MpnRB6zkNTQZ7U",
+        "apple-domain-verification=lv5ylHKvUBXT2c9L",
+        "652BDD2BB8",
+        "MS=ms84086824",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "flex-wind.com",
+    "cvr": "prospect",
+    "company_name": "flex-wind.com",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-09",
+        "days_remaining": 64,
+        "tls_version": ""
+      },
+      "server": "Microsoft-IIS/10.0",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Microsoft-IIS/10.0",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "IIS:10.0",
+      "Slick",
+      "Windows Server",
+      "jQuery",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.41.202"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "flexwind-com01b.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=SpPLgFvP318NmhNFjIHqJVKjV1nf5MpnRB6zkNTQZ7U",
+        "apple-domain-verification=lv5ylHKvUBXT2c9L",
+        "652BDD2BB8",
+        "MS=ms84086824",
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": "Dynamic-it"
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 239,
+    "ssl": 87,
+    "headers": 363,
+    "meta": 369,
+    "httpx": 2331,
+    "webanalyze": 4,
+    "dnsx": 754,
+    "total_ms": 4155
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

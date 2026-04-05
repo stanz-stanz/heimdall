@@ -2,7 +2,7 @@
   "domain": "liqflow.dk",
   "cvr": "prospect",
   "company_name": "liqflow.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-20",
-      "days_remaining": 78
+      "days_remaining": 75,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -38,7 +39,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.0.30"
     }
   },
   "tech_stack": [
@@ -77,21 +82,25 @@
     ],
     "cname": [],
     "mx": [
-      "mx2.mailpod15-cph3.g1i.one.com",
       "mx4.mailpod15-cph3.g1i.one.com",
-      "mx1.mailpod15-cph3.g1i.one.com",
-      "mx3.mailpod15-cph3.g1i.one.com"
+      "mx3.mailpod15-cph3.g1i.one.com",
+      "mx2.mailpod15-cph3.g1i.one.com",
+      "mx1.mailpod15-cph3.g1i.one.com"
     ],
     "ns": [
       "ns01.one.com",
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:_custspf.one.com -all",
-      "google-site-verification=0eoMYbVV26O_JWrh3uBr-V3-qk_zxI1rD2Q61940HBg"
+      "google-site-verification=0eoMYbVV26O_JWrh3uBr-V3-qk_zxI1rD2Q61940HBg",
+      "v=spf1 include:_custspf.one.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -112,6 +121,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.0.30",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",
@@ -147,7 +171,7 @@
       "severity": "high",
       "description": "Master Slider Pro [masterslider] <= 3.6.5 (unfixed) (CVE-2023-47508)",
       "risk": "CVE-2023-47508: WordPress  Master Slider Pro Plugin  <= 3.6.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -159,7 +183,7 @@
       "severity": "high",
       "description": "Master Slider Pro [masterslider] <= 3.6.5 (unfixed) (CVE-2023-47507)",
       "risk": "CVE-2023-47507: WordPress  Master Slider Pro Plugin  <= 3.6.5 is vulnerable to PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -171,7 +195,7 @@
       "severity": "high",
       "description": "Master Slider Pro [masterslider] <= 3.6.5 (unfixed) (CVE-2023-47506)",
       "risk": "CVE-2023-47506: WordPress  Master Slider Pro Plugin  <= 3.6.5 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -183,7 +207,7 @@
       "severity": "medium",
       "description": "Master Slider Pro [masterslider] <= 3.7.12 (unfixed) (CVE-2025-63045)",
       "risk": "CVE-2025-63045: Master Slider Pro [masterslider] <= 3.7.12 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -195,7 +219,7 @@
       "severity": "medium",
       "description": "Burst Statistics &#8211; Privacy-Friendly Analytics for WordPress [burst-statistics] < 2.0.8 (CVE-2025-53193)",
       "risk": "CVE-2025-53193: WordPress Burst Statistics Plugin <= 2.0.6 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -207,7 +231,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 5.3.0 (CVE-2018-0578)",
       "risk": "CVE-2018-0578: WordPress plugin \"PixelYourSite\" vulnerable to cross-site scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -219,7 +243,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.1 (CVE-2023-22700)",
       "risk": "CVE-2023-22700: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.0 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -231,7 +255,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.3.7 (CVE-2023-2584)",
       "risk": "CVE-2023-2584: WordPress  PixelYourSite – Your smart PIXEL (TAG) Manager Plugin  <= 9.3.6 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -243,7 +267,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.6.2 (CVE-2024-37447)",
       "risk": "CVE-2024-37447: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 9.6.1.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -255,7 +279,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 9.7.2 (CVE-2024-7870)",
       "risk": "CVE-2024-7870: PixelYourSite – Your smart PIXEL (TAG) & API Manager <= 9.7.1 and PixelYourSite PRO <= 10.4.2 - Unauthenticated Information Exposure and Log Deletion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -267,7 +291,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.0.2 (CVE-2025-22300)",
       "risk": "CVE-2025-22300: WordPress PixelYourSite – Your smart PIXEL (TAG) Manager Plugin <= 10.0.1.2 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -279,7 +303,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 10.1.1.2 (CVE-2025-0769)",
       "risk": "CVE-2025-0769: PixelYourSite &ndash; Your smart PIXEL (TAG) &amp; API Manager &lt;= 10.1.1.1 - Unauthenticated PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -291,7 +315,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3 (CVE-2025-10588)",
       "risk": "CVE-2025-10588: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -303,7 +327,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2 (CVE-2025-10723)",
       "risk": "CVE-2025-10723: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.2",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -315,7 +339,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1 (CVE-2025-14280)",
       "risk": "CVE-2025-14280: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] < 11.1.5.1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -327,7 +351,7 @@
       "severity": "medium",
       "description": "PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed) (CVE-2026-27072)",
       "risk": "CVE-2026-27072: PixelYourSite &#8211; Your smart PIXEL (TAG) &amp; API Manager [pixelyoursite] <= 11.2.0.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -337,11 +361,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 546,
+    "duration_ms": 157,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

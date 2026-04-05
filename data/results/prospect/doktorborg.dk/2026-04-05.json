@@ -1,0 +1,200 @@
+{
+  "domain": "doktorborg.dk",
+  "job_id": "scan-2026-04-05-53d49006",
+  "status": "completed",
+  "scan_result": {
+    "domain": "doktorborg.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-05",
+    "ssl_days_remaining": 30,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:01:44.100445866Z",
+      "port": "443",
+      "url": "https://doktorborg.dk",
+      "input": "doktorborg.dk",
+      "title": "Forside - LÆGERNE DOKTORBORG & BREDBALLE LÆGEHUS",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "doktorborg.dk",
+      "host_ip": "185.221.38.124",
+      "path": "/",
+      "time": "173.567717ms",
+      "a": [
+        "185.221.38.124"
+      ],
+      "tech": [
+        "HSTS",
+        "Nginx",
+        "PHP"
+      ],
+      "words": 15142,
+      "lines": 887,
+      "status_code": 200,
+      "content_length": 121160,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.124"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.onlinemail.io",
+        "mx2.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.curanet.dk ?all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "doktorborg.dk",
+    "cvr": "prospect",
+    "company_name": "doktorborg.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-05",
+        "days_remaining": 30,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.124"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.onlinemail.io",
+        "mx2.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.curanet.dk ?all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 94,
+    "ssl": 66,
+    "headers": 162,
+    "meta": 169,
+    "httpx": 2243,
+    "webanalyze": 4,
+    "dnsx": 760,
+    "total_ms": 3507
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

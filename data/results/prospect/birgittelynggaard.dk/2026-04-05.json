@@ -1,0 +1,597 @@
+{
+  "domain": "birgittelynggaard.dk",
+  "job_id": "scan-2026-04-05-80d101df",
+  "status": "completed",
+  "scan_result": {
+    "domain": "birgittelynggaard.dk",
+    "cms": "WordPress",
+    "server": "Simply.com",
+    "hosting": "simply.com",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-24",
+    "ssl_days_remaining": 48,
+    "detected_plugins": [
+      "divi-mobile",
+      "breadcrumbs-divi-module",
+      "overlay-image-divi-module",
+      "complianz-gdpr",
+      "sticky-menu-or-anything-on-scroll",
+      "divi-builder"
+    ],
+    "plugin_versions": {
+      "divi-mobile": "1.5.4.2",
+      "breadcrumbs-divi-module": "1.2",
+      "overlay-image-divi-module": "1.2",
+      "complianz-gdpr": "5.1.0",
+      "sticky-menu-or-anything-on-scroll": "2.1.1",
+      "divi-builder": "4.6.6"
+    },
+    "detected_themes": [
+      "Divi"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Complianz",
+      "Divi:4.6.6",
+      "HTTP/3",
+      "Modernizr:2.8.3",
+      "MySQL",
+      "Onsen UI",
+      "PHP",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:53:51.656337929Z",
+      "port": "443",
+      "url": "https://birgittelynggaard.dk",
+      "input": "birgittelynggaard.dk",
+      "title": "BirgitteLynggaard | art director for rent",
+      "scheme": "https",
+      "webserver": "Simply.com",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "birgittelynggaard.dk",
+      "host_ip": "93.191.156.167",
+      "path": "/",
+      "time": "709.446019ms",
+      "a": [
+        "93.191.156.167"
+      ],
+      "tech": [
+        "Complianz",
+        "Divi:4.6.6",
+        "HTTP/3",
+        "Modernizr:2.8.3",
+        "MySQL",
+        "Onsen UI",
+        "PHP",
+        "WordPress:6.9.4",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 5354,
+      "lines": 1170,
+      "status_code": 200,
+      "content_length": 83338,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "wordpress": {
+        "plugins": [
+          "breadcrumbs-divi-module",
+          "overlay-image-divi-module",
+          "complianz-gdpr",
+          "sticky-menu-or-anything-on-scroll"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "93.191.156.167"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "birgittelynggaard.dk",
+    "cvr": "prospect",
+    "company_name": "birgittelynggaard.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "simply.com",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-24",
+        "days_remaining": 48,
+        "tls_version": ""
+      },
+      "server": "Simply.com",
+      "detected_plugins": [
+        "Divi Mobile",
+        "Breadcrumbs Divi Module",
+        "Overlay Image Divi Module",
+        "Complianz Gdpr",
+        "Sticky Menu Or Anything On Scroll",
+        "Divi Builder"
+      ],
+      "plugin_versions": {
+        "Divi Mobile": "1.5.4.2",
+        "Breadcrumbs Divi Module": "1.2",
+        "Overlay Image Divi Module": "1.2",
+        "Complianz Gdpr": "5.1.0",
+        "Sticky Menu Or Anything On Scroll": "2.1.1",
+        "Divi Builder": "4.6.6"
+      },
+      "detected_themes": [
+        "Divi"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Simply.com",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Complianz",
+      "Divi:4.6.6",
+      "HTTP/3",
+      "Modernizr:2.8.3",
+      "MySQL",
+      "Onsen UI",
+      "PHP",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "divi-mobile": "1.5.4.2",
+      "breadcrumbs-divi-module": "1.2",
+      "overlay-image-divi-module": "1.2",
+      "complianz-gdpr": "5.1.0",
+      "sticky-menu-or-anything-on-scroll": "2.1.1",
+      "divi-builder": "4.6.6"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "93.191.156.167"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "6 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Divi",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Breadcrumbs Divi Module (installed 1.2, latest 1.2.4)",
+        "risk": "The installed version of Breadcrumbs Divi Module is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Overlay Image Divi Module (installed 1.2, latest 1.5.1)",
+        "risk": "The installed version of Overlay Image Divi Module is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Complianz Gdpr (installed 5.1.0, latest 7.4.5)",
+        "risk": "The installed version of Complianz Gdpr is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Sticky Menu Or Anything On Scroll (installed 2.1.1, latest 2.34)",
+        "risk": "The installed version of Sticky Menu Or Anything On Scroll is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
+        "risk": "WordPress Overlay Image Divi Module plugin <= 1.3.1 - Toggle The Debug Mode via Cross-Site Request Forgery (CSRF) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
+        "risk": "WordPress Overlay Image Divi Module plugin <= 1.3.1 - Sensitive Information Disclosure vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
+        "risk": "Freemius SDK <= 2.4.2 - Missing Authorization Checks",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.5 (CVE-2023-33999)",
+        "risk": "CVE-2023-33999: WordPress  Overlay Image Divi Module Plugin  < 1.5 is vulnerable to Cross Site Scripting (XSS)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-33999",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2 (CVE-2022-4974)",
+        "risk": "CVE-2022-4974: Overlay Image Divi Module [overlay-image-divi-module] < 1.3.2",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-4974",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.0.0 (CVE-2022-0193)",
+        "risk": "CVE-2022-0193: WordPress Complianz – GDPR/CCPA Cookie Consent plugin <= 5.5.2 - Reflected Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-0193",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.3.4 (CVE-2022-3494)",
+        "risk": "CVE-2022-3494: WordPress Complianz plugin <= 6.3.3 - Auth. SQL Injection (SQLi) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-3494",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.2 (CVE-2023-1069)",
+        "risk": "CVE-2023-1069: Complianz - GDPR/CCPA Cookie Consent <= 6.4.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-1069",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
+        "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via maybe_install_suggested_plugins",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
+        "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via ajax_script_save",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5 (CVE-2023-33333)",
+        "risk": "CVE-2023-33333: WordPress  Complianz – GDPR/CCPA Cookie Consent Plugin  <= 6.4.4 is vulnerable to Cross Site Request Forgery (CSRF)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-33333",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
+        "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via cmplz_duplicate_cookiebanner",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5",
+        "risk": "Complianz - GDPR/CCPA Cookie Consent <= 6.4.4 - Cross-Site Request Forgery via cmplz_delete_cookiebanner",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.5.6 (CVE-2023-6498)",
+        "risk": "CVE-2023-6498: Complianz | GDPR/CCPA Cookie Consent <= 6.5.5 - Authenticated(Administrator+) Stored Cross-site Scripting via settings",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-6498",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 7.0.0 (CVE-2024-1592)",
+        "risk": "CVE-2024-1592: Complianz – GDPR/CCPA Cookie Consent <= 6.5.6 - Cross-Site Request Forgery to Data Request Deletion",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-1592",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 7.4.4 (CVE-2025-11185)",
+        "risk": "CVE-2025-11185: Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 7.4.4",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-11185",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
+        "risk": "WordPress Sticky Menu, Sticky Header (or anything!) on Scroll plugin <= 2.2 - Reflected Cross-Site Scripting (XSS) vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
+        "risk": "Sticky Menu & Sticky Header <= 2.20 - Reflected Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Sticky Menu &amp; Sticky Header [sticky-menu-or-anything-on-scroll] < 2.21",
+        "risk": "Sticky Menu, Sticky Header (or anything!) on Scroll &lt; 2.21 - CSRF &amp; XSS",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "critical",
+        "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+        "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2020-35945",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
+        "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Divi Builder [divi-builder] < 4.25.1 (CVE-2024-4490)",
+        "risk": "CVE-2024-4490: Elegant Themes Divi Theme, Extra Theme, Divi Page Builder &lt;= 4.25.0 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-4490",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Divi Builder [divi-builder] < 4.27.2",
+        "risk": "Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Magnific Popups JavaScript Library",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "",
+          "confidence": "high-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 183,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 1009,
+    "ssl": 64,
+    "headers": 176,
+    "meta": 966,
+    "httpx": 2901,
+    "webanalyze": 4,
+    "dnsx": 805,
+    "total_ms": 8351
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "rema1000.dk",
   "cvr": "prospect",
   "company_name": "rema1000.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Amazon",
       "expiry": "2026-08-22",
-      "days_remaining": 142
+      "days_remaining": 139,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": "Nuxt"
     }
   },
   "tech_stack": [
@@ -40,12 +45,12 @@
   },
   "dns": {
     "a": [
-      "99.83.128.242",
-      "15.197.211.151"
+      "15.197.211.151",
+      "99.83.128.242"
     ],
     "aaaa": [
-      "2600:9000:a518:ef11:8775:6bcd:262e:679c",
-      "2600:9000:a406:acc4:46f1:f0a3:7470:754b"
+      "2600:9000:a406:acc4:46f1:f0a3:7470:754b",
+      "2600:9000:a518:ef11:8775:6bcd:262e:679c"
     ],
     "cname": [],
     "mx": [
@@ -56,25 +61,29 @@
       "ns2.scannet2.dk"
     ],
     "txt": [
-      "v=spf1 include:_spf72550.spf-protect.dk -all",
       "MS=ms51825705",
-      "facebook-domain-verification=ieg3gntlt9pojlsxgf0o7zifaumije",
-      "ms=msDFT-765-7H1",
-      "ffv4ps2c7dpd2345s499grbsqg",
-      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG",
-      "ms=msDFT7657H1",
-      "S5A1RgSS/yYfbZYKxnyUH9v0bhYWNecwh8aOotw2NRGTKnPyexSB/UTFgB3mGHx3rnoSBi6y0rsILx6yJ4bXFQ==",
-      "apple-domain-verification=3LxaeflBDAoKRGeu",
+      "v=spf1 include:_spf72550.spf-protect.dk -all",
       "i715i0pqsbkhgkiabra2l3q6sh",
       "MS=ms58013434",
-      "MS=ms60485509",
-      "DFT-765-7H1",
+      "facebook-domain-verification=ieg3gntlt9pojlsxgf0o7zifaumije",
+      "ms=msDFT-765-7H1",
       "google-site-verification=-nbtrE-a_tS-4RLp6LnfYplbFPgCvcrSwh5-0bfsFhc",
+      "MS=ms60485509",
+      "S5A1RgSS/yYfbZYKxnyUH9v0bhYWNecwh8aOotw2NRGTKnPyexSB/UTFgB3mGHx3rnoSBi6y0rsILx6yJ4bXFQ==",
+      "atlassian-domain-verification=ZOtBTaHfXWYro1gRoFu7om5MRa2HZxjoVTHiJf3iq6WpoNxu3PudsLSbaqnWubaG",
+      "OzWfORhp0DDQiTypvEtr+iSU1XdSGOHzXpGPxwvE3aHomyLbszKpUeG3mnyaMPZI5VzaBMbbaOzX1jSPlZR0Zw==",
+      "DFT-765-7H1",
+      "apple-domain-verification=3LxaeflBDAoKRGeu",
       "MS=ms89040986",
-      "OzWfORhp0DDQiTypvEtr+iSU1XdSGOHzXpGPxwvE3aHomyLbszKpUeG3mnyaMPZI5VzaBMbbaOzX1jSPlZR0Zw=="
+      "ffv4ps2c7dpd2345s499grbsqg",
+      "ms=msDFT7657H1"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -90,6 +99,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: Nuxt",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     }
   ]
 }

@@ -1,0 +1,220 @@
+{
+  "domain": "nfoo.com",
+  "job_id": "scan-2026-04-05-485c0be9",
+  "status": "completed",
+  "scan_result": {
+    "domain": "nfoo.com",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-14",
+    "ssl_days_remaining": 38,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": "PHP/8.2.23, PleskLin"
+    },
+    "tech_stack": [
+      "Nginx",
+      "PHP:8.2.23"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:26:22.722894769Z",
+      "port": "443",
+      "url": "https://nfoo.com",
+      "input": "nfoo.com",
+      "title": "Nfoo dashboard login",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "nfoo.com",
+      "host_ip": "188.166.194.169",
+      "path": "/",
+      "final_url": "https://nfoo.com/login.php",
+      "time": "272.053726ms",
+      "chain_status_codes": [
+        302,
+        200
+      ],
+      "a": [
+        "188.166.194.169"
+      ],
+      "tech": [
+        "Nginx",
+        "PHP:8.2.23"
+      ],
+      "words": 448,
+      "lines": 80,
+      "status_code": 200,
+      "content_length": 2334,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "188.166.194.169"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "nfoo-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.digitalocean.com",
+        "ns2.digitalocean.com",
+        "ns3.digitalocean.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.nfoo.com include:mail.zendesk.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "nfoo.com",
+    "cvr": "prospect",
+    "company_name": "nfoo.com",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-14",
+        "days_remaining": 38,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "nginx",
+        "x_powered_by": "PHP/8.2.23, PleskLin"
+      }
+    },
+    "tech_stack": [
+      "Nginx",
+      "PHP:8.2.23"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "188.166.194.169"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "nfoo-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.digitalocean.com",
+        "ns2.digitalocean.com",
+        "ns3.digitalocean.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.nfoo.com include:mail.zendesk.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: PHP/8.2.23, PleskLin",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP:8.2.23",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 161,
+    "ssl": 88,
+    "headers": 179,
+    "meta": 181,
+    "httpx": 1673,
+    "webanalyze": 4,
+    "dnsx": 1002,
+    "total_ms": 3297
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "rollco.dk",
   "cvr": "prospect",
   "company_name": "rollco.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 64
+      "days_remaining": 61,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -44,10 +49,10 @@
   },
   "dns": {
     "a": [
-      "151.101.130.132",
       "151.101.66.132",
+      "151.101.2.132",
       "151.101.194.132",
-      "151.101.2.132"
+      "151.101.130.132"
     ],
     "aaaa": [],
     "cname": [],
@@ -60,15 +65,19 @@
     ],
     "txt": [
       "MS=ms20176768",
-      "6X3C1EkNDldawUqzS6dcsql0VFE0GOtn6JXTd8E3DOo=",
-      "x4W3uvzpXq9HGqrFKsGKjc9YOM4Otl5lKHn9+uMIxGI=",
-      "95hVYOEe+tdODgitxhQyVeuZ5ESHkv40iDRvazXndao=",
-      "FN0m2S5dIQmDA5eFV1y8jzFSRoZEPhfAdqqXlXRv1HE=",
       "MS=ms84475491",
-      "v=spf1 mx include:spf.ubivox.com include:bwz.se a:mail3.litiumdrift.se include:spf.protection.outlook.com include:spf.bedrock.lime-technologies.com include:6400841.spf10.hubspotemail.net ip4:212.247.229.8 ~all"
+      "v=spf1 mx include:spf.ubivox.com include:bwz.se a:mail3.litiumdrift.se include:spf.protection.outlook.com include:spf.bedrock.lime-technologies.com include:6400841.spf10.hubspotemail.net ip4:212.247.229.8 ~all",
+      "x4W3uvzpXq9HGqrFKsGKjc9YOM4Otl5lKHn9+uMIxGI=",
+      "FN0m2S5dIQmDA5eFV1y8jzFSRoZEPhfAdqqXlXRv1HE=",
+      "6X3C1EkNDldawUqzS6dcsql0VFE0GOtn6JXTd8E3DOo=",
+      "95hVYOEe+tdODgitxhQyVeuZ5ESHkv40iDRvazXndao="
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -79,6 +88,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

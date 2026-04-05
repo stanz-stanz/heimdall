@@ -1,0 +1,231 @@
+{
+  "domain": "vejlebrand.dk",
+  "job_id": "scan-2026-04-05-edc48f45",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vejlebrand.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "GlobalSign nv-sa",
+    "ssl_expiry": "2026-09-30",
+    "ssl_days_remaining": 177,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:40:49.804364335Z",
+      "port": "443",
+      "url": "https://vejlebrand.dk",
+      "input": "vejlebrand.dk",
+      "title": "Vejle Brand – Et gensidigt forsikringsselskab | Dit mit vores - Forsikringsselskabet Vejle Brand g/s",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vejlebrand.dk",
+      "host_ip": "185.150.74.51",
+      "path": "/",
+      "final_url": "https://www.vejlebrand.dk/",
+      "time": "271.394386ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "185.150.74.51"
+      ],
+      "tech": [
+        "Cookiebot",
+        "Google Analytics"
+      ],
+      "words": 11458,
+      "lines": 620,
+      "status_code": 200,
+      "content_length": 28558,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.150.74.51"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx3-dk.centerasecurity.dk",
+        "mx1-dk.centerasecurity.dk",
+        "mx2-dk.centerasecurity.dk"
+      ],
+      "ns": [
+        "margot.ns.cloudflare.com",
+        "emerson.ns.cloudflare.com"
+      ],
+      "txt": [
+        "s0GEQz2eUq7j1KAurIVVTm+byZKltLinKez+ff0TlRWWOkAozn/kDESM/y2GhDG4oM61yw/xqBx8RTI+DIMv1Q==",
+        "sophos-domain-verification=6a64ff56a86ea1981087cbbf4f3323e0ecc79f5551db57fb2d252fa21e4c0499",
+        "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHwSG661cCcmQLlf/HsAHOpMFZbp00xBjvnXqSr7RW3QbtdK+eauZqqvN/6J3YRW1ARPkz1OPzNrU3P0Uy3Y48MRi7NJGzYaeQyWQ3G841S6+8c/yZv7iYoDemreT2zTji/7zjexhea6DZ3ltmcAWU92oYD+0nr12qhApnNtVCPwIDAQAB",
+        "v=spf1 include:_spf9110.spfprotect.com -all",
+        "zoho-verification=zb15777170.zmverify.zoho.eu",
+        "MS=C8A7D53FFEFE5A1B30E9A1BA8417EC75A41E1A4A",
+        "_globalsign-domain-verification=8nxTFDBnAPJASFu5Li6eFBxFXmZ8AYQ3bgb0kqBLaC",
+        "apple-domain-verification=0UZK9lbEem6LuYbu",
+        "atlassian-domain-verification=wefEeRDuERHtUSba27BP6lkcYcDQZ8641P8p5mBaat3JCy9enyK4EThuhEfV3110"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vejlebrand.dk",
+    "cvr": "prospect",
+    "company_name": "vejlebrand.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "GlobalSign nv-sa",
+        "expiry": "2026-09-30",
+        "days_remaining": 177,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Google Analytics"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.150.74.51"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx3-dk.centerasecurity.dk",
+        "mx1-dk.centerasecurity.dk",
+        "mx2-dk.centerasecurity.dk"
+      ],
+      "ns": [
+        "margot.ns.cloudflare.com",
+        "emerson.ns.cloudflare.com"
+      ],
+      "txt": [
+        "s0GEQz2eUq7j1KAurIVVTm+byZKltLinKez+ff0TlRWWOkAozn/kDESM/y2GhDG4oM61yw/xqBx8RTI+DIMv1Q==",
+        "sophos-domain-verification=6a64ff56a86ea1981087cbbf4f3323e0ecc79f5551db57fb2d252fa21e4c0499",
+        "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHwSG661cCcmQLlf/HsAHOpMFZbp00xBjvnXqSr7RW3QbtdK+eauZqqvN/6J3YRW1ARPkz1OPzNrU3P0Uy3Y48MRi7NJGzYaeQyWQ3G841S6+8c/yZv7iYoDemreT2zTji/7zjexhea6DZ3ltmcAWU92oYD+0nr12qhApnNtVCPwIDAQAB",
+        "v=spf1 include:_spf9110.spfprotect.com -all",
+        "zoho-verification=zb15777170.zmverify.zoho.eu",
+        "MS=C8A7D53FFEFE5A1B30E9A1BA8417EC75A41E1A4A",
+        "_globalsign-domain-verification=8nxTFDBnAPJASFu5Li6eFBxFXmZ8AYQ3bgb0kqBLaC",
+        "apple-domain-verification=0UZK9lbEem6LuYbu",
+        "atlassian-domain-verification=wefEeRDuERHtUSba27BP6lkcYcDQZ8641P8p5mBaat3JCy9enyK4EThuhEfV3110"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 206,
+    "ssl": 96,
+    "headers": 207,
+    "meta": 252,
+    "httpx": 2017,
+    "webanalyze": 4,
+    "dnsx": 674,
+    "crtsh": 0,
+    "ghw": 215,
+    "total_ms": 3682
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

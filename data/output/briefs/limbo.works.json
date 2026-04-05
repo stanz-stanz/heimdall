@@ -2,7 +2,7 @@
   "domain": "limbo.works",
   "cvr": "prospect",
   "company_name": "limbo.works",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -15,8 +15,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-10",
-      "days_remaining": 37
+      "expiry": "2026-06-28",
+      "days_remaining": 83,
+      "tls_version": ""
     },
     "server": "Netlify",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Netlify",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -50,11 +55,11 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "alt2.aspmx.l.google.com",
-      "aspmx.l.google.com",
-      "alt1.aspmx.l.google.com",
       "aspmx3.googlemail.com",
-      "aspmx2.googlemail.com"
+      "alt2.aspmx.l.google.com",
+      "alt1.aspmx.l.google.com",
+      "aspmx2.googlemail.com",
+      "aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -62,12 +67,21 @@
     ],
     "txt": [
       "WB=jjJE+bEbmUmpH4DrqJpB1Q",
+      "MS=ms75464345",
       "google-site-verification=kIcODhKUsePGmySfJH-81wMv13S6hwDVJjAulszTrjU",
-      "v=spf1 mx include:aspmx.googlemail.com include:sendgrid.net -all",
-      "MS=ms75464345"
+      "v=spf1 mx include:aspmx.googlemail.com include:sendgrid.net -all"
     ]
   },
-  "cloud_exposure": [],
+  "cloud_exposure": [
+    {
+      "bucket_name": "vivcdn.blob.core.windows.net",
+      "file_count": 1
+    }
+  ],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -86,8 +100,23 @@
     },
     {
       "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "low",
       "description": "Backend technology exposed: Node.js",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "high",
+      "description": "1 exposed cloud storage bucket detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
     }
   ]
 }

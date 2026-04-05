@@ -1,0 +1,264 @@
+{
+  "domain": "pensopay.com",
+  "job_id": "scan-2026-04-05-fde3c37e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "pensopay.com",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-25",
+    "ssl_days_remaining": 80,
+    "detected_plugins": [
+      "woocommerce"
+    ],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Bootstrap:4.6.0",
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "HubSpot",
+      "HubSpot CMS Hub",
+      "jQuery CDN",
+      "jQuery:3.7.1",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:28:42.134850877Z",
+      "port": "443",
+      "url": "https://pensopay.com",
+      "input": "pensopay.com",
+      "title": "Betalingsløsning til webshops | Gratis oprettelse, ingen bindingsperiode",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "pensopay.com",
+      "host_ip": "199.60.103.113",
+      "path": "/",
+      "final_url": "https://pensopay.com/da/",
+      "time": "277.032597ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "199.60.103.113",
+        "199.60.103.13"
+      ],
+      "tech": [
+        "Bootstrap:4.6.0",
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "Google Analytics",
+        "Google Tag Manager",
+        "HSTS",
+        "HTTP/3",
+        "HubSpot",
+        "HubSpot CMS Hub",
+        "jQuery CDN",
+        "jQuery:3.7.1",
+        "jsDelivr"
+      ],
+      "words": 18326,
+      "lines": 4168,
+      "status_code": 200,
+      "content_length": 177858,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "199.60.103.13",
+        "199.60.103.113"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "alt4.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns-128.awsdns-16.com",
+        "ns-839.awsdns-40.net",
+        "ns-1519.awsdns-61.org",
+        "ns-1933.awsdns-49.co.uk"
+      ],
+      "txt": [
+        "_g1qmjfki3t7xy0nxj2z74mx9ho7278u",
+        "google-site-verification=sJLE4WZGh5u1eaOswCspqdjywdIniIh7b3NiwCPRPSw",
+        "google-site-verification=NLOh4QaiyUi669dzBmfSr9OP8Apih56_NdE-7eRNh14",
+        "google-site-verification=yNmv5j9ECflOwzrNlgsLuzOsYEW2UUlaPdUgPQLRjAc",
+        "google-site-verification=ZqAa_AEMSZu0TDJWpxFr_Zb8hjwJBCpVzCrJSlG1Opw",
+        "v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com include:spf.reepay.com include:spf.mtasv.net include:139700112.spf06.hubspotemail.net include:_spf.google.com -all",
+        "google-site-verification=bJxSvjh6-SmmWPQvrspmd5mDBPXix5nRe8H08jQengQ"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "pensopay.com",
+    "cvr": "prospect",
+    "company_name": "pensopay.com",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce",
+      "Visitor tracking: Google Analytics, Google Tag Manager, HubSpot, HubSpot CMS Hub"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-25",
+        "days_remaining": 80,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [
+        "Woocommerce"
+      ],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:4.6.0",
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "HTTP/3",
+      "HubSpot",
+      "HubSpot CMS Hub",
+      "jQuery CDN",
+      "jQuery:3.7.1",
+      "jsDelivr"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "199.60.103.13",
+        "199.60.103.113"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "alt4.aspmx.l.google.com",
+        "aspmx.l.google.com",
+        "alt3.aspmx.l.google.com",
+        "alt2.aspmx.l.google.com",
+        "alt1.aspmx.l.google.com"
+      ],
+      "ns": [
+        "ns-128.awsdns-16.com",
+        "ns-839.awsdns-40.net",
+        "ns-1519.awsdns-61.org",
+        "ns-1933.awsdns-49.co.uk"
+      ],
+      "txt": [
+        "_g1qmjfki3t7xy0nxj2z74mx9ho7278u",
+        "google-site-verification=sJLE4WZGh5u1eaOswCspqdjywdIniIh7b3NiwCPRPSw",
+        "google-site-verification=NLOh4QaiyUi669dzBmfSr9OP8Apih56_NdE-7eRNh14",
+        "google-site-verification=yNmv5j9ECflOwzrNlgsLuzOsYEW2UUlaPdUgPQLRjAc",
+        "google-site-verification=ZqAa_AEMSZu0TDJWpxFr_Zb8hjwJBCpVzCrJSlG1Opw",
+        "v=spf1 include:spf.protection.outlook.com include:mail.zendesk.com include:spf.reepay.com include:spf.mtasv.net include:139700112.spf06.hubspotemail.net include:_spf.google.com -all",
+        "google-site-verification=bJxSvjh6-SmmWPQvrspmd5mDBPXix5nRe8H08jQengQ"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 141,
+    "ssl": 81,
+    "headers": 200,
+    "meta": 241,
+    "httpx": 3073,
+    "webanalyze": 4,
+    "dnsx": 637,
+    "total_ms": 4387
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

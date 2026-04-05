@@ -2,7 +2,7 @@
   "domain": "ls-elvarme.dk",
   "cvr": "prospect",
   "company_name": "ls-elvarme.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-30",
-      "days_remaining": 58
+      "days_remaining": 54,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -42,7 +43,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": "PHP/8.1.34, PleskLin"
     }
   },
   "tech_stack": [
@@ -75,19 +80,23 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mxa-00373502.gslb.pphosted.com",
-      "mxb-00373502.gslb.pphosted.com"
+      "mxb-00373502.gslb.pphosted.com",
+      "mxa-00373502.gslb.pphosted.com"
     ],
     "ns": [
       "ns.dandomain.dk",
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "v=spf1 include:spf-00373502.pphosted.com include:spfloc.nibe.se include:spf.protection.outlook.com -all",
-      "MS=ms89145294"
+      "MS=ms89145294",
+      "v=spf1 include:spf-00373502.pphosted.com include:spfloc.nibe.se include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -108,6 +117,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.1.34, PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -136,7 +160,7 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Wp Stats Manager (installed 1.2, latest 8.4)",
+      "description": "Outdated plugin: Wp Stats Manager (installed 1.2, latest 8.5)",
       "risk": "The installed version of Wp Stats Manager is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
     },
     {
@@ -148,7 +172,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 5.6 (CVE-2022-0410)",
       "risk": "CVE-2022-0410: WP Visitor Statistics (Real Time Traffic) <= 5.5 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -160,7 +184,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 5.5 (CVE-2021-25042)",
       "risk": "CVE-2021-25042: WordPress WP Visitor Statistics (Real Time Traffic) plugin <= 5.4 - Arbitrary IP Address Exclusion to Stored Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -172,7 +196,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 4.8 (CVE-2021-24750)",
       "risk": "CVE-2021-24750: WordPress WP Visitor Statistics (Real Time Traffic) plugin <= 4.7 - SQL Injection (SQLi) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -184,7 +208,7 @@
       "severity": "critical",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 5.8 (CVE-2022-33965)",
       "risk": "CVE-2022-33965: WordPress WP Visitor Statistics plugin <= 5.7 - Multiple Unauthenticated SQL Injection (SQLi) vulnerabilities",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -196,7 +220,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 6.5 (CVE-2022-4656)",
       "risk": "CVE-2022-4656: WP Visitor Statistics (Real Time Traffic) <= 6.4 - Authenticated (Contributor+) Stored Cross-Site Scripting via Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -208,7 +232,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 6.9 (CVE-2023-0600)",
       "risk": "CVE-2023-0600: WordPress  WP Visitor Statistics (Real Time Traffic) Plugin  < 6.9 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -220,11 +244,11 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 6.9.5",
       "risk": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 6.9.5",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "7fe823cc06d88205b1f117d806a12b0ed6233785ed4e679556026bf31cb19e25",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -232,7 +256,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 6.9.5 (CVE-2024-24867)",
       "risk": "CVE-2024-24867: WP Visitor Statistics (Real Time Traffic) <= 6.9.4 - Sensitive Information Exposure via Log File",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -244,7 +268,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 7.6 (CVE-2025-22304)",
       "risk": "CVE-2025-22304: WordPress WP Visitor Statistics (Real Time Traffic) Plugin <= 7.3 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -256,7 +280,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 7.3 (CVE-2025-24675)",
       "risk": "CVE-2025-24675: WP Visitor Statistics (Real Time Traffic) &lt;= 7.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -268,7 +292,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] <= 7.8 (unfixed) (CVE-2025-49996)",
       "risk": "CVE-2025-49996: WP Visitor Statistics (Real Time Traffic) &lt;= 7.8 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -280,7 +304,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 7.9 (CVE-2025-53566)",
       "risk": "CVE-2025-53566: WP Visitor Statistics (Real Time Traffic) &lt;= 7.8 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -292,7 +316,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 8.3 (CVE-2025-49400)",
       "risk": "CVE-2025-49400: WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] < 8.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -304,7 +328,7 @@
       "severity": "medium",
       "description": "WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] <= 8.3 (unfixed) (CVE-2025-67983)",
       "risk": "CVE-2025-67983: WP Visitor Statistics (Real Time Traffic) [wp-stats-manager] <= 8.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -316,7 +340,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -328,7 +352,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -340,7 +364,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -352,7 +376,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -364,7 +388,7 @@
       "severity": "high",
       "description": "Complianz &#8211; GDPR/CCPA Cookie Consent [complianz-gdpr] < 6.4.5 (CVE-2023-33333)",
       "risk": "CVE-2023-33333: WordPress  Complianz – GDPR/CCPA Cookie Consent Plugin  <= 6.4.4 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -374,11 +398,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 608,
+    "duration_ms": 182,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

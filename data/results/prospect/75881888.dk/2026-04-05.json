@@ -1,0 +1,198 @@
+{
+  "domain": "75881888.dk",
+  "job_id": "scan-2026-04-05-9114ec88",
+  "status": "completed",
+  "scan_result": {
+    "domain": "75881888.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-23",
+    "ssl_days_remaining": 79,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:48:29.70257831Z",
+      "port": "443",
+      "url": "https://75881888.dk",
+      "input": "75881888.dk",
+      "title": "Bredsten Lægehus",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "75881888.dk",
+      "host_ip": "185.221.38.136",
+      "path": "/",
+      "time": "170.337954ms",
+      "a": [
+        "185.221.38.136"
+      ],
+      "tech": [
+        "HSTS",
+        "Nginx",
+        "PHP"
+      ],
+      "words": 21163,
+      "lines": 1302,
+      "status_code": 200,
+      "content_length": 133439,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.136"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "75881888-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "75881888.dk",
+    "cvr": "prospect",
+    "company_name": "75881888.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-23",
+        "days_remaining": 79,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.136"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "75881888-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 86,
+    "ssl": 61,
+    "headers": 166,
+    "meta": 211,
+    "httpx": 2251,
+    "webanalyze": 4,
+    "dnsx": 773,
+    "total_ms": 3564
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

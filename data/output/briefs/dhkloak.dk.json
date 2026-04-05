@@ -2,7 +2,7 @@
   "domain": "dhkloak.dk",
   "cvr": "prospect",
   "company_name": "dhkloak.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-07",
-      "days_remaining": 66
+      "days_remaining": 63,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -40,7 +41,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": "PleskLin"
     }
   },
   "tech_stack": [
@@ -71,8 +76,8 @@
   },
   "dns": {
     "a": [
-      "104.21.82.79",
-      "172.67.155.56"
+      "172.67.155.56",
+      "104.21.82.79"
     ],
     "aaaa": [
       "2606:4700:3036::ac43:9b38",
@@ -88,11 +93,15 @@
       "dimitris.ns.cloudflare.com"
     ],
     "txt": [
-      "MS=ms70213679",
-      "v=spf1 +mx include:dedicated.mysmtp.com ~all"
+      "v=spf1 +mx include:dedicated.mysmtp.com ~all",
+      "MS=ms70213679"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -113,6 +122,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -148,7 +167,7 @@
       "severity": "high",
       "description": "W3 Total Cache [w3-total-cache] < 2.2.3 (CVE-2022-31090)",
       "risk": "CVE-2022-31090: Guzzle <= 6.5.7 and 7.0-7.4.4 - Information Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -160,7 +179,7 @@
       "severity": "high",
       "description": "W3 Total Cache [w3-total-cache] < 2.8.2 (CVE-2024-12365)",
       "risk": "CVE-2024-12365: W3 Total Cache <= 2.8.1 - Authenticated (Subscriber+) Missing Authorization to Server-Side Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -172,7 +191,7 @@
       "severity": "medium",
       "description": "W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed) (CVE-2026-27384)",
       "risk": "CVE-2026-27384: W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -182,11 +201,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 489,
+    "duration_ms": 184,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

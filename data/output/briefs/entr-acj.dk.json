@@ -2,7 +2,7 @@
   "domain": "entr-acj.dk",
   "cvr": "prospect",
   "company_name": "entr-acj.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -15,16 +15,17 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-03",
-      "days_remaining": 30
+      "expiry": "2026-07-02",
+      "days_remaining": 87,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
       "Responsive Lightbox",
       "Elementor Pro",
-      "Elementor",
       "Gp Premium",
       "Wp Rocket",
+      "Elementor",
       "Forminator",
       "Wp Statistics",
       "Redirection",
@@ -33,8 +34,8 @@
     "plugin_versions": {
       "Responsive Lightbox": "1.5.2",
       "Elementor Pro": "3.25.4",
-      "Elementor": "3.26.4",
       "Gp Premium": "2.5.0",
+      "Elementor": "3.26.4",
       "Forminator": "1773665107",
       "Wp Statistics": "1773665109",
       "Wordpress Seo": "26.8"
@@ -47,7 +48,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": "PHP/8.4.19, PleskLin"
     }
   },
   "tech_stack": [
@@ -65,8 +70,8 @@
   "plugin_versions": {
     "responsive-lightbox": "1.5.2",
     "elementor-pro": "3.25.4",
-    "elementor": "3.26.4",
     "gp-premium": "2.5.0",
+    "elementor": "3.26.4",
     "forminator": "1773665107",
     "wp-statistics": "1773665109",
     "wordpress-seo": "26.8"
@@ -89,11 +94,15 @@
       "ns2.dnsserver.dk"
     ],
     "txt": [
-      "MS=ms13811258",
-      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all"
+      "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all",
+      "MS=ms13811258"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -114,6 +123,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.4.19, PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -154,7 +178,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 1.7.2 (CVE-2017-2243)",
       "risk": "CVE-2017-2243: WordPress plugin \"Responsive Lightbox\" vulnerable to cross-site scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -166,7 +190,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.2",
       "risk": "Responsive Lightbox & Gallery <= 2.4.1 - Authenticated (Administrator+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -178,7 +202,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.6 (CVE-2023-49174)",
       "risk": "CVE-2023-49174: WordPress  Responsive Lightbox Plugin  <= 2.4.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -190,7 +214,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.7 (CVE-2024-31252)",
       "risk": "CVE-2024-31252: WordPress  Responsive Lightbox Plugin    <= 2.4.6 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -202,7 +226,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.8 (CVE-2024-6870)",
       "risk": "CVE-2024-6870: WordPress Responsive Lightbox Plugin <= 2.4.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -214,7 +238,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.8 (CVE-2024-43924)",
       "risk": "CVE-2024-43924: WordPress Responsive Lightbox Plugin <= 2.4.7 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -226,7 +250,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.9 (CVE-2024-49282)",
       "risk": "CVE-2024-49282: WordPress Responsive Lightbox Plugin <= 2.4.8 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -238,7 +262,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.9 (CVE-2024-5020)",
       "risk": "CVE-2024-5020: Multiple Plugins <= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via FancyBox JavaScript Library",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -250,7 +274,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.4.8 (CVE-2024-5667)",
       "risk": "CVE-2024-5667: Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Featherlight.js JavaScript Library",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -262,7 +286,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.1 (CVE-2025-3742)",
       "risk": "CVE-2025-3742: EUVD-2025-15142",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -274,7 +298,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.3 (CVE-2025-60452)",
       "risk": "CVE-2025-60452: EUVD-2025-32491",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -286,7 +310,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.4 (CVE-2025-12359)",
       "risk": "CVE-2025-12359: Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.5.4",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -298,7 +322,7 @@
       "severity": "medium",
       "description": "Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.6.1 (CVE-2025-15386)",
       "risk": "CVE-2025-15386: Responsive Lightbox &amp; Gallery [responsive-lightbox] < 2.6.1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -310,7 +334,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
       "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -322,7 +346,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
       "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -334,7 +358,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
       "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -343,10 +367,22 @@
       }
     },
     {
+      "severity": "medium",
+      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28044",
+        "confidence": "medium-inference"
+      }
+    },
+    {
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -358,7 +394,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.27.5 (CVE-2024-13445)",
       "risk": "CVE-2024-13445: Elementor Website Builder &ndash; More Than Just a Page Builder &lt;= 3.27.4 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -370,7 +406,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2024-50555)",
       "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -382,7 +418,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-4566)",
       "risk": "CVE-2025-4566: Elementor &lt;= 3.30.2 - Authenticated (Contributor+) Stored Cross-Site Scripting via Text Path Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -394,7 +430,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1 (CVE-2025-3075)",
       "risk": "CVE-2025-3075: Elementor &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -406,7 +442,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3 (CVE-2025-8081)",
       "risk": "CVE-2025-8081: Elementor &lt;= 3.30.2 - Authenticated (Administrator+) Arbitrary File Read via Image Import",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -418,7 +454,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -430,7 +466,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4 (CVE-2025-11220)",
       "risk": "CVE-2025-11220: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -442,7 +478,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -454,7 +490,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -464,21 +500,9 @@
     },
     {
       "severity": "medium",
-      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
-      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
-      "provenance_detail": {
-        "source_layer": 1,
-        "twin_scan_tool": "wpvulnerability",
-        "template_id": "CVE-2026-28044",
-        "confidence": "medium-inference"
-      }
-    },
-    {
-      "severity": "medium",
       "description": "Forminator Forms – Contact Form, Payment Form &amp; Custom Form Builder [forminator] <= 1.50.2 (unfixed) (CVE-2026-32409)",
       "risk": "CVE-2026-32409: Forminator Forms – Contact Form, Payment Form &amp; Custom Form Builder [forminator] <= 1.50.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -490,7 +514,7 @@
       "severity": "medium",
       "description": "WP Statistics – Simple, privacy-friendly Google Analytics alternative [wp-statistics] >= 12.0.2 - <= 12.0.5 (CVE-2018-1000556)",
       "risk": "CVE-2018-1000556: WP Statistics – Simple, privacy-friendly Google Analytics alternative [wp-statistics] >= 12.0.2 - <= 12.0.5",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -502,7 +526,7 @@
       "severity": "medium",
       "description": "WP Statistics – Simple, privacy-friendly Google Analytics alternative [wp-statistics] <= 12.0.4 (CVE-2017-2147)",
       "risk": "CVE-2017-2147: WordPress plugin \"WP Statistics\" vulnerable to cross-site scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -512,11 +536,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 152,
+    "duration_ms": 173,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

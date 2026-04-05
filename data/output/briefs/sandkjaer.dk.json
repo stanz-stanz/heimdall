@@ -2,7 +2,7 @@
   "domain": "sandkjaer.dk",
   "cvr": "prospect",
   "company_name": "sandkjaer.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-15",
-      "days_remaining": 74
+      "days_remaining": 70,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -40,7 +41,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -79,11 +84,15 @@
       "ns2.dandomain.dk"
     ],
     "txt": [
-      "MS=ms42574087",
-      "v=spf1 a include:spf.protection.outlook.com include:spf.dandomain.dk -all"
+      "v=spf1 a include:spf.protection.outlook.com include:spf.dandomain.dk -all",
+      "MS=ms42574087"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -104,6 +113,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -132,7 +151,7 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Kali Forms (installed 2.4.3, latest 2.4.10)",
+      "description": "Outdated plugin: Kali Forms (installed 2.4.3, latest 2.4.11)",
       "risk": "The installed version of Kali Forms is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
     },
     {
@@ -144,7 +163,7 @@
       "severity": "medium",
       "description": "CPO Companion [cpo-companion] <= 1.1.0 (unfixed + closed) (CVE-2024-33916)",
       "risk": "CVE-2024-33916: WordPress CPO Companion Plugin <= 1.1.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -156,7 +175,7 @@
       "severity": "medium",
       "description": "Translate WordPress and go Multilingual &#8211; Weglot [weglot] < 5.2 (CVE-2025-10008)",
       "risk": "CVE-2025-10008: Translate WordPress and go Multilingual &#8211; Weglot [weglot] < 5.2",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -166,11 +185,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 892,
+    "duration_ms": 158,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

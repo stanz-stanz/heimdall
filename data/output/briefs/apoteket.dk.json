@@ -2,7 +2,7 @@
   "domain": "apoteket.dk",
   "cvr": "prospect",
   "company_name": "apoteket.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "GlobalSign nv-sa",
       "expiry": "2027-03-20",
-      "days_remaining": 352
+      "days_remaining": 348,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": "ASP.NET"
     }
   },
   "tech_stack": [
@@ -52,18 +57,22 @@
       "ns02.one.com"
     ],
     "txt": [
-      "v=spf1 include:_spf.atlassian.net ip4:185.163.189.149 include:spf.nnithosting.com include:sendgrid.net include:_spf.eu.sparkpostmail.com include:stspg-customer.com include:spf.protection.outlook.com ip4:81.27.217.0/26 -all",
       "google-site-verification=Haed7j9wgvy_ciVqoAYCeOHtZ0Gza2Gtc48Sw6XZ5zM",
+      "v=spf1 include:_spf.atlassian.net ip4:185.163.189.149 include:spf.nnithosting.com include:sendgrid.net include:_spf.eu.sparkpostmail.com include:stspg-customer.com include:spf.protection.outlook.com ip4:81.27.217.0/26 -all",
       "atlassian-sending-domain-verification=9d1a1b5c-4351-4967-bfdb-c7e4f623d247",
-      "H6JwigUuQU/or0Y5G2+mQFuVGuzjVAxGG9VnnrpZfE0kq78jpNyzKRRd1EATU9PhO8ssYnSXMB2Qmye9E7CUvA==",
-      "status-page-domain-verification=w847j4k28s3h",
-      "_globalsign-domain-verification=xZHGqgN_XtmQvxwIwPxliqmsBi2bxOqQNPnlqaR1x-",
-      "_globalsign-domain-verification=nbaJnrOgFuFJ9wCUiXWcgj0XIHE1Wj1xR_SL4Uf5O7",
       "MS=ms14267344",
-      "n/I/5uu62x3mQTjsPCCJ/AY3Ar9yEn/y3BNG/xSwsRd7O7a73I3muOECd4Sckh/kzYAI1YtSzgBZJ1sGhICz/Q=="
+      "status-page-domain-verification=w847j4k28s3h",
+      "n/I/5uu62x3mQTjsPCCJ/AY3Ar9yEn/y3BNG/xSwsRd7O7a73I3muOECd4Sckh/kzYAI1YtSzgBZJ1sGhICz/Q==",
+      "_globalsign-domain-verification=nbaJnrOgFuFJ9wCUiXWcgj0XIHE1Wj1xR_SL4Uf5O7",
+      "H6JwigUuQU/or0Y5G2+mQFuVGuzjVAxGG9VnnrpZfE0kq78jpNyzKRRd1EATU9PhO8ssYnSXMB2Qmye9E7CUvA==",
+      "_globalsign-domain-verification=xZHGqgN_XtmQvxwIwPxliqmsBi2bxOqQNPnlqaR1x-"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -84,6 +93,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: ASP.NET",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     }
   ]
 }

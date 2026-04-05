@@ -1,0 +1,205 @@
+{
+  "domain": "abkrammer.dk",
+  "job_id": "scan-2026-04-05-c2b4eca9",
+  "status": "completed",
+  "scan_result": {
+    "domain": "abkrammer.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-26",
+    "ssl_days_remaining": 82,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:48:58.263226992Z",
+      "port": "443",
+      "url": "https://abkrammer.dk",
+      "input": "abkrammer.dk",
+      "title": "Forside - ABK Rammer",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "abkrammer.dk",
+      "host_ip": "185.221.38.82",
+      "path": "/",
+      "time": "170.851176ms",
+      "a": [
+        "185.221.38.82"
+      ],
+      "tech": [
+        "Google Analytics",
+        "HSTS",
+        "Nginx",
+        "PHP"
+      ],
+      "words": 12219,
+      "lines": 742,
+      "status_code": 200,
+      "content_length": 107215,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.82"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.onlinemail.io",
+        "mx2.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.onlinemail.io ?all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "abkrammer.dk",
+    "cvr": "prospect",
+    "company_name": "abkrammer.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-26",
+        "days_remaining": 82,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.82"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.onlinemail.io",
+        "mx2.onlinemail.io"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.onlinemail.io ?all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 87,
+    "ssl": 62,
+    "headers": 158,
+    "meta": 152,
+    "httpx": 1975,
+    "webanalyze": 4,
+    "dnsx": 817,
+    "total_ms": 3263
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

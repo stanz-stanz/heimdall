@@ -1,0 +1,179 @@
+{
+  "domain": "roedgulve.dk",
+  "job_id": "scan-2026-04-05-cbc4d3d3",
+  "status": "completed",
+  "scan_result": {
+    "domain": "roedgulve.dk",
+    "cms": "Squarespace",
+    "server": "Squarespace",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-05",
+    "ssl_days_remaining": 60,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Squarespace",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "Typekit",
+      "parallax.js"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:33:06.917827158Z",
+      "port": "443",
+      "url": "https://roedgulve.dk",
+      "input": "roedgulve.dk",
+      "title": "ROED GULVE",
+      "scheme": "https",
+      "webserver": "Squarespace",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "roedgulve.dk",
+      "host_ip": "198.49.23.144",
+      "path": "/",
+      "final_url": "https://www.roedgulve.dk/",
+      "time": "440.154189ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "198.49.23.144",
+        "198.49.23.145",
+        "198.185.159.144",
+        "198.185.159.145"
+      ],
+      "tech": [
+        "Adobe Fonts",
+        "HSTS",
+        "Squarespace",
+        "Squarespace Commerce",
+        "Stimulus",
+        "Typekit",
+        "parallax.js"
+      ],
+      "words": 23695,
+      "lines": 5475,
+      "status_code": 200,
+      "content_length": 221323,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "roedgulve.dk",
+    "cvr": "prospect",
+    "company_name": "roedgulve.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "C",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "Squarespace",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-05",
+        "days_remaining": 60,
+        "tls_version": ""
+      },
+      "server": "Squarespace",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Squarespace",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Adobe Fonts",
+      "HSTS",
+      "Squarespace",
+      "Squarespace Commerce",
+      "Stimulus",
+      "Typekit",
+      "parallax.js"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 286,
+    "ssl": 102,
+    "headers": 526,
+    "meta": 443,
+    "httpx": 3289,
+    "webanalyze": 3,
+    "total_ms": 4659
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

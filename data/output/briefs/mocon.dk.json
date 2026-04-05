@@ -2,7 +2,7 @@
   "domain": "mocon.dk",
   "cvr": "prospect",
   "company_name": "mocon.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-26",
-      "days_remaining": 53
+      "days_remaining": 50,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -36,7 +37,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.2.30"
     }
   },
   "tech_stack": [
@@ -69,11 +74,11 @@
     ],
     "cname": [],
     "mx": [
-      "alt2.aspmx.l.google.com",
       "alt3.aspmx.l.google.com",
+      "alt4.aspmx.l.google.com",
       "aspmx.l.google.com",
-      "alt1.aspmx.l.google.com",
-      "alt4.aspmx.l.google.com"
+      "alt2.aspmx.l.google.com",
+      "alt1.aspmx.l.google.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -82,6 +87,10 @@
     "txt": []
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -102,6 +111,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.2.30",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -127,7 +146,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
       "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -139,7 +158,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
       "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -151,7 +170,7 @@
       "severity": "medium",
       "description": "Gutenverse &#8211; Ultimate WordPress FSE Blocks Addons &amp; Ecosystem [gutenverse] <= 3.2.1 (unfixed) (CVE-2025-66065)",
       "risk": "CVE-2025-66065: Gutenverse &#8211; Ultimate WordPress FSE Blocks Addons &amp; Ecosystem [gutenverse] <= 3.2.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -161,11 +180,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 673,
+    "duration_ms": 131,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

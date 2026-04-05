@@ -2,7 +2,7 @@
   "domain": "vendelbo.dk",
   "cvr": "prospect",
   "company_name": "vendelbo.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-07",
-      "days_remaining": 66
+      "days_remaining": 63,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -35,7 +36,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.5.4"
     }
   },
   "tech_stack": [
@@ -74,11 +79,15 @@
     ],
     "txt": [
       "MS=ms76290209",
-      "google-site-verification=o1aGjyTUUPsyEyS-6ks_PWTn53Jg7kFWvn6cCqwYEaQ",
-      "v=spf1 include:spf.protection.outlook.com include:_custspf.one.com -all"
+      "v=spf1 include:spf.protection.outlook.com include:_custspf.one.com -all",
+      "google-site-verification=o1aGjyTUUPsyEyS-6ks_PWTn53Jg7kFWvn6cCqwYEaQ"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -99,6 +108,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.5.4",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",
@@ -124,7 +148,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -134,11 +158,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 138,
+    "duration_ms": 135,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

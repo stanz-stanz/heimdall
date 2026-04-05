@@ -1,0 +1,179 @@
+{
+  "domain": "givskud.dk",
+  "job_id": "scan-2026-04-05-1434a041",
+  "status": "completed",
+  "scan_result": {
+    "domain": "givskud.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-04",
+    "ssl_days_remaining": 60,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "YouTube",
+      "iubenda",
+      "jQuery:1.12.2"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:09:34.787359188Z",
+      "port": "443",
+      "url": "https://givskud.dk",
+      "input": "givskud.dk",
+      "title": "Givskud.dk | Give | Lokalråd for Givskud med aktiviteter for borger og turister",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "givskud.dk",
+      "host_ip": "193.8.37.85",
+      "path": "/",
+      "time": "365.104755ms",
+      "a": [
+        "193.8.37.85"
+      ],
+      "tech": [
+        "Google Analytics",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "YouTube",
+        "iubenda",
+        "jQuery:1.12.2"
+      ],
+      "words": 15848,
+      "lines": 1591,
+      "status_code": 200,
+      "content_length": 362102,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.8.37.85"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1.dns.services",
+        "ns2.dns.services",
+        "ns3.dns.services"
+      ],
+      "txt": []
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "givskud.dk",
+    "cvr": "prospect",
+    "company_name": "givskud.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-04",
+        "days_remaining": 60,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "YouTube",
+      "iubenda",
+      "jQuery:1.12.2"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.8.37.85"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [],
+      "ns": [
+        "ns1.dns.services",
+        "ns2.dns.services",
+        "ns3.dns.services"
+      ],
+      "txt": []
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 131,
+    "ssl": 82,
+    "headers": 330,
+    "meta": 523,
+    "httpx": 3466,
+    "webanalyze": 6,
+    "dnsx": 762,
+    "total_ms": 5313
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

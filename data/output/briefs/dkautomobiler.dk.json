@@ -2,7 +2,7 @@
   "domain": "dkautomobiler.dk",
   "cvr": "prospect",
   "company_name": "dkautomobiler.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-08",
-      "days_remaining": 35
+      "days_remaining": 32,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -25,10 +26,10 @@
       "Divi Modal Popup",
       "Autoit Dealer Tools",
       "Contact Form 7",
-      "Wp Rocket",
       "Divi Builder",
       "Redirection",
-      "Wordpress Seo"
+      "Wordpress Seo",
+      "Wp Rocket"
     ],
     "plugin_versions": {
       "Autoit Dealer Tools": "1.0.2",
@@ -42,7 +43,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": "PHP/7.4.33, PleskLin"
     }
   },
   "tech_stack": [
@@ -82,21 +87,25 @@
     "aaaa": [],
     "cname": [],
     "mx": [
+      "mx3-dk.centerasecurity.dk",
       "mx2-dk.centerasecurity.dk",
-      "mx1-dk.centerasecurity.dk",
-      "mx3-dk.centerasecurity.dk"
+      "mx1-dk.centerasecurity.dk"
     ],
     "ns": [
       "ns1.curanet.dk",
       "ns2.curanet.dk"
     ],
     "txt": [
-      "v=msv1 t=DB06FD85-AC16-4255-A793-FF6FA1CEDCD9",
+      "MS=ms54319842",
       "v=spf1 include:_spf72760.spf-protect.dk -all",
-      "MS=ms54319842"
+      "v=msv1 t=DB06FD85-AC16-4255-A793-FF6FA1CEDCD9"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -117,6 +126,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/7.4.33, PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -152,23 +176,11 @@
       "severity": "medium",
       "description": "Auto Thickbox [auto-thickbox] <= 3.5 (unfixed + closed)",
       "risk": "Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via ThickBox JavaScript Library",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "af2caf97cb07b318914bb3966f4fd05981e9f32a7829fe7aa7191f5f07a78753",
-        "confidence": "medium-inference"
-      }
-    },
-    {
-      "severity": "medium",
-      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
-      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
-      "provenance_detail": {
-        "source_layer": 1,
-        "twin_scan_tool": "wpvulnerability",
-        "template_id": "CVE-2026-28044",
+        "template_id": "",
         "confidence": "medium-inference"
       }
     },
@@ -176,21 +188,33 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
         "template_id": "CVE-2020-35945",
         "confidence": "medium-inference"
       }
+    },
+    {
+      "severity": "medium",
+      "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+      "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-28044",
+        "confidence": "medium-inference"
+      }
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 612,
+    "duration_ms": 280,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

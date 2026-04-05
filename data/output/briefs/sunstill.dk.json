@@ -2,7 +2,7 @@
   "domain": "sunstill.dk",
   "cvr": "prospect",
   "company_name": "sunstill.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -13,14 +13,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-27",
-      "days_remaining": 85
+      "days_remaining": 82,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Pakkelabels For Woocommerce",
       "Elementor",
@@ -76,11 +77,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Chosen:1.8.7",
     "Elementor:3.35.4",
     "Google Analytics",
@@ -134,11 +138,11 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx.l.google.com",
       "alt3.aspmx.l.google.com",
-      "alt4.aspmx.l.google.com",
+      "alt1.aspmx.l.google.com",
       "alt2.aspmx.l.google.com",
-      "alt1.aspmx.l.google.com"
+      "alt4.aspmx.l.google.com",
+      "aspmx.l.google.com"
     ],
     "ns": [
       "ns1.simply.com",
@@ -150,6 +154,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -165,6 +173,11 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "low",
@@ -210,7 +223,7 @@
       "severity": "medium",
       "description": "Shipmondo &#8211; A complete shipping solution for WooCommerce [pakkelabels-for-woocommerce] < 5.0.4 (CVE-2025-27001)",
       "risk": "CVE-2025-27001: WordPress Shipmondo – A complete shipping solution for WooCommerce Plugin <= 5.0.3 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -222,7 +235,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -234,7 +247,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -246,7 +259,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -258,7 +271,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -270,7 +283,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 1.1.3 (CVE-2011-4673)",
       "risk": "CVE-2011-4673: WordPress Jetpack Plugin - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -282,7 +295,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] >= 5.1 - <= 7.9",
       "risk": "Jetpack 5.1-7.9 - Vulnerability in Shortcode Embed Code",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -294,7 +307,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 7.9",
       "risk": "Jetpack <= 7.9 - Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -306,7 +319,7 @@
       "severity": "medium",
       "description": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed) (CVE-2023-54332)",
       "risk": "CVE-2023-54332: Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -318,7 +331,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.7.3 (unfixed) (CVE-2025-49938)",
       "risk": "CVE-2025-49938: JetEngine [jet-engine] <= 3.7.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -330,7 +343,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.8.1.1 (unfixed) (CVE-2025-69333)",
       "risk": "CVE-2025-69333: JetEngine [jet-engine] <= 3.8.1.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -342,7 +355,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.7.7 (unfixed) (CVE-2025-67923)",
       "risk": "CVE-2025-67923: JetEngine [jet-engine] <= 3.7.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -354,7 +367,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.8.0 (unfixed) (CVE-2025-68495)",
       "risk": "CVE-2025-68495: JetEngine [jet-engine] <= 3.8.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -366,7 +379,7 @@
       "severity": "medium",
       "description": "JetEngine [jet-engine] <= 3.7.2 (unfixed) (CVE-2026-28134)",
       "risk": "CVE-2026-28134: JetEngine [jet-engine] <= 3.7.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -378,7 +391,7 @@
       "severity": "medium",
       "description": "JetWooBuilder [jet-woo-builder] <= 2.1.20.1 (unfixed) (CVE-2025-49927)",
       "risk": "CVE-2025-49927: JetWooBuilder [jet-woo-builder] <= 2.1.20.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -390,7 +403,7 @@
       "severity": "medium",
       "description": "JetWooBuilder [jet-woo-builder] <= 2.1.20 (unfixed) (CVE-2025-49928)",
       "risk": "CVE-2025-49928: JetWooBuilder [jet-woo-builder] <= 2.1.20 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -402,7 +415,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -414,7 +427,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -426,7 +439,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] < 3.1.2.1 (CVE-2023-48762)",
       "risk": "CVE-2023-48762: WordPress  JetSearch Plugin  <= 3.1.2 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -438,7 +451,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] < 3.1.2.1 (CVE-2023-48761)",
       "risk": "CVE-2023-48761: WordPress  JetSearch Plugin  <= 3.1.2 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -450,7 +463,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] < 3.5.2.1 (CVE-2024-7136)",
       "risk": "CVE-2024-7136: JetSearch <= 3.5.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -462,7 +475,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] < 3.5.7.1 (CVE-2025-31043)",
       "risk": "CVE-2025-31043: WordPress JetSearch Plugin <= 3.5.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -474,7 +487,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] < 3.5.11 (CVE-2025-53996)",
       "risk": "CVE-2025-53996: JetSearch &lt;= 3.5.10.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -486,7 +499,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] <= 3.5.10 (unfixed) (CVE-2025-49930)",
       "risk": "CVE-2025-49930: JetSearch [jet-search] <= 3.5.10 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -498,7 +511,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] <= 3.5.10 (unfixed) (CVE-2025-49931)",
       "risk": "CVE-2025-49931: JetSearch [jet-search] <= 3.5.10 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -510,7 +523,7 @@
       "severity": "medium",
       "description": "JetSearch [jet-search] <= 3.5.16 (unfixed) (CVE-2025-68504)",
       "risk": "CVE-2025-68504: JetSearch [jet-search] <= 3.5.16 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -522,7 +535,7 @@
       "severity": "medium",
       "description": "SVG Support [svg-support] < 2.5.11 (CVE-2024-10222)",
       "risk": "CVE-2024-10222: WordPress SVG Support Plugin <= 2.5.10 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -534,7 +547,7 @@
       "severity": "medium",
       "description": "SVG Support [svg-support] < 2.5.9 (CVE-2022-23638)",
       "risk": "CVE-2022-23638: SVG Support &lt;= 2.5.8 - Stored Cross-Site Scripting via Vulnerability Dependency",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -546,7 +559,7 @@
       "severity": "high",
       "description": "WooPayments: Integrated WooCommerce Payments [woocommerce-payments] < 5.9.1 (CVE-2023-35915)",
       "risk": "CVE-2023-35915: WordPress  WooCommerce Payments Plugin  <= 5.9.0 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -558,7 +571,7 @@
       "severity": "high",
       "description": "WooPayments: Integrated WooCommerce Payments [woocommerce-payments] < 5.9.1 (CVE-2023-35916)",
       "risk": "CVE-2023-35916: WordPress  WooCommerce Payments Plugin  <= 5.9.0 is vulnerable to Insecure Direct Object References (IDOR)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -570,7 +583,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed) (CVE-2025-49939)",
       "risk": "CVE-2025-49939: JetElements For Elementor [jet-elements] <= 2.7.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -582,7 +595,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed) (CVE-2025-64355)",
       "risk": "CVE-2025-64355: JetElements For Elementor [jet-elements] <= 2.7.12 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -594,7 +607,7 @@
       "severity": "medium",
       "description": "JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed) (CVE-2026-24958)",
       "risk": "CVE-2026-24958: JetElements For Elementor [jet-elements] <= 2.7.12.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -606,7 +619,7 @@
       "severity": "medium",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48761)",
       "risk": "CVE-2023-48761: Multiple Plugins by Crocoblock <= (Various Versions) - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -618,7 +631,7 @@
       "severity": "high",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48760)",
       "risk": "CVE-2023-48760: WordPress  JetBlocks For Elementor Plugin  <= 1.3.8 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -630,7 +643,7 @@
       "severity": "medium",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48762)",
       "risk": "CVE-2023-48762: WordPress  JetBlocks For Elementor Plugin  <= 1.3.8 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -642,7 +655,7 @@
       "severity": "high",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.8.1 (CVE-2023-48756)",
       "risk": "CVE-2023-48756: WordPress  JetBlocks For Elementor Plugin  <= 1.3.8 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -654,7 +667,7 @@
       "severity": "medium",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.12.1 (CVE-2024-7147)",
       "risk": "CVE-2024-7147: JetBlocks <= 1.3.12 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -666,7 +679,7 @@
       "severity": "medium",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.16.1 (CVE-2025-30987)",
       "risk": "CVE-2025-30987: WordPress JetBlocks For Elementor Plugin <= 1.3.16 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -678,7 +691,7 @@
       "severity": "high",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.16.1 (CVE-2025-39451)",
       "risk": "CVE-2025-39451: JetBlocks For Elementor &lt;= 1.3.16 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -690,7 +703,7 @@
       "severity": "medium",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.19.1 (CVE-2025-53989)",
       "risk": "CVE-2025-53989: JetBlocks For Elementor &lt;= 1.3.19 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -702,7 +715,7 @@
       "severity": "medium",
       "description": "JetBlocks For Elementor [jet-blocks] < 1.3.19 (CVE-2025-53988)",
       "risk": "CVE-2025-53988: JetBlocks For Elementor &lt;= 1.3.18 - Authenticated (Subscriber+) Information Disclsoure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -714,7 +727,7 @@
       "severity": "medium",
       "description": "JetBlocks For Elementor [jet-blocks] <= 1.3.18 (unfixed) (CVE-2025-49934)",
       "risk": "CVE-2025-49934: JetBlocks For Elementor [jet-blocks] <= 1.3.18 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -726,7 +739,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
       "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -738,7 +751,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
       "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -750,7 +763,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
       "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -762,7 +775,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
       "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -774,7 +787,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
       "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -784,11 +797,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 983,
+    "duration_ms": 150,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

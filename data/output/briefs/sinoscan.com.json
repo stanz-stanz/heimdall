@@ -2,7 +2,7 @@
   "domain": "sinoscan.com",
   "cvr": "prospect",
   "company_name": "sinoscan.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -15,8 +15,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-03",
-      "days_remaining": 31
+      "expiry": "2026-07-02",
+      "days_remaining": 87,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -54,7 +55,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -107,12 +112,16 @@
       "ns2.dotserv.net"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com -all",
       "google-site-verification=CaNohmLHc4cMtK9oLDzJgr0PpF0dLO3qgDC44KjpG9o",
+      "v=spf1 include:spf.protection.outlook.com -all",
       "MS=ms94686553"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -133,6 +142,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -163,7 +182,7 @@
       "severity": "medium",
       "description": "FileBird [filebird-pro] <= 6.4.9 (unfixed) (CVE-2025-66134)",
       "risk": "CVE-2025-66134: FileBird [filebird-pro] <= 6.4.9 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,7 +194,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.3.8 (CVE-2020-10568)",
       "risk": "CVE-2020-10568: WordPress WPML plugin <= 4.3.6 - Authenticated Cross-Site Request Forgery (CSRF) vulnerability leading to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -187,7 +206,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] >= 2.9.3 - <= 3.2.6 (CVE-2015-9416)",
       "risk": "CVE-2015-9416: WPML 2.9.3-3.2.6 - Cross-Site Scripting in Accept-Language Header",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -199,7 +218,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.0 (CVE-2018-18069)",
       "risk": "CVE-2018-18069: WPML <= 3.6.3 - Unauthenticated Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -211,7 +230,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2791)",
       "risk": "CVE-2015-2791: WordPress WPML Plugin <= 3.1.8 - SQL Injection #1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -223,7 +242,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2792)",
       "risk": "CVE-2015-2792: WordPress WPML Plugin <= 3.1.8 - Multiple Vulnerabilities",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -235,7 +254,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2314)",
       "risk": "CVE-2015-2314: WordPress WPML Plugin <= 3.1.9.1 - Multiple Vulnerabilities",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -247,7 +266,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9 (CVE-2015-2315)",
       "risk": "CVE-2015-2315: WordPress WPML Plugin <= 3.1.8 - XSS",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -259,7 +278,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.7.2",
       "risk": "WordPress Multilingual CMS Plugin <= 3.1.7.1 - Full Path Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -271,7 +290,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.2.7",
       "risk": "WordPress WPML Plugin <= 3.2.6 - Cross Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -283,7 +302,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.14 (CVE-2022-45071)",
       "risk": "CVE-2022-45071: WordPress WPML Multilingual CMS premium plugin <= 4.5.13 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -295,7 +314,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.11 (CVE-2022-38461)",
       "risk": "CVE-2022-38461: WordPress WPML Multilingual CMS premium plugin <= 4.5.10 - Broken Access Control vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -307,7 +326,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.11 (CVE-2022-38974)",
       "risk": "CVE-2022-38974: WordPress WPML Multilingual CMS premium plugin <= 4.5.10 - Broken Access Control vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -319,7 +338,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.14 (CVE-2022-45072)",
       "risk": "CVE-2022-45072: WordPress WPML Multilingual CMS premium plugin <= 4.5.13 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -331,7 +350,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.11",
       "risk": "WPML <= 4.5.10 - Unprotected AJAX Actions",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -343,7 +362,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WordPress  WPML - WordPress Multilingual  Plugin  < 4.6.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -355,7 +374,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WPML <= 4.6.0 - Reflected Cross-Site Scripting via wp_lang",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -367,7 +386,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WPML <= 4.6.1 - Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -379,7 +398,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.7.2",
       "risk": "WordPress  Multilingual CMS Plugin  <= 3.1.7.1 is vulnerable to Full Path Disclosure (FPD)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -391,7 +410,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WPML Multilingual CMS &lt; 4.6.1 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -403,7 +422,7 @@
       "severity": "critical",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.13 (CVE-2024-6386)",
       "risk": "CVE-2024-6386: WordPress Multilingual CMS Plugin <= 4.6.12 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -415,7 +434,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] >= 3.6.0 - <= 4.7.3 (CVE-2025-3488)",
       "risk": "CVE-2025-3488: WPML Multilingual CMS 3.6.0 - 4.7.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via wpml_language_switcher Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -427,7 +446,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -439,7 +458,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -451,7 +470,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -463,7 +482,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -475,7 +494,7 @@
       "severity": "high",
       "description": "Element Pack Pro [bdthemes-element-pack] < 7.19.3 (CVE-2024-33568)",
       "risk": "CVE-2024-33568: WordPress Element Pack Pro Plugin <= 7.7.4 is vulnerable to Arbitrary File Download",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -487,7 +506,7 @@
       "severity": "medium",
       "description": "Element Pack Pro [bdthemes-element-pack] < 7.9.1 (CVE-2024-2455)",
       "risk": "CVE-2024-2455: Element Pack - Addon for Elementor Page Builder WordPress Plugin <= 7.9.0 - Authenticated(Contributor+) Stored Cross-Site Scripting via Wrapper Link URL",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -499,7 +518,7 @@
       "severity": "medium",
       "description": "Element Pack Pro [bdthemes-element-pack] <= 7.18.12 (unfixed) (CVE-2025-46257)",
       "risk": "CVE-2025-46257: WordPress Element Pack Pro Plugin <= 7.18.12 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -511,7 +530,7 @@
       "severity": "medium",
       "description": "Element Pack Pro [bdthemes-element-pack] <= 7.18.12 (unfixed) (CVE-2025-46258)",
       "risk": "CVE-2025-46258: Element Pack Pro &lt;= 7.18.12 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -523,7 +542,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
       "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -535,7 +554,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
       "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -547,7 +566,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
       "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -559,7 +578,7 @@
       "severity": "critical",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
       "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -571,7 +590,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
       "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -583,7 +602,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
       "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -595,7 +614,7 @@
       "severity": "high",
       "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
       "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -607,7 +626,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
       "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -619,7 +638,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
       "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -631,7 +650,7 @@
       "severity": "high",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
       "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -643,7 +662,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
       "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -655,7 +674,7 @@
       "severity": "medium",
       "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
       "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -665,11 +684,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 493,
+    "duration_ms": 160,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

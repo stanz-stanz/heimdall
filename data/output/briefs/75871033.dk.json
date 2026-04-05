@@ -2,7 +2,7 @@
   "domain": "75871033.dk",
   "cvr": "prospect",
   "company_name": "75871033.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -11,14 +11,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-25",
-      "days_remaining": 83
+      "days_remaining": 80,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Ays Popup Box",
       "Bold Page Builder",
@@ -35,10 +36,10 @@
       "Ays Popup Box": "6.2.1",
       "Bold Page Builder": "5.7.1",
       "Bt_Cost_Calculator": "6.9.4",
-      "Cleantalk Spam Protect": "6.75",
+      "Cleantalk Spam Protect": "6.76",
       "Cookie Notice": "2.5.16",
       "Mp Timetable": "2.4.16",
-      "Pdf Poster": "1775118597",
+      "Pdf Poster": "1775400506",
       "3D Flipbook Dflip Lite": "2.4.27",
       "Tlp Team": "5.0.15"
     },
@@ -49,11 +50,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Bold Page Builder",
     "Cookie Notice:2.5.16",
     "HTTP/3",
@@ -71,10 +75,10 @@
     "ays-popup-box": "6.2.1",
     "bold-page-builder": "5.7.1",
     "bt_cost_calculator": "6.9.4",
-    "cleantalk-spam-protect": "6.75",
+    "cleantalk-spam-protect": "6.76",
     "cookie-notice": "2.5.16",
     "mp-timetable": "2.4.16",
-    "pdf-poster": "1775118597",
+    "pdf-poster": "1775400506",
     "3d-flipbook-dflip-lite": "2.4.27",
     "tlp-team": "5.0.15"
   },
@@ -102,6 +106,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -117,6 +125,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -147,7 +165,7 @@
       "severity": "medium",
       "description": "Popup Box &#8211; Create Countdown, Coupon, Video, Contact Form Popups [ays-popup-box] <= 6.0.7 (unfixed) (CVE-2025-69021)",
       "risk": "CVE-2025-69021: Popup Box &#8211; Create Countdown, Coupon, Video, Contact Form Popups [ays-popup-box] <= 6.0.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -159,7 +177,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.2 (unfixed) (CVE-2025-66057)",
       "risk": "CVE-2025-66057: Bold Page Builder [bold-page-builder] <= 5.5.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -171,7 +189,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.7 (unfixed) (CVE-2025-15267)",
       "risk": "CVE-2025-15267: Bold Page Builder [bold-page-builder] <= 5.5.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -183,7 +201,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.3 (unfixed) (CVE-2025-13463)",
       "risk": "CVE-2025-13463: Bold Page Builder [bold-page-builder] <= 5.5.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -195,7 +213,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.5.1 (unfixed) (CVE-2025-12803)",
       "risk": "CVE-2025-12803: Bold Page Builder [bold-page-builder] <= 5.5.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -207,7 +225,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.4.8 (unfixed) (CVE-2025-12159)",
       "risk": "CVE-2025-12159: Bold Page Builder [bold-page-builder] <= 5.4.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -219,7 +237,7 @@
       "severity": "medium",
       "description": "Bold Page Builder [bold-page-builder] <= 5.6.4 (unfixed) (CVE-2026-25451)",
       "risk": "CVE-2026-25451: Bold Page Builder [bold-page-builder] <= 5.6.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -231,7 +249,7 @@
       "severity": "medium",
       "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed) (CVE-2025-67554)",
       "risk": "CVE-2025-67554: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -243,7 +261,7 @@
       "severity": "medium",
       "description": "PDF Poster – Display PDF Files with Custom Viewer [pdf-poster] <= 2.4.0 (unfixed) (CVE-2026-32416)",
       "risk": "CVE-2026-32416: PDF Poster – Display PDF Files with Custom Viewer [pdf-poster] <= 2.4.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -255,7 +273,7 @@
       "severity": "medium",
       "description": "Team &#8211; Team Members Showcase Plugin [tlp-team] <= 5.0.13 (unfixed) (CVE-2026-32396)",
       "risk": "CVE-2026-32396: Team &#8211; Team Members Showcase Plugin [tlp-team] <= 5.0.13 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -267,7 +285,7 @@
       "severity": "medium",
       "description": "Team &#8211; Team Members Showcase Plugin [tlp-team] <= 5.0.11 (unfixed) (CVE-2026-25026)",
       "risk": "CVE-2026-25026: Team &#8211; Team Members Showcase Plugin [tlp-team] <= 5.0.11 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -279,7 +297,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -291,7 +309,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -301,11 +319,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 1521,
+    "duration_ms": 164,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

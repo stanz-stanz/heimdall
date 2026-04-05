@@ -2,7 +2,7 @@
   "domain": "topclinic.dk",
   "cvr": "prospect",
   "company_name": "topclinic.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-14",
-      "days_remaining": 72
+      "days_remaining": 69,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -59,10 +64,20 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "google-site-verification=kCsGYUfZvm_KSPRxH6jC1g0bU3uR44BStbcKR7zIQHE",
-      "v=spf1 include:spf.curanet.dk ?all"
+      "v=spf1 include:spf.curanet.dk ?all",
+      "google-site-verification=kCsGYUfZvm_KSPRxH6jC1g0bU3uR44BStbcKR7zIQHE"
     ]
   },
   "cloud_exposure": [],
-  "findings": []
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
+  "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    }
+  ]
 }

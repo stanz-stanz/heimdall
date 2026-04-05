@@ -2,7 +2,7 @@
   "domain": "immerse.nu",
   "cvr": "prospect",
   "company_name": "immerse.nu",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -11,14 +11,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-24",
-      "days_remaining": 51
+      "days_remaining": 48,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Duracelltomi Google Tag Manager",
       "Shortpixel Image Optimiser",
@@ -36,11 +37,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Cookiebot",
     "Google Tag Manager",
     "Google Tag Manager for WordPress:1.11.5",
@@ -67,11 +71,11 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx.l.google.com",
+      "alt1.aspmx.l.google.com",
       "alt4.aspmx.l.google.com",
       "alt2.aspmx.l.google.com",
       "alt3.aspmx.l.google.com",
-      "alt1.aspmx.l.google.com"
+      "aspmx.l.google.com"
     ],
     "ns": [
       "ns1.simply.com",
@@ -84,6 +88,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -99,6 +107,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -129,7 +147,7 @@
       "severity": "medium",
       "description": "GTM4WP &#8211; A Google Tag Manager (GTM) plugin for WordPress [duracelltomi-google-tag-manager] < 1.15.1 (CVE-2022-1707)",
       "risk": "CVE-2022-1707: WordPress Google Tag Manager plugin <= 1.15 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -141,7 +159,7 @@
       "severity": "medium",
       "description": "GTM4WP &#8211; A Google Tag Manager (GTM) plugin for WordPress [duracelltomi-google-tag-manager] < 1.15.2 (CVE-2022-1961)",
       "risk": "CVE-2022-1961: WordPress GTM4WP plugin <= 1.15.1 - Authenticated Stored Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -153,7 +171,7 @@
       "severity": "medium",
       "description": "GTM4WP &#8211; A Google Tag Manager (GTM) plugin for WordPress [duracelltomi-google-tag-manager] < 1.15.1",
       "risk": "Google Tag Manager for WordPress <= 1.15 - Cross-Site Scripting via Cloudflare Country Code",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -165,7 +183,7 @@
       "severity": "high",
       "description": "ShortPixel Image Optimizer &#8211; Optimize Images, Convert WebP &amp; AVIF [shortpixel-image-optimiser] < 5.6.4 (CVE-2024-48043)",
       "risk": "CVE-2024-48043: WordPress ShortPixel Image Optimizer Plugin <= 5.6.3 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,11 +193,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 785,
+    "duration_ms": 177,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

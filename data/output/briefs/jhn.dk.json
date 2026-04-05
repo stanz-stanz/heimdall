@@ -2,21 +2,22 @@
   "domain": "jhn.dk",
   "cvr": "prospect",
   "company_name": "jhn.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-24",
-      "days_remaining": 82
+      "days_remaining": 79,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Cookie Notice",
       "Revslider",
@@ -34,11 +35,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Cookie Notice:2.5.16",
     "Elementor:4.0.1",
     "HTTP/3",
@@ -65,10 +69,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "aspmx.l.google.com",
-      "alt1.aspmx.l.google.com",
+      "alt2.aspmx.l.google.com",
       "jhn-dk.mail.protection.outlook.com",
-      "alt2.aspmx.l.google.com"
+      "alt1.aspmx.l.google.com",
+      "aspmx.l.google.com"
     ],
     "ns": [
       "ns1.simply.com",
@@ -77,12 +81,16 @@
       "ns4.simply.com"
     ],
     "txt": [
-      "MS=57C3752309BBBF2859B286D6E13AB9E48861255D",
       "MS=ms98117290",
-      "v=spf1 ip4:66.206.25.42 include:spf.protection.outlook.com include:spf.simply.com -all"
+      "v=spf1 ip4:66.206.25.42 include:spf.protection.outlook.com include:spf.simply.com -all",
+      "MS=57C3752309BBBF2859B286D6E13AB9E48861255D"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -98,6 +106,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -123,7 +141,7 @@
       "severity": "medium",
       "description": "Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed) (CVE-2025-67554)",
       "risk": "CVE-2025-67554: Cookie Notice &amp; Compliance for GDPR / CCPA [cookie-notice] <= 2.5.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -135,7 +153,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 4.1.5 (unfixed) (CVE-2015-1579)",
       "risk": "CVE-2015-1579: WordPress Slider Revolution - Local File Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -147,7 +165,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.6.13 (CVE-2023-2359)",
       "risk": "CVE-2023-2359: Slider Revolution <= 6.6.12 - Authenticated (Administrator+) Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -159,7 +177,7 @@
       "severity": "high",
       "description": "Slider Revolution [revslider] < 6.6.16 (CVE-2023-47784)",
       "risk": "CVE-2023-47784: WordPress  Slider Revolution Plugin  <= 6.6.15 is vulnerable to Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -171,7 +189,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.6.15 (CVE-2023-47772)",
       "risk": "CVE-2023-47772: WordPress  Slider Revolution Plugin  <= 6.6.14 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -183,7 +201,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.6.19 (CVE-2023-6528)",
       "risk": "CVE-2023-6528: Slider Revolution &lt; 6.6.19 - Author+ Insecure Deserialization leading to RCE",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -195,7 +213,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.0 (CVE-2024-2306)",
       "risk": "CVE-2024-2306: Revslider <= 6.6.20 - Authenticated (Author+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -207,7 +225,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.8 (CVE-2024-4092)",
       "risk": "CVE-2024-4092: Slider Revolution <= 6.7.7 - Authenticated (Author+) Stored Cross-Site Scripting via htmltag Parameter",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -219,7 +237,7 @@
       "severity": "high",
       "description": "Slider Revolution [revslider] < 6.7.0 (CVE-2024-34444)",
       "risk": "CVE-2024-34444: WordPress Slider Revolution Plugin < 6.7.0 is vulnerable to Broken Access Control",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -231,7 +249,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-34443)",
       "risk": "CVE-2024-34443: WordPress Slider Revolution Plugin < 6.7.11 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -243,7 +261,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-4581)",
       "risk": "CVE-2024-4581: Slider Revolution <= 6.7.11 - Authenticated (Author+) Stored Cross-Site Scripting via Add Layer class, id, and title Attributes",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -255,7 +273,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.11 (CVE-2024-4637)",
       "risk": "CVE-2024-4637: Slider Revolution <= 6.7.10 - Authenticated (Contributor+) Stored Cross-Site Scripting via Elementor wrapperid and zindex",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -267,7 +285,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.14 (CVE-2024-37449)",
       "risk": "CVE-2024-37449: WordPress Slider Revolution Plugin <= 6.7.13 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -279,7 +297,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.19 (CVE-2024-8107)",
       "risk": "CVE-2024-8107: WordPress Slider Revolution Plugin <= 6.7.18 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -291,7 +309,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.37 (CVE-2025-9217)",
       "risk": "CVE-2025-9217: WordPress Slider Revolution Plugin <= 6.7.36 is vulnerable to Arbitrary File Download",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -303,7 +321,7 @@
       "severity": "medium",
       "description": "Slider Revolution [revslider] < 6.7.38 (CVE-2025-10249)",
       "risk": "CVE-2025-10249: Slider Revolution &lt;= 6.7.37 - Missing Authorization to Authenticated (Contributor+) Arbitrary File Read",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -315,7 +333,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -327,7 +345,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -339,7 +357,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -351,7 +369,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -361,11 +379,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 154,
+    "duration_ms": 194,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

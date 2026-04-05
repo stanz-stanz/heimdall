@@ -2,7 +2,7 @@
   "domain": "boerkopcykler.dk",
   "cvr": "prospect",
   "company_name": "boerkopcykler.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-13",
-      "days_remaining": 72
+      "days_remaining": 68,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": "PleskLin"
     }
   },
   "tech_stack": [
@@ -49,14 +54,14 @@
   },
   "dns": {
     "a": [
-      "172.67.70.127",
+      "104.26.9.226",
       "104.26.8.226",
-      "104.26.9.226"
+      "172.67.70.127"
     ],
     "aaaa": [
+      "2606:4700:20::ac43:467f",
       "2606:4700:20::681a:8e2",
-      "2606:4700:20::681a:9e2",
-      "2606:4700:20::ac43:467f"
+      "2606:4700:20::681a:9e2"
     ],
     "cname": [],
     "mx": [
@@ -67,12 +72,16 @@
       "lily.ns.cloudflare.com"
     ],
     "txt": [
-      "klaviyo-site-verification=UnwnBm",
       "openai-domain-verification=dv-3FkNkusfebFlQp8ZDw2lZxCa",
-      "v=spf1 include:spf.protection.outlook.com include:customer-spf.webshipper.com include:_spf.mailersend.net ip4:94.231.110.140 ip4:94.231.110.141 -all"
+      "v=spf1 include:spf.protection.outlook.com include:customer-spf.webshipper.com include:_spf.mailersend.net ip4:94.231.110.140 ip4:94.231.110.141 -all",
+      "klaviyo-site-verification=UnwnBm"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -88,6 +97,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PleskLin",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",

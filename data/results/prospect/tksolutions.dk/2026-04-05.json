@@ -1,0 +1,222 @@
+{
+  "domain": "tksolutions.dk",
+  "job_id": "scan-2026-04-05-48e02141",
+  "status": "completed",
+  "scan_result": {
+    "domain": "tksolutions.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-14",
+    "ssl_days_remaining": 38,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "Slick",
+      "Snowplow Analytics",
+      "Swiper",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:38:41.518940236Z",
+      "port": "443",
+      "url": "https://tksolutions.dk",
+      "input": "tksolutions.dk",
+      "title": "Forside - TK Solutions ApS",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "tksolutions.dk",
+      "host_ip": "185.221.38.141",
+      "path": "/",
+      "final_url": "https://www.tksolutions.dk/",
+      "time": "502.570779ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "185.221.38.141"
+      ],
+      "tech": [
+        "Google Tag Manager",
+        "HSTS",
+        "Nginx",
+        "PHP",
+        "Slick",
+        "Snowplow Analytics",
+        "Swiper",
+        "jQuery"
+      ],
+      "words": 43915,
+      "lines": 1767,
+      "status_code": 200,
+      "content_length": 177679,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.141"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "tksolutions-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all",
+        "MS=ms47574367"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "tksolutions.dk",
+    "cvr": "prospect",
+    "company_name": "tksolutions.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-14",
+        "days_remaining": 38,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "Slick",
+      "Snowplow Analytics",
+      "Swiper",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.141"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "tksolutions-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:spf.curanet.dk -all",
+        "MS=ms47574367"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 89,
+    "ssl": 80,
+    "headers": 279,
+    "meta": 287,
+    "httpx": 2922,
+    "webanalyze": 5,
+    "dnsx": 765,
+    "total_ms": 4443
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

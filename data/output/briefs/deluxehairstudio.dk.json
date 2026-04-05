@@ -2,7 +2,7 @@
   "domain": "deluxehairstudio.dk",
   "cvr": "prospect",
   "company_name": "deluxehairstudio.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -12,14 +12,15 @@
   "industry": "",
   "technology": {
     "cms": "WordPress",
-    "hosting": "Unknown",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-26",
-      "days_remaining": 84
+      "days_remaining": 81,
+      "tls_version": ""
     },
-    "server": "Apache",
+    "server": "Simply.com",
     "detected_plugins": [
       "Qi Addons For Elementor",
       "Ht Mega For Elementor",
@@ -52,11 +53,14 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Apache HTTP Server",
     "Bootstrap",
     "Cookiebot",
     "Elementor:3.23.4",
@@ -104,6 +108,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -119,6 +127,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -164,7 +182,7 @@
       "severity": "medium",
       "description": "Qi Addons For Elementor [qi-addons-for-elementor] < 1.8.1 (CVE-2024-9530)",
       "risk": "CVE-2024-9530: WordPress Qi Addons For Elementor Plugin <= 1.8.0 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -176,7 +194,7 @@
       "severity": "medium",
       "description": "Qi Addons For Elementor [qi-addons-for-elementor] < 1.8.8 (CVE-2024-13699)",
       "risk": "CVE-2024-13699: WordPress Qi Addons For Elementor Plugin <= 1.8.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -188,7 +206,7 @@
       "severity": "medium",
       "description": "Qi Addons For Elementor [qi-addons-for-elementor] < 1.9.2 (CVE-2025-6252)",
       "risk": "CVE-2025-6252: Qi Addons For Elementor &lt;= 1.9.1 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -200,7 +218,7 @@
       "severity": "medium",
       "description": "Qi Addons For Elementor [qi-addons-for-elementor] < 1.9.3 (CVE-2025-8146)",
       "risk": "CVE-2025-8146: Qi Addons For Elementor [qi-addons-for-elementor] < 1.9.3",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -212,7 +230,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -224,7 +242,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -236,7 +254,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -248,7 +266,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -260,7 +278,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
       "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -272,7 +290,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
       "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -284,7 +302,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
       "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -296,7 +314,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.4 (CVE-2024-8440)",
       "risk": "CVE-2024-8440: Essential Addons for Elementor -- Best Elementor Templates, Widgets, Kits & WooCommerce Builders <= 6.0.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via Fancy Text Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -308,7 +326,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.4 (CVE-2024-8742)",
       "risk": "CVE-2024-8742: Essential Addons for Elementor <= 6.0.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via Filterable Gallery Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -320,7 +338,7 @@
       "severity": "high",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.10 (CVE-2024-8979)",
       "risk": "CVE-2024-8979: WordPress Essential Addons for Elementor Plugin <= 6.0.9 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -332,7 +350,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.8 (CVE-2024-8961)",
       "risk": "CVE-2024-8961: WordPress Essential Addons for Elementor Plugin <= 6.0.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -344,7 +362,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.10 (CVE-2024-8978)",
       "risk": "CVE-2024-8978: WordPress Essential Addons for Elementor Plugin <= 6.0.9 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -356,7 +374,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.8 (CVE-2024-56063)",
       "risk": "CVE-2024-56063: WordPress Essential Addons for Elementor Plugin <= 6.0.7 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -368,7 +386,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.1.10 (CVE-2025-39589)",
       "risk": "CVE-2025-39589: EUVD-2025-11293",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -380,7 +398,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.1.10 (CVE-2025-39590)",
       "risk": "CVE-2025-39590: EUVD-2025-11299",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -392,7 +410,7 @@
       "severity": "high",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.15 (CVE-2025-24752)",
       "risk": "CVE-2025-24752: EUVD-2025-11615",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -404,7 +422,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.1.13 (CVE-2024-9994)",
       "risk": "CVE-2024-9994: Essential Addons for Elementor &ndash; Best Elementor Templates, Widgets, Kits &amp; WooCommerce Builders &lt;= 6.1.12 - Authenticated(Contributor+) Stored Cross-Site Scripting via Pricing Table Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -416,7 +434,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.1.13 (CVE-2024-9993)",
       "risk": "CVE-2024-9993: Essential Addons for Elementor &ndash; Best Elementor Templates, Widgets, Kits &amp; WooCommerce Builders &lt;= 6.1.12 - Authenticated(Contributor+) Stored Cross-Site Scripting via Event Calendar Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -428,7 +446,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.0.5",
       "risk": "Multiple Plugins &lt;= (Various Versions) - Authenticated (Contributor+) Stored DOM-Based Cross-Site Scripting via Magnific Popups JavaScript Library",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -440,7 +458,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.1.20 (CVE-2025-6244)",
       "risk": "CVE-2025-6244: Essential Addons for Elementor &ndash; Popular Elementor Templates and Widgets &lt;= 6.1.19 - Authenticated (Contributor+) Stored Cross-Site Scripting via `Calendar` And `Business Reviews` Widgets",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -452,7 +470,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.2.3 (CVE-2025-8451)",
       "risk": "CVE-2025-8451: Essential Addons for Elementor &ndash; Popular Elementor Templates and Widgets &lt;= 6.2.2 - Authenticated (Contributor+) DOM-Based Stored Cross-Site Scripting via &#039;data-gallery-items&#039;",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -464,7 +482,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed) (CVE-2025-64352)",
       "risk": "CVE-2025-64352: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -476,7 +494,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.5.4 (CVE-2025-13977)",
       "risk": "CVE-2025-13977: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] < 6.5.4",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -488,7 +506,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed) (CVE-2025-69092)",
       "risk": "CVE-2025-69092: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -500,7 +518,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed) (CVE-2026-23543)",
       "risk": "CVE-2026-23543: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -512,7 +530,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -524,7 +542,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -536,7 +554,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -548,7 +566,7 @@
       "severity": "high",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] >= 1.8.4 - <= 1.9.2.1 (CVE-2024-11205)",
       "risk": "CVE-2024-11205: WPForms 1.8.4 - 1.9.2.1 - Missing Authorization to Authenticated (Subscriber+) Payment Refund and Subscription Cancellation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -560,7 +578,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed) (CVE-2020-36919)",
       "risk": "CVE-2020-36919: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.7.8 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -572,7 +590,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed) (CVE-2026-32446)",
       "risk": "CVE-2026-32446: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.9.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -584,7 +602,7 @@
       "severity": "medium",
       "description": "WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed) (CVE-2026-25339)",
       "risk": "CVE-2026-25339: WPForms &#8211; Easy Form Builder for WordPress &#8211; Contact Forms, Payment Forms, Surveys, &amp; More [wpforms-lite] <= 1.9.8.7 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -594,11 +612,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 448,
+    "duration_ms": 273,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

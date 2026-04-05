@@ -1,0 +1,214 @@
+{
+  "domain": "vefafoto.dk",
+  "job_id": "scan-2026-04-05-7428f1ea",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vefafoto.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Sectigo Limited",
+    "ssl_expiry": "2026-07-15",
+    "ssl_days_remaining": 101,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Bontii",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "ScanNet Webshop"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:40:22.29169017Z",
+      "port": "443",
+      "url": "https://vefafoto.dk",
+      "input": "vefafoto.dk",
+      "title": "Vefa Foto",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vefafoto.dk",
+      "host_ip": "185.221.38.92",
+      "path": "/",
+      "time": "205.729555ms",
+      "a": [
+        "185.221.38.92"
+      ],
+      "tech": [
+        "Bontii",
+        "Google Analytics",
+        "Google Tag Manager",
+        "HSTS",
+        "Nginx",
+        "PHP",
+        "ScanNet Webshop"
+      ],
+      "words": 119198,
+      "lines": 2865,
+      "status_code": 200,
+      "content_length": 352849,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.92"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.scannet.dk",
+        "mx1.scannet.dk"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 include:mailgun.org include:spf.scannet.dk include:amazonses.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vefafoto.dk",
+    "cvr": "prospect",
+    "company_name": "vefafoto.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Sectigo Limited",
+        "expiry": "2026-07-15",
+        "days_remaining": 101,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Bontii",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "ScanNet Webshop"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.92"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx2.scannet.dk",
+        "mx1.scannet.dk"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 include:mailgun.org include:spf.scannet.dk include:amazonses.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 86,
+    "ssl": 64,
+    "headers": 171,
+    "meta": 211,
+    "httpx": 3250,
+    "webanalyze": 3,
+    "dnsx": 796,
+    "total_ms": 4591
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

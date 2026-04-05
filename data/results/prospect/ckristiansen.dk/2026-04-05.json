@@ -1,0 +1,241 @@
+{
+  "domain": "ckristiansen.dk",
+  "job_id": "scan-2026-04-05-6d52196e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "ckristiansen.dk",
+    "cms": "",
+    "server": "Caddy Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-16",
+    "ssl_days_remaining": 40,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Caddy, Apache",
+      "x_powered_by": "PHP/7.3.29"
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootstrap",
+      "PHP:7.3.29",
+      "jQuery",
+      "jQuery Migrate"
+    ],
+    "meta_author": "C.Kristiansen Smede og Maskin V",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:58:02.893352699Z",
+      "port": "443",
+      "url": "https://ckristiansen.dk",
+      "input": "ckristiansen.dk",
+      "title": "Hjem - C.Kristiansen Smede Og MaskinVærksted",
+      "scheme": "https",
+      "webserver": "Caddy Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "ckristiansen.dk",
+      "host_ip": "46.183.138.100",
+      "path": "/",
+      "final_url": "http://www.ckristiansen.dk/",
+      "time": "899.377013ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "46.183.138.100"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Bootstrap",
+        "PHP:7.3.29",
+        "jQuery",
+        "jQuery Migrate"
+      ],
+      "words": 1204,
+      "lines": 255,
+      "status_code": 200,
+      "content_length": 13422,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.183.138.100"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.gigahost.dk",
+        "mx3.gigahost.dk",
+        "mx2.gigahost.dk"
+      ],
+      "ns": [
+        "ns1.gigahost.dk",
+        "ns2.gigahost.dk",
+        "ns3.gigahost.dk",
+        "ns4.gigahost.dk",
+        "ns5.gigahost.dk"
+      ],
+      "txt": [
+        "v=spf1 mx include:spf.gigahost.dk -all",
+        "spf2.0/pra",
+        "apple-domain-verification=7M32LGq7JRRV-2rKv4NImKyeklMG_unc3kTJMXvSah4"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "ckristiansen.dk",
+    "cvr": "prospect",
+    "company_name": "ckristiansen.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-16",
+        "days_remaining": 40,
+        "tls_version": ""
+      },
+      "server": "Caddy Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Caddy, Apache",
+        "x_powered_by": "PHP/7.3.29"
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootstrap",
+      "PHP:7.3.29",
+      "jQuery",
+      "jQuery Migrate"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.183.138.100"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx1.gigahost.dk",
+        "mx3.gigahost.dk",
+        "mx2.gigahost.dk"
+      ],
+      "ns": [
+        "ns1.gigahost.dk",
+        "ns2.gigahost.dk",
+        "ns3.gigahost.dk",
+        "ns4.gigahost.dk",
+        "ns5.gigahost.dk"
+      ],
+      "txt": [
+        "v=spf1 mx include:spf.gigahost.dk -all",
+        "spf2.0/pra",
+        "apple-domain-verification=7M32LGq7JRRV-2rKv4NImKyeklMG_unc3kTJMXvSah4"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "C.Kristiansen Smede og Maskin V",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: PHP/7.3.29",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP:7.3.29",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 233,
+    "ssl": 92,
+    "headers": 1815,
+    "meta": 801,
+    "httpx": 2538,
+    "webanalyze": 3,
+    "dnsx": 929,
+    "total_ms": 6419
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

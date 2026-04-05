@@ -1,0 +1,274 @@
+{
+  "domain": "byensbilpleje.com",
+  "job_id": "scan-2026-04-05-de099872",
+  "status": "completed",
+  "scan_result": {
+    "domain": "byensbilpleje.com",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "DigiCert Inc",
+    "ssl_expiry": "2027-02-13",
+    "ssl_days_remaining": 314,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [
+      "byensbilpleje"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootbox.js",
+      "Bootstrap:4.1.3",
+      "BootstrapCDN:4.1.3",
+      "Cloudflare",
+      "Google Maps",
+      "Google Tag Manager",
+      "MySQL",
+      "OWL Carousel",
+      "PHP",
+      "Popper:1.14.3",
+      "WordPress:6.9.4",
+      "cdnjs",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:56:24.884812666Z",
+      "port": "443",
+      "url": "https://byensbilpleje.com",
+      "input": "byensbilpleje.com",
+      "title": "Byens Bilpleje – Totalleverandør til bilbranchen",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "byensbilpleje.com",
+      "host_ip": "78.46.3.75",
+      "path": "/",
+      "time": "143.944115ms",
+      "a": [
+        "78.46.3.75"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Bootbox.js",
+        "Bootstrap:4.1.3",
+        "BootstrapCDN:4.1.3",
+        "Cloudflare",
+        "Google Maps",
+        "Google Tag Manager",
+        "MySQL",
+        "OWL Carousel",
+        "PHP",
+        "Popper:1.14.3",
+        "WordPress:6.9.4",
+        "cdnjs",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 5239,
+      "lines": 459,
+      "status_code": 200,
+      "content_length": 48523,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "78.46.3.75"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "byensbilpleje-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:_spf.emply.com include:sendgrid.net include:spf.simply.com include:spfrerouting.xink.io ip4:188.40.219.244 ip4:94.231.103.98 -all",
+        "apple-domain-verification=S9q3AqBiQP8EMo27",
+        "MS=ms97412259"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "byensbilpleje.com",
+    "cvr": "prospect",
+    "company_name": "byensbilpleje.com",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "DigiCert Inc",
+        "expiry": "2027-02-13",
+        "days_remaining": 314,
+        "tls_version": ""
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [
+        "Byensbilpleje"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Apache",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Bootbox.js",
+      "Bootstrap:4.1.3",
+      "BootstrapCDN:4.1.3",
+      "Cloudflare",
+      "Google Maps",
+      "Google Tag Manager",
+      "MySQL",
+      "OWL Carousel",
+      "PHP",
+      "Popper:1.14.3",
+      "WordPress:6.9.4",
+      "cdnjs",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "78.46.3.75"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "byensbilpleje-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.protection.outlook.com include:_spf.emply.com include:sendgrid.net include:spf.simply.com include:spfrerouting.xink.io ip4:188.40.219.244 ip4:94.231.103.98 -all",
+        "apple-domain-verification=S9q3AqBiQP8EMo27",
+        "MS=ms97412259"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Byensbilpleje",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 597,
+    "ssl": 89,
+    "headers": 570,
+    "meta": 1514,
+    "httpx": 2134,
+    "webanalyze": 4,
+    "dnsx": 769,
+    "total_ms": 6188
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "habasit.com",
   "cvr": "prospect",
   "company_name": "habasit.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-09-28",
-      "days_remaining": 179
+      "days_remaining": 176,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": true,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -58,16 +63,16 @@
     ],
     "txt": [
       "bw=B2VayRC6D0HblYZmypbfgZkIR17Yx00f1DARoVxOglWw",
-      "swisssign-check=YEvFbYSMOFfd46U3ShDV8WgnWqhiegRANBs9MNM4Bw",
       "61e9270101a92806324f533972b2eac43b616a45910a216c69",
-      "apple-domain-verification=UxT0S12VnXNkK3M8",
-      "MS=D910CAAAA1EA38DBD063EFD3A157980F8F9D9C4B",
       "openai-domain-verification=dv-A5X8hAtqGDGwxbvb2YnrfYbr",
       "Foxit-domain-verification=534e26247e68ffa3315d8fc7836ab93d",
+      "swisssign-check=YEvFbYSMOFfd46U3ShDV8WgnWqhiegRANBs9MNM4Bw",
+      "teamviewer-sso-verification=2bae18ffd4b44b378687b71a3c076832",
       "atlassian-domain-verification=9gyTvN3Zk94CzDu9aDsy80uj5XGTi3ffw/GMzvRjSFsmqJwGBBkUsz2nxEpbe1hp",
-      "MS=ms99126229",
       "v=spf1 include:spf1.habasit.com include:spf2.habasit.com include:spf3.habasit.com include:spf4.habasit.com include:spf5.habasit.com include:spf6.habasit.com include:spf7.habasit.com include:spf8.habasit.com include:spf.protection.outlook.com -all",
-      "teamviewer-sso-verification=2bae18ffd4b44b378687b71a3c076832"
+      "MS=ms99126229",
+      "apple-domain-verification=UxT0S12VnXNkK3M8",
+      "MS=D910CAAAA1EA38DBD063EFD3A157980F8F9D9C4B"
     ]
   },
   "cloud_exposure": [
@@ -76,11 +81,25 @@
       "file_count": 1
     }
   ],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
       "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "high",

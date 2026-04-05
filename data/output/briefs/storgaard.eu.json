@@ -2,7 +2,7 @@
   "domain": "storgaard.eu",
   "cvr": "prospect",
   "company_name": "storgaard.eu",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -13,8 +13,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-06-14",
-      "days_remaining": 73
+      "expiry": "2026-06-09",
+      "days_remaining": 65,
+      "tls_version": ""
     },
     "server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/8.2.10",
     "detected_plugins": [],
@@ -23,8 +24,12 @@
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
-      "strict_transport_security": true,
-      "x_content_type_options": true
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/8.2.10",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -41,8 +46,8 @@
   },
   "dns": {
     "a": [
-      "185.230.63.107",
-      "87.238.253.103"
+      "87.238.253.103",
+      "185.230.63.107"
     ],
     "aaaa": [],
     "cname": [],
@@ -58,7 +63,16 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
+    {
+      "severity": "medium",
+      "description": "Missing HSTS header (HTTP Strict Transport Security)",
+      "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+    },
     {
       "severity": "low",
       "description": "Missing Content-Security-Policy header",
@@ -68,6 +82,21 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing X-Content-Type-Options header",
+      "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

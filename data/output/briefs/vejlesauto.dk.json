@@ -2,23 +2,25 @@
   "domain": "vejlesauto.dk",
   "cvr": "prospect",
   "company_name": "vejlesauto.dk",
-  "scan_date": "2026-04-02",
-  "bucket": "E",
+  "scan_date": "2026-04-05",
+  "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Everest Forms, Woocommerce"
+    "Data-handling plugins: Everest Forms, Woocommerce",
+    "Visitor tracking: Google Tag Manager"
   ],
   "industry": "",
   "technology": {
-    "cms": "",
-    "hosting": "Unknown",
+    "cms": "WordPress",
+    "hosting": "simply.com",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-08",
-      "days_remaining": 35
+      "days_remaining": 32,
+      "tls_version": ""
     },
-    "server": "nginx",
+    "server": "Simply.com",
     "detected_plugins": [
       "Wp Customer Reviews",
       "Popup Maker",
@@ -47,11 +49,31 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
-    "Nginx"
+    "Cookiebot",
+    "FitVids.JS:1.0",
+    "Google Tag Manager",
+    "HTTP/3",
+    "Mailcheck:1.1.2",
+    "Max Mega Menu:3.8.1",
+    "MySQL",
+    "PHP",
+    "Popup Maker",
+    "SiteOrigin Page Builder:2.34.0",
+    "SiteOrigin Vantage",
+    "SiteOrigin Widgets Bundle:3.2.0",
+    "TinyMCE",
+    "WordPress:6.8.5",
+    "jQuery",
+    "jQuery Migrate:3.4.1",
+    "mobile-detect.js:1.3.3"
   ],
   "plugin_versions": {
     "wp-customer-reviews": "3.7.7",
@@ -84,11 +106,15 @@
     ],
     "txt": [
       "v=spf1 include:spf.simply.com -all",
-      "google-site-verification=Jh1AqKSpoSxh4Rp6_NLqiL_keEp5omKJdYUooPzLks8",
-      "facebook-domain-verification=552qz22369ft8ivc1rsov77pzzu0aw"
+      "facebook-domain-verification=552qz22369ft8ivc1rsov77pzzu0aw",
+      "google-site-verification=Jh1AqKSpoSxh4Rp6_NLqiL_keEp5omKJdYUooPzLks8"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -106,6 +132,21 @@
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
     },
     {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 6.8.5 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
       "severity": "medium",
       "description": "Data-handling plugins detected: Everest Forms, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
@@ -116,9 +157,58 @@
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
       "severity": "info",
       "description": "WordPress theme detected: Vantage",
       "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Everest Forms – Contact Form, Payment Form, Quiz, Survey &amp; Custom Form Builder [everest-forms] <= 3.4.1 (unfixed) (CVE-2026-22422)",
+      "risk": "CVE-2026-22422: Everest Forms – Contact Form, Payment Form, Quiz, Survey &amp; Custom Form Builder [everest-forms] <= 3.4.1 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2026-22422",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-05",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 528,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

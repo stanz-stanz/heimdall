@@ -1,0 +1,212 @@
+{
+  "domain": "codeoptimus.dk",
+  "job_id": "scan-2026-04-05-eac94537",
+  "status": "completed",
+  "scan_result": {
+    "domain": "codeoptimus.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-11",
+    "ssl_days_remaining": 66,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:58:40.088976156Z",
+      "port": "443",
+      "url": "https://codeoptimus.dk",
+      "input": "codeoptimus.dk",
+      "title": "Umbraco CMS, App-udvikling, softwareudvikling, webdesign, hjemmeside",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "codeoptimus.dk",
+      "host_ip": "185.21.41.239",
+      "path": "/",
+      "final_url": "https://www.codeoptimus.dk/",
+      "time": "384.131173ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "185.21.41.239"
+      ],
+      "tech": [
+        "Google Tag Manager",
+        "HSTS"
+      ],
+      "words": 9050,
+      "lines": 868,
+      "status_code": 200,
+      "content_length": 38480,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "umbraco_cms",
+          "vendor": "umbraco",
+          "cpe": "cpe:2.3:a:umbraco:umbraco_cms:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.21.41.239"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "codeoptimus-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "MS=ms53231861",
+        "MS=ms28648732",
+        "google-site-verification=P9X5PIP9sRJG-O4kN4YUnX6NV0ICXv5VGEXHqMjXQPI",
+        "v=spf1 a mx ip4:93.191.157.50 ip4:62.171.182.94 include:spf.curanet.dk include:spf.protection.outlook.com include:spf.mandrillapp.com ~all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "codeoptimus.dk",
+    "cvr": "prospect",
+    "company_name": "codeoptimus.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-11",
+        "days_remaining": 66,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Tag Manager",
+      "HSTS"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.21.41.239"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "codeoptimus-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "MS=ms53231861",
+        "MS=ms28648732",
+        "google-site-verification=P9X5PIP9sRJG-O4kN4YUnX6NV0ICXv5VGEXHqMjXQPI",
+        "v=spf1 a mx ip4:93.191.157.50 ip4:62.171.182.94 include:spf.curanet.dk include:spf.protection.outlook.com include:spf.mandrillapp.com ~all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 197,
+    "ssl": 72,
+    "headers": 218,
+    "meta": 248,
+    "httpx": 2079,
+    "webanalyze": 4,
+    "dnsx": 782,
+    "total_ms": 3607
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

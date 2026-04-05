@@ -1,0 +1,234 @@
+{
+  "domain": "andliving.dk",
+  "job_id": "scan-2026-04-05-001ff6c4",
+  "status": "completed",
+  "scan_result": {
+    "domain": "andliving.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-09",
+    "ssl_days_remaining": 64,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [
+      "jespernielsen",
+      "webplatform"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Maps",
+      "Google Tag Manager",
+      "HSTS",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "Slick",
+      "WordPress",
+      "jQuery UI:1.13.2",
+      "jQuery:3.7.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:50:45.032604347Z",
+      "port": "443",
+      "url": "https://andliving.dk",
+      "input": "andliving.dk",
+      "title": "Danmarks æstetiske ejendomsmægler | Salg af boliger med arkitektur & livsstil | Ejendomsmæglerfirmaet &LIVING",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "andliving.dk",
+      "host_ip": "77.243.135.25",
+      "path": "/",
+      "time": "115.205339ms",
+      "a": [
+        "77.243.135.25"
+      ],
+      "tech": [
+        "Google Maps",
+        "Google Tag Manager",
+        "HSTS",
+        "MySQL",
+        "Nginx",
+        "PHP",
+        "Slick",
+        "WordPress",
+        "jQuery UI:1.13.2",
+        "jQuery:3.7.1"
+      ],
+      "words": 21584,
+      "lines": 3198,
+      "status_code": 200,
+      "content_length": 300745,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "77.243.135.25"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "andliving-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "jihoon.ns.cloudflare.com",
+        "lovisa.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:31.3.73.186 ip4:93.161.177.130 ip4:87.63.180.34 ip4:87.49.232.214 ip4:188.177.83.186 include:spf.protection.outlook.com include:spf.hosit.dk include:spfinclude.sikkermail.dk include:spf.web.mindworking.dk -all",
+        "MS=ms71627610"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "andliving.dk",
+    "cvr": "prospect",
+    "company_name": "andliving.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-09",
+        "days_remaining": 64,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [
+        "Jespernielsen",
+        "Webplatform"
+      ],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Maps",
+      "Google Tag Manager",
+      "HSTS",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "Slick",
+      "WordPress",
+      "jQuery UI:1.13.2",
+      "jQuery:3.7.1"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "77.243.135.25"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "andliving-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "jihoon.ns.cloudflare.com",
+        "lovisa.ns.cloudflare.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:31.3.73.186 ip4:93.161.177.130 ip4:87.63.180.34 ip4:87.49.232.214 ip4:188.177.83.186 include:spf.protection.outlook.com include:spf.hosit.dk include:spfinclude.sikkermail.dk include:spf.web.mindworking.dk -all",
+        "MS=ms71627610"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "WordPress detected (version not determined)",
+        "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Jespernielsen, Webplatform",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 90,
+    "ssl": 62,
+    "headers": 80,
+    "meta": 131,
+    "httpx": 3317,
+    "webanalyze": 4,
+    "dnsx": 646,
+    "total_ms": 4849
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

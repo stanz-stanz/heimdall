@@ -1,0 +1,189 @@
+{
+  "domain": "vanillachokolade.dk",
+  "job_id": "scan-2026-04-05-039c5d06",
+  "status": "completed",
+  "scan_result": {
+    "domain": "vanillachokolade.dk",
+    "cms": "",
+    "server": "",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-07-02",
+    "ssl_days_remaining": 88,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "iubenda",
+      "jQuery:1.12.2",
+      "reCAPTCHA"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:40:13.203957349Z",
+      "port": "443",
+      "url": "https://vanillachokolade.dk",
+      "input": "vanillachokolade.dk",
+      "title": "Konditor & bager i Vejle | Prøv vores lækre kager i dag",
+      "scheme": "https",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "vanillachokolade.dk",
+      "host_ip": "193.8.37.86",
+      "path": "/",
+      "time": "297.461904ms",
+      "a": [
+        "193.8.37.86"
+      ],
+      "tech": [
+        "Google Analytics",
+        "HSTS",
+        "Microsoft ASP.NET",
+        "iubenda",
+        "jQuery:1.12.2",
+        "reCAPTCHA"
+      ],
+      "words": 16122,
+      "lines": 2829,
+      "status_code": 200,
+      "content_length": 441239,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.8.37.86"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vanillachokolade-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.dnsserver.dk",
+        "ns2.dnsserver.dk"
+      ],
+      "txt": [
+        "MS=ms97590837",
+        "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all",
+        "MS=F005C36A23F40F891E972BCC8B8119B73DFA5508"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "vanillachokolade.dk",
+    "cvr": "prospect",
+    "company_name": "vanillachokolade.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, reCAPTCHA"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-07-02",
+        "days_remaining": 88,
+        "tls_version": ""
+      },
+      "server": "",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Google Analytics",
+      "HSTS",
+      "Microsoft ASP.NET",
+      "iubenda",
+      "jQuery:1.12.2",
+      "reCAPTCHA"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.8.37.86"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "vanillachokolade-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.dnsserver.dk",
+        "ns2.dnsserver.dk"
+      ],
+      "txt": [
+        "MS=ms97590837",
+        "v=spf1 include:spf.protection.outlook.com ip4:193.8.36.0/22 -all",
+        "MS=F005C36A23F40F891E972BCC8B8119B73DFA5508"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 121,
+    "ssl": 104,
+    "headers": 394,
+    "meta": 812,
+    "httpx": 3946,
+    "webanalyze": 4,
+    "dnsx": 818,
+    "total_ms": 6206
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

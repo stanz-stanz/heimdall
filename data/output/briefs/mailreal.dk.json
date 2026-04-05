@@ -2,7 +2,7 @@
   "domain": "mailreal.dk",
   "cvr": "prospect",
   "company_name": "mailreal.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -56,12 +61,16 @@
       "kyle.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=hz8ZYueJkE8z4Ib3r6YMd0GvUL8SnI64nDnBu31qsHk",
       "v=spf1 include:spf.mailreal.dk include:spf.hosit.dk include:spf.protection.outlook.com ip4:217.195.189.0/24 -all",
-      "MS=ms25993269"
+      "MS=ms25993269",
+      "google-site-verification=hz8ZYueJkE8z4Ib3r6YMd0GvUL8SnI64nDnBu31qsHk"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -87,6 +96,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

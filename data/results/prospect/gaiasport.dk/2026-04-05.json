@@ -1,0 +1,171 @@
+{
+  "domain": "gaiasport.dk",
+  "job_id": "scan-2026-04-05-6d9f74af",
+  "status": "completed",
+  "scan_result": {
+    "domain": "gaiasport.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-07-01",
+    "ssl_days_remaining": 86,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "Shopify"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:08:23.58947429Z",
+      "port": "443",
+      "url": "https://gaiasport.dk",
+      "input": "gaiasport.dk",
+      "title": "Gaiasport - Førende indenfor sportsernæring og udstyr",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "gaiasport.dk",
+      "host_ip": "23.227.38.65",
+      "path": "/",
+      "time": "648.18979ms",
+      "a": [
+        "23.227.38.65"
+      ],
+      "tech": [
+        "Cloudflare",
+        "HSTS",
+        "HTTP/3",
+        "Shopify"
+      ],
+      "words": 62051,
+      "lines": 4796,
+      "status_code": 200,
+      "content_length": 560172,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "gaiasport.dk",
+    "cvr": "prospect",
+    "company_name": "gaiasport.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-07-01",
+        "days_remaining": 86,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "HSTS",
+      "HTTP/3",
+      "Shopify"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 210,
+    "ssl": 66,
+    "headers": 1353,
+    "meta": 1270,
+    "httpx": 5504,
+    "webanalyze": 6,
+    "total_ms": 8416
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

@@ -2,7 +2,7 @@
   "domain": "setoff.dk",
   "cvr": "prospect",
   "company_name": "setoff.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,8 +16,9 @@
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
-      "expiry": "2026-05-02",
-      "days_remaining": 30
+      "expiry": "2026-07-01",
+      "days_remaining": 86,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -31,7 +32,7 @@
     ],
     "plugin_versions": {
       "Simple Embed Code": "2.5.1",
-      "Gravityforms": "2.9.30",
+      "Gravityforms": "2.9.31",
       "Gravityformsrecaptcha": "1.6.0",
       "Wordpress Seo": "25.0"
     },
@@ -43,13 +44,17 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
     "Cookiebot",
     "FitVids.JS:4.27.4",
-    "Gravity Forms:2.9.30",
+    "Gravity Forms:2.9.31",
     "HTTP/3",
     "LiteSpeed",
     "MySQL",
@@ -63,7 +68,7 @@
   ],
   "plugin_versions": {
     "simple-embed-code": "2.5.1",
-    "gravityforms": "2.9.30",
+    "gravityforms": "2.9.31",
     "gravityformsrecaptcha": "1.6.0",
     "wordpress-seo": "25.0"
   },
@@ -85,12 +90,16 @@
       "ns2.curanet.dk"
     ],
     "txt": [
-      "google-site-verification=5g6PLUJOgysw9s2vOaE9Uiwj7wMMhx1H4cKSohoML0o",
       "v=spf1 include:spf.protection.outlook.com -all",
+      "google-site-verification=5g6PLUJOgysw9s2vOaE9Uiwj7wMMhx1H4cKSohoML0o",
       "MS=ms55327482"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -111,6 +120,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -151,7 +170,7 @@
       "severity": "medium",
       "description": "Gravity Forms [gravityforms] >= 1.8 - <= 1.9.3.5 (CVE-2015-2260)",
       "risk": "CVE-2015-2260: Gravityforms <= 1.9.3.5 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -163,7 +182,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -175,7 +194,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -187,7 +206,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -197,11 +216,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 338,
+    "duration_ms": 162,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

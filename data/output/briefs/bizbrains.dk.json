@@ -2,7 +2,7 @@
   "domain": "bizbrains.dk",
   "cvr": "prospect",
   "company_name": "bizbrains.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -58,15 +63,19 @@
       "dns44.cloudns.net"
     ],
     "txt": [
-      "google-site-verification=XdSMCBjR_FgIcCLwkvWAkK1EINKEfnOTnExGufTfPlk",
-      "v=spf1 mx include:spf.protection.outlook.com include:spf.bizbrains.dk include:2971994.spf03.hubspotemail.net include:spf.mentor-it.dk include:_spf.atlassian.net include:spf-westeu.emailsignatures365.com -all",
-      "9cszpslhk81hmdt7l3lmjtn6nxck89fz",
       "_axor72z804v4ei847yuxoo099ia4sj7",
-      "MS=ms68468985",
-      "atlassian-domain-verification=5lHRHak4Eukg1GeUm281ftNa0AgL1tIKcEHqtHMylJAaLCbT52Btdha61K0/f4Ui"
+      "9cszpslhk81hmdt7l3lmjtn6nxck89fz",
+      "v=spf1 mx include:spf.protection.outlook.com include:spf.bizbrains.dk include:2971994.spf03.hubspotemail.net include:spf.mentor-it.dk include:_spf.atlassian.net include:spf-westeu.emailsignatures365.com -all",
+      "google-site-verification=XdSMCBjR_FgIcCLwkvWAkK1EINKEfnOTnExGufTfPlk",
+      "atlassian-domain-verification=5lHRHak4Eukg1GeUm281ftNa0AgL1tIKcEHqtHMylJAaLCbT52Btdha61K0/f4Ui",
+      "MS=ms68468985"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -92,6 +101,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

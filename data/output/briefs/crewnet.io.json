@@ -2,7 +2,7 @@
   "domain": "crewnet.io",
   "cvr": "prospect",
   "company_name": "crewnet.io",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-13",
-      "days_remaining": 71
+      "days_remaining": 68,
+      "tls_version": ""
     },
     "server": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
     "detected_plugins": [
@@ -52,7 +53,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
+      "x_powered_by": "W3 Total Cache/2.8.14"
     }
   },
   "tech_stack": [
@@ -103,13 +108,17 @@
       "barbara.ns.cloudflare.com"
     ],
     "txt": [
-      "facebook-domain-verification=jcgsc8site3w7w716svb74q4v385lf",
-      "google-site-verification=bfKARamc-oUbsHuWdjxYoKNKaEf-sJalDttxsBdtMCc",
       "v=spf1 include:spf.protection.outlook.com -all",
-      "MS=ms57289189"
+      "MS=ms57289189",
+      "facebook-domain-verification=jcgsc8site3w7w716svb74q4v385lf",
+      "google-site-verification=bfKARamc-oUbsHuWdjxYoKNKaEf-sJalDttxsBdtMCc"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -130,6 +139,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: W3 Total Cache/2.8.14",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -170,7 +189,7 @@
       "severity": "medium",
       "description": "Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] < 4.11.9 (CVE-2025-4774)",
       "risk": "CVE-2025-4774: Premium Addons for Elementor &lt;= 4.11.8 - Authenticated (Contributor+) Stored Cross-Site Scripting via Countdown Widget",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -182,7 +201,7 @@
       "severity": "medium",
       "description": "Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] < 4.11.54 (CVE-2025-14163)",
       "risk": "CVE-2025-14163: Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] < 4.11.54",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -194,7 +213,7 @@
       "severity": "medium",
       "description": "Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] < 4.11.54 (CVE-2025-14155)",
       "risk": "CVE-2025-14155: Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] < 4.11.54",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -206,7 +225,7 @@
       "severity": "medium",
       "description": "Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] <= 4.11.53 (unfixed) (CVE-2025-68494)",
       "risk": "CVE-2025-68494: Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] <= 4.11.53 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -218,7 +237,7 @@
       "severity": "medium",
       "description": "Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] <= 4.11.63 (unfixed) (CVE-2025-69300)",
       "risk": "CVE-2025-69300: Premium Addons for Elementor &#8211; Powerful Elementor Templates &amp; Widgets [premium-addons-for-elementor] <= 4.11.63 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -230,7 +249,7 @@
       "severity": "medium",
       "description": "MC4WP: Mailchimp for WordPress [mailchimp-for-wp] >= 4.9.9 - <= 4.9.16 (CVE-2024-8850)",
       "risk": "CVE-2024-8850: MC4WP: Mailchimp for WordPress 4.9.9 - 4.9.16 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -242,7 +261,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -254,7 +273,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -266,7 +285,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -278,7 +297,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -290,7 +309,7 @@
       "severity": "medium",
       "description": "Sticky Header Effects for Elementor [sticky-header-effects-for-elementor] <= 2.1.2 (unfixed) (CVE-2025-58251)",
       "risk": "CVE-2025-58251: Sticky Header Effects for Elementor [sticky-header-effects-for-elementor] <= 2.1.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -302,7 +321,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.25.11 (CVE-2024-8494)",
       "risk": "CVE-2024-8494: WordPress Elementor Pro Plugin <= 3.25.10 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -314,7 +333,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2025-3076)",
       "risk": "CVE-2025-3076: Elementor Pro &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -326,7 +345,7 @@
       "severity": "medium",
       "description": "Elementor Pro [elementor-pro] < 3.29.1 (CVE-2024-50555)",
       "risk": "CVE-2024-50555: Elementor Website Builder &lt;= 3.29.0 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -338,7 +357,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed) (CVE-2025-64352)",
       "risk": "CVE-2025-64352: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.2.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -350,7 +369,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed) (CVE-2025-69092)",
       "risk": "CVE-2025-69092: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -362,7 +381,7 @@
       "severity": "medium",
       "description": "Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed) (CVE-2026-23543)",
       "risk": "CVE-2026-23543: Essential Addons for Elementor &#8211; Popular Elementor Templates &amp; Widgets [essential-addons-for-elementor-lite] <= 6.5.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -372,11 +391,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 452,
+    "duration_ms": 194,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

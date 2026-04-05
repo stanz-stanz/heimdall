@@ -2,39 +2,83 @@
   "domain": "fdf-son.dk",
   "cvr": "prospect",
   "company_name": "fdf-son.dk",
-  "scan_date": "2026-04-02",
-  "bucket": "D",
-  "gdpr_sensitive": false,
-  "gdpr_reasons": [],
+  "scan_date": "2026-04-05",
+  "bucket": "A",
+  "gdpr_sensitive": true,
+  "gdpr_reasons": [
+    "Visitor tracking: MailChimp, MailChimp for WordPress:4.12.1"
+  ],
   "industry": "",
   "technology": {
-    "cms": "",
+    "cms": "WordPress",
     "hosting": "Unknown",
     "ssl": {
       "valid": false,
       "issuer": "",
       "expiry": "",
-      "days_remaining": -1
+      "days_remaining": -1,
+      "tls_version": ""
     },
-    "server": "",
-    "detected_plugins": [],
-    "plugin_versions": {},
+    "server": "Apache",
+    "detected_plugins": [
+      "Divi Builder"
+    ],
+    "plugin_versions": {
+      "Divi Builder": "4.27.5"
+    },
     "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
-  "tech_stack": [],
-  "plugin_versions": {},
+  "tech_stack": [
+    "Apache HTTP Server",
+    "Divi:4.27.5",
+    "FitVids.JS:4.27.5",
+    "Magnific Popup:4.27.5",
+    "MailChimp",
+    "MailChimp for WordPress:4.12.1",
+    "MySQL",
+    "PHP:8.1.18",
+    "WordPress:6.9.4",
+    "YouTube",
+    "jQuery",
+    "jQuery Migrate:3.4.1"
+  ],
+  "plugin_versions": {
+    "divi-builder": "4.27.5"
+  },
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {},
+  "dns": {
+    "a": [
+      "217.116.232.219"
+    ],
+    "aaaa": [],
+    "cname": [],
+    "mx": [
+      "mail.gigahost.dk"
+    ],
+    "ns": [
+      "ns01.one.com",
+      "ns02.one.com"
+    ],
+    "txt": []
+  },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "critical",
@@ -60,6 +104,63 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "medium",
+      "description": "WordPress version 4.12.1 publicly disclosed",
+      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+    },
+    {
+      "severity": "info",
+      "description": "1 WordPress plugin detected",
+      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+    },
+    {
+      "severity": "low",
+      "description": "Backend technology exposed: MySQL, PHP:8.1.18",
+      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "critical",
+      "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+      "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-35945",
+        "confidence": "high-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
+      "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "",
+        "confidence": "high-inference"
+      }
     }
-  ]
+  ],
+  "twin_scan": {
+    "twin_scan_date": "2026-04-05",
+    "scan_tools": [
+      "wpvulnerability"
+    ],
+    "duration_ms": 160,
+    "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+  }
 }

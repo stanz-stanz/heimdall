@@ -2,7 +2,7 @@
   "domain": "pc.dk",
   "cvr": "prospect",
   "company_name": "pc.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-23",
-      "days_remaining": 82
+      "days_remaining": 79,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -56,7 +61,52 @@
       "v=spf1 include:mail.dk ~all"
     ]
   },
-  "cloud_exposure": [],
+  "cloud_exposure": [
+    {
+      "bucket_name": "nmcdn.nyc3.digitaloceanspaces.com",
+      "file_count": 3
+    },
+    {
+      "bucket_name": "mp20-assets.storage.googleapis.com",
+      "file_count": 5
+    },
+    {
+      "bucket_name": "yorumsepeti.storage.googleapis.com",
+      "file_count": 17
+    },
+    {
+      "bucket_name": "foliekniven.s3.amazonaws.com",
+      "file_count": 4
+    },
+    {
+      "bucket_name": "portalvhdsm2x044vyyygy1.blob.core.windows.net",
+      "file_count": 1
+    },
+    {
+      "bucket_name": "storage.tweak.dk.storage.googleapis.com",
+      "file_count": 540
+    },
+    {
+      "bucket_name": "storage.tweakreviews.com.storage.googleapis.com",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "beonbuystorage.blob.core.windows.net",
+      "file_count": 2
+    },
+    {
+      "bucket_name": "burdastyle-assets.s3.amazonaws.com",
+      "file_count": 4
+    },
+    {
+      "bucket_name": "sofiaxtv2.blob.core.windows.net",
+      "file_count": 1
+    }
+  ],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -72,6 +122,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "high",
+      "description": "10 exposed cloud storage buckets detected",
+      "risk": "Files stored in these buckets are publicly accessible to anyone on the internet. This may include internal documents, backups, or customer data."
     }
   ]
 }

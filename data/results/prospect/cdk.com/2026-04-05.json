@@ -1,0 +1,309 @@
+{
+  "domain": "cdk.com",
+  "job_id": "scan-2026-04-05-9d05ab87",
+  "status": "completed",
+  "scan_result": {
+    "domain": "cdk.com",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": false,
+    "ssl_issuer": "",
+    "ssl_expiry": "",
+    "ssl_days_remaining": -1,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Google Tag Manager",
+      "Next.js",
+      "Node.js",
+      "OneTrust",
+      "React",
+      "Varnish",
+      "Webpack"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:57:13.403275633Z",
+      "port": "443",
+      "url": "https://cdk.com",
+      "input": "cdk.com",
+      "title": "CDK Global: Homepage",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "cdk.com",
+      "host_ip": "207.186.165.68",
+      "path": "/",
+      "final_url": "https://www.cdkglobal.com/",
+      "time": "1.664041725s",
+      "chain_status_codes": [
+        302,
+        301,
+        200
+      ],
+      "a": [
+        "207.186.165.68"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "Google Tag Manager",
+        "Next.js",
+        "Node.js",
+        "OneTrust",
+        "React",
+        "Varnish",
+        "Webpack"
+      ],
+      "words": 30877,
+      "lines": 260,
+      "status_code": 200,
+      "content_length": 494295,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "zeit",
+          "cpe": "cpe:2.3:a:zeit:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "vercel",
+          "cpe": "cpe:2.3:a:vercel:next.js:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "207.186.165.68"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "cdk-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.las.us.cdk.com",
+        "ns.ord.us.cdk.com"
+      ],
+      "txt": [
+        "MS=ms32783553",
+        "twilio-domain-verification=5b672f4c4ff7f78f47f4f9610fc6d151",
+        "+2ARBWr4Juc6NGQIRWchl5TCE6poUtW4Iy+LHcdYF6a0F5dtPq1QnUozW7rNT4tYsWMBdv1iMmMzDaxXWuWzHg==",
+        "ciscocidomainverification=f3f15cedb9af079c40227d131ef5519b2cbd9296f7718b4be1045eb81a6a93a",
+        "1PnYGyNueHMYvU6fMerqvVkr3tlPUks2zm44a+hPP7KaruYFdwckEg/l4xucM+RkqPHm+pR14bQaSTLKOZ/ONA==",
+        "docusign=3079a8d1-8547-4138-8e5d-e10b1ede4587",
+        "MS=ms82581122",
+        "smartsheet-site-validation=AQTKWfHloZ-EMSrzR6K9qrzXXNHYB2xH",
+        "VgT5LcC0K/xa9f3KUjxUy7yIZrKM3Mv0kCRuloBX8V/foKPet30jmyE/SEZrVB9DINK29cKBGYUb5KA7zL5d8A==",
+        "WhTliuTeT0Ekb8o3O1hcwZ8QVsah2fUCYpmPCZwf9YEHQc5pdXh60yr48w/2xsAixT9pj+4u9djCUX5wtdfBWg==",
+        "zoho-verification=zb50099817.zmverify.zoho.com",
+        "jamf-site-verification=zwBK0P-UzSE2nBEbn0AV_A",
+        "apple-domain-verification=8MhRwRIXeeALA2pT",
+        "MS=ms75756581",
+        "drbK/oXtfqGqzCwHtIzhHRx0ZbL0TdLLZna2xgl5ADGsgmdZ7KdthNmJZWw3GjF23R025n34ZsqPz84U7MQo/g==",
+        "miro-verification=0132ef1af54b96dc2609ba11c513dc8ba0abb958",
+        "webexdomainverification.=3f2fd88c-7968-42b1-b7ff-ebd159981d8e",
+        "docusign=d4845c49-2a37-4f19-bf6a-340855f4f546",
+        "google-site-verification=qxAcrHB2GYwUzWl1533SYy0lkqKK2lX1yvtHB46abAQ",
+        "google-site-verification=AA07FPmBJccZmOhmuQLWIm1GxduiDUunpME80puV5BA",
+        "ZOOM_verify_q5_iOny6SpicsV-JZ8H1Ig",
+        "google-site-verification=m69wR1zCQhE5Bw5JjUdoST1GlBUgScU6V1tClAnf_n8",
+        "atlassian-domain-verification=yZ3yECTHpj/rDNcTTXoTkQAM5EgpdFWNLNN0DCB4lJNp/r8a7k7HmiHRv6lg7G7X",
+        "v=spf1 include:_spf.cdkglobal.com -all",
+        "docker-verification=0b7e8e95-14b6-410f-9240-5e7c7f5c3ecc"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "cdk.com",
+    "cvr": "prospect",
+    "company_name": "cdk.com",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": false,
+        "issuer": "",
+        "expiry": "",
+        "days_remaining": -1,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "Google Tag Manager",
+      "Next.js",
+      "Node.js",
+      "OneTrust",
+      "React",
+      "Varnish",
+      "Webpack"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "207.186.165.68"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "cdk-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.las.us.cdk.com",
+        "ns.ord.us.cdk.com"
+      ],
+      "txt": [
+        "MS=ms32783553",
+        "twilio-domain-verification=5b672f4c4ff7f78f47f4f9610fc6d151",
+        "+2ARBWr4Juc6NGQIRWchl5TCE6poUtW4Iy+LHcdYF6a0F5dtPq1QnUozW7rNT4tYsWMBdv1iMmMzDaxXWuWzHg==",
+        "ciscocidomainverification=f3f15cedb9af079c40227d131ef5519b2cbd9296f7718b4be1045eb81a6a93a",
+        "1PnYGyNueHMYvU6fMerqvVkr3tlPUks2zm44a+hPP7KaruYFdwckEg/l4xucM+RkqPHm+pR14bQaSTLKOZ/ONA==",
+        "docusign=3079a8d1-8547-4138-8e5d-e10b1ede4587",
+        "MS=ms82581122",
+        "smartsheet-site-validation=AQTKWfHloZ-EMSrzR6K9qrzXXNHYB2xH",
+        "VgT5LcC0K/xa9f3KUjxUy7yIZrKM3Mv0kCRuloBX8V/foKPet30jmyE/SEZrVB9DINK29cKBGYUb5KA7zL5d8A==",
+        "WhTliuTeT0Ekb8o3O1hcwZ8QVsah2fUCYpmPCZwf9YEHQc5pdXh60yr48w/2xsAixT9pj+4u9djCUX5wtdfBWg==",
+        "zoho-verification=zb50099817.zmverify.zoho.com",
+        "jamf-site-verification=zwBK0P-UzSE2nBEbn0AV_A",
+        "apple-domain-verification=8MhRwRIXeeALA2pT",
+        "MS=ms75756581",
+        "drbK/oXtfqGqzCwHtIzhHRx0ZbL0TdLLZna2xgl5ADGsgmdZ7KdthNmJZWw3GjF23R025n34ZsqPz84U7MQo/g==",
+        "miro-verification=0132ef1af54b96dc2609ba11c513dc8ba0abb958",
+        "webexdomainverification.=3f2fd88c-7968-42b1-b7ff-ebd159981d8e",
+        "docusign=d4845c49-2a37-4f19-bf6a-340855f4f546",
+        "google-site-verification=qxAcrHB2GYwUzWl1533SYy0lkqKK2lX1yvtHB46abAQ",
+        "google-site-verification=AA07FPmBJccZmOhmuQLWIm1GxduiDUunpME80puV5BA",
+        "ZOOM_verify_q5_iOny6SpicsV-JZ8H1Ig",
+        "google-site-verification=m69wR1zCQhE5Bw5JjUdoST1GlBUgScU6V1tClAnf_n8",
+        "atlassian-domain-verification=yZ3yECTHpj/rDNcTTXoTkQAM5EgpdFWNLNN0DCB4lJNp/r8a7k7HmiHRv6lg7G7X",
+        "v=spf1 include:_spf.cdkglobal.com -all",
+        "docker-verification=0b7e8e95-14b6-410f-9240-5e7c7f5c3ecc"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "critical",
+        "description": "No SSL certificate detected",
+        "risk": "All traffic between visitors and the website is unencrypted. Any data submitted (forms, bookings, contact details) can be read by third parties on the network."
+      },
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: Node.js",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 447,
+    "ssl": 288,
+    "headers": 285,
+    "meta": 283,
+    "httpx": 5275,
+    "webanalyze": 4,
+    "dnsx": 2379,
+    "crtsh": 0,
+    "ghw": 277,
+    "total_ms": 9251
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

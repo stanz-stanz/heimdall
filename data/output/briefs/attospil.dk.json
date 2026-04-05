@@ -2,7 +2,7 @@
   "domain": "attospil.dk",
   "cvr": "prospect",
   "company_name": "attospil.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-27",
-      "days_remaining": 55
+      "days_remaining": 51,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -44,7 +45,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -95,6 +100,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -115,6 +124,11 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "medium",
@@ -155,7 +169,7 @@
       "severity": "high",
       "description": "W3 Total Cache [w3-total-cache] < 2.2.3 (CVE-2022-31090)",
       "risk": "CVE-2022-31090: Guzzle <= 6.5.7 and 7.0-7.4.4 - Information Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -167,7 +181,7 @@
       "severity": "high",
       "description": "W3 Total Cache [w3-total-cache] < 2.8.2 (CVE-2024-12365)",
       "risk": "CVE-2024-12365: W3 Total Cache <= 2.8.1 - Authenticated (Subscriber+) Missing Authorization to Server-Side Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -179,7 +193,7 @@
       "severity": "medium",
       "description": "W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed) (CVE-2026-27384)",
       "risk": "CVE-2026-27384: W3 Total Cache [w3-total-cache] <= 2.9.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -191,7 +205,7 @@
       "severity": "high",
       "description": "WP Armour &#8211; Honeypot Anti Spam [honeypot] < 2.1.14 (CVE-2024-29091)",
       "risk": "CVE-2024-29091: WordPress  WP Armour – Honeypot Anti Spam Plugin    <= 2.1.13 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -203,7 +217,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -215,7 +229,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -227,7 +241,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -239,7 +253,7 @@
       "severity": "medium",
       "description": "Divi Builder [divi-builder] >= 2.23 - <= 4.0.9",
       "risk": "Elegant Themes Divi 3.23 - 4.0.9, Divi Extra 2.23 - 4.0.9, Divi Builder 2.23 - 4.0.9 - PHP Code Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -251,7 +265,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
       "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -263,7 +277,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
       "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -275,7 +289,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
       "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -285,11 +299,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 1016,
+    "duration_ms": 192,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

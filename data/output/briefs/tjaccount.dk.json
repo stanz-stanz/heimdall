@@ -2,7 +2,7 @@
   "domain": "tjaccount.dk",
   "cvr": "prospect",
   "company_name": "tjaccount.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-29",
-      "days_remaining": 88
+      "days_remaining": 85,
+      "tls_version": ""
     },
     "server": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
     "detected_plugins": [
@@ -32,7 +33,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache/2.4.62 (Unix) OpenSSL/3.4.1 mod_fcgid/2.3.9",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -70,13 +75,17 @@
       "ns6.dns-123.net"
     ],
     "txt": [
-      "v=spf1 include:spf.protection.outlook.com ~all",
       "spf v=spf1 include:outlook.com ~all",
       "MS=ms21173811",
+      "v=spf1 include:spf.protection.outlook.com ~all",
       "v=spf1 a mx include:_spf.serverpark.dk ~all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -92,6 +101,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "medium",
@@ -122,7 +141,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.3.2 (CVE-2020-35489)",
       "risk": "CVE-2020-35489: Contact Form 7 &lt; 5.3.2 - Unrestricted File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -134,7 +153,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.0.4 (CVE-2018-20979)",
       "risk": "CVE-2018-20979: Contact Form 7 &lt;= 5.0.3 - register_post_type() Privilege Escalation",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -146,7 +165,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.3.2",
       "risk": "WordPress Contact Form 7 plugin <= 5.3.1 - Unrestricted File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -158,7 +177,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.0.4",
       "risk": "WordPress Contact Form 7 plugin <= 5.0.3 - Privilege Escalation vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -170,7 +189,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.8.4 (CVE-2023-6449)",
       "risk": "CVE-2023-6449: Contact Form 7 <= 5.8.3 - Authenticated (Editor+) Arbitrary File Upload",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -182,7 +201,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.2 (CVE-2024-2242)",
       "risk": "CVE-2024-2242: Contact Form 7 <= 5.9 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -194,7 +213,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 5.9.5 (CVE-2024-4704)",
       "risk": "CVE-2024-4704: WordPress Contact Form 7 Plugin < 5.9.5 is vulnerable to Open Redirection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -206,7 +225,7 @@
       "severity": "medium",
       "description": "Contact Form 7 [contact-form-7] < 6.0.6 (CVE-2025-3247)",
       "risk": "CVE-2025-3247: WordPress Contact Form 7 Plugin <= 6.0.5 is vulnerable to Other Vulnerability Type",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -216,11 +235,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 283,
+    "duration_ms": 165,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

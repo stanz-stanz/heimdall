@@ -1,0 +1,225 @@
+{
+  "domain": "skorstensfejeren.dk",
+  "job_id": "scan-2026-04-05-d0b5858a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "skorstensfejeren.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Google Trust Services",
+    "ssl_expiry": "2026-06-16",
+    "ssl_days_remaining": 71,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HSTS",
+      "HTTP/3",
+      "Node.js",
+      "Nuxt.js",
+      "Vue.js"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:34:48.590395195Z",
+      "cdn_name": "cloudflare",
+      "cdn_type": "waf",
+      "port": "443",
+      "url": "https://skorstensfejeren.dk",
+      "input": "skorstensfejeren.dk",
+      "title": "Din skorstensfejer og indeklimaekspert | Skorstensfejeren",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "skorstensfejeren.dk",
+      "host_ip": "172.66.0.96",
+      "path": "/",
+      "final_url": "https://www.skorstensfejeren.dk/",
+      "time": "567.7951ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "162.159.140.98",
+        "172.66.0.96"
+      ],
+      "aaaa": [
+        "2606:4700:7::60",
+        "2a06:98c1:58::60"
+      ],
+      "tech": [
+        "Cloudflare",
+        "Cloudflare Bot Management",
+        "HSTS",
+        "HTTP/3",
+        "Node.js",
+        "Nuxt.js",
+        "Vue.js"
+      ],
+      "words": 33490,
+      "lines": 88,
+      "status_code": 200,
+      "content_length": 495154,
+      "failed": false,
+      "cdn": true,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "162.159.140.98",
+        "172.66.0.96"
+      ],
+      "aaaa": [
+        "2a06:98c1:58::60",
+        "2606:4700:7::60"
+      ],
+      "cname": [],
+      "mx": [
+        "skorstensfejeren-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 IP4:91.199.113.62 ip4:195.215.15.33 ip4:213.174.78.203 include:spf.protection.outlook.com include:sendgrid.net -all",
+        "google-site-verification=_0fXSLVfzm9fUbZ_TEDGaI8ZSpqWU5DBb6Ju5ZOEKow",
+        "MS=ms87032802"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "skorstensfejeren.dk",
+    "cvr": "prospect",
+    "company_name": "skorstensfejeren.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Google Trust Services",
+        "expiry": "2026-06-16",
+        "days_remaining": 71,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cloudflare",
+      "Cloudflare Bot Management",
+      "HSTS",
+      "HTTP/3",
+      "Node.js",
+      "Nuxt.js",
+      "Vue.js"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "162.159.140.98",
+        "172.66.0.96"
+      ],
+      "aaaa": [
+        "2a06:98c1:58::60",
+        "2606:4700:7::60"
+      ],
+      "cname": [],
+      "mx": [
+        "skorstensfejeren-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "v=spf1 IP4:91.199.113.62 ip4:195.215.15.33 ip4:213.174.78.203 include:spf.protection.outlook.com include:sendgrid.net -all",
+        "google-site-verification=_0fXSLVfzm9fUbZ_TEDGaI8ZSpqWU5DBb6Ju5ZOEKow",
+        "MS=ms87032802"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: Node.js",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 325,
+    "ssl": 76,
+    "headers": 566,
+    "meta": 373,
+    "httpx": 3873,
+    "webanalyze": 4,
+    "dnsx": 746,
+    "total_ms": 5970
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

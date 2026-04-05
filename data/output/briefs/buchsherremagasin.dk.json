@@ -2,7 +2,7 @@
   "domain": "buchsherremagasin.dk",
   "cvr": "prospect",
   "company_name": "buchsherremagasin.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-06",
-      "days_remaining": 65
+      "days_remaining": 61,
+      "tls_version": ""
     },
     "server": "Caddy Apache",
     "detected_plugins": [
@@ -35,7 +36,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Caddy, Apache",
+      "x_powered_by": "PHP/7.4.33"
     }
   },
   "tech_stack": [
@@ -66,9 +71,9 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx1.gigahost.dk",
       "mx2.gigahost.dk",
-      "mx3.gigahost.dk"
+      "mx3.gigahost.dk",
+      "mx1.gigahost.dk"
     ],
     "ns": [
       "ns1.gigahost.dk",
@@ -78,11 +83,15 @@
       "ns5.gigahost.dk"
     ],
     "txt": [
-      "v=spf1 mx include:spf.gigahost.dk -all",
-      "spf2.0/pra"
+      "spf2.0/pra",
+      "v=spf1 mx include:spf.gigahost.dk -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -103,6 +112,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/7.4.33",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -138,7 +162,7 @@
       "severity": "medium",
       "description": "Slideshow [slideshow-jquery-image-gallery] >= 2.2.8 - <= 2.2.21 (closed) (CVE-2015-3634)",
       "risk": "CVE-2015-3634: WordPress Slideshow Plugin <= 2.2.21 - Bypass",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -150,7 +174,7 @@
       "severity": "medium",
       "description": "Slideshow [slideshow-jquery-image-gallery] <= 2.3.1 (unfixed + closed) (CVE-2022-1299)",
       "risk": "CVE-2022-1299: WordPress Slideshow plugin <= 2.3.1 - Stored Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -162,11 +186,11 @@
       "severity": "medium",
       "description": "Slideshow [slideshow-jquery-image-gallery] <= 2.3.1 (unfixed + closed)",
       "risk": "WordPress Slideshow plugin <= 2.3.1 - Stored Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "fdd4cdb6ee641c76dd553f6d21d3825db6282aac2397e2cf7a674181109730e5",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -174,11 +198,11 @@
       "severity": "medium",
       "description": "Slideshow [slideshow-jquery-image-gallery] <= 2.3.1 (unfixed + closed)",
       "risk": "WordPress Slideshow plugin <= 2.3.1 - Stored Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "1c75930e83a7f6099054b8a2cd4c2813525dc55b47d32a66d5d00aa90bfcea90",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -186,11 +210,11 @@
       "severity": "medium",
       "description": "Slideshow [slideshow-jquery-image-gallery] <= 2.3.1 (unfixed + closed)",
       "risk": "Slideshow &lt;= 2.3.1 - Author+ Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "5aeb2c0ac0bb5b2899de5a3748258890e8a0e20a89f0ff823504207b901b24d9",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -198,7 +222,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
       "risk": "Yoast SEO <= 20.2 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -210,7 +234,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 20.2.1",
       "risk": "WordPress  Yoast SEO Plugin  <= 20.2 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -222,7 +246,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 21.1 (CVE-2023-40680)",
       "risk": "CVE-2023-40680: WordPress  Yoast SEO Plugin  <= 21.0 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -234,7 +258,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.6 (CVE-2024-4041)",
       "risk": "CVE-2024-4041: WordPress Yoast SEO Plugin <= 22.5 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -246,7 +270,7 @@
       "severity": "medium",
       "description": "Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI [wordpress-seo] < 22.7 (CVE-2024-4984)",
       "risk": "CVE-2024-4984: Yoast SEO <= 22.6 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -256,11 +280,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 740,
+    "duration_ms": 143,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

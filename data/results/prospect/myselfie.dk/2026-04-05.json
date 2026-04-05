@@ -1,0 +1,206 @@
+{
+  "domain": "myselfie.dk",
+  "job_id": "scan-2026-04-05-d409f133",
+  "status": "completed",
+  "scan_result": {
+    "domain": "myselfie.dk",
+    "cms": "Shopify",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-28",
+    "ssl_days_remaining": 83,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Cloudflare",
+      "FancyBox:98388074616830255951773835092",
+      "HSTS",
+      "HTTP/3",
+      "Handlebars",
+      "Klaviyo",
+      "Magnific Popup",
+      "OWL Carousel",
+      "Shopify",
+      "Trustpilot",
+      "Userlink",
+      "jQuery",
+      "jQuery UI"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:26:14.983912691Z",
+      "port": "443",
+      "url": "https://myselfie.dk",
+      "input": "myselfie.dk",
+      "title": "Myselfie - Danmarks MEST POPULÆRE photo booth!",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "myselfie.dk",
+      "host_ip": "23.227.38.32",
+      "path": "/",
+      "time": "220.633231ms",
+      "a": [
+        "23.227.38.32"
+      ],
+      "tech": [
+        "Bootstrap:5",
+        "Cloudflare",
+        "FancyBox:98388074616830255951773835092",
+        "HSTS",
+        "HTTP/3",
+        "Handlebars",
+        "Klaviyo",
+        "Magnific Popup",
+        "OWL Carousel",
+        "Shopify",
+        "Trustpilot",
+        "Userlink",
+        "jQuery",
+        "jQuery UI"
+      ],
+      "words": 47001,
+      "lines": 7469,
+      "status_code": 200,
+      "content_length": 293630,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "archer-ax21",
+          "vendor": "tp-link",
+          "cpe": "cpe:2.3:a:tp-link:archer-ax21:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "myselfie.dk",
+    "cvr": "prospect",
+    "company_name": "myselfie.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "C",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "E-commerce platform: Shopify"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "Shopify",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-28",
+        "days_remaining": 83,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Bootstrap:5",
+      "Cloudflare",
+      "FancyBox:98388074616830255951773835092",
+      "HSTS",
+      "HTTP/3",
+      "Handlebars",
+      "Klaviyo",
+      "Magnific Popup",
+      "OWL Carousel",
+      "Shopify",
+      "Trustpilot",
+      "Userlink",
+      "jQuery",
+      "jQuery UI"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {},
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 167,
+    "ssl": 76,
+    "headers": 435,
+    "meta": 477,
+    "httpx": 3338,
+    "webanalyze": 4,
+    "total_ms": 4504
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 5
+  },
+  "filtered": "bucket:C"
+}

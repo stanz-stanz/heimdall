@@ -1,0 +1,291 @@
+{
+  "domain": "gamekeeper.dk",
+  "job_id": "scan-2026-04-05-3e5a0744",
+  "status": "completed",
+  "scan_result": {
+    "domain": "gamekeeper.dk",
+    "cms": "WordPress",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-12",
+    "ssl_days_remaining": 36,
+    "detected_plugins": [
+      "woocommerce",
+      "redirection",
+      "wordpress-seo",
+      "jetpack"
+    ],
+    "plugin_versions": {
+      "woocommerce": "8.1.1",
+      "wordpress-seo": "21.2"
+    },
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Alpine.js",
+      "Google Analytics",
+      "Google Maps",
+      "Google Tag Manager",
+      "HSTS",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "WPML:4.6.6",
+      "WooCommerce:8.1.1",
+      "WordPress:6.3.1",
+      "Yoast SEO:21.2",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "jsDelivr"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:08:27.074532959Z",
+      "port": "443",
+      "url": "https://gamekeeper.dk",
+      "input": "gamekeeper.dk",
+      "title": "Jagtrejser til hele verden. Find den jagtrejse der passer dig.",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "gamekeeper.dk",
+      "host_ip": "165.227.141.223",
+      "path": "/",
+      "final_url": "https://www.gamekeeper.dk/",
+      "time": "561.810525ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "165.227.141.223"
+      ],
+      "tech": [
+        "Alpine.js",
+        "Google Analytics",
+        "Google Maps",
+        "Google Tag Manager",
+        "HSTS",
+        "MySQL",
+        "Nginx",
+        "PHP",
+        "WPML:4.6.6",
+        "WooCommerce:8.1.1",
+        "WordPress:6.3.1",
+        "Yoast SEO:21.2",
+        "jQuery",
+        "jQuery Migrate:3.4.1",
+        "jsDelivr"
+      ],
+      "words": 159984,
+      "lines": 4748,
+      "status_code": 200,
+      "content_length": 361177,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "165.227.141.223"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "gamekeeper-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms72083889",
+        "v=spf1 ip4:93.90.117.1/24 ip4:93.90.115.1/24 ip4:94.231.106.100 ip4:199.255.192.0/22 ip4:199.127.232.0/22 ip4:54.240.0.0/18 ip4:69.169.224.0/20 include:spf.comendosystems.com include:spf.wannafind.dk include:servers.mcsv.net  include:spf.protection.outlook.com -all",
+        "mIXcD/9aRYgTdIe40Cp3m0q9bxo3z8rj33yAQam/W9pqp4d42I/ki5pB45v+3p81g1u1PrcbmSt8HBKRsfts5Q=="
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "gamekeeper.dk",
+    "cvr": "prospect",
+    "company_name": "gamekeeper.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Data-handling plugins: Woocommerce",
+      "E-commerce plugin: WooCommerce:8.1.1",
+      "Visitor tracking: Google Analytics, Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-12",
+        "days_remaining": 36,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [
+        "Woocommerce",
+        "Redirection",
+        "Wordpress Seo",
+        "Jetpack"
+      ],
+      "plugin_versions": {
+        "Woocommerce": "8.1.1",
+        "Wordpress Seo": "21.2"
+      },
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Alpine.js",
+      "Google Analytics",
+      "Google Maps",
+      "Google Tag Manager",
+      "HSTS",
+      "MySQL",
+      "Nginx",
+      "PHP",
+      "WPML:4.6.6",
+      "WooCommerce:8.1.1",
+      "WordPress:6.3.1",
+      "Yoast SEO:21.2",
+      "jQuery",
+      "jQuery Migrate:3.4.1",
+      "jsDelivr"
+    ],
+    "plugin_versions": {
+      "woocommerce": "8.1.1",
+      "wordpress-seo": "21.2"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "165.227.141.223"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "gamekeeper-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.scannet2.dk",
+        "ns2.scannet2.dk"
+      ],
+      "txt": [
+        "MS=ms72083889",
+        "v=spf1 ip4:93.90.117.1/24 ip4:93.90.115.1/24 ip4:94.231.106.100 ip4:199.255.192.0/22 ip4:199.127.232.0/22 ip4:54.240.0.0/18 ip4:69.169.224.0/20 include:spf.comendosystems.com include:spf.wannafind.dk include:servers.mcsv.net  include:spf.protection.outlook.com -all",
+        "mIXcD/9aRYgTdIe40Cp3m0q9bxo3z8rj33yAQam/W9pqp4d42I/ki5pB45v+3p81g1u1PrcbmSt8HBKRsfts5Q=="
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.3.1 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "medium",
+        "description": "Data-handling plugin detected: Woocommerce",
+        "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
+      },
+      {
+        "severity": "info",
+        "description": "4 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Woocommerce (installed 8.1.1, latest 10.6.2)",
+        "risk": "The installed version of Woocommerce is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 21.2, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 332,
+    "ssl": 148,
+    "headers": 1389,
+    "meta": 2363,
+    "httpx": 4342,
+    "webanalyze": 2,
+    "dnsx": 847,
+    "total_ms": 9936
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

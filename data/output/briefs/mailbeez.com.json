@@ -2,7 +2,7 @@
   "domain": "mailbeez.com",
   "cvr": "prospect",
   "company_name": "mailbeez.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-06-09",
-      "days_remaining": 67
+      "days_remaining": 64,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [],
@@ -26,7 +27,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -43,32 +48,36 @@
   },
   "dns": {
     "a": [
+      "104.26.14.40",
       "104.26.15.40",
-      "172.67.68.156",
-      "104.26.14.40"
+      "172.67.68.156"
     ],
     "aaaa": [
-      "2606:4700:20::ac43:449c",
+      "2606:4700:20::681a:f28",
       "2606:4700:20::681a:e28",
-      "2606:4700:20::681a:f28"
+      "2606:4700:20::ac43:449c"
     ],
     "cname": [],
     "mx": [
+      "mxlb.ispgateway.de",
       "mxlbrelaxed.ispgateway.de",
-      "mxlbpu.ispgateway.de",
-      "mxlb.ispgateway.de"
+      "mxlbpu.ispgateway.de"
     ],
     "ns": [
       "matt.ns.cloudflare.com",
       "roxy.ns.cloudflare.com"
     ],
     "txt": [
-      "google-site-verification=g2zdnG2yDcO33eRdvCX-G0uITj64189EBS5Z9pGo7w4",
       "v=spf1 mx a  include:spf.mlbz.email include:spf.mailjet.com include:one.zoho.com include:ispgateway.de include:send.heysender.com ~all",
-      "MS=ACECFC9BA6015D3DAC1BE944C4F99441612E53FB"
+      "MS=ACECFC9BA6015D3DAC1BE944C4F99441612E53FB",
+      "google-site-verification=g2zdnG2yDcO33eRdvCX-G0uITj64189EBS5Z9pGo7w4"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -84,6 +93,16 @@
       "severity": "low",
       "description": "Missing X-Frame-Options header",
       "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",

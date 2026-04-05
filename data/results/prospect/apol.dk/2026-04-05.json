@@ -1,0 +1,377 @@
+{
+  "domain": "apol.dk",
+  "job_id": "scan-2026-04-05-ed6dfd33",
+  "status": "completed",
+  "scan_result": {
+    "domain": "apol.dk",
+    "cms": "WordPress",
+    "server": "Simply.com",
+    "hosting": "simply.com",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-19",
+    "ssl_days_remaining": 74,
+    "detected_plugins": [
+      "elementor",
+      "elementor-pro",
+      "better-wp-security",
+      "seo-by-rank-math",
+      "wordfence"
+    ],
+    "plugin_versions": {
+      "elementor": "4.0.1",
+      "elementor-pro": "4.0.1"
+    },
+    "detected_themes": [
+      "hello-elementor"
+    ],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Elementor:4.0.1",
+      "HSTS",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:51:07.743719531Z",
+      "port": "443",
+      "url": "https://apol.dk",
+      "input": "apol.dk",
+      "title": "Din vinduespudser i Vejle, Horsens og Kolding - Ring i dag",
+      "scheme": "https",
+      "webserver": "Simply.com",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "apol.dk",
+      "host_ip": "94.231.103.165",
+      "path": "/",
+      "time": "318.478734ms",
+      "a": [
+        "94.231.103.165"
+      ],
+      "tech": [
+        "Cookiebot",
+        "Elementor:4.0.1",
+        "HSTS",
+        "HTTP/3",
+        "MySQL",
+        "PHP",
+        "WordPress:6.9.4",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 2513,
+      "lines": 405,
+      "status_code": 200,
+      "content_length": 57455,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "elementor"
+        ],
+        "themes": [
+          "hello-elementor"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "94.231.103.165"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "apol.dk",
+    "cvr": "prospect",
+    "company_name": "apol.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "simply.com",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-19",
+        "days_remaining": 74,
+        "tls_version": ""
+      },
+      "server": "Simply.com",
+      "detected_plugins": [
+        "Elementor",
+        "Elementor Pro",
+        "Better Wp Security",
+        "Seo By Rank Math",
+        "Wordfence"
+      ],
+      "plugin_versions": {
+        "Elementor": "4.0.1",
+        "Elementor Pro": "4.0.1"
+      },
+      "detected_themes": [
+        "Hello Elementor"
+      ],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "Simply.com",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Cookiebot",
+      "Elementor:4.0.1",
+      "HSTS",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "elementor": "4.0.1",
+      "elementor-pro": "4.0.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "94.231.103.165"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com"
+      ],
+      "txt": [
+        "v=spf1 include:spf.simply.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "5 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress theme detected: Hello Elementor",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
+        "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-23888",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
+        "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-9314",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
+        "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-11620",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
+        "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64351",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
+        "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64350",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 212,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 1687,
+    "ssl": 68,
+    "headers": 217,
+    "meta": 994,
+    "httpx": 2304,
+    "webanalyze": 9,
+    "dnsx": 783,
+    "total_ms": 6982
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

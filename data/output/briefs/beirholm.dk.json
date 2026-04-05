@@ -2,7 +2,7 @@
   "domain": "beirholm.dk",
   "cvr": "prospect",
   "company_name": "beirholm.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-06",
-      "days_remaining": 34
+      "days_remaining": 30,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -53,12 +58,16 @@
       "ns4.eurodns.com"
     ],
     "txt": [
-      "NDGtKdIaDX9pYU166AzWl3MXj+HegNR0kh/xpZRpW56YiEPWeGiaXifznvzmK0cJHlB7XGyO6GqVhyz/mPRAsw==",
       "v=spf1 ip4:80.63.16.22 ip4:188.180.110.166 ip4:52.136.251.23 ip4:13.80.101.125 ip4:168.63.107.152 ip4:13.95.225.56 ip4:13.80.3.175 ip4:20.160.159.155 ip4:51.144.177.198 ip4:213.199.138.125 ip4:52.174.158.14 ip4:108.142.187.228 ip4:172.205.177.36 include:spf.dynamicweb-cms.com include:sendgrid.net include:spf.hostnordic.com include:spf.protection.outlook.com -all",
+      "NDGtKdIaDX9pYU166AzWl3MXj+HegNR0kh/xpZRpW56YiEPWeGiaXifznvzmK0cJHlB7XGyO6GqVhyz/mPRAsw==",
       "apple-domain-verification=L8gLQcCBob2DjM4i"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -79,6 +88,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

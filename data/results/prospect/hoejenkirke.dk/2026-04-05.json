@@ -1,0 +1,14 @@
+{
+  "domain": "hoejenkirke.dk",
+  "job_id": "scan-2026-04-05-8f1a1faa",
+  "status": "skipped",
+  "skip_reason": "robots.txt denied",
+  "scan_result": null,
+  "timing": {
+    "robots_txt": 0.3836
+  },
+  "cache_stats": {
+    "hits": 0,
+    "misses": 0
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "domain": "dadbluecat.com",
+  "job_id": "scan-2026-04-05-52fa59aa",
+  "status": "completed",
+  "scan_result": {
+    "domain": "dadbluecat.com",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-01",
+    "ssl_days_remaining": 57,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "DanDomain Webshop",
+      "Google Analytics",
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:59:51.096717962Z",
+      "port": "443",
+      "url": "https://dadbluecat.com",
+      "input": "dadbluecat.com",
+      "title": "Pre & Power Amplifiers Loudspeakers Turntable and DAC",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "dadbluecat.com",
+      "host_ip": "185.221.38.97",
+      "path": "/",
+      "time": "215.224609ms",
+      "a": [
+        "185.221.38.97"
+      ],
+      "tech": [
+        "DanDomain Webshop",
+        "Google Analytics",
+        "HSTS",
+        "Nginx",
+        "PHP"
+      ],
+      "words": 18785,
+      "lines": 1320,
+      "status_code": 200,
+      "content_length": 137942,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.97"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dadbluecat-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all",
+        "MS=ms18464756"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "dadbluecat.com",
+    "cvr": "prospect",
+    "company_name": "dadbluecat.com",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-01",
+        "days_remaining": 57,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "DanDomain Webshop",
+      "Google Analytics",
+      "HSTS",
+      "Nginx",
+      "PHP"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.97"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "dadbluecat-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 include:spf.dandomain.dk include:spf.protection.outlook.com ~all",
+        "MS=ms18464756"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 97,
+    "ssl": 64,
+    "headers": 308,
+    "meta": 422,
+    "httpx": 2360,
+    "webanalyze": 5,
+    "dnsx": 776,
+    "total_ms": 4045
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

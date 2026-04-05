@@ -2,7 +2,7 @@
   "domain": "give-fjernvarme.dk",
   "cvr": "prospect",
   "company_name": "give-fjernvarme.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "GlobalSign nv-sa",
       "expiry": "2026-10-31",
-      "days_remaining": 212
+      "days_remaining": 208,
+      "tls_version": ""
     },
     "server": "Microsoft-IIS/10.0",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Microsoft-IIS/10.0",
+      "x_powered_by": "ASP.NET"
     }
   },
   "tech_stack": [
@@ -51,8 +56,8 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "dff-edb-dk.mx3.mailanyone.net",
-      "dff-edb-dk.mx1.mailanyone.net"
+      "dff-edb-dk.mx1.mailanyone.net",
+      "dff-edb-dk.mx3.mailanyone.net"
     ],
     "ns": [
       "ns1.curanet.dk",
@@ -60,15 +65,19 @@
     ],
     "txt": [
       "qJiqTP8FIrhmO4igTSTo7+I1x5+GIwQOeN09RlCkwXM",
-      "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
-      "MS=ms68349820",
       "+oCmtNuu7RYB9GJxNTul1TOIBLDHA0k8aHekPP6IL48",
-      "_globalsign-domain-verification=3w0OJQu1c6RikTdRZO6cm5KQQ9FKmq6cTvu571r8Yx",
       "sPXP2e6RHt5Nt0UqMXcwhaM8qmUc/fFcVnTTA2kkaCY",
-      "v=spf1 mx include:spf.mailanyone.net include:spf.protection.outlook.com -all"
+      "CcaBKNfGmnDTT0JmWLEJrWNgLbvxcB7cB+2TGyz9phA",
+      "v=spf1 mx include:spf.mailanyone.net include:spf.protection.outlook.com -all",
+      "MS=ms68349820",
+      "_globalsign-domain-verification=3w0OJQu1c6RikTdRZO6cm5KQQ9FKmq6cTvu571r8Yx"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -84,6 +93,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: ASP.NET",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     }
   ]
 }

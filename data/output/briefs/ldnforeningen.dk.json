@@ -2,7 +2,7 @@
   "domain": "ldnforeningen.dk",
   "cvr": "prospect",
   "company_name": "ldnforeningen.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-23",
-      "days_remaining": 50
+      "days_remaining": 47,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -46,7 +47,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": true,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.4.19"
     }
   },
   "tech_stack": [
@@ -93,10 +98,10 @@
     ],
     "cname": [],
     "mx": [
-      "mx3.mailpod15-cph3.g1i.one.com",
       "mx1.mailpod15-cph3.g1i.one.com",
+      "mx2.mailpod15-cph3.g1i.one.com",
       "mx4.mailpod15-cph3.g1i.one.com",
-      "mx2.mailpod15-cph3.g1i.one.com"
+      "mx3.mailpod15-cph3.g1i.one.com"
     ],
     "ns": [
       "ns01.one.com",
@@ -107,6 +112,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -127,6 +136,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.4.19",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -157,11 +176,11 @@
       "severity": "medium",
       "description": "Simple Social Media Share Buttons &#8211; Social Sharing for Everyone [simple-social-buttons] >= 2.0.4 - <= 2.0.21",
       "risk": "WordPress Simple Social Media Share Buttons plugin 2.0.4-2.0.21 - Authenticated Option Injection vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "57950d033117d69eb8ede746747463ba2556d1e36878516e7a569eddc79c7628",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -169,11 +188,11 @@
       "severity": "medium",
       "description": "Simple Social Media Share Buttons &#8211; Social Sharing for Everyone [simple-social-buttons] >= 2.0.4 - <= 2.0.21",
       "risk": "Simple Social Media Share Buttons 2.0.4 - 2.0.21 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "bf686646057b00789f2c6b7e8b629bb5d69b07984e652cbad672dff459bac913",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -181,7 +200,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -193,7 +212,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -205,7 +224,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -217,7 +236,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -229,7 +248,7 @@
       "severity": "medium",
       "description": "Ultimate Member – User Profile, Registration, Login, Member Directory, Content Restriction &amp; Membership Plugin [ultimate-member] >= 1.2.98 - <= 1.2.994",
       "risk": "Ultimate Member 1.2.98-1.2.994 - Reflected Cross-Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -241,7 +260,7 @@
       "severity": "medium",
       "description": "Ultimate Member – User Profile, Registration, Login, Member Directory, Content Restriction &amp; Membership Plugin [ultimate-member] <= 2.10.3 (unfixed) (CVE-2025-47691)",
       "risk": "CVE-2025-47691: EUVD-2025-13719",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -251,11 +270,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 714,
+    "duration_ms": 182,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

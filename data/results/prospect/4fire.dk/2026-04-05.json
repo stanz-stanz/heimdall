@@ -1,0 +1,230 @@
+{
+  "domain": "4fire.dk",
+  "job_id": "scan-2026-04-05-2cbfe0a1",
+  "status": "completed",
+  "scan_result": {
+    "domain": "4fire.dk",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-07-02",
+    "ssl_days_remaining": 88,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Bontii",
+      "Cookiebot",
+      "DanDomain",
+      "Getsitecontrol",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "Slick",
+      "SmartWeb",
+      "Snowplow Analytics",
+      "jQuery"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:48:15.811675042Z",
+      "port": "443",
+      "url": "https://4fire.dk",
+      "input": "4fire.dk",
+      "title": "Godkendte brand & Ildslukkere til erhverv og private | 4FIRE.DK",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "4fire.dk",
+      "host_ip": "185.221.38.22",
+      "path": "/",
+      "time": "223.566324ms",
+      "a": [
+        "185.221.38.22"
+      ],
+      "tech": [
+        "Bontii",
+        "Cookiebot",
+        "DanDomain",
+        "Getsitecontrol",
+        "Google Analytics",
+        "Google Tag Manager",
+        "HSTS",
+        "Nginx",
+        "PHP",
+        "Slick",
+        "SmartWeb",
+        "Snowplow Analytics",
+        "jQuery"
+      ],
+      "words": 43090,
+      "lines": 4083,
+      "status_code": 200,
+      "content_length": 225790,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "opencart",
+          "vendor": "opencart",
+          "cpe": "cpe:2.3:a:opencart:opencart:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "185.221.38.22"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "4fire-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 a include:spf.itnapps.eu include:spf.protection.outlook.com include:spf.shopfactory.io include:amazonses.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "4fire.dk",
+    "cvr": "prospect",
+    "company_name": "4fire.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics, Google Tag Manager"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-07-02",
+        "days_remaining": 88,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Bontii",
+      "Cookiebot",
+      "DanDomain",
+      "Getsitecontrol",
+      "Google Analytics",
+      "Google Tag Manager",
+      "HSTS",
+      "Nginx",
+      "PHP",
+      "Slick",
+      "SmartWeb",
+      "Snowplow Analytics",
+      "jQuery"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "185.221.38.22"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "4fire-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns.dandomain.dk",
+        "ns2.dandomain.dk"
+      ],
+      "txt": [
+        "v=spf1 a include:spf.itnapps.eu include:spf.protection.outlook.com include:spf.shopfactory.io include:amazonses.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 89,
+    "ssl": 62,
+    "headers": 169,
+    "meta": 255,
+    "httpx": 2818,
+    "webanalyze": 4,
+    "dnsx": 731,
+    "total_ms": 4143
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

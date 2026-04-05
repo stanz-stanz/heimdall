@@ -2,7 +2,7 @@
   "domain": "weissenborn.dk",
   "cvr": "prospect",
   "company_name": "weissenborn.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-09",
-      "days_remaining": 67
+      "days_remaining": 64,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -35,12 +36,12 @@
     ],
     "plugin_versions": {
       "Wpdatatables": "7.0.1",
-      "Formidable": "2262226",
-      "Cleantalk Spam Protect": "6.73.1",
+      "Formidable": "421101",
+      "Cleantalk Spam Protect": "6.76",
       "Sitepress Multilingual Cms": "1",
       "Borlabs Cookie": "3.4",
-      "Divi Toolbox": "1.7.4",
-      "Wordpress Seo": "27.0"
+      "Divi Toolbox": "1.8",
+      "Wordpress Seo": "27.3"
     },
     "detected_themes": [
       "Divi",
@@ -51,7 +52,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -65,21 +70,21 @@
     "MySQL",
     "PHP",
     "WP Rocket",
-    "WPML:4.8.6",
+    "WPML:4.9.2",
     "WordPress",
-    "Yoast SEO:27.0",
+    "Yoast SEO:27.3",
     "jQuery",
     "jQuery Migrate:3.4.1",
     "jQuery Mobile:4.27.6"
   ],
   "plugin_versions": {
     "wpdatatables": "7.0.1",
-    "formidable": "2262226",
-    "cleantalk-spam-protect": "6.73.1",
+    "formidable": "421101",
+    "cleantalk-spam-protect": "6.76",
     "sitepress-multilingual-cms": "1",
     "borlabs-cookie": "3.4",
-    "divi-toolbox": "1.7.4",
-    "wordpress-seo": "27.0"
+    "divi-toolbox": "1.8",
+    "wordpress-seo": "27.3"
   },
   "subdomains": {
     "count": 0,
@@ -100,12 +105,16 @@
       "ns.udag.org"
     ],
     "txt": [
-      "v=spf1 ip4:193.201.39.116 ip4:193.201.39.110 include:spf.protection.outlook.com -all",
+      "321",
       "MS=ms36735068",
-      "321"
+      "v=spf1 ip4:193.201.39.116 ip4:193.201.39.110 include:spf.protection.outlook.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -121,6 +130,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -149,19 +168,9 @@
     },
     {
       "severity": "medium",
-      "description": "Outdated plugin: Cleantalk Spam Protect (installed 6.73.1, latest 6.75)",
-      "risk": "The installed version of Cleantalk Spam Protect is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
-    },
-    {
-      "severity": "medium",
-      "description": "Outdated plugin: Wordpress Seo (installed 27.0, latest 27.3)",
-      "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
-    },
-    {
-      "severity": "medium",
       "description": "wpDataTables &#8211; WordPress Data Table, Dynamic Tables &amp; Table Charts Plugin [wpdatatables] <= 6.5.0.1 (unfixed) (CVE-2026-28039)",
       "risk": "CVE-2026-28039: wpDataTables &#8211; WordPress Data Table, Dynamic Tables &amp; Table Charts Plugin [wpdatatables] <= 6.5.0.1 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -173,7 +182,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.3.8 (CVE-2020-10568)",
       "risk": "CVE-2020-10568: WordPress WPML plugin <= 4.3.6 - Authenticated Cross-Site Request Forgery (CSRF) vulnerability leading to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -185,7 +194,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] >= 2.9.3 - <= 3.2.6 (CVE-2015-9416)",
       "risk": "CVE-2015-9416: WPML 2.9.3-3.2.6 - Cross-Site Scripting in Accept-Language Header",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -197,7 +206,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.0 (CVE-2018-18069)",
       "risk": "CVE-2018-18069: WPML <= 3.6.3 - Unauthenticated Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -209,7 +218,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2791)",
       "risk": "CVE-2015-2791: WordPress WPML Plugin <= 3.1.8 - SQL Injection #1",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -221,7 +230,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2792)",
       "risk": "CVE-2015-2792: WordPress WPML Plugin <= 3.1.8 - Multiple Vulnerabilities",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -233,7 +242,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9.1 (CVE-2015-2314)",
       "risk": "CVE-2015-2314: WordPress WPML Plugin <= 3.1.9.1 - Multiple Vulnerabilities",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -245,7 +254,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.9 (CVE-2015-2315)",
       "risk": "CVE-2015-2315: WordPress WPML Plugin <= 3.1.8 - XSS",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -257,7 +266,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.7.2",
       "risk": "WordPress Multilingual CMS Plugin <= 3.1.7.1 - Full Path Disclosure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -269,7 +278,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.2.7",
       "risk": "WordPress WPML Plugin <= 3.2.6 - Cross Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -281,7 +290,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.14 (CVE-2022-45071)",
       "risk": "CVE-2022-45071: WordPress WPML Multilingual CMS premium plugin <= 4.5.13 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -293,7 +302,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.11 (CVE-2022-38461)",
       "risk": "CVE-2022-38461: WordPress WPML Multilingual CMS premium plugin <= 4.5.10 - Broken Access Control vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -305,7 +314,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.11 (CVE-2022-38974)",
       "risk": "CVE-2022-38974: WordPress WPML Multilingual CMS premium plugin <= 4.5.10 - Broken Access Control vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -317,7 +326,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.14 (CVE-2022-45072)",
       "risk": "CVE-2022-45072: WordPress WPML Multilingual CMS premium plugin <= 4.5.13 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -329,7 +338,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.5.11",
       "risk": "WPML <= 4.5.10 - Unprotected AJAX Actions",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -341,7 +350,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WordPress  WPML - WordPress Multilingual  Plugin  < 4.6.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -353,7 +362,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WPML <= 4.6.0 - Reflected Cross-Site Scripting via wp_lang",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -365,7 +374,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WPML <= 4.6.1 - Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -377,7 +386,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 3.1.7.2",
       "risk": "WordPress  Multilingual CMS Plugin  <= 3.1.7.1 is vulnerable to Full Path Disclosure (FPD)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -389,7 +398,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.1",
       "risk": "WPML Multilingual CMS &lt; 4.6.1 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -401,7 +410,7 @@
       "severity": "critical",
       "description": "WPML [sitepress-multilingual-cms] < 4.6.13 (CVE-2024-6386)",
       "risk": "CVE-2024-6386: WordPress Multilingual CMS Plugin <= 4.6.12 is vulnerable to Remote Code Execution (RCE)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -413,7 +422,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] >= 3.6.0 - <= 4.7.3 (CVE-2025-3488)",
       "risk": "CVE-2025-3488: WPML Multilingual CMS 3.6.0 - 4.7.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via wpml_language_switcher Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -425,7 +434,7 @@
       "severity": "critical",
       "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
       "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -437,7 +446,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -447,11 +456,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 572,
+    "duration_ms": 164,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

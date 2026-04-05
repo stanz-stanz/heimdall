@@ -2,7 +2,7 @@
   "domain": "centrumpaele.dk",
   "cvr": "prospect",
   "company_name": "centrumpaele.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-07",
-      "days_remaining": 65
+      "days_remaining": 62,
+      "tls_version": ""
     },
     "server": "nginx",
     "detected_plugins": [
@@ -40,7 +41,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "nginx",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -76,12 +81,16 @@
       "b.portsdns.net"
     ],
     "txt": [
-      "MS=ms96524149",
       "v=spf1 include:aarsleff.com ~all",
-      "autodesk-domain-verification=gFJWEyb99SkpUm_7wVnr"
+      "autodesk-domain-verification=gFJWEyb99SkpUm_7wVnr",
+      "MS=ms96524149"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -102,6 +111,16 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     },
     {
       "severity": "low",
@@ -137,7 +156,7 @@
       "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -149,7 +168,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] >= 2.9.3 - <= 3.2.6 (CVE-2015-9416)",
       "risk": "CVE-2015-9416: WPML 2.9.3-3.2.6 - Cross-Site Scripting in Accept-Language Header",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -161,7 +180,7 @@
       "severity": "medium",
       "description": "WPML [sitepress-multilingual-cms] >= 3.6.0 - <= 4.7.3 (CVE-2025-3488)",
       "risk": "CVE-2025-3488: WPML Multilingual CMS 3.6.0 - 4.7.3 - Authenticated (Contributor+) Stored Cross-Site Scripting via wpml_language_switcher Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -173,7 +192,7 @@
       "severity": "high",
       "description": "Formidable Forms &#8211; Contact Form Plugin, Survey, Quiz, Payment, Calculator Form &amp; Custom Form Builder [formidable] < 5.5.7 (CVE-2023-24419)",
       "risk": "CVE-2023-24419: WordPress  Formidable Forms Plugin  <= 5.5.6 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -185,7 +204,7 @@
       "severity": "high",
       "description": "Formidable Forms &#8211; Contact Form Plugin, Survey, Quiz, Payment, Calculator Form &amp; Custom Form Builder [formidable] < 2.05.03 (CVE-2017-20192)",
       "risk": "CVE-2017-20192: Formidable Forms &#8211; Contact Form Plugin, Survey, Quiz, Payment, Calculator Form &amp; Custom Form Builder [formidable] < 2.05.03",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -195,11 +214,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 308,
+    "duration_ms": 156,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

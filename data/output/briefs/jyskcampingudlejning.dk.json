@@ -2,7 +2,7 @@
   "domain": "jyskcampingudlejning.dk",
   "cvr": "prospect",
   "company_name": "jyskcampingudlejning.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-20",
-      "days_remaining": 78
+      "days_remaining": 75,
+      "tls_version": ""
     },
     "server": "LiteSpeed",
     "detected_plugins": [
@@ -28,6 +29,7 @@
       "Elementor Pro",
       "Simple Cloudflare Turnstile",
       "Wpforms",
+      "Litespeed Cache",
       "Wordpress Seo"
     ],
     "plugin_versions": {
@@ -48,7 +50,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "LiteSpeed",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -56,6 +62,8 @@
     "Google Tag Manager",
     "HTTP/3",
     "LiteSpeed",
+    "LiteSpeed Cache",
+    "Litespeed Cache",
     "MySQL",
     "PHP",
     "Pikaday:1.8.2",
@@ -88,20 +96,24 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "mx02.qboxmail.com",
-      "mx01.qboxmail.com"
+      "mx01.qboxmail.com",
+      "mx02.qboxmail.com"
     ],
     "ns": [
       "ashton.ns.cloudflare.com",
       "tiffany.ns.cloudflare.com"
     ],
     "txt": [
-      "v=spf1 include:spf.qboxmail.com include:spf.cbsolt.net include:mailgun.org mx a -all",
+      "brevo-code:f663da41264f83049fe841c0a64118fa",
       "google-site-verification=uVhuyvTS5pKSbCeObiB-a1g0DD7Ux2k9ucj4o3IAPBI",
-      "brevo-code:f663da41264f83049fe841c0a64118fa"
+      "v=spf1 include:spf.qboxmail.com include:spf.cbsolt.net include:mailgun.org mx a -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -125,6 +137,16 @@
     },
     {
       "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "low",
       "description": "WordPress detected (version not determined)",
       "risk": "The site runs WordPress. While the exact version is not exposed, CMS-specific attack patterns can still be attempted."
     },
@@ -135,7 +157,7 @@
     },
     {
       "severity": "info",
-      "description": "8 WordPress plugins detected",
+      "description": "9 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
@@ -157,11 +179,11 @@
       "severity": "medium",
       "description": "Booking Calendar &#8211; Event Calendar [hbook] <= 1.0.2 (unfixed + closed)",
       "risk": "Booking Calendar – Event Calendar <= 1.0.2 - Missing Authorization",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
-        "template_id": "67ee0244e92a60861d451ec00f084cc1d167edce6afe491c58fb3ce4e231f584",
+        "template_id": "",
         "confidence": "high-inference"
       }
     },
@@ -169,7 +191,7 @@
       "severity": "high",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
       "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -181,7 +203,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
       "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -193,7 +215,7 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
       "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -205,21 +227,105 @@
       "severity": "medium",
       "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
       "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
         "template_id": "CVE-2026-32352",
         "confidence": "high-inference"
       }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-45000)",
+      "risk": "CVE-2023-45000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Broken Access Control",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-45000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 5.7.0.1 (CVE-2023-40000)",
+      "risk": "CVE-2023-40000: WordPress  LiteSpeed Cache Plugin    <= 5.7 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2023-40000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.4 (CVE-2024-28000)",
+      "risk": "CVE-2024-28000: WordPress LiteSpeed Cache Plugin <= 6.3.0.1 is vulnerable to Privilege Escalation",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-28000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.0.1 (CVE-2024-44000)",
+      "risk": "CVE-2024-44000: WordPress LiteSpeed Cache Plugin < 6.5.0.1 is vulnerable to Broken Authentication",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-44000",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47637)",
+      "risk": "CVE-2024-47637: WordPress LiteSpeed Cache Plugin <= 6.4.1 is vulnerable to Path Traversal",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-47637",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.1 (CVE-2024-47374)",
+      "risk": "CVE-2024-47374: WordPress LiteSpeed Cache Plugin <= 6.5.0.2 is vulnerable to Cross Site Scripting (XSS)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-47374",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "high",
+      "description": "LiteSpeed Cache [litespeed-cache] < 6.5.2 (CVE-2024-50550)",
+      "risk": "CVE-2024-50550: WordPress LiteSpeed Cache Plugin <= 6.5.1 is vulnerable to Privilege Escalation",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2024-50550",
+        "confidence": "medium-inference"
+      }
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 898,
+    "duration_ms": 145,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

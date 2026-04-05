@@ -2,7 +2,7 @@
   "domain": "tryg.dk",
   "cvr": "prospect",
   "company_name": "tryg.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "B",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Sectigo Limited",
       "expiry": "2026-07-11",
-      "days_remaining": 100
+      "days_remaining": 97,
+      "tls_version": ""
     },
     "server": "",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -46,10 +51,10 @@
     "aaaa": [],
     "cname": [],
     "mx": [
-      "dk.mx3.mailanyone.net",
+      "dk.mx1.mailanyone.net",
       "dk.mx4.mx25.net",
-      "dk.mx2.mx25.net",
-      "dk.mx1.mailanyone.net"
+      "dk.mx3.mailanyone.net",
+      "dk.mx2.mx25.net"
     ],
     "ns": [
       "ns1.eurodns.com",
@@ -59,17 +64,17 @@
     ],
     "txt": [
       "onetrust-domain-verification=21851cf2da904437a301ea1250e62349",
-      "google-site-verification=IC9erPHgdrBb60-7bwFRApdmjLNX--SS4k7eOI7heUA",
-      "cisco-ci-domain-verification=750a59d68cda1bc5e20a91b3c769b4c2f4ec20caef4e7dcb13312de6b10080f",
-      "onetrust-domain-verification=cfbd8464fff6455294b3d44fc81604d7",
-      "google-site-verification=XoV5UDKd4JYneC1QclSAGBBLgURDZuwzfsIKPDh2Yoo",
-      "v=spf1 include:spf.mailanyone.net include:spf.protection.outlook.com include:_spf.qualtrics.com include:spf.hatteland.com include:spf.mailjet.com include:sendgrid.net include:spf.tryg.dk ~all",
-      "atlassian-domain-verification=n7aiXWjfbeufrOPpnvYAvp2BNqFMjs9ihHQJ44vAL89xak5WwmfIwz7uHcEaMXPe",
       "flexera-domain-verification-qceusfkltiyeuyre",
-      "Dynatrace-site-verification=fa25b322-c00d-4305-aa32-90634e4909df__8aron48ceo2cscvbs9ana3tlk2",
-      "postman-domain-verification=0955e045d8c5495e64a24fb223617b0f56ae63947c680ece8857969c95d3c50a5d7638d41b5384fbc7edfdbe140a1340769be9a49260b890ccbf9e64c4dc3253",
+      "miro-verification=314086e31e4e1e3f06172e2f0496cb5f7d91eac4",
       "cisco-ci-domain-verification=5755d0571293fe7e6684d287f1ae0e645ae18715fad265edd8fc2a2d014f05fc",
-      "miro-verification=314086e31e4e1e3f06172e2f0496cb5f7d91eac4"
+      "v=spf1 include:spf.mailanyone.net include:spf.protection.outlook.com include:_spf.qualtrics.com include:spf.hatteland.com include:spf.mailjet.com include:sendgrid.net include:spf.tryg.dk ~all",
+      "Dynatrace-site-verification=fa25b322-c00d-4305-aa32-90634e4909df__8aron48ceo2cscvbs9ana3tlk2",
+      "cisco-ci-domain-verification=750a59d68cda1bc5e20a91b3c769b4c2f4ec20caef4e7dcb13312de6b10080f",
+      "postman-domain-verification=0955e045d8c5495e64a24fb223617b0f56ae63947c680ece8857969c95d3c50a5d7638d41b5384fbc7edfdbe140a1340769be9a49260b890ccbf9e64c4dc3253",
+      "google-site-verification=XoV5UDKd4JYneC1QclSAGBBLgURDZuwzfsIKPDh2Yoo",
+      "atlassian-domain-verification=n7aiXWjfbeufrOPpnvYAvp2BNqFMjs9ihHQJ44vAL89xak5WwmfIwz7uHcEaMXPe",
+      "onetrust-domain-verification=cfbd8464fff6455294b3d44fc81604d7",
+      "google-site-verification=IC9erPHgdrBb60-7bwFRApdmjLNX--SS4k7eOI7heUA"
     ]
   },
   "cloud_exposure": [
@@ -78,7 +83,21 @@
       "file_count": 18
     }
   ],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
     {
       "severity": "low",
       "description": "Backend technology exposed: PHP",

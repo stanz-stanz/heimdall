@@ -1,0 +1,256 @@
+{
+  "domain": "bibus.dk",
+  "job_id": "scan-2026-04-05-d4ffce0e",
+  "status": "completed",
+  "scan_result": {
+    "domain": "bibus.dk",
+    "cms": "",
+    "server": "cloudflare",
+    "hosting": "Cloudflare",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-02",
+    "ssl_days_remaining": 58,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": true,
+      "strict_transport_security": false,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": "Next.js"
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Cloudflare",
+      "HTTP/3",
+      "Linkedin Ads",
+      "Next.js",
+      "Node.js",
+      "React",
+      "Webpack"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:53:19.125432791Z",
+      "port": "443",
+      "url": "https://bibus.dk",
+      "input": "bibus.dk",
+      "title": "BIBUS SINDBY - Gasfjedre, Gummi, Beslag etc. | 100 års ekspertise",
+      "scheme": "https",
+      "webserver": "cloudflare",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "bibus.dk",
+      "host_ip": "159.100.249.239",
+      "path": "/",
+      "final_url": "https://technology.bibus.com/dk-da/",
+      "time": "393.098458ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "159.100.249.239"
+      ],
+      "tech": [
+        "Amazon S3",
+        "Amazon Web Services",
+        "Cloudflare",
+        "HTTP/3",
+        "Linkedin Ads",
+        "Next.js",
+        "Node.js",
+        "React",
+        "Webpack"
+      ],
+      "words": 6331,
+      "lines": 2,
+      "status_code": 200,
+      "content_length": 158379,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "next.js",
+          "vendor": "zeit",
+          "cpe": "cpe:2.3:a:zeit:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "vercel",
+          "cpe": "cpe:2.3:a:vercel:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "159.100.249.239"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bibus-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "helium.ns.hetzner.de",
+        "oxygen.ns.hetzner.com",
+        "hydrogen.ns.hetzner.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:212.243.131.192/27 ip4:85.199.173.190 ip4:134.119.2.158 ip4:94.231.103.195 ip4:94.231.103.178 ip4:94.231.103.177 a:kantlister.dk a:websmtp.simply.com include:servers.mcsv.net include:_spf.psm.knowbe4.com include:spf.protection.outlook.com -all",
+        "MS=ms91743509",
+        "knowbe4-site-verification=a777c77dba0766e21794fae569f873ae",
+        "KwzX++5jx5MLPIRE47DMkPJzFkl7EIOg3BBCja6Tko/wwqFwtOy6riUSRTOlip4Ukp6LYMjinHPy3Lyp1ZkdUw=="
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "bibus.dk",
+    "cvr": "prospect",
+    "company_name": "bibus.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Cloudflare",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-02",
+        "days_remaining": 58,
+        "tls_version": ""
+      },
+      "server": "cloudflare",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": true,
+        "strict_transport_security": false,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "cloudflare",
+        "x_powered_by": "Next.js"
+      }
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Cloudflare",
+      "HTTP/3",
+      "Linkedin Ads",
+      "Next.js",
+      "Node.js",
+      "React",
+      "Webpack"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "159.100.249.239"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "bibus-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "helium.ns.hetzner.de",
+        "oxygen.ns.hetzner.com",
+        "hydrogen.ns.hetzner.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:212.243.131.192/27 ip4:85.199.173.190 ip4:134.119.2.158 ip4:94.231.103.195 ip4:94.231.103.178 ip4:94.231.103.177 a:kantlister.dk a:websmtp.simply.com include:servers.mcsv.net include:_spf.psm.knowbe4.com include:spf.protection.outlook.com -all",
+        "MS=ms91743509",
+        "knowbe4-site-verification=a777c77dba0766e21794fae569f873ae",
+        "KwzX++5jx5MLPIRE47DMkPJzFkl7EIOg3BBCja6Tko/wwqFwtOy6riUSRTOlip4Ukp6LYMjinHPy3Lyp1ZkdUw=="
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: Next.js",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: Node.js",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 482,
+    "ssl": 104,
+    "headers": 236,
+    "meta": 276,
+    "httpx": 2809,
+    "webanalyze": 4,
+    "dnsx": 735,
+    "crtsh": 0,
+    "ghw": 205,
+    "total_ms": 4864
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "domain": "kontur.dk",
+  "job_id": "scan-2026-04-05-6765745b",
+  "status": "completed",
+  "scan_result": {
+    "domain": "kontur.dk",
+    "cms": "",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-10",
+    "ssl_days_remaining": 34,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": true,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "Shoporama"
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Google Analytics",
+      "HSTS",
+      "PHP",
+      "Shoporama"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:18:35.187652577Z",
+      "port": "443",
+      "url": "https://kontur.dk",
+      "input": "kontur.dk",
+      "title": "Kontur din online boghandel | Bestil – hent i din lokale boghandel | Kontur",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "kontur.dk",
+      "host_ip": "91.223.235.80",
+      "path": "/",
+      "time": "146.17395ms",
+      "a": [
+        "91.223.235.80"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Google Analytics",
+        "HSTS",
+        "PHP",
+        "Shoporama"
+      ],
+      "words": 144088,
+      "lines": 6739,
+      "status_code": 200,
+      "content_length": 327022,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "91.223.235.80"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "kontur-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=WUi5cU_rVO3MTPPzgNNeBu-BmAeD0HE8K5zKsGo6cWc",
+        "v=spf1 include:spf.protection.outlook.com include:send.heyloyalty.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "kontur.dk",
+    "cvr": "prospect",
+    "company_name": "kontur.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Analytics"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-10",
+        "days_remaining": 34,
+        "tls_version": ""
+      },
+      "server": "Apache",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": true,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Apache",
+        "x_powered_by": "Shoporama"
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Google Analytics",
+      "HSTS",
+      "PHP",
+      "Shoporama"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "91.223.235.80"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "kontur-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.curanet.dk",
+        "ns2.curanet.dk"
+      ],
+      "txt": [
+        "google-site-verification=WUi5cU_rVO3MTPPzgNNeBu-BmAeD0HE8K5zKsGo6cWc",
+        "v=spf1 include:spf.protection.outlook.com include:send.heyloyalty.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: Shoporama",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 97,
+    "ssl": 66,
+    "headers": 96,
+    "meta": 177,
+    "httpx": 3343,
+    "webanalyze": 4,
+    "dnsx": 824,
+    "total_ms": 4617
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

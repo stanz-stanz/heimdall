@@ -1,0 +1,459 @@
+{
+  "domain": "revisionsselskabet.com",
+  "job_id": "scan-2026-04-05-4893fa6d",
+  "status": "completed",
+  "scan_result": {
+    "domain": "revisionsselskabet.com",
+    "cms": "WordPress",
+    "server": "Apache",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-23",
+    "ssl_days_remaining": 48,
+    "detected_plugins": [
+      "complianz-gdpr",
+      "elementor",
+      "elementor-pro",
+      "fetch-category-posts",
+      "seo-by-rank-math",
+      "wp-rocket"
+    ],
+    "plugin_versions": {
+      "complianz-gdpr": "1765966360",
+      "elementor": "3.35.5",
+      "elementor-pro": "3.35.1"
+    },
+    "detected_themes": [
+      "hello-elementor",
+      "hello-theme-child-master"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.3.30"
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Complianz",
+      "Elementor:3.35.5",
+      "MySQL",
+      "PHP:8.3.30",
+      "Varnish",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:33:03.881403165Z",
+      "port": "443",
+      "url": "https://revisionsselskabet.com",
+      "input": "revisionsselskabet.com",
+      "title": "Revisor Hedensted - Vi giver dig økonomisk tryghed og overblik",
+      "scheme": "https",
+      "webserver": "Apache",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "revisionsselskabet.com",
+      "host_ip": "46.30.213.23",
+      "path": "/",
+      "final_url": "https://www.revisionsselskabet.com/",
+      "time": "664.677943ms",
+      "chain_status_codes": [
+        301,
+        200
+      ],
+      "a": [
+        "46.30.213.23"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10a:bb:a930:6c97:3e7f"
+      ],
+      "tech": [
+        "Apache HTTP Server",
+        "Complianz",
+        "Elementor:3.35.5",
+        "MySQL",
+        "PHP:8.3.30",
+        "Varnish",
+        "WP Rocket",
+        "WordPress:6.9.4",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 4271,
+      "lines": 1077,
+      "status_code": 200,
+      "content_length": 108945,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "website_builder",
+          "vendor": "elementor",
+          "cpe": "cpe:2.3:a:elementor:website_builder:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        }
+      ],
+      "wordpress": {
+        "plugins": [
+          "complianz-gdpr",
+          "elementor"
+        ],
+        "themes": [
+          "hello-elementor"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "46.30.213.23"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10a:bb:a930:6c97:3e7f"
+      ],
+      "cname": [],
+      "mx": [
+        "revisionsselskabet-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:178.72.16.226 include:spf.protection.outlook.com include:_custspf.one.com -all",
+        "google-site-verification=B7idaG74V6Fv8qnifhDUFnitjL3mlZRm4Eg6J6J1alo",
+        "MS=ms35004889"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "revisionsselskabet.com",
+    "cvr": "prospect",
+    "company_name": "revisionsselskabet.com",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-23",
+        "days_remaining": 48,
+        "tls_version": ""
+      },
+      "server": "Apache",
+      "detected_plugins": [
+        "Complianz Gdpr",
+        "Elementor",
+        "Elementor Pro",
+        "Fetch Category Posts",
+        "Seo By Rank Math",
+        "Wp Rocket"
+      ],
+      "plugin_versions": {
+        "Complianz Gdpr": "1765966360",
+        "Elementor": "3.35.5",
+        "Elementor Pro": "3.35.1"
+      },
+      "detected_themes": [
+        "Hello Elementor",
+        "Hello Theme Child Master"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": false,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Apache",
+        "x_powered_by": "PHP/8.3.30"
+      }
+    },
+    "tech_stack": [
+      "Apache HTTP Server",
+      "Complianz",
+      "Elementor:3.35.5",
+      "MySQL",
+      "PHP:8.3.30",
+      "Varnish",
+      "WP Rocket",
+      "WordPress:6.9.4",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "complianz-gdpr": "1765966360",
+      "elementor": "3.35.5",
+      "elementor-pro": "3.35.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "46.30.213.23"
+      ],
+      "aaaa": [
+        "2a02:2350:5:10a:bb:a930:6c97:3e7f"
+      ],
+      "cname": [],
+      "mx": [
+        "revisionsselskabet-com.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns01.one.com",
+        "ns02.one.com"
+      ],
+      "txt": [
+        "v=spf1 ip4:178.72.16.226 include:spf.protection.outlook.com include:_custspf.one.com -all",
+        "google-site-verification=B7idaG74V6Fv8qnifhDUFnitjL3mlZRm4Eg6J6J1alo",
+        "MS=ms35004889"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Content-Type-Options header",
+        "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "info",
+        "description": "X-Powered-By header discloses technology: PHP/8.3.30",
+        "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "6 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP:8.3.30",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Hello Elementor, Hello Theme Child Master",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Elementor (installed 3.35.5, latest 4.0.1)",
+        "risk": "The installed version of Elementor is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      },
+      {
+        "severity": "high",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2 (CVE-2022-1329)",
+        "risk": "CVE-2022-1329: WordPress Elementor Website Builder plugin <= 3.6.2 - Arbitrary File Upload vulnerability",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2022-1329",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed) (CVE-2025-67588)",
+        "risk": "CVE-2025-67588: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.33.0 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-67588",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32445)",
+        "risk": "CVE-2026-32445: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32445",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed) (CVE-2026-32352)",
+        "risk": "CVE-2026-32352: Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-32352",
+          "confidence": "high-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.119.1 (CVE-2023-23888)",
+        "risk": "CVE-2023-23888: WordPress  Rank Math SEO Plugin  <= 1.0.107.2 is vulnerable to Local File Inclusion",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2023-23888",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.229 (CVE-2024-9314)",
+        "risk": "CVE-2024-9314: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings <= 1.0.228 - Authenticated (Administrator+) PHP Object Injection",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-9314",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "high",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] < 1.0.232 (CVE-2024-11620)",
+        "risk": "CVE-2024-11620: WordPress Rank Math SEO Plugin <= 1.0.231 is vulnerable to Remote Code Execution (RCE)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2024-11620",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64351)",
+        "risk": "CVE-2025-64351: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64351",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed) (CVE-2025-64350)",
+        "risk": "CVE-2025-64350: Rank Math SEO – AI SEO Tools to Dominate SEO Rankings [seo-by-rank-math] <= 1.0.252.1 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2025-64350",
+          "confidence": "medium-inference"
+        }
+      },
+      {
+        "severity": "medium",
+        "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
+        "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
+        "provenance": "unconfirmed",
+        "provenance_detail": {
+          "source_layer": 1,
+          "twin_scan_tool": "wpvulnerability",
+          "template_id": "CVE-2026-28044",
+          "confidence": "medium-inference"
+        }
+      }
+    ],
+    "twin_scan": {
+      "twin_scan_date": "2026-04-05",
+      "scan_tools": [
+        "wpvulnerability"
+      ],
+      "duration_ms": 172,
+      "note": "Findings derived from passive fingerprinting, not confirmed against live target"
+    }
+  },
+  "timing": {
+    "robots_txt": 4064,
+    "ssl": 76,
+    "headers": 1572,
+    "meta": 1065,
+    "httpx": 3100,
+    "webanalyze": 4,
+    "dnsx": 780,
+    "total_ms": 11572
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

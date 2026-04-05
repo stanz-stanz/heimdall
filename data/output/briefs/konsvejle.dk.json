@@ -2,7 +2,7 @@
   "domain": "konsvejle.dk",
   "cvr": "prospect",
   "company_name": "konsvejle.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-23",
-      "days_remaining": 50
+      "days_remaining": 47,
+      "tls_version": ""
     },
     "server": "Apache",
     "detected_plugins": [
@@ -31,7 +32,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache",
+      "x_powered_by": "PHP/8.2.30"
     }
   },
   "tech_stack": [
@@ -71,11 +76,15 @@
       "ns02.one.com"
     ],
     "txt": [
-      "MS=ms25609193",
-      "v=spf1 include:spf.protection.outlook.com -all"
+      "v=spf1 include:spf.protection.outlook.com -all",
+      "MS=ms25609193"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -96,6 +105,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/8.2.30",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -126,7 +150,7 @@
       "severity": "high",
       "description": "Otter Blocks &#8211; Gutenberg Blocks, Page Builder for Gutenberg Editor &amp; FSE [otter-blocks] < 3.1.1 (closed) (CVE-2025-55715)",
       "risk": "CVE-2025-55715: WordPress Otter - Gutenberg Block Plugin <= 3.1.0 is vulnerable to Sensitive Data Exposure",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -138,7 +162,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 8.1.13 (CVE-2021-36870)",
       "risk": "CVE-2021-36870: WordPress WP Google Maps plugin <= 8.1.12 - Multiple Authenticated Persistent Cross-Site Scripting (XSS) vulnerabilities",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -150,7 +174,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 8.1.12 (CVE-2021-24383)",
       "risk": "CVE-2021-24383: WordPress WP Google Maps plugin <= 8.1.11 - Authenticated Stored Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -162,7 +186,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.11.35 (CVE-2019-14792)",
       "risk": "CVE-2019-14792: WP Google Maps <= 7.11.34 - Cross-Site Request Forgery to Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -174,7 +198,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.11.18 (CVE-2019-10692)",
       "risk": "CVE-2019-10692: WP Go Maps (formerly WP Google Maps) <= 7.11.17 - SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -186,7 +210,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.10.43 (CVE-2019-9912)",
       "risk": "CVE-2019-9912: WordPress WP Google Maps plugin <= 7.10.41 - Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -198,7 +222,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.11.35",
       "risk": "WordPress WP Google Maps plugin <= 7.11.34 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -210,7 +234,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.11.28",
       "risk": "WordPress WP Google Maps plugin <= 7.11.27 - Cross-Site Request Forgery (CSRF) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -222,7 +246,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.11.18",
       "risk": "WordPress WP Google Maps plugin <= 7.11.17 - Unauthenticated SQL Injection (SQLi) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -234,7 +258,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.10.43",
       "risk": "WordPress WP Google Maps plugin <= 7.10.41 - Reflected Cross-Site Scripting (XSS) vulnerability",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -246,7 +270,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.11.28",
       "risk": "WP Google Maps <= 7.11.27 - Cross-Site Request Forgery",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -258,7 +282,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.16 (CVE-2022-47595)",
       "risk": "CVE-2022-47595: WordPress  WP Google Maps Plugin  <= 9.0.15 is vulnerable to Directory Traversal",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -270,7 +294,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 7.11.28",
       "risk": "WP Google Maps &lt;= 7.11.27 - Admin Settings CSRF",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -282,7 +306,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.28 (CVE-2023-6627)",
       "risk": "CVE-2023-6627: WP Google Maps <= 9.0.27 - Unauthenticated Stored Cross-Site Scripting via REST API",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -294,7 +318,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.29 (CVE-2023-6697)",
       "risk": "CVE-2023-6697: WP Go Maps (formerly WP Google Maps) <= 9.0.28 - Reflected Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -306,7 +330,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.33 (CVE-2023-4839)",
       "risk": "CVE-2023-4839: WP Go Maps <= 9.0.32 - Authenticated (Administrator+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -318,7 +342,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.33 (CVE-2024-1582)",
       "risk": "CVE-2024-1582: WP Go Maps (formerly WP Google Maps) <= 9.0.32 - Authenticated (Contributor+) Stored Cross-Site Scripting via Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -330,7 +354,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.35 (CVE-2023-6777)",
       "risk": "CVE-2023-6777: WP Go Maps (formerly WP Google Maps) <= 9.0.34 - Information Exposure to Potential Denial of Service",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -342,7 +366,7 @@
       "severity": "high",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.30 (CVE-2024-29931)",
       "risk": "CVE-2024-29931: WordPress  WP Google Maps Plugin    <= 9.0.29 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -354,7 +378,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.37 (CVE-2024-3557)",
       "risk": "CVE-2024-3557: WP Go Maps (formerly WP Google Maps) <= 9.0.36 - Authenticated (Contributor+) Stored Cross-Site Scripting via Shortcode",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -366,7 +390,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.39 (CVE-2024-5994)",
       "risk": "CVE-2024-5994: WP Go Maps (formerly WP Google Maps) <= 9.0.38 - Authenticated (Contributor+) Stored Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -378,7 +402,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.39",
       "risk": "WordPress WP Google Maps Plugin <= 9.0.38 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -390,7 +414,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.41 (CVE-2025-24742)",
       "risk": "CVE-2025-24742: WordPress WP Go Maps Plugin <= 9.0.40 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -402,7 +426,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.47 (CVE-2025-11166)",
       "risk": "CVE-2025-11166: WP Go Maps (formerly WP Google Maps) &lt;= 9.0.46 - Cross-Site Request Forgery to Plugin Settings Update",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -414,7 +438,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.49 (CVE-2025-11703)",
       "risk": "CVE-2025-11703: EUVD-2025-34978",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -426,7 +450,7 @@
       "severity": "medium",
       "description": "WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.48 (CVE-2025-11307)",
       "risk": "CVE-2025-11307: WP Go Maps (formerly WP Google Maps) [wp-google-maps] < 9.0.48",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -436,11 +460,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 286,
+    "duration_ms": 147,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

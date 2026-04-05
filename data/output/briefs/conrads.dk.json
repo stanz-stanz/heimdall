@@ -2,11 +2,11 @@
   "domain": "conrads.dk",
   "cvr": "prospect",
   "company_name": "conrads.dk",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
-    "Data-handling plugins: Gravityforms, Booketbord",
+    "Data-handling plugins: Booketbord, Gravityforms, Woocommerce",
     "Visitor tracking: Google Tag Manager, reCAPTCHA"
   ],
   "industry": "",
@@ -17,26 +17,41 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-25",
-      "days_remaining": 53
+      "days_remaining": 49,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
+      "Booketbord",
+      "Popups For Divi",
       "Gravityforms",
       "Gravityformsrecaptcha",
-      "Popups For Divi",
-      "Booketbord",
-      "Wp Rocket",
-      "Wordpress Seo"
+      "Woocommerce",
+      "Divi Builder",
+      "Redirection",
+      "Wordfence",
+      "Wordpress Seo",
+      "Wp Rocket"
     ],
     "plugin_versions": {
+      "Booketbord": "1774514444",
+      "Popups For Divi": "3.2.3",
+      "Gravityformsrecaptcha": "2.1.0",
       "Wordpress Seo": "26.9"
     },
-    "detected_themes": [],
+    "detected_themes": [
+      "Child Theme",
+      "Divi"
+    ],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -55,6 +70,9 @@
     "reCAPTCHA"
   ],
   "plugin_versions": {
+    "booketbord": "1774514444",
+    "popups-for-divi": "3.2.3",
+    "gravityformsrecaptcha": "2.1.0",
     "wordpress-seo": "26.9"
   },
   "subdomains": {
@@ -63,8 +81,8 @@
   },
   "dns": {
     "a": [
-      "172.67.130.153",
-      "104.21.8.190"
+      "104.21.8.190",
+      "172.67.130.153"
     ],
     "aaaa": [
       "2606:4700:3030::6815:8be",
@@ -85,6 +103,10 @@
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -107,24 +129,44 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
       "severity": "medium",
       "description": "WordPress version 6.9.4 publicly disclosed",
       "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
     },
     {
       "severity": "medium",
-      "description": "Data-handling plugins detected: Gravityforms, Booketbord",
+      "description": "Data-handling plugins detected: Booketbord, Gravityforms, Woocommerce",
       "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
     },
     {
       "severity": "info",
-      "description": "6 WordPress plugins detected",
+      "description": "10 WordPress plugins detected",
       "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
     },
     {
       "severity": "low",
       "description": "Backend technology exposed: MySQL, PHP",
       "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+    },
+    {
+      "severity": "info",
+      "description": "WordPress themes detected: Child Theme, Divi",
+      "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+    },
+    {
+      "severity": "medium",
+      "description": "Outdated plugin: Popups For Divi (installed 3.2.3, latest 3.2.7)",
+      "risk": "The installed version of Popups For Divi is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
     },
     {
       "severity": "medium",
@@ -135,7 +177,7 @@
       "severity": "high",
       "description": "Gravity Forms [gravityforms] < 2.7.4 (CVE-2023-28782)",
       "risk": "CVE-2023-28782: WordPress  Gravity Forms  Plugin  <= 2.7.3 is vulnerable to PHP Object Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -147,7 +189,7 @@
       "severity": "high",
       "description": "Gravity Forms [gravityforms] < 2.9.2 (CVE-2024-13377)",
       "risk": "CVE-2024-13377: GravityForms <= 2.9.1.3 - Unauthenticated Stored Cross-Site Scripting via 'alt' parameter",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -159,7 +201,7 @@
       "severity": "critical",
       "description": "Gravity Forms [gravityforms] < 2.9.21 (CVE-2025-12352)",
       "risk": "CVE-2025-12352: Gravity Forms [gravityforms] < 2.9.21",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -171,7 +213,7 @@
       "severity": "high",
       "description": "Gravity Forms [gravityforms] < 2.9.22 (CVE-2025-12974)",
       "risk": "CVE-2025-12974: Gravity Forms [gravityforms] < 2.9.22",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -181,9 +223,45 @@
     },
     {
       "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
+      "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-5062",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
+      "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
+      "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2025-49042",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "critical",
+      "description": "Divi Builder [divi-builder] >= 2.0 - <= 4.5.2 (CVE-2020-35945)",
+      "risk": "CVE-2020-35945: WordPress Divi Builder plugin <= 4.5.2 - Authenticated Arbitrary File Upload vulnerability",
+      "provenance": "unconfirmed",
+      "provenance_detail": {
+        "source_layer": 1,
+        "twin_scan_tool": "wpvulnerability",
+        "template_id": "CVE-2020-35945",
+        "confidence": "medium-inference"
+      }
+    },
+    {
+      "severity": "medium",
       "description": "WP Rocket [wp-rocket] <= 3.19.4 (unfixed) (CVE-2026-28044)",
       "risk": "CVE-2026-28044: WP Rocket [wp-rocket] <= 3.19.4 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -193,11 +271,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 166,
+    "duration_ms": 155,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

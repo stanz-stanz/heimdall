@@ -2,91 +2,48 @@
   "domain": "vivosales.dk",
   "cvr": "prospect",
   "company_name": "vivosales.dk",
-  "scan_date": "2026-04-02",
-  "bucket": "A",
-  "gdpr_sensitive": true,
-  "gdpr_reasons": [
-    "Data-handling plugins: Contact Form 7",
-    "Visitor tracking: Google Analytics, Google Tag Manager, reCAPTCHA"
-  ],
+  "scan_date": "2026-04-05",
+  "bucket": "D",
+  "gdpr_sensitive": false,
+  "gdpr_reasons": [],
   "industry": "",
   "technology": {
-    "cms": "WordPress",
+    "cms": "",
     "hosting": "Unknown",
     "ssl": {
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-06-05",
-      "days_remaining": 63
+      "days_remaining": 60,
+      "tls_version": ""
     },
-    "server": "Apache",
-    "detected_plugins": [
-      "Contact Form 7",
-      "Cookie Law Info",
-      "Wordpress Seo"
-    ],
-    "plugin_versions": {
-      "Contact Form 7": "6.1.5",
-      "Cookie Law Info": "3.4.0",
-      "Wordpress Seo": "27.3"
-    },
+    "server": "",
+    "detected_plugins": [],
+    "plugin_versions": {},
     "detected_themes": [],
     "headers": {
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "",
+      "x_powered_by": ""
     }
   },
-  "tech_stack": [
-    "Apache HTTP Server",
-    "Contact Form 7:6.1.5",
-    "Contentsquare",
-    "CookieYes:3.4.0",
-    "Cookiebot",
-    "Google Analytics",
-    "Google Tag Manager",
-    "HSTS",
-    "MailerLite",
-    "MySQL",
-    "PHP",
-    "Site Kit:1.175.0",
-    "WordPress:6.9.4",
-    "Yoast SEO:27.3",
-    "jQuery",
-    "jQuery Migrate:3.4.1",
-    "reCAPTCHA",
-    "wpBakery"
-  ],
-  "plugin_versions": {
-    "contact-form-7": "6.1.5",
-    "cookie-law-info": "3.4.0",
-    "wordpress-seo": "27.3"
-  },
+  "tech_stack": [],
+  "plugin_versions": {},
   "subdomains": {
     "count": 0,
     "list": []
   },
-  "dns": {
-    "a": [
-      "185.224.18.18"
-    ],
-    "aaaa": [],
-    "cname": [],
-    "mx": [
-      "vivosales-dk.mail.protection.outlook.com"
-    ],
-    "ns": [
-      "ns1.netsite.dk",
-      "ns2.netsite.eu",
-      "ns3.netsite.se"
-    ],
-    "txt": [
-      "mailerlite-domain-verification=52d14897456b675b95a8e45a88a346bc7e57e085",
-      "v=spf1 a mx include:_spf.mlsend.com ?all"
-    ]
-  },
+  "dns": {},
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -109,24 +66,14 @@
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
     },
     {
-      "severity": "medium",
-      "description": "WordPress version 6.9.4 publicly disclosed",
-      "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
-    },
-    {
-      "severity": "medium",
-      "description": "Data-handling plugin detected: Contact Form 7",
-      "risk": "These plugins collect or process user data (form submissions, bookings, payments). If the site or plugin has a vulnerability, this data could be exposed. Keeping these plugins updated is critical for GDPR compliance."
-    },
-    {
-      "severity": "info",
-      "description": "3 WordPress plugins detected",
-      "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
     },
     {
       "severity": "low",
-      "description": "Backend technology exposed: MySQL, PHP",
-      "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
     }
   ]
 }

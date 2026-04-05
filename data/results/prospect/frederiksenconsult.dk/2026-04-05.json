@@ -1,0 +1,272 @@
+{
+  "domain": "frederiksenconsult.dk",
+  "job_id": "scan-2026-04-05-480eee8a",
+  "status": "completed",
+  "scan_result": {
+    "domain": "frederiksenconsult.dk",
+    "cms": "WordPress",
+    "server": "Simply.com",
+    "hosting": "simply.com",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-17",
+    "ssl_days_remaining": 72,
+    "detected_plugins": [
+      "wordfence",
+      "wordpress-seo"
+    ],
+    "plugin_versions": {
+      "wordpress-seo": "27.1.1"
+    },
+    "detected_themes": [
+      "doyel",
+      "doyel-grid-two-column"
+    ],
+    "headers": {
+      "x_frame_options": false,
+      "content_security_policy": false,
+      "strict_transport_security": false,
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Simply.com",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "imagesLoaded:5.0.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:07:19.028873525Z",
+      "port": "443",
+      "url": "https://frederiksenconsult.dk",
+      "input": "frederiksenconsult.dk",
+      "title": "FrederiksenConsult - Erhvervspsykologisk rådgivning og coaching i Vejle",
+      "scheme": "https",
+      "webserver": "Simply.com",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "frederiksenconsult.dk",
+      "host_ip": "93.191.156.7",
+      "path": "/",
+      "time": "186.175473ms",
+      "a": [
+        "93.191.156.7"
+      ],
+      "tech": [
+        "Bootstrap",
+        "HTTP/3",
+        "MySQL",
+        "PHP",
+        "WordPress:6.9.4",
+        "Yoast SEO:27.1.1",
+        "imagesLoaded:5.0.0",
+        "jQuery",
+        "jQuery Migrate:3.4.1"
+      ],
+      "words": 1106,
+      "lines": 302,
+      "status_code": 200,
+      "content_length": 33585,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "wordpress": {
+        "themes": [
+          "doyel",
+          "doyel-grid-two-column"
+        ]
+      }
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "93.191.156.7"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms48358440"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "frederiksenconsult.dk",
+    "cvr": "prospect",
+    "company_name": "frederiksenconsult.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "A",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "WordPress",
+      "hosting": "simply.com",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-17",
+        "days_remaining": 72,
+        "tls_version": ""
+      },
+      "server": "Simply.com",
+      "detected_plugins": [
+        "Wordfence",
+        "Wordpress Seo"
+      ],
+      "plugin_versions": {
+        "Wordpress Seo": "27.1.1"
+      },
+      "detected_themes": [
+        "Doyel",
+        "Doyel Grid Two Column"
+      ],
+      "headers": {
+        "x_frame_options": false,
+        "content_security_policy": false,
+        "strict_transport_security": false,
+        "x_content_type_options": true,
+        "permissions_policy": false,
+        "referrer_policy": false,
+        "server_value": "Simply.com",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Bootstrap",
+      "HTTP/3",
+      "MySQL",
+      "PHP",
+      "WordPress:6.9.4",
+      "Yoast SEO:27.1.1",
+      "imagesLoaded:5.0.0",
+      "jQuery",
+      "jQuery Migrate:3.4.1"
+    ],
+    "plugin_versions": {
+      "wordpress-seo": "27.1.1"
+    },
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "93.191.156.7"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "mx.simply.com"
+      ],
+      "ns": [
+        "ns1.simply.com",
+        "ns2.simply.com",
+        "ns3.simply.com",
+        "ns4.simply.com"
+      ],
+      "txt": [
+        "MS=ms48358440"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "Missing HSTS header (HTTP Strict Transport Security)",
+        "risk": "Browsers are not instructed to always use HTTPS. On unsecured networks (public WiFi), a visitor's first connection could be intercepted before the redirect to HTTPS occurs."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Content-Security-Policy header",
+        "risk": "The browser has no restrictions on which scripts can run on the page. If the site is compromised, injected scripts can operate without constraint."
+      },
+      {
+        "severity": "low",
+        "description": "Missing X-Frame-Options header",
+        "risk": "The website can be embedded in frames on other sites. This enables clickjacking attacks where users interact with hidden elements overlaid on the legitimate page."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Permissions-Policy header",
+        "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+      },
+      {
+        "severity": "low",
+        "description": "Missing Referrer-Policy header",
+        "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+      },
+      {
+        "severity": "medium",
+        "description": "WordPress version 6.9.4 publicly disclosed",
+        "risk": "The exact WordPress version is visible to anyone viewing the page source. This allows attackers to look up known vulnerabilities specific to this version and target them directly."
+      },
+      {
+        "severity": "info",
+        "description": "2 WordPress plugins detected",
+        "risk": "Each plugin is additional code from a third-party developer. Outdated or abandoned plugins are a common entry point for attackers. Plugins should be reviewed and kept updated."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: MySQL, PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      },
+      {
+        "severity": "info",
+        "description": "WordPress themes detected: Doyel, Doyel Grid Two Column",
+        "risk": "The active theme is visible in the HTML source. Outdated themes are a common source of vulnerabilities, similar to plugins."
+      },
+      {
+        "severity": "medium",
+        "description": "Outdated plugin: Wordpress Seo (installed 27.1.1, latest 27.3)",
+        "risk": "The installed version of Wordpress Seo is behind the current release. Outdated plugins may contain known vulnerabilities that are fixed in newer versions."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 1223,
+    "ssl": 62,
+    "headers": 139,
+    "meta": 470,
+    "httpx": 1862,
+    "webanalyze": 4,
+    "dnsx": 773,
+    "total_ms": 5046
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}

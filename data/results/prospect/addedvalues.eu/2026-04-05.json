@@ -1,0 +1,207 @@
+{
+  "domain": "addedvalues.eu",
+  "job_id": "scan-2026-04-05-389023a6",
+  "status": "completed",
+  "scan_result": {
+    "domain": "addedvalues.eu",
+    "cms": "",
+    "server": "nginx",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-05-03",
+    "ssl_days_remaining": 27,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "nginx",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Cookie Script",
+      "Google Tag Manager",
+      "HSTS",
+      "MailChimp",
+      "Nginx",
+      "PHP"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T14:49:41.17721177Z",
+      "port": "443",
+      "url": "https://addedvalues.eu",
+      "input": "addedvalues.eu",
+      "title": "Rådgivning indenfor energiproduktion - Added Values",
+      "scheme": "https",
+      "webserver": "nginx",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "addedvalues.eu",
+      "host_ip": "128.140.28.110",
+      "path": "/",
+      "time": "362.094621ms",
+      "a": [
+        "128.140.28.110"
+      ],
+      "tech": [
+        "Amazon S3",
+        "Amazon Web Services",
+        "Cookie Script",
+        "Google Tag Manager",
+        "HSTS",
+        "MailChimp",
+        "Nginx",
+        "PHP"
+      ],
+      "words": 1819,
+      "lines": 777,
+      "status_code": 200,
+      "content_length": 32213,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "128.140.28.110"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "addedvalues-eu.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.netsite.dk",
+        "ns2.netsite.eu",
+        "ns3.netsite.se"
+      ],
+      "txt": [
+        "v=spf1 ip4:51.77.64.230 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "addedvalues.eu",
+    "cvr": "prospect",
+    "company_name": "addedvalues.eu",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": true,
+    "gdpr_reasons": [
+      "Visitor tracking: Google Tag Manager, MailChimp"
+    ],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-05-03",
+        "days_remaining": 27,
+        "tls_version": ""
+      },
+      "server": "nginx",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "nginx",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Amazon S3",
+      "Amazon Web Services",
+      "Cookie Script",
+      "Google Tag Manager",
+      "HSTS",
+      "MailChimp",
+      "Nginx",
+      "PHP"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "128.140.28.110"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "addedvalues-eu.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.netsite.dk",
+        "ns2.netsite.eu",
+        "ns3.netsite.se"
+      ],
+      "txt": [
+        "v=spf1 ip4:51.77.64.230 include:spf.protection.outlook.com -all"
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": [
+      {
+        "severity": "medium",
+        "description": "SSL certificate expires in 27 days",
+        "risk": "The certificate will need renewal soon. If missed, browsers will display a security warning and visitors will be unable to access the site."
+      },
+      {
+        "severity": "low",
+        "description": "Backend technology exposed: PHP",
+        "risk": "The server advertises which backend technologies it runs. This gives attackers information about which exploits may be applicable. It does not mean the site is vulnerable, but it reduces the effort needed to find an attack vector."
+      }
+    ]
+  },
+  "timing": {
+    "robots_txt": 169,
+    "ssl": 88,
+    "headers": 297,
+    "meta": 364,
+    "httpx": 2119,
+    "webanalyze": 5,
+    "dnsx": 735,
+    "crtsh": 0,
+    "ghw": 297,
+    "total_ms": 4086
+  },
+  "cache_stats": {
+    "hits": 1,
+    "misses": 8
+  }
+}

@@ -2,7 +2,7 @@
   "domain": "jevi.com",
   "cvr": "prospect",
   "company_name": "jevi.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -16,7 +16,8 @@
       "valid": true,
       "issuer": "Google Trust Services",
       "expiry": "2026-05-16",
-      "days_remaining": 44
+      "days_remaining": 41,
+      "tls_version": ""
     },
     "server": "cloudflare",
     "detected_plugins": [
@@ -28,7 +29,11 @@
       "x_frame_options": true,
       "content_security_policy": true,
       "strict_transport_security": true,
-      "x_content_type_options": true
+      "x_content_type_options": true,
+      "permissions_policy": false,
+      "referrer_policy": true,
+      "server_value": "cloudflare",
+      "x_powered_by": ""
     }
   },
   "tech_stack": [
@@ -62,13 +67,22 @@
       "dns2.nibe.se"
     ],
     "txt": [
-      "ca3-0f19be47e8c34565b580c43891fb0e5d",
       "MS=ms17786325",
+      "ca3-0f19be47e8c34565b580c43891fb0e5d",
       "v=spf1 ip4:20.42.80.160 ip4:20.103.25.156 include:spfloc.nibe.se include:spf-00373501.pphosted.com include:spf-00373502.pphosted.com include:spf.protection.outlook.com include:spf1.emarketeer.com -all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
     {
       "severity": "info",
       "description": "1 WordPress plugin detected",

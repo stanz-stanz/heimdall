@@ -2,7 +2,7 @@
   "domain": "alltech.com",
   "cvr": "prospect",
   "company_name": "alltech.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "E",
   "gdpr_sensitive": false,
   "gdpr_reasons": [],
@@ -14,7 +14,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-18",
-      "days_remaining": 45
+      "days_remaining": 42,
+      "tls_version": ""
     },
     "server": "Vercel",
     "detected_plugins": [],
@@ -24,7 +25,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": true,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Vercel",
+      "x_powered_by": "Next.js"
     }
   },
   "tech_stack": [
@@ -58,13 +63,6 @@
       "dns5.name-services.com"
     ],
     "txt": [
-      "fss2286a0sds16gluvgm5fk9p4",
-      "status-page-domain-verification=b00zwrgqzmvs",
-      "facebook-domain-verification=850wsovzxlzhnw3x0utl990dqr8zsu",
-      "google-site-verification=yvItvpj0U85XrInuHn8ztx7wWxgFE6AWUyUCQWtFMbQ",
-      "facebook-domain-verification=cwjhel331wmd06qzq6y10030gxy2i9",
-      "atlassian-sending-domain-verification=d6b6f321-ac10-4df9-8f67-26896f431c9f",
-      "google-site-verification=JNwPi4ciEkNSvI01VTEq1W_-FDg7LC3icj-WwT43HOM",
       "apple-domain-verification=4myVCXFDn2rIqF5D",
       "asv=035245b3090e88747411941d9e5a2b6b",
       "asv=cf26ea7ff34fa6369d499f01afc2ddde",
@@ -76,10 +74,21 @@
       "google-site-verification=GeabqcVnh1d3LSmGdfQJOyPckLhN3MbebPfaomKbcLQ",
       "google-site-verification=gsZKmUNSdKtCBDOonotuBedmMd1Mk3YLJVOELTGCUvk",
       "v=spf1 ip4:35.80.141.6 ip4:44.229.121.55 ip4:148.59.100.16/28 include:spf.mandrillapp.com include:spf.protection.outlook.com include:mailgun.org ip4:3.93.157.0/24 ip4:3.210.190.0/24 ip4:18.208.124.128/25 ip4:54.174.52.0/24 ip4:54.174.57.0/24 ip4:54.174.59.0/24 ip4:54.174.60.0/23 ip4:54.174.63.0/24 ip4:108.179.144.0/20 ip4:139.180.17.0/24 ip4:141.193.184.32/27 ip4:141.193.184.64/26 ip4:141.193.184.128/25 ip4:141.193.185.32/27 ip4:141.193.185.64/26 ip4:141.193.185.128/25 ip4:143.244.80.0/20 ip4:158.247.16.0/20 ip4:216.139.64.0/19 ip4:167.89.0.0/17 ip4:208.117.48.0/20 ip4:50.31.32.0/19 ip4:198.37.144.0/20 ip4:198.21.0.0/21 ip4:192.254.112.0/20 ip4:168.245.0.0/17 ip4:149.72.0.0/16 ip4:159.183.0.0/16 ip4:208.117.48.0/20 ip4:52.38.191.241 ip4:136.146.208.16/28 ip4:136.146.210.16/28 ip4:136.147.62.192/26 ip4:136.147.46.192/26 ip4:85.222.130.192/26 ip4:85.222.138.192/26 ip4:96.43.144.64/28 ip4:96.43.147.64/28 ip4:96.43.148.64/28 ip4:96.43.151.64/28 ip4:96.43.152.64/27 ip4:96.43.153.64/27 ip4:182.50.78.64/28 ip4:204.14.232.64/28 ip4:204.14.234.64/28 ip4:204.14.238.0/27 ip4:136.146.128.64/27 ip4:101.53.164.192/26 ip4:210.171.14.0/24 ip4:210.171.15.2 ip4:158.201.242.128/25 ip4:59.106.90.64/26 ip4:210.152.41.176/28 ip4:202.239.55.0/25 ip4:202.230.170.144/28 ip4:210.152.202.128/27 ip4:202.222.24.192/26 ip4:202.218.104.65 ip4:202.218.104.66/31 ip4:203.167.59.32/27 ip4:194.223.158.110/31 ip4:194.223.158.112/29 ip4:158.201.240.7 ip4:202.218.104.7 ip4:202.218.104.8 ip4:210.152.142.159 ip4:210.152.142.160/28 ip4:210.152.142.176/31 ip4:210.152.142.178 ip4:35.190.247.0/24 ip4:64.233.160.0/19 ip4:66.102.0.0/20 ip4:66.249.80.0/20 ip4:72.14.192.0/18 ip4:74.125.0.0/16 ip4:108.177.8.0/21 ip4:173.194.0.0/16 ip4:209.85.128.0/17 ip4:216.58.192.0/19 ip4:216.239.32.0/19 ip6:2001:4860:4000::/36 ip6:2404:6800:4000::/36 ip6:2607:f8b0:4000::/36 ip6:2800:3f0:4000::/36 ip6:2a00:1450:4000::/36 ip6:2c0f:fb50:4000::/36 ip4:172.217.0.0/19 ip4:172.217.32.0/20 ip4:172.217.128.0/19 ip4:172.217.160.0/20 ip4:172.217.192.0/19 ip4:172.253.56.0/21 ip4:172.253.112.0/20 ip4:108.177.96.0/19 ip4:35.191.0.0/16 ip4:130.211.0.0/22 exists:%{i}.qb8y3yy6ab.macrospf.powerspf.com exists:%{i}._spf.mta.salesforce.com ~all",
-      "atlassian-domain-verification=/V6Gy8xWSrXsWv8SJQOjMu9O2LnzWBn45Vi/LAk7IRCOhxVbEmmZ5uyTfc75aCcj"
+      "atlassian-domain-verification=/V6Gy8xWSrXsWv8SJQOjMu9O2LnzWBn45Vi/LAk7IRCOhxVbEmmZ5uyTfc75aCcj",
+      "fss2286a0sds16gluvgm5fk9p4",
+      "status-page-domain-verification=b00zwrgqzmvs",
+      "facebook-domain-verification=850wsovzxlzhnw3x0utl990dqr8zsu",
+      "google-site-verification=yvItvpj0U85XrInuHn8ztx7wWxgFE6AWUyUCQWtFMbQ",
+      "facebook-domain-verification=cwjhel331wmd06qzq6y10030gxy2i9",
+      "atlassian-sending-domain-verification=d6b6f321-ac10-4df9-8f67-26896f431c9f",
+      "google-site-verification=JNwPi4ciEkNSvI01VTEq1W_-FDg7LC3icj-WwT43HOM"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "low",
@@ -95,6 +104,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: Next.js",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "low",

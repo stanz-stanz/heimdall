@@ -2,7 +2,7 @@
   "domain": "vikingegaarden.com",
   "cvr": "prospect",
   "company_name": "vikingegaarden.com",
-  "scan_date": "2026-04-02",
+  "scan_date": "2026-04-05",
   "bucket": "A",
   "gdpr_sensitive": true,
   "gdpr_reasons": [
@@ -17,7 +17,8 @@
       "valid": true,
       "issuer": "Let's Encrypt",
       "expiry": "2026-05-19",
-      "days_remaining": 47
+      "days_remaining": 43,
+      "tls_version": ""
     },
     "server": "Apache/2.4.51 (Win64) OpenSSL/1.1.1l PHP/7.4.25",
     "detected_plugins": [
@@ -46,7 +47,11 @@
       "x_frame_options": false,
       "content_security_policy": false,
       "strict_transport_security": false,
-      "x_content_type_options": false
+      "x_content_type_options": false,
+      "permissions_policy": false,
+      "referrer_policy": false,
+      "server_value": "Apache/2.4.51 (Win64) OpenSSL/1.1.1l PHP/7.4.25",
+      "x_powered_by": "PHP/7.4.25"
     }
   },
   "tech_stack": [
@@ -88,17 +93,22 @@
       "ns3.dandomain.dk"
     ],
     "txt": [
-      "openai-domain-verification=dv-K3JUynEYuG93HbxO0blAmw09",
-      "google-site-verification=P1FHBWixtNATDNqdTIXJcdjTRf17kEB2WVgwjJ0Lmy4",
-      "IMDN8dmXUsEm75peGiV9XHRMxQWVWSq0jB1i7Mq_nJQ",
-      "v=spf1 ip4:94.137.138.226 include:spf.protection.outlook.com a:smtp2.zitcom.dk a:post.compare.dk include:spf.ubivox.com ~all",
-      "nordpass-domain-verification=ccc06a0c1b8f40bfa81b7dbf6bc4977f",
       "52d769105ee8414f8ca4df54dbcba20a",
+      "google-site-verification=P1FHBWixtNATDNqdTIXJcdjTRf17kEB2WVgwjJ0Lmy4",
+      "nordpass-domain-verification=ccc06a0c1b8f40bfa81b7dbf6bc4977f",
+      "MS=ms69234009",
+      "IMDN8dmXUsEm75peGiV9XHRMxQWVWSq0jB1i7Mq_nJQ",
+      "openai-domain-verification=dv-OQkxP6GXxSuqk94EVbGgSVB1",
+      "openai-domain-verification=dv-K3JUynEYuG93HbxO0blAmw09",
       "nordpass-domain-verification=3335025780e44547af031400511034fc",
-      "MS=ms69234009"
+      "v=spf1 ip4:94.137.138.226 include:spf.protection.outlook.com a:smtp2.zitcom.dk a:post.compare.dk include:spf.ubivox.com ~all"
     ]
   },
   "cloud_exposure": [],
+  "agency": {
+    "meta_author": "",
+    "footer_credit": ""
+  },
   "findings": [
     {
       "severity": "medium",
@@ -119,6 +129,21 @@
       "severity": "low",
       "description": "Missing X-Content-Type-Options header",
       "risk": "Browsers may misinterpret uploaded files as executable content. This is primarily relevant if the site accepts file uploads."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Permissions-Policy header",
+      "risk": "The browser is not instructed to restrict access to device features (camera, microphone, geolocation). Third-party scripts embedded on the page could request these permissions."
+    },
+    {
+      "severity": "low",
+      "description": "Missing Referrer-Policy header",
+      "risk": "The browser may send the full page URL to third-party sites when visitors click links. This can leak internal page paths or query parameters."
+    },
+    {
+      "severity": "info",
+      "description": "X-Powered-By header discloses technology: PHP/7.4.25",
+      "risk": "The server advertises its backend technology in HTTP headers. This gives attackers specific version information to look up known vulnerabilities."
     },
     {
       "severity": "medium",
@@ -154,7 +179,7 @@
       "severity": "medium",
       "description": "Fusion Core [fusion-core] < 5.15.0 (CVE-2026-32453)",
       "risk": "CVE-2026-32453: Fusion Core [fusion-core] < 5.15.0",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -166,7 +191,7 @@
       "severity": "medium",
       "description": "Fusion Core [fusion-core] < 5.15.0 (CVE-2026-32454)",
       "risk": "CVE-2026-32454: Fusion Core [fusion-core] < 5.15.0",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -178,7 +203,7 @@
       "severity": "medium",
       "description": "3D FlipBook – PDF Embedder, PDF Flipbook Viewer, Flipbook Image Gallery [interactive-3d-flipbook-powered-physics-engine] <= 1.16.16 (unfixed) (CVE-2025-58226)",
       "risk": "CVE-2025-58226: 3D FlipBook – PDF Embedder, PDF Flipbook Viewer, Flipbook Image Gallery [interactive-3d-flipbook-powered-physics-engine] <= 1.16.16 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -190,7 +215,7 @@
       "severity": "high",
       "description": "Fusion Builder [fusion-builder] < 3.11.2 (CVE-2023-39311)",
       "risk": "CVE-2023-39311: WordPress  Fusion Builder Plugin  <= 3.11.1 is vulnerable to Cross Site Request Forgery (CSRF)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -202,7 +227,7 @@
       "severity": "high",
       "description": "Fusion Builder [fusion-builder] < 3.11.2 (CVE-2023-39309)",
       "risk": "CVE-2023-39309: WordPress  Fusion Builder Plugin  <= 3.11.1 is vulnerable to SQL Injection",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -214,7 +239,7 @@
       "severity": "high",
       "description": "Fusion Builder [fusion-builder] < 3.11.2 (CVE-2023-39306)",
       "risk": "CVE-2023-39306: WordPress  Fusion Builder Plugin  <= 3.11.1 is vulnerable to Cross Site Scripting (XSS)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -226,7 +251,7 @@
       "severity": "high",
       "description": "Fusion Builder [fusion-builder] < 3.11.14 (CVE-2024-13345)",
       "risk": "CVE-2024-13345: Avada Builder &lt;= 3.11.13 - Unauthenticated Arbitrary Shortcode Execution",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -238,7 +263,7 @@
       "severity": "medium",
       "description": "Fusion Builder [fusion-builder] <= 3.13.2 (unfixed) (CVE-2025-49940)",
       "risk": "CVE-2025-49940: Fusion Builder [fusion-builder] <= 3.13.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -250,7 +275,7 @@
       "severity": "medium",
       "description": "Fusion Builder [fusion-builder] <= 3.14.3 (unfixed) (CVE-2026-25472)",
       "risk": "CVE-2026-25472: Fusion Builder [fusion-builder] <= 3.14.3 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -262,7 +287,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 9.4.2 (unfixed) (CVE-2025-5062)",
       "risk": "CVE-2025-5062: WooCommerce &lt;= 9.4.2 - PostMessage-Based Cross-Site Scripting",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -274,7 +299,7 @@
       "severity": "medium",
       "description": "WooCommerce [woocommerce] <= 10.0.2 (unfixed) (CVE-2025-49042)",
       "risk": "CVE-2025-49042: WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
-      "provenance": "twin-derived",
+      "provenance": "unconfirmed",
       "provenance_detail": {
         "source_layer": 1,
         "twin_scan_tool": "wpvulnerability",
@@ -284,11 +309,11 @@
     }
   ],
   "twin_scan": {
-    "twin_scan_date": "2026-04-02",
+    "twin_scan_date": "2026-04-05",
     "scan_tools": [
       "wpvulnerability"
     ],
-    "duration_ms": 389,
+    "duration_ms": 160,
     "note": "Findings derived from passive fingerprinting, not confirmed against live target"
   }
 }

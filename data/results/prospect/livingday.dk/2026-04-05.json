@@ -1,0 +1,194 @@
+{
+  "domain": "livingday.dk",
+  "job_id": "scan-2026-04-05-4493bef7",
+  "status": "completed",
+  "scan_result": {
+    "domain": "livingday.dk",
+    "cms": "",
+    "server": "istio-envoy",
+    "hosting": "",
+    "ssl_valid": true,
+    "ssl_issuer": "Let's Encrypt",
+    "ssl_expiry": "2026-06-16",
+    "ssl_days_remaining": 71,
+    "detected_plugins": [],
+    "plugin_versions": {},
+    "detected_themes": [],
+    "headers": {
+      "x_frame_options": true,
+      "content_security_policy": true,
+      "strict_transport_security": true,
+      "x_content_type_options": true,
+      "permissions_policy": true,
+      "referrer_policy": true,
+      "server_value": "istio-envoy",
+      "x_powered_by": ""
+    },
+    "tech_stack": [
+      "Envoy",
+      "HSTS"
+    ],
+    "meta_author": "",
+    "footer_credit": "",
+    "raw_httpx": {
+      "timestamp": "2026-04-05T15:22:00.453236423Z",
+      "port": "443",
+      "url": "https://livingday.dk",
+      "input": "livingday.dk",
+      "title": "LIVINGDAY har Vejles laveste salær I LIVINGDAY ejendomsmægler Vejle",
+      "scheme": "https",
+      "webserver": "istio-envoy",
+      "content_type": "text/html",
+      "method": "GET",
+      "host": "livingday.dk",
+      "host_ip": "193.104.202.25",
+      "path": "/",
+      "time": "236.39167ms",
+      "a": [
+        "193.104.202.25"
+      ],
+      "tech": [
+        "Envoy",
+        "HSTS"
+      ],
+      "words": 72909,
+      "lines": 221,
+      "status_code": 200,
+      "content_length": 1065876,
+      "failed": false,
+      "knowledgebase": {
+        "pHash": 0
+      },
+      "resolvers": [
+        "1.1.1.1:53",
+        "1.0.0.1:53"
+      ],
+      "cpe": [
+        {
+          "product": "webp_server_go",
+          "vendor": "webp",
+          "cpe": "cpe:2.3:a:webp:webp_server_go:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "zeit",
+          "cpe": "cpe:2.3:a:zeit:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "next.js",
+          "vendor": "vercel",
+          "cpe": "cpe:2.3:a:vercel:next.js:*:*:*:*:*:*:*:*"
+        },
+        {
+          "product": "ektron_content_management_system",
+          "vendor": "ektron",
+          "cpe": "cpe:2.3:a:ektron:ektron_content_management_system:*:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {
+      "a": [
+        "193.104.202.25"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "livingday-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.cb.dk",
+        "ns2.cb.dk"
+      ],
+      "txt": [
+        "\\\"v=spf1 include:spf.protection.outlook.com include:spf.web.mindworking.dk -all\\\"\\\"MS=ms72844926\\\""
+      ]
+    },
+    "ct_certificates": [],
+    "tls_version": "",
+    "tls_cipher": "",
+    "tls_bits": 0,
+    "exposed_cloud_storage": []
+  },
+  "brief": {
+    "domain": "livingday.dk",
+    "cvr": "prospect",
+    "company_name": "livingday.dk",
+    "scan_date": "2026-04-05",
+    "bucket": "E",
+    "gdpr_sensitive": false,
+    "gdpr_reasons": [],
+    "industry": "",
+    "technology": {
+      "cms": "",
+      "hosting": "Unknown",
+      "ssl": {
+        "valid": true,
+        "issuer": "Let's Encrypt",
+        "expiry": "2026-06-16",
+        "days_remaining": 71,
+        "tls_version": ""
+      },
+      "server": "istio-envoy",
+      "detected_plugins": [],
+      "plugin_versions": {},
+      "detected_themes": [],
+      "headers": {
+        "x_frame_options": true,
+        "content_security_policy": true,
+        "strict_transport_security": true,
+        "x_content_type_options": true,
+        "permissions_policy": true,
+        "referrer_policy": true,
+        "server_value": "istio-envoy",
+        "x_powered_by": ""
+      }
+    },
+    "tech_stack": [
+      "Envoy",
+      "HSTS"
+    ],
+    "plugin_versions": {},
+    "subdomains": {
+      "count": 0,
+      "list": []
+    },
+    "dns": {
+      "a": [
+        "193.104.202.25"
+      ],
+      "aaaa": [],
+      "cname": [],
+      "mx": [
+        "livingday-dk.mail.protection.outlook.com"
+      ],
+      "ns": [
+        "ns1.cb.dk",
+        "ns2.cb.dk"
+      ],
+      "txt": [
+        "\\\"v=spf1 include:spf.protection.outlook.com include:spf.web.mindworking.dk -all\\\"\\\"MS=ms72844926\\\""
+      ]
+    },
+    "cloud_exposure": [],
+    "agency": {
+      "meta_author": "",
+      "footer_credit": ""
+    },
+    "findings": []
+  },
+  "timing": {
+    "robots_txt": 121,
+    "ssl": 69,
+    "headers": 250,
+    "meta": 384,
+    "httpx": 5231,
+    "webanalyze": 4,
+    "dnsx": 731,
+    "total_ms": 6801
+  },
+  "cache_stats": {
+    "hits": 3,
+    "misses": 6
+  }
+}
