@@ -5,6 +5,24 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-05 — Threat intel proposal review + scan enrichment quick wins
+
+**Decided**
+- Full Paperboy + Vault-Keeper threat intel system: don't build now. Revisit after pilot validates product-market fit (unanimous across architect, OSINT, docker-expert, python-expert).
+- Option C (RSS CVE watch): build now — 3 feeds (Wordfence, CISA, Bleeping Computer), regex CVE extraction, SQLite cache, no LLM. Merged as PR #17.
+- Enrich scan data from existing connections: TLS version/cipher from SSL handshake, Permissions-Policy/Referrer-Policy/X-Powered-By from HTTP headers, KEV `[ACTIVELY EXPLOITED]` marker in interpreter prompt. Committed directly to main.
+- DNSBL spam blacklist checks and cookie consent GDPR cross-reference: backlogged for Sprint 5.
+- Wordfence blog identified as highest-signal missing RSS source for WordPress-focused EASM.
+- HIBP integration discarded — $3.50/month recurring cost for breach exposure data that doesn't change the actionable output (Telegram message to client). Code in `src/vulndb/hibp.py` is dead; remove when convenient.
+
+**Rejected**
+- Full Paperboy system (15 feeds, Claude API extraction, Obsidian vault, separate GitHub repo) — over-engineered for SMB target market, wrong timing pre-pilot, $50-150/month API cost.
+- Obsidian as CTI database — architecturally inconsistent, every other Heimdall data store is SQLite.
+- Shodan/Google Safe Browsing integration — deferred, requires API key registration.
+- HIBP integration — recurring cost, no free alternative, doesn't improve client deliverable.
+
+---
+
 ## 2026-04-04 — Service tier restructure + remediation service cut
 
 **Decided**
