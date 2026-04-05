@@ -12,3 +12,4 @@ fakeredis>=2.21.0
 packaging>=23.0
 python-telegram-bot>=21.0
 loguru>=0.7.0
+feedparser>=6.0.0
