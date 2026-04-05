@@ -282,5 +282,9 @@ def generate_brief(
         },
         "dns": scan.dns_records,
         "cloud_exposure": scan.exposed_cloud_storage,
+        "agency": {
+            "meta_author": scan.meta_author,
+            "footer_credit": scan.footer_credit,
+        },
         "findings": findings,
     }
