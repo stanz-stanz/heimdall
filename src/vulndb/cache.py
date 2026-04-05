@@ -64,6 +64,25 @@ CREATE TABLE IF NOT EXISTS wp_latest_versions (
     fetched_at TEXT NOT NULL,
     PRIMARY KEY (slug, asset_type)
 );
+
+CREATE TABLE IF NOT EXISTS rss_cves (
+    id INTEGER PRIMARY KEY,
+    cve_id TEXT NOT NULL,
+    source TEXT NOT NULL,
+    title TEXT NOT NULL,
+    url TEXT NOT NULL,
+    published_at TEXT NOT NULL,
+    fetched_at TEXT NOT NULL,
+    UNIQUE(cve_id, source)
+);
+CREATE INDEX IF NOT EXISTS idx_rss_cve_id ON rss_cves(cve_id);
+CREATE INDEX IF NOT EXISTS idx_rss_published ON rss_cves(published_at);
+
+CREATE TABLE IF NOT EXISTS rss_feed_meta (
+    feed_key TEXT PRIMARY KEY,
+    last_fetched_at TEXT NOT NULL,
+    entries_count INTEGER DEFAULT 0
+);
 """
 
 

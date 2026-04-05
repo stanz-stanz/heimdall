@@ -430,6 +430,17 @@ def execute_scan_job(
     brief = generate_brief(company, scan, bucket, outdated_plugins=outdated_plugins)
 
     # ------------------------------------------------------------------
+    # 5a. RSS CVE enrichment — flag CVEs trending in security feeds
+    # ------------------------------------------------------------------
+    if brief.get("findings"):
+        try:
+            from src.vulndb.rss_cve import refresh_rss_cves, enrich_with_rss_cves
+            refresh_rss_cves()  # no-op if feeds are fresh (< 12 hours)
+            enrich_with_rss_cves(brief["findings"])
+        except Exception:
+            logger.opt(exception=True).warning("rss_cve_enrichment_failed for {}", domain)
+
+    # ------------------------------------------------------------------
     # 5b. Twin scan — Layer 2 tools against a digital twin (WordPress only)
     # ------------------------------------------------------------------
     if scan.cms == "WordPress" and brief.get("tech_stack"):
