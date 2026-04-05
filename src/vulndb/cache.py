@@ -83,6 +83,16 @@ CREATE TABLE IF NOT EXISTS rss_feed_meta (
     last_fetched_at TEXT NOT NULL,
     entries_count INTEGER DEFAULT 0
 );
+
+CREATE TABLE IF NOT EXISTS kev_entries (
+    cve_id TEXT PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS kev_meta (
+    key TEXT PRIMARY KEY,
+    last_fetched_at TEXT NOT NULL,
+    entry_count INTEGER DEFAULT 0
+);
 """
 
 

@@ -444,6 +444,17 @@ def execute_scan_job(
             logger.opt(exception=True).warning("rss_cve_enrichment_failed for {}", domain)
 
     # ------------------------------------------------------------------
+    # 5a2. KEV enrichment — flag known exploited vulnerabilities
+    # ------------------------------------------------------------------
+    if brief.get("findings"):
+        try:
+            from src.vulndb.kev import refresh_kev, enrich_with_kev
+            refresh_kev()  # no-op if catalog is fresh (< 24 hours)
+            enrich_with_kev(brief["findings"])
+        except Exception:
+            logger.opt(exception=True).warning("kev_enrichment_failed for {}", domain)
+
+    # ------------------------------------------------------------------
     # 5b. Twin scan — Layer 2 tools against a digital twin (WordPress only)
     # ------------------------------------------------------------------
     if scan.cms == "WordPress" and brief.get("tech_stack"):
