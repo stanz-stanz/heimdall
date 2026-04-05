@@ -135,7 +135,7 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 6. Bucket results: A > B > E > C > D (see `.claude/agents/prospecting/SKILL.md` for full bucketing logic)
 7. Apply post-scan filters from `filters.json` (bucket)
 8. Evidence-based GDPR sensitivity determination (from scan results + industry code)
-9. Agency detection (footer credits, meta author tags)
+9. Agency detection (footer credits, meta author tags) — included in brief JSON as `agency.meta_author` and `agency.footer_credit`
 10. Generate per-site briefs
 11. WordPress domains: check installed plugin versions against wordpress.org latest (flag outdated), enrich with twin-derived Layer 2 findings (Nuclei against local digital twin) + WPVulnerability API lookups for plugin/core CVEs (no consent required). See `SCANNING_RULES.md` for twin framework.
 12. Output: `prospects-list.csv` + per-site JSON briefs + agency briefs

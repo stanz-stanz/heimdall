@@ -5,6 +5,26 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-05 — Aggregate stats analysis + company naming
+
+**Decided**
+- Aggregate scan stats must be per-business, confirmed-only — never raw finding counts. Twin-derived and unconfirmed findings excluded from any public-facing number.
+- Agency detection data (meta_author, footer_credit) now included in brief JSON output.
+- "Outpost" ruled out as company name — Outpost24 is an established Swedish EASM competitor with a Danish subsidiary (CVR 35517936).
+- "Heimdall" / "Heimdal" ruled out as company name — heimdalsecurity.com is an existing cybersecurity company.
+- Company naming direction: abstract, product-agnostic umbrella. "Fjord Security" explored, fjordsecurity.com taken, .dk available.
+
+**Rejected**
+- Using raw finding counts in marketing ("459 critical vulnerabilities") — dishonest, inflates via twin-derived inferences and multi-finding-per-domain counting.
+- Using medium/low findings as marketing material — nobody buys because of a missing Referrer-Policy header.
+
+**Unresolved**
+- Company name — "Fjord Security" is a candidate (fjordsecurity.dk available) but not decided.
+- Honest marketing hook from scan data: confirmed critical/high is only 22% (mostly no-SSL), not compelling. "First finding free" curiosity model may be stronger than aggregate stats.
+- Website: timing, scope, and role not decided.
+
+---
+
 ## 2026-04-05 — Threat intel proposal review + scan enrichment quick wins
 
 **Decided**
