@@ -660,3 +660,63 @@ SELECT fo.id,
        fo.last_scan_id
 FROM finding_occurrences fo
 JOIN finding_definitions fd ON fo.finding_hash = fd.finding_hash;
+
+
+-- =================================================================
+-- SECTION 8: Prospects — outreach pipeline
+-- =================================================================
+
+-- -----------------------------------------------------------------
+-- prospects
+-- -----------------------------------------------------------------
+-- One row per domain selected from the prospecting pipeline for
+-- outreach. Tracks the lifecycle from pipeline output through
+-- outreach to conversion (or decline).
+--
+-- Campaign format: MMYY-industry (e.g. "0426-restaurants").
+-- The promote step writes all qualifying prospects (loose filter).
+-- The interpret step filters to Critical/High at runtime via flags.
+
+CREATE TABLE IF NOT EXISTS prospects (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    domain          TEXT NOT NULL,
+    cvr             TEXT,
+    company_name    TEXT,
+    campaign        TEXT NOT NULL,
+    bucket          TEXT,
+    industry_code   TEXT,
+    industry_name   TEXT,
+    brief_json      TEXT NOT NULL,              -- full brief JSON (self-contained)
+    finding_count   INTEGER NOT NULL DEFAULT 0,
+    critical_count  INTEGER NOT NULL DEFAULT 0,
+    high_count      INTEGER NOT NULL DEFAULT 0,
+    interpreted_json TEXT,                      -- LLM interpretation result
+    interpreted_at  TEXT,
+    outreach_status TEXT NOT NULL DEFAULT 'new',
+    outreach_sent_at TEXT,
+    delivery_id     INTEGER,                   -- FK to delivery_log.id
+    error_message   TEXT,
+    created_at      TEXT NOT NULL,
+    updated_at      TEXT NOT NULL,
+    UNIQUE(domain, campaign)
+);
+
+CREATE INDEX IF NOT EXISTS idx_prospects_campaign_status
+    ON prospects(campaign, outreach_status);
+
+CREATE INDEX IF NOT EXISTS idx_prospects_campaign_bucket
+    ON prospects(campaign, bucket);
+
+CREATE INDEX IF NOT EXISTS idx_prospects_domain
+    ON prospects(domain);
+
+-- Campaign performance summary
+CREATE VIEW IF NOT EXISTS v_campaign_summary AS
+SELECT campaign,
+       COUNT(*) AS total,
+       SUM(CASE WHEN outreach_status = 'new' THEN 1 ELSE 0 END) AS new_count,
+       SUM(CASE WHEN outreach_status = 'interpreted' THEN 1 ELSE 0 END) AS interpreted_count,
+       SUM(CASE WHEN outreach_status = 'sent' THEN 1 ELSE 0 END) AS sent_count,
+       SUM(CASE WHEN outreach_status = 'failed' THEN 1 ELSE 0 END) AS failed_count
+FROM prospects
+GROUP BY campaign;
