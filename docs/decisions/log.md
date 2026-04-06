@@ -5,6 +5,38 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-06 — Prospect lifecycle, outreach module, console architecture
+
+**Decided**
+- Two-process separation: prospecting pipeline (no API cost) vs outreach (controlled API cost). Claude API calls happen ONLY in `src/outreach/interpret.py`.
+- Prospects table in `clients.db` (Section 8 in schema). Campaign format: `MMYY-industry` (e.g. `0426-restaurants`). Status flow: `new → interpreted → sent → responded → converted → declined`.
+- Redis channel split: `scan-complete` replaced by `client-scan-complete`. Worker publishes nothing for prospect scans. Delivery bot and API subscribe to `client-scan-complete` only. Defence-in-depth gate on `client_id == "prospect"`.
+- Interpretation cache: keyed by sha256(sorted findings + tier + language + prompt_version). 589 sites with High/Critical reduce to 153 unique fingerprints (3.8x savings). Cache in `interpretation_cache` table in `clients.db`. `PROMPT_VERSION` in hash for invalidation.
+- CISA KEV module (`src/vulndb/kev.py`): minimal SQLite-backed set (not full rss_cve.py mirror). 1 table + 1 meta row, 24h TTL. Sets `known_exploited: True` on matching findings.
+- Pipeline enrichment fixes: TLS version/cipher (3 lines in scan_job.py), `cve_id` field in matcher.py (enables RSS CVE enrichment).
+- Pi5 aliases dockerized: `heimdall-export`, `heimdall-analyze`, `heimdall-deep` run inside worker container (PEP 668 fix).
+- Physical letters permanently removed as outreach channel. All references cleaned across marketing SKILL.md, strategy docs, legal docs.
+- Pipeline analysis report generated (`docs/analysis/pipeline-analysis-2026-04-05.md`) — 1,173 sites, provenance-aware stats, SIRI-ready market evidence with disclaimer for version-matched CVEs.
+- Outreach tone approved: analogy-driven, consequence-focused, no jargon, calm urgency. Saved as template for marketing campaigns.
+- Console architecture: Svelte 5 SPA (no SvelteKit), built on laptop, static output served by FastAPI. Backend: scheduler becomes persistent daemon (`--mode daemon`, BRPOP on `queue:operator-commands`). 6 views: Dashboard, Pipeline, Campaigns, Prospects, Clients, Settings (visual controls, no JSON editors). Briefs view deferred.
+- Git branching rule: features → branch + PR, bug fixes → commit directly to main.
+- Operator approval removed from outreach send — agent must be autonomous at scale.
+
+**Rejected**
+- Full rss_cve.py-style SQLite module for KEV (overkill — KEV is a flat list of ~1,100 CVE IDs, not a multi-source stream)
+- Expanding API container with write access for console operations (violates read/write separation)
+- Vanilla JS for 7-view console (state management across views becomes unmanageable)
+- SvelteKit (SSR unnecessary for single-operator tool)
+- Physical letters as outreach (permanently ruled out, all references removed)
+
+**Unresolved**
+- Redis cache flush needed on Pi to see TLS/KEV enrichment (stale 24h cache from pre-fix run)
+- Scheduler daemon mode (`--mode daemon`) not yet implemented
+- Console Svelte build not yet started (mockup approved, architecture decided)
+- Outreach `send.py` currently composes messages but has no delivery channel wired (prospects don't have Telegram chat IDs — outreach is phone/in-person)
+
+---
+
 ## 2026-04-05 — Aggregate stats analysis + company naming
 
 **Decided**
