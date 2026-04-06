@@ -228,10 +228,9 @@
   <div class="log-filter-bar">
     {#each LEVELS as level}
       <button
-        class="filter-chip level-chip"
+        class="filter-chip"
         class:active={minLevel === level}
         onclick={() => minLevel = level}
-        style={minLevel === level && level !== 'All' ? `color: ${levelColor(level)}` : ''}
       >
         {level}
       </button>
@@ -327,11 +326,6 @@
     height: 6px;
     border-radius: 50%;
     flex-shrink: 0;
-  }
-
-  .level-chip.active {
-    background: transparent;
-    border-color: currentColor;
   }
 
   .time-chip.active {
