@@ -30,8 +30,10 @@ def main():
         sys.exit(1)
 
     conn = init_db(args.db_path)
+    # Checkpoint WAL so immutable=1 readers can see the new tables
+    conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
     conn.close()
-    print(f"Schema applied to {args.db_path}")
+    print(f"Schema applied and WAL checkpointed: {args.db_path}")
 
 
 if __name__ == "__main__":

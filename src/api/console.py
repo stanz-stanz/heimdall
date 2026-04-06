@@ -12,6 +12,8 @@ from loguru import logger
 from fastapi import APIRouter, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 
+import sqlite3
+
 from .demo_orchestrator import (
     cleanup_demo_queue,
     generate_scan_id,
@@ -129,8 +131,8 @@ async def console_dashboard(request: Request):
     redis_conn = getattr(request.app.state, "redis", None)
 
     def _query():
-        from src.db.connection import open_readonly
-        conn = open_readonly(db_path)
+        conn = sqlite3.connect(db_path, timeout=5)
+        conn.row_factory = sqlite3.Row
         try:
             prospects = conn.execute("SELECT COUNT(*) FROM prospects").fetchone()[0]
             briefs = conn.execute("SELECT COUNT(*) FROM v_current_briefs").fetchone()[0]
@@ -192,8 +194,8 @@ async def console_pipeline_last(request: Request):
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        from src.db.connection import open_readonly
-        conn = open_readonly(db_path)
+        conn = sqlite3.connect(db_path, timeout=5)
+        conn.row_factory = sqlite3.Row
         try:
             row = conn.execute("SELECT * FROM v_latest_run").fetchone()
             return dict(row) if row else None
@@ -212,8 +214,8 @@ async def console_campaigns(request: Request):
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        from src.db.connection import open_readonly
-        conn = open_readonly(db_path)
+        conn = sqlite3.connect(db_path, timeout=5)
+        conn.row_factory = sqlite3.Row
         try:
             rows = conn.execute("SELECT * FROM v_campaign_summary").fetchall()
             return [dict(r) for r in rows]
@@ -235,8 +237,8 @@ async def console_campaign_prospects(
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        from src.db.connection import open_readonly
-        conn = open_readonly(db_path)
+        conn = sqlite3.connect(db_path, timeout=5)
+        conn.row_factory = sqlite3.Row
         try:
             sql = (
                 "SELECT domain, company_name, campaign, bucket, finding_count,"
@@ -263,8 +265,8 @@ async def console_clients_list(request: Request):
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        from src.db.connection import open_readonly
-        conn = open_readonly(db_path)
+        conn = sqlite3.connect(db_path, timeout=5)
+        conn.row_factory = sqlite3.Row
         try:
             rows = conn.execute(
                 "SELECT c.cvr, c.company_name, c.plan, c.status,"
