@@ -68,11 +68,20 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 # Pub/sub listener — console:logs → in-memory ring buffer
 # ---------------------------------------------------------------------------
 
+_SELF_NOISE = frozenset(("http_request", "http_error", "log_listener_subscribed", "log_listener_reconnecting"))
+
+
 async def _listen_console_logs(
     redis_conn: redis.Redis,
     log_buffer: collections.deque,
 ) -> None:
-    """Subscribe to console:logs and append entries to the ring buffer."""
+    """Subscribe to console:logs and append entries to the ring buffer.
+
+    Selectively filters the API's own noise (HTTP middleware, health checks)
+    while passing through operational logs (interpret, scan events, pubsub).
+    """
+    import socket
+    _own_source = socket.gethostname()
     reconnect_count = 0
 
     while True:
@@ -89,6 +98,10 @@ async def _listen_console_logs(
                 if msg and msg["type"] == "message":
                     try:
                         entry = json.loads(msg["data"])
+                        # Drop API's own noise (health checks, request logs)
+                        # but pass through operational logs (interpret, scan, pubsub)
+                        if entry.get("source") == _own_source and entry.get("message", "") in _SELF_NOISE:
+                            continue
                         log_buffer.append(entry)
                     except (json.JSONDecodeError, TypeError):
                         pass

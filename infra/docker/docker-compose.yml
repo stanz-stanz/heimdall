@@ -53,6 +53,7 @@ services:
       - DOMAIN_FILTER=.dk
       - CLEANUP_INTERVAL_HOURS=24
       - STATUS_FILE=/data/ct/collector_status.json
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - ct-data:/data/ct
     networks:
