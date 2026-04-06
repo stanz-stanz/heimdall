@@ -217,17 +217,6 @@
       </button>
     {/each}
 
-    <span class="filter-sep"></span>
-
-    <select
-      class="time-select"
-      bind:value={activeTimeframe}
-    >
-      {#each TIMEFRAMES as tf}
-        <option value={tf.key}>{tf.label}</option>
-      {/each}
-    </select>
-
     <input
       class="log-search"
       type="text"
@@ -245,6 +234,18 @@
         style={minLevel === level ? `color: ${levelColor(level)}` : ''}
       >
         {level}
+      </button>
+    {/each}
+  </div>
+
+  <div class="log-filter-bar">
+    {#each TIMEFRAMES as tf}
+      <button
+        class="filter-chip time-chip"
+        class:active={activeTimeframe === tf.key}
+        onclick={() => activeTimeframe = tf.key}
+      >
+        {tf.label}
       </button>
     {/each}
   </div>
@@ -333,27 +334,10 @@
     border-color: currentColor;
   }
 
-  .time-select {
-    appearance: none;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 6px 28px 6px 12px;
-    border-radius: 20px;
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    outline: none;
-    transition: border-color var(--transition);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234a5b78' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-  }
-
-  .time-select:hover,
-  .time-select:focus {
-    border-color: var(--text-muted);
+  .time-chip.active {
+    background: var(--blue-dim);
+    color: var(--blue);
+    border-color: rgba(59, 130, 246, 0.3);
   }
 
   .log-search {
