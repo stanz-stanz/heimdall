@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
 import time
 from contextlib import asynccontextmanager
@@ -281,6 +282,7 @@ def create_app(
     )
     app.state.client_profile = ClientProfile(client_store)
     app.state.briefs_dir = briefs_dir
+    app.state.db_path = os.environ.get("DB_PATH", "data/clients/clients.db")
 
     app.add_middleware(RequestLoggingMiddleware)
 
@@ -289,6 +291,11 @@ def create_app(
     static_dir = Path(__file__).parent / "static"
     if static_dir.is_dir():
         app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+    # Console SPA (Svelte build)
+    dist_dir = Path(__file__).parent / "static" / "dist"
+    if dist_dir.is_dir():
+        app.mount("/app", StaticFiles(directory=str(dist_dir), html=True), name="console-spa")
 
     # -------------------------------------------------------------------
     # Routes
