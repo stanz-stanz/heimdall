@@ -280,7 +280,7 @@ Without consent, only Layer 1 is performed.
 
 ## Documents Attached
 
-1. **Sample security notification** — `docs/legal/sample-security-notification.md` — the proposed first-contact letter (two variants: directly observed and twin-derived findings)
+1. **Sample security notification** — `docs/legal/sample-security-notification.md` — the proposed first-contact message (two variants: directly observed and twin-derived findings)
 2. **Scanning authorization template** — `docs/legal/scanning-authorization-template.md` — draft consent document for active scanning clients
 
 Additional internal documents (scanning rules, compliance checklist, legal risk assessment, sample scan output, compliance log excerpt) are available on request.

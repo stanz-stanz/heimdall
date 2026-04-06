@@ -195,7 +195,7 @@
       "description": "Lawyer consultation outcome unknown — determines viable outreach channels",
       "severity": "high",
       "affects": ["M31", "marketing"],
-      "notes": "Physical letters and phone removed. If email/contact-form also restricted, no outreach path to clients."
+      "notes": "Phone and in-person are primary channels. If contact-form also restricted, fallback is phone only for contactable prospects."
     },
     {
       "id": "B2",

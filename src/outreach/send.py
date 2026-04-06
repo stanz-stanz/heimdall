@@ -171,11 +171,9 @@ async def _send_batch(conn, prospects: list[dict]) -> dict:
                 failed += 1
                 continue
 
-            # TODO: prospect doesn't have a telegram_chat_id yet.
-            # For now, this is a placeholder — the actual delivery
-            # channel for prospects (email, letter, in-person) is
-            # determined by the marketing strategy. The composed
-            # message is stored for whatever channel delivers it.
+            # Outreach is in-person or phone only (no written communication).
+            # The composed message serves as talking points for the
+            # salesperson — what to say, not what to send.
             _mark_sent(conn, prospect_id, messages)
             sent += 1
 
