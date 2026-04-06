@@ -13,6 +13,7 @@ silently dropped. Container stderr logging is unaffected.
 from __future__ import annotations
 
 import json
+import os
 import queue
 import socket
 import sys
@@ -21,7 +22,7 @@ import traceback
 
 import redis as redis_lib
 
-_SOURCE = socket.gethostname()
+_SOURCE = os.environ.get("HEIMDALL_SOURCE", socket.gethostname())
 _CHANNEL = "console:logs"
 
 

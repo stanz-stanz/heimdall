@@ -7,22 +7,22 @@
   const LEVEL_ORDER = { DEBUG: 0, INFO: 1, WARNING: 2, ERROR: 3 };
 
   const SOURCES = [
-    { key: 'all', label: 'All' },
-    { key: 'api', label: 'API' },
-    { key: 'worker', label: 'Worker' },
-    { key: 'delivery', label: 'Delivery' },
-    { key: 'scheduler', label: 'Sched' },
-    { key: 'ct', label: 'CT' },
+    { key: 'all', label: 'All', color: null },
+    { key: 'api', label: 'API', color: 'var(--blue)' },
+    { key: 'worker', label: 'Worker', color: 'var(--green)' },
+    { key: 'delivery', label: 'Delivery', color: 'var(--gold)' },
+    { key: 'scheduler', label: 'Sched', color: 'var(--orange)' },
+    { key: 'ct-collector', label: 'CT', color: 'var(--text-muted)' },
   ];
 
   const LEVELS = ['ERROR', 'WARNING', 'INFO', 'DEBUG'];
 
   const TIMEFRAMES = [
-    { key: 'all', label: 'All', seconds: 0 },
-    { key: '1m', label: '1m', seconds: 60 },
-    { key: '5m', label: '5m', seconds: 300 },
-    { key: '10m', label: '10m', seconds: 600 },
-    { key: '30m', label: '30m', seconds: 1800 },
+    { key: 'all', label: 'All time', seconds: 0 },
+    { key: '1m', label: 'Last 1m', seconds: 60 },
+    { key: '5m', label: 'Last 5m', seconds: 300 },
+    { key: '10m', label: 'Last 10m', seconds: 600 },
+    { key: '30m', label: 'Last 30m', seconds: 1800 },
   ];
 
   let allEntries = $state([]);
@@ -38,8 +38,19 @@
   // Auto-scroll
   let logEl = $state(null);
   let userScrolledUp = $state(false);
+  let prevAllEntriesLength = $state(0);
 
   let filtered = $derived(filterEntries(allEntries, activeSources, minLevel, activeTimeframe, searchText));
+
+  function matchSource(entrySource, filterKey) {
+    const src = (entrySource ?? '').toLowerCase();
+    // 'worker' prefix match covers worker-1, worker-2, worker-3
+    if (filterKey === 'worker') return src === 'worker' || src.startsWith('worker-');
+    // 'ct-collector' exact match
+    if (filterKey === 'ct-collector') return src === 'ct-collector' || src === 'ct';
+    // All others: exact match
+    return src === filterKey;
+  }
 
   function filterEntries(entries, sources, level, timeframe, search) {
     const minOrd = LEVEL_ORDER[level] ?? 1;
@@ -51,12 +62,11 @@
       // Level filter
       if ((LEVEL_ORDER[e.level] ?? 0) < minOrd) return false;
 
-      // Source filter
+      // Source filter — exact/prefix match on readable names
       if (!sources.has('all')) {
-        const src = (e.source ?? '').toLowerCase();
         let match = false;
         for (const s of sources) {
-          if (src.includes(s)) { match = true; break; }
+          if (matchSource(e.source, s)) { match = true; break; }
         }
         if (!match) return false;
       }
@@ -98,11 +108,11 @@
 
   function sourceColor(source) {
     const s = (source ?? '').toLowerCase();
-    if (s.includes('api')) return 'var(--blue)';
-    if (s.includes('worker')) return 'var(--green)';
-    if (s.includes('delivery')) return 'var(--gold)';
-    if (s.includes('scheduler')) return 'var(--orange)';
-    if (s.includes('ct')) return 'var(--text-muted)';
+    if (s === 'api') return 'var(--blue)';
+    if (s === 'worker' || s.startsWith('worker-')) return 'var(--green)';
+    if (s === 'delivery') return 'var(--gold)';
+    if (s === 'scheduler') return 'var(--orange)';
+    if (s === 'ct-collector' || s === 'ct') return 'var(--text-muted)';
     return 'var(--text-dim)';
   }
 
@@ -143,6 +153,7 @@
         const data = await res.json();
         allEntries = data.entries ?? [];
         totalCount = data.total ?? allEntries.length;
+        prevAllEntriesLength = allEntries.length;
       }
     } catch (err) {
       console.error('Logs fetch failed:', err);
@@ -169,77 +180,76 @@
     });
   });
 
-  // Auto-scroll when new filtered entries arrive (if user hasn't scrolled up)
+  // Auto-scroll only when NEW entries are added to allEntries (not on filter changes)
   $effect(() => {
-    // Track filtered length to trigger on new entries
-    filtered.length;
+    const currentLen = allEntries.length;
 
     untrack(() => {
-      if (!userScrolledUp && logEl) {
+      if (currentLen > prevAllEntriesLength && !userScrolledUp && logEl) {
         requestAnimationFrame(() => {
           logEl.scrollTop = logEl.scrollHeight;
         });
       }
+      prevAllEntriesLength = currentLen;
     });
   });
 </script>
 
 <div class="section-header">
-  <span class="section-title">Logs</span>
-  <span class="log-total">total: {totalCount.toLocaleString()}</span>
+  <div class="title-row">
+    <span class="section-title">Logs</span>
+    <span class="log-badge">{totalCount.toLocaleString()}</span>
+  </div>
 </div>
 
-<div class="log-filters">
-  <div class="filter-row">
-    <span class="filter-label">Source</span>
-    <div class="filters">
-      {#each SOURCES as src}
-        <button
-          class="filter-chip"
-          class:active={activeSources.has(src.key)}
-          onclick={() => toggleSource(src.key)}
-        >
-          {src.label}
-        </button>
-      {/each}
-    </div>
+<div class="log-filter-bar">
+  <div class="filter-group">
+    {#each SOURCES as src}
+      <button
+        class="filter-chip"
+        class:active={activeSources.has(src.key)}
+        onclick={() => toggleSource(src.key)}
+      >
+        {#if src.color}
+          <span class="source-dot" style="background: {src.color}"></span>
+        {/if}
+        {src.label}
+      </button>
+    {/each}
   </div>
 
-  <div class="filter-row">
-    <span class="filter-label">Level</span>
-    <div class="filters">
-      {#each LEVELS as level}
-        <button
-          class="filter-chip"
-          class:active={minLevel === level}
-          onclick={() => minLevel = level}
-        >
-          {level}
-        </button>
-      {/each}
-    </div>
+  <span class="filter-sep"></span>
+
+  <div class="filter-group">
+    {#each LEVELS as level}
+      <button
+        class="filter-chip level-chip"
+        class:active={minLevel === level}
+        onclick={() => minLevel = level}
+        style={minLevel === level ? `color: ${levelColor(level)}` : ''}
+      >
+        {level}
+      </button>
+    {/each}
   </div>
 
-  <div class="filter-row">
-    <span class="filter-label">Time</span>
-    <div class="filters">
-      {#each TIMEFRAMES as tf}
-        <button
-          class="filter-chip"
-          class:active={activeTimeframe === tf.key}
-          onclick={() => activeTimeframe = tf.key}
-        >
-          {tf.label}
-        </button>
-      {/each}
-    </div>
-    <input
-      class="log-search"
-      type="text"
-      placeholder="Search messages..."
-      bind:value={searchText}
-    />
-  </div>
+  <span class="filter-sep"></span>
+
+  <select
+    class="time-select"
+    bind:value={activeTimeframe}
+  >
+    {#each TIMEFRAMES as tf}
+      <option value={tf.key}>{tf.label}</option>
+    {/each}
+  </select>
+
+  <input
+    class="log-search"
+    type="text"
+    placeholder="Search..."
+    bind:value={searchText}
+  />
 </div>
 
 <div
@@ -271,33 +281,80 @@
 </div>
 
 <style>
-  .log-total {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .log-filters {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-
-  .filter-row {
+  /* ── Title row ──────────────────────────────────────── */
+  .title-row {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  .filter-label {
+  .log-badge {
+    font-family: var(--mono);
     font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
     color: var(--text-muted);
-    width: 52px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 2px 8px;
+    line-height: 1.4;
+  }
+
+  /* ── Single filter bar ──────────────────────────────── */
+  .log-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .filter-sep {
+    width: 1px;
+    height: 20px;
+    background: var(--border);
     flex-shrink: 0;
+  }
+
+  .source-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .level-chip.active {
+    background: transparent;
+    border-color: currentColor;
+  }
+
+  .time-select {
+    appearance: none;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 6px 28px 6px 12px;
+    border-radius: 20px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: border-color var(--transition);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%234a5b78' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  .time-select:hover,
+  .time-select:focus {
+    border-color: var(--text-muted);
   }
 
   .log-search {
@@ -306,10 +363,10 @@
     border: 1px solid var(--border);
     color: var(--text);
     padding: 6px 12px;
-    border-radius: var(--radius-sm);
+    border-radius: 20px;
     font-size: 12px;
     font-family: var(--sans);
-    width: 200px;
+    width: 180px;
     outline: none;
     transition: border-color var(--transition);
   }
@@ -322,6 +379,7 @@
     border-color: var(--text-muted);
   }
 
+  /* ── Log container ──────────────────────────────────── */
   .log-container {
     background: var(--bg-raised);
     border: 1px solid var(--border);
@@ -331,7 +389,7 @@
     padding: 12px;
     position: relative;
     min-height: 0;
-    max-height: calc(100vh - 300px);
+    max-height: calc(100vh - 260px);
   }
 
   .log-container::-webkit-scrollbar {
@@ -351,6 +409,7 @@
     background: var(--text-muted);
   }
 
+  /* ── Log rows ───────────────────────────────────────── */
   .log-row {
     display: flex;
     align-items: baseline;
@@ -402,6 +461,7 @@
     margin-bottom: 4px;
   }
 
+  /* ── Jump button ────────────────────────────────────── */
   .jump-btn {
     position: sticky;
     bottom: 8px;

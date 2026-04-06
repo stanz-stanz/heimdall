@@ -80,8 +80,7 @@ async def _listen_console_logs(
     Selectively filters the API's own noise (HTTP middleware, health checks)
     while passing through operational logs (interpret, scan events, pubsub).
     """
-    import socket
-    _own_source = socket.gethostname()
+    _own_source = os.environ.get("HEIMDALL_SOURCE", __import__("socket").gethostname())
     reconnect_count = 0
 
     while True:
