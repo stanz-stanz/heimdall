@@ -282,7 +282,8 @@ def create_app(
     )
     app.state.client_profile = ClientProfile(client_store)
     app.state.briefs_dir = briefs_dir
-    app.state.db_path = os.environ.get("DB_PATH", "data/clients/clients.db")
+    _client_dir = os.environ.get("CLIENT_DATA_DIR", "data/clients")
+    app.state.db_path = os.environ.get("DB_PATH", f"{_client_dir}/clients.db")
 
     app.add_middleware(RequestLoggingMiddleware)
 

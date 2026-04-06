@@ -2,7 +2,7 @@
   import ProgressBar from '../components/ProgressBar.svelte';
   import { fetchPipelineLast, sendCommand } from '../lib/api.js';
   import { wsState } from '../lib/ws.svelte.js';
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
 
   let running = $state(false);
   let progress = $state({ pct: 0, label: '', message: '' });
@@ -51,35 +51,36 @@
     const msg = wsState.lastMessage;
     if (!msg) return;
 
-    if (msg.type === 'pipeline_progress' && msg.payload) {
-      const p = msg.payload;
-      const pct = p.pct ?? p.percent ?? 0;
-      showProgress = true;
-      progress = {
-        pct,
-        label: `${Math.round(pct)}%`,
-        message: p.message ?? `Scanning domain ${p.current ?? ''}/${p.total ?? ''}: ${p.domain ?? ''}`,
-      };
-    }
+    untrack(() => {
+      if (msg.type === 'pipeline_progress' && msg.payload) {
+        const p = msg.payload;
+        const pct = p.pct ?? p.percent ?? 0;
+        showProgress = true;
+        progress = {
+          pct,
+          label: `${Math.round(pct)}%`,
+          message: p.message ?? `Scanning domain ${p.current ?? ''}/${p.total ?? ''}: ${p.domain ?? ''}`,
+        };
+      }
 
-    if (msg.type === 'command_result' && msg.payload?.command === 'run-pipeline') {
-      running = false;
-      if (msg.payload.status === 'completed' || msg.payload.status === 'ok') {
+      if (msg.type === 'command_result' && msg.payload?.command === 'run-pipeline') {
+        running = false;
+        if (msg.payload.status === 'completed' || msg.payload.status === 'ok') {
+          showProgress = false;
+          fetchPipelineLast().then(data => {
+            if (data && data.status !== 'no_runs') lastRun = data;
+          }).catch(() => {});
+        }
+      }
+
+      if (msg.type === 'pipeline_complete') {
+        running = false;
         showProgress = false;
-        // Refresh last run data
         fetchPipelineLast().then(data => {
           if (data && data.status !== 'no_runs') lastRun = data;
         }).catch(() => {});
       }
-    }
-
-    if (msg.type === 'pipeline_complete') {
-      running = false;
-      showProgress = false;
-      fetchPipelineLast().then(data => {
-        if (data && data.status !== 'no_runs') lastRun = data;
-      }).catch(() => {});
-    }
+    });
   });
 </script>
 

@@ -3,7 +3,7 @@
   import FeedItem from '../components/FeedItem.svelte';
   import { fetchDashboard } from '../lib/api.js';
   import { wsState } from '../lib/ws.svelte.js';
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
 
   let stats = $state({ prospects: 0, briefs: 0, clients: 0, critical: 0 });
   let displayStats = $state({ prospects: 0, briefs: 0, clients: 0, critical: 0 });
@@ -97,23 +97,25 @@
     const msg = wsState.lastMessage;
     if (!msg) return;
 
-    if (msg.type === 'queue_status' && msg.payload) {
-      const p = msg.payload;
-      queues = {
-        scan: p.scan ?? queues.scan,
-        enrichment: p.enrichment ?? queues.enrichment,
-        cache: p.cache ?? queues.cache,
-      };
-      queueSubs = {
-        scan: queues.scan > 0 ? `${queues.scan} pending` : 'idle',
-        enrichment: queues.enrichment > 0 ? `${queues.enrichment} pending` : 'idle',
-        cache: queues.cache > 0 ? `${queues.cache} unique interpretations cached` : 'idle',
-      };
-    }
+    untrack(() => {
+      if (msg.type === 'queue_status' && msg.payload) {
+        const p = msg.payload;
+        queues = {
+          scan: p.scan ?? queues.scan,
+          enrichment: p.enrichment ?? queues.enrichment,
+          cache: p.cache ?? queues.cache,
+        };
+        queueSubs = {
+          scan: queues.scan > 0 ? `${queues.scan} pending` : 'idle',
+          enrichment: queues.enrichment > 0 ? `${queues.enrichment} pending` : 'idle',
+          cache: queues.cache > 0 ? `${queues.cache} unique interpretations cached` : 'idle',
+        };
+      }
 
-    if (msg.type === 'activity' && msg.payload) {
-      activity = [msg.payload, ...activity].slice(0, 10);
-    }
+      if (msg.type === 'activity' && msg.payload) {
+        activity = [msg.payload, ...activity].slice(0, 10);
+      }
+    });
   });
 </script>
 
