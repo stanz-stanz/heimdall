@@ -15,7 +15,7 @@
     { key: 'ct-collector', label: 'CT', color: 'var(--text-muted)' },
   ];
 
-  const LEVELS = ['ERROR', 'WARNING', 'INFO', 'DEBUG'];
+  const LEVELS = ['All', 'ERROR', 'WARNING', 'INFO'];
 
   const TIMEFRAMES = [
     { key: 'all', label: 'All time', seconds: 0 },
@@ -31,7 +31,7 @@
 
   // Filters
   let activeSources = $state(new Set(['all']));
-  let minLevel = $state('INFO');
+  let minLevel = $state('All');
   let activeTimeframe = $state('all');
   let searchText = $state('');
 
@@ -53,7 +53,7 @@
   }
 
   function filterEntries(entries, sources, level, timeframe, search) {
-    const minOrd = LEVEL_ORDER[level] ?? 1;
+    const minOrd = level === 'All' ? 0 : (LEVEL_ORDER[level] ?? 1);
     const tf = TIMEFRAMES.find(t => t.key === timeframe);
     const cutoff = tf && tf.seconds > 0 ? (Date.now() / 1000) - tf.seconds : 0;
     const searchLower = search.toLowerCase();
@@ -202,8 +202,8 @@
   </div>
 </div>
 
-<div class="log-filter-bar">
-  <div class="filter-group">
+<div class="log-filter-rows">
+  <div class="log-filter-bar">
     {#each SOURCES as src}
       <button
         class="filter-chip"
@@ -216,11 +216,27 @@
         {src.label}
       </button>
     {/each}
+
+    <span class="filter-sep"></span>
+
+    <select
+      class="time-select"
+      bind:value={activeTimeframe}
+    >
+      {#each TIMEFRAMES as tf}
+        <option value={tf.key}>{tf.label}</option>
+      {/each}
+    </select>
+
+    <input
+      class="log-search"
+      type="text"
+      placeholder="Search..."
+      bind:value={searchText}
+    />
   </div>
 
-  <span class="filter-sep"></span>
-
-  <div class="filter-group">
+  <div class="log-filter-bar">
     {#each LEVELS as level}
       <button
         class="filter-chip level-chip"
@@ -232,24 +248,6 @@
       </button>
     {/each}
   </div>
-
-  <span class="filter-sep"></span>
-
-  <select
-    class="time-select"
-    bind:value={activeTimeframe}
-  >
-    {#each TIMEFRAMES as tf}
-      <option value={tf.key}>{tf.label}</option>
-    {/each}
-  </select>
-
-  <input
-    class="log-search"
-    type="text"
-    placeholder="Search..."
-    bind:value={searchText}
-  />
 </div>
 
 <div
@@ -300,19 +298,20 @@
   }
 
   /* ── Single filter bar ──────────────────────────────── */
+  .log-filter-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
   .log-filter-bar {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
     flex-wrap: wrap;
   }
 
-  .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
 
   .filter-sep {
     width: 1px;
