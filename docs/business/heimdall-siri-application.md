@@ -118,30 +118,19 @@ Unresolved findings trigger escalating follow-up:
 
 This persistent memory also creates a natural switching cost — a new provider would need to rebuild the client's security history from scratch.
 
-### 3.3 Shadow AI and Agent Detection
-
-As of March 2026, over 21,000 AI agent instances are publicly exposed on the internet, many running agent skills with access to internal tools and APIs.¹⁰ ¹¹ Kaspersky's security audit of one major platform identified 512 vulnerabilities.¹² Microsoft's 2025 research found that 71% of UK employees used unapproved AI tools at work.¹⁹ No SMB-focused security tool currently scans for exposed AI agent infrastructure.
-
-Heimdall detects:
-- Exposed AI agent infrastructure (MCP servers, autonomous agents, and similar endpoints)
-- Rogue AI agents operating on client infrastructure
-- Shadow AI tools deployed without organizational awareness
-
-This is a first-mover position. The attack surface created by AI agent adoption is growing faster than the security industry's response.¹³
-
-### 3.4 The "First Finding Free" Acquisition Model
+### 3.3 The "First Finding Free" Acquisition Model
 
 Heimdall's prospecting scan (Layer 1 — passive observation) reads publicly served information: HTTP headers, HTML source, DNS records, SSL certificates, CMS versions. This produces real, actionable findings at near-zero cost. The sales motion is not a pitch — it is a demonstration:
 
 "We already scanned your website. Your WordPress is three major versions behind, and your SSL certificate expires in two weeks. Here is what that means for your business. Heimdall monitors this continuously and tells you the moment something changes — starting at 199 kr./month."
 
-### 3.5 Service Tiers
+### 3.4 Service Tiers
 
 | Tier | Price | What It Does |
 |------|-------|------------|
 | **Watchman** | 199 kr./mo (annual: 169 kr./mo) | Finds problems and explains them in plain language |
 | **Sentinel** | 399 kr./mo (annual: 339 kr./mo) | Daily monitoring + step-by-step fix instructions (written report) |
-| **Guardian** | 799 kr./mo (annual: 669 kr./mo) | Active defence testing (with written consent) + fix verification + quarterly security report |
+| **Guardian** | 799 kr./mo (annual: 669 kr./mo) | Priority scanning cadence + dedicated support + quarterly security report |
 
 *All prices excl. moms (Danish VAT).*
 
@@ -213,17 +202,13 @@ The systemic response was Valdí — I designed and built it as a direct result,
 
 ## 5. Innovation
 
-Heimdall introduces six distinct innovations to the External Attack Surface Management market. These are not incremental improvements to existing products — they represent a fundamentally different approach to delivering cybersecurity to non-technical users.
+Heimdall introduces five distinct innovations to the External Attack Surface Management market. These are not incremental improvements to existing products — they represent a fundamentally different approach to delivering cybersecurity to non-technical users.
 
 ### 5.1 Messaging-First Delivery Model
 
 Every existing EASM product delivers findings through web dashboards. Heimdall delivers through Telegram and WhatsApp — the apps the business owner already uses. The entire product architecture is built around conversational delivery: plain-language interpretation, actionable next steps, and escalating follow-up. This is not a notification feature bolted onto a dashboard — it is the product.
 
-### 5.2 Shadow AI and Agent Detection
-
-Over 21,000 AI agent instances are publicly exposed.¹⁰ Kaspersky found 512 vulnerabilities in one major platform.¹² Businesses are deploying AI agents without understanding the security implications. No SMB-focused security tool scans for exposed AI agent infrastructure. Heimdall is the first to address this attack surface for small businesses.
-
-### 5.3 Digital Twin — CVE-Level Findings Without Consent or Contact
+### 5.2 Digital Twin — CVE-Level Findings Without Consent or Contact
 
 This is the innovation no competitor has.
 
@@ -231,30 +216,29 @@ Heimdall's Layer 1 (passive) scanning collects publicly available data about a p
 
 The legal foundation is explicit in Straffeloven §263's language: the statute criminalizes unauthorized access to **"another person's data system"** ("en andens datasystem"). A digital twin is Heimdall's own system. It is built from lawfully obtained public data. Running vulnerability scanners against it cannot constitute a §263 violation because the system belongs to the scanner operator.
 
-This transforms the sales conversation. Without the twin, Layer 1 scanning produces surface-level observations: "Your WordPress is version 5.8.3" or "You are missing a Content-Security-Policy header." With the twin, Heimdall runs Nuclei templates and WPScan against the replica and produces CVE-level findings: "Your WordPress version and plugin combination has 3 known CVEs, including CVE-2023-XXXXX which allows unauthenticated access to user data."
+This transforms the sales conversation. Without the twin, Layer 1 scanning produces surface-level observations: "Your WordPress is version 5.8.3" or "You are missing a Content-Security-Policy header." With the twin, Heimdall runs Nuclei templates against the replica and WPVulnerability API lookups for plugin/core CVEs, producing CVE-level findings: "Your WordPress version and plugin combination has 3 known CVEs, including CVE-2023-XXXXX which allows unauthenticated access to user data."
 
 The difference for a restaurant owner with an online booking system is the difference between "your door is old" and "your door has a known defect that lets strangers walk in." The second message creates urgency. The second message sells.
 
 **What the digital twin enables:**
 
 - **CVE-level prospecting findings** from publicly available data alone — no customer consent required, no contact with their infrastructure
-- **Remediation verification** — when the prospect becomes a paying client and applies a fix, Heimdall can reconstruct the twin with the updated configuration and re-scan to confirm the vulnerability is resolved
 - **Deterministic test fixtures** — twins built from known configurations provide reproducible regression tests for the scanning pipeline, eliminating dependence on live third-party infrastructure for quality assurance
 - **Scalable depth** — every prospect in the pipeline gets the same depth of analysis that would traditionally require written consent and active scanning of their live systems
 
 No competitor in the EASM space offers this capability. The standard industry approach is: passive scan produces shallow findings; deep findings require consent and active scanning of the client's live infrastructure. Heimdall eliminates this tradeoff entirely.
 
-### 5.4 Persistent Memory Architecture
+### 5.3 Persistent Memory Architecture
 
 Heimdall builds a longitudinal understanding of each client's infrastructure, findings history, and remediation patterns. The agent remembers what it told the client, what changed, what was fixed, and what was ignored. This compounds in value over time and creates switching costs — a new provider would start from zero.
 
-### 5.5 Programmatic Legal Compliance (Valdí)
+### 5.4 Programmatic Legal Compliance (Valdí)
 
 Heimdall operates on the boundary defined by Straffeloven §263. The distance between "reading a public webpage" and "unauthorized access to a data system" can be a single HTTP request to the wrong path. Most companies in this space manage that boundary with policy documents and training. Heimdall manages it with a programmatic gate that reads every scanning function, classifies its activities against documented legal rules, and blocks execution if it crosses the line — before anything touches a target.
 
 This was not designed in theory. During early development, I discovered that a scanning function had crossed the Layer 1 boundary undetected (see section 4.4). My response was not a policy update — it was Valdí: a two-gate automated compliance system with forensic logging that makes this class of error structurally impossible. The correction mechanism is proven, not theoretical.
 
-### 5.6 AI-Powered Interpretation Chain
+### 5.5 AI-Powered Interpretation Chain
 
 Open-source scanning tools produce structured technical data. The Claude API interprets that data in plain language for non-technical users with actionable next steps. The LLM never decides what is vulnerable — it explains what the tools found. This separation of detection from interpretation is a novel architecture for SMB security products.
 
@@ -309,7 +293,7 @@ The conservative financial projections assume Denmark only. EU expansion is upsi
 |------|-------------|---------------|---------------|-----------|
 | Watchman | 199 kr. | 169 kr./mo | Passive | What is wrong, in plain language |
 | Sentinel | 399 kr. | 339 kr./mo | Passive | What's wrong + how to fix it (written report) |
-| Guardian | 799 kr. | 669 kr./mo × 12 | Passive + Active | All of the above, plus active scanning |
+| Guardian | 799 kr. | 669 kr./mo × 12 | Passive + Active | All of the above, plus priority scanning cadence + dedicated support |
 
 *All prices excl. moms.*
 
@@ -421,14 +405,14 @@ The same agent architecture runs at every tier. The scanning pipeline, Valdí co
 
 ### 10.1 Direct Competitors
 
-| Competitor | Starting Price | Interface | Shadow AI | SMB Messaging |
-|-----------|---------------|-----------|-----------|---------------|
-| **Heimdall** | 199 kr./mo | Telegram/WhatsApp | Yes | Yes |
-| Intruder.io | ~740 kr./mo | Dashboard + Slack/Jira | No | No |
-| Detectify | ~610 kr./mo (app) | Dashboard | No | No |
-| HostedScan | Free tier; paid ~215 kr./mo | Dashboard + API | No | No |
-| Beagle Security | ~885 kr./mo | Dashboard | No | No |
-| Sucuri (GoDaddy) | ~1,480 kr./yr | Dashboard + WAF | No | No |
+| Competitor | Starting Price | Interface | SMB Messaging |
+|-----------|---------------|-----------|---------------|
+| **Heimdall** | 199 kr./mo | Telegram/WhatsApp | Yes |
+| Intruder.io | ~740 kr./mo | Dashboard + Slack/Jira | No |
+| Detectify | ~610 kr./mo (app) | Dashboard | No |
+| HostedScan | Free tier; paid ~215 kr./mo | Dashboard + API | No |
+| Beagle Security | ~885 kr./mo | Dashboard | No |
+| Sucuri (GoDaddy) | ~1,480 kr./yr | Dashboard + WAF | No |
 
 Closest competitor: **Intruder.io** — founded 2015, GCHQ Cyber Accelerator alumni, 1,000+ customers.⁹ Delivers through a web dashboard with Slack and Jira integrations.
 
@@ -444,7 +428,7 @@ They could add a Telegram notification. But notification is not delivery. Heimda
 
 If the business owner can navigate a vulnerability scanning dashboard, configure scan targets, interpret CVSS scores, and act on the findings — HostedScan is the better choice. At 199 kr./mo, Heimdall costs less than HostedScan's own paid tier (~215 kr./mo) while delivering through the channel the owner actually uses. For the majority of SMB owners who cannot navigate a dashboard, the dashboard might as well not exist.
 
-### 10.3 Five Durable Differentiators
+### 10.3 Four Durable Differentiators
 
 1. **Messaging-first delivery:** The entire product is built around conversational delivery to non-technical users — not a feature bolted onto a dashboard.
 
@@ -452,9 +436,7 @@ If the business owner can navigate a vulnerability scanning dashboard, configure
 
 3. **Persistent memory:** Longitudinal understanding of each client's infrastructure, findings history, and remediation patterns. Creates switching costs and compounds in value.
 
-4. **Shadow AI/agent detection:** Scanning for exposed AI agent infrastructure (MCP servers, autonomous agents, and similar endpoints). First-mover position in a rapidly growing attack surface.¹⁰ ¹¹ ¹³
-
-5. **Tiered fix guidance:** Sentinel and Guardian tiers provide step-by-step fix instructions and written reports — closing the gap between "you have a problem" and "here is how to solve it." Competitors stop at raw findings.
+4. **Tiered fix guidance:** Sentinel and Guardian tiers provide step-by-step fix instructions and written reports — closing the gap between "you have a problem" and "here is how to solve it." Competitors stop at raw findings.
 
 ---
 
@@ -470,7 +452,7 @@ GDPR Article 32 requires "appropriate technical and organisational measures" to 
 
 ### 11.3 Digital Twin — Legal Foundation Under §263
 
-Heimdall's digital twin system constructs replicas of prospect websites on Heimdall's own infrastructure, built entirely from publicly available data collected during Layer 1 scanning. The legal basis for running vulnerability scanners (Nuclei, WPScan) against these twins rests directly on the language of §263, stk. 1, which criminalizes unauthorized access to **"en andens datasystem"** — another person's data system.¹⁵
+Heimdall's digital twin system constructs replicas of prospect websites on Heimdall's own infrastructure, built entirely from publicly available data collected during Layer 1 scanning. The legal basis for running vulnerability scanners (Nuclei templates, WPVulnerability API lookups) against these twins rests directly on the language of §263, stk. 1, which criminalizes unauthorized access to **"en andens datasystem"** — another person's data system.¹⁵
 
 A digital twin is not another person's data system. It is built by Heimdall, hosted by Heimdall, and owned by Heimdall. The data used to construct it — CMS versions, plugin versions, server software, SSL configuration — is publicly served information that any browser visitor receives. Running Layer 2 scanning tools against this self-owned replica cannot constitute a §263 violation.
 
