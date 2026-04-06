@@ -187,13 +187,16 @@ class TestInterpret:
             _write_brief(briefs_dir, f"site{i}.dk")
         run_promote(campaign="0426-test", briefs_dir=str(briefs_dir), db_path=db_path)
 
-        mock_interpret.return_value = {"findings": [], "summary": "test"}
+        mock_interpret.return_value = {"findings": [], "summary": "test", "good_news": []}
 
         from src.outreach.interpret import run_interpret
         result = run_interpret(campaign="0426-test", limit=2, db_path=db_path)
 
-        assert mock_interpret.call_count == 2
+        # All 5 sites have identical findings, so only 1 API call + 1 cache hit
+        assert mock_interpret.call_count == 1
         assert result["interpreted"] == 2
+        assert result["cache_hits"] == 1
+        assert result["api_calls"] == 1
 
 
 class TestChannelSplit:

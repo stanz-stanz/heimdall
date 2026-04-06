@@ -20,6 +20,7 @@ import json
 from loguru import logger
 
 from src.db.connection import init_db, _now
+from src.interpreter.cache import get_cached, store as cache_store
 from src.interpreter.interpreter import interpret_brief, InterpreterError
 
 
@@ -79,6 +80,7 @@ def run_interpret(
     interpreted_count = 0
     failed_count = 0
     skipped_count = 0
+    cache_hits = 0
 
     for prospect in prospects:
         domain = prospect["domain"]
@@ -113,15 +115,37 @@ def run_interpret(
         brief["findings"] = actionable
 
         if dry_run:
+            cached = get_cached(actionable, tier, language or "en",
+                                db_path=db_path)
             logger.bind(context={
                 "domain": domain,
                 "findings": len(actionable),
                 "tier": tier,
+                "cached": cached is not None,
             }).info("dry_run_would_interpret")
             skipped_count += 1
             continue
 
-        # Call the interpreter (Claude API spend happens here)
+        # Check interpretation cache before calling Claude API
+        lang = language or "en"
+        cached = get_cached(actionable, tier, lang, db_path=db_path)
+        if cached:
+            # Cache hit — inject site-specific metadata
+            cached["domain"] = brief.get("domain", "")
+            cached["company_name"] = brief.get("company_name", "")
+            cached["scan_date"] = brief.get("scan_date", "")
+            cached["meta"] = cached.get("meta", {})
+            cached["meta"]["cache_hit"] = True
+            _store_interpretation(conn, prospect_id, cached)
+            interpreted_count += 1
+            cache_hits += 1
+            logger.bind(context={
+                "domain": domain,
+                "findings": len(actionable),
+            }).info("interpretation_cache_hit")
+            continue
+
+        # Cache miss — call the interpreter (Claude API spend happens here)
         try:
             interpreted = interpret_brief(
                 brief,
@@ -137,7 +161,17 @@ def run_interpret(
             failed_count += 1
             continue
 
-        # Store interpretation result
+        # Store in interpretation cache for future reuse
+        meta = interpreted.get("meta", {})
+        cache_store(
+            actionable, tier, lang, interpreted,
+            model=meta.get("model", ""),
+            input_tokens=meta.get("input_tokens", 0),
+            output_tokens=meta.get("output_tokens", 0),
+            db_path=db_path,
+        )
+
+        # Store interpretation result in prospects table
         _store_interpretation(conn, prospect_id, interpreted)
         interpreted_count += 1
 
@@ -145,12 +179,14 @@ def run_interpret(
             "domain": domain,
             "findings_in": len(actionable),
             "findings_out": len(interpreted.get("findings", [])),
-            "duration_ms": interpreted.get("meta", {}).get("duration_ms"),
+            "duration_ms": meta.get("duration_ms"),
         }).info("prospect_interpreted")
 
     summary = {
         "total_eligible": len(prospects),
         "interpreted": interpreted_count,
+        "cache_hits": cache_hits,
+        "api_calls": interpreted_count - cache_hits,
         "failed": failed_count,
         "skipped": skipped_count,
     }
