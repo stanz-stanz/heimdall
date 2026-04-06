@@ -427,17 +427,18 @@ def main(argv: Optional[list] = None) -> None:
         except Exception:
             logger.opt(exception=True).error("db_hook_error for %s", domain)
 
-        # Publish scan-complete event
-        try:
-            event_payload = json.dumps({
-                "job_id": job_id,
-                "domain": domain,
-                "client_id": client_id,
-                "status": result.get("status", "unknown"),
-            })
-            redis_conn.publish("scan-complete", event_payload)
-        except (redis.ConnectionError, redis.TimeoutError) as exc:
-            logger.warning("Failed to publish scan-complete for %s: %s", domain, exc)
+        # Publish scan-complete event (clients only — prospects use batch outreach)
+        if client_id != "prospect":
+            try:
+                event_payload = json.dumps({
+                    "job_id": job_id,
+                    "domain": domain,
+                    "client_id": client_id,
+                    "status": result.get("status", "unknown"),
+                })
+                redis_conn.publish("client-scan-complete", event_payload)
+            except (redis.ConnectionError, redis.TimeoutError) as exc:
+                logger.warning("Failed to publish client-scan-complete for %s: %s", domain, exc)
 
         logger.bind(context={
             "job_id": job_id,

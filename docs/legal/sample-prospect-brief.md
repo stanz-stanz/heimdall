@@ -129,6 +129,6 @@
 
 **GDPR sensitivity:** Flagged as GDPR-sensitive because the site runs WooCommerce (e-commerce — processes payment and customer data) and Contact Form 7 (collects form submissions including personal data).
 
-**Findings structure:** Each finding has a severity level (info/low/medium/high/critical), a description, and a plain-language risk explanation. These findings are what Heimdall would share with the business owner — either in a first-contact letter (one finding) or in a full report (all findings, after onboarding).
+**Findings structure:** Each finding has a severity level (info/low/medium/high/critical), a description, and a plain-language risk explanation. These findings are what Heimdall would share with the business owner — either as a talking point during a first-contact phone call (one finding) or in a full report (all findings, after onboarding).
 
 **What is NOT in this brief:** No vulnerability IDs (CVEs), no exploitation details, no admin panel status, no login page checks, no port scan results. All of those require Layer 2 scanning with written consent.

@@ -63,7 +63,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 
 
 # ---------------------------------------------------------------------------
-# Pub/sub listener — interpret + compose on scan-complete
+# Pub/sub listener — interpret + compose on client-scan-complete
 # ---------------------------------------------------------------------------
 
 _PUBSUB_RECONNECT_BACKOFF = [1, 2, 5, 10, 30]  # seconds
@@ -76,15 +76,15 @@ async def _listen_scan_complete(
     client_history: ClientHistory = None,
     client_profile: ClientProfile = None,
 ) -> None:
-    """Subscribe to scan-complete and process events. Auto-reconnects on failure."""
+    """Subscribe to client-scan-complete and process events. Auto-reconnects on failure."""
     reconnect_count = 0
 
     while True:
         try:
             pubsub = redis_conn.pubsub()
-            await asyncio.to_thread(pubsub.subscribe, "scan-complete")
+            await asyncio.to_thread(pubsub.subscribe, "client-scan-complete")
             logger.bind(context={
-                "channel": "scan-complete", "reconnect_count": reconnect_count,
+                "channel": "client-scan-complete", "reconnect_count": reconnect_count,
             }).info("pubsub_subscribed")
             reconnect_count = 0  # reset on successful subscribe
 
@@ -111,7 +111,7 @@ async def _listen_scan_complete(
 
         except asyncio.CancelledError:
             try:
-                pubsub.unsubscribe("scan-complete")
+                pubsub.unsubscribe("client-scan-complete")
                 pubsub.close()
             except Exception:
                 pass

@@ -121,7 +121,7 @@ class DeliveryRunner:
         logger.info("delivery_runner_stopped")
 
     async def _subscribe_and_process(self) -> None:
-        """Subscribe to Redis scan-complete channel and process events.
+        """Subscribe to Redis client-scan-complete channel and process events.
 
         Uses the synchronous Redis client's pubsub with a 1-second poll
         timeout so the event loop can yield between checks. Reconnects
@@ -130,8 +130,8 @@ class DeliveryRunner:
         try:
             r = redis.from_url(self.redis_url, decode_responses=True)
             pubsub = r.pubsub()
-            pubsub.subscribe("scan-complete")
-            logger.bind(context={"channel": "scan-complete"}).info("redis_subscribed")
+            pubsub.subscribe("client-scan-complete")
+            logger.bind(context={"channel": "client-scan-complete"}).info("redis_subscribed")
         except redis.ConnectionError as exc:
             logger.error("redis_connection_failed: {}", exc)
             return
@@ -146,7 +146,7 @@ class DeliveryRunner:
                 await asyncio.sleep(5)
                 try:
                     pubsub = r.pubsub()
-                    pubsub.subscribe("scan-complete")
+                    pubsub.subscribe("client-scan-complete")
                 except redis.ConnectionError:
                     pass
             except Exception:
@@ -175,6 +175,11 @@ class DeliveryRunner:
 
         domain = event.get("domain", "")
         if not domain:
+            return
+
+        # Defence-in-depth: reject prospect events that leak through
+        if event.get("client_id") == "prospect":
+            logger.bind(context={"domain": domain}).debug("prospect_event_skipped")
             return
 
         logger.bind(context={

@@ -61,7 +61,7 @@ We can scan 2,400 businesses in Vejle and produce specific findings. We cannot r
 | Channel | Status | What We Need to Know |
 |---------|--------|---------------------|
 | **Website contact forms** | Promising | Is submitting a security notification through a business's own contact form "electronic mail" under §10? See legal briefing Q4. |
-| **Physical letter to Reklamebeskyttet businesses** | Promising | Is a security notification (no pricing, no CTA) "advertising" under Reklamebeskyttet rules? See legal briefing Q3. |
+| ~~Physical letter~~ | **Removed** | Ruled out — does not fit Heimdall's positioning. |
 | **Facebook Messenger to business pages** | Promising | Is an organic message to a business page with Messenger enabled covered by §10? See legal briefing Q6. |
 | **Responsible disclosure framing** | Promising | Does framing first contact as responsible disclosure of publicly visible issues protect against §10 complaints? See legal briefing Q7. |
 
@@ -69,7 +69,7 @@ We can scan 2,400 businesses in Vejle and produce specific findings. We cannot r
 
 | Channel | Scale | Cost | Notes |
 |---------|-------|------|-------|
-| **Physical letter (to non-Reklamebeskyttet)** | Medium (68 Bucket A/B) | ~19 kr/letter, ~1,300 kr for 68 | Legal, personal, high open rate. One finding per letter. Phone number as CTA. |
+| **Phone call (to non-Reklamebeskyttet)** | Medium (68 Bucket A/B) | Free | Legal for registered companies. Business number from their website. One finding as talking point. |
 | **Phone call (to ApS/A/S, non-Reklamebeskyttet)** | Low (labor-intensive) | Free | Legal for registered companies. Business number from their website. |
 | **Facebook group post (anonymized stats)** | High | Free | "We scanned 200 Vejle business websites — 73% are missing basic security." Drives inbound curiosity. Zero legal risk. |
 | **Inbound (free scan tool / landing page)** | Medium-long term | ~200 kr domain + hosting | Prospects type their domain, see results. They initiate contact. |
@@ -111,7 +111,7 @@ We can scan 2,400 businesses in Vejle and produce specific findings. We cannot r
 
 1. Cold email is dead in Denmark. Do not waste time on email tools (Clay, Instantly, Lemlist) — the channel is legally closed.
 2. Our target customer (micro-business owner) is not on LinkedIn. Do not build a LinkedIn-first strategy.
-3. Physical mail is the clearest legal channel for written first contact.
+3. Phone calls and in-person visits are the primary outreach channels. Physical mail is ruled out.
 4. Facebook is where micro-business owners actually spend time. Local Facebook groups and business page messaging are realistic channels.
 5. The "first finding free" model is strong — a specific finding about their actual website cuts through noise in a way generic marketing cannot.
 6. The digital twin extends findings from surface observations to CVE-level specificity, making the "free sample" dramatically more compelling.
@@ -137,9 +137,8 @@ We can scan 2,400 businesses in Vejle and produce specific findings. We cannot r
 | Analyze pipeline output: funnel numbers, agency detection, GDPR breakdown | Federico + Claude | After run completes | Pi5 run |
 | Prepare legal briefing documents for lawyer meeting | Federico | Done (this document + legal briefing) | None |
 | Lawyer consultation | Federico | Week of 2026-03-31 | Legal briefing prepared |
-| Draft sample security notification letter | Federico + Claude | Before lawyer meeting | Legal briefing |
+| Draft sample security notification (phone script / talking points) | Federico + Claude | Before lawyer meeting | Legal briefing |
 | Design Facebook approach (local group post, business page messages) | Federico + Claude | After legal consultation | Legal advice on Facebook messages |
-| Letter generation system (template brief → printable letter) | Claude | After legal consultation | Legal advice on letter framing |
 | Select pilot 5 prospects from pipeline output | Federico | After run + legal advice | Both |
 
 ---
@@ -149,9 +148,9 @@ We can scan 2,400 businesses in Vejle and produce specific findings. We cannot r
 | Item | Cost | Priority |
 |------|------|----------|
 | Legal consultation (Plesner/Kromann Reumert) | 3,000–5,000 kr. | **Highest** — unlocks multiple channels |
-| Physical mail campaign (68 letters, first wave) | ~1,300 kr. | High — after legal clears the framing |
-| Domain + landing page | ~200 kr. | Medium — for inbound CTA on letters |
-| Loom (free) for personalized video | 0 kr. | Test alongside letters |
+| Phone campaign (68 prospects, first wave) | 0 kr. | High — after legal clears the framing |
+| Domain + landing page | ~200 kr. | Medium — for inbound CTA |
+| Loom (free) for personalized video | 0 kr. | Test alongside phone outreach |
 | Facebook group engagement | 0 kr. | Start immediately (anonymized stats only) |
 | LinkedIn Sales Navigator (for agency channel only) | ~700 kr./mo | Only if agency data supports it |
 | **Total immediate** | **~5,000–7,000 kr.** | |

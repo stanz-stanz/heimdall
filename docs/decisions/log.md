@@ -460,7 +460,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 - Pipeline results: bind-mount data/results to host (not Docker named volume), CVR extract tracked in git, pipeline output tracked in git — enables laptop/Pi5 sync
 - Twin WPScan: route through Redis sidecar (rpush for priority), sidecar handles http:// URLs
 - PerimeterIQ evaluated by architect, docker-expert, network-security: cherry-pick threat feeds into Heimdall, don't build as separate product
-- Marketing strategy: LinkedIn irrelevant for SMB target segment (<20 employees). Primary channels: phone, physical letters, Facebook, in-person. Legal briefing prepared (8 questions for lawyer meeting week of 2026-03-31)
+- Marketing strategy: LinkedIn irrelevant for SMB target segment (<20 employees). Primary channels: phone, in-person, Facebook. Physical letters ruled out. Legal briefing prepared (8 questions for lawyer meeting week of 2026-03-31)
 - Threat feed integration planned (Sprint 4+): abuse.ch URLhaus + WHOIS domain age first, PhishTank/CrowdSec/GreyNoise deferred (rate limits)
 - Deep analysis script: contactable breakdown, industry, timing, outreach prioritization matrix
 

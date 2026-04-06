@@ -174,8 +174,8 @@ def main():
     r = redis.from_url(args.redis_url, decode_responses=True)
     event = {"domain": "jellingkro.dk", "job_id": f"test-{uuid.uuid4().hex[:6]}",
              "client_id": "99999999", "status": "completed"}
-    r.publish("scan-complete", json.dumps(event))
-    print("Published scan-complete event — check your Telegram")
+    r.publish("client-scan-complete", json.dumps(event))
+    print("Published client-scan-complete event — check your Telegram")
 
 
 if __name__ == "__main__":
