@@ -2,7 +2,7 @@
   import StatCard from '../components/StatCard.svelte';
   import FeedItem from '../components/FeedItem.svelte';
   import { fetchDashboard } from '../lib/api.js';
-  import { getLastMessage } from '../lib/ws.svelte.js';
+  import { wsState } from '../lib/ws.svelte.js';
   import { onMount } from 'svelte';
 
   let stats = $state({ prospects: 0, briefs: 0, clients: 0, critical: 0 });
@@ -94,7 +94,7 @@
 
   // Live-update from WebSocket
   $effect(() => {
-    const msg = getLastMessage();
+    const msg = wsState.lastMessage;
     if (!msg) return;
 
     if (msg.type === 'queue_status' && msg.payload) {

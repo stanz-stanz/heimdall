@@ -7,8 +7,8 @@
   import Prospects from './views/Prospects.svelte';
   import Clients from './views/Clients.svelte';
   import Settings from './views/Settings.svelte';
-  import { getView } from './lib/router.svelte.js';
-  import { connect, disconnect } from './lib/ws.svelte.js';
+  import { router } from './lib/router.svelte.js';
+  import { connect, disconnect, wsState } from './lib/ws.svelte.js';
   import { fetchDashboard } from './lib/api.js';
   import { onMount } from 'svelte';
 
@@ -34,17 +34,17 @@
 <main class="main">
   <Topbar />
   <div class="content">
-    {#if getView() === 'dashboard'}
+    {#if router.view === 'dashboard'}
       <Dashboard />
-    {:else if getView() === 'pipeline'}
+    {:else if router.view === 'pipeline'}
       <Pipeline />
-    {:else if getView() === 'campaigns'}
+    {:else if router.view === 'campaigns'}
       <Campaigns />
-    {:else if getView() === 'prospects'}
+    {:else if router.view === 'prospects'}
       <Prospects />
-    {:else if getView() === 'clients'}
+    {:else if router.view === 'clients'}
       <Clients />
-    {:else if getView() === 'settings'}
+    {:else if router.view === 'settings'}
       <Settings />
     {/if}
   </div>

@@ -1,8 +1,6 @@
 /** WebSocket client with auto-reconnect using Svelte 5 runes. */
 
-let connected = $state(false);
-let lastMessage = $state(null);
-let messages = $state([]);
+export const wsState = $state({ connected: false, lastMessage: null, messages: [] });
 
 let ws = null;
 let reconnectAttempts = 0;
@@ -27,7 +25,7 @@ export function connect() {
   ws = new WebSocket(url);
 
   ws.onopen = () => {
-    connected = true;
+    wsState.connected = true;
     reconnectAttempts = 0;
 
     pingInterval = setInterval(() => {
@@ -41,8 +39,8 @@ export function connect() {
     try {
       const msg = JSON.parse(event.data);
       if (msg.type === 'pong') return;
-      lastMessage = msg;
-      messages = [...messages.slice(-(MAX_MESSAGES - 1)), msg];
+      wsState.lastMessage = msg;
+      wsState.messages = [...wsState.messages.slice(-(MAX_MESSAGES - 1)), msg];
     } catch {
       console.warn('Non-JSON WebSocket message:', event.data);
     }
@@ -50,14 +48,13 @@ export function connect() {
 
   ws.onclose = () => {
     cleanup();
-    connected = false;
+    wsState.connected = false;
     scheduleReconnect();
   };
 
   ws.onerror = () => {
     cleanup();
-    connected = false;
-    // onclose fires after onerror — reconnect happens there
+    wsState.connected = false;
   };
 }
 
@@ -77,7 +74,7 @@ export function disconnect() {
   cleanup();
   ws?.close();
   ws = null;
-  connected = false;
+  wsState.connected = false;
 }
 
 export function send(type, payload = {}) {
@@ -86,20 +83,4 @@ export function send(type, payload = {}) {
   } else {
     console.warn('WebSocket not open — message dropped:', type);
   }
-}
-
-export function getConnected() {
-  return connected;
-}
-
-export function getLastMessage() {
-  return lastMessage;
-}
-
-export function getMessages() {
-  return messages;
-}
-
-export function messagesOfType(type) {
-  return messages.filter((m) => m.type === type);
 }

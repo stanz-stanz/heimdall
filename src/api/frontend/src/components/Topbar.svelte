@@ -1,5 +1,5 @@
 <script>
-  import { getTitle } from '../lib/router.svelte.js';
+  import { router } from '../lib/router.svelte.js';
   import { onMount } from 'svelte';
 
   let clock = $state('');
@@ -22,7 +22,7 @@
 </script>
 
 <header class="topbar">
-  <h2 class="topbar-title">{getTitle()}</h2>
+  <h2 class="topbar-title">{router.title}</h2>
   <span class="topbar-clock">{clock}</span>
 </header>
 

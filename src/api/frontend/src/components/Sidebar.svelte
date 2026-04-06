@@ -1,6 +1,6 @@
 <script>
-  import { getView, navigate } from '../lib/router.svelte.js';
-  import { getConnected } from '../lib/ws.svelte.js';
+  import { router, navigate } from '../lib/router.svelte.js';
+  import { wsState } from '../lib/ws.svelte.js';
 
   let { campaignCount = 0, prospectCount = 0, clientCount = 0 } = $props();
 
@@ -47,7 +47,7 @@
       <div class="nav-section">
         <span class="nav-section-label">{section.label}</span>
         {#each section.items as item}
-          {@const active = getView() === item.id}
+          {@const active = router.view === item.id}
           <button
             class="nav-item"
             class:active
@@ -65,9 +65,9 @@
   </nav>
 
   <div class="sidebar-footer">
-    <span class="status-dot" class:online={getConnected()}></span>
+    <span class="status-dot" class:online={wsState.connected}></span>
     <span class="status-text">
-      {#if getConnected()}
+      {#if wsState.connected}
         Pi5 &middot; 3 workers &middot; Redis OK
       {:else}
         Disconnected

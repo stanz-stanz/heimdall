@@ -1,7 +1,7 @@
 <script>
   import ProgressBar from '../components/ProgressBar.svelte';
   import { fetchPipelineLast, sendCommand } from '../lib/api.js';
-  import { getLastMessage } from '../lib/ws.svelte.js';
+  import { wsState } from '../lib/ws.svelte.js';
   import { onMount } from 'svelte';
 
   let running = $state(false);
@@ -48,7 +48,7 @@
 
   // Listen for WebSocket pipeline events
   $effect(() => {
-    const msg = getLastMessage();
+    const msg = wsState.lastMessage;
     if (!msg) return;
 
     if (msg.type === 'pipeline_progress' && msg.payload) {

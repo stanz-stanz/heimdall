@@ -1,17 +1,8 @@
 /** Client-side view router using Svelte 5 runes. */
 
-let currentView = $state('dashboard');
-let currentTitle = $state('Dashboard');
-
-export function getView() {
-  return currentView;
-}
-
-export function getTitle() {
-  return currentTitle;
-}
+export const router = $state({ view: 'dashboard', title: 'Dashboard' });
 
 export function navigate(view, title) {
-  currentView = view;
-  currentTitle = title;
+  router.view = view;
+  router.title = title;
 }
