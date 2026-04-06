@@ -110,4 +110,4 @@ def add_redis_sink(redis_url: str) -> None:
 
     worker = _RedisSinkWorker(redis_url)
     worker.start()
-    logger.add(_make_sink(worker), level="DEBUG", format="{message}")
+    logger.add(_make_sink(worker), level="INFO", format="{message}")
