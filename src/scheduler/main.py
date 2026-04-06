@@ -23,9 +23,9 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--mode",
-        choices=["prospect", "scheduled"],
+        choices=["prospect", "scheduled", "daemon"],
         required=True,
-        help="prospect: one-shot from CVR data. scheduled: APScheduler loop (not yet implemented).",
+        help="prospect: one-shot from CVR data. daemon: BRPOP loop for operator commands. scheduled: not yet implemented.",
     )
     parser.add_argument(
         "--confirmed",
@@ -62,6 +62,14 @@ def main(argv: list[str] | None = None) -> int:
     setup_logging(level="INFO")
 
     args = _parse_args(argv)
+
+    from src.logging.redis_sink import add_redis_sink
+    add_redis_sink(args.redis_url)
+
+    if args.mode == "daemon":
+        from src.scheduler.daemon import run_daemon
+        run_daemon(args.redis_url, args.input, args.filters)
+        return 0
 
     if args.mode == "scheduled":
         logger.error("Scheduled mode is not yet implemented.")

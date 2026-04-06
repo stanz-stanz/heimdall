@@ -18,6 +18,10 @@ data/benchmarks/*.json
 # Git worktrees (Claude Code)
 .claude/worktrees/
 
+# Frontend build output + deps
+src/api/frontend/node_modules/
+src/api/static/dist/
+
 # Python
 __pycache__/
 *.pyc

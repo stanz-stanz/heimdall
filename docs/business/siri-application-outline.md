@@ -63,11 +63,9 @@ The Startup Denmark program is administered by the Danish Business Authority and
 
 - Conversational delivery via Telegram/WhatsApp — plain language (Danish for Denmark pilot), not jargon
 - Persistent memory + escalating follow-up (1wk/2wk/3wk)
-- Shadow AI/agent detection (21,000+ exposed AI agent instances discovered by SecurityScorecard, no competitor scans for this)
 - "First Finding Free" — Layer 1 scan produces real findings at zero cost
 - Mock Telegram message example (from Message Composer SKILL.md)
-- Tier logic: Watchman tells what, Sentinel tells how, Guardian tests and verifies
-- Tier differentiation: Watchman tells what's wrong, Sentinel adds how to fix it (written report), Guardian adds active testing
+- Tier differentiation: Watchman tells what's wrong, Sentinel adds how to fix it (written report), Guardian adds priority scanning cadence + dedicated support
 - Frame as: "This delivery model represents a fundamentally new approach — no existing product operates this way"
 
 ### 4. How It Works (1 page) — C1
@@ -83,11 +81,9 @@ The Startup Denmark program is administered by the Danish Business Authority and
 Directly addresses SIRI Criterion 1. Synthesize from existing sections:
 
 - **Messaging-first EASM delivery:** No competitor delivers findings through messaging apps to non-technical users. The entire product architecture is built around conversational delivery — not a notification bolted onto a dashboard.
-- **Shadow AI/agent detection:** First-mover in scanning for exposed AI agent infrastructure (MCP servers, autonomous agents). No SMB-focused security tool does this.
 - **Persistent memory architecture:** Longitudinal client knowledge as a product feature — the agent remembers what it told the client, what changed, and what was fixed.
 - **Programmatic legal compliance (Valdí):** Novel approach to automated scanning governance with two-gate validation, forensic logging, and approval tokens.
 - **AI-powered interpretation chain:** Open-source tools produce findings; Claude API interprets them in plain language for non-technical users. The LLM never decides what is vulnerable — it explains what the tools found.
-- **End-to-end remediation (find it, explain it, fix it):** Optional per-event service — Heimdall executes the fix directly. No EASM competitor offers this. Intruder.io and HostedScan stop at advisory.
 - Frame: "These are not incremental improvements to existing products. They represent a fundamentally different approach to delivering cybersecurity to non-technical users."
 
 ### 6. Market Opportunity (1 page) — C2
@@ -134,7 +130,7 @@ Directly addresses SIRI Criterion 3.
 - Comparison table: Heimdall vs Intruder.io vs Detectify vs HostedScan vs Sucuri
 - Counter: "Why can't Intruder just add Telegram?" → Architecture argument
 - Counter: "HostedScan is free" → Dashboard vs. messaging for non-technical users
-- Four durable differentiators: messaging-first, persistent memory, shadow AI detection, tiered fix guidance (Sentinel/Guardian written reports)
+- Four durable differentiators: messaging-first, digital twin, persistent memory, tiered fix guidance (Sentinel/Guardian written reports)
 
 ### 11. Regulatory & Legal Framework (0.5 pages) — C2
 
@@ -225,7 +221,7 @@ Numbered superscript citations throughout → references section at end, sourced
 
 ## Anticipated Panel Questions (Pre-Addressed in Document)
 
-1. "What is innovative about this?" → Innovation section: messaging-first delivery, shadow AI detection, persistent memory, Valdí, AI interpretation chain
+1. "What is innovative about this?" → Innovation section: messaging-first delivery, digital twin, persistent memory, Valdí, AI interpretation chain
 2. "Can this scale beyond Denmark?" → Scalability section: GDPR framework translates, messaging is language-agnostic, Denmark-first is strategic
 3. "Why must this be built in Denmark?" → Why Denmark section: regulatory alignment, grant ecosystem, GDPR-first, existing presence, local market
 4. "How will this create jobs in Denmark?" → Scalability section: hiring timeline from 1 to 10 employees over 3 years
@@ -239,7 +235,7 @@ Structure for the mandatory 5-minute video:
 
 - **0:00–0:30** — Hook: the 40% problem, the dashboard gap
 - **0:30–1:30** — The product: demo or walkthrough of a Telegram finding message
-- **1:30–2:30** — Innovation: messaging-first, shadow AI, persistent memory, Valdí
+- **1:30–2:30** — Innovation: messaging-first, digital twin, persistent memory, Valdí
 - **2:30–3:30** — Market & Scalability: Denmark first, EU expansion, job creation timeline
 - **3:30–4:15** — Why Denmark: regulatory alignment, grant ecosystem, local market
 - **4:15–4:45** — Team: Federico's background, what is already built, execution proof

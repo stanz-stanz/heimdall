@@ -26,6 +26,7 @@ services:
     profiles: ["run"]  # Only runs via: docker compose run --rm scheduler
     environment:
       - REDIS_URL=redis://redis:6379/0
+      - HEIMDALL_SOURCE=scheduler
       - CLIENT_DATA_DIR=/data/clients
       - VALDI_DIR=/data/valdi
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
@@ -49,10 +50,12 @@ services:
     environment:
       - CT_DB_PATH=/data/ct/certificates.db
       - CERTSTREAM_URL=wss://certstream.calidog.io/
+      - HEIMDALL_SOURCE=ct-collector
       - LOG_FORMAT=json
       - DOMAIN_FILTER=.dk
       - CLEANUP_INTERVAL_HOURS=24
       - STATUS_FILE=/data/ct/collector_status.json
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - ct-data:/data/ct
     networks:
@@ -90,6 +93,7 @@ services:
       dockerfile: infra/docker/Dockerfile.worker
     environment:
       - REDIS_URL=redis://redis:6379/0
+      - HEIMDALL_SOURCE=worker
       - VALDI_DIR=/data/valdi
       - CLIENT_DATA_DIR=/data/clients
       - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
@@ -125,6 +129,7 @@ services:
       dockerfile: infra/docker/Dockerfile.api
     environment:
       - REDIS_URL=redis://redis:6379/0
+      - HEIMDALL_SOURCE=api
       - RESULTS_DIR=/data/results
       - MESSAGES_DIR=/data/messages
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
@@ -163,6 +168,7 @@ services:
     command: ["--redis-url", "redis://redis:6379/0", "--db-path", "/data/clients/clients.db"]
     environment:
       - REDIS_URL=redis://redis:6379/0
+      - HEIMDALL_SOURCE=delivery
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
       - TELEGRAM_OPERATOR_CHAT_ID=${TELEGRAM_OPERATOR_CHAT_ID:-}
       - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}

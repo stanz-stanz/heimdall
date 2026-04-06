@@ -1,7 +1,7 @@
 # Heimdall — Project Briefing v3
 
 **Master context document for Claude Code sessions. Drop this in `docs/briefing.md`.**
-**Replaces v2. Last updated: March 22, 2026.**
+**Replaces v2. Last updated: April 6, 2026.**
 
 ---
 
@@ -180,6 +180,18 @@ The Pi is an implementation detail for the pilot, not a selling point. Clients c
 
 The digital twin runs as a Docker Compose service under profile `["twin"]`, exposing ports 9080 (HTTP) and 9443 (HTTPS with self-signed TLS cert). Resource budget: 256 MB RAM. The twin container reconstructs a target's CMS environment from Layer 1 scan data (detected CMS version, plugins, theme) and serves it locally for Layer 2 scanning. This is testing infrastructure — it does not serve client traffic and is not part of the production scanning pipeline. Implementation: `tools/twin/`, Docker support in `infra/docker/Dockerfile.twin`, pipeline integration via `src/worker/twin_scan.py`.
 
+### Operator Console
+
+A Svelte 5 SPA served at `/app` (`src/api/frontend/`) providing Dashboard, Pipeline, Campaigns, Prospects, Clients, Logs, and Settings views. The Logs view displays real-time log streams from all containers via Redis pub/sub (`src/logging/redis_sink.py`) with severity and source filtering.
+
+### Scheduler Daemon
+
+A long-running process (`src/scheduler/daemon.py`) that listens on `queue:operator-commands` via Redis BRPOP and dispatches pipeline, interpret, and send operations. Replaces manual script invocations for pipeline orchestration.
+
+### Interpretation Cache
+
+Finding interpretations are cached by `sha256(sorted findings + tier + language + prompt_version)` in `src/interpreter/cache.py`. Identical finding sets skip the Claude API call entirely. Measured 3.8x savings (153 unique fingerprints across 589 sites).
+
 ### Scanning Tools
 
 | Tool | Function | Layer | Source |
@@ -195,8 +207,10 @@ The digital twin runs as a Docker Compose service under profile `["twin"]`, expo
 | WordPress.org API | Plugin latest version checks (outdated plugin detection) | 1 | https://api.wordpress.org/plugins/info/1.0/ |
 | WordPress REST API | Plugin enumeration via namespace discovery (when site advertises /wp-json/) | 1 | Built-in WordPress feature |
 | CMSeek | CMS deep fingerprinting | 2 | https://github.com/Tuhinshubhra/CMSeeK |
-| Nikto | Web server vulnerability scanner (not yet implemented) | 2 | https://github.com/sullo/nikto |
+| Nikto | ~~Dropped 2026-04-05~~ — replaced by Nuclei templates + server CVE lookup + per-cookie analysis | 2 | https://github.com/sullo/nikto |
 | Nmap | Port scanning, service detection (not yet implemented) | 2 | https://github.com/nmap/nmap |
+| CISA KEV | Known Exploited Vulnerabilities catalog enrichment — flags actively exploited CVEs | 1 | https://www.cisa.gov/known-exploited-vulnerabilities-catalog |
+| RSS CVE Watch | Polls Wordfence, CISA, Bleeping Computer feeds for actively discussed CVEs | 1 | Built-in (`src/vulndb/rss_cve.py`) |
 
 ### What the Infrastructure Cannot Do
 
@@ -242,7 +256,7 @@ CrowdStrike Falcon Surface, Trend Micro Cyber Risk Exposure Management, Censys A
 
 2. **Persistent memory + active remediation follow-up** — the agent tracks each client's tech stack, past findings, and remediation state. It follows up on unresolved issues with escalating urgency.
 
-3. **Shadow AI / agent infrastructure detection** — scanning for exposed OpenClaw instances, MCP servers, rogue AI agents. No SMB-focused competitor does this as of March 2026.¹⁵ ¹⁶ ¹⁷
+3. **AI-powered vulnerability enrichment** — findings are cross-referenced against CISA Known Exploited Vulnerabilities, RSS CVE feeds (Wordfence, CISA, Bleeping Computer), and WPVulnerability API data. The interpreter uses this context to prioritize findings by real-world exploitability, not just CVSS scores.
 
 ---
 
@@ -258,13 +272,13 @@ Passive scanning. Findings delivered straight to Telegram. We track what's chang
 
 *We watch your website every day. If something changes or a new threat hits your setup, you'll know the same day — with step-by-step fix instructions in a written report.*
 
-Everything in Watchman, plus: daily scans, uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, detailed fix instructions for your developer or hosting provider.
+Everything in Watchman, plus: daily scans, active vulnerability testing (Layer 2, with written permission), uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, detailed fix instructions for your developer or hosting provider.
 
 ### Guardian — 799 kr./month (annual: 669 kr./month)
 
-*We actively test your defences, confirm that fixes worked, and give you a report you can show your accountant or insurer.*
+*Priority monitoring with dedicated support and a report you can show your accountant or insurer.*
 
-Everything in Sentinel, plus: active vulnerability testing (with your written permission), detection of exposed AI tools and agent infrastructure, fix verification, quarterly security report.
+Everything in Sentinel, plus: priority scan cadence, dedicated support channel, quarterly security posture report.
 
 ### Tier Logic
 
@@ -272,15 +286,15 @@ The tiers are structured around how much the client learns and how deeply Heimda
 
 - **Watchman** tells you *what* is wrong — in plain language.
 - **Sentinel** tells you *what* is wrong and *how* to fix it — with a written report.
-- **Guardian** *tests* your defences, *verifies* fixes, and *documents* your security posture.
+- **Guardian** adds *priority cadence*, *dedicated support*, and *documents* your security posture.
 
 ### Pricing Summary
 
 | Tier | Price | Scanning Type | What the Client Gets |
 |------|-------|--------------|---------------------|
 | Watchman | 199 kr./month (annual: 169) | Passive | Plain-language alert: what is wrong |
-| Sentinel | 399 kr./month (annual: 339) | Passive | Alert + written fix report |
-| Guardian | 799 kr./month (annual: 669) | Passive + Active | Alert + fix report + active testing + verification |
+| Sentinel | 399 kr./month (annual: 339) | Passive + Active | Alert + written fix report + active testing |
+| Guardian | 799 kr./month (annual: 669) | Passive + Active | Alert + fix report + priority cadence + quarterly posture report |
 
 *All prices excl. moms (Danish VAT).*
 
