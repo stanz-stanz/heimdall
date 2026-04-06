@@ -231,7 +231,7 @@
         class="filter-chip level-chip"
         class:active={minLevel === level}
         onclick={() => minLevel = level}
-        style={minLevel === level ? `color: ${levelColor(level)}` : ''}
+        style={minLevel === level && level !== 'All' ? `color: ${levelColor(level)}` : ''}
       >
         {level}
       </button>
