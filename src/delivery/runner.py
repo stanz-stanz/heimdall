@@ -303,6 +303,8 @@ def main() -> None:
     args = parser.parse_args()
 
     setup_logging(level=args.log_level.upper())
+    import logging
+    logging.getLogger("httpx").setLevel(logging.WARNING)
     from src.logging.redis_sink import add_redis_sink
     add_redis_sink(os.environ.get("REDIS_URL", ""))
 
