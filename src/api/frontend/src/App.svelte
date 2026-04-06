@@ -6,6 +6,7 @@
   import Campaigns from './views/Campaigns.svelte';
   import Prospects from './views/Prospects.svelte';
   import Clients from './views/Clients.svelte';
+  import Logs from './views/Logs.svelte';
   import Settings from './views/Settings.svelte';
   import { router } from './lib/router.svelte.js';
   import { connect, disconnect, wsState } from './lib/ws.svelte.js';
@@ -44,6 +45,8 @@
       <Prospects />
     {:else if router.view === 'clients'}
       <Clients />
+    {:else if router.view === 'logs'}
+      <Logs />
     {:else if router.view === 'settings'}
       <Settings />
     {/if}

@@ -66,6 +66,8 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
 def main(argv: Optional[list] = None) -> None:
     args = _parse_args(argv)
     setup_logging(level=args.log_level, fmt=args.log_format)
+    from src.logging.redis_sink import add_redis_sink
+    add_redis_sink(os.environ.get("REDIS_URL", ""))
 
     from .app import create_app
 

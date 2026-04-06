@@ -63,6 +63,9 @@ def main(argv: list[str] | None = None) -> int:
 
     args = _parse_args(argv)
 
+    from src.logging.redis_sink import add_redis_sink
+    add_redis_sink(args.redis_url)
+
     if args.mode == "daemon":
         from src.scheduler.daemon import run_daemon
         run_daemon(args.redis_url, args.input, args.filters)

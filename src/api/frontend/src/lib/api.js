@@ -17,6 +17,7 @@ export const fetchProspects = (campaign, status, limit = 50, offset = 0) => {
 };
 
 export const fetchClients = () => fetchJSON('/console/clients/list');
+export const fetchLogs = (limit = 200) => fetchJSON(`/console/logs?limit=${limit}`);
 export const fetchSettings = () => fetchJSON('/console/settings');
 
 export async function saveSettings(name, data) {

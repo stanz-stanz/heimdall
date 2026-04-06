@@ -382,6 +382,44 @@ async def console_command(command: str, request: Request):
     return {"status": "queued", "command": command}
 
 
+_LEVEL_ORDER = {"DEBUG": 0, "INFO": 1, "WARNING": 2, "ERROR": 3, "CRITICAL": 4}
+
+
+@router.get("/logs")
+async def console_logs(
+    request: Request,
+    source: str | None = Query(default=None),
+    level: str | None = Query(default=None),
+    since: float | None = Query(default=None),
+    q: str | None = Query(default=None),
+    limit: int = Query(default=200, ge=1, le=5000),
+):
+    """Return filtered log entries from the in-memory ring buffer."""
+    log_buffer = getattr(request.app.state, "log_buffer", None)
+    if log_buffer is None:
+        return {"entries": [], "total": 0}
+
+    min_level = _LEVEL_ORDER.get((level or "DEBUG").upper(), 0)
+    sources = set(s.strip() for s in source.split(",")) if source else None
+    q_lower = q.lower() if q else None
+
+    entries = []
+    for entry in reversed(log_buffer):  # newest first
+        if sources and entry.get("source", "") not in sources:
+            continue
+        if _LEVEL_ORDER.get(entry.get("level", ""), 0) < min_level:
+            continue
+        if since and entry.get("ts", 0) < since:
+            continue
+        if q_lower and q_lower not in entry.get("message", "").lower():
+            continue
+        entries.append(entry)
+        if len(entries) >= limit:
+            break
+
+    return {"entries": entries, "total": len(log_buffer)}
+
+
 @router.websocket("/ws")
 async def console_ws(websocket: WebSocket):
     """WebSocket for live console updates — queue polling + Redis pub/sub forwarding."""
@@ -434,8 +472,50 @@ async def console_ws(websocket: WebSocket):
             except Exception:
                 pass
 
+    # Log forwarding — subscribe to console:logs, batch every 200ms
+    _log_batch = []
+
+    async def _forward_logs():
+        """Subscribe to console:logs and batch-forward to WebSocket."""
+        if not redis_conn:
+            return
+        pubsub_logs = redis_conn.pubsub()
+        try:
+            await asyncio.to_thread(pubsub_logs.subscribe, "console:logs")
+            while True:
+                msg = await asyncio.to_thread(
+                    pubsub_logs.get_message, ignore_subscribe_messages=True, timeout=0.15,
+                )
+                if msg and msg["type"] == "message":
+                    try:
+                        _log_batch.append(json.loads(msg["data"]))
+                    except (json.JSONDecodeError, TypeError):
+                        pass
+
+                # Flush batch every ~200ms
+                if _log_batch:
+                    try:
+                        await websocket.send_json({
+                            "type": "log_batch",
+                            "payload": {"entries": _log_batch[:]},
+                        })
+                    except Exception:
+                        pass
+                    _log_batch.clear()
+
+                await asyncio.sleep(0.05)
+        except Exception:
+            pass
+        finally:
+            try:
+                pubsub_logs.unsubscribe("console:logs")
+                pubsub_logs.close()
+            except Exception:
+                pass
+
     push_task = asyncio.create_task(_push_queue_status())
     pubsub_task = asyncio.create_task(_listen_pubsub())
+    log_task = asyncio.create_task(_forward_logs())
 
     try:
         while True:
@@ -461,6 +541,7 @@ async def console_ws(websocket: WebSocket):
     finally:
         push_task.cancel()
         pubsub_task.cancel()
+        log_task.cancel()
 
 
 # ---------------------------------------------------------------------------

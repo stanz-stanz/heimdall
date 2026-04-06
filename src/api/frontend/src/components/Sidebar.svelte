@@ -18,6 +18,7 @@
       label: 'Data',
       items: [
         { id: 'clients', title: 'Clients', icon: '\u2662' },
+        { id: 'logs', title: 'Logs', icon: '\u2261' },
       ],
     },
     {

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import collections
 import json
 import os
 import re
@@ -61,6 +62,57 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             "duration_ms": elapsed_ms,
         }).info("http_request")
         return response
+
+
+# ---------------------------------------------------------------------------
+# Pub/sub listener — console:logs → in-memory ring buffer
+# ---------------------------------------------------------------------------
+
+async def _listen_console_logs(
+    redis_conn: redis.Redis,
+    log_buffer: collections.deque,
+) -> None:
+    """Subscribe to console:logs and append entries to the ring buffer."""
+    reconnect_count = 0
+
+    while True:
+        try:
+            pubsub = redis_conn.pubsub()
+            await asyncio.to_thread(pubsub.subscribe, "console:logs")
+            logger.bind(context={"channel": "console:logs"}).info("log_listener_subscribed")
+            reconnect_count = 0
+
+            while True:
+                msg = await asyncio.to_thread(
+                    pubsub.get_message, ignore_subscribe_messages=True, timeout=1.0,
+                )
+                if msg and msg["type"] == "message":
+                    try:
+                        entry = json.loads(msg["data"])
+                        log_buffer.append(entry)
+                    except (json.JSONDecodeError, TypeError):
+                        pass
+                await asyncio.sleep(0.05)
+
+        except asyncio.CancelledError:
+            try:
+                pubsub.unsubscribe("console:logs")
+                pubsub.close()
+            except Exception:
+                pass
+            return
+
+        except Exception:
+            reconnect_count += 1
+            wait = _PUBSUB_RECONNECT_BACKOFF[min(reconnect_count - 1, len(_PUBSUB_RECONNECT_BACKOFF) - 1)]
+            logger.bind(context={"reconnect_count": reconnect_count}).opt(exception=True).warning(
+                "log_listener_reconnecting"
+            )
+            try:
+                pubsub.close()
+            except Exception:
+                pass
+            await asyncio.sleep(wait)
 
 
 # ---------------------------------------------------------------------------
@@ -239,6 +291,8 @@ def create_app(
         # Startup
         app.state.redis = None
         app.state.pubsub_task = None
+        app.state.log_buffer = collections.deque(maxlen=5000)
+        app.state.log_listener_task = None
         try:
             redis_conn = redis.Redis.from_url(redis_url, decode_responses=True)
             redis_conn.ping()  # Sync call OK — runs once at startup only
@@ -249,18 +303,22 @@ def create_app(
                     app.state.client_history, app.state.client_profile,
                 ),
             )
+            app.state.log_listener_task = asyncio.create_task(
+                _listen_console_logs(redis_conn, app.state.log_buffer),
+            )
         except Exception:
             logger.bind(context={"url": redis_url}).warning("redis_unavailable")
 
         logger.bind(context={"results_dir": results_dir}).info("api_started")
         yield
         # Shutdown
-        if app.state.pubsub_task:
-            app.state.pubsub_task.cancel()
-            try:
-                await app.state.pubsub_task
-            except asyncio.CancelledError:
-                pass
+        for task in (app.state.pubsub_task, app.state.log_listener_task):
+            if task:
+                task.cancel()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    pass
         if app.state.redis:
             app.state.redis.close()
         logger.info("api_stopped")
