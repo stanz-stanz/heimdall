@@ -5,6 +5,34 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-06 — Operator console, Logs view, Redis log streaming
+
+**Decided**
+- Svelte 5 SPA at `src/api/frontend/` served at `/app` via StaticFiles mount. Old vanilla JS PWA stays at `/static/` (Demo still uses it).
+- No SvelteKit — pure Vite + Svelte SPA with client-side routing via `$state` object.
+- 8 REST endpoints + 1 WebSocket on `/console/*`. DB queries use `sqlite3.connect()` (not `open_readonly` with `immutable=1` — WAL incompatible).
+- Scheduler daemon mode (`--mode daemon`) with BRPOP on `queue:operator-commands`. Commands: run-pipeline, interpret, send.
+- Redis log streaming via `console:logs` pub/sub channel. Background daemon thread with bounded queue (1,000 entries). Sink level INFO (not DEBUG — uvicorn WebSocket trace causes amplification loop at DEBUG).
+- API self-noise filter: selective drop of `http_request`, `http_error`, `log_listener_subscribed` from API's own source. Operational logs (interpret, scan, pubsub) pass through.
+- `HEIMDALL_SOURCE` env var on all containers for readable source names in logs (avoids hex container IDs). Workers show as "worker" (no replica distinction with `deploy.replicas: 3`).
+- Svelte 5 runes: exported `$state` objects with direct property access (NOT getter functions). `$effect` writes wrapped in `untrack()`. Patterns documented in `references/svelte.md`.
+- Settings view: visual controls only (toggles, dropdowns, sliders, checkboxes). PUT endpoint merges with existing config to avoid losing unmanaged keys.
+- 53 new tests: 25 endpoint, 7 scheduler daemon, 8 Redis sink, 13 log filtering.
+
+**Rejected**
+- Local loguru sink for API (lifecycle management issues, buffer noise — replaced by Redis sink + self-filter).
+- `open_readonly` with `immutable=1` for console queries (fails with WAL).
+- Committing build artifacts (`src/api/static/dist/`) — Pi has Node.js, build on deploy.
+- Docker multi-stage build for frontend — Node 22 already on Pi, unnecessary complexity.
+- Redis Streams for logs — pub/sub sufficient for live console, persistence not needed.
+- DEBUG level on Redis sink — uvicorn traces create infinite amplification loop.
+
+**Unresolved**
+- Branch `feat/operator-console` not yet merged to main (15 commits, needs PR).
+- Logs filter source matching untested on Pi with `HEIMDALL_SOURCE` env vars.
+- Client CRUD controls in console (currently read-only — test client jellingkro.dk visible but not removable).
+- Container hostname readability (hex IDs with replicas). HEIMDALL_SOURCE works but all workers show as "worker".
+
 ## 2026-04-06 — Prospect lifecycle, outreach module, console architecture
 
 **Decided**

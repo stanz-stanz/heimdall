@@ -291,9 +291,58 @@ export const ws = createWebSocketStore('/ws/main');
 
 ---
 
+## Svelte 5 runes — critical patterns
+
+### DANGER: Getter functions break reactivity
+
+In `.svelte.js` modules, **never export getter functions** to expose `$state`. Svelte 5 tracks reactivity through property access on `$state` objects — calling a function that returns the value breaks the tracking chain. The template renders once and never updates.
+
+```js
+// BAD — template won't react to changes
+let count = $state(0);
+export function getCount() { return count; }  // ← breaks reactivity
+
+// GOOD — direct property access is tracked
+export const state = $state({ count: 0 });     // ← reactive in templates
+```
+
+In `.svelte` templates:
+```svelte
+<!-- BAD: {getCount()} — renders once, never updates -->
+<!-- GOOD: {state.count} — Svelte tracks the property read -->
+```
+
+### DANGER: Writing `$state` inside `$effect` causes infinite loops
+
+`$effect` re-runs when any `$state` it reads changes. If the effect body also *writes* to `$state`, Svelte detects a circular dependency and throws `effect_update_depth_exceeded`, freezing the entire app.
+
+Fix: wrap the writes in `untrack()` so Svelte doesn't track the reads inside the write block.
+
+```js
+import { untrack } from 'svelte';
+
+// BAD — infinite loop: reads wsState.lastMessage, writes to localState
+$effect(() => {
+  const msg = wsState.lastMessage;
+  if (msg) localState = processMessage(msg);  // ← writes $state → re-triggers effect
+});
+
+// GOOD — only wsState.lastMessage triggers the effect, writes are untracked
+$effect(() => {
+  const msg = wsState.lastMessage;
+  if (!msg) return;
+  untrack(() => {
+    localState = processMessage(msg);  // ← write doesn't re-trigger
+  });
+});
+```
+
+This pattern is essential for any WebSocket → local state update flow.
+
+---
+
 ## Svelte-specific tips
 
-- **Use `$:` reactive statements** to derive state from the WebSocket store — Svelte's reactivity model means you rarely need manual subscriptions.
 - **Svelte's built-in `transition:` and `animate:` directives** are first-class. Prefer them over raw CSS animations for list entry/exit/reorder — they handle DOM lifecycle correctly.
 - **`tweened` and `spring`** from `svelte/motion` are purpose-built for animating numeric values driven by live data. Use `tweened` for metrics, `spring` for drag/positional changes.
 - **Keep the WS store in `src/lib/`** so SvelteKit can import it from `$lib/ws` in any route or layout.
