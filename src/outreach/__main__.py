@@ -125,6 +125,30 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Compose messages and show them without sending",
     )
 
+    # ---- export ----
+    export_parser = subparsers.add_parser(
+        "export",
+        help="Export interpreted prospects as CSV for email mail merge",
+    )
+    export_parser.add_argument(
+        "--campaign", required=True,
+        help="Campaign identifier",
+    )
+    export_parser.add_argument(
+        "--output", default=None,
+        help="Output CSV path (default: data/output/campaign-{campaign}.csv)",
+    )
+    export_parser.add_argument(
+        "--status", default="interpreted",
+        choices=["new", "interpreted", "sent", "failed"],
+        help="Export prospects with this outreach status (default: interpreted)",
+    )
+    export_parser.add_argument(
+        "--enriched-db",
+        default=None,
+        help="Path to enriched companies.db (default: data/enriched/companies.db)",
+    )
+
     return parser
 
 
@@ -167,6 +191,17 @@ def main() -> None:
             limit=args.limit,
             dry_run=args.dry_run,
             db_path=args.db_path,
+        )
+
+    elif args.command == "export":
+        from src.outreach.export import run_export
+
+        run_export(
+            campaign=args.campaign,
+            output=args.output,
+            status=args.status,
+            db_path=args.db_path,
+            enriched_db_path=args.enriched_db,
         )
 
     else:

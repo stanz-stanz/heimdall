@@ -199,6 +199,221 @@ class TestInterpret:
         assert result["api_calls"] == 1
 
 
+class TestExport:
+    """Tests for the CSV export command."""
+
+    def _promote_and_interpret(self, db_path, briefs_dir, domain="example.dk",
+                               cvr="12345678", campaign="0426-test"):
+        """Helper: promote a brief and fake-interpret it."""
+        brief = {
+            "domain": domain,
+            "company_name": f"Test {domain}",
+            "cvr": cvr,
+            "bucket": "A",
+            "industry_code": "561010",
+            "industry": "Restaurants",
+            "findings": [
+                {"severity": "critical", "description": "No SSL"},
+                {"severity": "high", "description": "Missing HSTS"},
+            ],
+            "headers": {
+                "x_powered_by": "PHP/7.4",
+                "content_security_policy": "",
+                "strict_transport_security": "",
+                "x_frame_options": "",
+            },
+            "ssl": {"days_remaining": 90},
+            "gdpr": {"sensitive": True, "reasons": ["Contact Form 7"]},
+        }
+        brief_path = briefs_dir / f"{domain}.json"
+        brief_path.write_text(json.dumps(brief))
+
+        run_promote(campaign=campaign, briefs_dir=str(briefs_dir), db_path=db_path)
+
+        # Fake the interpret step
+        conn = init_db(db_path)
+        interpreted = json.dumps([
+            {"title": "PHP version exposed", "explanation": "Your server reveals PHP 7.4."},
+        ])
+        conn.execute(
+            "UPDATE prospects SET outreach_status = 'interpreted', "
+            "interpreted_json = ? WHERE domain = ? AND campaign = ?",
+            (interpreted, domain, campaign),
+        )
+        conn.commit()
+        conn.close()
+
+    def _create_enriched_db(self, tmp_path, cvr="12345678", email="info@example.dk"):
+        """Helper: create a minimal enriched companies.db."""
+        import sqlite3
+        enriched_path = str(tmp_path / "companies.db")
+        conn = sqlite3.connect(enriched_path)
+        conn.execute(
+            "CREATE TABLE companies (cvr TEXT PRIMARY KEY, email TEXT, contactable INTEGER)"
+        )
+        conn.execute(
+            "INSERT INTO companies VALUES (?, ?, 1)", (cvr, email)
+        )
+        conn.commit()
+        conn.close()
+        return enriched_path
+
+    def test_basic_export(self, db, briefs_dir, tmp_path):
+        conn, db_path = db
+        conn.close()
+        self._promote_and_interpret(db_path, briefs_dir)
+        enriched_path = self._create_enriched_db(tmp_path)
+
+        from src.outreach.export import run_export
+        output_path = str(tmp_path / "export.csv")
+        result = run_export(
+            campaign="0426-test",
+            output=output_path,
+            db_path=db_path,
+            enriched_db_path=enriched_path,
+        )
+
+        assert result["exported"] == 1
+        assert result["missing_email"] == 0
+
+        import csv
+        with open(output_path, encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        assert len(rows) == 1
+        assert rows[0]["domain"] == "example.dk"
+        assert rows[0]["email"] == "info@example.dk"
+        assert rows[0]["gdpr_sensitive"] == "yes"
+        assert "PHP" in rows[0]["top_confirmed_finding"]
+
+    def test_export_missing_email(self, db, briefs_dir, tmp_path):
+        conn, db_path = db
+        conn.close()
+        self._promote_and_interpret(db_path, briefs_dir, cvr="99999999")
+        enriched_path = self._create_enriched_db(tmp_path, cvr="00000000")
+
+        from src.outreach.export import run_export
+        output_path = str(tmp_path / "export.csv")
+        result = run_export(
+            campaign="0426-test",
+            output=output_path,
+            db_path=db_path,
+            enriched_db_path=enriched_path,
+        )
+
+        assert result["exported"] == 1
+        assert result["missing_email"] == 1
+
+    def test_export_no_enriched_db(self, db, briefs_dir, tmp_path):
+        conn, db_path = db
+        conn.close()
+        self._promote_and_interpret(db_path, briefs_dir)
+
+        from src.outreach.export import run_export
+        output_path = str(tmp_path / "export.csv")
+        result = run_export(
+            campaign="0426-test",
+            output=output_path,
+            db_path=db_path,
+            enriched_db_path=str(tmp_path / "nonexistent.db"),
+        )
+
+        assert result["exported"] == 1
+        assert result["missing_email"] == 1
+
+    def test_export_empty_campaign(self, db, tmp_path):
+        conn, db_path = db
+        conn.close()
+
+        from src.outreach.export import run_export
+        result = run_export(
+            campaign="0426-empty",
+            db_path=db_path,
+            enriched_db_path=str(tmp_path / "nonexistent.db"),
+        )
+
+        assert result["total"] == 0
+
+    def test_export_sorted_by_severity(self, db, briefs_dir, tmp_path):
+        conn, db_path = db
+        conn.close()
+
+        # Create two prospects with different severity
+        brief_low = {
+            "domain": "low.dk", "company_name": "Low", "cvr": "11111111",
+            "bucket": "A", "industry_code": "561010", "industry": "Restaurants",
+            "findings": [{"severity": "medium", "description": "Minor"}],
+            "headers": {}, "ssl": {}, "gdpr": {},
+        }
+        brief_high = {
+            "domain": "high.dk", "company_name": "High", "cvr": "22222222",
+            "bucket": "A", "industry_code": "561010", "industry": "Restaurants",
+            "findings": [
+                {"severity": "critical", "description": "Bad"},
+                {"severity": "critical", "description": "Worse"},
+            ],
+            "headers": {}, "ssl": {}, "gdpr": {},
+        }
+        (briefs_dir / "low.dk.json").write_text(json.dumps(brief_low))
+        (briefs_dir / "high.dk.json").write_text(json.dumps(brief_high))
+
+        run_promote(campaign="0426-test", briefs_dir=str(briefs_dir), db_path=db_path)
+
+        # Fake interpret both
+        conn2 = init_db(db_path)
+        interpreted = json.dumps([{"title": "Test", "explanation": "Test"}])
+        conn2.execute(
+            "UPDATE prospects SET outreach_status = 'interpreted', interpreted_json = ?",
+            (interpreted,),
+        )
+        conn2.commit()
+        conn2.close()
+
+        enriched_path = self._create_enriched_db(tmp_path)
+
+        from src.outreach.export import run_export
+        output_path = str(tmp_path / "export.csv")
+        run_export(
+            campaign="0426-test",
+            output=output_path,
+            db_path=db_path,
+            enriched_db_path=enriched_path,
+        )
+
+        import csv
+        with open(output_path, encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        assert len(rows) == 2
+        # high.dk should be first (more critical findings)
+        assert rows[0]["domain"] == "high.dk"
+
+
+class TestExtractTopFinding:
+    """Tests for the confirmed finding extraction logic."""
+
+    def test_php_version_priority(self):
+        from src.outreach.export import _extract_top_confirmed_finding
+        brief = json.dumps({"headers": {"x_powered_by": "PHP/7.4"}})
+        result = _extract_top_confirmed_finding(brief)
+        assert "PHP/7.4" in result
+
+    def test_missing_headers_fallback(self):
+        from src.outreach.export import _extract_top_confirmed_finding
+        brief = json.dumps({
+            "headers": {
+                "content_security_policy": "",
+                "strict_transport_security": "",
+                "x_frame_options": "SAMEORIGIN",
+            }
+        })
+        result = _extract_top_confirmed_finding(brief)
+        assert "2" in result  # 2 missing protections
+
+    def test_empty_brief(self):
+        from src.outreach.export import _extract_top_confirmed_finding
+        assert _extract_top_confirmed_finding(None) == ""
+        assert _extract_top_confirmed_finding("") == ""
+
+
 class TestChannelSplit:
     """Verify the Redis channel rename doesn't break delivery runner tests."""
 
