@@ -5,6 +5,22 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-07 — Design system documentation
+
+**Decided**
+- Created `docs/design/design-system.md` documenting the operator console's visual system as-built (not aspirational).
+- Design system derived from actual `tokens.css`, `global.css`, and component files — not from a generator or template.
+- Used fullstack-guy agent for accuracy review against implementation. 4 errors corrected, 9 gaps filled.
+- Dark-only theme documented as intentional (no light variant planned). Operator-first density over consumer polish.
+- Badge naming convention confirmed as hyphenated (`.badge-critical`) not dot-chained (`.badge.critical`).
+
+**Rejected**
+- Cyberpunk UI style recommendation from ui-ux-pro-max generator (neon glows, glitch animations, scanlines). The existing design is more restrained and appropriate for an ops tool.
+- Fira Code / Fira Sans font recommendation — kept existing DM Sans + JetBrains Mono which are already in production.
+
+**Unresolved**
+- Unicode icons vs SVG icon library (Lucide/Heroicons) — current Unicode approach works for internal tool, revisit if console becomes client-facing.
+
 ## 2026-04-06 — Operator console, Logs view, Redis log streaming
 
 **Decided**
