@@ -98,6 +98,7 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/client_memory/` | Client history and remediation tracking — delta detection, remediation state machine, client profiles. JSON-based storage (migration to src/db/ in progress). |
 | `config/delivery.json` | Config: Telegram delivery settings (require_approval toggle, retry, rate limit) |
 | `config/interpreter.json` | Config: LLM backend, model, tone, language (default: English). Per-client language override via `clients.preferred_language` column. |
+| `docs/design/design-system.md` | Operator console design system — tokens, colors, typography, components, layout, animation, severity mapping. Source of truth for `src/api/frontend/` visual system. |
 | `docs/architecture/client-db-schema.sql` | Authoritative SQLite schema for client management DB (12 tables incl. prospects, 10 views incl. v_campaign_summary, 34+ indexes) |
 | `scripts/test_delivery.py` | E2E delivery test — seeds test client (jellingkro.dk, real brief data), saves brief, publishes Redis event. Run inside delivery container. |
 | `scripts/preview_message.py` | Message preview tool — runs interpret → compose pipeline, prints output to terminal and saves to file. `--send` flag delivers directly to operator's Telegram with client buttons (bypasses Redis/approval/DB). Permanent dev tool for message iteration. |
