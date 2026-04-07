@@ -861,6 +861,8 @@ _NMAP_PORT_SEVERITY: dict[int, str] = {
     8080: "medium", 8443: "medium", 8888: "medium", 9090: "medium",
     3000: "medium", 5000: "medium", 4443: "medium", 2222: "medium",
     5601: "medium",
+    # Low — cleartext protocols with credential exposure
+    110: "low", 143: "low",
     # Info — expected services (default for unlisted ports)
 }
 
@@ -895,6 +897,8 @@ _NMAP_PORT_LABELS: dict[int, tuple[str, str]] = {
     4443: ("HTTPS (alt)", "Non-standard HTTPS port — often an admin interface."),
     2222: ("SSH (alt)", "Non-standard SSH port — indicates non-default server configuration."),
     5601: ("Kibana", "Kibana dashboard for Elasticsearch — may expose sensitive log data."),
+    110: ("POP3", "POP3 transmits email credentials in cleartext. Use POP3S (port 995) instead."),
+    143: ("IMAP", "IMAP transmits email credentials in cleartext. Use IMAPS (port 993) instead."),
 }
 
 
@@ -947,7 +951,8 @@ def _nmap_ports_to_findings(open_ports: list[dict]) -> list[dict]:
 
         product = port_info.get("product", "")
         version = port_info.get("version", "")
-        version_str = f" ({product} {version})".rstrip() if product else ""
+        version_detail = f"{product} {version}".strip()
+        version_str = f" ({version_detail})" if product else ""
 
         findings.append({
             "severity": severity,
@@ -990,7 +995,7 @@ def _run_nmap(domains: list[str]) -> dict[str, dict]:
                     "-p", NMAP_SUPPLEMENT_PORTS,
                     "--open",
                     "--max-retries", "2",
-                    "--host-timeout", "300",
+                    "--host-timeout", "90",
                     "--defeat-rst-ratelimit",
                     "-oX", "-",
                     domain,
