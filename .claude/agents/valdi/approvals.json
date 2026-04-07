@@ -142,6 +142,18 @@
       "function_hash": "sha256:f4ae289a1b3933a9452ccca10244b43e9d18eb42cd8a2e1599a7d491826526d3",
       "log_file": ".claude/agents/valdi/logs/2026-03-28_17-00-00_cmseek_cms_deep_scan.md",
       "hash_method": "inspect.getsource"
+    },
+    {
+      "scan_type_id": "nmap_port_scan",
+      "token": "18978d41-4d3b-40d0-8b42-018373270759",
+      "approved_at": "2026-04-07T10:00:00Z",
+      "level": 1,
+      "layer": 2,
+      "function_hash": "sha256:e154f0a8877dc71b239cb6cfb0553a149f9c032bae397841bab5eb8de8ca2577",
+      "log_file": ".claude/agents/valdi/logs/2026-04-07_10-00-00_nmap_port_scan.md",
+      "hash_method": "inspect.getsource",
+      "helper_hash": "sha256:95b0d2a15c845dcc7e2bcef32d7b55987e0999a9110e7d75501431183848ef46",
+      "helper_function": "_parse_nmap_xml"
     }
   ]
 }

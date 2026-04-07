@@ -80,6 +80,7 @@ def _patch_all_scans_with_nuclei():
         patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
         patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
         patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
+        patch("src.worker.scan_job._run_nmap", return_value={}),
         patch("src.worker.twin_scan.run_twin_scan", return_value=None),
         patch("src.worker.scan_job._BUCKET_FILTER", None),
     ]
@@ -208,7 +209,7 @@ class TestRegistrySplit:
 
     def test_combined_map_has_all(self):
         _init_scan_type_map()
-        assert len(_SCAN_TYPE_FUNCTIONS) == 11
+        assert len(_SCAN_TYPE_FUNCTIONS) == 12
         assert "ssl_certificate_check" in _SCAN_TYPE_FUNCTIONS
         assert "nuclei_vulnerability_scan" in _SCAN_TYPE_FUNCTIONS
 
@@ -316,9 +317,8 @@ class TestLevel1Execution:
             assert "level1_scan_result" in result
             # Standard cache stats still present
             assert "cache_stats" in result
-            # Level 1 has 10 misses (9 L0 + 1 nuclei)
-            # Level 1 has 11 misses (9 L0 + nuclei + cmseek)
-            assert result["cache_stats"]["misses"] == 11
+            # Level 1 has 12 misses (9 L0 + nuclei + cmseek + nmap)
+            assert result["cache_stats"]["misses"] == 12
         finally:
             for p in patches:
                 p.stop()
@@ -358,6 +358,7 @@ class TestVulnDBLookup:
             patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
             patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.worker.scan_job._run_nmap", return_value={}),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
             patch("src.vulndb.lookup.lookup_wordpress_vulns", return_value=mock_findings),
         ]
@@ -397,6 +398,7 @@ class TestVulnDBLookup:
             patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
             patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
             patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.worker.scan_job._run_nmap", return_value={}),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
             patch("src.worker.scan_job._BUCKET_FILTER", None),
         ]
