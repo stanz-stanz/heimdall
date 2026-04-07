@@ -5,6 +5,33 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-07 — Marketing campaign and outreach export
+
+**Decided**
+- Digital-only campaign: email + Facebook/Instagram + in-person (top 5-10). No phone calls.
+- Email to contactable (non-Reklamebeskyttet) B2B companies IS legal under Danish Markedsforingsloven §10. Corrects earlier conservative position.
+- Four psychological pillars: Reciprocity (first finding free), Loss Aversion (breach consequences), Authority + Social Proof (1,173-site dataset), Mere Exposure + Rule of 7 (multi-channel).
+- CSV mail-merge export (Option C) for pilot. Full automation (Option A: extend src/outreach/) deferred to post-pilot.
+- Product marketing context document created as `.claude/agents/product-marketing-context.md` — positioning, personas, customer language glossary, brand voice.
+- Campaign assets written as docs (not code): Facebook posts, email templates, DM templates, operational guide. Federico executes manually.
+- Instagram: cross-post from Facebook only, no separate effort.
+- Marketing psychology and product-marketing-context skills installed.
+
+**Rejected**
+- Phone outreach — Federico's explicit decision, won't happen.
+- Building onboarding bridge before filling the funnel — campaign comes first, onboarding designs itself from real conversion data.
+- Automating Facebook/social media posting from code — manual execution via Meta Business Suite.
+- Separate Instagram content strategy — Pareto principle, Facebook drives 80% for this audience.
+
+**Unresolved**
+- Email infrastructure: manual sending vs Brevo (free tier). Recommendation: Brevo for open-rate tracking.
+- Facebook paid ads: organic-only vs light paid (500-1,500 kr./mo). Recommendation: organic weeks 1-4, light paid from week 5.
+- Facebook page name: "Heimdall" vs "Heimdall Cybersikkerhed". Recommendation: "Heimdall Cybersikkerhed".
+- Campaign start timing: now vs wait for SIRI. Recommendation: start Facebook now (zero cost, content compounds).
+- Video style: screen recordings vs on-camera vs mix.
+- Lawyer consultation status (overdue since 2026-03-31) — unblocks outreach channel confirmation.
+- SIRI video pitch script — mandatory for submission, unwritten.
+
 ## 2026-04-07 — Nmap port scanning implementation
 
 **Decided**

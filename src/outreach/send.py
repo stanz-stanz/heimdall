@@ -171,9 +171,9 @@ async def _send_batch(conn, prospects: list[dict]) -> dict:
                 failed += 1
                 continue
 
-            # Outreach is in-person or phone only (no written communication).
-            # The composed message serves as talking points for the
-            # salesperson — what to say, not what to send.
+            # Composed messages are used as talking points for in-person
+            # visits or as reference for email personalization via the
+            # export command (CSV mail merge for Brevo).
             _mark_sent(conn, prospect_id, messages)
             sent += 1
 

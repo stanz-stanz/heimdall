@@ -99,6 +99,10 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `config/delivery.json` | Config: Telegram delivery settings (require_approval toggle, retry, rate limit) |
 | `config/interpreter.json` | Config: LLM backend, model, tone, language (default: English). Per-client language override via `clients.preferred_language` column. |
 | `docs/design/design-system.md` | Operator console design system — tokens, colors, typography, components, layout, animation, severity mapping. Source of truth for `src/api/frontend/` visual system. |
+| `docs/campaign/operational-guide.md` | **Campaign operational guide** — full pipeline flow (steps 1-6), every CLI command with examples, CSV column reference, batching strategy, 8-week timing plan. Start here for running the marketing campaign. |
+| `docs/campaign/facebook-posts-week1-4.md` | 12 Facebook posts in Danish (weeks 1-4), psychology-annotated, ready to copy-paste. |
+| `docs/campaign/email-and-dm-templates.md` | 2 email templates (first finding free + follow-up) + 3 DM templates (engagement, lead form, report follow-up). Danish, provenance-correct. |
+| `.claude/agents/product-marketing-context.md` | Product marketing context — positioning, personas, customer language glossary, brand voice, competitive landscape, objections, proof points. Reference for all outreach copy. |
 | `docs/architecture/client-db-schema.sql` | Authoritative SQLite schema for client management DB (12 tables incl. prospects, 10 views incl. v_campaign_summary, 34+ indexes) |
 | `scripts/test_delivery.py` | E2E delivery test — seeds test client (jellingkro.dk, real brief data), saves brief, publishes Redis event. Run inside delivery container. |
 | `scripts/preview_message.py` | Message preview tool — runs interpret → compose pipeline, prints output to terminal and saves to file. `--send` flag delivers directly to operator's Telegram with client buttons (bypasses Redis/approval/DB). Permanent dev tool for message iteration. |
