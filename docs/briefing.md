@@ -208,7 +208,7 @@ Finding interpretations are cached by `sha256(sorted findings + tier + language 
 | WordPress REST API | Plugin enumeration via namespace discovery (when site advertises /wp-json/) | 1 | Built-in WordPress feature |
 | CMSeek | CMS deep fingerprinting | 2 | https://github.com/Tuhinshubhra/CMSeeK |
 | Nikto | ~~Dropped 2026-04-05~~ — replaced by Nuclei templates + server CVE lookup + per-cookie analysis | 2 | https://github.com/sullo/nikto |
-| Nmap | Port scanning, service detection (not yet implemented) | 2 | https://github.com/nmap/nmap |
+| Nmap | Port scanning (top-100 + critical infrastructure supplement), service version detection | 2 | https://github.com/nmap/nmap |
 | CISA KEV | Known Exploited Vulnerabilities catalog enrichment — flags actively exploited CVEs | 1 | https://www.cisa.gov/known-exploited-vulnerabilities-catalog |
 | RSS CVE Watch | Polls Wordfence, CISA, Bleeping Computer feeds for actively discussed CVEs | 1 | Built-in (`src/vulndb/rss_cve.py`) |
 

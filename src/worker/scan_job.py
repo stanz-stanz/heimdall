@@ -32,7 +32,9 @@ from src.prospecting.scanner import (
     _run_dnsx,
     _run_httpx,
     _run_cmseek,
+    _run_nmap,
     _run_nuclei,
+    _nmap_ports_to_findings,
     _run_subfinder,
     _run_webanalyze,
 )
@@ -378,16 +380,27 @@ def execute_scan_job(
         if isinstance(cmseek_results, dict):
             cmseek_data = cmseek_results.get(domain, {})
 
+        nmap_results = _cached_or_run("nmap", _run_nmap, [domain])
+
+        nmap_data: dict = {}
+        if isinstance(nmap_results, dict):
+            nmap_data = nmap_results.get(domain, {"open_ports": [], "port_count": 0})
+
+        if nmap_data.get("open_ports"):
+            nmap_data["findings"] = _nmap_ports_to_findings(nmap_data["open_ports"])
+
         level1_scan_result = {
             "nuclei": nuclei_data,
             "cmseek": cmseek_data,
+            "nmap": nmap_data,
         }
 
         logger.bind(context={
             "domain": domain,
             "job_id": job_id,
             "nuclei_findings": len(nuclei_data.get("findings", [])),
-        }).info("level1_nuclei_complete")
+            "nmap_open_ports": nmap_data.get("port_count", 0),
+        }).info("level1_scans_complete")
 
     # ------------------------------------------------------------------
     # 4c. WPVulnerability lookup — WordPress domains only

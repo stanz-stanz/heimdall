@@ -11,6 +11,7 @@
     "cloud_storage_index_query": 0,
     "nuclei_vulnerability_scan": 1,
     "wpscan_wordpress_scan": 1,
-    "cmseek_cms_deep_scan": 1
+    "cmseek_cms_deep_scan": 1,
+    "nmap_port_scan": 1
   }
 }

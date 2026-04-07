@@ -35,6 +35,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
+        nmap \
  && rm -rf /var/lib/apt/lists/*
 
 # Copy Go binaries from builder stage to /opt/go-tools/ (not /usr/local/bin/)

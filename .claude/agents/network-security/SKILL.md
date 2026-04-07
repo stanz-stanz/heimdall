@@ -67,7 +67,7 @@ Before ANY scan execution, you MUST verify:
 | Nuclei | Template-based vulnerability scanning | v3.7.1 |
 | CMSeek | CMS deep fingerprinting | pinned commit 20f9780 |
 | Nikto | Web server vulnerability scanning | to be implemented |
-| Nmap | Port scanning, service detection | to be implemented |
+| Nmap | Port scanning, service detection | apt package (Debian bookworm) |
 
 ### Deferred
 
@@ -138,7 +138,7 @@ Before ANY scan execution, you MUST verify:
 - WPVulnerability API (WordPress CVE lookups, replaces WPScan sidecar)
 - CMSeek: CMS deep fingerprinting (admin paths, versions, plugins)
 - Nikto: web server vulnerability scanning (to be implemented)
-- Nmap: service detection, top-100 ports (to be implemented)
+- Nmap: port scanning (top-100 + 13 critical infrastructure ports), service version detection (`-sV`)
 
 ## Invocation Examples
 

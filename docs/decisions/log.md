@@ -5,6 +5,43 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-07 — Nmap port scanning implementation
+
+**Decided**
+- Nmap added as third Layer 2 scanner (alongside Nuclei, CMSeek). Port scanning + service version detection (`-sV`).
+- Top-100 ports + 13 critical infrastructure supplement (Docker API, Redis, Elasticsearch, Memcached, MongoDB, databases). ~113 ports total.
+- 4-tier severity: critical (no-auth databases/APIs), high (RDP/Telnet/FTP), medium (dev/admin), low (cleartext mail), info (expected).
+- `-Pn` confirmed standard for EASM (hosts pre-validated by httpx). `-T3` confirmed appropriate for Pi5/ARM.
+- `--defeat-rst-ratelimit` added for accuracy on Danish hosting firewalls that rate-limit RST packets.
+- `--host-timeout 90` (fits inside 120s Python subprocess timeout so nmap exits gracefully before being killed).
+- POP3 (110) / IMAP (143) classified as "low" severity for cleartext credential exposure (added during code review).
+- Nmap not suitable for digital twin scanning — port scanning measures network infrastructure, not application layer.
+
+**Rejected**
+- Two-phase scan (SYN discovery → version detection on open ports only). Adds complexity for minimal savings on SMB targets with 2-5 open ports.
+- `-T4` timing — risks socket exhaustion on Pi5's 1GB RAM budget.
+- `--top-ports 1000` — diminishing returns beyond 100 for SMB attack surface, and scan time triples.
+- Nmap on digital twins — twin replicates web app layer, not server network config. Would only find container's port 80.
+
+**Unresolved**
+- Nmap version pinning in Dockerfile — installed without version pin (Debian bookworm ships 7.93, stable enough). Pin if reproducibility issues arise.
+
+## 2026-04-07 — Design system documentation
+
+**Decided**
+- Created `docs/design/design-system.md` documenting the operator console's visual system as-built (not aspirational).
+- Design system derived from actual `tokens.css`, `global.css`, and component files — not from a generator or template.
+- Used fullstack-guy agent for accuracy review against implementation. 4 errors corrected, 9 gaps filled.
+- Dark-only theme documented as intentional (no light variant planned). Operator-first density over consumer polish.
+- Badge naming convention confirmed as hyphenated (`.badge-critical`) not dot-chained (`.badge.critical`).
+
+**Rejected**
+- Cyberpunk UI style recommendation from ui-ux-pro-max generator (neon glows, glitch animations, scanlines). The existing design is more restrained and appropriate for an ops tool.
+- Fira Code / Fira Sans font recommendation — kept existing DM Sans + JetBrains Mono which are already in production.
+
+**Unresolved**
+- Unicode icons vs SVG icon library (Lucide/Heroicons) — current Unicode approach works for internal tool, revisit if console becomes client-facing.
+
 ## 2026-04-06 — Operator console, Logs view, Redis log streaming
 
 **Decided**
