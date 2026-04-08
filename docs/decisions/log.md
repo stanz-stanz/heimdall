@@ -5,6 +5,23 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-08 — Competitor analysis + campaign messaging
+
+**Decided**
+- Top 3 equivalent competitors to Sentinel: Intruder.io, HostedScan, Attaxion (based on service equivalence, not price)
+- TRaViS EASM documented but classified as non-direct competitor (practitioner tool at $3k+/year despite "SME" marketing)
+- Excluded from equivalence: Sucuri (WAF), Astra/Beagle (pentest), UpGuard (vendor risk), Detectify (deep DAST)
+- Remediation objection handling is retention-stage content, separate from the 8-week acquisition campaign
+- Email pitch strategies use three Danish cultural levers: Nabohjælp, collective trust, ordentlighed
+- Security scoring identified as recurrent competitor feature Heimdall lacks — noted, not actioned
+
+**Rejected**
+- Dark web / credential monitoring (TRaViS feature) — not pursued, HIBP already discarded
+- Exposed API key detection — noted but not prioritised
+
+**Unresolved**
+- Whether to add a security score / posture rating to Heimdall's deliverable (Federico to decide)
+
 ## 2026-04-08 — Tier restructure + Danish cultural alignment
 
 **Decided**
