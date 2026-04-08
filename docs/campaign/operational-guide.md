@@ -145,6 +145,8 @@ To export only a specific batch, run promote with tighter filters or manually sp
 |------|------|
 | `facebook-posts-week1-4.md` | 12 Facebook posts in Danish, ready to copy-paste |
 | `email-and-dm-templates.md` | 2 email templates + 3 DM templates, all in Danish |
+| `email-pitch-strategies.md` | 3 Danish-cultural-psychology-aligned email pitch frameworks (Open Window, Solidarity, Ordentlighed) |
+| `remediation-objection-handling.md` | **Retention stage** — churn-prevention messaging: 5 framing strategies, 5 analogies, pre-emptive onboarding copy, escalation scripts, green light loop, Danish translations |
 | `operational-guide.md` | This file |
 
 ---
