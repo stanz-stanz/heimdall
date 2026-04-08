@@ -71,7 +71,7 @@ This project distinguishes between **Layer** (type of activity) and **consent st
 > A scan's Layer must not exceed what the target's consent state permits.
 
 - Without written consent (prospecting targets) → only Layer 1 (passive) activities
-- With written consent (Sentinel/Guardian clients) → Layer 1 and Layer 2 (active probing) within agreed scope
+- With written consent (Sentinel clients) → Layer 1 and Layer 2 (active probing) within agreed scope
 - Layer 3 (exploitation) → always blocked regardless of consent state
 
 ---

@@ -141,7 +141,7 @@ Additionally, the function disables TLS certificate verification on its own outb
 
 1. **Remove this function entirely from the Layer 1 pipeline.** Admin panel detection is a Layer 2 activity. It cannot be made compliant for use without written consent.
 
-2. **If admin panel detection is needed for consented clients (Sentinel/Guardian):** Create a separate function, declare it as Layer 2, require a valid consent check (Gate 2) before execution, and add robots.txt checking.
+2. **If admin panel detection is needed for consented clients (Sentinel):** Create a separate function, declare it as Layer 2, require a valid consent check (Gate 2) before execution, and add robots.txt checking.
 
 3. **Remove all downstream references** to admin panel detection results in brief generation, risk summaries, and sales hooks. Data derived from Layer 2 activity cannot be used in prospecting materials.
 

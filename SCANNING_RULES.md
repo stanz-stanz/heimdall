@@ -23,7 +23,7 @@ This document is the highest-authority source on scanning legality in the projec
 - **Layer 2 (Active probing):** Directed requests to paths or services not publicly linked
 - **Layer 3 (Exploitation):** Exploiting vulnerabilities — always forbidden
 
-Without written consent, only Layer 1 activities are permitted. With written consent (Sentinel/Guardian clients), Layer 1 and Layer 2 activities are permitted within the agreed scope.
+Without written consent, only Layer 1 activities are permitted. With written consent (Sentinel clients), Layer 1 and Layer 2 activities are permitted within the agreed scope.
 
 ---
 
@@ -96,7 +96,7 @@ If the answer is guessing/probing → **it is forbidden without written consent.
 
 ## With Written Consent — What Is Additionally Allowed
 
-When Heimdall holds a signed scanning authorization from the site owner (Sentinel/Guardian clients), the following additional tools and techniques become available:
+When Heimdall holds a signed scanning authorization from the site owner (Sentinel clients), the following additional tools and techniques become available:
 
 ### Layer 2 Tools (Written Consent Required)
 
@@ -112,7 +112,7 @@ When Heimdall holds a signed scanning authorization from the site owner (Sentine
 - **Directory enumeration** of agreed-upon scope
 - **Admin panel detection** — checking for `/wp-admin/`, `/administrator/`, etc.
 - **API endpoint probing** within agreed scope
-- **Authenticated scanning** if credentials are provided in the agreement (Guardian tier only)
+- **Authenticated scanning** if credentials are provided in the agreement
 
 ### Consent-Gated Scan Constraints
 
@@ -220,7 +220,7 @@ Examples of things that might seem passive but are **not allowed without consent
 **Date:** 2026-03-26
 **Classification:** Layer 2 — Active Probing
 **Reasoning:** CloudEnum actively constructs URL patterns using the company name (e.g., `companyname.s3.amazonaws.com`, `companyname.blob.core.windows.net`) and sends HTTP requests to cloud provider endpoints to check if those buckets exist. While the requests go to AWS/Azure/GCP infrastructure (not the target's servers), the tool is actively probing for assets associated with a specific company. This is directed enumeration — it probes for resources that are not publicly linked or advertised. Under the conservative default (SCANNING_RULES.md: "If you are unsure whether an action is Layer 1 or Layer 2, treat it as Layer 2"), this is classified as active probing.
-**Approved for:** Sentinel/Guardian tiers only (written consent required).
+**Approved for:** Sentinel tier only (written consent required).
 
 ---
 

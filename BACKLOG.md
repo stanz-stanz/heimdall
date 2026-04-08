@@ -147,7 +147,7 @@ Build the scheduler that creates scan jobs.
 | Unit tests | Test job creation for each tier schedule |
 
 **Definition of Done:**
-- [ ] Scheduler creates correct jobs for Watchman (weekly), Sentinel (daily), Guardian (daily)
+- [ ] Scheduler creates correct jobs for Watchman trial (weekly), Sentinel (daily)
 - [ ] Prospecting mode: reads CVR data, applies filters, creates one job per domain
 - [ ] Jobs appear in Redis queue with correct structure
 - [ ] Scheduler logs: jobs created, next run time, any errors
@@ -397,7 +397,7 @@ Items with no sprint assignment yet.
 - [ ] GrayHatWarfare premium subscription (~230 EUR/yr) — evaluate after pilot
 - [ ] EU expansion research — Germany/Netherlands market sizing
 - [ ] NCC-DK grant application (post-CVR, post Startup Denmark approval)
-- [ ] Quarterly security report template (Guardian tier)
+- [ ] Quarterly security report template (Sentinel tier — optional add-on)
 - [ ] Dashboard-vs-Telegram visual mockup for SIRI pitch deck
 - [ ] Katana, FeroxBuster, SecretFinder, CloudEnum integration (Layer 2 tools)
 - [ ] Marketing sub-agent — translate technical findings to business-impact language

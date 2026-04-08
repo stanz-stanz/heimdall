@@ -274,27 +274,19 @@ Passive scanning. Findings delivered straight to Telegram. We track what's chang
 
 Everything in Watchman, plus: daily scans, active vulnerability testing (Layer 2, with written permission), uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, detailed fix instructions for your developer or hosting provider.
 
-### Guardian — 799 kr./month (annual: 669 kr./month)
-
-*Priority monitoring with dedicated support and a report you can show your accountant or insurer.*
-
-Everything in Sentinel, plus: priority scan cadence, dedicated support channel, quarterly security posture report.
-
 ### Tier Logic
 
-The tiers are structured around how much the client learns and how deeply Heimdall investigates:
+Two tiers. Watchman is a trial/on-ramp; Sentinel is the product. Every SMB needs what Sentinel delivers — active scanning, confirmed findings, and fix instructions. Watchman exists as a low-commitment entry point because passive scans are nearly free to run.
 
-- **Watchman** tells you *what* is wrong — in plain language.
-- **Sentinel** tells you *what* is wrong and *how* to fix it — with a written report.
-- **Guardian** adds *priority cadence*, *dedicated support*, and *documents* your security posture.
+- **Watchman** (trial) tells you *what* is wrong — in plain language. Stepping stone to Sentinel.
+- **Sentinel** (the product) tells you *what* is wrong and *how* to fix it — with confirmed findings and a written report.
 
 ### Pricing Summary
 
 | Tier | Price | Scanning Type | What the Client Gets |
 |------|-------|--------------|---------------------|
-| Watchman | 199 kr./month (annual: 169) | Passive | Plain-language alert: what is wrong |
-| Sentinel | 399 kr./month (annual: 339) | Passive + Active | Alert + written fix report + active testing |
-| Guardian | 799 kr./month (annual: 669) | Passive + Active | Alert + fix report + priority cadence + quarterly posture report |
+| Watchman (trial) | 199 kr./month (annual: 169) | Passive | Plain-language alert: what is wrong |
+| Sentinel | 399 kr./month (annual: 339) | Passive + Active | Alert + written fix report + active testing + daily monitoring |
 
 *All prices excl. moms (Danish VAT).*
 
@@ -378,14 +370,14 @@ Contingency    |~800–1.500 kr.
 
 ### The "Who Do I Send This To?" Problem
 
-| Client Scenario | Watchman | Sentinel / Guardian |
+| Client Scenario | Watchman (trial) | Sentinel |
 |----------------|----------|-------------------|
 | Has a web developer | Identifies the issue and who should handle it | Message designed to be forwarded directly to the developer |
 | Self-manages WordPress | Identifies the issue and that it's a wp-admin task | Step-by-step wp-admin instructions |
 | Fully hosted (Shopify/Squarespace) | Identifies the issue and the platform | Platform-specific settings or drafted support ticket |
 | Nobody manages it | Identifies the issue and suggests contacting hosting provider | Draft hosting provider support ticket + step-by-step fix instructions |
 
-Every finding ends with a clear next step. Sentinel and Guardian add the "how" — specific instructions and ready-to-send messages.
+Every finding ends with a clear next step. Sentinel adds the "how" — specific instructions and ready-to-send messages.
 
 ---
 
@@ -419,7 +411,7 @@ When asked to produce or update the Heimdall Startup Denmark (SIRI) application 
 - Incorporate the legal framework summary (§263, consent requirement, Layer 1/2/3 distinction)
 - Incorporate GDPR Article 32 as a compliance driver¹¹
 - Add the EASM reference sources (CrowdStrike, Trend Micro, Censys, NCSC UK, Vectra) to the references
-- Use aggressive pricing tiers: Watchman 199 kr., Sentinel 399 kr., Guardian 799 kr. (annual: 599 kr.) ✓ (updated in SIRI application)
+- Use aggressive pricing tiers: Watchman 199 kr. (trial), Sentinel 399 kr. ✓ (updated in SIRI application; Guardian dropped 2026-04-08)
 - Include unit economics in the SIRI application to demonstrate self-sustainability (break-even, gross margins)
 - Remove "exposed admin panels" from Layer 1 findings — admin panel detection is Layer 2 ✓ (done in v3)
 - Reference Valdí compliance controls in legal and scanning sections ✓ (done in v3)

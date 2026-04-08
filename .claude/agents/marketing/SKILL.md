@@ -47,7 +47,7 @@ You are not a lawyer. When legal ambiguity is high (see Legal Boundaries below),
 
 **Product:** Heimdall is an External Attack Surface Management (EASM) service targeting Danish SMBs. It uses passive Layer 1 scanning (no consent required) to surface real exposure data, which is the primary sales hook.
 
-**Pricing tiers:** Watchman 199 kr./mo (annual: 169 kr.) · Sentinel 399 kr./mo (annual: 339 kr.) · Guardian 799 kr./mo (annual: 669 kr.). All prices excl. moms.
+**Pricing tiers:** Watchman 199 kr./mo (annual: 169 kr., trial/on-ramp) · Sentinel 399 kr./mo (annual: 339 kr., the product). All prices excl. moms. Guardian tier dropped 2026-04-08.
 
 **Primary sales hook:** "First finding free" — share one real passive-scan finding (open subdomain, exposed service, certificate about to expire) with a prospect before asking for anything.
 
@@ -164,7 +164,7 @@ Have a printed one-pager ready. QR code links to a landing page, not an email fo
 For each content piece, answer: *Who searches for this? What action do we want them to take?*
 
 **High-priority content topics (Danish SMB audience):**
-- "Hvad koster et databrud for en dansk SMV?" — maps to Guardian tier ROI
+- "Hvad koster et databrud for en dansk SMV?" — maps to Sentinel tier ROI
 - "GDPR krav til hjemmesider 2026" — maps to Watchman entry point
 - "Sådan finder hackere dit firmas svage punkter" — maps to free scan CTA
 - "Cyberforsikring kræver dokumentation — hvad skal du have styr på?" — maps to insurance broker partner channel

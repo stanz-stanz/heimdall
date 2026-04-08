@@ -203,7 +203,7 @@ Used in nearly every view to introduce content sections (e.g. "Active Campaigns"
 | `.badge-interpreted` | Gold | Interpreted status |
 | `.badge-sent` | Green | Sent status |
 | `.badge-bucket` | Surface + border | Non-semantic (bucket labels) |
-| `.client-plan` | Varies | Watchman, Sentinel, Guardian |
+| `.client-plan` | Varies | Watchman (trial), Sentinel |
 
 **Usage:** `<span class="badge badge-critical">Critical</span>` (hyphenated modifier, not dot-chained).
 

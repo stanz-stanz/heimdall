@@ -128,9 +128,8 @@ Heimdall's prospecting scan (Layer 1 — passive observation) reads publicly ser
 
 | Tier | Price | What It Does |
 |------|-------|------------|
-| **Watchman** | 199 kr./mo (annual: 169 kr./mo) | Finds problems and explains them in plain language |
-| **Sentinel** | 399 kr./mo (annual: 339 kr./mo) | Daily monitoring + step-by-step fix instructions (written report) |
-| **Guardian** | 799 kr./mo (annual: 669 kr./mo) | Priority scanning cadence + dedicated support + quarterly security report |
+| **Watchman** (trial) | 199 kr./mo (annual: 169 kr./mo) | Finds problems and explains them in plain language. Low-commitment entry point. |
+| **Sentinel** | 399 kr./mo (annual: 339 kr./mo) | Daily monitoring + active vulnerability testing + step-by-step fix instructions (written report) |
 
 *All prices excl. moms (Danish VAT).*
 
@@ -168,7 +167,7 @@ Heimdall runs on a 10-agent chain, each with a documented specification (SKILL.m
 | Agency Detector | Identifies web agencies from footer credits and meta tags |
 | Brief Generator | Produces per-site technical briefs |
 | Grant & Funding | Grant applications, budget tables, consortium narratives |
-| Reporting | Quarterly security reports (Guardian tier) |
+| Reporting | Periodic security reports (Sentinel tier) |
 
 The critical design principle: **tools produce findings, the LLM interprets them.** Nuclei, httpx, and webanalyze generate structured technical data. Claude translates that data into language the restaurant owner understands. The LLM never decides what is vulnerable — it decides how to explain what the tools found.
 
@@ -254,7 +253,7 @@ Open-source scanning tools produce structured technical data. The Claude API int
 | **SAM** | ~80,000 (the 40% with inadequate security) × 305 kr./mo × 12 | ~293M kr./yr |
 | **SOM** | 200 clients in 36 months × 305 kr./mo × 12 | ~732K kr./yr |
 
-The TAM is a theoretical ceiling — clearly labeled as such. The SAM applies the 40% gap statistic. The SOM is deliberately conservative: 200 paying clients in three years represents 0.25% of the SAM. The upside depends on agency partnerships (one relationship = 10–35 clients) and tier migration (Watchman → Sentinel → Guardian).
+The TAM is a theoretical ceiling — clearly labeled as such. The SAM applies the 40% gap statistic. The SOM is deliberately conservative: 200 paying clients in three years represents 0.25% of the SAM. The upside depends on agency partnerships (one relationship = 10–35 clients) and tier migration (Watchman trial → Sentinel).
 
 ### 6.2 Regulatory Tailwinds
 
@@ -291,9 +290,8 @@ The conservative financial projections assume Denmark only. EU expansion is upsi
 
 | Tier | Monthly Price | Annual Option | Scanning Type | Key Value |
 |------|-------------|---------------|---------------|-----------|
-| Watchman | 199 kr. | 169 kr./mo | Passive | What is wrong, in plain language |
-| Sentinel | 399 kr. | 339 kr./mo | Passive | What's wrong + how to fix it (written report) |
-| Guardian | 799 kr. | 669 kr./mo × 12 | Passive + Active | All of the above, plus priority scanning cadence + dedicated support |
+| Watchman (trial) | 199 kr. | 169 kr./mo | Passive | What is wrong, in plain language |
+| Sentinel | 399 kr. | 339 kr./mo | Passive + Active | What's wrong + how to fix it + daily monitoring + active testing |
 
 *All prices excl. moms.*
 
@@ -315,7 +313,7 @@ At 199 kr./mo, Watchman is cheaper than every competitor's entry tier — includ
 
 The margin is lower than premium-priced competitors but the pricing creates a fundamentally different market dynamic: 199 kr./mo eliminates price as an objection. Volume compensates for margin.
 
-Revenue projections are based on subscription fees only. Tier migration (Watchman → Sentinel → Guardian) is the primary upsell mechanism.
+Revenue projections are based on subscription fees only. Tier migration (Watchman trial → Sentinel) is the primary upsell mechanism.
 
 ### 7.3 Acquisition Economics
 
@@ -436,7 +434,7 @@ If the business owner can navigate a vulnerability scanning dashboard, configure
 
 3. **Persistent memory:** Longitudinal understanding of each client's infrastructure, findings history, and remediation patterns. Creates switching costs and compounds in value.
 
-4. **Tiered fix guidance:** Sentinel and Guardian tiers provide step-by-step fix instructions and written reports — closing the gap between "you have a problem" and "here is how to solve it." Competitors stop at raw findings.
+4. **Fix guidance:** Sentinel tier provides step-by-step fix instructions and written reports — closing the gap between "you have a problem" and "here is how to solve it." Competitors stop at raw findings.
 
 ---
 
@@ -541,7 +539,7 @@ I bring nearly 20 years of enterprise software engineering experience to Heimdal
 This is not a slide deck. I have built and am running:
 
 - **Lead generation pipeline** — 20+ module Python pipeline processing CVR company data, resolving domains, scanning, bucketing, and generating per-site briefs. Tested against 204 live Vejle-area domains in 8.5 minutes.
-- **AI-powered finding interpreter** — Claude API agent translates raw scan data into plain-language findings, tier-aware (Watchman: what's wrong, Sentinel/Guardian: + how to fix it). No plugin names in client-facing text.
+- **AI-powered finding interpreter** — Claude API agent translates raw scan data into plain-language findings, tier-aware (Watchman trial: what's wrong, Sentinel: + how to fix it). No plugin names in client-facing text.
 - **Telegram delivery bot** — full pipeline from scan completion to client notification. Redis pub/sub, operator approval flow, inline acknowledge button, HTML formatting with severity labels and confirmed/potential separation.
 - **Client database** — SQLite schema with 11 tables, normalised findings (definitions + occurrences), delivery log, consent registry. 150+ tests.
 - **Digital twin framework** — reconstructs client WordPress environments locally for safe vulnerability testing without touching real sites. Legal foundation documented.
@@ -631,8 +629,8 @@ The business model is designed to be self-sustaining on subscription revenue alo
 
 The financial projections are based on subscription revenue only. They do not account for:
 - **Grant funding** (Digital Europe Programme, Industriens Fond, and similar programmes) — non-dilutive growth capital available to Danish cybersecurity companies
-- **Upsell revenue** from tier migration (Watchman → Sentinel → Guardian)
-- **Annual discounts across all tiers** (Watchman 169, Sentinel 339, Guardian 669 kr./mo × 12) — locks in recurring revenue and improves cash flow predictability
+- **Upsell revenue** from tier migration (Watchman trial → Sentinel)
+- **Annual discounts** (Watchman 169, Sentinel 339 kr./mo × 12) — locks in recurring revenue and improves cash flow predictability
 
 These are excluded deliberately. The conservative case stands on subscription revenue alone.
 

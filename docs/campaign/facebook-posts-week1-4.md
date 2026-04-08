@@ -3,10 +3,11 @@
 *12 posts, 3 per week, all in Danish.*
 *Campaign goal: Build brand awareness and familiarity before email outreach begins.*
 *All posts written in Federico's voice -- founder, not corporation.*
+*Cultural alignment: all posts follow the Danish cultural constraints in `docs/campaign/marketing-keys-denmark.md`. Show don't claim. Craftsperson tone. Community benefit. No fear-based selling.*
 
 ---
 
-## Week 1: Introduce Heimdall + Establish Authority
+## Week 1: Introduce Heimdall + Share What We Found
 
 ### Post 1 -- Monday W1: Introduction
 **Psychology:** Mere Exposure (first brand impression), Unity Principle (local identity)
@@ -24,7 +25,8 @@
 ---
 
 ### Post 2 -- Wednesday W1: The 1,173-Site Statistic
-**Psychology:** Authority Bias (real data, not opinions), Bandwagon Effect (94% = nearly everyone)
+**Psychology:** Data sharing (let numbers speak for themselves), Mere Exposure (second touchpoint)
+**Danish key:** Show don't claim. Present data, no interpretation of what it "means" for them. Let the Dane draw their own conclusion.
 
 > Vi har kigget pa over 1.173 danske virksomheders hjemmesider.
 >
@@ -32,11 +34,11 @@
 >
 > Taenk pa det som en butik uden las pa bagdoren. Doren er der. Men enhver kan ga ind.
 >
-> Det handler ikke om, at nogen vil dig noget ondt. Det handler om, at automatiserede angreb ikke tjekker firmaets storrelse. De tjekker, om doren er aben.
+> Det er ikke noget, de fleste ejere ved. Det er heller ikke deres skyld -- det er bare ikke noget, man taenker over i hverdagen.
 
 **Visual direction:** Simple graphic. Large "94%" in bold. Underneath: "mangler grundlaeggende beskyttelse." Heimdall logo in corner. Dark background, clean typography. No stock imagery of hooded hackers.
 
-**CTA:** None. Authority-building, not selling.
+**CTA:** None. Data sharing, not selling.
 
 ---
 
@@ -59,18 +61,19 @@
 
 ---
 
-## Week 2: Loss Aversion + Actionable Value
+## Week 2: Analogies + Actionable Value
 
 ### Post 4 -- Monday W2: The Unlocked Back Door Analogy
-**Psychology:** Loss Aversion (framing exposure as something already lost, not something to gain), Availability Heuristic (vivid analogy makes abstract risk concrete)
+**Psychology:** Analogy-driven awareness (makes abstract concept concrete), Normalisation (most sites have this — it's common, not shameful)
+**Danish key:** No fear framing. The tone is "this is how things are" not "you should be worried." Danes reject pressure.
 
 > Forestil dig, at du gar hjem hver aften og laser hoveddoren. Men bagdoren star pa klem -- og du ved det ikke, fordi du aldrig bruger den.
 >
-> Sadan er det for mange hjemmesider. Forsiden virker fint. Kunderne kan booke, bestille, kontakte dig. Men set udefra -- sadan som en hacker ser det -- er der abninger, du ikke kender til.
+> Sadan er det for mange hjemmesider. Forsiden virker fint. Kunderne kan booke, bestille, kontakte dig. Men set udefra er der abninger, der bare star abne.
 >
-> 83% af de danske virksomhedshjemmesider, vi har kigget pa, mangler en beskyttelse, der sikrer, at forbindelsen mellem din kunde og din side ikke kan aflyttes.
+> 83% af de danske virksomhedshjemmesider, vi har kigget pa, mangler en beskyttelse, der sikrer, at forbindelsen mellem din kunde og din side er krypteret hele vejen.
 >
-> Det svarer til, at kunden raaber sin bestilling hen over gaden i stedet for at henvende sig ved disken.
+> Det er ikke noget, man opdager selv. Og det er normalt -- de fleste sider mangler det.
 >
 > Din hjemmeside behover ikke vaere perfekt. Den skal bare have de grundlaeggende lase pa plads.
 
@@ -81,25 +84,24 @@
 ---
 
 ### Post 5 -- Wednesday W2: News Hook
-**Psychology:** Availability Heuristic (recent event makes the threat vivid and immediate), Authority (external validation)
+**Psychology:** Topicality (current event as context, not fear trigger), Data sharing (our observations connect to real-world events)
+**Danish key:** Reference the news factually. Don't weaponise it. The connection to our data should feel informative, not pressuring.
 
 > [Tilpas til aktuel nyhed -- eksempel nedenfor]
 >
-> I sidste uge blev en dansk virksomhed ramt af et cyberangreb. Kundernes data blev laekket, og virksomheden brugte uger pa at faa styr pa situationen.
+> I sidste uge var der en sag om en dansk virksomhed, der blev ramt af et cyberangreb. Kundernes data blev kompromitteret.
 >
-> Det starter naesten altid det samme sted: en hjemmeside, der afslorer for meget information til omverdenen.
+> Det minder os om noget, vi har set i vores egne data: 25% af de hjemmesider, vi har kigget pa, fortaeller alle besoegende praecis hvilken software de korer. Det er som at saette et skilt i vinduet med modelnummeret pa dine lase.
 >
-> 25% af de hjemmesider, vi har kigget pa, fortaeller alle besoegende praecis hvilken software de korer. Det er som at saette et skilt i vinduet: "Vi bruger denne las. Her er modelnummeret."
+> Det er ikke noget, man taenker over som ejer. Men det er noget, automatiserede vaerktoejer scanner efter.
 >
-> En hacker behover ikke gaette. Din hjemmeside fortaeller det selv.
->
-> Det tager os 5 minutter at tjekke, om din hjemmeside gor det samme.
+> Vi kan tjekke om jeres hjemmeside gor det samme -- det tager 5 minutter.
 
 **Visual direction:** Screenshot of the news article (blurred company name) with a Heimdall-branded overlay: "25% of Danish SMB websites expose their software version." Clean, informational. Not fearmongering.
 
 **Note:** Replace the example news hook with the most recent relevant Danish cybersecurity incident at time of posting. Check Computerworld.dk, Version2.dk, or DR Nyheder. If no recent incident, use the government's 211M kr. investment as the hook instead.
 
-**CTA:** "Skriv til os i DM, sa tjekker vi din hjemmeside."
+**CTA:** "Skriv til os i DM, sa tjekker vi jeres hjemmeside."
 
 ---
 
@@ -127,28 +129,28 @@
 ## Week 3: Government Authority + Local Storytelling
 
 ### Post 7 -- Monday W3: The 211 Million Kroner Statistic
-**Psychology:** Authority Bias (government validates the threat), Loss Aversion (if the government is spending 211M, the risk is real enough to worry about)
+**Psychology:** External validation (government data as context), Community framing (this is about all of us, not just you)
+**Danish key:** Let the government data speak. No "we built this for you" claim — just connect the dots and let them draw the conclusion.
 
 > Den danske regering investerer 211 millioner kroner i cybersikkerhed for smaa og mellemstore virksomheder.
 >
-> Hvorfor?
+> Baggrunden: 40% af danske virksomheder har ikke tilstraekkelig digital sikkerhed. Det er ikke kun de store, der rammes -- de fleste automatiserede angreb soeger efter kendte svagheder pa mindre sider, fordi de sjaeldre er opdaterede.
 >
-> Fordi 40% af danske virksomheder ikke har tilstraekkelig digital sikkerhed. Og fordi de fleste angreb ikke rammer de store. De rammer dem, der ikke ved, at de er ubeskyttede.
+> 211 millioner kroner. Det siger noget om omfanget af problemet.
 >
-> 211 millioner kroner. Det er ikke et budskab om, at nogen maaske en dag kunne blive ramt. Det er en reaktion pa, at det allerede sker.
+> Vores egne data fra 1.173 danske hjemmesider bekraefter billedet. De fleste smaa virksomheder mangler grundlaeggende beskyttelser -- ikke fordi de er ligeglade, men fordi ingen har fortalt dem det.
 >
-> Heimdall er bygget til praecis de virksomheder, regeringen taler om. Dem med en hjemmeside, et par ansatte og ingen IT-afdeling.
->
-> Vi holder oje. Du passer din forretning.
+> Det er den slags, vi arbejder med i Heimdall.
 
-**Visual direction:** Bold stat graphic: "211.000.000 kr." as the headline. Subtitle: "Regeringens investering i cybersikkerhed for SMV'er." Source attribution at bottom. Government-serious design -- clean, dark, authoritative.
+**Visual direction:** Bold stat graphic: "211.000.000 kr." as the headline. Subtitle: "Regeringens investering i cybersikkerhed for SMV'er." Source attribution at bottom. Clean, dark, factual design.
 
 **CTA:** None. Let the number speak.
 
 ---
 
 ### Post 8 -- Wednesday W3: Anonymized Vejle Case
-**Psychology:** Availability Heuristic (local and specific = vivid), Liking Principle (relatable story about someone like them), Loss Aversion (it happened here, to someone like you)
+**Psychology:** Relatability (local and specific = vivid), Craft demonstration (showing what we actually do, not claiming it)
+**Danish key:** This is show-don't-claim in action. A real example speaks louder than any promise. No fear — just "here's what we found, here's what it means."
 
 > En restaurant i Vejle-omradet havde en hjemmeside med onlinebestilling. Alt virkede. Kunderne var glade.
 >
@@ -200,15 +202,16 @@
 ## Week 4: Conversion + Recap
 
 ### Post 10 -- Monday W4: Free Check CTA
-**Psychology:** Zero-Price Effect (free is psychologically different from cheap -- it removes all risk), Activation Energy reduction (DM is the lowest friction channel)
+**Psychology:** Zero-Price Effect (free removes all risk), Low friction (DM is the easiest channel)
+**Danish key:** No fear opener. Frame as curiosity and transparency, not threat. "Would you like to know" not "do you know what a hacker sees."
 
-> Vil du vide, hvad en hacker kan se pa din hjemmeside?
+> Vil du vide, hvordan din hjemmeside ser ud udefra?
 >
-> Vi tjekker den gratis. Ingen forpligtelser. Ingen salg. Du far en kort besked med det, vi finder -- i ord, du kan forstaa.
+> Vi kigger pa den gratis. Du far en kort besked med det, vi finder -- i klart sprog, ingen teknisk jargon.
 >
-> Hvorfor gratis? Fordi det tager os 5 minutter, og fordi vi tror pa, at du skal vide, hvordan det star til, for du beslutter, om du har brug for hjaelp.
+> Hvorfor gratis? Fordi det tager os 5 minutter, og fordi vi mener, man bor vide, hvordan ens hjemmeside ser ud for omverdenen, for man beslutter, om man vil gore noget ved det.
 >
-> Skriv din hjemmesideadresse i en DM, sa vender vi tilbage.
+> Skriv jeres hjemmesideadresse i en DM, sa vender vi tilbage.
 
 **Visual direction:** Clean, bold graphic. "Gratis sikkerhedstjek af din hjemmeside" as headline. Simple illustration: a magnifying glass over a website. Heimdall branding. Include a small "Ingen forpligtelser" badge.
 
@@ -217,21 +220,22 @@
 ---
 
 ### Post 11 -- Wednesday W4: FAQ -- Addressing Objections
-**Psychology:** Objection handling (preemptive answers to the four most common resistance points), Commitment and Consistency (reading through the FAQ creates micro-engagement)
+**Psychology:** Transparency (answer honestly, let them decide), Peer tone (craftsperson explaining, not salesperson handling objections)
+**Danish key:** No persuasion tricks. Honest answers. If a question has a nuanced answer, give the nuance. Danes respect honesty over polish.
 
 > De sporgsmal, vi far oftest:
 >
 > "Koster det noget?"
-> Det forste tjek er gratis. Altid. Hvis du bagefter vil have, at vi holder oje med din hjemmeside lopende, starter det fra 199 kr. om maneden. Mindre end en enkelt madlevering.
+> Det forste tjek er gratis. Hvis I vil proeve lopende overvaagning bagefter, starter det fra 199 kr. om maneden -- helt uforpligtende.
 >
 > "Jeg er for lille til at vaere et mal."
-> Automatiserede angreb tjekker ikke virksomhedens storrelse. De tjekker, om doren er aben. Derfor investerer regeringen 211 mio. kr. i cybersikkerhed -- fordi det er virksomheder som din, der bliver ramt.
+> De fleste angreb er automatiserede -- de scanner tusindvis af sider og leder efter kendte svagheder. De ved ikke, om det er en restaurant eller en bank. Storrelse er ikke en faktor.
 >
 > "Min webudvikler klarer det."
-> De klarer hjemmesiden. Vi holder oje med det, en hacker kan se udefra. Taenk pa det som forskellen mellem at have gode lase -- og have nogen, der tjekker, om vinduerne er lukkede.
+> Det kan godt vaere. Webudvikleren passer pa koden og serveren. Vi kigger pa, hvad der er synligt udefra -- de to ting supplerer hinanden.
 >
 > "Hvad gor I egentlig?"
-> Vi scanner din hjemmeside udefra -- praecis som en hacker ville gore det. Og sa fortaeller vi dig, hvad vi fandt, i klart sprog. Pa din telefon. Ingen dashboards. Ingen teknisk jargon.
+> Vi kigger pa jeres hjemmeside udefra og noterer, hvad der er synligt. Og sa forklarer vi det i klart sprog -- pa jeres telefon. Ingen dashboards. Ingen teknisk jargon.
 >
 > Flere sporgsmal? Skriv en DM.
 
@@ -242,7 +246,8 @@
 ---
 
 ### Post 12 -- Friday W4: Month Recap + CTA
-**Psychology:** Mere Exposure (7th+ touchpoint for followers since day 1), Authority (recap of what was shared reinforces data-driven credibility), Commitment and Consistency (followers who engaged with earlier posts are primed to act)
+**Psychology:** Mere Exposure (7th+ touchpoint), Data recap (let the numbers summarise the month), Community framing (restaurants, physios, accountants — people like you)
+**Danish key:** No "we built this for you" claim. Let the data and the examples speak. End with an invitation, not a promise.
 
 > Fire uger, og her er hvad vi har delt:
 >
@@ -253,17 +258,15 @@
 >
 > Regeringen investerer 211 mio. kr. fordi 40% af danske virksomheder ikke har tilstraekkelig digital sikkerhed.
 >
-> Vi har bygget Heimdall til dem. Til restauranten med onlinebestilling. Fysioterapeuten med kontaktformular. Revisoren med kundeportal. Den lille virksomhed, der ikke har en IT-afdeling -- men som har en hjemmeside, der handler med kundedata hver dag.
+> Restauranten med onlinebestilling. Fysioterapeuten med kontaktformular. Revisoren med kundeportal. Det er dem, tallene handler om -- virksomheder uden IT-afdeling, men med en hjemmeside, der haandterer kundedata hver dag.
 >
-> Vi tjekker din hjemmeside gratis. Du far en kort besked med det, vi finder. Ingen jargon. Ingen forpligtelser.
+> Vi tjekker jeres hjemmeside gratis. I far en kort besked med det, vi finder. Ingen jargon. Ingen forpligtelser.
 >
-> Det eneste, du skal gore, er at sende din hjemmesideadresse i en DM.
->
-> Sa gor vi resten.
+> Send jeres hjemmesideadresse i en DM, sa kigger vi pa den.
 
 **Visual direction:** Summary graphic with the four key numbers stacked: 1.173 / 94% / 83% / 211 mio. kr. Clean, bold, dark background. Heimdall logo and tagline: "Vi holder oje. Du passer din forretning." This becomes a signature visual that can be reused.
 
-**CTA:** "Send din hjemmesideadresse i en DM."
+**CTA:** "Send jeres hjemmesideadresse i en DM."
 
 ---
 
@@ -299,20 +302,24 @@ All statistics in these posts come from confirmed Layer 1 observations (passive 
 - [ ] Post 11: FAQ carousel (4 slides) or single graphic
 - [ ] Post 12: Summary stat graphic (1.173 / 94% / 83% / 211 mio.)
 
-### Psychology Principle Index
-| Principle | Posts |
-|-----------|-------|
-| Mere Exposure | 1, 12 |
-| Authority Bias | 2, 7, 9, 12 |
-| Bandwagon Effect | 2 |
-| Curse of Knowledge antidote | 3 |
-| Reciprocity | 3, 6 |
-| Loss Aversion | 4, 5, 7, 8 |
-| Availability Heuristic | 5, 8 |
-| Foot-in-the-Door | 6 |
-| Unity Principle | 9 |
-| Commitment and Consistency | 9, 11, 12 |
-| Zero-Price Effect | 10 |
-| Objection Handling | 11 |
-| Pratfall Effect | 3 (video) |
-| Liking Principle | 8 |
+### Psychology Principle Index (Danish-aligned)
+
+Principles calibrated to Danish consumer psychology. See `docs/campaign/marketing-keys-denmark.md`.
+
+| Principle | Posts | Danish alignment |
+|-----------|-------|------------------|
+| Mere Exposure | 1, 2, 12 | Familiarity before any ask — Danes trust what they've seen before |
+| Show Don't Claim (data sharing) | 2, 5, 7, 12 | Let numbers speak. No superlatives. Dane decides if it's good. |
+| Analogy-driven awareness | 3, 4 | Makes abstract concepts concrete without fear |
+| Reciprocity | 3, 6 | Genuine free value — craftsperson sharing knowledge |
+| Craft demonstration | 8 | Real example of what we do, not what we promise |
+| Community / Unity | 9, 12 | Shared local identity, collective benefit |
+| Normalisation | 4, 5, 11 | "Most sites have this" — no shame, no blame |
+| Transparency | 10, 11 | Honest answers, including nuance. Danes respect this. |
+| Zero-Price Effect | 10 | Free removes all risk — but framed as invitation, not hook |
+| Topicality | 5 | Current events as context, not fear triggers |
+| External validation | 7 | Government data speaks for itself — no "therefore buy us" |
+| Pratfall Effect | 3 (video) | Imperfect, honest video > slick production |
+| Relatability | 8 | Local, specific, someone-like-me |
+
+**Removed from original framework:** Authority Bias (Janteloven conflict — Danes distrust authority appeals), Loss Aversion as primary driver (replaced by normalisation + data sharing), Bandwagon Effect (egalitarianism conflict), Commitment and Consistency as manipulation tool (replaced by transparency).

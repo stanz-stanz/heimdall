@@ -103,8 +103,7 @@ Full architecture documented in `docs/architecture/pi5-docker-architecture.md`.
 # Sentinel tier: daily scan (06:00)
 0 6 * * * /opt/heimdall/scripts/run-scan.sh --tier sentinel
 
-# Guardian tier: daily scan + authenticated (05:00)
-0 5 * * * /opt/heimdall/scripts/run-scan.sh --tier guardian
+# (Guardian tier removed 2026-04-08 — two-tier model: Watchman trial + Sentinel)
 
 # SSL expiry check: daily (07:00)
 0 7 * * * /opt/heimdall/scripts/check-ssl-expiry.sh

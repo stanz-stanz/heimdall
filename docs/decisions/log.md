@@ -5,6 +5,27 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-08 — Tier restructure + Danish cultural alignment
+
+**Decided**
+- Guardian tier dropped. Objective evaluation: priority scan cadence is marginal over daily scans, dedicated support is a scaling liability, quarterly PDF report is a niche deliverable. No capability cliff to justify 2x price jump over Sentinel.
+- Two-tier structure: Watchman + Sentinel. Watchman reframed as trial/on-ramp ("start here, upgrade when you're ready"), not a standalone product. Sentinel is the product.
+- Rationale: every SMB needs active scanning, confirmed findings, and fix instructions. A cheaper tier that omits these isn't "a choice based on needs" — it's incomplete protection. Honest framing = Watchman is a bridge.
+- Danish cultural psychology (marketing-keys-denmark.md) integrated into all client-facing materials and brand voice as permanent constraint. 10 hard rules added to product-marketing-context.md. Facebook posts, email templates, and DM templates retuned.
+- Psychology framework overhauled: Authority Bias, Loss Aversion (as primary driver), Bandwagon Effect, Commitment & Consistency (as manipulation) removed. Replaced with: Show Don't Claim, Normalisation, Community framing, Transparency, Craft demonstration.
+- AI framing rule: lead with human expertise, background the technology. "AI-powered" never as headline.
+- Campaign files updated: `facebook-posts-week1-4.md`, `email-and-dm-templates.md`, `product-marketing-context.md`.
+
+**Rejected**
+- Separate Instagram content strategy — Pareto principle, Facebook drives 80% for this audience (reaffirmed from 2026-04-07).
+- Option B (single tier, drop Watchman entirely) — Watchman as trial has acquisition value; removing it loses the low-commitment entry point.
+- Fear-based selling as primary driver — replaced by data sharing and normalisation per Danish cultural keys.
+
+**Unresolved**
+- Guardian removal from 19 files across codebase (briefing.md, CLAUDE.md, SCANNING_RULES.md, agent SKILL.md files). Decision logged, cleanup deferred.
+
+---
+
 ## 2026-04-07 — Marketing campaign and outreach export
 
 **Decided**

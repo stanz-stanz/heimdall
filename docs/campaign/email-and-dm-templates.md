@@ -1,8 +1,10 @@
 # Email & DM Templates — Heimdall Outreach Campaign
 
 *Created: 2026-04-07*
+*Updated: 2026-04-08 — Danish cultural alignment pass*
 *Language: Danish (all templates)*
 *Legal status: GREEN — B2B email to non-Reklamebeskyttet companies; Facebook/Instagram DMs*
+*Cultural alignment: all templates follow Danish cultural constraints in `docs/campaign/marketing-keys-denmark.md`. Craftsperson tone. Show don't claim. No fear-based selling. Transparency over persuasion.*
 
 ---
 
@@ -22,7 +24,8 @@ Lead with confirmed observations. Mention unconfirmed findings as secondary cont
 ### Email 1 — "First Finding Free" (sikkerhedsnotits)
 
 **Channel:** B2B email to company address (non-Reklamebeskyttet verified)
-**Psychology:** Zeigarnik Effect (subject creates open loop) + AIDA body + Reciprocity (free finding) + Loss Aversion (consequence framing)
+**Psychology:** Reciprocity (genuine free value) + Transparency (specific, verifiable observation about their site)
+**Danish key:** No open loops or AIDA funnels. Danes start from trust — be direct about what we found and why we're writing. Let them decide if they want more.
 **Timing:** Week 3-4 of campaign (after Facebook warm-up)
 
 ---
@@ -33,19 +36,19 @@ Lead with confirmed observations. Mention unconfirmed findings as secondary cont
 
 Hej [COMPANY_NAME],
 
-Vi holder oeje med sikkerheden paa danske hjemmesider, og i den forbindelse har vi ogsaa kigget paa [DOMAIN].
+Vi kigger paa danske virksomheders hjemmesider udefra — det samme som enhver automatiseret scanner kan se. I den forbindelse har vi ogsaa kigget paa [DOMAIN].
 
 **Vi lagde maerke til noget:**
 
 [CONFIRMED_FINDING]
 
-Hvad betyder det? Forestil jer at jeres butiksdoer staar paa klem — den virker fint, kunderne kan komme ind og ud, men alle kan ogsaa se hvilke laase I bruger. Det er ikke et indbrud, men det er en invitation til dem der leder efter aabne doere.
+Det er ikke noget, man opdager som ejer — det kraever at man kigger paa hjemmesiden udefra. De fleste sider vi har set har lignende observationer.
 
 [GDPR_CONTEXT]
 
-Vi har en komplet rapport med flere observationer om [DOMAIN]. Den er gratis og uforpligtende.
+Vi har en samlet oversigt med flere observationer om [DOMAIN]. Den er gratis og uforpligtende.
 
-**Skal jeg sende den?** Svar paa denne mail, saa sender jeg rapporten med det samme.
+**Vil I gerne se den?** Svar paa denne mail, saa sender jeg den.
 
 Venlig hilsen,
 
@@ -75,7 +78,8 @@ CVR: [CVR-NUMMER]
 ### Email 2 — Follow-up (5-7 dage efter Email 1)
 
 **Channel:** Reply thread to Email 1
-**Psychology:** Commitment & Consistency (they opened Email 1) + Contrast Effect (new finding type) + Hick's Law (exactly 2 choices)
+**Psychology:** Transparency (new observation adds context) + Low friction (simple choice)
+**Danish key:** No manipulation framing. They didn't respond — that's fine. Add genuine new value. Keep it short. Danes appreciate brevity and respect for their time.
 **Timing:** 5-7 days after Email 1, only to non-responders
 
 ---
@@ -86,19 +90,13 @@ CVR: [CVR-NUMMER]
 
 Hej [COMPANY_NAME],
 
-Jeg skrev til jer for nogle dage siden om [DOMAIN]. Siden da har vi ogsaa lagt maerke til noget andet:
+Jeg skrev for nogle dage siden om [DOMAIN]. Vi har siden lagt maerke til noget mere:
 
 [SECOND_FINDING]
 
-Naar vi ser to forskellige typer observationer paa den samme hjemmeside, er det typisk et tegn paa at den ikke faar loebendevedligeholdelse. Det er normalt — de fleste smaa virksomheder har ikke nogen der holder oeje med det. Det er praecis derfor vi har lavet Heimdall.
+Vi har samlet alle observationer i en kort oversigt — i klart sprog, uden teknisk jargon.
 
-Vi har samlet alle observationer i en kort, letlaeselig rapport. Ingen teknisk jargon — bare hvad vi saa, og hvad det betyder for jeres forretning.
-
-**To muligheder:**
-1. Skal jeg sende rapporten paa email?
-2. Eller vil I hellere modtage den som en besked (Telegram)?
-
-Bare svar med "email" eller "besked", saa sender jeg den med det samme.
+Vil I have den paa email, eller som en besked paa Telegram? Svar bare med "email" eller "besked".
 
 Venlig hilsen,
 
@@ -124,7 +122,8 @@ CVR: [CVR-NUMMER]
 ### DM 1 — Engagement-baseret (liked/kommenteret paa et opslag)
 
 **Channel:** Facebook/Instagram direct message
-**Psychology:** Unity Principle (shared community) + Commitment & Consistency (they already engaged)
+**Psychology:** Community (shared local context) + Reciprocity (they showed interest, we offer value)
+**Danish key:** They engaged voluntarily — acknowledge it warmly but don't treat it as a sales funnel step. Offer, don't push.
 **Trigger:** Prospect liked or commented on a Heimdall post
 
 ---
@@ -148,7 +147,8 @@ CVR: [CVR-NUMMER]
 ### DM 2 — Lead form-respondent (udfyldte en annonce)
 
 **Channel:** Facebook/Instagram direct message
-**Psychology:** Reciprocity (they gave info, we give value) + Commitment & Consistency (they already opted in)
+**Psychology:** Reciprocity (they asked, we deliver) + Trust maintenance (do exactly what was promised, nothing more)
+**Danish key:** They opted in — honour that with speed and simplicity. No upsell in this message. Trust is default-on; don't break it by adding sales language.
 **Trigger:** Prospect submitted a lead form ad requesting a free check
 
 ---
@@ -176,7 +176,8 @@ CVR: [CVR-NUMMER]
 ### DM 3 — Rapport-opfoelgning (efter gratis rapport er sendt)
 
 **Channel:** Facebook/Instagram direct message
-**Psychology:** Endowment Effect (they "own" the report) + Foot-in-the-Door (small next step)
+**Psychology:** Genuine follow-up (check if they have questions) + Soft introduction to ongoing service
+**Danish key:** No manipulation framing (endowment, foot-in-door). This is a craftsperson checking back: "Did that make sense? Any questions?" The monitoring offer comes naturally if they're interested.
 **Trigger:** 2-3 days after sending the free report via DM or email
 
 ---

@@ -41,9 +41,8 @@ Reads client configurations from `/data/clients/`. For each client, creates scan
 
 | Tier | Schedule | Scan types |
 |------|----------|------------|
-| Watchman | Weekly (Monday 06:00) | Layer 1 only |
-| Sentinel | Daily (06:00) | Layer 1 only (Layer 2 when consent-gated pipeline is built) |
-| Guardian | Daily (05:00) | Layer 1 + Layer 2 (with consent) |
+| Watchman (trial) | Weekly (Monday 06:00) | Layer 1 only |
+| Sentinel | Daily (06:00) | Layer 1 + Layer 2 (with consent) |
 
 Also handles the prospecting pipeline with a two-phase approach:
 
