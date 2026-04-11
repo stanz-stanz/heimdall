@@ -3,6 +3,7 @@
   import FeedItem from '../components/FeedItem.svelte';
   import { fetchDashboard } from '../lib/api.js';
   import { wsState } from '../lib/ws.svelte.js';
+  import { navigate } from '../lib/router.svelte.js';
   import { onMount, untrack } from 'svelte';
 
   let stats = $state({ prospects: 0, briefs: 0, clients: 0, critical: 0 });
@@ -128,7 +129,7 @@
 
 <div class="section-header" style="margin-top: 28px;">
   <span class="section-title">Recent Activity</span>
-  <button class="btn btn-ghost btn-sm">View all</button>
+  <button class="btn btn-ghost btn-sm" onclick={() => navigate('logs', 'Logs')}>View all</button>
 </div>
 
 <div class="feed">

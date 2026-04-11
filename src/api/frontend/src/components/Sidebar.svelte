@@ -70,7 +70,7 @@
     <span class="status-dot" class:online={wsState.connected}></span>
     <span class="status-text">
       {#if wsState.connected}
-        Pi5 &middot; 3 workers &middot; Redis OK
+        Online &middot; Redis OK
       {:else}
         Disconnected
       {/if}

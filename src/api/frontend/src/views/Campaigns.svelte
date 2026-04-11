@@ -23,6 +23,12 @@
     });
   }
 
+  function handleSend(campaign) {
+    sendCommand('send', { campaign: campaign.campaign, limit: 10 }).catch(err => {
+      console.error('Send command failed:', err);
+    });
+  }
+
   function handleViewProspects(campaign) {
     setSelectedCampaign(campaign.campaign);
     navigate('prospects', 'Prospects');
@@ -31,7 +37,6 @@
 
 <div class="section-header" style="margin-top: 0;">
   <span class="section-title">Active Campaigns</span>
-  <button class="btn btn-primary" disabled>New Campaign</button>
 </div>
 
 {#if campaigns.length > 0}
@@ -40,6 +45,7 @@
       <CampaignCard
         campaign={c}
         oninterpret={handleInterpret}
+        onsend={handleSend}
         onviewprospects={handleViewProspects}
       />
     {/each}
@@ -50,9 +56,3 @@
   </div>
 {/if}
 
-<style>
-  button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-</style>

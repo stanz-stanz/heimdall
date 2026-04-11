@@ -1,5 +1,5 @@
 <script>
-  let { campaign = {}, oninterpret = null, onviewprospects = null } = $props();
+  let { campaign = {}, oninterpret = null, onsend = null, onviewprospects = null } = $props();
 
   let total = $derived((campaign.total ?? 0) || 1);
   let newCount = $derived(campaign.new_count ?? 0);
@@ -60,6 +60,11 @@
         onclick={() => oninterpret(campaign)}
       >
         {hasUninterpreted ? 'Interpret Next 10' : 'All Interpreted'}
+      </button>
+    {/if}
+    {#if onsend}
+      <button class="btn btn-ghost btn-sm" onclick={() => onsend(campaign)}>
+        Send Next 10
       </button>
     {/if}
     {#if onviewprospects}

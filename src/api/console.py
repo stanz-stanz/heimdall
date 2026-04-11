@@ -130,42 +130,49 @@ async def console_dashboard(request: Request):
     redis_conn = getattr(request.app.state, "redis", None)
 
     def _query():
-        conn = sqlite3.connect(db_path, timeout=5)
-        conn.row_factory = sqlite3.Row
         try:
-            prospects = conn.execute("SELECT COUNT(*) FROM prospects").fetchone()[0]
-            briefs = conn.execute("SELECT COUNT(*) FROM v_current_briefs").fetchone()[0]
-            clients = conn.execute(
-                "SELECT COUNT(*) FROM clients WHERE status IN ('active','onboarding')"
-            ).fetchone()[0]
-            critical = conn.execute(
-                "SELECT COALESCE(SUM(critical_count),0) FROM v_current_briefs"
-            ).fetchone()[0]
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                prospects = conn.execute("SELECT COUNT(*) FROM prospects").fetchone()[0]
+                briefs = conn.execute("SELECT COUNT(*) FROM v_current_briefs").fetchone()[0]
+                clients = conn.execute(
+                    "SELECT COUNT(*) FROM clients WHERE status IN ('active','onboarding')"
+                ).fetchone()[0]
+                critical = conn.execute(
+                    "SELECT COALESCE(SUM(critical_count),0) FROM v_current_briefs"
+                ).fetchone()[0]
 
-            # Recent activity from pipeline_runs + delivery_log
-            activity: list[dict] = []
-            for row in conn.execute(
-                "SELECT 'pipeline' AS source, run_id AS id, status, run_date AS ts,"
-                "       domain_count, finding_count"
-                " FROM pipeline_runs ORDER BY completed_at DESC LIMIT 5"
-            ).fetchall():
-                activity.append(dict(row))
-            for row in conn.execute(
-                "SELECT 'delivery' AS source, id, domain, status, created_at AS ts"
-                " FROM delivery_log ORDER BY created_at DESC LIMIT 5"
-            ).fetchall():
-                activity.append(dict(row))
-            activity.sort(key=lambda x: x.get("ts", ""), reverse=True)
+                # Recent activity from pipeline_runs + delivery_log
+                activity: list[dict] = []
+                for row in conn.execute(
+                    "SELECT 'pipeline' AS source, run_id AS id, status, run_date AS ts,"
+                    "       domain_count, finding_count"
+                    " FROM pipeline_runs ORDER BY completed_at DESC LIMIT 5"
+                ).fetchall():
+                    activity.append(dict(row))
+                for row in conn.execute(
+                    "SELECT 'delivery' AS source, id, domain, status, created_at AS ts"
+                    " FROM delivery_log ORDER BY created_at DESC LIMIT 5"
+                ).fetchall():
+                    activity.append(dict(row))
+                activity.sort(key=lambda x: x.get("ts", ""), reverse=True)
 
-            return {
-                "prospects": prospects,
-                "briefs": briefs,
-                "clients": clients,
-                "critical": critical,
-                "activity": activity[:10],
-            }
-        finally:
-            conn.close()
+                return {
+                    "prospects": prospects,
+                    "briefs": briefs,
+                    "clients": clients,
+                    "critical": critical,
+                    "activity": activity[:10],
+                }
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
 
     data = await asyncio.to_thread(_query)
 
@@ -193,13 +200,20 @@ async def console_pipeline_last(request: Request):
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        conn = sqlite3.connect(db_path, timeout=5)
-        conn.row_factory = sqlite3.Row
         try:
-            row = conn.execute("SELECT * FROM v_latest_run").fetchone()
-            return dict(row) if row else None
-        finally:
-            conn.close()
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                row = conn.execute("SELECT * FROM v_latest_run").fetchone()
+                return dict(row) if row else None
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
 
     result = await asyncio.to_thread(_query)
     if result is None:
@@ -213,13 +227,20 @@ async def console_campaigns(request: Request):
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        conn = sqlite3.connect(db_path, timeout=5)
-        conn.row_factory = sqlite3.Row
         try:
-            rows = conn.execute("SELECT * FROM v_campaign_summary").fetchall()
-            return [dict(r) for r in rows]
-        finally:
-            conn.close()
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                rows = conn.execute("SELECT * FROM v_campaign_summary").fetchall()
+                return [dict(r) for r in rows]
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
 
     return await asyncio.to_thread(_query)
 
@@ -236,24 +257,31 @@ async def console_campaign_prospects(
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        conn = sqlite3.connect(db_path, timeout=5)
-        conn.row_factory = sqlite3.Row
         try:
-            sql = (
-                "SELECT domain, company_name, campaign, bucket, finding_count,"
-                "       critical_count, high_count, outreach_status, created_at"
-                " FROM prospects WHERE campaign = ?"
-            )
-            params: list = [campaign]
-            if status is not None:
-                sql += " AND outreach_status = ?"
-                params.append(status)
-            sql += " ORDER BY critical_count DESC, finding_count DESC LIMIT ? OFFSET ?"
-            params.extend([limit, offset])
-            rows = conn.execute(sql, params).fetchall()
-            return [dict(r) for r in rows]
-        finally:
-            conn.close()
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                sql = (
+                    "SELECT domain, company_name, campaign, bucket, finding_count,"
+                    "       critical_count, high_count, outreach_status, created_at"
+                    " FROM prospects WHERE campaign = ?"
+                )
+                params: list = [campaign]
+                if status is not None:
+                    sql += " AND outreach_status = ?"
+                    params.append(status)
+                sql += " ORDER BY critical_count DESC, finding_count DESC LIMIT ? OFFSET ?"
+                params.extend([limit, offset])
+                rows = conn.execute(sql, params).fetchall()
+                return [dict(r) for r in rows]
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
 
     return await asyncio.to_thread(_query)
 
@@ -264,27 +292,34 @@ async def console_clients_list(request: Request):
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
 
     def _query():
-        conn = sqlite3.connect(db_path, timeout=5)
-        conn.row_factory = sqlite3.Row
         try:
-            rows = conn.execute(
-                "SELECT c.cvr, c.company_name, c.plan, c.status,"
-                "       cd.domain,"
-                "       (SELECT MAX(scan_date) FROM brief_snapshots bs"
-                "            WHERE bs.cvr = c.cvr) AS last_scan,"
-                "       (SELECT COUNT(*) FROM finding_occurrences fo"
-                "            WHERE fo.cvr = c.cvr AND fo.status NOT IN ('resolved'))"
-                "            AS open_findings,"
-                "       (SELECT MAX(created_at) FROM delivery_log dl"
-                "            WHERE dl.cvr = c.cvr) AS last_delivery"
-                " FROM clients c"
-                " LEFT JOIN client_domains cd ON c.cvr = cd.cvr AND cd.is_primary = 1"
-                " WHERE c.status IN ('active', 'onboarding')"
-                " ORDER BY c.company_name"
-            ).fetchall()
-            return [dict(r) for r in rows]
-        finally:
-            conn.close()
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                rows = conn.execute(
+                    "SELECT c.cvr, c.company_name, c.plan, c.status,"
+                    "       cd.domain,"
+                    "       (SELECT MAX(scan_date) FROM brief_snapshots bs"
+                    "            WHERE bs.cvr = c.cvr) AS last_scan,"
+                    "       (SELECT COUNT(*) FROM finding_occurrences fo"
+                    "            WHERE fo.cvr = c.cvr AND fo.status NOT IN ('resolved'))"
+                    "            AS open_findings,"
+                    "       (SELECT MAX(created_at) FROM delivery_log dl"
+                    "            WHERE dl.cvr = c.cvr) AS last_delivery"
+                    " FROM clients c"
+                    " LEFT JOIN client_domains cd ON c.cvr = cd.cvr AND cd.is_primary = 1"
+                    " WHERE c.status IN ('active', 'onboarding')"
+                    " ORDER BY c.company_name"
+                ).fetchall()
+                return [dict(r) for r in rows]
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
 
     return await asyncio.to_thread(_query)
 
