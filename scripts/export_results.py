@@ -20,7 +20,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 
 DEFAULT_RESULTS_DIR = "data/results"
 DEFAULT_OUTPUT_DIR = "data/output"

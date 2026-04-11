@@ -201,20 +201,20 @@ class TestNmapPortsToFindings:
 class TestRunNmap:
     """Tests for the _run_nmap scan function."""
 
-    @patch("src.prospecting.scanner.shutil.which", return_value=None)
+    @patch("src.prospecting.scanners.nmap.shutil.which", return_value=None)
     def test_tool_not_found(self, mock_which):
         result = _run_nmap(["example.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/nmap")
-    @patch("src.prospecting.scanner.subprocess.run",
+    @patch("src.prospecting.scanners.nmap.shutil.which", return_value="/usr/bin/nmap")
+    @patch("src.prospecting.scanners.nmap.subprocess.run",
            side_effect=subprocess.TimeoutExpired("nmap", 120))
     def test_timeout(self, mock_run, mock_which):
         result = _run_nmap(["example.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/nmap")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nmap.shutil.which", return_value="/usr/bin/nmap")
+    @patch("src.prospecting.scanners.nmap.subprocess.run")
     def test_success(self, mock_run, mock_which):
         mock_run.return_value = MagicMock(
             stdout=NMAP_XML_MULTI_PORT,
@@ -226,8 +226,8 @@ class TestRunNmap:
         assert result["example.dk"]["port_count"] == 3
         assert result["example.dk"]["open_ports"][0]["port"] == 80
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/nmap")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nmap.shutil.which", return_value="/usr/bin/nmap")
+    @patch("src.prospecting.scanners.nmap.subprocess.run")
     def test_nonzero_exit(self, mock_run, mock_which):
         mock_run.return_value = MagicMock(
             stdout=NMAP_XML_MULTI_PORT,
@@ -238,8 +238,8 @@ class TestRunNmap:
         # Should still parse output despite non-zero exit
         assert "example.dk" in result
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/nmap")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nmap.shutil.which", return_value="/usr/bin/nmap")
+    @patch("src.prospecting.scanners.nmap.subprocess.run")
     def test_no_open_ports_excluded(self, mock_run, mock_which):
         mock_run.return_value = MagicMock(
             stdout=NMAP_XML_NO_OPEN,
@@ -251,12 +251,12 @@ class TestRunNmap:
         assert "example.dk" not in result
 
     def test_invalid_domain_skipped(self):
-        with patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/nmap"):
+        with patch("src.prospecting.scanners.nmap.shutil.which", return_value="/usr/bin/nmap"):
             result = _run_nmap(["not a valid domain!"])
             assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/nmap")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nmap.shutil.which", return_value="/usr/bin/nmap")
+    @patch("src.prospecting.scanners.nmap.subprocess.run")
     def test_multiple_domains(self, mock_run, mock_which):
         mock_run.return_value = MagicMock(
             stdout=NMAP_XML_MULTI_PORT,

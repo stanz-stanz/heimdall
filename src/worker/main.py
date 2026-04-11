@@ -27,7 +27,7 @@ from loguru import logger
 
 from src.consent.validator import check_consent
 from src.prospecting.config import ENRICHMENT_RETRY_LIMIT
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 from src.prospecting.scanner import (
     _init_scan_type_map,
     _run_subfinder,

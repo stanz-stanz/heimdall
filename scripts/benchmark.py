@@ -356,7 +356,7 @@ def _timed_scan_domains(companies, mocked, domains_list):
 
 def run_benchmark(n_domains: int, mocked: bool, output_path: Path) -> dict:
     """Execute the full benchmark and return the results dict."""
-    from src.prospecting.logging_config import setup_logging
+    from src.core.logging_config import setup_logging
     setup_logging(level="WARNING")
 
     from prospecting.agency_detector import detect_agencies

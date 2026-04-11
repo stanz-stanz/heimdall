@@ -19,7 +19,7 @@ from loguru import logger
 from src.ct_collector.db import open_readonly, query_certificates
 from src.prospecting.brief_generator import generate_brief
 from src.prospecting.bucketer import classify
-from src.prospecting.config import CMS_KEYWORDS, DEFAULT_FILTERS, HOSTING_PROVIDERS
+from src.core.config import CMS_KEYWORDS, DEFAULT_FILTERS, HOSTING_PROVIDERS
 from src.prospecting.cvr import Company
 from src.prospecting.filters import load_filters
 from src.prospecting.scanner import (

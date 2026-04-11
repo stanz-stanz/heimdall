@@ -91,8 +91,8 @@ def _patch_all_scans_with_nuclei():
 class TestRunNuclei:
     """Unit tests for the _run_nuclei scan function."""
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/local/bin/nuclei")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
+    @patch("src.prospecting.scanners.nuclei.subprocess.run")
     def test_parses_jsonl_output(self, mock_run, mock_which):
         """Multi-line JSONL output parsed correctly."""
         findings = [
@@ -124,21 +124,21 @@ class TestRunNuclei:
         assert result["example.dk"]["findings"][0]["severity"] == "high"
         assert result["example.dk"]["findings"][0]["template_id"] == "cve-2024-1234"
 
-    @patch("src.prospecting.scanner.shutil.which", return_value=None)
+    @patch("src.prospecting.scanners.nuclei.shutil.which", return_value=None)
     def test_tool_not_found(self, mock_which):
         """Returns empty dict when nuclei not in PATH."""
         result = _run_nuclei(["example.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/local/bin/nuclei")
-    @patch("src.prospecting.scanner.subprocess.run", side_effect=subprocess.TimeoutExpired("nuclei", 300))
+    @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
+    @patch("src.prospecting.scanners.nuclei.subprocess.run", side_effect=subprocess.TimeoutExpired("nuclei", 300))
     def test_timeout(self, mock_run, mock_which):
         """Returns empty dict on timeout."""
         result = _run_nuclei(["example.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/local/bin/nuclei")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
+    @patch("src.prospecting.scanners.nuclei.subprocess.run")
     def test_empty_results(self, mock_run, mock_which):
         """No findings returns empty findings list per domain."""
         mock_run.return_value = MagicMock(stdout="", returncode=0)
@@ -147,8 +147,8 @@ class TestRunNuclei:
         # No output = no entries (domain not in results)
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/local/bin/nuclei")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
+    @patch("src.prospecting.scanners.nuclei.subprocess.run")
     def test_host_normalization(self, mock_run, mock_which):
         """Host with protocol prefix, path, and port gets normalized."""
         finding = {
@@ -166,8 +166,8 @@ class TestRunNuclei:
         result = _run_nuclei(["example.dk"])
         assert "example.dk" in result
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/local/bin/nuclei")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
+    @patch("src.prospecting.scanners.nuclei.subprocess.run")
     def test_multi_domain(self, mock_run, mock_which):
         """Findings routed to correct domain."""
         findings = [

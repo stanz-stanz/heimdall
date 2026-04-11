@@ -26,21 +26,19 @@ _SCAN_TYPE_FUNCTIONS: dict[str, callable] = {}
 
 def _init_scan_type_map() -> None:
     """Populate the scan type function maps. Called once at module load."""
-    # Deferred imports — scan functions still live in scanner.py (moved in P2-3)
-    from src.prospecting.scanner import (
-        _check_ssl,
-        _extract_page_meta,
-        _get_response_headers,
-        _query_crt_sh,
-        _query_grayhatwarfare,
-        _run_cmseek,
-        _run_dnsx,
-        _run_httpx,
-        _run_nmap,
-        _run_nuclei,
-        _run_subfinder,
-        _run_webanalyze,
-    )
+    # Import from extracted scanner modules (P2-3)
+    from src.prospecting.scanners.tls import check_ssl as _check_ssl
+    from src.prospecting.scanners.wordpress import extract_page_meta as _extract_page_meta
+    from src.prospecting.scanners.headers import get_response_headers as _get_response_headers
+    from src.prospecting.scanners.ct import query_crt_sh as _query_crt_sh
+    from src.prospecting.scanners.grayhat import query_grayhatwarfare as _query_grayhatwarfare
+    from src.prospecting.scanners.cmseek import run_cmseek as _run_cmseek
+    from src.prospecting.scanners.dnsx import run_dnsx as _run_dnsx
+    from src.prospecting.scanners.httpx_scan import run_httpx as _run_httpx
+    from src.prospecting.scanners.nmap import run_nmap as _run_nmap
+    from src.prospecting.scanners.nuclei import run_nuclei as _run_nuclei
+    from src.prospecting.scanners.subfinder import run_subfinder as _run_subfinder
+    from src.prospecting.scanners.webanalyze import run_webanalyze as _run_webanalyze
 
     _LEVEL0_SCAN_FUNCTIONS.clear()
     _LEVEL0_SCAN_FUNCTIONS.update({
