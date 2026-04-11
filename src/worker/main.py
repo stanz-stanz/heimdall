@@ -41,6 +41,10 @@ from .scan_job import execute_scan_job
 # Module-level flag for graceful shutdown
 _shutdown_requested: bool = False
 
+# Healthcheck file — touched after each idle poll and completed job so Docker
+# can verify the worker is alive via a HEALTHCHECK instruction.
+HEALTHCHECK_FILE = "/tmp/healthcheck"
+
 
 def _handle_signal(signum: int, _frame: object) -> None:  # pragma: no cover
     """Set the shutdown flag on SIGTERM / SIGINT."""
@@ -289,17 +293,27 @@ def main(argv: list | None = None) -> None:
     # ------------------------------------------------------------------
     logger.info("Worker ready — waiting for jobs on queue:enrichment, queue:scan")
 
+    _redis_failures = 0
     while not _shutdown_requested:
         try:
             item = redis_conn.brpop(
                 ["queue:enrichment", "queue:scan"], timeout=30
             )
         except (redis.ConnectionError, redis.TimeoutError) as exc:
-            logger.warning("Redis BRPOP error: %s — retrying", exc)
+            _redis_failures += 1
+            backoff = min(2 ** _redis_failures, 30)
+            logger.warning(
+                "Redis BRPOP error (attempt %d, backoff %ds): %s",
+                _redis_failures, backoff, exc,
+            )
+            time.sleep(backoff)
             continue
+
+        _redis_failures = 0
 
         if item is None:
             # Timeout, no job available — loop back and check shutdown flag
+            Path(HEALTHCHECK_FILE).touch()
             continue
 
         queue_name, raw_job = item
@@ -445,6 +459,8 @@ def main(argv: list | None = None) -> None:
                 redis_conn.publish("client-scan-complete", event_payload)
             except (redis.ConnectionError, redis.TimeoutError) as exc:
                 logger.warning("Failed to publish client-scan-complete for %s: %s", domain, exc)
+
+        Path(HEALTHCHECK_FILE).touch()
 
         logger.bind(context={
             "job_id": job_id,
