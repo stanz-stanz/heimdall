@@ -5,8 +5,6 @@ Uses ThreadPoolExecutor for concurrent I/O. Designed to scale to thousands of do
 
 from __future__ import annotations
 
-import hashlib
-import inspect
 import json
 import os
 import re
@@ -18,7 +16,6 @@ import tempfile
 import time
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 from urllib.robotparser import RobotFileParser
@@ -42,33 +39,15 @@ from .config import (
     USER_AGENT,
 )
 from .cvr import Company
-
-
-@dataclass
-class ScanResult:
-    domain: str = ""
-    cms: str = ""
-    server: str = ""
-    hosting: str = ""
-    ssl_valid: bool = False
-    ssl_issuer: str = ""
-    ssl_expiry: str = ""
-    ssl_days_remaining: int = -1
-    detected_plugins: list[str] = field(default_factory=list)
-    plugin_versions: dict[str, str] = field(default_factory=dict)
-    detected_themes: list[str] = field(default_factory=list)
-    headers: dict = field(default_factory=dict)
-    tech_stack: list[str] = field(default_factory=list)
-    meta_author: str = ""
-    footer_credit: str = ""
-    raw_httpx: dict = field(default_factory=dict)
-    subdomains: list[str] = field(default_factory=list)
-    dns_records: dict = field(default_factory=dict)
-    ct_certificates: list[dict] = field(default_factory=list)
-    tls_version: str = ""
-    tls_cipher: str = ""
-    tls_bits: int = 0
-    exposed_cloud_storage: list[dict] = field(default_factory=list)
+from .scanners.compliance import _write_pre_scan_check
+from .scanners.models import ScanResult
+from .scanners.registry import (
+    _LEVEL0_SCAN_FUNCTIONS,
+    _LEVEL1_SCAN_FUNCTIONS,
+    _SCAN_TYPE_FUNCTIONS,
+    _init_scan_type_map,
+    _validate_approval_tokens,
+)
 
 
 def _check_ssl(domain: str) -> dict:
@@ -1027,124 +1006,6 @@ def _run_nmap(domains: list[str]) -> dict[str, dict]:
     logger.info("nmap: scanned {}/{} domains, {} with open ports",
                 len(domains), len(domains), len(results))
     return results
-
-
-# ---------------------------------------------------------------------------
-# Scan type registry — split by level
-# ---------------------------------------------------------------------------
-
-# Level 0: passive observation only (Layer 1)
-_LEVEL0_SCAN_FUNCTIONS: dict[str, callable] = {}
-
-# Level 1: active probing (Layer 2), requires written consent
-_LEVEL1_SCAN_FUNCTIONS: dict[str, callable] = {}
-
-# Combined view for backward compatibility
-_SCAN_TYPE_FUNCTIONS: dict[str, callable] = {}
-
-
-def _init_scan_type_map() -> None:
-    """Populate the scan type function maps. Called once at module load."""
-    _LEVEL0_SCAN_FUNCTIONS.clear()
-    _LEVEL0_SCAN_FUNCTIONS.update({
-        "ssl_certificate_check": _check_ssl,
-        "homepage_meta_extraction": _extract_page_meta,
-        "httpx_tech_fingerprint": _run_httpx,
-        "webanalyze_cms_detection": _run_webanalyze,
-        "response_header_check": _get_response_headers,
-        "subdomain_enumeration_passive": _run_subfinder,
-        "dns_enrichment": _run_dnsx,
-        "certificate_transparency_query": _query_crt_sh,
-        "cloud_storage_index_query": _query_grayhatwarfare,
-    })
-
-    _LEVEL1_SCAN_FUNCTIONS.clear()
-    _LEVEL1_SCAN_FUNCTIONS.update({
-        "nuclei_vulnerability_scan": _run_nuclei,
-        "cmseek_cms_deep_scan": _run_cmseek,
-        "nmap_port_scan": _run_nmap,
-    })
-
-    # Backward-compat: combined view
-    _SCAN_TYPE_FUNCTIONS.clear()
-    _SCAN_TYPE_FUNCTIONS.update(_LEVEL0_SCAN_FUNCTIONS)
-    _SCAN_TYPE_FUNCTIONS.update(_LEVEL1_SCAN_FUNCTIONS)
-
-
-def _validate_approval_tokens(max_level: int = 0) -> dict | None:
-    """Validate scan types have current approval tokens with matching function hashes.
-
-    Only validates functions at or below *max_level*. A Level 0 worker does
-    not need approval tokens for Level 1 scan types.
-
-    Returns the approvals dict on success, None on failure.
-    """
-    from .config import PROJECT_ROOT
-    approvals_path = PROJECT_ROOT / ".claude" / "agents" / "valdi" / "approvals.json"
-    try:
-        with open(approvals_path) as f:
-            data = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        logger.error("Cannot read approval tokens: {}", e)
-        return None
-
-    approvals = {a["scan_type_id"]: a for a in data.get("approvals", [])}
-
-    # Build set of functions that need validation at this level
-    required_functions: dict[str, callable] = {}
-    required_functions.update(_LEVEL0_SCAN_FUNCTIONS)
-    if max_level >= 1:
-        required_functions.update(_LEVEL1_SCAN_FUNCTIONS)
-
-    for scan_type_id, func in required_functions.items():
-        approval = approvals.get(scan_type_id)
-        if not approval:
-            logger.error("No approval token for scan type: {}", scan_type_id)
-            return None
-
-        current_hash = "sha256:" + hashlib.sha256(
-            inspect.getsource(func).encode("utf-8")
-        ).hexdigest()
-        if current_hash != approval["function_hash"]:
-            logger.error(
-                "Function hash mismatch for {} — approval token invalidated. "
-                "Re-submit to Valdi for Gate 1 review.",
-                scan_type_id,
-            )
-            return None
-
-    return data
-
-
-def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
-    """Write pre-scan compliance check to data/compliance/."""
-    from .config import PROJECT_ROOT
-    check_dir = PROJECT_ROOT / "agents" / "valdi" / "compliance"
-    check_dir.mkdir(parents=True, exist_ok=True)
-
-    now = datetime.now(UTC)
-    check = {
-        "scan_request_id": f"req-{now.strftime('%Y%m%d-%H%M%S')}",
-        "batch_type": "prospect-scan-level0",
-        "scan_types": list(_LEVEL0_SCAN_FUNCTIONS.keys()),
-        "scan_layer": 1,
-        "target_level": 0,
-        "checks": {
-            "all_approval_tokens_valid": True,
-            "all_function_hashes_match": True,
-            "robots_txt_filtered": True,
-        },
-        "domains_allowed": len(allowed),
-        "domains_skipped_robots_txt": len(skipped),
-        "skipped_domains": skipped,
-        "checked_at": now.isoformat() + "Z",
-    }
-
-    filepath = check_dir / f"pre-scan-check-{now.strftime('%Y-%m-%d_%H-%M-%S')}.json"
-    with open(filepath, "w") as f:
-        json.dump(check, f, indent=2)
-    logger.info("Pre-scan check written to {}", filepath)
-    return filepath
 
 
 def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str, ScanResult]:
