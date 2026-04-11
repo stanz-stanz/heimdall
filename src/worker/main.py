@@ -35,7 +35,10 @@ from src.prospecting.scanners.registry import (
 from src.prospecting.scanners.subfinder import run_subfinder
 from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
+from pydantic import ValidationError
+
 from .cache import ScanCache
+from .models import EnrichmentJob, ScanJob
 from .scan_job import execute_scan_job
 
 # Module-level flag for graceful shutdown
@@ -322,6 +325,22 @@ def main(argv: list | None = None) -> None:
             job = json.loads(raw_job)
         except (json.JSONDecodeError, TypeError) as exc:
             logger.warning("Malformed job JSON: %s — skipping", exc)
+            continue
+
+        # Validate payload shape at the trust boundary.
+        # Converts back to dict so all downstream code is unchanged.
+        try:
+            if queue_name == "queue:enrichment":
+                job = EnrichmentJob.model_validate(job).model_dump()
+            else:
+                job = ScanJob.model_validate(job).model_dump()
+        except ValidationError as exc:
+            logger.error(
+                "Invalid job payload from {}: {}\nRaw: {}",
+                queue_name,
+                exc,
+                raw_job[:500],
+            )
             continue
 
         job_type = job.get("job_type", "scan")
