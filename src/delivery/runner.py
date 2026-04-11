@@ -19,7 +19,7 @@ from telegram.ext import CallbackQueryHandler
 
 from src.composer.telegram import compose_telegram
 from src.db.clients import get_client_by_domain
-from src.db.connection import init_db
+from src.db.connection import init_db, verify_integrity
 from src.db.scans import get_latest_brief
 from src.delivery.approval import (
     handle_approval_callback,
@@ -63,7 +63,14 @@ class DeliveryRunner:
         concurrently.
         """
         # Init DB
-        self._conn = init_db(self.db_path) if self.db_path else init_db()
+        try:
+            self._conn = init_db(self.db_path) if self.db_path else init_db()
+            if not verify_integrity(self._conn):
+                logger.critical("Database integrity check failed — refusing to start")
+                return
+        except Exception as exc:
+            logger.critical("Database initialization failed: {}", exc)
+            return
 
         # Create Telegram application
         token = get_bot_token()
