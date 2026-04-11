@@ -165,7 +165,7 @@ def run_twin_scan(brief: dict) -> dict | None:
     try:
         server, port, thread = _start_twin_server(brief, slug_map)
     except Exception as exc:
-        logger.error("twin_start_failed: {}", exc)
+        logger.opt(exception=True).error("twin_start_failed: {}", exc)
         return None
 
     try:

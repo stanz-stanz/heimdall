@@ -42,6 +42,6 @@ def check_ssl(domain: str) -> dict:
         result["issuer"] = issuer.get("organizationName", issuer.get("commonName", ""))
 
     except Exception as e:
-        logger.debug("SSL check failed for {}: {}", domain, e)
+        logger.warning("SSL check failed for {}: {}", domain, e)
 
     return result
