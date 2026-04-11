@@ -1,5 +1,6 @@
 <script>
   import { wsState } from '../lib/ws.svelte.js';
+  import { fetchLogs } from '../lib/api.js';
   import { onMount, untrack } from 'svelte';
 
   const MAX_ENTRIES = 5000;
@@ -148,13 +149,10 @@
 
   onMount(async () => {
     try {
-      const res = await fetch('/console/logs?limit=200');
-      if (res.ok) {
-        const data = await res.json();
-        allEntries = data.entries ?? [];
-        totalCount = data.total ?? allEntries.length;
-        prevAllEntriesLength = allEntries.length;
-      }
+      const data = await fetchLogs(200);
+      allEntries = data.entries ?? [];
+      totalCount = data.total ?? allEntries.length;
+      prevAllEntriesLength = allEntries.length;
     } catch (err) {
       console.error('Logs fetch failed:', err);
     }
