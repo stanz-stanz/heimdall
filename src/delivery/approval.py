@@ -103,14 +103,20 @@ async def request_approval(
 
     # Send each message chunk exactly as the client would see it.
     # Attach approval buttons to the last chunk only.
-    for i, chunk in enumerate(messages):
-        is_last = i == len(messages) - 1
-        await bot.send_message(
-            chat_id=operator_chat_id,
-            text=chunk,
-            reply_markup=approval_keyboard if is_last else None,
-            parse_mode="HTML",
+    try:
+        for i, chunk in enumerate(messages):
+            is_last = i == len(messages) - 1
+            await bot.send_message(
+                chat_id=operator_chat_id,
+                text=chunk,
+                reply_markup=approval_keyboard if is_last else None,
+                parse_mode="HTML",
+            )
+    except Exception as exc:
+        logger.opt(exception=True).error(
+            "approval_request_failed delivery_id={} domain={}", delivery_id, domain,
         )
+        return delivery_id
 
     logger.info(
         "approval_requested delivery_id={} cvr={} domain={} chunks={} len={}",

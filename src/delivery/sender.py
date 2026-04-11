@@ -14,7 +14,7 @@ import time
 
 from loguru import logger
 from telegram import Bot
-from telegram.error import NetworkError, RetryAfter, TimedOut
+from telegram.error import BadRequest, Forbidden, NetworkError, RetryAfter, TimedOut
 
 from src.db.delivery import log_delivery, update_delivery_status
 from src.delivery.buttons import _transition_findings
@@ -63,6 +63,16 @@ async def send_message(
                 "attempt": attempt + 1,
             }).warning("telegram_rate_limited")
             await asyncio.sleep(wait)
+        except (Forbidden, BadRequest) as exc:
+            logger.bind(context={
+                "chat_id": chat_id,
+                "error": str(exc),
+            }).error("telegram_permanent_failure")
+            return {
+                "success": False,
+                "message_id": None,
+                "error": f"Permanently failed: {exc}",
+            }
         except (TimedOut, NetworkError) as exc:
             delay = retry_delay * (2**attempt)
             logger.bind(context={
