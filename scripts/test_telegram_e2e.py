@@ -76,7 +76,7 @@ from src.delivery.buttons import (  # noqa: E402
     handle_client_callback,
 )
 from src.interpreter.interpreter import interpret_brief  # noqa: E402
-from src.prospecting.logging_config import setup_logging  # noqa: E402
+from src.core.logging_config import setup_logging  # noqa: E402
 
 setup_logging(level="INFO")
 

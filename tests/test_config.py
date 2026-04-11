@@ -2,19 +2,18 @@
 
 import json
 
+from src.core.config import CONFIG_DIR, PROJECT_ROOT
 from src.prospecting.config import (
     BUCKET_A_CMS,
     BUCKET_B_CMS,
     BUCKET_C_PLATFORMS,
     CMS_KEYWORDS,
-    CONFIG_DIR,
     FREE_WEBMAIL,
     GDPR_DATA_HANDLING_PLUGINS,
     GDPR_ECOMMERCE_CMS,
     GDPR_SENSITIVE_CODES,
     GDPR_TRACKING_TECH,
     HOSTING_PROVIDERS,
-    PROJECT_ROOT,
     SENSITIVE_TECH,
     _load_json,
 )

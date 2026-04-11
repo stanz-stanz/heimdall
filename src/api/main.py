@@ -12,7 +12,7 @@ import os
 
 import uvicorn
 
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 
 
 def _parse_args(argv: list | None = None) -> argparse.Namespace:

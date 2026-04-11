@@ -23,7 +23,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 
 
 def _build_parser() -> argparse.ArgumentParser:

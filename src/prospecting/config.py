@@ -1,23 +1,30 @@
-"""Pipeline configuration: paths, runtime settings, and JSON-loaded classification data."""
+"""Pipeline configuration: prospecting-specific settings and JSON-loaded classification data.
+
+Shared constants (PROJECT_ROOT, CONFIG_DIR, etc.) live in ``src.core.config``
+and are re-exported here for backwards compatibility within the prospecting
+package.
+"""
 
 from __future__ import annotations
 
+import functools
 import json
 import os
 from pathlib import Path
 
-# Ensure Go binaries are discoverable
-_go_bin = Path.home() / "go" / "bin"
-if _go_bin.is_dir() and str(_go_bin) not in os.environ.get("PATH", ""):
-    os.environ["PATH"] = f"{_go_bin}:{os.environ.get('PATH', '')}"
+# --- Re-export shared constants from core ---
+from src.core.config import (  # noqa: F401
+    BRIEFS_DIR,
+    CONFIG_DIR,
+    DATA_DIR,
+    DEFAULT_FILTERS,
+    DEFAULT_INPUT,
+    PROJECT_ROOT,
+    REQUEST_TIMEOUT,
+    USER_AGENT,
+)
 
-# --- Paths ---
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent  # src/prospecting/config.py → repo root
-CONFIG_DIR = PROJECT_ROOT / "config"
-DATA_DIR = PROJECT_ROOT / "data" / "output"
-BRIEFS_DIR = DATA_DIR / "briefs"
-DEFAULT_INPUT = PROJECT_ROOT / "data" / "input" / "CVR-extract.xlsx"
-DEFAULT_FILTERS = CONFIG_DIR / "filters.json"
+# --- Path not in core (prospecting-only) ---
 INDUSTRY_CODES_PATH = CONFIG_DIR / "industry_codes.json"
 
 # --- Excel column indices (0-based) ---
@@ -33,10 +40,6 @@ COL_INDUSTRY = 8
 COL_PHONE = 9
 COL_EMAIL = 10
 COL_AD_PROTECTED = 11
-
-# --- HTTP settings ---
-REQUEST_TIMEOUT = 15  # seconds
-USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
 # --- External API settings ---
 CRT_SH_API_URL = "https://crt.sh"
@@ -55,20 +58,63 @@ SUBFINDER_THREADS = int(os.environ.get("SUBFINDER_THREADS", "10"))
 SUBFINDER_MAX_ENUM_TIME = int(os.environ.get("SUBFINDER_MAX_ENUM_TIME", "3"))  # minutes per domain
 
 
-# --- JSON-loaded classification data ---
+# --- Go binary PATH setup (call explicitly, not at import time) ---
+
+def ensure_go_bin_on_path() -> None:
+    """Add ~/go/bin to PATH if it exists and is not already present."""
+    go_bin = Path.home() / "go" / "bin"
+    if go_bin.is_dir() and str(go_bin) not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = f"{go_bin}:{os.environ.get('PATH', '')}"
+
+
+# --- JSON-loaded classification data (lazy via @functools.cache) ---
+
 def _load_json(filename: str):
     """Load a JSON config file from the config/ directory."""
     with open(CONFIG_DIR / filename, encoding="utf-8") as f:
         return json.load(f)
 
 
-# Bucket classification rules
+@functools.cache
+def get_bucket_config() -> tuple[set, set, set]:
+    """Return (BUCKET_A_CMS, BUCKET_B_CMS, BUCKET_C_PLATFORMS)."""
+    buckets = _load_json("buckets.json")
+    return (
+        set(buckets["A"]["cms"]),
+        set(buckets["B"]["cms"]),
+        set(buckets["C"]["platforms"]),
+    )
+
+
+@functools.cache
+def get_gdpr_config() -> dict:
+    """Return GDPR signal sets."""
+    gdpr = _load_json("gdpr_signals.json")
+    return {
+        "codes": gdpr["industry_codes"],
+        "plugins": set(gdpr["data_handling_plugins"]),
+        "tracking": set(gdpr["tracking_tech"]),
+        "ecommerce": set(gdpr["ecommerce_cms"]),
+        "sensitive_tech": set(gdpr["sensitive_tech"]),
+    }
+
+
+@functools.cache
+def get_free_webmail() -> frozenset:
+    """Return frozenset of free webmail domains."""
+    return frozenset(_load_json("free_webmail.json"))
+
+
+# --- Backwards-compatible module-level constants ---
+# These eagerly evaluate on first import to maintain existing behaviour
+# within the prospecting package.  Cross-package consumers should import
+# shared constants from src.core.config instead.
+
 _buckets = _load_json("buckets.json")
 BUCKET_A_CMS = set(_buckets["A"]["cms"])
 BUCKET_B_CMS = set(_buckets["B"]["cms"])
 BUCKET_C_PLATFORMS = set(_buckets["C"]["platforms"])
 
-# GDPR signals
 _gdpr = _load_json("gdpr_signals.json")
 GDPR_SENSITIVE_CODES = _gdpr["industry_codes"]
 GDPR_DATA_HANDLING_PLUGINS = set(_gdpr["data_handling_plugins"])
@@ -76,9 +122,11 @@ GDPR_TRACKING_TECH = set(_gdpr["tracking_tech"])
 GDPR_ECOMMERCE_CMS = set(_gdpr["ecommerce_cms"])
 SENSITIVE_TECH = set(_gdpr["sensitive_tech"])
 
-# Free webmail providers
 FREE_WEBMAIL = frozenset(_load_json("free_webmail.json"))
 
-# Technology detection lookups
 HOSTING_PROVIDERS = _load_json("hosting_providers.json")
 CMS_KEYWORDS = _load_json("cms_keywords.json")
+
+# Ensure go binaries are discoverable (called here for backwards compat
+# — callers that imported prospecting.config relied on this side effect).
+ensure_go_bin_on_path()

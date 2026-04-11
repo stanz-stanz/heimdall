@@ -25,7 +25,7 @@ from threading import Thread
 
 from loguru import logger
 
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 
 from . import templates
 
