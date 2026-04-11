@@ -69,9 +69,13 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
             else:
                 logger.warning("Unknown command: {}", command)
                 _publish_result(conn, command, "error", f"Unknown command: {command}")
-        except Exception:
+        except Exception as exc:
             logger.opt(exception=True).error("Command failed: {}", command)
-            _publish_result(conn, command, "error", "Command failed — check logs")
+            try:
+                _publish_result(conn, command, "error", f"Command failed: {exc}")
+            except Exception:
+                print(f"CRITICAL: daemon could not publish error to console: {exc}",
+                      file=sys.stderr)
 
     logger.info("Scheduler daemon stopped")
 
