@@ -12,7 +12,7 @@ from .config import (
     SENSITIVE_TECH,
 )
 from .cvr import Company
-from .scanner import ScanResult
+from .scanners.models import ScanResult
 
 
 def _determine_gdpr_sensitivity(

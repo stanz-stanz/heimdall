@@ -11,7 +11,7 @@ from loguru import logger
 
 from .config import BRIEFS_DIR, DATA_DIR, INDUSTRY_CODES_PATH
 from .cvr import Company
-from .scanner import ScanResult
+from .scanners.models import ScanResult
 
 
 def _load_industry_codes() -> dict[str, str]:

@@ -6,7 +6,7 @@ from loguru import logger
 
 from .config import BUCKET_A_CMS, BUCKET_B_CMS, BUCKET_C_PLATFORMS
 from .cvr import Company
-from .scanner import ScanResult
+from .scanners.models import ScanResult
 
 BUCKET_LABELS = {
     "A": "HIGHEST — Self-hosted WordPress on shared hosting",

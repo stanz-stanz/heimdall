@@ -272,7 +272,7 @@ class TestExecuteEnrichmentJob:
             stagger_delay=0,
         )
 
-        with patch("src.worker.main._run_subfinder", return_value=subfinder_results):
+        with patch("src.worker.main.run_subfinder", return_value=subfinder_results):
             _execute_enrichment_job(job, cache, redis_conn)
 
         # Verify cache entries
@@ -305,7 +305,7 @@ class TestExecuteEnrichmentJob:
             stagger_delay=0,
         )
 
-        with patch("src.worker.main._run_subfinder", return_value=subfinder_results):
+        with patch("src.worker.main.run_subfinder", return_value=subfinder_results):
             _execute_enrichment_job(job, cache, redis_conn)
 
         # This is exactly what scan_job.py would get from cache.get("subfinder", "example.dk")
@@ -323,7 +323,7 @@ class TestExecuteEnrichmentJob:
 
         job = _build_enrichment_job(["a.dk"], 0, 1, 0)
 
-        with patch("src.worker.main._run_subfinder", return_value={"a.dk": []}):
+        with patch("src.worker.main.run_subfinder", return_value={"a.dk": []}):
             _execute_enrichment_job(job, cache, redis_conn)
 
         assert int(redis_conn.get(ENRICHMENT_COUNTER_KEY)) == 1
@@ -338,7 +338,7 @@ class TestExecuteEnrichmentJob:
         job = _build_enrichment_job(["a.dk"], 0, 1, 0)
 
         # _run_subfinder_with_retry will catch the exception and return {}
-        with patch("src.worker.main._run_subfinder", side_effect=RuntimeError("subfinder crashed")):
+        with patch("src.worker.main.run_subfinder", side_effect=RuntimeError("subfinder crashed")):
             _execute_enrichment_job(job, cache, redis_conn)
 
         assert int(redis_conn.get(ENRICHMENT_COUNTER_KEY)) == 1
@@ -354,7 +354,7 @@ class TestExecuteEnrichmentJob:
                 raise RuntimeError("transient failure")
             return {"a.dk": ["sub.a.dk"]}
 
-        with patch("src.worker.main._run_subfinder", side_effect=_failing_then_ok):
+        with patch("src.worker.main.run_subfinder", side_effect=_failing_then_ok):
             result = _run_subfinder_with_retry(["a.dk"], retry_limit=1)
 
         assert call_count == 2
@@ -362,7 +362,7 @@ class TestExecuteEnrichmentJob:
 
     def test_retry_exhausted(self) -> None:
         """Returns empty dict when all retries are exhausted."""
-        with patch("src.worker.main._run_subfinder", side_effect=RuntimeError("always fails")):
+        with patch("src.worker.main.run_subfinder", side_effect=RuntimeError("always fails")):
             result = _run_subfinder_with_retry(["a.dk"], retry_limit=1)
 
         assert result == {}
@@ -376,7 +376,7 @@ class TestExecuteEnrichmentJob:
 
         job = _build_enrichment_job(["a.dk"], 1, 3, 10)
 
-        with patch("src.worker.main._run_subfinder", return_value={}), \
+        with patch("src.worker.main.run_subfinder", return_value={}), \
              patch("src.worker.main.time.sleep") as mock_sleep:
             _execute_enrichment_job(job, cache, redis_conn)
 
@@ -393,7 +393,7 @@ class TestExecuteEnrichmentJob:
 
         job = _build_enrichment_job(["a.dk"], 0, 3, 0)
 
-        with patch("src.worker.main._run_subfinder", return_value={}), \
+        with patch("src.worker.main.run_subfinder", return_value={}), \
              patch("src.worker.main.time.sleep") as mock_sleep:
             _execute_enrichment_job(job, cache, redis_conn)
 
@@ -411,7 +411,7 @@ class TestExecuteEnrichmentJob:
 
         job = _build_enrichment_job(["a.dk", "b.dk"], 0, 1, 0)
 
-        with patch("src.worker.main._run_subfinder", return_value=subfinder_results):
+        with patch("src.worker.main.run_subfinder", return_value=subfinder_results):
             _execute_enrichment_job(job, cache, redis_conn)
 
         cached_b = cache.get("subfinder", "b.dk")
@@ -571,7 +571,7 @@ class TestEndToEnd:
 
         # Phase 1: enrichment
         enrichment_job = _build_enrichment_job([domain], 0, 1, 0)
-        with patch("src.worker.main._run_subfinder", return_value=subfinder_results):
+        with patch("src.worker.main.run_subfinder", return_value=subfinder_results):
             _execute_enrichment_job(enrichment_job, cache, redis_conn)
 
         # Phase 2: verify cache hit (what scan_job.py _cached_or_run would do)
@@ -594,7 +594,7 @@ class TestEndToEnd:
 
         for i in range(3):
             job = _build_enrichment_job([f"d{i}.dk"], i, 3, 0)
-            with patch("src.worker.main._run_subfinder", return_value={}):
+            with patch("src.worker.main.run_subfinder", return_value={}):
                 _execute_enrichment_job(job, cache, redis_conn)
 
         assert int(redis_conn.get(ENRICHMENT_COUNTER_KEY)) == 3

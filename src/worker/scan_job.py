@@ -22,22 +22,19 @@ from src.prospecting.bucketer import classify
 from src.core.config import CMS_KEYWORDS, DEFAULT_FILTERS, HOSTING_PROVIDERS
 from src.prospecting.cvr import Company
 from src.prospecting.filters import load_filters
-from src.prospecting.scanner import (
-    ScanResult,
-    _check_robots_txt,
-    _check_ssl,
-    _extract_page_meta,
-    _get_response_headers,
-    _nmap_ports_to_findings,
-    _query_grayhatwarfare,
-    _run_cmseek,
-    _run_dnsx,
-    _run_httpx,
-    _run_nmap,
-    _run_nuclei,
-    _run_subfinder,
-    _run_webanalyze,
-)
+from src.prospecting.scanners.models import ScanResult
+from src.prospecting.scanners.tls import check_ssl
+from src.prospecting.scanners.headers import get_response_headers
+from src.prospecting.scanners.robots import check_robots_txt
+from src.prospecting.scanners.httpx_scan import run_httpx
+from src.prospecting.scanners.webanalyze import run_webanalyze
+from src.prospecting.scanners.subfinder import run_subfinder
+from src.prospecting.scanners.dnsx import run_dnsx
+from src.prospecting.scanners.grayhat import query_grayhatwarfare
+from src.prospecting.scanners.nuclei import run_nuclei
+from src.prospecting.scanners.cmseek import run_cmseek
+from src.prospecting.scanners.nmap import nmap_ports_to_findings, run_nmap
+from src.prospecting.scanners.wordpress import extract_page_meta
 
 from .cache import ScanCache
 
@@ -110,7 +107,7 @@ def _merge_tech_stack_plugins(scan: ScanResult) -> None:
 
     Tech tools (httpx, webanalyze) detect plugins like "Yoast SEO:26.9" in tech_stack.
     This function uses slug_map.json to identify WP plugins and merge them with
-    HTML-detected plugins from _extract_page_meta.
+    HTML-detected plugins from extract_page_meta.
     """
     slug_map = _get_slug_map()
 
@@ -163,7 +160,7 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     # 1. robots.txt — always checked fresh, never cached
     # ------------------------------------------------------------------
-    robots_allowed, robots_dt = _timed(_check_robots_txt, domain)
+    robots_allowed, robots_dt = _timed(check_robots_txt, domain)
     timing["robots_txt"] = round(robots_dt, 4)
 
     if not robots_allowed:
@@ -203,9 +200,9 @@ def execute_scan_job(
         return result
 
     # --- individual per-domain scans ---
-    ssl_info = _cached_or_run("ssl", _check_ssl, domain)
-    headers = _cached_or_run("headers", _get_response_headers, domain)
-    meta_raw = _cached_or_run("meta", _extract_page_meta, domain)
+    ssl_info = _cached_or_run("ssl", check_ssl, domain)
+    headers = _cached_or_run("headers", get_response_headers, domain)
+    meta_raw = _cached_or_run("meta", extract_page_meta, domain)
 
     # meta comes back as tuple/list:
     # New: (meta_author, footer_credit, plugins, plugin_versions, themes)
@@ -225,8 +222,8 @@ def execute_scan_job(
         meta_author, footer_credit, plugins = "", "", []
 
     # --- batch-style tools for tech detection (cheap) ---
-    httpx_results = _cached_or_run("httpx", _run_httpx, [domain])
-    webanalyze_results = _cached_or_run("webanalyze", _run_webanalyze, [domain])
+    httpx_results = _cached_or_run("httpx", run_httpx, [domain])
+    webanalyze_results = _cached_or_run("webanalyze", run_webanalyze, [domain])
 
     # ------------------------------------------------------------------
     # 3. Assemble ScanResult
@@ -336,10 +333,10 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     # 4. Expensive scans — only for domains that pass bucket filter
     # ------------------------------------------------------------------
-    subfinder_results = _cached_or_run("subfinder", _run_subfinder, [domain])
-    dnsx_results = _cached_or_run("dnsx", _run_dnsx, [domain])
+    subfinder_results = _cached_or_run("subfinder", run_subfinder, [domain])
+    dnsx_results = _cached_or_run("dnsx", run_dnsx, [domain])
     crtsh_raw = _cached_or_run("crtsh", _query_local_ct, domain)
-    ghw_results = _cached_or_run("ghw", _query_grayhatwarfare, [domain])
+    ghw_results = _cached_or_run("ghw", query_grayhatwarfare, [domain])
 
     # Subdomains
     if isinstance(subfinder_results, dict):
@@ -369,26 +366,26 @@ def execute_scan_job(
     job_level = job.get("level", 0)
 
     if isinstance(job_level, int) and not isinstance(job_level, bool) and job_level >= 1:
-        nuclei_results = _cached_or_run("nuclei", _run_nuclei, [domain])
+        nuclei_results = _cached_or_run("nuclei", run_nuclei, [domain])
 
         nuclei_data: dict = {}
         if isinstance(nuclei_results, dict):
             nuclei_data = nuclei_results.get(domain, {"findings": [], "finding_count": 0})
 
-        cmseek_results = _cached_or_run("cmseek", _run_cmseek, [domain])
+        cmseek_results = _cached_or_run("cmseek", run_cmseek, [domain])
 
         cmseek_data: dict = {}
         if isinstance(cmseek_results, dict):
             cmseek_data = cmseek_results.get(domain, {})
 
-        nmap_results = _cached_or_run("nmap", _run_nmap, [domain])
+        nmap_results = _cached_or_run("nmap", run_nmap, [domain])
 
         nmap_data: dict = {}
         if isinstance(nmap_results, dict):
             nmap_data = nmap_results.get(domain, {"open_ports": [], "port_count": 0})
 
         if nmap_data.get("open_ports"):
-            nmap_data["findings"] = _nmap_ports_to_findings(nmap_data["open_ports"])
+            nmap_data["findings"] = nmap_ports_to_findings(nmap_data["open_ports"])
 
         level1_scan_result = {
             "nuclei": nuclei_data,
