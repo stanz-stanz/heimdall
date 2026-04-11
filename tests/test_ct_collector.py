@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 
-import json
-import os
 import sqlite3
-import tempfile
-from datetime import datetime, timedelta, timezone
-from unittest.mock import MagicMock, patch
+from datetime import UTC, datetime, timedelta
+from unittest.mock import patch
 
 import pytest
 
@@ -21,7 +18,6 @@ from src.ct_collector.db import (
     query_certificates,
 )
 from src.ct_collector.main import _extract_cert_data, _is_dk_domain
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -56,7 +52,7 @@ def _make_cert(
         "not_before": not_before,
         "not_after": not_after,
         "san_domains": san_domains or [cn],
-        "seen_at": seen_at or datetime.now(timezone.utc).isoformat(),
+        "seen_at": seen_at or datetime.now(UTC).isoformat(),
     }
 
 
@@ -91,7 +87,7 @@ class TestDb:
             not_before="2026-01-01",
             not_after="2027-01-01",
             san_domains=["test.dk", "www.test.dk"],
-            seen_at=datetime.now(timezone.utc).isoformat(),
+            seen_at=datetime.now(UTC).isoformat(),
         )
         assert inserted is True
 
@@ -102,7 +98,7 @@ class TestDb:
             not_before="2026-01-01",
             not_after="2027-01-01",
             san_domains=["dup.dk"],
-            seen_at=datetime.now(timezone.utc).isoformat(),
+            seen_at=datetime.now(UTC).isoformat(),
         )
         assert insert_certificate(db_conn, **kwargs) is True
         assert insert_certificate(db_conn, **kwargs) is False
@@ -121,7 +117,7 @@ class TestDb:
     def test_query_exact_domain(self, db_conn):
         insert_certificate(
             db_conn, "exact.dk", "LE", "2026-01-01", "2027-01-01",
-            ["exact.dk"], datetime.now(timezone.utc).isoformat(),
+            ["exact.dk"], datetime.now(UTC).isoformat(),
         )
         results = query_certificates(db_conn, "exact.dk", include_expired=True)
         assert len(results) == 1
@@ -130,7 +126,7 @@ class TestDb:
     def test_query_wildcard_cn(self, db_conn):
         insert_certificate(
             db_conn, "*.wild.dk", "LE", "2026-01-01", "2027-01-01",
-            ["*.wild.dk"], datetime.now(timezone.utc).isoformat(),
+            ["*.wild.dk"], datetime.now(UTC).isoformat(),
         )
         results = query_certificates(db_conn, "wild.dk", include_expired=True)
         assert len(results) == 1
@@ -139,7 +135,7 @@ class TestDb:
     def test_query_by_san(self, db_conn):
         insert_certificate(
             db_conn, "other-cn.dk", "LE", "2026-01-01", "2027-01-01",
-            ["san-target.dk", "other-cn.dk"], datetime.now(timezone.utc).isoformat(),
+            ["san-target.dk", "other-cn.dk"], datetime.now(UTC).isoformat(),
         )
         results = query_certificates(db_conn, "san-target.dk", include_expired=True)
         assert len(results) == 1
@@ -148,7 +144,7 @@ class TestDb:
         # Insert an expired cert
         insert_certificate(
             db_conn, "expired.dk", "LE", "2020-01-01", "2021-01-01",
-            ["expired.dk"], datetime.now(timezone.utc).isoformat(),
+            ["expired.dk"], datetime.now(UTC).isoformat(),
         )
         results = query_certificates(db_conn, "expired.dk", include_expired=False)
         assert len(results) == 0
@@ -156,13 +152,13 @@ class TestDb:
     def test_include_expired(self, db_conn):
         insert_certificate(
             db_conn, "expired2.dk", "LE", "2020-01-01", "2021-01-01",
-            ["expired2.dk"], datetime.now(timezone.utc).isoformat(),
+            ["expired2.dk"], datetime.now(UTC).isoformat(),
         )
         results = query_certificates(db_conn, "expired2.dk", include_expired=True)
         assert len(results) == 1
 
     def test_cleanup(self, db_conn):
-        old_seen = (datetime.now(timezone.utc) - timedelta(days=100)).isoformat()
+        old_seen = (datetime.now(UTC) - timedelta(days=100)).isoformat()
         insert_certificate(
             db_conn, "old.dk", "LE", "2020-01-01", "2021-01-01",
             ["old.dk"], old_seen,
@@ -185,7 +181,7 @@ class TestDb:
     def test_get_db_stats(self, db_conn):
         insert_certificate(
             db_conn, "stats.dk", "LE", "2026-01-01", "2027-01-01",
-            ["stats.dk"], datetime.now(timezone.utc).isoformat(),
+            ["stats.dk"], datetime.now(UTC).isoformat(),
         )
         stats = get_db_stats(db_conn)
         assert stats["total_rows"] == 1
@@ -200,7 +196,7 @@ class TestDb:
     def test_query_returns_expected_keys(self, db_conn):
         insert_certificate(
             db_conn, "keys.dk", "LE", "2026-01-01", "2027-01-01",
-            ["keys.dk"], datetime.now(timezone.utc).isoformat(),
+            ["keys.dk"], datetime.now(UTC).isoformat(),
         )
         results = query_certificates(db_conn, "keys.dk", include_expired=True)
         assert len(results) == 1
@@ -300,12 +296,12 @@ class TestQueryLocalCt:
         conn = init_db(db_path)
         insert_certificate(
             conn, "local.dk", "LE", "2026-01-01", "2027-01-01",
-            ["local.dk"], datetime.now(timezone.utc).isoformat(),
+            ["local.dk"], datetime.now(UTC).isoformat(),
         )
         conn.close()
 
-        from src.worker.scan_job import _query_local_ct
         import src.worker.scan_job as mod
+        from src.worker.scan_job import _query_local_ct
 
         original = mod._CT_DB_PATH
         try:
@@ -327,8 +323,8 @@ class TestQueryLocalCt:
 
     def test_missing_db_returns_empty(self):
         """Missing DB file returns (domain, [])."""
-        from src.worker.scan_job import _query_local_ct
         import src.worker.scan_job as mod
+        from src.worker.scan_job import _query_local_ct
 
         original = mod._CT_DB_PATH
         try:
@@ -343,12 +339,12 @@ class TestQueryLocalCt:
         conn = init_db(db_path)
         insert_certificate(
             conn, "*.unpack.dk", "LE", "2026-01-01", "2027-01-01",
-            ["unpack.dk", "*.unpack.dk"], datetime.now(timezone.utc).isoformat(),
+            ["unpack.dk", "*.unpack.dk"], datetime.now(UTC).isoformat(),
         )
         conn.close()
 
-        from src.worker.scan_job import _query_local_ct
         import src.worker.scan_job as mod
+        from src.worker.scan_job import _query_local_ct
 
         original = mod._CT_DB_PATH
         try:
@@ -398,8 +394,9 @@ class TestBackfill:
 
     def test_handles_rate_limit(self, db_path, tmp_path):
         """Backfill retries on request failure."""
-        from src.ct_collector.backfill import _backfill_chunk
         import requests
+
+        from src.ct_collector.backfill import _backfill_chunk
 
         conn = init_db(db_path)
         progress_file = str(tmp_path / "progress.json")
@@ -425,7 +422,7 @@ class TestBackfill:
 
     def test_resume(self, db_path, tmp_path):
         """Backfill skips already-completed patterns."""
-        from src.ct_collector.backfill import backfill, _load_progress, _save_progress
+        from src.ct_collector.backfill import _save_progress, backfill
 
         progress_file = str(tmp_path / "progress.json")
 
@@ -434,8 +431,8 @@ class TestBackfill:
         progress = {
             "completed_patterns": patterns,
             "total_inserted": 100,
-            "started_at": datetime.now(timezone.utc).isoformat(),
-            "last_updated": datetime.now(timezone.utc).isoformat(),
+            "started_at": datetime.now(UTC).isoformat(),
+            "last_updated": datetime.now(UTC).isoformat(),
         }
         _save_progress(progress, progress_file)
 

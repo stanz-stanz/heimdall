@@ -13,7 +13,7 @@ from __future__ import annotations
 import os
 import re
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import feedparser
 from loguru import logger
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS rss_feed_meta (
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _init_rss_tables(conn: sqlite3.Connection) -> None:
@@ -94,7 +94,7 @@ def _is_feed_fresh(conn: sqlite3.Connection, feed_key: str,
     if row is None:
         return False
     fetched = datetime.fromisoformat(row["last_fetched_at"].replace("Z", "+00:00"))
-    age_hours = (datetime.now(timezone.utc) - fetched).total_seconds() / 3600
+    age_hours = (datetime.now(UTC) - fetched).total_seconds() / 3600
     return age_hours < max_age_hours
 
 
@@ -107,13 +107,13 @@ def _parse_published(entry) -> str:
     """Extract published date from a feedparser entry as ISO 8601."""
     if hasattr(entry, "published_parsed") and entry.published_parsed:
         try:
-            dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
+            dt = datetime(*entry.published_parsed[:6], tzinfo=UTC)
             return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
         except (TypeError, ValueError):
             pass
     if hasattr(entry, "updated_parsed") and entry.updated_parsed:
         try:
-            dt = datetime(*entry.updated_parsed[:6], tzinfo=timezone.utc)
+            dt = datetime(*entry.updated_parsed[:6], tzinfo=UTC)
             return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
         except (TypeError, ValueError):
             pass

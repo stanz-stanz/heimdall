@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -23,7 +22,6 @@ from src.vulndb.matcher import (
     is_vulnerable,
     map_severity,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -258,8 +256,9 @@ class TestClient:
 
     @patch("src.vulndb.client.requests.get")
     def test_fetch_network_error(self, mock_get):
-        from src.vulndb.client import fetch_plugin_vulns
         import requests as req
+
+        from src.vulndb.client import fetch_plugin_vulns
 
         mock_get.side_effect = req.ConnectionError("timeout")
 

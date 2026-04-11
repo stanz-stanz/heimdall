@@ -17,8 +17,7 @@ import os
 from pathlib import Path
 
 from loguru import logger
-from telegram import Bot
-from telegram.ext import Application, CallbackQueryHandler
+from telegram.ext import Application
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "delivery.json"
 
@@ -43,7 +42,7 @@ def load_config(config_path: Path | str | None = None) -> dict:
     path = Path(config_path) if config_path else _CONFIG_PATH
     config = dict(_DEFAULT_CONFIG)
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             file_config = json.load(f)
         if isinstance(file_config, dict):
             config.update(file_config)

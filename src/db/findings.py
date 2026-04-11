@@ -10,7 +10,6 @@ import sqlite3
 
 from src.db.connection import _now
 
-
 # ---------------------------------------------------------------------------
 # Finding definitions — immutable lookup table
 # ---------------------------------------------------------------------------

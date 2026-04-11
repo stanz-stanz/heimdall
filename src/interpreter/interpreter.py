@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import json
 import time
-from typing import Optional
 
 from loguru import logger
 
@@ -18,10 +17,10 @@ from .prompts import build_system_prompt, build_user_prompt
 
 def interpret_brief(
     brief: dict,
-    tone: Optional[str] = None,
-    language: Optional[str] = None,
-    delta_context: Optional[dict] = None,
-    tier: Optional[str] = None,
+    tone: str | None = None,
+    language: str | None = None,
+    delta_context: dict | None = None,
+    tier: str | None = None,
 ) -> dict:
     """Interpret a scan brief into a client-ready report.
 

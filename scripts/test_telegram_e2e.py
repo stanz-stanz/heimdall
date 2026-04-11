@@ -60,6 +60,7 @@ SESSION = os.environ.get("TELETHON_SESSION", "test_session")
 # Heavy imports (only after env check passes)
 # ---------------------------------------------------------------------------
 
+from loguru import logger  # noqa: E402
 from telegram import Bot  # noqa: E402
 from telegram.ext import (  # noqa: E402
     Application,
@@ -75,8 +76,6 @@ from src.delivery.buttons import (  # noqa: E402
     handle_client_callback,
 )
 from src.interpreter.interpreter import interpret_brief  # noqa: E402
-
-from loguru import logger  # noqa: E402
 from src.prospecting.logging_config import setup_logging  # noqa: E402
 
 setup_logging(level="INFO")
@@ -146,7 +145,7 @@ async def _wait_for_message(
 
     try:
         return await asyncio.wait_for(future, timeout=timeout)
-    except asyncio.TimeoutError:
+    except TimeoutError:
         return None
     finally:
         client.remove_event_handler(_handler)

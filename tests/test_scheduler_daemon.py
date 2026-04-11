@@ -2,13 +2,12 @@
 
 import json
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import fakeredis
 import pytest
 
-from src.scheduler.daemon import run_daemon, _handle_interpret, _handle_send
-
+from src.scheduler.daemon import _handle_interpret, _handle_send, run_daemon
 
 # ---------------------------------------------------------------------------
 # Fixtures

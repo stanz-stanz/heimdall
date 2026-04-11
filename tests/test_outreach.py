@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 import pytest
 
 from src.db.connection import init_db
-from src.outreach.promote import run_promote, _matches_filters
+from src.outreach.promote import _matches_filters, run_promote
 
 
 @pytest.fixture
@@ -418,14 +418,16 @@ class TestChannelSplit:
     """Verify the Redis channel rename doesn't break delivery runner tests."""
 
     def test_delivery_runner_subscribes_to_client_channel(self):
-        from src.delivery import runner
         import inspect
+
+        from src.delivery import runner
         source = inspect.getsource(runner.DeliveryRunner._subscribe_and_process)
         assert "client-scan-complete" in source
         assert "scan-complete" not in source.replace("client-scan-complete", "")
 
     def test_worker_publishes_client_channel(self):
-        from src.worker import main
         import inspect
+
+        from src.worker import main
         source = inspect.getsource(main)
         assert "client-scan-complete" in source

@@ -1,7 +1,5 @@
 """Tests for the console logs REST endpoint."""
 
-import collections
-import json
 import time
 
 import fakeredis
@@ -9,7 +7,6 @@ import pytest
 from fastapi.testclient import TestClient
 
 from src.api.app import create_app
-
 
 NOW = time.time()
 

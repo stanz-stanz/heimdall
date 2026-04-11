@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 import logging
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from loguru import logger
 
@@ -29,7 +29,7 @@ def _json_formatter(record: dict) -> str:
     """
     entry: dict = {
         "timestamp": datetime.fromtimestamp(
-            record["time"].timestamp(), tz=timezone.utc
+            record["time"].timestamp(), tz=UTC
         ).isoformat(),
         "level": record["level"].name,
         "module": record["name"] or "root",

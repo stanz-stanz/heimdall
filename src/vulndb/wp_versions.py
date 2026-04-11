@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import requests
 
@@ -45,7 +45,7 @@ def get_latest_plugin_version(
 
         if row:
             fetched = datetime.fromisoformat(row["fetched_at"].replace("Z", "+00:00"))
-            age_hours = (datetime.now(timezone.utc) - fetched).total_seconds() / 3600
+            age_hours = (datetime.now(UTC) - fetched).total_seconds() / 3600
             if age_hours < max_age_hours:
                 return row["latest_version"]
 
@@ -82,7 +82,7 @@ def _fetch_latest_from_api(slug: str) -> str | None:
 
 def _store_latest(conn, slug: str, asset_type: str, version: str) -> None:
     """Cache a latest version entry."""
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     conn.execute(
         "INSERT OR REPLACE INTO wp_latest_versions (slug, asset_type, latest_version, fetched_at) "
         "VALUES (?, ?, ?, ?)",

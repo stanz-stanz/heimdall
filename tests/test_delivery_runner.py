@@ -8,15 +8,14 @@ from __future__ import annotations
 
 import asyncio
 import json
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
 
 from src.db.clients import add_domain, create_client
 from src.db.connection import init_db
 from src.db.scans import save_brief_snapshot
 from src.delivery.runner import DeliveryRunner
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

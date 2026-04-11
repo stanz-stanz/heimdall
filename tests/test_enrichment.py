@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import json
-import time
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import fakeredis
-import pytest
 
 from src.scheduler.job_creator import (
     ENRICHMENT_COUNTER_KEY,
@@ -20,7 +18,6 @@ from src.scheduler.job_creator import (
 )
 from src.worker.cache import ScanCache
 from src.worker.main import _execute_enrichment_job, _run_subfinder_with_retry
-
 
 # ---------------------------------------------------------------------------
 # Helpers

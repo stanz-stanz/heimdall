@@ -5,11 +5,9 @@ from __future__ import annotations
 from unittest.mock import MagicMock, patch
 
 import fakeredis
-import pytest
 
 from src.worker.cache import ScanCache
 from src.worker.scan_job import execute_scan_job
-
 
 # ---------------------------------------------------------------------------
 # Helpers

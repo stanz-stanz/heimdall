@@ -1,15 +1,13 @@
 """Tests for the Heimdall Results API."""
 
 import json
-from pathlib import Path
 
 import fakeredis
 import pytest
 from fastapi.testclient import TestClient
 
-from src.api.app import create_app, _handle_scan_complete
+from src.api.app import _handle_scan_complete, create_app
 from src.api.result_store import ResultStore
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

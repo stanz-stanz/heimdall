@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import os
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from loguru import logger
@@ -77,7 +77,7 @@ def _now() -> str:
     Returns:
         Timestamp string in ``YYYY-MM-DDTHH:MM:SSZ`` format.
     """
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _load_schema() -> str:

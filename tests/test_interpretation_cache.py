@@ -5,11 +5,11 @@ from __future__ import annotations
 import pytest
 
 from src.interpreter.cache import (
+    PROMPT_VERSION,
+    cache_stats,
     compute_finding_hash,
     get_cached,
     store,
-    cache_stats,
-    PROMPT_VERSION,
 )
 
 

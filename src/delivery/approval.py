@@ -18,7 +18,6 @@ from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
 from src.db.clients import get_client
-from src.db.connection import _now
 from src.db.delivery import log_delivery, update_delivery_status
 
 # In-memory store key inside bot_data for pending full message chunks.

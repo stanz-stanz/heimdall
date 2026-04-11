@@ -8,18 +8,18 @@ scan data, timing breakdown, and cache statistics.
 from __future__ import annotations
 
 import functools
-import json
 import os
 import time
 from dataclasses import asdict
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import redis
 from loguru import logger
 
-from src.prospecting.brief_generator import generate_brief, _determine_gdpr_sensitivity
+from src.ct_collector.db import open_readonly, query_certificates
+from src.prospecting.brief_generator import generate_brief
 from src.prospecting.bucketer import classify
-from src.prospecting.config import CMS_KEYWORDS, HOSTING_PROVIDERS, DEFAULT_FILTERS
+from src.prospecting.config import CMS_KEYWORDS, DEFAULT_FILTERS, HOSTING_PROVIDERS
 from src.prospecting.cvr import Company
 from src.prospecting.filters import load_filters
 from src.prospecting.scanner import (
@@ -28,17 +28,16 @@ from src.prospecting.scanner import (
     _check_ssl,
     _extract_page_meta,
     _get_response_headers,
+    _nmap_ports_to_findings,
     _query_grayhatwarfare,
+    _run_cmseek,
     _run_dnsx,
     _run_httpx,
-    _run_cmseek,
     _run_nmap,
     _run_nuclei,
-    _nmap_ports_to_findings,
     _run_subfinder,
     _run_webanalyze,
 )
-from src.ct_collector.db import open_readonly, query_certificates
 
 from .cache import ScanCache
 
@@ -79,14 +78,14 @@ def _query_local_ct(domain: str) -> tuple:
         return domain, []
 
 
-def _timed(fn: Any, *args: Any, **kwargs: Any) -> Tuple[Any, float]:
+def _timed(fn: Any, *args: Any, **kwargs: Any) -> tuple[Any, float]:
     """Call *fn* and return ``(result, elapsed_seconds)``."""
     t0 = time.monotonic()
     result = fn(*args, **kwargs)
     return result, time.monotonic() - t0
 
 
-def _extract_wp_version(tech_stack: list) -> Optional[str]:
+def _extract_wp_version(tech_stack: list) -> str | None:
     """Extract WordPress core version from tech_stack entries like 'WordPress:6.9.4'."""
     for tech in tech_stack:
         if isinstance(tech, str) and tech.lower().startswith("wordpress:"):
@@ -133,7 +132,7 @@ def _merge_tech_stack_plugins(scan: ScanResult) -> None:
 def execute_scan_job(
     job: dict,
     cache: ScanCache,
-    redis_conn: Optional[redis.Redis] = None,
+    redis_conn: redis.Redis | None = None,
 ) -> dict:
     """Execute all Layer 1 scan types for a single domain.
 
@@ -155,7 +154,7 @@ def execute_scan_job(
     job_id: str = job.get("job_id", "")
 
     job_t0 = time.monotonic()
-    timing: Dict[str, float] = {}
+    timing: dict[str, float] = {}
     job_hits = 0
     job_misses = 0
 
@@ -266,7 +265,7 @@ def execute_scan_job(
             scan.tech_stack.extend(tech)
 
     # webanalyze
-    wa_techs: List[str] = []
+    wa_techs: list[str] = []
     if isinstance(webanalyze_results, dict):
         wa_techs = webanalyze_results.get(domain, [])
     if wa_techs:
@@ -364,7 +363,7 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     # 4b. Level 1 scans (active probing — only when job.level >= 1)
     # ------------------------------------------------------------------
-    level1_scan_result: Optional[dict] = None
+    level1_scan_result: dict | None = None
     job_level = job.get("level", 0)
 
     if isinstance(job_level, int) and not isinstance(job_level, bool) and job_level >= 1:
@@ -450,7 +449,7 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     if brief.get("findings"):
         try:
-            from src.vulndb.rss_cve import refresh_rss_cves, enrich_with_rss_cves
+            from src.vulndb.rss_cve import enrich_with_rss_cves, refresh_rss_cves
             refresh_rss_cves()  # no-op if feeds are fresh (< 12 hours)
             enrich_with_rss_cves(brief["findings"])
         except Exception:
@@ -461,7 +460,7 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     if brief.get("findings"):
         try:
-            from src.vulndb.kev import refresh_kev, enrich_with_kev
+            from src.vulndb.kev import enrich_with_kev, refresh_kev
             refresh_kev()  # no-op if catalog is fresh (< 24 hours)
             enrich_with_kev(brief["findings"])
         except Exception:

@@ -24,10 +24,9 @@ from datetime import date
 
 import redis
 
+from src.db.clients import add_domain, create_client, get_client, update_client
 from src.db.connection import init_db
-from src.db.clients import create_client, add_domain, get_client, update_client
 from src.db.scans import save_brief_snapshot
-
 
 SAMPLE_BRIEF = {
     "domain": "jellingkro.dk",

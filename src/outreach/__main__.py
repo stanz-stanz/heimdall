@@ -23,8 +23,6 @@ from __future__ import annotations
 import argparse
 import sys
 
-from loguru import logger
-
 from src.prospecting.logging_config import setup_logging
 
 

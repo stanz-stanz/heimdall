@@ -2,7 +2,6 @@
 
 import asyncio
 import json
-from pathlib import Path
 from unittest.mock import patch
 
 import fakeredis
@@ -11,7 +10,6 @@ from fastapi.testclient import TestClient
 
 from src.api.app import create_app
 from src.api.demo_orchestrator import SCAN_SEQUENCE, get_demo_queue, run_demo_replay
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

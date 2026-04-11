@@ -2,9 +2,6 @@
 
 from __future__ import annotations
 
-import json
-from unittest.mock import patch
-
 import pytest
 
 from src.client_memory import (
@@ -14,8 +11,8 @@ from src.client_memory import (
     DeltaDetector,
     RemediationTracker,
 )
-from src.interpreter.prompts import build_user_prompt
 from src.composer.telegram import compose_telegram
+from src.interpreter.prompts import build_user_prompt
 
 
 @pytest.fixture

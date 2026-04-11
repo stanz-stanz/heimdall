@@ -4,10 +4,9 @@ import json
 
 import pytest
 
-from src.interpreter.interpreter import InterpreterError, interpret_brief, _parse_response
+from src.interpreter.interpreter import InterpreterError, _parse_response, interpret_brief
 from src.interpreter.llm import LLMError, complete
 from src.interpreter.prompts import build_system_prompt, build_user_prompt
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

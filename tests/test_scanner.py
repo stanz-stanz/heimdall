@@ -1,16 +1,13 @@
 """Tests for scanner.py — all Layer 1 scan functions."""
 
 import json
-import ssl
-import socket
-from datetime import datetime, timezone, timedelta
-from unittest.mock import patch, MagicMock, mock_open
-
-import pytest
+from datetime import UTC, datetime, timedelta
+from unittest.mock import MagicMock, mock_open, patch
 
 from src.prospecting.scanner import (
-    _check_ssl,
+    _SCAN_TYPE_FUNCTIONS,
     _check_robots_txt,
+    _check_ssl,
     _extract_page_meta,
     _get_response_headers,
     _init_scan_type_map,
@@ -21,8 +18,6 @@ from src.prospecting.scanner import (
     _run_subfinder,
     _run_webanalyze,
     _validate_approval_tokens,
-    _SCAN_TYPE_FUNCTIONS,
-    ScanResult,
 )
 
 
@@ -30,7 +25,7 @@ class TestCheckSSL:
     @patch("src.prospecting.scanner.socket.socket")
     @patch("src.prospecting.scanner.ssl.create_default_context")
     def test_valid_cert(self, mock_ctx, mock_sock_cls):
-        future = datetime.now(timezone.utc) + timedelta(days=60)
+        future = datetime.now(UTC) + timedelta(days=60)
         cert = {
             "notAfter": future.strftime("%b %d %H:%M:%S %Y GMT"),
             "issuer": ((("organizationName", "Let's Encrypt"),),),
@@ -48,7 +43,7 @@ class TestCheckSSL:
     @patch("src.prospecting.scanner.socket.socket")
     @patch("src.prospecting.scanner.ssl.create_default_context")
     def test_expired_cert(self, mock_ctx, mock_sock_cls):
-        past = datetime.now(timezone.utc) - timedelta(days=10)
+        past = datetime.now(UTC) - timedelta(days=10)
         cert = {
             "notAfter": past.strftime("%b %d %H:%M:%S %Y GMT"),
             "issuer": ((("organizationName", "Let's Encrypt"),),),

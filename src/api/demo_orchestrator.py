@@ -14,7 +14,6 @@ import json
 import random
 import shutil
 import uuid
-from typing import Optional
 
 from loguru import logger
 
@@ -53,7 +52,7 @@ def cleanup_demo_queue(scan_id: str) -> None:
 async def run_demo_replay(
     scan_id: str,
     brief: dict,
-    redis_conn: Optional[object] = None,
+    redis_conn: object | None = None,
 ) -> None:
     """Replay a prospect brief as a theatrical scan demo.
 
@@ -191,7 +190,7 @@ async def _stream_nuclei_scan(port: int, publish) -> list[dict]:
 async def run_demo_live(
     scan_id: str,
     brief: dict,
-    redis_conn: Optional[object] = None,
+    redis_conn: object | None = None,
 ) -> None:
     """Run a live twin scan and stream findings as they happen.
 
@@ -228,10 +227,13 @@ async def run_demo_live(
                  "message": "Building digital twin..."})
 
         try:
-            from tools.twin.twin_server import (
-                TwinHandler, _build_routes, _build_common_headers, HTTPServer,
-            )
             from tools.twin.templates import load_slug_map
+            from tools.twin.twin_server import (
+                HTTPServer,
+                TwinHandler,
+                _build_common_headers,
+                _build_routes,
+            )
 
             slug_map = load_slug_map()
             routes = _build_routes(brief, slug_map)

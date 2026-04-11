@@ -1,7 +1,6 @@
 """Tests for config.py — JSON config loading and constants."""
 
 import json
-from pathlib import Path
 
 from src.prospecting.config import (
     BUCKET_A_CMS,

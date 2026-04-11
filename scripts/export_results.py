@@ -44,8 +44,8 @@ def _load_cvr_lookup(cvr_path: str) -> dict:
         return {}
 
     try:
-        from src.prospecting.cvr import read_excel
         from src.prospecting.config import FREE_WEBMAIL
+        from src.prospecting.cvr import read_excel
 
         companies = read_excel(cvr_file)
         lookup = {}
@@ -75,7 +75,7 @@ def _find_latest_result(domain_dir: Path) -> dict | None:
     if not json_files:
         return None
     try:
-        with open(json_files[0], "r", encoding="utf-8") as f:
+        with open(json_files[0], encoding="utf-8") as f:
             return json.load(f)
     except (json.JSONDecodeError, OSError):
         return None

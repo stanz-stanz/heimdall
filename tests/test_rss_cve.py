@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import sqlite3
-from datetime import datetime, timezone, timedelta
-from unittest.mock import patch, MagicMock
+from datetime import UTC, datetime, timedelta
+from unittest.mock import MagicMock, patch
 
 import pytest
 
+from src.vulndb.cache import init_db
 from src.vulndb.rss_cve import (
     _extract_cves,
     _init_rss_tables,
@@ -18,8 +18,6 @@ from src.vulndb.rss_cve import (
     lookup_rss_cves,
     refresh_rss_cves,
 )
-from src.vulndb.cache import init_db
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -38,13 +36,13 @@ def _insert_rss_cve(conn, cve_id, source="wordfence", title="Test",
                      url="https://example.com", published_at=None):
     """Helper: insert a test RSS CVE entry."""
     if published_at is None:
-        published_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        published_at = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     conn.execute(
         """INSERT OR IGNORE INTO rss_cves
            (cve_id, source, title, url, published_at, fetched_at)
            VALUES (?, ?, ?, ?, ?, ?)""",
         (cve_id, source, title, url, published_at,
-         datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")),
+         datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")),
     )
     conn.commit()
 
@@ -97,7 +95,7 @@ class TestFeedFreshness:
 
     def test_recent_fetch_is_fresh(self, db):
         conn, _ = db
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
         conn.execute(
             "INSERT INTO rss_feed_meta (feed_key, last_fetched_at, entries_count) VALUES (?, ?, ?)",
             ("wordfence", now, 10),
@@ -107,7 +105,7 @@ class TestFeedFreshness:
 
     def test_old_fetch_not_fresh(self, db):
         conn, _ = db
-        old = (datetime.now(timezone.utc) - timedelta(hours=24)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        old = (datetime.now(UTC) - timedelta(hours=24)).strftime("%Y-%m-%dT%H:%M:%SZ")
         conn.execute(
             "INSERT INTO rss_feed_meta (feed_key, last_fetched_at, entries_count) VALUES (?, ?, ?)",
             ("wordfence", old, 10),
@@ -210,7 +208,7 @@ class TestRefresh:
     def test_skips_fresh_feeds(self, mock_fp, db):
         conn, db_path = db
         # Mark all feeds as fresh
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
         for key in ("wordfence", "cisa", "bleeping"):
             conn.execute(
                 "INSERT INTO rss_feed_meta (feed_key, last_fetched_at, entries_count) VALUES (?, ?, ?)",
@@ -251,7 +249,7 @@ class TestLookup:
 
     def test_respects_window(self, db):
         conn, _ = db
-        old_date = (datetime.now(timezone.utc) - timedelta(days=60)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        old_date = (datetime.now(UTC) - timedelta(days=60)).strftime("%Y-%m-%dT%H:%M:%SZ")
         _insert_rss_cve(conn, "CVE-2026-1234", published_at=old_date)
 
         result = lookup_rss_cves(conn, ["CVE-2026-1234"], window_days=30)
@@ -358,7 +356,7 @@ class TestTrending:
 
     def test_old_entries_excluded(self, db):
         conn, db_path = db
-        old_date = (datetime.now(timezone.utc) - timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        old_date = (datetime.now(UTC) - timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
         _insert_rss_cve(conn, "CVE-2026-1234", "wordfence", published_at=old_date)
         _insert_rss_cve(conn, "CVE-2026-1234", "bleeping", published_at=old_date)
         conn.close()

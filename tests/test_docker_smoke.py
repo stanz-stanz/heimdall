@@ -13,7 +13,6 @@ Mark: @pytest.mark.docker — for container-only checks.
 from __future__ import annotations
 
 import os
-import subprocess
 from pathlib import Path
 
 import pytest
@@ -137,7 +136,7 @@ class TestDockerfileIntegrity:
             if "@latest" in line and line.strip().startswith("RUN")
         ]
         assert len(lines_with_latest) == 0, (
-            f"Dockerfile has @latest tags (should be pinned):\n"
+            "Dockerfile has @latest tags (should be pinned):\n"
             + "\n".join(lines_with_latest)
         )
 

@@ -17,10 +17,8 @@ from src.db.client_history import DBClientHistory
 from src.db.connection import _now, init_db
 from src.db.findings import (
     get_definition,
-    get_open_occurrences,
     get_status_log,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

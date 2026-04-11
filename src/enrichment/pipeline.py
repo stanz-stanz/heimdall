@@ -16,7 +16,6 @@ from .db import (
     upsert_companies,
 )
 from .domain_deriver import (
-    extract_domain_from_email,
     validate_domain_name_match,
 )
 from .excel_reader import read_cvr_excel
@@ -31,6 +30,7 @@ from .normalizers import (
     normalize_company_form,
 )
 from .search_fallback import SearchError, search_company_domain
+
 
 def run_pipeline(
     input_path: Path,

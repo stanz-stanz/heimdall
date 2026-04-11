@@ -22,10 +22,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -266,7 +265,6 @@ def _timed_scan_domains(companies, mocked, domains_list):
     the whole scanning stage and report scan_types with an estimate note.
     """
     from prospecting.scanner import (
-        ScanResult,
         _check_ssl,
         _extract_page_meta,
         _get_response_headers,
@@ -361,15 +359,14 @@ def run_benchmark(n_domains: int, mocked: bool, output_path: Path) -> dict:
     from src.prospecting.logging_config import setup_logging
     setup_logging(level="WARNING")
 
-    from prospecting.cvr import Company, derive_domains, read_excel
-    from prospecting.filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
-    from prospecting.resolver import resolve_domains
-    from prospecting.scanner import ScanResult, scan_domains
-    from prospecting.bucketer import assign_buckets
     from prospecting.agency_detector import detect_agencies
     from prospecting.brief_generator import generate_brief
-    from prospecting.output import write_briefs, write_csv, write_agency_briefs
-    from prospecting.config import DEFAULT_FILTERS, DEFAULT_INPUT, DATA_DIR, BRIEFS_DIR
+    from prospecting.bucketer import assign_buckets
+    from prospecting.config import DEFAULT_FILTERS, DEFAULT_INPUT
+    from prospecting.cvr import derive_domains, read_excel
+    from prospecting.filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
+    from prospecting.output import write_agency_briefs, write_briefs, write_csv
+    from prospecting.resolver import resolve_domains
 
     stages: dict[str, dict] = {}
     overall_start = time.perf_counter()
@@ -497,7 +494,7 @@ def run_benchmark(n_domains: int, mocked: bool, output_path: Path) -> dict:
     per_domain_target = 30000
 
     result = {
-        "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "timestamp": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "domains_count": n_domains,
         "mocked": mocked,
         "stages": stages,

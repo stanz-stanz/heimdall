@@ -1,11 +1,8 @@
 """Tests for filters: load_filters(), apply_pre_scan_filters(), apply_post_scan_filters()."""
 
 import json
-import pytest
-from pathlib import Path
 
-from src.prospecting.filters import load_filters, apply_pre_scan_filters, apply_post_scan_filters
-
+from src.prospecting.filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
 
 # ---------------------------------------------------------------------------
 # 1. load_filters()

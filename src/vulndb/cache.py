@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 _SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS plugin_vulns (
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS kev_meta (
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def init_db(db_path: str) -> sqlite3.Connection:
@@ -126,7 +126,7 @@ def is_slug_cached(conn: sqlite3.Connection, slug: str, asset_type: str,
     if row is None:
         return False
     fetched = datetime.fromisoformat(row["fetched_at"].replace("Z", "+00:00"))
-    age_days = (datetime.now(timezone.utc) - fetched).days
+    age_days = (datetime.now(UTC) - fetched).days
     return age_days < max_age_days
 
 
@@ -232,7 +232,7 @@ def get_stale_slugs(conn: sqlite3.Connection, max_age_days: int = 7) -> list[tup
         "SELECT slug, asset_type, fetched_at FROM lookup_meta"
     ).fetchall()
     stale = []
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     for row in rows:
         fetched = datetime.fromisoformat(row["fetched_at"].replace("Z", "+00:00"))
         if (now - fetched).days >= max_age_days:

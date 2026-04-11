@@ -1,7 +1,5 @@
 """Tests for the new console API endpoints (dashboard, pipeline, campaigns, etc.)."""
 
-import json
-from pathlib import Path
 
 import fakeredis
 import pytest
@@ -9,7 +7,6 @@ from fastapi.testclient import TestClient
 
 from src.api.app import create_app
 from src.db.connection import init_db
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

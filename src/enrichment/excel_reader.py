@@ -8,8 +8,8 @@ import openpyxl
 from loguru import logger
 
 from src.prospecting.config import (
-    COL_ADDRESS,
     COL_AD_PROTECTED,
+    COL_ADDRESS,
     COL_CITY,
     COL_COMPANY_FORM,
     COL_CVR,

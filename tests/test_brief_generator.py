@@ -1,10 +1,8 @@
 """Tests for brief_generator: generate_brief() and _determine_gdpr_sensitivity()."""
 
-import pytest
 from datetime import date
 
-from src.prospecting.brief_generator import generate_brief, _determine_gdpr_sensitivity
-
+from src.prospecting.brief_generator import _determine_gdpr_sensitivity, generate_brief
 
 # ---------------------------------------------------------------------------
 # 1. SSL findings

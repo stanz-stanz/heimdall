@@ -18,19 +18,22 @@ import os
 import signal
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import redis
-
-from src.prospecting.config import ENRICHMENT_RETRY_LIMIT
-from src.prospecting.logging_config import setup_logging
-from src.prospecting.scanner import _init_scan_type_map, _LEVEL1_SCAN_FUNCTIONS, _run_subfinder, _validate_approval_tokens
-from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
+from loguru import logger
 
 from src.consent.validator import check_consent
-from loguru import logger
+from src.prospecting.config import ENRICHMENT_RETRY_LIMIT
+from src.prospecting.logging_config import setup_logging
+from src.prospecting.scanner import (
+    _init_scan_type_map,
+    _run_subfinder,
+    _validate_approval_tokens,
+)
+from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
 from .cache import ScanCache
 from .scan_job import execute_scan_job
@@ -47,7 +50,7 @@ def _handle_signal(signum: int, _frame: object) -> None:  # pragma: no cover
     logger.info("Received %s — shutting down after current job", sig_name)
 
 
-def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
+def _parse_args(argv: list | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Heimdall scan worker")
     parser.add_argument(
         "--redis-url",
@@ -91,7 +94,7 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
 
 def _write_result(base_dir: str, client_id: str, domain: str, result: dict) -> Path:
     """Write scan result JSON to disk.  Creates directories as needed."""
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today = datetime.now(UTC).strftime("%Y-%m-%d")
     out_dir = Path(base_dir) / client_id / domain
     out_dir.mkdir(parents=True, exist_ok=True)
     filepath = out_dir / f"{today}.json"
@@ -220,7 +223,7 @@ def _run_subfinder_with_retry(
     return {}
 
 
-def main(argv: Optional[list] = None) -> None:
+def main(argv: list | None = None) -> None:
     """Worker main loop: validate Valdi, connect to Redis, process jobs."""
     args = _parse_args(argv)
     setup_logging(level=args.log_level, fmt=args.log_format)
@@ -239,8 +242,9 @@ def main(argv: Optional[list] = None) -> None:
         logger.warning("CT database not found at %s — crt.sh queries will return empty results", ct_db_path)
 
     # Set module-level CT_DB_PATH for scan_job to use
-    from .scan_job import _CT_DB_PATH as _unused  # noqa: F401
     import src.worker.scan_job as _scan_job_mod
+
+    from .scan_job import _CT_DB_PATH as _unused  # noqa: F401
     _scan_job_mod._CT_DB_PATH = ct_db_path
 
     # ------------------------------------------------------------------
@@ -419,8 +423,8 @@ def main(argv: Optional[list] = None) -> None:
 
         # Save to client database (fail-safe: errors logged, not fatal)
         try:
-            from src.db.worker_hook import save_scan_to_db
             from src.db.connection import init_db
+            from src.db.worker_hook import save_scan_to_db
 
             client_data_dir = os.environ.get("CLIENT_DATA_DIR", "data/clients")
             db_path = os.path.join(client_data_dir, "clients.db")

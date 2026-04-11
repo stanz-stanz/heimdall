@@ -12,9 +12,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from pptx import Presentation
-from pptx.util import Inches, Pt, Emu
-from pptx.enum.text import PP_ALIGN
-from pptx.dml.color import RGBColor
+from pptx.util import Inches, Pt
 
 
 def _add_slide(prs, title: str, bullets: list[str], notes: str = ""):

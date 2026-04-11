@@ -9,9 +9,7 @@ import pytest
 from telegram.error import NetworkError, RetryAfter, TimedOut
 
 from src.db.connection import init_db
-from src.db.delivery import log_delivery, update_delivery_status
 from src.delivery.sender import send_message, send_messages, send_with_logging
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

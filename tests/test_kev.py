@@ -2,18 +2,17 @@
 
 from __future__ import annotations
 
-import json
-from datetime import datetime, timezone, timedelta
-from unittest.mock import patch, MagicMock
+from datetime import UTC, datetime, timedelta
+from unittest.mock import MagicMock, patch
 
 import pytest
 
+from src.vulndb.cache import init_db
 from src.vulndb.kev import (
     _is_fresh,
     enrich_with_kev,
     refresh_kev,
 )
-from src.vulndb.cache import init_db
 
 
 @pytest.fixture
@@ -38,7 +37,7 @@ def _make_kev_response(cve_ids: list[str]) -> dict:
 def _seed_kev(conn, cve_ids: list[str]) -> None:
     for cve in cve_ids:
         conn.execute("INSERT OR IGNORE INTO kev_entries (cve_id) VALUES (?)", (cve,))
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     conn.execute(
         "INSERT OR REPLACE INTO kev_meta (key, last_fetched_at, entry_count) "
         "VALUES ('catalog', ?, ?)", (now, len(cve_ids)),
@@ -54,7 +53,7 @@ class TestIsFresh:
 
     def test_stale_beyond_ttl(self, db):
         conn, _ = db
-        old = (datetime.now(timezone.utc) - timedelta(hours=25)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        old = (datetime.now(UTC) - timedelta(hours=25)).strftime("%Y-%m-%dT%H:%M:%SZ")
         conn.execute(
             "INSERT OR REPLACE INTO kev_meta (key, last_fetched_at, entry_count) "
             "VALUES ('catalog', ?, 1)", (old,),

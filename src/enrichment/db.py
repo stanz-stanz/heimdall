@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import os
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from loguru import logger
@@ -105,7 +105,7 @@ def open_readonly(db_path: str | Path) -> sqlite3.Connection:
 
 def _now() -> str:
     """ISO-8601 UTC timestamp."""
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def upsert_companies(conn: sqlite3.Connection, rows: list[dict]) -> int:

@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import uuid
 from datetime import date
-from typing import Optional
 
 from loguru import logger
 
@@ -16,6 +15,7 @@ from .delta import DeltaDetector
 from .models import DeltaResult, FindingRecord, ScanEntry
 from .remediation import RemediationTracker
 from .storage import AtomicFileStore
+
 
 def _empty_history(client_id: str) -> dict:
     return {
@@ -185,7 +185,7 @@ class ClientHistory:
 
         return list(records_by_id.values())
 
-    def get_finding_status(self, client_id: str, finding_id: str) -> Optional[str]:
+    def get_finding_status(self, client_id: str, finding_id: str) -> str | None:
         """Get the current status of a specific finding."""
         history = self.load_history(client_id)
         for f in history.get("findings", []):

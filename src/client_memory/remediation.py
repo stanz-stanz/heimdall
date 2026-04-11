@@ -10,9 +10,8 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 from loguru import logger
 
@@ -33,7 +32,7 @@ class InvalidTransition(ValueError):
 class RemediationTracker:
     """State machine for finding remediation lifecycle."""
 
-    def __init__(self, config_path: Optional[Path] = None) -> None:
+    def __init__(self, config_path: Path | None = None) -> None:
         config = self._load_config(config_path or _CONFIG_PATH)
         self.transitions: dict[str, list[str]] = config.get("transitions", _DEFAULT_TRANSITIONS)
         self.regression_target: str = config.get("regression_target", "open")
@@ -42,7 +41,7 @@ class RemediationTracker:
     @staticmethod
     def _load_config(path: Path) -> dict:
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 data = json.load(f)
             if isinstance(data, dict):
                 return data
@@ -60,9 +59,9 @@ class RemediationTracker:
         finding: FindingRecord,
         new_status: FindingStatus,
         source: str,
-        timestamp: Optional[str] = None,
-        conn: Optional[sqlite3.Connection] = None,
-        occurrence_id: Optional[int] = None,
+        timestamp: str | None = None,
+        conn: sqlite3.Connection | None = None,
+        occurrence_id: int | None = None,
     ) -> FindingRecord:
         """Validate and apply a forward transition.
 
@@ -86,7 +85,7 @@ class RemediationTracker:
             )
 
         old_status = finding.status
-        ts = timestamp or datetime.now(timezone.utc).isoformat()
+        ts = timestamp or datetime.now(UTC).isoformat()
         finding.status = new_status
         finding.status_history.append({
             "status": new_status,
@@ -116,9 +115,9 @@ class RemediationTracker:
         self,
         finding: FindingRecord,
         source: str,
-        timestamp: Optional[str] = None,
-        conn: Optional[sqlite3.Connection] = None,
-        occurrence_id: Optional[int] = None,
+        timestamp: str | None = None,
+        conn: sqlite3.Connection | None = None,
+        occurrence_id: int | None = None,
     ) -> FindingRecord:
         """Regression: finding reappeared. Any state -> open.
 
@@ -131,7 +130,7 @@ class RemediationTracker:
                 ``finding_status_log`` table and the occurrence row is updated.
             occurrence_id: Optional PK of the ``finding_occurrences`` row.
         """
-        ts = timestamp or datetime.now(timezone.utc).isoformat()
+        ts = timestamp or datetime.now(UTC).isoformat()
         old_status = finding.status
         finding.status = self.regression_target
         finding.resolved_date = None
