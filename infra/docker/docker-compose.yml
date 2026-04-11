@@ -122,6 +122,12 @@ services:
           memory: 1G
           cpus: '1.0'
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "test $$(( $$(date +%s) - $$(stat -c %Y /tmp/healthcheck 2>/dev/null || echo 0) )) -lt 300"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   api:
     build:
@@ -213,6 +219,11 @@ services:
           memory: 256M
           cpus: '0.25'
     restart: "no"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:9080/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
 
   dozzle:
     image: amir20/dozzle:v8.12.5
