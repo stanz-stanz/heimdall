@@ -14,7 +14,6 @@ import os
 import time
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional
 
 from loguru import logger
 
@@ -31,14 +30,14 @@ _ANTHROPIC_TIMEOUT = 60
 @lru_cache(maxsize=1)
 def _load_config() -> dict:
     """Load interpreter config (cached — config is static at runtime)."""
-    with open(_CONFIG_PATH, "r", encoding="utf-8") as f:
+    with open(_CONFIG_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 
 def complete(
     prompt: str,
     system: str = "",
-    config_override: Optional[dict] = None,
+    config_override: dict | None = None,
 ) -> str:
     """Send a prompt to the configured LLM backend and return the response.
 

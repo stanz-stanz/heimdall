@@ -12,24 +12,24 @@ import asyncio
 import json
 import os
 import signal
-import sys
 
 import redis
 from loguru import logger
-
 from telegram.ext import CallbackQueryHandler
 
+from src.composer.telegram import compose_telegram
+from src.db.clients import get_client_by_domain
 from src.db.connection import init_db
 from src.db.scans import get_latest_brief
-from src.db.clients import get_client_by_domain, get_client
-from src.delivery.bot import load_config, get_bot_token, get_operator_chat_id, create_application
 from src.delivery.approval import (
-    request_approval, handle_approval_callback, should_require_approval,
+    handle_approval_callback,
+    request_approval,
+    should_require_approval,
 )
-from src.delivery.sender import send_with_logging
+from src.delivery.bot import create_application, get_bot_token, get_operator_chat_id, load_config
 from src.delivery.buttons import build_client_buttons, handle_client_callback
+from src.delivery.sender import send_with_logging
 from src.interpreter.interpreter import interpret_brief
-from src.composer.telegram import compose_telegram
 from src.prospecting.logging_config import setup_logging
 
 

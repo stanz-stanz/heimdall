@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +13,7 @@ import redis
 from loguru import logger
 
 from src.prospecting.config import ENRICHMENT_STAGGER_SECONDS, ENRICHMENT_WORKERS
-from src.prospecting.cvr import Company, derive_domains, read_excel
+from src.prospecting.cvr import derive_domains, read_excel
 from src.prospecting.filters import apply_pre_scan_filters, load_filters
 
 QUEUE_NAME = "queue:scan"
@@ -24,14 +24,14 @@ ENRICHMENT_TOTAL_KEY = "enrichment:total"
 
 def _make_job_id() -> str:
     """Generate a unique job ID: scan-{date}-{short_uuid}."""
-    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    date_str = datetime.now(UTC).strftime("%Y-%m-%d")
     short_id = uuid.uuid4().hex[:8]
     return f"scan-{date_str}-{short_id}"
 
 
 def _make_enrichment_job_id() -> str:
     """Generate a unique enrichment job ID: enrich-{date}-{short_uuid}."""
-    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    date_str = datetime.now(UTC).strftime("%Y-%m-%d")
     short_id = uuid.uuid4().hex[:8]
     return f"enrich-{date_str}-{short_id}"
 
@@ -53,7 +53,7 @@ def _build_job(
         "layer": layer,
         "level": level,
         "scan_types": scan_types or ["all"],
-        "created_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "created_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
 
 
@@ -71,7 +71,7 @@ def _build_enrichment_job(
         "batch_index": batch_index,
         "total_batches": total_batches,
         "stagger_delay": stagger_delay,
-        "created_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "created_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
 
 

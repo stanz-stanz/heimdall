@@ -17,9 +17,8 @@ import json
 from loguru import logger
 
 from src.composer.telegram import compose_telegram
-from src.db.connection import init_db, _now
+from src.db.connection import _now, init_db
 from src.delivery.bot import create_application, get_bot_token
-from src.delivery.sender import send_messages
 
 
 def run_send(

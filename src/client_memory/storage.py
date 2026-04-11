@@ -12,7 +12,6 @@ import os
 import tempfile
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Optional
 
 from loguru import logger
 
@@ -29,13 +28,13 @@ class AtomicFileStore:
             raise ValueError(f"Path escapes base directory: {parts}")
         return resolved
 
-    def read_json(self, *path_parts: str) -> Optional[dict]:
+    def read_json(self, *path_parts: str) -> dict | None:
         """Read a JSON file. Returns None if missing or corrupt."""
         path = self._resolve(*path_parts)
         if not path.is_file():
             return None
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 data = json.load(f)
             if not isinstance(data, dict):
                 logger.bind(context={

@@ -5,14 +5,11 @@ from __future__ import annotations
 import subprocess
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from src.prospecting.scanner import (
-    _parse_nmap_xml,
     _nmap_ports_to_findings,
+    _parse_nmap_xml,
     _run_nmap,
 )
-
 
 # ---------------------------------------------------------------------------
 # XML fixtures

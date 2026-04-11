@@ -3,20 +3,19 @@
 from __future__ import annotations
 
 import asyncio
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
 
 from src.db.clients import create_client
 from src.db.connection import init_db
-from src.db.delivery import log_delivery, update_delivery_status
+from src.db.delivery import log_delivery
 from src.delivery.approval import (
     _PENDING_MESSAGES_KEY,
     handle_approval_callback,
     request_approval,
     should_require_approval,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

@@ -24,7 +24,6 @@ from loguru import logger
 
 from src.db.connection import init_db
 
-
 _ENRICHED_DB_PATH = "data/enriched/companies.db"
 
 

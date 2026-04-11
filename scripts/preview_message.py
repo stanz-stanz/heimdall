@@ -19,9 +19,8 @@ import json
 import os
 from pathlib import Path
 
-from src.interpreter.interpreter import interpret_brief
 from src.composer.telegram import compose_telegram
-
+from src.interpreter.interpreter import interpret_brief
 
 # Same sample brief as test_delivery.py
 SAMPLE_BRIEF = {

@@ -101,7 +101,7 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
 
     # Buckets
     buckets = Counter(b.get("bucket", "?") for b in briefs)
-    print(f"\n  BUCKETS")
+    print("\n  BUCKETS")
     for bucket in ["A", "B", "E", "C", "D"]:
         print(f"    {bucket}: {buckets.get(bucket, 0):>4d}")
 
@@ -119,7 +119,7 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
     ssl_valid = sum(1 for b in briefs if b.get("technology", {}).get("ssl", {}).get("valid"))
     no_ssl = sum(1 for b in briefs if b.get("technology", {}).get("ssl", {}).get("days_remaining", -1) == -1)
     expiring_soon = sum(1 for b in briefs if 0 < b.get("technology", {}).get("ssl", {}).get("days_remaining", 999) < 30)
-    print(f"\n  SSL")
+    print("\n  SSL")
     print(f"    Valid:           {ssl_valid}")
     print(f"    No certificate:  {no_ssl}")
     print(f"    Expiring <30d:   {expiring_soon}")
@@ -156,7 +156,7 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
         else:
             grouped_types[desc] += count
 
-    print(f"\n  TOP FINDING TYPES")
+    print("\n  TOP FINDING TYPES")
     for desc, count in grouped_types.most_common(15):
         print(f"    {count:>5d}  {desc}")
 
@@ -166,14 +166,14 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
         for p in b.get("technology", {}).get("detected_plugins", []):
             plugin_counts[p] += 1
     if plugin_counts:
-        print(f"\n  TOP PLUGINS")
+        print("\n  TOP PLUGINS")
         for plugin, count in plugin_counts.most_common(15):
             print(f"    {count:3d}  {plugin}")
 
     # Digital Twin
     twin_enriched = sum(1 for b in briefs if b.get("twin_scan"))
     wp_sites = sum(1 for b in briefs if b.get("technology", {}).get("cms") == "WordPress")
-    print(f"\n  DIGITAL TWIN")
+    print("\n  DIGITAL TWIN")
     print(f"    WordPress sites (eligible): {wp_sites}")
     print(f"    Twin-enriched briefs: {twin_enriched}")
 
@@ -194,7 +194,7 @@ def analyze_summary(briefs: list[dict], csv_rows: list[dict]) -> None:
         reverse=True,
     )
     if top:
-        print(f"\n  TOP 10 PROSPECTS (Bucket A + GDPR + most findings)")
+        print("\n  TOP 10 PROSPECTS (Bucket A + GDPR + most findings)")
         for b in top[:10]:
             cms = b.get("technology", {}).get("cms", "?")
             n = len(b.get("findings", []))
@@ -219,7 +219,7 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
     analyze_summary(briefs, csv_rows)
 
     print(f"\n{'=' * 70}")
-    print(f"  DEEP ANALYSIS")
+    print("  DEEP ANALYSIS")
     print(f"{'=' * 70}")
 
     # --- Contactable breakdown ---
@@ -227,13 +227,13 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
     contactable_false = sum(1 for r in csv_rows if r.get("contactable") == "False")
     contactable_empty = sum(1 for r in csv_rows if r.get("contactable", "") == "")
 
-    print(f"\n  CONTACT STATUS")
+    print("\n  CONTACT STATUS")
     print(f"    Contactable (not Reklamebeskyttet): {contactable_true}")
     print(f"    Protected (Reklamebeskyttet):       {contactable_false}")
     print(f"    Unknown:                            {contactable_empty}")
 
     # Contactable by bucket
-    print(f"\n  CONTACTABLE BY BUCKET")
+    print("\n  CONTACTABLE BY BUCKET")
     print(f"    {'Bucket':<10s} {'Total':>6s} {'Contact':>8s} {'Protected':>10s}")
     print(f"    {'------':<10s} {'-----':>6s} {'-------':>8s} {'---------':>10s}")
     for bucket in ["A", "B", "E", "C", "D"]:
@@ -245,7 +245,7 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
     # --- Industry breakdown ---
     industries = Counter(r.get("industry_name", "") for r in csv_rows if r.get("industry_name"))
     if industries:
-        print(f"\n  TOP INDUSTRIES")
+        print("\n  TOP INDUSTRIES")
         for ind, count in industries.most_common(15):
             print(f"    {count:3d}  {ind}")
 
@@ -255,7 +255,7 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
         if b.get("gdpr_sensitive") and b.get("industry"):
             gdpr_by_industry[b["industry"]] += 1
     if gdpr_by_industry:
-        print(f"\n  GDPR-SENSITIVE BY INDUSTRY")
+        print("\n  GDPR-SENSITIVE BY INDUSTRY")
         for ind, count in gdpr_by_industry.most_common(10):
             print(f"    {count:3d}  {ind}")
 
@@ -272,7 +272,7 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
                 agency_sites[val].append(b["domain"])
 
     if agencies:
-        print(f"\n  DETECTED AGENCIES / BUILDERS")
+        print("\n  DETECTED AGENCIES / BUILDERS")
         for agency, count in agencies.most_common(10):
             sites = agency_sites[agency][:3]
             site_str = ", ".join(sites)
@@ -286,7 +286,7 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
         for f in b.get("findings", []):
             severity_counts[f.get("severity", "unknown")] += 1
     if severity_counts:
-        print(f"\n  FINDING SEVERITY BREAKDOWN")
+        print("\n  FINDING SEVERITY BREAKDOWN")
         for sev in ["critical", "high", "medium", "low", "info"]:
             count = severity_counts.get(sev, 0)
             bar = "#" * (count // 5)
@@ -307,7 +307,7 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
             avg_ms = total_scan_ms / len(timings)
             timings_sorted = sorted(timings, key=lambda x: x[1], reverse=True)
 
-            print(f"\n  SCAN TIMING")
+            print("\n  SCAN TIMING")
             print(f"    Domains scanned: {len(timings)}")
             print(f"    Total scan time: {total_scan_ms / 1000:.1f}s ({total_scan_ms / 60000:.1f} min)")
             print(f"    Average per domain: {avg_ms:.0f}ms ({avg_ms / 1000:.1f}s)")
@@ -322,20 +322,20 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
                         scan_type_totals[scan_type].append(ms)
 
             if scan_type_totals:
-                print(f"\n    Per-scan-type average:")
+                print("\n    Per-scan-type average:")
                 for stype, values in sorted(scan_type_totals.items(), key=lambda x: sum(x[1]) / len(x[1]), reverse=True):
                     avg = sum(values) / len(values)
                     print(f"      {stype:<20s} {avg:>8.0f}ms avg  ({len(values)} runs)")
 
             # Top 5 slowest domains
-            print(f"\n    Slowest 5 domains:")
+            print("\n    Slowest 5 domains:")
             for domain, ms, _ in timings_sorted[:5]:
                 print(f"      {ms:>6d}ms  {domain}")
 
     # --- Outreach prioritization matrix ---
-    print(f"\n  OUTREACH PRIORITIZATION")
-    print(f"  (Bucket A + GDPR + contactable + sorted by findings)")
-    print(f"")
+    print("\n  OUTREACH PRIORITIZATION")
+    print("  (Bucket A + GDPR + contactable + sorted by findings)")
+    print("")
     print(f"    {'Domain':<35s} {'Find':>4s} {'Plugins':>7s} {'SSL':>5s} {'Industry'}")
     print(f"    {'------':<35s} {'----':>4s} {'-------':>7s} {'---':>5s} {'--------'}")
 
@@ -369,7 +369,7 @@ def analyze_deep(briefs: list[dict], csv_rows: list[dict], results_dir: Path) ->
     print(f"\n    Total outreach candidates: {len(outreach)}")
 
     # --- Summary stats ---
-    print(f"\n  QUICK STATS FOR SALES")
+    print("\n  QUICK STATS FOR SALES")
     print(f"    '{len(briefs)} businesses scanned in Vejle'")
 
     wp_count = sum(1 for b in briefs if b.get("technology", {}).get("cms") == "WordPress")

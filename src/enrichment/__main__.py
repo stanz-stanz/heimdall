@@ -72,7 +72,7 @@ def main(argv: list[str] | None = None) -> int:
 
     # Summary report
     print(f"\n{'=' * 60}")
-    print(f"  ENRICHMENT SUMMARY")
+    print("  ENRICHMENT SUMMARY")
     print(f"{'=' * 60}")
     print(f"  Total ingested:      {stats['total_ingested']:>6d}")
     print(f"  Email-derived:       {stats['email_derived']:>6d}")

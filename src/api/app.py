@@ -10,18 +10,23 @@ import re
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Optional
 
 import redis
-from loguru import logger
 from fastapi import FastAPI, HTTPException, Query, Request
+from loguru import logger
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 from starlette.staticfiles import StaticFiles
 
-from src.client_memory import AtomicFileStore, ClientHistory, ClientProfile, DeltaDetector, RemediationTracker
-from src.interpreter.interpreter import InterpreterError, interpret_brief
+from src.client_memory import (
+    AtomicFileStore,
+    ClientHistory,
+    ClientProfile,
+    DeltaDetector,
+    RemediationTracker,
+)
 from src.composer.telegram import compose_telegram
+from src.interpreter.interpreter import InterpreterError, interpret_brief
 
 from .console import router as console_router
 from .result_store import ResultStore
@@ -424,8 +429,8 @@ def create_app(
         client_id: str,
         domain: str,
         request: Request,
-        date: Optional[str] = Query(default=None),
-        include: Optional[str] = Query(default=None),
+        date: str | None = Query(default=None),
+        include: str | None = Query(default=None),
     ):
         _validate_name(client_id, "client_id")
         _validate_name(domain, "domain")

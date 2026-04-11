@@ -7,19 +7,17 @@ import subprocess
 from unittest.mock import MagicMock, patch
 
 import fakeredis
-import pytest
 
 from src.prospecting.scanner import (
-    _init_scan_type_map,
-    _run_nuclei,
-    _validate_approval_tokens,
     _LEVEL0_SCAN_FUNCTIONS,
     _LEVEL1_SCAN_FUNCTIONS,
     _SCAN_TYPE_FUNCTIONS,
+    _init_scan_type_map,
+    _run_nuclei,
+    _validate_approval_tokens,
 )
 from src.worker.cache import ScanCache
 from src.worker.scan_job import execute_scan_job
-
 
 # ---------------------------------------------------------------------------
 # Helpers

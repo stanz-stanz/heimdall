@@ -5,10 +5,8 @@ from __future__ import annotations
 import json
 
 import fakeredis
-import pytest
 
 from src.worker.cache import CACHE_TTLS, ScanCache, _make_key
-
 
 # ---------------------------------------------------------------------------
 # Helpers

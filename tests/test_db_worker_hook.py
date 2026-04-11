@@ -10,7 +10,6 @@ import pytest
 from src.db.connection import init_db
 from src.db.worker_hook import save_scan_to_db
 
-
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------

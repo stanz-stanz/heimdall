@@ -19,9 +19,10 @@ import json
 
 from loguru import logger
 
-from src.db.connection import init_db, _now
-from src.interpreter.cache import get_cached, store as cache_store
-from src.interpreter.interpreter import interpret_brief, InterpreterError
+from src.db.connection import _now, init_db
+from src.interpreter.cache import get_cached
+from src.interpreter.cache import store as cache_store
+from src.interpreter.interpreter import InterpreterError, interpret_brief
 
 
 def run_interpret(

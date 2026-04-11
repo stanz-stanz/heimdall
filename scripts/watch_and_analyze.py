@@ -58,7 +58,7 @@ def main():
 
     # Run analysis
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from analyze_results import load_results, analyze, print_report
+    from analyze_results import analyze, load_results, print_report
 
     results = load_results(args.results_dir)
     if not results:

@@ -14,13 +14,12 @@ import re
 import threading
 from http.server import HTTPServer
 from pathlib import Path
-
-import pytest
 from unittest.mock import MagicMock
 
-from tools.twin import templates
-from tools.twin.twin_server import TwinHandler, _build_routes, _build_common_headers
+import pytest
 
+from tools.twin import templates
+from tools.twin.twin_server import TwinHandler, _build_common_headers, _build_routes
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures" / "briefs"
 
@@ -176,8 +175,8 @@ class TestTwinLiveHTTP:
         assert resp.status == 200
 
     def test_unknown_path_returns_404(self, twin_server):
-        import urllib.request
         import urllib.error
+        import urllib.request
         port, _ = twin_server
         with pytest.raises(urllib.error.HTTPError) as exc_info:
             urllib.request.urlopen(f"http://127.0.0.1:{port}/nonexistent-path")

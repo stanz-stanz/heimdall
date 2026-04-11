@@ -72,7 +72,7 @@ class ResultStore:
     def _read_file(self, path: Path) -> dict | None:
         """Read and parse a JSON result file. Returns None on error."""
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 return json.load(f)
         except (json.JSONDecodeError, OSError) as exc:
             logger.bind(context={"path": str(path), "error": str(exc)}).warning("result_file_error")

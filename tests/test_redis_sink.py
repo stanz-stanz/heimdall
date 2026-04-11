@@ -2,12 +2,9 @@
 
 import json
 import queue
-import time
 from unittest.mock import MagicMock, patch
 
-import pytest
-
-from src.logging.redis_sink import _RedisSinkWorker, _make_sink, add_redis_sink
+from src.logging.redis_sink import _make_sink, _RedisSinkWorker, add_redis_sink
 
 
 class TestRedisSinkWorker:

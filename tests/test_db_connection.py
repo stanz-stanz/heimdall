@@ -99,7 +99,7 @@ def test_init_db_idempotent(tmp_path: object) -> None:
         "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
     ).fetchall()
     table_names = {row["name"] for row in rows}
-    assert EXPECTED_TABLES <= table_names
+    assert table_names >= EXPECTED_TABLES
     conn2.close()
 
 

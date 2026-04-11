@@ -10,8 +10,8 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from datetime import UTC, datetime
+from typing import Any
 
 from loguru import logger
 
@@ -94,7 +94,7 @@ def insert_certificate(
     issuer_name: str,
     not_before: str,
     not_after: str,
-    san_domains: List[str],
+    san_domains: list[str],
     seen_at: str,
 ) -> bool:
     """Insert a single certificate record, ignoring duplicates.
@@ -116,7 +116,7 @@ def insert_certificate(
         return False
 
 
-def insert_certificates_batch(conn: sqlite3.Connection, certs: List[Dict[str, Any]]) -> int:
+def insert_certificates_batch(conn: sqlite3.Connection, certs: list[dict[str, Any]]) -> int:
     """Insert multiple certificates in a single transaction.
 
     Each dict in *certs* must have keys: common_name, issuer_name,
@@ -155,7 +155,7 @@ def query_certificates(
     conn: sqlite3.Connection,
     domain: str,
     include_expired: bool = False,
-) -> List[Dict[str, str]]:
+) -> list[dict[str, str]]:
     """Query certificates matching a domain by CN exact, CN wildcard, or SAN.
 
     Parameters
@@ -184,7 +184,7 @@ def query_certificates(
         )
         params: tuple = (domain, wildcard, san_pattern)
     else:
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+        now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S")
         sql = (
             "SELECT DISTINCT common_name, issuer_name, not_before, not_after "
             "FROM certificates "
@@ -217,7 +217,7 @@ def cleanup_old_entries(conn: sqlite3.Connection, days: int = 90) -> int:
     """
     from datetime import timedelta
 
-    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+    cutoff = (datetime.now(UTC) - timedelta(days=days)).isoformat()
 
     try:
         cursor = conn.execute(
@@ -235,7 +235,7 @@ def cleanup_old_entries(conn: sqlite3.Connection, days: int = 90) -> int:
         return 0
 
 
-def get_db_stats(conn: sqlite3.Connection) -> Dict[str, Any]:
+def get_db_stats(conn: sqlite3.Connection) -> dict[str, Any]:
     """Return summary statistics about the certificate database.
 
     Returns
@@ -243,7 +243,7 @@ def get_db_stats(conn: sqlite3.Connection) -> Dict[str, Any]:
     dict
         Keys: total_rows, oldest_entry, newest_entry, db_size_bytes.
     """
-    stats: Dict[str, Any] = {
+    stats: dict[str, Any] = {
         "total_rows": 0,
         "oldest_entry": None,
         "newest_entry": None,

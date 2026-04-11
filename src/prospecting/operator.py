@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 # ANSI formatting — stripped when stdout is not a TTY
@@ -101,8 +101,8 @@ def print_pre_scan_summary(
         _box_top(),
         f"  {BOLD}VALDI GATE 2 — PRE-SCAN SUMMARY{RESET}",
         _box_sep(),
-        f"  Batch type:    prospect-scan-level0",
-        f"  Layer: 1 (Passive)  |  Target Level: 0 (No consent)",
+        "  Batch type:    prospect-scan-level0",
+        "  Layer: 1 (Passive)  |  Target Level: 0 (No consent)",
         "",
         f"  Domains to scan:    {BOLD}{len(allowed)}{RESET}",
         f"  Domains skipped:    {len(skipped)}  {DIM}(robots.txt denial){RESET}",

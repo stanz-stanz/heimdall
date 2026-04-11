@@ -5,15 +5,13 @@ from __future__ import annotations
 import json
 import re
 import threading
-import time
 from http.server import HTTPServer
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 
 from tools.twin import templates
-from tools.twin.twin_server import TwinHandler, _build_routes, _build_common_headers
+from tools.twin.twin_server import TwinHandler, _build_common_headers, _build_routes
 
 
 @pytest.fixture

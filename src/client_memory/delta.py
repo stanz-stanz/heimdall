@@ -10,7 +10,6 @@ from __future__ import annotations
 import hashlib
 import re
 from difflib import SequenceMatcher
-from typing import Optional
 
 from loguru import logger
 
@@ -98,12 +97,12 @@ class DeltaDetector:
         self,
         finding: dict,
         prev_by_id: dict[str, FindingRecord],
-    ) -> Optional[FindingRecord]:
+    ) -> FindingRecord | None:
         """Try fuzzy matching against remaining previous findings."""
         severity = finding.get("severity", "").lower().strip()
         desc = normalize_description(finding.get("description", ""))
 
-        best_match: Optional[FindingRecord] = None
+        best_match: FindingRecord | None = None
         best_ratio = 0.0
 
         for record in prev_by_id.values():

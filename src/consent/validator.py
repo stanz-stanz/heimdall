@@ -18,7 +18,6 @@ import json
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Optional
 
 from loguru import logger
 
@@ -33,14 +32,14 @@ class ConsentCheckResult:
     level_requested: int
     level_authorised: int  # -1 if no consent file found
     reason: str
-    consent_expiry: Optional[str] = None
-    authorised_by_role: Optional[str] = None
+    consent_expiry: str | None = None
+    authorised_by_role: str | None = None
 
 
 def _blocked(
     client_id: str, domain: str, level_requested: int,
     reason: str, level_authorised: int = -1,
-    consent_expiry: Optional[str] = None,
+    consent_expiry: str | None = None,
 ) -> ConsentCheckResult:
     """Convenience: build a BLOCKED result. Reduces copy-paste errors."""
     return ConsentCheckResult(
@@ -54,7 +53,7 @@ def _blocked(
     )
 
 
-def load_authorisation(client_dir: Path, client_id: str) -> Optional[dict]:
+def load_authorisation(client_dir: Path, client_id: str) -> dict | None:
     """Load and parse authorisation.json for a client.
 
     Returns the parsed dict, or None if the file is missing or malformed.
@@ -63,7 +62,7 @@ def load_authorisation(client_dir: Path, client_id: str) -> Optional[dict]:
     if not path.is_file():
         return None
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             data = json.load(f)
         if not isinstance(data, dict):
             logger.bind(context={"client_id": client_id, "type": type(data).__name__}).warning(
@@ -83,7 +82,7 @@ def check_consent(
     client_id: str,
     domain: str,
     level_requested: int,
-    reference_date: Optional[date] = None,
+    reference_date: date | None = None,
 ) -> ConsentCheckResult:
     """Validate whether a scan at *level_requested* is permitted for *domain*.
 
@@ -111,7 +110,7 @@ def _check_consent_inner(
     client_id: str,
     domain: str,
     level_requested: int,
-    reference_date: Optional[date],
+    reference_date: date | None,
 ) -> ConsentCheckResult:
     """Inner implementation. May raise — caller catches everything."""
 
@@ -266,7 +265,7 @@ def _is_synthetic_target(domain: str) -> bool:
     """
     registry_path = Path(__file__).resolve().parent.parent.parent / "config" / "synthetic_targets.json"
     try:
-        with open(registry_path, "r", encoding="utf-8") as f:
+        with open(registry_path, encoding="utf-8") as f:
             registry = json.load(f)
         if not isinstance(registry, dict):
             return False
@@ -292,7 +291,7 @@ def validate_schema(authorisation: dict) -> list[str]:
     """
     schema_path = Path(__file__).resolve().parent.parent.parent / "config" / "consent_schema.json"
     try:
-        with open(schema_path, "r", encoding="utf-8") as f:
+        with open(schema_path, encoding="utf-8") as f:
             schema = json.load(f)
     except (json.JSONDecodeError, OSError):
         return ["Could not load consent schema"]

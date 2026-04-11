@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 
-from src.consent.validator import check_consent, _is_synthetic_target
+from src.consent.validator import _is_synthetic_target, check_consent
 
 
 @pytest.fixture

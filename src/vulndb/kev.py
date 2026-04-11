@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import os
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import requests
 from loguru import logger
@@ -22,7 +22,7 @@ _USER_AGENT = "Heimdall/1.0 (EASM; +https://heimdall.dk)"
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _get_conn(db_path: str | None = None) -> sqlite3.Connection:
@@ -36,7 +36,7 @@ def _is_fresh(conn: sqlite3.Connection, max_age_hours: int) -> bool:
     if row is None:
         return False
     fetched = datetime.fromisoformat(row["last_fetched_at"].replace("Z", "+00:00"))
-    age_hours = (datetime.now(timezone.utc) - fetched).total_seconds() / 3600
+    age_hours = (datetime.now(UTC) - fetched).total_seconds() / 3600
     return age_hours < max_age_hours
 
 

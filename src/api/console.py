@@ -4,15 +4,14 @@ from __future__ import annotations
 
 import asyncio
 import json
+import sqlite3
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from loguru import logger
 from fastapi import APIRouter, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
+from loguru import logger
 from pydantic import BaseModel
-
-import sqlite3
 
 from .demo_orchestrator import (
     cleanup_demo_queue,
@@ -57,7 +56,7 @@ def _load_brief(briefs_path: Path, domain: str) -> dict | None:
     if not brief_file.is_file():
         return None
     try:
-        with open(brief_file, "r", encoding="utf-8") as f:
+        with open(brief_file, encoding="utf-8") as f:
             return json.load(f)
     except (json.JSONDecodeError, OSError):
         return None
@@ -111,7 +110,7 @@ async def console_status(request: Request):
         "enrichment": enrichment,
         "recent_scans": recent_scans,
         "cache_keys": cache_keys,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }
 
 
@@ -184,7 +183,7 @@ async def console_dashboard(request: Request):
             pass
 
     data["queues"] = queues
-    data["timestamp"] = datetime.now(timezone.utc).isoformat()
+    data["timestamp"] = datetime.now(UTC).isoformat()
     return data
 
 
@@ -374,7 +373,7 @@ async def console_command(command: str, request: Request):
     cmd_json = json.dumps({
         "command": command,
         "payload": body,
-        "ts": datetime.now(timezone.utc).isoformat(),
+        "ts": datetime.now(UTC).isoformat(),
     })
 
     await asyncio.to_thread(redis_conn.lpush, "queue:operator-commands", cmd_json)
@@ -438,7 +437,7 @@ async def console_ws(websocket: WebSocket):
                     await websocket.send_json({
                         "type": "queue_status",
                         "payload": {"scan": results[0] or 0, "enrichment": results[1] or 0},
-                        "ts": datetime.now(timezone.utc).timestamp(),
+                        "ts": datetime.now(UTC).timestamp(),
                     })
             except Exception:
                 pass
@@ -529,7 +528,7 @@ async def console_ws(websocket: WebSocket):
                     cmd_json = json.dumps({
                         "command": cmd,
                         "payload": data.get("payload", {}),
-                        "ts": datetime.now(timezone.utc).isoformat(),
+                        "ts": datetime.now(UTC).isoformat(),
                     })
                     await asyncio.to_thread(
                         redis_conn.lpush, "queue:operator-commands", cmd_json,
@@ -625,7 +624,7 @@ async def demo_websocket(websocket: WebSocket, scan_id: str):
         while True:
             try:
                 data = await asyncio.wait_for(queue.get(), timeout=30.0)
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 break
 
             await websocket.send_text(data)

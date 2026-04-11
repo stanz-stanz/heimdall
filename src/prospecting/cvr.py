@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 import openpyxl
 from loguru import logger
 
 from .config import (
-    COL_ADDRESS,
     COL_AD_PROTECTED,
+    COL_ADDRESS,
     COL_CITY,
     COL_COMPANY_FORM,
     COL_CVR,
@@ -21,6 +21,7 @@ from .config import (
     COL_POSTCODE,
     FREE_WEBMAIL,
 )
+
 
 @dataclass
 class Company:

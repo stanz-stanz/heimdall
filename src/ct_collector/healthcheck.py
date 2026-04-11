@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from .db import open_readonly
 
@@ -31,7 +31,7 @@ def check(db_path: str = "/data/ct/certificates.db", max_age_minutes: int = 5) -
         newest = row[0]
         # Parse ISO format timestamp
         newest_dt = datetime.fromisoformat(newest.replace("Z", "+00:00"))
-        cutoff = datetime.now(timezone.utc) - timedelta(minutes=max_age_minutes)
+        cutoff = datetime.now(UTC) - timedelta(minutes=max_age_minutes)
         return newest_dt >= cutoff
     except Exception:
         return False

@@ -9,14 +9,13 @@ from __future__ import annotations
 
 import argparse
 import os
-from typing import Optional
 
 import uvicorn
 
 from src.prospecting.logging_config import setup_logging
 
 
-def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
+def _parse_args(argv: list | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Heimdall Results API")
     parser.add_argument(
         "--redis-url",
@@ -63,7 +62,7 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: Optional[list] = None) -> None:
+def main(argv: list | None = None) -> None:
     args = _parse_args(argv)
     setup_logging(level=args.log_level, fmt=args.log_format)
     import logging

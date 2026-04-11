@@ -16,7 +16,6 @@ from loguru import logger
 from telegram import Bot
 from telegram.error import NetworkError, RetryAfter, TimedOut
 
-from src.db.connection import _now
 from src.db.delivery import log_delivery, update_delivery_status
 from src.delivery.buttons import _transition_findings
 

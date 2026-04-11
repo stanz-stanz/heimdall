@@ -19,8 +19,7 @@ import signal
 import ssl
 import sys
 import time
-from functools import partial
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from threading import Thread
 

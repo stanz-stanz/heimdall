@@ -8,14 +8,13 @@ skips. The pipeline works without cache; it is just slower.
 from __future__ import annotations
 
 import json
-from typing import Dict, Optional
 
 import redis
 from loguru import logger
 
 # TTLs in seconds, keyed by scan type ID used in the worker.
 # Source of truth: docs/architecture/pi5-docker-architecture.md § Caching Strategy.
-CACHE_TTLS: Dict[str, int] = {
+CACHE_TTLS: dict[str, int] = {
     "ssl": 86400,           # 24h
     "headers": 86400,       # 24h
     "meta": 86400,          # 24h
@@ -74,7 +73,7 @@ class ScanCache:
         """Return whether Redis is reachable."""
         return self._available
 
-    def get(self, scan_type: str, domain: str) -> Optional[dict]:
+    def get(self, scan_type: str, domain: str) -> dict | None:
         """Return cached result or ``None`` on miss / expiry / unavailable."""
         if not self._available:
             self.misses += 1
@@ -82,7 +81,7 @@ class ScanCache:
 
         key = _make_key(scan_type, domain)
         try:
-            raw: Optional[str] = self._redis.get(key)
+            raw: str | None = self._redis.get(key)
         except (redis.ConnectionError, redis.TimeoutError) as exc:
             logger.warning("Redis GET failed for {}: {}", key, exc)
             self.misses += 1

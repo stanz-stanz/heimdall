@@ -1,9 +1,7 @@
 """Tests for bucketer: classify() and assign_buckets()."""
 
-import pytest
 
 from src.prospecting.bucketer import assign_buckets, classify
-
 
 # ---------------------------------------------------------------------------
 # 1. WordPress → Bucket A

@@ -1,7 +1,9 @@
 """Shared pytest fixtures for Heimdall tests."""
 import pytest
+
 from src.prospecting.cvr import Company
 from src.prospecting.scanner import ScanResult
+
 
 @pytest.fixture
 def sample_company():

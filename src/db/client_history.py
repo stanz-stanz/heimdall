@@ -23,6 +23,7 @@ from src.db.findings import (
     upsert_occurrence,
 )
 
+
 class DBClientHistory:
     """Manages client history via SQLite instead of JSON files.
 

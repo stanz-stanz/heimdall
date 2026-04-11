@@ -1,9 +1,7 @@
 """Tests for the Telegram message composer."""
 
-import pytest
 
-from src.composer.telegram import compose_telegram, compose_celebration, _MESSAGE_BUDGET
-
+from src.composer.telegram import compose_celebration, compose_telegram
 
 # ---------------------------------------------------------------------------
 # Fixtures

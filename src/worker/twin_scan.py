@@ -23,7 +23,6 @@ import time
 from datetime import date
 from http.server import HTTPServer
 from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 from loguru import logger
 
@@ -61,7 +60,7 @@ def _start_twin_server(brief: dict, slug_map: dict) -> tuple:
 
     Returns ``(server, port, thread)``.
     """
-    from tools.twin.twin_server import TwinHandler, _build_routes, _build_common_headers
+    from tools.twin.twin_server import TwinHandler, _build_common_headers, _build_routes
 
     routes = _build_routes(brief, slug_map)
     common_headers = _build_common_headers(brief)
@@ -81,7 +80,7 @@ def _start_twin_server(brief: dict, slug_map: dict) -> tuple:
     return server, port, thread
 
 
-def _run_nuclei_against_twin(port: int) -> List[dict]:
+def _run_nuclei_against_twin(port: int) -> list[dict]:
     """Run Nuclei against the twin on loopback.
 
     Returns a list of finding dicts.
@@ -143,7 +142,7 @@ def _run_nuclei_against_twin(port: int) -> List[dict]:
     return findings
 
 
-def run_twin_scan(brief: dict) -> Optional[dict]:
+def run_twin_scan(brief: dict) -> dict | None:
     """Run Layer 2 tools against a digital twin built from the brief.
 
     Parameters
@@ -170,7 +169,7 @@ def run_twin_scan(brief: dict) -> Optional[dict]:
         return None
 
     try:
-        findings: List[dict] = []
+        findings: list[dict] = []
 
         # Nuclei
         nuclei_findings = _run_nuclei_against_twin(port)

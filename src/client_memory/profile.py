@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from loguru import logger
 
 from .storage import AtomicFileStore
@@ -51,7 +49,7 @@ class ClientProfile:
         }).info("profile_created")
         return profile
 
-    def load_profile(self, client_id: str) -> Optional[dict]:
+    def load_profile(self, client_id: str) -> dict | None:
         """Load a client profile, or None if not found."""
         return self.store.read_json(client_id, "profile.json")
 

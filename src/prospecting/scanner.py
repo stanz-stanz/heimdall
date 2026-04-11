@@ -11,15 +11,15 @@ import json
 import os
 import re
 import shutil
-import ssl
 import socket
+import ssl
 import subprocess
 import tempfile
 import time
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.robotparser import RobotFileParser
 
@@ -93,9 +93,9 @@ def _check_ssl(domain: str) -> dict:
 
         not_after = cert.get("notAfter", "")
         if not_after:
-            expiry_dt = datetime.strptime(not_after, "%b %d %H:%M:%S %Y %Z").replace(tzinfo=timezone.utc)
+            expiry_dt = datetime.strptime(not_after, "%b %d %H:%M:%S %Y %Z").replace(tzinfo=UTC)
             result["expiry"] = expiry_dt.strftime("%Y-%m-%d")
-            result["days_remaining"] = (expiry_dt - datetime.now(timezone.utc)).days
+            result["days_remaining"] = (expiry_dt - datetime.now(UTC)).days
             result["valid"] = result["days_remaining"] > 0
 
         issuer = dict(x[0] for x in cert.get("issuer", []))
@@ -798,7 +798,7 @@ def _run_cmseek(domains: list[str]) -> dict[str, dict]:
             result_file = os.path.join(result_dir, "cms.json")
             if os.path.isfile(result_file):
                 try:
-                    with open(result_file, "r", encoding="utf-8") as f:
+                    with open(result_file, encoding="utf-8") as f:
                         data = json.load(f)
 
                     results[domain] = {
@@ -1122,7 +1122,7 @@ def _write_pre_scan_check(allowed: list[str], skipped: list[str]) -> Path:
     check_dir = PROJECT_ROOT / "agents" / "valdi" / "compliance"
     check_dir.mkdir(parents=True, exist_ok=True)
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     check = {
         "scan_request_id": f"req-{now.strftime('%Y%m%d-%H%M%S')}",
         "batch_type": "prospect-scan-level0",
@@ -1220,7 +1220,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             logger.info("ABORTED — Operator declined confirmation. No scans executed.")
             return {}
 
-    start_time = datetime.now(timezone.utc)
+    start_time = datetime.now(UTC)
 
     # Batch scans with CLI tools — only robots.txt-allowed domains
     httpx_results = _run_httpx(allowed_domains)
@@ -1335,7 +1335,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             if completed % 50 == 0:
                 logger.info("Scanned {}/{} domains", completed, len(allowed_domains))
 
-    end_time = datetime.now(timezone.utc)
+    end_time = datetime.now(UTC)
 
     # --- Post-scan notification ---
     print_run_summary(results, skipped_domains, start_time, end_time)

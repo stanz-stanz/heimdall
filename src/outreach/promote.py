@@ -12,7 +12,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from src.db.connection import init_db, _now
+from src.db.connection import _now, init_db
 
 
 def run_promote(
@@ -109,7 +109,7 @@ def _load_brief(path: Path) -> dict:
         json.JSONDecodeError: If the file is not valid JSON.
         ValueError: If the brief is missing the required 'domain' key.
     """
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         brief = json.load(f)
 
     if not isinstance(brief, dict):

@@ -15,18 +15,16 @@ import argparse
 import json
 import os
 import signal
-import sys
 import tempfile
 import threading
 import time
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Dict, Optional
+from datetime import UTC, datetime
+from typing import Any
 
 import certstream
+from loguru import logger
 
 from src.prospecting.logging_config import setup_logging
-from loguru import logger
 
 from .db import cleanup_old_entries, get_db_stats, init_db
 
@@ -49,7 +47,7 @@ def _is_dk_domain(domain: str, suffix: str = ".dk") -> bool:
     return domain.lower().rstrip(".").endswith(suffix)
 
 
-def _extract_cert_data(message: dict) -> Optional[Dict[str, Any]]:
+def _extract_cert_data(message: dict) -> dict[str, Any] | None:
     """Parse a CertStream message and extract certificate data if .dk.
 
     Returns a dict with keys matching :func:`db.insert_certificate` params,
@@ -97,16 +95,16 @@ def _extract_cert_data(message: dict) -> Optional[Dict[str, Any]]:
         "not_before": str(not_before),
         "not_after": str(not_after),
         "san_domains": san_domains,
-        "seen_at": datetime.now(timezone.utc).isoformat(),
+        "seen_at": datetime.now(UTC).isoformat(),
     }
 
 
 def _write_status(
     status_file: str,
     ws_connected: bool,
-    last_cert_seen_at: Optional[str],
+    last_cert_seen_at: str | None,
     certs_last_hour: int,
-    db_stats: Dict[str, Any],
+    db_stats: dict[str, Any],
 ) -> None:
     """Atomic write of collector status to a JSON file."""
     status = {
@@ -114,7 +112,7 @@ def _write_status(
         "last_cert_seen_at": last_cert_seen_at,
         "certs_last_hour": certs_last_hour,
         "db_stats": db_stats,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
     }
 
     # Write to temp file then rename for atomicity
@@ -162,7 +160,7 @@ def _cleanup_loop(db_path: str, interval_hours: int) -> None:
             logger.bind(context={"error": str(exc)}).warning("cleanup_loop_error")
 
 
-def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
+def _parse_args(argv: list | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Heimdall CertStream CT collector")
     parser.add_argument(
         "--db-path",
@@ -204,7 +202,7 @@ def _parse_args(argv: Optional[list] = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: Optional[list] = None) -> None:
+def main(argv: list | None = None) -> None:
     """CertStream subscriber main loop."""
     args = _parse_args(argv)
     setup_logging(level=args.log_level, fmt=args.log_format)
@@ -231,7 +229,7 @@ def main(argv: Optional[list] = None) -> None:
     signal.signal(signal.SIGINT, _handle_signal)
 
     # Tracking for status reporting
-    last_cert_seen_at: Optional[str] = None
+    last_cert_seen_at: str | None = None
     certs_last_hour: int = 0
     hour_start = time.monotonic()
     insert_count: int = 0
@@ -270,7 +268,7 @@ def main(argv: Optional[list] = None) -> None:
             batch_buffer.clear()
 
             if inserted > 0:
-                last_cert_seen_at = datetime.now(timezone.utc).isoformat()
+                last_cert_seen_at = datetime.now(UTC).isoformat()
                 certs_last_hour += inserted
 
         # Reset hourly counter

@@ -12,7 +12,6 @@ from pathlib import Path
 import redis
 from loguru import logger
 
-
 _shutdown_requested = False
 
 
@@ -82,7 +81,7 @@ def _publish_result(conn: redis.Redis, command: str, status: str, message: str) 
     conn.publish("console:command-results", json.dumps({
         "type": "command_result",
         "payload": {"command": command, "status": status, "message": message},
-        "ts": datetime.datetime.now(datetime.timezone.utc).timestamp(),
+        "ts": datetime.datetime.now(datetime.UTC).timestamp(),
     }))
 
 
@@ -91,7 +90,7 @@ def _publish_activity(conn: redis.Redis, message: str) -> None:
     conn.publish("console:activity", json.dumps({
         "type": "activity",
         "payload": {"message": message},
-        "ts": datetime.datetime.now(datetime.timezone.utc).timestamp(),
+        "ts": datetime.datetime.now(datetime.UTC).timestamp(),
     }))
 
 
@@ -103,7 +102,7 @@ def _publish_progress(
     current_domain: str = "",
 ) -> None:
     """Publish pipeline progress to console:pipeline-progress channel."""
-    pct = int((completed / total * 100)) if total > 0 else 0
+    pct = int(completed / total * 100) if total > 0 else 0
     conn.publish("console:pipeline-progress", json.dumps({
         "type": "pipeline_progress",
         "payload": {
@@ -113,7 +112,7 @@ def _publish_progress(
             "current_domain": current_domain,
             "pct": pct,
         },
-        "ts": datetime.datetime.now(datetime.timezone.utc).timestamp(),
+        "ts": datetime.datetime.now(datetime.UTC).timestamp(),
     }))
 
 

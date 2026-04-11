@@ -2,9 +2,9 @@
 
 import json
 import os
+from unittest.mock import patch
 
 import pytest
-from unittest.mock import patch
 
 from src.delivery.bot import (
     _DEFAULT_CONFIG,

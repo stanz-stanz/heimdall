@@ -21,9 +21,8 @@ from __future__ import annotations
 import json
 import os
 import time
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from datetime import UTC, datetime
+from typing import Any
 
 import requests
 from loguru import logger
@@ -36,7 +35,7 @@ _CRT_SH_URL = "https://crt.sh"
 _USER_AGENT = "Heimdall-EASM/0.1 (CT backfill)"
 
 
-def _fetch_crtsh_page(domain_pattern: str, timeout: int = 60) -> List[Dict[str, Any]]:
+def _fetch_crtsh_page(domain_pattern: str, timeout: int = 60) -> list[dict[str, Any]]:
     """Fetch certificate records from crt.sh for a domain pattern.
 
     Parameters
@@ -68,7 +67,7 @@ def _fetch_crtsh_page(domain_pattern: str, timeout: int = 60) -> List[Dict[str, 
 def _backfill_chunk(
     conn: Any,
     domain_pattern: str,
-    progress: Dict[str, Any],
+    progress: dict[str, Any],
     progress_file: str,
 ) -> int:
     """Fetch and insert certificates for a single domain pattern.
@@ -96,7 +95,7 @@ def _backfill_chunk(
     if not entries:
         return 0
 
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     certs = []
     for entry in entries:
         cn = entry.get("common_name", "")
@@ -123,7 +122,7 @@ def _backfill_chunk(
     return inserted
 
 
-def _save_progress(progress: Dict[str, Any], progress_file: str) -> None:
+def _save_progress(progress: dict[str, Any], progress_file: str) -> None:
     """Save progress to file for resume support."""
     parent = os.path.dirname(progress_file)
     if parent:
@@ -132,16 +131,16 @@ def _save_progress(progress: Dict[str, Any], progress_file: str) -> None:
         json.dump(progress, f, indent=2, default=str, ensure_ascii=False)
 
 
-def _load_progress(progress_file: str) -> Dict[str, Any]:
+def _load_progress(progress_file: str) -> dict[str, Any]:
     """Load progress from file, or return fresh progress dict."""
     try:
-        with open(progress_file, "r", encoding="utf-8") as f:
+        with open(progress_file, encoding="utf-8") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {
             "completed_patterns": [],
             "total_inserted": 0,
-            "started_at": datetime.now(timezone.utc).isoformat(),
+            "started_at": datetime.now(UTC).isoformat(),
             "last_updated": None,
         }
 

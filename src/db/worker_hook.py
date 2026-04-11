@@ -14,7 +14,7 @@ import uuid
 from loguru import logger
 
 from src.db.connection import _now
-from src.db.scans import create_scan_entry, complete_scan_entry, save_brief_snapshot
+from src.db.scans import complete_scan_entry, create_scan_entry, save_brief_snapshot
 
 
 def save_scan_to_db(conn: sqlite3.Connection, job: dict, result: dict) -> None:

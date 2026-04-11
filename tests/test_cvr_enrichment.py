@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import os
 import sqlite3
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import openpyxl
@@ -32,12 +31,10 @@ from src.enrichment.normalizers import (
     load_company_forms,
     load_free_webmail,
     load_gdpr_industry_codes,
-    load_industry_codes,
     lookup_industry_name,
     normalize_company_form,
 )
 from src.enrichment.search_fallback import SearchError, _extract_domain_from_response
-
 
 # ---------------------------------------------------------------------------
 # Fixtures

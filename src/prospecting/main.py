@@ -15,17 +15,18 @@ import sys
 import time
 from pathlib import Path
 
-from .config import BRIEFS_DIR, DATA_DIR, DEFAULT_FILTERS, DEFAULT_INPUT
-from .cvr import Company, derive_domains, read_excel
-from .filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
-from .resolver import resolve_domains
-from .scanner import ScanResult, scan_domains
-from .bucketer import assign_buckets
+from loguru import logger
+
 from .agency_detector import detect_agencies
 from .brief_generator import generate_brief
+from .bucketer import assign_buckets
+from .config import BRIEFS_DIR, DATA_DIR, DEFAULT_FILTERS, DEFAULT_INPUT
+from .cvr import derive_domains, read_excel
+from .filters import apply_post_scan_filters, apply_pre_scan_filters, load_filters
 from .logging_config import setup_logging
 from .output import write_agency_briefs, write_briefs, write_csv
-from loguru import logger
+from .resolver import resolve_domains
+from .scanner import ScanResult, scan_domains
 
 
 def run(
