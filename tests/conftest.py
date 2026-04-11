@@ -2,7 +2,7 @@
 import pytest
 
 from src.prospecting.cvr import Company
-from src.prospecting.scanner import ScanResult
+from src.prospecting.scanners.models import ScanResult
 
 
 @pytest.fixture

@@ -28,11 +28,11 @@ from loguru import logger
 from src.consent.validator import check_consent
 from src.prospecting.config import ENRICHMENT_RETRY_LIMIT
 from src.core.logging_config import setup_logging
-from src.prospecting.scanner import (
+from src.prospecting.scanners.registry import (
     _init_scan_type_map,
-    _run_subfinder,
     _validate_approval_tokens,
 )
+from src.prospecting.scanners.subfinder import run_subfinder
 from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
 
 from .cache import ScanCache
@@ -116,7 +116,7 @@ def _execute_enrichment_job(
 
     Runs subfinder in batch mode (-dL) for all domains in the job, then
     stores results in the cache with the same format that scan_job.py
-    expects from ``_cached_or_run("subfinder", _run_subfinder, [domain])``.
+    expects from ``_cached_or_run("subfinder", run_subfinder, [domain])``.
 
     Always increments the enrichment counter, even on failure, to avoid
     hanging the scheduler's wait_for_enrichment loop.
@@ -155,8 +155,8 @@ def _execute_enrichment_job(
         results = _run_subfinder_with_retry(domains)
 
         # Store results per domain in cache — format must match what
-        # _cached_or_run("subfinder", _run_subfinder, [domain]) would store.
-        # _run_subfinder([domain]) returns {domain: [subdomains]}.
+        # _cached_or_run("subfinder", run_subfinder, [domain]) would store.
+        # run_subfinder([domain]) returns {domain: [subdomains]}.
         # _cached_or_run stores the return value directly via cache.set().
         cached_count = 0
         for domain in domains:
@@ -200,7 +200,7 @@ def _run_subfinder_with_retry(
 
     for attempt in range(1 + retry_limit):
         try:
-            results = _run_subfinder(domains)
+            results = run_subfinder(domains)
             if attempt > 0:
                 logger.info(
                     "subfinder succeeded on retry attempt %d", attempt

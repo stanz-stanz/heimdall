@@ -26,7 +26,8 @@ from .filters import apply_post_scan_filters, apply_pre_scan_filters, load_filte
 from .logging_config import setup_logging
 from .output import write_agency_briefs, write_briefs, write_csv
 from .resolver import resolve_domains
-from .scanner import ScanResult, scan_domains
+from .scanners.models import ScanResult
+from .scanners.runner import scan_domains
 
 
 def run(
