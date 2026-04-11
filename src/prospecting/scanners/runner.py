@@ -252,7 +252,7 @@ def scan_domains(companies: list[Company], confirmed: bool = False) -> dict[str,
             try:
                 results[domain] = future.result()
             except Exception as e:
-                logger.warning("Scan failed for {}: {}", domain, e)
+                logger.opt(exception=True).warning("Scan failed for {}: {}", domain, e)
             completed += 1
             if completed % 50 == 0:
                 logger.info("Scanned {}/{} domains", completed, len(allowed_domains))

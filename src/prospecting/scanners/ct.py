@@ -47,7 +47,7 @@ def query_crt_sh_single(domain: str) -> tuple:
         return domain, certs
 
     except (requests.RequestException, json.JSONDecodeError) as e:
-        logger.debug("crt.sh query failed for {}: {}", domain, e)
+        logger.warning("crt.sh query failed for {}: {}", domain, e)
         return domain, []
 
 
@@ -67,7 +67,7 @@ def query_crt_sh(domains: list[str]) -> dict[str, list[dict]]:
                 if certs:
                     results[domain] = certs
             except Exception as e:
-                logger.debug("crt.sh thread error: {}", e)
+                logger.warning("crt.sh thread error: {}", e)
 
     logger.info("crt.sh: found certificates for {}/{} domains", len(results), len(domains))
     return results
