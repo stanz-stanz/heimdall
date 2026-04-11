@@ -22,8 +22,8 @@ from src.prospecting.scanner import (
 
 
 class TestCheckSSL:
-    @patch("src.prospecting.scanner.socket.socket")
-    @patch("src.prospecting.scanner.ssl.create_default_context")
+    @patch("src.prospecting.scanners.tls.socket.socket")
+    @patch("src.prospecting.scanners.tls.ssl.create_default_context")
     def test_valid_cert(self, mock_ctx, mock_sock_cls):
         future = datetime.now(UTC) + timedelta(days=60)
         cert = {
@@ -40,8 +40,8 @@ class TestCheckSSL:
         assert result["issuer"] == "Let's Encrypt"
         assert result["days_remaining"] > 50
 
-    @patch("src.prospecting.scanner.socket.socket")
-    @patch("src.prospecting.scanner.ssl.create_default_context")
+    @patch("src.prospecting.scanners.tls.socket.socket")
+    @patch("src.prospecting.scanners.tls.ssl.create_default_context")
     def test_expired_cert(self, mock_ctx, mock_sock_cls):
         past = datetime.now(UTC) - timedelta(days=10)
         cert = {
@@ -57,8 +57,8 @@ class TestCheckSSL:
         assert result["valid"] is False
         assert result["days_remaining"] < 0
 
-    @patch("src.prospecting.scanner.socket.socket")
-    @patch("src.prospecting.scanner.ssl.create_default_context")
+    @patch("src.prospecting.scanners.tls.socket.socket")
+    @patch("src.prospecting.scanners.tls.ssl.create_default_context")
     def test_connection_refused(self, mock_ctx, mock_sock_cls):
         mock_ctx.return_value.wrap_socket.return_value.__enter__ = MagicMock(
             side_effect=ConnectionRefusedError
@@ -71,7 +71,7 @@ class TestCheckSSL:
 
 
 class TestGetResponseHeaders:
-    @patch("src.prospecting.scanner.requests.head")
+    @patch("src.prospecting.scanners.headers.requests.head")
     def test_all_headers_present(self, mock_head):
         mock_head.return_value.headers = {
             "X-Frame-Options": "DENY",
@@ -85,7 +85,7 @@ class TestGetResponseHeaders:
         assert result["strict_transport_security"] is True
         assert result["x_content_type_options"] is True
 
-    @patch("src.prospecting.scanner.requests.head")
+    @patch("src.prospecting.scanners.headers.requests.head")
     def test_all_headers_missing(self, mock_head):
         mock_head.return_value.headers = {}
         result = _get_response_headers("test.dk")
@@ -94,7 +94,7 @@ class TestGetResponseHeaders:
         assert result["strict_transport_security"] is False
         assert result["x_content_type_options"] is False
 
-    @patch("src.prospecting.scanner.requests.head")
+    @patch("src.prospecting.scanners.headers.requests.head")
     def test_partial_headers(self, mock_head):
         mock_head.return_value.headers = {
             "Strict-Transport-Security": "max-age=31536000",
@@ -103,7 +103,7 @@ class TestGetResponseHeaders:
         assert result["strict_transport_security"] is True
         assert result["x_frame_options"] is False
 
-    @patch("src.prospecting.scanner.requests.head")
+    @patch("src.prospecting.scanners.headers.requests.head")
     def test_connection_error(self, mock_head):
         import requests
         mock_head.side_effect = requests.RequestException("timeout")
@@ -112,7 +112,7 @@ class TestGetResponseHeaders:
 
 
 class TestExtractPageMeta:
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_wordpress_plugins(self, mock_get):
         mock_get.return_value.text = """
         <html>
@@ -124,25 +124,25 @@ class TestExtractPageMeta:
         assert "contact-form-7" in plugins
         assert "yoast-seo" in plugins
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_meta_author(self, mock_get):
         mock_get.return_value.text = '<meta name="author" content="WebBureauet">'
         author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert author == "WebBureauet"
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_footer_credit_danish(self, mock_get):
         mock_get.return_value.text = '<footer>Website lavet af SuperWeb ApS</footer>'
         author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert "SuperWeb" in credit
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_footer_credit_powered_by(self, mock_get):
         mock_get.return_value.text = '<footer>Powered by Starter Agency</footer>'
         author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
         assert "Starter Agency" in credit
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_no_matches(self, mock_get):
         mock_get.return_value.text = "<html><body>Simple page</body></html>"
         author, credit, plugins, versions, themes = _extract_page_meta("test.dk")
@@ -152,7 +152,7 @@ class TestExtractPageMeta:
         assert versions == {}
         assert themes == []
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_request_exception(self, mock_get):
         import requests
         mock_get.side_effect = requests.RequestException("timeout")
@@ -163,7 +163,7 @@ class TestExtractPageMeta:
         assert versions == {}
         assert themes == []
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_malformed_plugin_slugs_rejected(self, mock_get):
         mock_get.return_value.text = """
         <link href="/wp-content/plugins/good-plugin/style.css">
@@ -174,7 +174,7 @@ class TestExtractPageMeta:
         # Malformed slug with special chars should be rejected by [\w-]+ regex
         assert not any("*" in p for p in plugins)
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_plugin_version_from_ver_param(self, mock_get):
         mock_get.return_value.text = """
         <link rel="stylesheet" href="/wp-content/plugins/wordpress-seo/css/style.css?ver=26.9">
@@ -189,7 +189,7 @@ class TestExtractPageMeta:
         assert versions["contact-form-7"] == "5.3.2"
         assert "no-version" not in versions
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_plugin_version_keeps_first(self, mock_get):
         mock_get.return_value.text = """
         <link href="/wp-content/plugins/elementor/css/a.css?ver=3.27.3">
@@ -200,7 +200,7 @@ class TestExtractPageMeta:
         assert plugins.count("elementor") == 1
         assert versions["elementor"] == "3.27.3"
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_plugin_version_html_entity(self, mock_get):
         """WordPress sometimes writes &#038; instead of & in HTML."""
         mock_get.return_value.text = """
@@ -211,7 +211,7 @@ class TestExtractPageMeta:
         assert versions.get("woocommerce") == "9.6.4"
         assert versions.get("yoast") == "27.3"
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_theme_extraction(self, mock_get):
         mock_get.return_value.text = """
         <link rel="stylesheet" href="/wp-content/themes/flavor/style.css?ver=1.0">
@@ -222,7 +222,7 @@ class TestExtractPageMeta:
         assert "flavor" in themes
         assert "flavor-child" in themes
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_meta_generator_woocommerce(self, mock_get):
         mock_get.return_value.text = """
         <meta name="generator" content="WordPress 6.9.4">
@@ -232,7 +232,7 @@ class TestExtractPageMeta:
         assert "woocommerce" in plugins
         assert versions.get("woocommerce") == "9.6.4"
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_css_class_divi_detection(self, mock_get):
         mock_get.return_value.text = """
         <html><body class="et_divi_theme">
@@ -242,7 +242,7 @@ class TestExtractPageMeta:
         _, _, plugins, _, _ = _extract_page_meta("test.dk")
         assert "divi-builder" in plugins
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_css_class_woocommerce_detection(self, mock_get):
         mock_get.return_value.text = """
         <html><body class="woocommerce-page woocommerce-no-js">
@@ -252,7 +252,7 @@ class TestExtractPageMeta:
         _, _, plugins, _, _ = _extract_page_meta("test.dk")
         assert "woocommerce" in plugins
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_rest_api_namespace_detection(self, mock_get):
         """REST API namespaces reveal installed plugins."""
         homepage_resp = MagicMock()
@@ -270,7 +270,7 @@ class TestExtractPageMeta:
         assert "gravityforms" in plugins
         assert "wordpress-seo" in plugins
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_rest_api_failure_graceful(self, mock_get):
         """REST API fetch failure doesn't crash — falls back to HTML-only detection."""
         homepage_resp = MagicMock()
@@ -284,7 +284,7 @@ class TestExtractPageMeta:
         _, _, plugins, _, _ = _extract_page_meta("test.dk")
         assert "akismet" in plugins  # HTML detection still works
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_no_duplicate_from_multiple_sources(self, mock_get):
         """Plugin detected via HTML path + meta generator + CSS class = only listed once."""
         homepage_resp = MagicMock()
@@ -299,7 +299,7 @@ class TestExtractPageMeta:
         assert plugins.count("woocommerce") == 1
         assert versions["woocommerce"] == "9.6.4"
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.wordpress.requests.get")
     def test_returns_five_element_tuple(self, mock_get):
         mock_get.return_value.text = "<html></html>"
         result = _extract_page_meta("test.dk")
@@ -309,24 +309,24 @@ class TestExtractPageMeta:
 
 
 class TestCheckRobotsTxt:
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.robots.requests.get")
     def test_allows_all(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.text = "User-agent: *\nAllow: /"
         assert _check_robots_txt("test.dk") is True
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.robots.requests.get")
     def test_disallows_all(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.text = "User-agent: *\nDisallow: /"
         assert _check_robots_txt("test.dk") is False
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.robots.requests.get")
     def test_no_robots_txt(self, mock_get):
         mock_get.return_value.status_code = 404
         assert _check_robots_txt("test.dk") is True
 
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.robots.requests.get")
     def test_connection_error(self, mock_get):
         import requests
         mock_get.side_effect = requests.RequestException("timeout")
@@ -334,8 +334,8 @@ class TestCheckRobotsTxt:
 
 
 class TestRunHttpx:
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/httpx")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.httpx_scan.shutil.which", return_value="/usr/bin/httpx")
+    @patch("src.prospecting.scanners.httpx_scan.subprocess.run")
     def test_parses_json_output(self, mock_run, mock_which):
         mock_run.return_value.stdout = '{"input":"test.dk","host":"test.dk","webserver":"Apache","tech":["WordPress","PHP"]}\n'
         mock_run.return_value.returncode = 0
@@ -343,21 +343,21 @@ class TestRunHttpx:
         assert "test.dk" in result
         assert result["test.dk"]["webserver"] == "Apache"
 
-    @patch("src.prospecting.scanner.shutil.which", return_value=None)
+    @patch("src.prospecting.scanners.httpx_scan.shutil.which", return_value=None)
     def test_tool_not_found(self, mock_which):
         result = _run_httpx(["test.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/httpx")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.httpx_scan.shutil.which", return_value="/usr/bin/httpx")
+    @patch("src.prospecting.scanners.httpx_scan.subprocess.run")
     def test_timeout(self, mock_run, mock_which):
         import subprocess
         mock_run.side_effect = subprocess.TimeoutExpired(cmd="httpx", timeout=300)
         result = _run_httpx(["test.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/httpx")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.httpx_scan.shutil.which", return_value="/usr/bin/httpx")
+    @patch("src.prospecting.scanners.httpx_scan.subprocess.run")
     def test_invalid_json_skipped(self, mock_run, mock_which):
         mock_run.return_value.stdout = 'not json\n{"input":"valid.dk","host":"valid.dk","webserver":"nginx"}\n'
         result = _run_httpx(["valid.dk"])
@@ -365,8 +365,8 @@ class TestRunHttpx:
 
 
 class TestRunWebanalyze:
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/webanalyze")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.webanalyze.shutil.which", return_value="/usr/bin/webanalyze")
+    @patch("src.prospecting.scanners.webanalyze.subprocess.run")
     def test_json_array_output(self, mock_run, mock_which):
         mock_run.return_value.stdout = json.dumps([
             {"hostname": "https://test.dk", "matches": [{"app_name": "WordPress"}, {"app_name": "jQuery"}]}
@@ -375,8 +375,8 @@ class TestRunWebanalyze:
         assert "test.dk" in result
         assert "WordPress" in result["test.dk"]
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/webanalyze")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.webanalyze.shutil.which", return_value="/usr/bin/webanalyze")
+    @patch("src.prospecting.scanners.webanalyze.subprocess.run")
     def test_json_lines_fallback(self, mock_run, mock_which):
         # Two lines of JSON (not a JSON array) — triggers line-by-line fallback
         mock_run.return_value.stdout = '{"hostname":"https://test.dk","matches":[{"app_name":"WordPress"}]}\n{"hostname":"https://other.dk","matches":[{"app_name":"Joomla"}]}'
@@ -384,15 +384,15 @@ class TestRunWebanalyze:
         assert "test.dk" in result
         assert "other.dk" in result
 
-    @patch("src.prospecting.scanner.shutil.which", return_value=None)
+    @patch("src.prospecting.scanners.webanalyze.shutil.which", return_value=None)
     def test_tool_not_found(self, mock_which):
         result = _run_webanalyze(["test.dk"])
         assert result == {}
 
 
 class TestRunSubfinder:
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/subfinder")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.subfinder.shutil.which", return_value="/usr/bin/subfinder")
+    @patch("src.prospecting.scanners.subfinder.subprocess.run")
     def test_groups_by_parent(self, mock_run, mock_which):
         lines = [
             '{"host":"www.test.dk","source":"crtsh"}',
@@ -405,13 +405,13 @@ class TestRunSubfinder:
         assert "mail.test.dk" in result.get("test.dk", [])
         assert "api.other.dk" in result.get("other.dk", [])
 
-    @patch("src.prospecting.scanner.shutil.which", return_value=None)
+    @patch("src.prospecting.scanners.subfinder.shutil.which", return_value=None)
     def test_tool_not_found(self, mock_which):
         result = _run_subfinder(["test.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/subfinder")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.subfinder.shutil.which", return_value="/usr/bin/subfinder")
+    @patch("src.prospecting.scanners.subfinder.subprocess.run")
     def test_timeout(self, mock_run, mock_which):
         import subprocess
         mock_run.side_effect = subprocess.TimeoutExpired(cmd="subfinder", timeout=600)
@@ -420,8 +420,8 @@ class TestRunSubfinder:
 
 
 class TestRunDnsx:
-    @patch("src.prospecting.scanner.shutil.which", return_value="/usr/bin/dnsx")
-    @patch("src.prospecting.scanner.subprocess.run")
+    @patch("src.prospecting.scanners.dnsx.shutil.which", return_value="/usr/bin/dnsx")
+    @patch("src.prospecting.scanners.dnsx.subprocess.run")
     def test_parses_records(self, mock_run, mock_which):
         mock_run.return_value.stdout = '{"host":"test.dk","a":["1.2.3.4"],"mx":["mx.test.dk"],"txt":["v=spf1"]}\n'
         result = _run_dnsx(["test.dk"])
@@ -429,15 +429,15 @@ class TestRunDnsx:
         assert result["test.dk"]["a"] == ["1.2.3.4"]
         assert result["test.dk"]["mx"] == ["mx.test.dk"]
 
-    @patch("src.prospecting.scanner.shutil.which", return_value=None)
+    @patch("src.prospecting.scanners.dnsx.shutil.which", return_value=None)
     def test_tool_not_found(self, mock_which):
         result = _run_dnsx(["test.dk"])
         assert result == {}
 
 
 class TestQueryCrtShSingle:
-    @patch("src.prospecting.scanner.requests.get")
-    @patch("src.prospecting.scanner.time.sleep")
+    @patch("src.prospecting.scanners.ct.requests.get")
+    @patch("src.prospecting.scanners.ct.time.sleep")
     def test_parses_and_deduplicates(self, mock_sleep, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = [
@@ -449,15 +449,15 @@ class TestQueryCrtShSingle:
         assert domain == "test.dk"
         assert len(certs) == 2  # deduplicated
 
-    @patch("src.prospecting.scanner.requests.get")
-    @patch("src.prospecting.scanner.time.sleep")
+    @patch("src.prospecting.scanners.ct.requests.get")
+    @patch("src.prospecting.scanners.ct.time.sleep")
     def test_rate_limited_429(self, mock_sleep, mock_get):
         mock_get.return_value.status_code = 429
         domain, certs = _query_crt_sh_single("test.dk")
         assert certs == []
 
-    @patch("src.prospecting.scanner.requests.get")
-    @patch("src.prospecting.scanner.time.sleep")
+    @patch("src.prospecting.scanners.ct.requests.get")
+    @patch("src.prospecting.scanners.ct.time.sleep")
     def test_timeout(self, mock_sleep, mock_get):
         import requests
         mock_get.side_effect = requests.RequestException("timeout")
@@ -466,8 +466,8 @@ class TestQueryCrtShSingle:
 
 
 class TestQueryGrayHatWarfare:
-    @patch("src.prospecting.scanner.GRAYHATWARFARE_API_KEY", "test-key")
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.grayhat.GRAYHATWARFARE_API_KEY", "test-key")
+    @patch("src.prospecting.scanners.grayhat.requests.get")
     def test_aggregates_buckets(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = {
@@ -483,13 +483,13 @@ class TestQueryGrayHatWarfare:
         assert buckets["test-bucket"] == 2
         assert buckets["other-bucket"] == 1
 
-    @patch("src.prospecting.scanner.GRAYHATWARFARE_API_KEY", "")
+    @patch("src.prospecting.scanners.grayhat.GRAYHATWARFARE_API_KEY", "")
     def test_no_api_key_skips(self):
         result = _query_grayhatwarfare(["test.dk"])
         assert result == {}
 
-    @patch("src.prospecting.scanner.GRAYHATWARFARE_API_KEY", "test-key")
-    @patch("src.prospecting.scanner.requests.get")
+    @patch("src.prospecting.scanners.grayhat.GRAYHATWARFARE_API_KEY", "test-key")
+    @patch("src.prospecting.scanners.grayhat.requests.get")
     def test_api_error(self, mock_get):
         mock_get.return_value.status_code = 500
         result = _query_grayhatwarfare(["test.dk"])

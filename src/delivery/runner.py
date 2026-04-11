@@ -30,7 +30,7 @@ from src.delivery.bot import create_application, get_bot_token, get_operator_cha
 from src.delivery.buttons import build_client_buttons, handle_client_callback
 from src.delivery.sender import send_with_logging
 from src.interpreter.interpreter import interpret_brief
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 
 
 class DeliveryRunner:

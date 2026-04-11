@@ -24,7 +24,7 @@ from typing import Any
 import certstream
 from loguru import logger
 
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 
 from .db import cleanup_old_entries, get_db_stats, init_db
 

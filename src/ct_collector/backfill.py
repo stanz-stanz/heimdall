@@ -27,7 +27,7 @@ from typing import Any
 import requests
 from loguru import logger
 
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 
 from .db import init_db, insert_certificates_batch
 

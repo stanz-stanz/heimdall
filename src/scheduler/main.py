@@ -9,7 +9,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from src.prospecting.logging_config import setup_logging
+from src.core.logging_config import setup_logging
 from src.scheduler.job_creator import JobCreator
 
 DEFAULT_REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
