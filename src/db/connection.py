@@ -56,6 +56,23 @@ def init_db(db_path: str | Path = _DEFAULT_DB_PATH) -> sqlite3.Connection:
     return conn
 
 
+def verify_integrity(conn: sqlite3.Connection) -> bool:
+    """Run PRAGMA integrity_check on the database.
+
+    Returns:
+        True if the database passes integrity checks, False otherwise.
+    """
+    try:
+        result = conn.execute("PRAGMA integrity_check").fetchone()
+        if result and result[0] == "ok":
+            return True
+        logger.critical("Database integrity check FAILED: {}", result)
+        return False
+    except sqlite3.DatabaseError as exc:
+        logger.critical("Database integrity check error: {}", exc)
+        return False
+
+
 def open_readonly(db_path: str | Path) -> sqlite3.Connection:
     """Open the database in immutable/read-only mode.
 
