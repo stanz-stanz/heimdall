@@ -125,35 +125,52 @@ class DeliveryRunner:
 
         Uses the synchronous Redis client's pubsub with a 1-second poll
         timeout so the event loop can yield between checks. Reconnects
-        automatically on connection loss.
+        automatically on connection loss using exponential backoff.
+
+        The outer loop handles connection establishment and re-establishment.
+        The inner loop processes messages and breaks back to the outer loop
+        on any connection error so a fresh connection is obtained.
         """
-        try:
-            r = redis.from_url(self.redis_url, decode_responses=True)
-            pubsub = r.pubsub()
-            pubsub.subscribe("client-scan-complete")
-            logger.bind(context={"channel": "client-scan-complete"}).info("redis_subscribed")
-        except redis.ConnectionError as exc:
-            logger.error("redis_connection_failed: {}", exc)
-            return
+        _RECONNECT_BACKOFF = [1, 2, 5, 10, 30]
 
         while self._running:
+            # Outer loop: establish connection
             try:
-                message = pubsub.get_message(timeout=1.0)
-                if message and message.get("type") == "message":
-                    await self._handle_scan_complete(message["data"])
-            except redis.ConnectionError:
-                logger.warning("redis_connection_lost, reconnecting in 5s")
-                await asyncio.sleep(5)
-                try:
-                    pubsub = r.pubsub()
-                    pubsub.subscribe("client-scan-complete")
-                except redis.ConnectionError:
-                    pass
-            except Exception:
-                logger.opt(exception=True).error("error_processing_scan_event")
+                r = redis.from_url(self.redis_url, decode_responses=True)
+                pubsub = r.pubsub()
+                pubsub.subscribe("client-scan-complete")
+                logger.bind(context={"channel": "client-scan-complete"}).info(
+                    "redis_subscribed"
+                )
+            except redis.ConnectionError as exc:
+                logger.error("redis_connection_failed: {}", exc)
+                await asyncio.sleep(_RECONNECT_BACKOFF[-1])
+                continue
 
-            # Yield to event loop
-            await asyncio.sleep(0.1)
+            # Inner loop: process messages
+            reconnect_attempt = 0
+            while self._running:
+                try:
+                    message = pubsub.get_message(timeout=1.0)
+                    if message and message.get("type") == "message":
+                        await self._handle_scan_complete(message["data"])
+                    reconnect_attempt = 0
+                except redis.ConnectionError:
+                    delay = _RECONNECT_BACKOFF[
+                        min(reconnect_attempt, len(_RECONNECT_BACKOFF) - 1)
+                    ]
+                    reconnect_attempt += 1
+                    logger.warning(
+                        "redis_connection_lost (attempt {}, backoff {}s)",
+                        reconnect_attempt, delay,
+                    )
+                    await asyncio.sleep(delay)
+                    break  # Break inner loop to reconnect in outer loop
+                except Exception:
+                    logger.opt(exception=True).error("error_processing_scan_event")
+
+                # Yield to event loop
+                await asyncio.sleep(0.1)
 
     async def _handle_scan_complete(self, data: str) -> None:
         """Process a single scan-complete event.
