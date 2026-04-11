@@ -25,6 +25,7 @@ EXPECTED_TABLES = {
     "finding_status_log",
     "brief_snapshots",
     "delivery_log",
+    "delivery_retry",
 }
 
 EXPECTED_VIEWS = {

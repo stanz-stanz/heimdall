@@ -710,6 +710,40 @@ CREATE INDEX IF NOT EXISTS idx_prospects_campaign_bucket
 CREATE INDEX IF NOT EXISTS idx_prospects_domain
     ON prospects(domain);
 
+
+-- =================================================================
+-- SECTION 9: Delivery retry queue
+-- =================================================================
+
+-- -----------------------------------------------------------------
+-- delivery_retry
+-- -----------------------------------------------------------------
+-- Catches failed interpretation/send attempts so they are not
+-- permanently lost. When the delivery runner encounters a Claude API
+-- or Telegram failure it inserts a row here. A background coroutine
+-- polls for rows whose next_retry_at <= now() and re-attempts.
+--
+-- status values:
+--   pending   — waiting for next retry attempt
+--   succeeded — delivery succeeded on a retry; row kept for audit
+--   exhausted — max attempts exceeded; manual intervention required
+
+CREATE TABLE IF NOT EXISTS delivery_retry (
+    id              INTEGER PRIMARY KEY,
+    delivery_log_id INTEGER REFERENCES delivery_log(id),
+    domain          TEXT NOT NULL,
+    brief_path      TEXT NOT NULL,
+    attempt         INTEGER NOT NULL DEFAULT 0,
+    next_retry_at   TEXT NOT NULL,
+    last_error      TEXT,
+    status          TEXT NOT NULL DEFAULT 'pending',
+    created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_delivery_retry_pending
+    ON delivery_retry(status, next_retry_at);
+
+
 -- Campaign performance summary
 CREATE VIEW IF NOT EXISTS v_campaign_summary AS
 SELECT campaign,
