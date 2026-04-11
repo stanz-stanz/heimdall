@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import collections
 import json
 import os
 import re
+import secrets
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -45,6 +47,47 @@ def _validate_name(value: str, label: str) -> str:
 # ---------------------------------------------------------------------------
 # Request logging middleware
 # ---------------------------------------------------------------------------
+
+class BasicAuthMiddleware(BaseHTTPMiddleware):
+    """HTTP Basic Auth for console endpoints."""
+
+    PROTECTED_PREFIXES = ("/console", "/app")
+
+    def __init__(self, app, username: str, password: str):
+        super().__init__(app)
+        self.username = username
+        self.password = password
+
+    async def dispatch(self, request: Request, call_next):
+        path = request.url.path
+        if not any(path.startswith(p) for p in self.PROTECTED_PREFIXES):
+            return await call_next(request)
+
+        auth = request.headers.get("Authorization", "")
+        if not auth.startswith("Basic "):
+            return Response(
+                status_code=401,
+                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
+            )
+
+        try:
+            decoded = base64.b64decode(auth[6:]).decode("utf-8")
+            username, password = decoded.split(":", 1)
+        except (ValueError, UnicodeDecodeError):
+            return Response(
+                status_code=401,
+                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
+            )
+
+        if not (secrets.compare_digest(username, self.username)
+                and secrets.compare_digest(password, self.password)):
+            return Response(
+                status_code=401,
+                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
+            )
+
+        return await call_next(request)
+
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
@@ -361,6 +404,12 @@ def create_app(
     app.state.db_path = os.environ.get("DB_PATH", f"{_client_dir}/clients.db")
 
     app.add_middleware(RequestLoggingMiddleware)
+
+    console_user = os.environ.get("CONSOLE_USER", "")
+    console_password = os.environ.get("CONSOLE_PASSWORD", "")
+    if console_user and console_password:
+        app.add_middleware(BasicAuthMiddleware,
+                           username=console_user, password=console_password)
 
     # Console router + static PWA files
     app.include_router(console_router)

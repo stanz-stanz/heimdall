@@ -1,7 +1,11 @@
 /** Fetch wrappers for console REST endpoints. */
 
 async function fetchJSON(url) {
-  const res = await fetch(url);
+  const res = await fetch(url, { credentials: 'same-origin' });
+  if (res.status === 401) {
+    window.location.reload();
+    throw new Error('Authentication required');
+  }
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
   return res.json();
 }
@@ -23,6 +27,7 @@ export const fetchSettings = () => fetchJSON('/console/settings');
 export async function saveSettings(name, data) {
   const res = await fetch(`/console/settings/${name}`, {
     method: 'PUT',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
@@ -33,6 +38,7 @@ export async function saveSettings(name, data) {
 export async function sendCommand(command, payload = {}) {
   const res = await fetch(`/console/commands/${command}`, {
     method: 'POST',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
