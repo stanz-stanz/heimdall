@@ -8,14 +8,14 @@ from unittest.mock import MagicMock, patch
 
 import fakeredis
 
-from src.prospecting.scanner import (
+from src.prospecting.scanners.registry import (
     _LEVEL0_SCAN_FUNCTIONS,
     _LEVEL1_SCAN_FUNCTIONS,
     _SCAN_TYPE_FUNCTIONS,
     _init_scan_type_map,
-    _run_nuclei,
     _validate_approval_tokens,
 )
+from src.prospecting.scanners.nuclei import run_nuclei
 from src.worker.cache import ScanCache
 from src.worker.scan_job import execute_scan_job
 
@@ -66,30 +66,30 @@ _CMSEEK_RESULT = {_DOMAIN: {
 def _patch_all_scans_with_nuclei():
     """Patches for all scan functions including Level 1 tools."""
     return [
-        patch("src.worker.scan_job._check_robots_txt", return_value=True),
-        patch("src.worker.scan_job._check_ssl", return_value=_SSL_RESULT),
-        patch("src.worker.scan_job._get_response_headers", return_value=_HEADERS_RESULT),
-        patch("src.worker.scan_job._extract_page_meta", return_value=_META_RESULT),
-        patch("src.worker.scan_job._run_httpx", return_value=_HTTPX_RESULT),
-        patch("src.worker.scan_job._run_webanalyze", return_value=_WEBANALYZE_RESULT),
-        patch("src.worker.scan_job._run_subfinder", return_value=_SUBFINDER_RESULT),
-        patch("src.worker.scan_job._run_dnsx", return_value=_DNSX_RESULT),
+        patch("src.worker.scan_job.check_robots_txt", return_value=True),
+        patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT),
+        patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT),
+        patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT),
+        patch("src.worker.scan_job.run_httpx", return_value=_HTTPX_RESULT),
+        patch("src.worker.scan_job.run_webanalyze", return_value=_WEBANALYZE_RESULT),
+        patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
+        patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
         patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
-        patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
-        patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
-        patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
-        patch("src.worker.scan_job._run_nmap", return_value={}),
+        patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
+        patch("src.worker.scan_job.run_nuclei", return_value=_NUCLEI_RESULT),
+        patch("src.worker.scan_job.run_cmseek", return_value=_CMSEEK_RESULT),
+        patch("src.worker.scan_job.run_nmap", return_value={}),
         patch("src.worker.twin_scan.run_twin_scan", return_value=None),
         patch("src.worker.scan_job._BUCKET_FILTER", None),
     ]
 
 
 # ---------------------------------------------------------------------------
-# _run_nuclei unit tests
+# run_nuclei unit tests
 # ---------------------------------------------------------------------------
 
 class TestRunNuclei:
-    """Unit tests for the _run_nuclei scan function."""
+    """Unit tests for the run_nuclei scan function."""
 
     @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
     @patch("src.prospecting.scanners.nuclei.subprocess.run")
@@ -116,7 +116,7 @@ class TestRunNuclei:
             returncode=0,
         )
 
-        result = _run_nuclei(["example.dk"])
+        result = run_nuclei(["example.dk"])
 
         assert "example.dk" in result
         assert len(result["example.dk"]["findings"]) == 2
@@ -127,14 +127,14 @@ class TestRunNuclei:
     @patch("src.prospecting.scanners.nuclei.shutil.which", return_value=None)
     def test_tool_not_found(self, mock_which):
         """Returns empty dict when nuclei not in PATH."""
-        result = _run_nuclei(["example.dk"])
+        result = run_nuclei(["example.dk"])
         assert result == {}
 
     @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
     @patch("src.prospecting.scanners.nuclei.subprocess.run", side_effect=subprocess.TimeoutExpired("nuclei", 300))
     def test_timeout(self, mock_run, mock_which):
         """Returns empty dict on timeout."""
-        result = _run_nuclei(["example.dk"])
+        result = run_nuclei(["example.dk"])
         assert result == {}
 
     @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
@@ -143,7 +143,7 @@ class TestRunNuclei:
         """No findings returns empty findings list per domain."""
         mock_run.return_value = MagicMock(stdout="", returncode=0)
 
-        result = _run_nuclei(["example.dk"])
+        result = run_nuclei(["example.dk"])
         # No output = no entries (domain not in results)
         assert result == {}
 
@@ -163,7 +163,7 @@ class TestRunNuclei:
             returncode=0,
         )
 
-        result = _run_nuclei(["example.dk"])
+        result = run_nuclei(["example.dk"])
         assert "example.dk" in result
 
     @patch("src.prospecting.scanners.nuclei.shutil.which", return_value="/usr/local/bin/nuclei")
@@ -179,7 +179,7 @@ class TestRunNuclei:
             returncode=0,
         )
 
-        result = _run_nuclei(["a.dk", "b.dk"])
+        result = run_nuclei(["a.dk", "b.dk"])
         assert "a.dk" in result
         assert "b.dk" in result
         assert result["a.dk"]["findings"][0]["severity"] == "low"
@@ -344,19 +344,19 @@ class TestVulnDBLookup:
         }
         wp_httpx = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["WordPress"]}}
         patches = [
-            patch("src.worker.scan_job._check_robots_txt", return_value=True),
-            patch("src.worker.scan_job._check_ssl", return_value=_SSL_RESULT),
-            patch("src.worker.scan_job._get_response_headers", return_value=_HEADERS_RESULT),
-            patch("src.worker.scan_job._extract_page_meta", return_value=_META_RESULT),
-            patch("src.worker.scan_job._run_httpx", return_value=wp_httpx),
-            patch("src.worker.scan_job._run_webanalyze", return_value={}),
-            patch("src.worker.scan_job._run_subfinder", return_value=_SUBFINDER_RESULT),
-            patch("src.worker.scan_job._run_dnsx", return_value=_DNSX_RESULT),
+            patch("src.worker.scan_job.check_robots_txt", return_value=True),
+            patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT),
+            patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT),
+            patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT),
+            patch("src.worker.scan_job.run_httpx", return_value=wp_httpx),
+            patch("src.worker.scan_job.run_webanalyze", return_value={}),
+            patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
+            patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
             patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
-            patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
-            patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
-            patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
-            patch("src.worker.scan_job._run_nmap", return_value={}),
+            patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
+            patch("src.worker.scan_job.run_nuclei", return_value=_NUCLEI_RESULT),
+            patch("src.worker.scan_job.run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.worker.scan_job.run_nmap", return_value={}),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
             patch("src.vulndb.lookup.lookup_wordpress_vulns", return_value=mock_findings),
         ]
@@ -384,19 +384,19 @@ class TestVulnDBLookup:
         }
         no_wp_httpx = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["Nginx", "HTML5"]}}
         patches = [
-            patch("src.worker.scan_job._check_robots_txt", return_value=True),
-            patch("src.worker.scan_job._check_ssl", return_value=_SSL_RESULT),
-            patch("src.worker.scan_job._get_response_headers", return_value=_HEADERS_RESULT),
-            patch("src.worker.scan_job._extract_page_meta", return_value=_META_RESULT),
-            patch("src.worker.scan_job._run_httpx", return_value=no_wp_httpx),
-            patch("src.worker.scan_job._run_webanalyze", return_value={}),
-            patch("src.worker.scan_job._run_subfinder", return_value=_SUBFINDER_RESULT),
-            patch("src.worker.scan_job._run_dnsx", return_value=_DNSX_RESULT),
+            patch("src.worker.scan_job.check_robots_txt", return_value=True),
+            patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT),
+            patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT),
+            patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT),
+            patch("src.worker.scan_job.run_httpx", return_value=no_wp_httpx),
+            patch("src.worker.scan_job.run_webanalyze", return_value={}),
+            patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
+            patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
             patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
-            patch("src.worker.scan_job._query_grayhatwarfare", return_value=_GHW_RESULT),
-            patch("src.worker.scan_job._run_nuclei", return_value=_NUCLEI_RESULT),
-            patch("src.worker.scan_job._run_cmseek", return_value=_CMSEEK_RESULT),
-            patch("src.worker.scan_job._run_nmap", return_value={}),
+            patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
+            patch("src.worker.scan_job.run_nuclei", return_value=_NUCLEI_RESULT),
+            patch("src.worker.scan_job.run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.worker.scan_job.run_nmap", return_value={}),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
             patch("src.worker.scan_job._BUCKET_FILTER", None),
         ]

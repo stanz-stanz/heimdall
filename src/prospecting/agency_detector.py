@@ -5,7 +5,7 @@ from collections import defaultdict
 from loguru import logger
 
 from .cvr import Company
-from .scanner import ScanResult
+from .scanners.models import ScanResult
 
 AGENCY_THRESHOLD = 5  # minimum sites to generate an agency brief
 
