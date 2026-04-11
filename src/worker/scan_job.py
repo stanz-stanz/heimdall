@@ -100,6 +100,8 @@ def _get_slug_map() -> dict:
         from tools.twin.templates import load_slug_map
         return load_slug_map()
     except Exception:
+        logger.warning("slug_map_load_failed — plugin name normalization disabled",
+                       exc_info=True)
         return {}
 
 

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import os
 import re
+import socket
 import sqlite3
 from datetime import UTC, datetime
 
@@ -126,7 +127,12 @@ def _poll_feed(conn: sqlite3.Connection, feed_key: str, feed_url: str) -> int:
     new_count = 0
 
     try:
-        feed = feedparser.parse(feed_url, agent=USER_AGENT)
+        old_timeout = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(30)
+        try:
+            feed = feedparser.parse(feed_url, agent=USER_AGENT)
+        finally:
+            socket.setdefaulttimeout(old_timeout)
     except Exception as exc:
         logger.warning("RSS fetch failed for {feed_key}: {exc}",
                        feed_key=feed_key, exc=exc)
