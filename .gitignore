@@ -12,6 +12,15 @@ data/benchmarks/*.json
 *.db-shm
 *.db-wal
 
+# SQLite databases (runtime-generated, contain client data)
+data/**/*.db
+
+# Secrets and credentials
+*.key
+*.pem
+*.env.*
+secrets/
+
 # Valdí compliance logs (regenerated on each run)
 .claude/agents/valdi/compliance/
 
