@@ -305,6 +305,7 @@ Phase 1 (no architecture changes):
   1.6  Health checks (worker, delivery, twin)
   1.7  Alerting (healthcheck.sh + cron)
   1.8  Backup (backup.sh + cron)
+  1.9  Console hardening (auth, send button, error boundaries, dead code cleanup)
 
 Phase 2 (code changes under CI):
   2.1  Ruff + formatting (baseline + enforce)
@@ -360,6 +361,14 @@ After Phase 2:
 | `src/db/migrate.py` | Add delivery_retry table migration |
 | `scripts/healthcheck.sh` | New — container health + restart check + Telegram alert |
 | `scripts/backup.sh` | New — SQLite atomic backup + integrity check + retention |
+| `src/api/app.py` | Add HTTP Basic Auth middleware |
+| `src/api/console.py` | Error boundaries, remove orphaned /console/status |
+| `src/api/frontend/src/views/Campaigns.svelte` | Add Send button, remove dead New Campaign |
+| `src/api/frontend/src/views/Dashboard.svelte` | Wire "View all" to Logs |
+| `src/api/frontend/src/components/Sidebar.svelte` | Dynamic status from WebSocket |
+| `src/api/frontend/src/lib/api.js` | Auth header support, clean up dead wrappers |
+| `src/api/frontend/src/views/Logs.svelte` | Use fetchLogs from api.js |
+| `.env.example` | Add CONSOLE_USER, CONSOLE_PASSWORD |
 
 ### Phase 2
 | File | Change |
@@ -378,6 +387,75 @@ After Phase 2:
 | `src/api/app.py` | Update imports (core.logging_config) |
 | `tests/test_golden_path.py` | New — end-to-end smoke test |
 | Various test files | Tests for Phase 1 bug fixes + reconnection tests |
+
+---
+
+## Phase 1.9: Operator Console — Functional Admin Control
+
+**Added post-design-review.** The current console is more functional than initially assessed — 6 of 7 views display real data, pipeline trigger works, settings write through, logs stream live. But it cannot be used as a real admin tool without authentication and a few targeted fixes.
+
+**Goal:** Federico can control the full Heimdall lifecycle from the console: trigger pipeline, interpret, send, monitor, configure — securely.
+
+### 1.9.1 — HTTP Basic Auth
+
+Add `starlette.middleware.authentication` with HTTP Basic Auth:
+- Single admin user, credentials from env vars (`CONSOLE_USER`, `CONSOLE_PASSWORD`)
+- Applied to all `/console/*` routes, `/console/ws`, and the SPA at `/app`
+- `/health` endpoint remains unauthenticated (for Docker health checks and monitoring)
+- `/results/*` endpoints remain unauthenticated (served to other internal services)
+- Browser sends credentials via standard HTTP Basic Auth header — no login page needed, browser's native auth dialog is sufficient for a single-admin internal tool
+
+Files: `src/api/app.py` (add middleware), `.env.example` (document new vars)
+
+### 1.9.2 — Wire the Send Button
+
+The `send` command is fully functional in the scheduler daemon but has no UI trigger. Add a "Send" button to the Campaigns view:
+- Position: next to the existing "Interpret Next 10" button
+- Label: "Send Next 10" (matches the interpret pattern)
+- Action: `sendCommand('send', { campaign, limit: 10 })` → `POST /console/commands/send`
+- Disable while running, show result on completion (same pattern as interpret button)
+
+Files: `src/api/frontend/src/views/Campaigns.svelte`
+
+### 1.9.3 — Fix Dead Buttons and Sidebar
+
+| Item | Current | Fix |
+|------|---------|-----|
+| "View all" button (Dashboard) | No onclick handler | Wire to navigate to Logs view (activity feed is log-derived) |
+| "New Campaign" button (Campaigns) | Disabled stub | Remove entirely — campaigns are created via CLI, a disabled button is confusing |
+| Sidebar footer status | Hardcoded "Pi5 · 3 workers · Redis OK" | Pull from `/console/status` endpoint (already returns real Redis status + queue depths). Update on WebSocket `queue_status` messages. Show actual worker replica count from status response. |
+
+Files: `src/api/frontend/src/views/Dashboard.svelte`, `src/api/frontend/src/views/Campaigns.svelte`, `src/api/frontend/src/components/Sidebar.svelte`, `src/api/frontend/src/lib/api.js`
+
+### 1.9.4 — Error Boundaries on Console Endpoints
+
+Wrap all SQLite queries in `console.py` with try/except:
+- `sqlite3.OperationalError` (missing table/view, DB locked) → return `{"error": "Database unavailable", "detail": str(exc)}` with HTTP 503
+- `sqlite3.DatabaseError` (corruption) → return HTTP 503 with CRITICAL log
+- Apply to: `dashboard`, `pipeline/last`, `campaigns`, `campaigns/{campaign}/prospects`, `clients/list`
+- `console_status` already handles failures gracefully — use it as the pattern
+
+Files: `src/api/console.py`
+
+### 1.9.5 — Remove Orphaned Code
+
+- Delete `GET /console/status` endpoint — its functionality is fully covered by `/console/dashboard` which queries the same Redis stats plus SQLite data. The sidebar will use the dashboard WebSocket `queue_status` messages instead.
+- Clean up `fetchLogs()` in `api.js` — either use it in Logs.svelte or remove the dead wrapper
+
+Files: `src/api/console.py`, `src/api/frontend/src/lib/api.js`, `src/api/frontend/src/views/Logs.svelte`
+
+### Console Files Modified
+
+| File | Change |
+|------|--------|
+| `src/api/app.py` | Add HTTP Basic Auth middleware, document auth env vars |
+| `src/api/console.py` | Error boundaries on all SQLite endpoints, remove orphaned `/console/status` |
+| `src/api/frontend/src/views/Campaigns.svelte` | Add Send button, remove disabled "New Campaign" button |
+| `src/api/frontend/src/views/Dashboard.svelte` | Wire "View all" to navigate to Logs |
+| `src/api/frontend/src/components/Sidebar.svelte` | Dynamic status from WebSocket queue_status messages |
+| `src/api/frontend/src/lib/api.js` | Add `fetchStatus()` or remove dead `fetchLogs()`, add auth header support |
+| `src/api/frontend/src/views/Logs.svelte` | Use `fetchLogs()` from api.js instead of raw fetch |
+| `.env.example` | Add CONSOLE_USER, CONSOLE_PASSWORD |
 
 ---
 
