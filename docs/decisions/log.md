@@ -5,6 +5,30 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-12 — Hooks, Valdí rehash, documentation refresh
+
+**Decided**
+- Seven Claude Code hooks registered in `.claude/settings.json` and implemented as Python scripts under `.claude/hooks/`. Mechanical enforcement for rules that repeatedly failed as passive memories. Full list in CLAUDE.md "Hook-Based Enforcement" section. Hooks use `shlex.split(posix=True)` to tokenize commands so dangerous strings inside quoted arguments (commit messages, echo strings) don't false-match.
+- Six failure-prone memories deleted — replaced by hooks: `feedback_read_decision_log_before_infra`, `feedback_never_revert_user_changes`, `feedback_never_blanket_checkout`, `feedback_never_source_env`, `feedback_no_inline_scripts_ever`, `feedback_ci_config_must_run`. A new pointer memory `hooks_enforced.md` documents which rules are hook-enforced vs memory-enforced.
+- Valdí approval tokens regenerated for all 14 scan functions after Phase 1/2 refactor invalidated every SHA-256 hash. Single batch forensic log at `.claude/agents/valdi/logs/2026-04-12_08-33-07_post_refactor_rehash.md` covers all 14 as one refactor event (pure-rehash, no substantive review). `wpscan_wordpress_scan` dropped entirely (obsolete since Sprint 4). `scripts/valdi/regenerate_approvals.py` committed as reproducible tool for future refactors. CI `--deselect` flag removed; `test_level0_ignores_missing_level1_tokens` now passes.
+- `scan_types.json` metadata synced from current `approvals.json` via new `--sync-scan-types` mode on the regeneration script. 9 entries updated (function_file, function_name, function_hash), 1 removed (wpscan).
+- CLAUDE.md refreshed (v2.8): "Phase 0 on the laptop" line corrected (Pi5 is live), Key Documents table updated with `src/prospecting/scanners/`, `src/core/`, `src/worker/models.py`, `.claude/hooks/`, `.claude/settings.json`, `scripts/valdi/regenerate_approvals.py`, `scripts/backup.sh`, `scripts/healthcheck.sh`, `.claude/agents/valdi/approvals.json` entries. Sprint 3/4 build-priority section rewritten to lead with MVP hardening status. New "Hook-Based Enforcement" section documents the full hook set and limitations.
+- Pi5 microSD operational: `mmcblk0p2` (ext4, UUID captured) mounted at `/mnt/sdbackup` via fstab with `nofail,noatime`. `HEIMDALL_BACKUP_DIR=/mnt/sdbackup/heimdall` in `infra/docker/.env`. First production backup verified: companies.db (5.6 MB) + clients.db (21.2 MB via docker exec api). Cron installed daily at 03:00.
+- shlex heredoc limitation documented: `git commit -F - <<'EOF'` with dangerous text in body false-fires the guards because shlex treats heredoc bodies as loose tokens. Workaround is `git commit -F /tmp/file.txt`. Not worth fixing in the hooks.
+
+**Rejected**
+- Adding missing `scan_types.json` entries for `subdomain_enumeration_passive`, `dns_enrichment`, `certificate_transparency_query`, `cloud_storage_index_query`, `nmap_port_scan` — these functions exist and have approvals but lack documentary entries. Left as a deferred data quality task. The runtime validator (`_validate_approval_tokens`) doesn't read `scan_types.json`, so nothing is broken.
+- Hook that tries to detect "no decisions ever" violations via NLP on assistant output — too noisy, too hard to match reliably, stays as a memory.
+- Hook that enforces "verify data before presenting" — same problem, stays as a memory.
+- Rewriting the Sprint 3/4 historical prose in CLAUDE.md — too risky to edit line-by-line without verification. Left as historical "sprints 1-3 delivered" with a new MVP hardening section on top.
+
+**Unresolved**
+- Pi5 deployment of Phase 1/2 + Valdí rehash still pending: rebuild containers (`heimdall-deploy`), set `CONSOLE_USER`/`CONSOLE_PASSWORD` in Pi5 `.env`, install `scripts/healthcheck.sh` cron, smoke test (trigger a scan, verify tokens validate, verify delivery, verify backup still works).
+- `scan_types.json` missing 5 documentary entries (see Rejected list). Not runtime-critical.
+- Shell heredoc handling in hooks — workaround documented but the limitation persists.
+
+---
+
 ## 2026-04-12 — MVP Phase 1/2 hardening + microSD backup setup
 
 **Decided**

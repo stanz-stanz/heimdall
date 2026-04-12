@@ -395,14 +395,107 @@ def print_report(plan: dict, dry_run: bool) -> None:
         print()
 
 
+def sync_scan_types_from_approvals(apply: bool) -> None:
+    """Update scan_types.json from the current approvals.json without regenerating tokens.
+
+    Reads the current (already-valid) approvals.json, matches each entry to a
+    ScanFunctionSpec, and updates the corresponding scan_types.json entry's
+    function_file, function_name (drops the underscore prefix), function_hash,
+    and last_validated. Drops obsolete entries. Does NOT generate new tokens.
+    """
+    with open(APPROVALS_PATH) as f:
+        approvals = json.load(f).get("approvals", [])
+    approvals_by_id = {a["scan_type_id"]: a for a in approvals}
+
+    if not SCAN_TYPES_PATH.exists():
+        print(f"ERROR: {SCAN_TYPES_PATH} not found")
+        sys.exit(1)
+
+    with open(SCAN_TYPES_PATH) as f:
+        scan_types_doc = json.load(f)
+    entries = scan_types_doc.get("scan_types", [])
+
+    spec_by_id = {s.scan_type_id: s for s in SCAN_FUNCTIONS}
+
+    updates = []
+    removals = []
+    kept = []
+
+    for entry in entries:
+        sid = entry.get("id")
+        if sid in OBSOLETE_SCAN_TYPES:
+            removals.append(sid)
+            continue
+        approval = approvals_by_id.get(sid)
+        spec = spec_by_id.get(sid)
+        if not approval or not spec:
+            kept.append(sid)
+            continue
+        before = {
+            "function_file": entry.get("function_file"),
+            "function_name": entry.get("function_name"),
+            "function_hash": entry.get("function_hash"),
+        }
+        entry["function_file"] = spec.function_file
+        entry["function_name"] = spec.function
+        entry["function_hash"] = approval["function_hash"]
+        entry["current_approval_token"] = approval["token"]
+        entry["last_validated"] = approval["approved_at"]
+        after = {
+            "function_file": entry["function_file"],
+            "function_name": entry["function_name"],
+            "function_hash": entry["function_hash"],
+        }
+        if before != after:
+            updates.append((sid, before, after))
+
+    # Remove obsolete entries
+    scan_types_doc["scan_types"] = [e for e in entries if e.get("id") not in OBSOLETE_SCAN_TYPES]
+
+    print()
+    print("=" * 72)
+    print(f"scan_types.json sync from approvals.json — {'APPLY' if apply else 'DRY-RUN'}")
+    print("=" * 72)
+    print()
+    print(f"Entries updated: {len(updates)}")
+    print(f"Entries removed: {len(removals)} {removals or ''}")
+    print(f"Entries kept untouched: {len(kept)} {kept or ''}")
+    print()
+    for sid, before, after in updates:
+        print(f"  {sid}")
+        print(f"    function_file: {before['function_file']} -> {after['function_file']}")
+        print(f"    function_name: {before['function_name']} -> {after['function_name']}")
+        print(f"    function_hash: {str(before['function_hash'])[:19]}... -> {after['function_hash'][:19]}...")
+
+    if not apply:
+        print()
+        print("(dry-run — no files written)")
+        return
+
+    with open(SCAN_TYPES_PATH, "w") as f:
+        json.dump(scan_types_doc, f, indent=2)
+        f.write("\n")
+    print()
+    print(f"Wrote {SCAN_TYPES_PATH.relative_to(PROJECT_ROOT)}")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--apply",
         action="store_true",
-        help="Actually write approvals.json and forensic log (default: dry-run)",
+        help="Actually write files (default: dry-run)",
+    )
+    parser.add_argument(
+        "--sync-scan-types",
+        action="store_true",
+        help="Sync scan_types.json from current approvals.json (does NOT regenerate tokens)",
     )
     args = parser.parse_args()
+
+    if args.sync_scan_types:
+        sync_scan_types_from_approvals(apply=args.apply)
+        return
 
     now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     log_filename = f"{now_iso[:10]}_{now_iso[11:19].replace(':', '-')}_post_refactor_rehash.md"
@@ -437,6 +530,7 @@ def main():
     print("Next steps:")
     print("  1. Run the test: pytest tests/test_level1_scanners.py::TestLevelGatedValidation::test_level0_ignores_missing_level1_tokens -v")
     print("  2. Remove --deselect from .github/workflows/ci.yml")
+    print("  3. Sync scan_types.json: python scripts/valdi/regenerate_approvals.py --sync-scan-types --apply")
     print("  3. Review the diff with: git diff .claude/agents/valdi/approvals.json")
     print("  4. Commit")
 

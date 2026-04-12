@@ -8,12 +8,12 @@
       "tools": [],
       "paths_accessed": [],
       "handles_robots_txt_denial": false,
-      "robots_txt_note": "TLS handshake — robots.txt does not apply to protocol-level negotiation",
-      "current_approval_token": "9446c250-37c3-4f36-bc82-e2be64ee9381",
-      "last_validated": "2026-03-22T10:00:00Z",
-      "function_file": "pipeline/scanner.py",
-      "function_name": "_check_ssl",
-      "function_hash": "sha256:e83c524bc9670743dec22bd800ee69ac08d1538dd44ff9a687ce9064bf8800bc",
+      "robots_txt_note": "TLS handshake \u2014 robots.txt does not apply to protocol-level negotiation",
+      "current_approval_token": "21be1f07-51f3-4cfe-8417-005ac1a48160",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/tls.py",
+      "function_name": "check_ssl",
+      "function_hash": "sha256:9c91fedaf22c405599b2a2f2cc11f79e6384d15c225c51f26f4922396cf77f52",
       "hash_method": "inspect.getsource"
     },
     {
@@ -21,15 +21,19 @@
       "description": "Fetches homepage HTML to extract meta author tag, footer credits, WordPress plugin slugs with versions from ?ver= params, and theme slugs from page source",
       "layer": 1,
       "level_required": 0,
-      "tools": ["requests"],
-      "paths_accessed": ["/"],
+      "tools": [
+        "requests"
+      ],
+      "paths_accessed": [
+        "/"
+      ],
       "handles_robots_txt_denial": false,
-      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
-      "current_approval_token": "c023519a-0894-4959-b878-828517cbf2d2",
-      "last_validated": "2026-04-02T10:00:00Z",
-      "function_file": "src/prospecting/scanner.py",
-      "function_name": "_extract_page_meta",
-      "function_hash": "sha256:93490496855a6df7cf2ffc40b888366772276b6e077822a63573e1da0b9c6d96",
+      "robots_txt_note": "Private helper \u2014 robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "2872e847-3c00-4787-957a-47fd97a64541",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/wordpress.py",
+      "function_name": "extract_page_meta",
+      "function_hash": "sha256:89e67f7c988988e346e26aff86a181d3a1394d42a94ae35c8c894e8189cb295d",
       "hash_method": "inspect.getsource"
     },
     {
@@ -37,15 +41,19 @@
       "description": "Runs httpx CLI with tech-detect, server, status-code, and title flags for passive technology fingerprinting",
       "layer": 1,
       "level_required": 0,
-      "tools": ["httpx"],
-      "paths_accessed": ["/"],
+      "tools": [
+        "httpx"
+      ],
+      "paths_accessed": [
+        "/"
+      ],
       "handles_robots_txt_denial": false,
-      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
-      "current_approval_token": "69c956db-2ad1-4606-b9b4-f85bc309be4e",
-      "last_validated": "2026-03-22T10:02:00Z",
-      "function_file": "pipeline/scanner.py",
-      "function_name": "_run_httpx",
-      "function_hash": "sha256:8427a2da6fd9ff7338f6c6309fcbbc126ba22cc2dd235531cecddbaa2def538c",
+      "robots_txt_note": "Private helper \u2014 robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "8a441dd3-7876-4a6c-8231-91d98a0836a5",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/httpx_scan.py",
+      "function_name": "run_httpx",
+      "function_hash": "sha256:7f93d9c7a993d43c2e35fa7bb8316a929f268d82abb8eb1b5d5d9afed2a93b3f",
       "hash_method": "inspect.getsource"
     },
     {
@@ -53,15 +61,19 @@
       "description": "Runs webanalyze CLI with -crawl 0 for CMS/technology detection from homepage response only",
       "layer": 1,
       "level_required": 0,
-      "tools": ["webanalyze"],
-      "paths_accessed": ["/"],
+      "tools": [
+        "webanalyze"
+      ],
+      "paths_accessed": [
+        "/"
+      ],
       "handles_robots_txt_denial": false,
-      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
-      "current_approval_token": "474b98c0-4d33-4703-80ca-0a65ba77e467",
-      "last_validated": "2026-03-22T10:03:00Z",
-      "function_file": "pipeline/scanner.py",
-      "function_name": "_run_webanalyze",
-      "function_hash": "sha256:651e4c58a07be11bb5219bd0071109f0e469c273c6d9d5b93a5dcac676975b67",
+      "robots_txt_note": "Private helper \u2014 robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "a895838f-b873-48bf-91cf-a0f5d33e905f",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/webanalyze.py",
+      "function_name": "run_webanalyze",
+      "function_hash": "sha256:9d4330928f3917118a40eb5bea0537efe7cc5fd32af5b305f354f5e07d176cee",
       "hash_method": "inspect.getsource"
     },
     {
@@ -69,15 +81,19 @@
       "description": "HEAD request to homepage to check for security-relevant response headers (X-Frame-Options, CSP, HSTS, X-Content-Type-Options)",
       "layer": 1,
       "level_required": 0,
-      "tools": ["requests"],
-      "paths_accessed": ["/"],
+      "tools": [
+        "requests"
+      ],
+      "paths_accessed": [
+        "/"
+      ],
       "handles_robots_txt_denial": false,
-      "robots_txt_note": "Private helper — robots.txt enforcement delegated to orchestrator",
-      "current_approval_token": "60ecae45-0147-4fa4-a3d8-82e149f01291",
-      "last_validated": "2026-03-22T10:04:00Z",
-      "function_file": "pipeline/scanner.py",
-      "function_name": "_get_response_headers",
-      "function_hash": "sha256:da1541bd1c72627be49f28f12f13b3f69de27876e94ba4eec5ae026a1c7d192c",
+      "robots_txt_note": "Private helper \u2014 robots.txt enforcement delegated to orchestrator",
+      "current_approval_token": "8040b850-1d15-4c9c-a87c-19095295eab8",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/headers.py",
+      "function_name": "get_response_headers",
+      "function_hash": "sha256:1511f1b8e3927d3247ab46bfed4eea0e0074352524f94fcd99b3a96a7e2548be",
       "hash_method": "inspect.getsource"
     },
     {
@@ -85,14 +101,18 @@
       "description": "Fetches robots.txt and parses it to determine if automated access is permitted for the domain",
       "layer": 1,
       "level_required": 0,
-      "tools": ["requests"],
-      "paths_accessed": ["/robots.txt"],
+      "tools": [
+        "requests"
+      ],
+      "paths_accessed": [
+        "/robots.txt"
+      ],
       "handles_robots_txt_denial": true,
-      "current_approval_token": "db78dd3c-a221-4b25-a57f-1779b31d66e3",
-      "last_validated": "2026-03-22T10:10:00Z",
-      "function_file": "pipeline/scanner.py",
-      "function_name": "_check_robots_txt",
-      "function_hash": "sha256:4177e71d888b6ac59423f23a6e8b0a57177b44e0cca5f315c6c2b47783c4826b",
+      "current_approval_token": "41a0bbe4-6c96-4a1f-82cd-ed268f87a2f2",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/robots.py",
+      "function_name": "check_robots_txt",
+      "function_hash": "sha256:c2aa0987399f0101b0064215a123cf9af377844b2b21d1f87221703ef9a98389",
       "hash_method": "inspect.getsource"
     },
     {
@@ -100,63 +120,65 @@
       "description": "Orchestrator that validates Valdi tokens, filters domains via robots.txt, runs all Layer 1 scan types, and writes pre-scan compliance checks",
       "layer": 1,
       "level_required": 0,
-      "tools": ["httpx", "webanalyze", "requests"],
-      "paths_accessed": ["/", "/robots.txt"],
+      "tools": [
+        "httpx",
+        "webanalyze",
+        "requests"
+      ],
+      "paths_accessed": [
+        "/",
+        "/robots.txt"
+      ],
       "handles_robots_txt_denial": true,
-      "current_approval_token": "b619e44e-9521-4a32-8ee2-9e6ff8bab9cb",
-      "last_validated": "2026-03-22T10:11:00Z",
-      "function_file": "pipeline/scanner.py",
+      "current_approval_token": "2a81ce5d-9cce-492a-a7e4-3c3cd8665be1",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/runner.py",
       "function_name": "scan_domains",
-      "function_hash": "sha256:8d9dfd94653dc3bec726ca04749e9e0da26032566412763a0dd4fff6bc9ac641",
-      "hash_method": "inspect.getsource"
-    }
-    ,
-    {
-      "id": "nuclei_vulnerability_scan",
-      "description": "Template-based vulnerability scanning via Nuclei — sends crafted requests to test for specific vulnerabilities. Requires Level 1 (written consent).",
-      "layer": 2,
-      "level_required": 1,
-      "tools": ["nuclei"],
-      "paths_accessed": ["various — template-dependent"],
-      "handles_robots_txt_denial": false,
-      "robots_txt_note": "robots.txt enforcement delegated to worker Gate 2 consent check",
-      "current_approval_token": "12022029-69a9-46a7-9b6b-dbe126e578f4",
-      "last_validated": "2026-03-28T14:00:00Z",
-      "function_file": "src/prospecting/scanner.py",
-      "function_name": "_run_nuclei",
-      "function_hash": "sha256:4addb4f2a7256546f8a954c8eba5706e129e118d1e0ad7a37290ab04e5c4efe9",
+      "function_hash": "sha256:bdffaaef88f2990943b7f2f68ea3cc6e7be06b9e9a9334e9a7a976021e869106",
       "hash_method": "inspect.getsource"
     },
     {
-      "id": "wpscan_wordpress_scan",
-      "description": "WordPress vulnerability + plugin scanning via WPScan sidecar container. Worker delegates via Redis queue; sidecar runs wpscan CLI with --enumerate vp,vt. Requires Level 1.",
+      "id": "nuclei_vulnerability_scan",
+      "description": "Template-based vulnerability scanning via Nuclei \u2014 sends crafted requests to test for specific vulnerabilities. Requires Level 1 (written consent).",
       "layer": 2,
       "level_required": 1,
-      "tools": ["wpscan (sidecar container)"],
-      "paths_accessed": ["/wp-admin/", "/wp-login.php", "/wp-content/plugins/", "/wp-content/themes/", "/readme.html"],
+      "tools": [
+        "nuclei"
+      ],
+      "paths_accessed": [
+        "various \u2014 template-dependent"
+      ],
       "handles_robots_txt_denial": false,
       "robots_txt_note": "robots.txt enforcement delegated to worker Gate 2 consent check",
-      "current_approval_token": "df32303b-6291-4eea-a3a3-a53ba93d3350",
-      "last_validated": "2026-03-28T16:00:00Z",
-      "function_file": "src/worker/scan_job.py",
-      "function_name": "_request_wpscan",
-      "function_hash": "sha256:8a3ae86aab66d4722c24be5ce0de5209af7523a3df9aabd38098e8ec71be4874",
+      "current_approval_token": "675006a0-aef0-4896-a5a4-5e7ecc24f770",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/nuclei.py",
+      "function_name": "run_nuclei",
+      "function_hash": "sha256:ddcbfb04f2ee47e9b7104d82be26f6c80121768898d144a974a38fa34d13792d",
       "hash_method": "inspect.getsource"
     },
     {
       "id": "cmseek_cms_deep_scan",
-      "description": "CMS detection + deep fingerprinting via CMSeek — probes admin panels, version files, plugin paths. Requires Level 1 (written consent).",
+      "description": "CMS detection + deep fingerprinting via CMSeek \u2014 probes admin panels, version files, plugin paths. Requires Level 1 (written consent).",
       "layer": 2,
       "level_required": 1,
-      "tools": ["CMSeek (Python)"],
-      "paths_accessed": ["/admin/", "/manager/", "/administrator/", "/readme.html", "/wp-content/plugins/"],
+      "tools": [
+        "CMSeek (Python)"
+      ],
+      "paths_accessed": [
+        "/admin/",
+        "/manager/",
+        "/administrator/",
+        "/readme.html",
+        "/wp-content/plugins/"
+      ],
       "handles_robots_txt_denial": false,
       "robots_txt_note": "robots.txt enforcement delegated to worker Gate 2 consent check",
-      "current_approval_token": "bf921a05-dc95-4ff9-99cf-0b9f8630aaf3",
-      "last_validated": "2026-03-28T17:00:00Z",
-      "function_file": "src/prospecting/scanner.py",
-      "function_name": "_run_cmseek",
-      "function_hash": "sha256:f4ae289a1b3933a9452ccca10244b43e9d18eb42cd8a2e1599a7d491826526d3",
+      "current_approval_token": "98fc4f1b-f6c6-4976-89c7-dde7c1533958",
+      "last_validated": "2026-04-12T08:33:07Z",
+      "function_file": "src/prospecting/scanners/cmseek.py",
+      "function_name": "run_cmseek",
+      "function_hash": "sha256:f45789fd297a163cb9c46841a47bed91a1118212726ce26a6ced7d0933207389",
       "hash_method": "inspect.getsource"
     }
   ]
