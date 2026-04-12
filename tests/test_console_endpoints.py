@@ -353,5 +353,10 @@ class TestConsoleWebSocket:
     def test_ws_ping_pong(self, client):
         with client.websocket_connect("/console/ws") as ws:
             ws.send_json({"type": "ping"})
-            resp = ws.receive_json()
-            assert resp["type"] == "pong"
+            # Server also pushes queue_status / log_batch frames on a timer.
+            # Drain unrelated frames until we see the pong response.
+            for _ in range(10):
+                resp = ws.receive_json()
+                if resp["type"] == "pong":
+                    return
+            raise AssertionError("Did not receive pong after 10 frames")
