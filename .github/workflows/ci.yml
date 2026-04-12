@@ -28,4 +28,4 @@ jobs:
       # Full lint cleanup deferred to Phase 3.
 
       - name: Test
-        run: pytest --deselect tests/test_level1_scanners.py::TestLevelGatedValidation::test_level0_ignores_missing_level1_tokens --tb=short --timeout=30
+        run: pytest --tb=short --timeout=30
