@@ -14,6 +14,8 @@ data/benchmarks/*.json
 
 # SQLite databases (runtime-generated, contain client data)
 data/**/*.db
+# Exception: enriched CVR database is a deployment artifact, synced via git
+!data/enriched/companies.db
 
 # Secrets and credentials
 *.key
