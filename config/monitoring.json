@@ -1,0 +1,6 @@
+{
+  "ct_poll_schedule_hour_utc": 7,
+  "ct_change_dedupe_hours": 24,
+  "certspotter_http_timeout_s": 30,
+  "certspotter_base_url": "https://api.certspotter.com/v1/issuances"
+}

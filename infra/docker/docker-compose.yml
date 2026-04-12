@@ -33,8 +33,9 @@ services:
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
       - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+      - CERTSPOTTER_API_KEY=${CERTSPOTTER_API_KEY:-}
     volumes:
-      - client-data:/data/clients:ro
+      - client-data:/data/clients
       - valdi-data:/data/valdi:ro
       - config-data:/config:ro
       - ../../data/input:/data/input:ro
@@ -44,51 +45,6 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-    restart: "no"
-
-  ct-collector:
-    build:
-      context: ../..
-      dockerfile: infra/docker/Dockerfile.ct-collector
-    environment:
-      - CT_DB_PATH=/data/ct/certificates.db
-      - CERTSTREAM_URL=wss://certstream.calidog.io/
-      - HEIMDALL_SOURCE=ct-collector
-      - LOG_FORMAT=json
-      - DOMAIN_FILTER=.dk
-      - CLEANUP_INTERVAL_HOURS=24
-      - STATUS_FILE=/data/ct/collector_status.json
-      - REDIS_URL=redis://redis:6379/0
-    volumes:
-      - ct-data:/data/ct
-    networks:
-      - internal  # outbound NAT required — CertStream WebSocket is external
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-          cpus: '0.25'
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "python", "-m", "src.ct_collector.healthcheck"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
-      start_period: 600s
-
-  ct-backfill:
-    build:
-      context: ../..
-      dockerfile: infra/docker/Dockerfile.ct-collector
-    entrypoint: ["python", "-m", "src.ct_collector.backfill"]
-    profiles: ["backfill"]  # Run with: docker compose --profile backfill run --rm ct-backfill
-    environment:
-      - CT_DB_PATH=/data/ct/certificates.db
-      - LOG_FORMAT=json
-    volumes:
-      - ct-data:/data/ct
-    networks:
-      - internal  # outbound NAT required — fetches from crt.sh
     restart: "no"
 
   worker:
@@ -102,7 +58,6 @@ services:
       - CLIENT_DATA_DIR=/data/clients
       - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
-      - CT_DB_PATH=/data/ct/certificates.db
       - WORKER_MAX_LEVEL=${WORKER_MAX_LEVEL:-0}
       - NUCLEI_TEMPLATES_DIR=/opt/nuclei-templates
       - VULNDB_PATH=/data/cache/vulndb.sqlite3
@@ -112,7 +67,6 @@ services:
       - ../../data/results:/data/results
       - cache-data:/data/cache
       - config-data:/config:ro
-      - ct-data:/data/ct:ro
     networks:
       - internal
     depends_on:
@@ -184,6 +138,7 @@ services:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
       - TELEGRAM_OPERATOR_CHAT_ID=${TELEGRAM_OPERATOR_CHAT_ID:-}
       - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
+      - CERTSPOTTER_API_KEY=${CERTSPOTTER_API_KEY:-}
     volumes:
       - client-data:/data/clients
       - message-data:/data/messages
@@ -246,13 +201,6 @@ volumes:
   cache-data:
   config-data:
   message-data:
-  ct-data:
-    # On Pi5: point to NVMe mount. Uncomment driver_opts when NVMe is mounted.
-    # driver: local
-    # driver_opts:
-    #   type: none
-    #   o: bind
-    #   device: /mnt/nvme/heimdall/ct-data
 
 networks:
   internal:

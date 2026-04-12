@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import datetime
 import json
+import os
 import signal
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -13,6 +15,8 @@ import redis
 from loguru import logger
 
 _shutdown_requested = False
+_MONITORING_CONFIG_PATH = Path("/config/monitoring.json")
+_MONITORING_CONFIG_FALLBACK = Path(__file__).resolve().parents[2] / "config" / "monitoring.json"
 
 
 def _handle_signal(signum: int, frame: object) -> None:
@@ -36,6 +40,9 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
         sys.exit(1)
 
     logger.info("Scheduler daemon started — listening on queue:operator-commands")
+
+    monitoring_cfg = _load_monitoring_config()
+    _start_monitoring_timer(conn, monitoring_cfg)
 
     while not _shutdown_requested:
         try:
@@ -66,6 +73,8 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
                 _handle_interpret(conn, payload)
             elif command == "send":
                 _handle_send(conn, payload)
+            elif command == "monitor-clients":
+                _handle_monitor_clients(conn, payload)
             else:
                 logger.warning("Unknown command: {}", command)
                 _publish_result(conn, command, "error", f"Unknown command: {command}")
@@ -225,3 +234,111 @@ def _handle_send(conn: redis.Redis, payload: dict) -> None:
     msg = f"Sent {result.get('sent', 0)} messages for {campaign}"
     _publish_activity(conn, msg)
     _publish_result(conn, "send", "completed", msg)
+
+
+def _load_monitoring_config() -> dict:
+    """Read config/monitoring.json from the container mount or repo fallback."""
+    for path in (_MONITORING_CONFIG_PATH, _MONITORING_CONFIG_FALLBACK):
+        if path.is_file():
+            try:
+                return json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                logger.warning("monitoring.json parse error at {}: {}", path, exc)
+    logger.warning("monitoring.json not found — CT monitoring timer disabled")
+    return {}
+
+
+def _start_monitoring_timer(conn: redis.Redis, cfg: dict) -> None:
+    """Start a daemon thread that enqueues monitor-clients once per day.
+
+    Targets the hour-of-day given by ``ct_poll_schedule_hour_utc`` in cfg.
+    Tolerates missing config (no timer started). Best-effort; errors logged.
+    """
+    hour = cfg.get("ct_poll_schedule_hour_utc")
+    if hour is None:
+        return
+
+    def _timer_loop() -> None:
+        logger.info("CT monitoring timer started — target hour UTC={}", hour)
+        last_fired_date: str | None = None
+        while not _shutdown_requested:
+            now = datetime.datetime.now(datetime.UTC)
+            today = now.strftime("%Y-%m-%d")
+            if now.hour == hour and last_fired_date != today:
+                try:
+                    conn.lpush(
+                        "queue:operator-commands",
+                        json.dumps({"command": "monitor-clients", "payload": {}}),
+                    )
+                    logger.info("Enqueued monitor-clients at {}", now.isoformat())
+                    last_fired_date = today
+                except Exception as exc:
+                    logger.warning("Failed to enqueue monitor-clients: {}", exc)
+            time.sleep(60)
+
+    t = threading.Thread(target=_timer_loop, name="ct-monitoring-timer", daemon=True)
+    t.start()
+
+
+def _handle_monitor_clients(conn: redis.Redis, payload: dict) -> None:
+    """Poll CertSpotter for every Sentinel client with monitoring enabled.
+
+    Iterates clients.db, delegates each eligible client to
+    ``src.client_memory.ct_monitor.poll_and_diff_client``. Watchman-tier
+    clients and those with ``monitoring_enabled = 0`` are skipped.
+    """
+    from src.client_memory.ct_monitor import poll_and_diff_client
+    from src.db.connection import init_db
+
+    db_path = os.environ.get("DB_PATH") or os.path.join(
+        os.environ.get("CLIENT_DATA_DIR", "/data/clients"), "clients.db"
+    )
+    if not os.path.exists(db_path):
+        _publish_result(conn, "monitor-clients", "error", f"DB not found: {db_path}")
+        return
+
+    db = init_db(db_path)
+    try:
+        rows = db.execute(
+            """
+            SELECT c.cvr, cd.domain
+            FROM clients c
+            JOIN client_domains cd ON cd.cvr = c.cvr
+            WHERE c.plan = 'sentinel'
+              AND c.monitoring_enabled = 1
+              AND c.status IN ('active','onboarding')
+              AND cd.is_primary = 1
+            """
+        ).fetchall()
+    except Exception as exc:
+        db.close()
+        _publish_result(conn, "monitor-clients", "error", f"Query failed: {exc}")
+        return
+
+    if not rows:
+        _publish_activity(conn, "CT monitoring: no Sentinel clients with monitoring enabled")
+        _publish_result(conn, "monitor-clients", "completed", "No eligible clients")
+        db.close()
+        return
+
+    _publish_activity(conn, f"CT monitoring: polling {len(rows)} Sentinel client(s)")
+
+    total_changes = 0
+    polled = 0
+    for row in rows:
+        cvr = row["cvr"]
+        domain = row["domain"]
+        try:
+            summary = poll_and_diff_client(cvr, domain, db, conn)
+            total_changes += summary.get("changes", 0)
+            polled += 1
+        except Exception as exc:
+            logger.opt(exception=True).warning(
+                "CT monitor failed for cvr={} domain={}: {}", cvr, domain, exc
+            )
+
+    db.close()
+
+    msg = f"CT monitoring complete: {polled}/{len(rows)} polled, {total_changes} change(s)"
+    _publish_activity(conn, msg)
+    _publish_result(conn, "monitor-clients", "completed", msg)
