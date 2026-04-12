@@ -119,7 +119,8 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/logging/redis_sink.py` | Shared loguru sink — background thread publishes log entries to Redis `console:logs` channel. All containers import this. `HEIMDALL_SOURCE` env var for readable source names. |
 | `src/db/migrate.py` | Schema migration — applies `CREATE IF NOT EXISTS` to existing `clients.db`. Run inside Docker: `python -m src.db.migrate`. |
 | `src/worker/` | Worker process — executes scan jobs, manages caching, runs twin scans. Entry point for all scanning operations. |
-| `src/ct_collector/` | CertStream CT log collector — subscribes to Certificate Transparency logs for .dk domains, maintains local SQLite CT database (replaces remote crt.sh API). |
+| `src/client_memory/ct_monitor.py` | Sentinel-tier CT monitoring — daily per-client poll of SSLMate CertSpotter API, diffs against `client_cert_snapshots`, classifies new_cert / new_san / ca_change, publishes `client-cert-change` events on Redis. Free tier (10 full-domain queries/hour) sufficient for ~240 monitored clients. Watchman tier has `monitoring_enabled=0`. |
+| `config/monitoring.json` | Config: CT monitoring schedule (UTC hour), dedupe window, CertSpotter HTTP timeout + base URL. Read by the scheduler daemon at startup. |
 | `src/client_memory/` | Client history and remediation tracking — delta detection, remediation state machine, client profiles. JSON-based storage (migration to src/db/ in progress). |
 | `config/delivery.json` | Config: Telegram delivery settings (require_approval toggle, retry, rate limit) |
 | `config/interpreter.json` | Config: LLM backend, model, tone, language (default: English). Per-client language override via `clients.preferred_language` column. |
@@ -179,7 +180,7 @@ Before a scan batch runs, Valdí performs a lightweight Gate 2 check: confirming
 
 Goal: consent-gated scanning for paying clients, AI-interpreted findings in client's preferred language, Telegram delivery.
 
-The pipeline runs as a Docker Compose stack on Pi5 with a two-phase architecture: subfinder batch enrichment (3 parallel batches) → per-domain core scans (with warm cache). Local CertStream CT database replaces remote crt.sh API. See `docs/architecture/pi5-docker-architecture.md` for full details.
+The pipeline runs as a Docker Compose stack on Pi5 with a two-phase architecture: subfinder batch enrichment (3 parallel batches) → per-domain core scans (with warm cache). CT log queries use crt.sh at scan time for prospecting (free, captures SAN hostnames merged into `ScanResult.subdomains`) and SSLMate CertSpotter for Sentinel-tier client monitoring (free tier, per-client daily polling, detects new_cert / new_san / ca_change events). See `docs/architecture/pi5-docker-architecture.md` for full details.
 
 ### Input
 
@@ -191,7 +192,7 @@ Federico manually extracts a company list from CVR (`https://datacvr.virk.dk`) a
 2. Apply pre-scan filters from `config/filters.json` (industry_code, contactable) — see `.claude/agents/prospecting/SKILL.md` for filter config
 3. Derive website domains from company email addresses
 4. Resolve domains (check website exists + robots.txt compliance)
-5. Layer 1 scanning with Valdí-approved scan types (httpx, webanalyze, subfinder, dnsx, CertStream, GrayHatWarfare) + WordPress-specific passive detection (plugin `?ver=` extraction, REST API namespace enumeration, meta generator tags, CSS class signatures)
+5. Layer 1 scanning with Valdí-approved scan types (httpx, webanalyze, subfinder, dnsx, crt.sh with SAN subdomain merge, GrayHatWarfare) + WordPress-specific passive detection (plugin `?ver=` extraction, REST API namespace enumeration, meta generator tags, CSS class signatures)
 6. Bucket results: A > B > E > C > D (see `.claude/agents/prospecting/SKILL.md` for full bucketing logic)
 7. Apply post-scan filters from `filters.json` (bucket)
 8. Evidence-based GDPR sensitivity determination (from scan results + industry code)

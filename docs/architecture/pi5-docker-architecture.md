@@ -6,12 +6,11 @@ Heimdall runs on a Raspberry Pi 5 (8GB RAM, NVMe SSD) as a Docker Compose stack.
 
 ```
 Pi5 (Docker Compose)
-├── heimdall-scheduler     # Two-phase: enrichment batches → scan jobs
+├── heimdall-scheduler     # Daemon: BRPOP queue:operator-commands + daily CT monitoring timer
 ├── heimdall-worker × 3    # Scan execution (dual-queue: enrichment + scan)
-├── redis                  # Job queue + result cache
-├── ct-collector           # CertStream subscriber → local SQLite CT database
-├── heimdall-api           # Results API (for Telegram delivery)
-├── heimdall-delivery      # Telegram delivery bot (scan-complete → interpret → send)
+├── redis                  # Job queue + result cache + pub/sub channels
+├── heimdall-api           # Results API + operator console (:8000)
+├── heimdall-delivery      # Telegram delivery bot (scan-complete + cert-change subscribers)
 ├── dozzle                 # Live container log viewer (:8080)
 ├── prometheus             # Metrics collection (:9090)
 ├── grafana                # Dashboards (:3000)
@@ -19,10 +18,11 @@ Pi5 (Docker Compose)
 └── volumes
     ├── /data/cache        # Tool-specific scan cache
     ├── /data/results      # Scan results per client
-    ├── /data/ct           # CT certificate SQLite database (NVMe)
-    ├── /data/clients      # Client profiles, consent records
-    └── /data/messages    # Composed messages for Telegram delivery
+    ├── /data/clients      # Client profiles, consent records, cert snapshots, cert changes
+    └── /data/messages     # Composed messages for Telegram delivery
 ```
+
+CT log data is **not** collected as a container. Prospecting scans query crt.sh at scan time via `src/prospecting/scanners/ct.py` (free, SAN hostnames merged into `ScanResult.subdomains`). Sentinel-tier client monitoring queries SSLMate CertSpotter API from `src/client_memory/ct_monitor.py` (free tier — 10 full-domain queries/hour), polled daily by the scheduler daemon's timer thread. The earlier CertStream-based `ct-collector` container was removed in April 2026 after it was discovered to have never worked (Calidog's public CertStream server was degraded, library silently filtered all frames).
 
 ## Containers
 
@@ -163,8 +163,7 @@ Workers check Redis cache before each scan type. If the cached result exists and
 |-----------|-----|-----|-------|
 | Redis | 512 MB | Shared | Maxmemory policy: allkeys-lru |
 | Worker × 3 | 3 GB (1 GB each) | 3 cores | Go tools (httpx, subfinder) are memory-hungry |
-| CT Collector | 256 MB | 0.25 core | CertStream WebSocket + SQLite writer |
-| Scheduler | 256 MB | Shared | Lightweight, mostly sleeping |
+| Scheduler | 256 MB | Shared | Daemon mode + daily CT monitoring timer; mostly sleeping |
 | API | 256 MB | 0.5 CPU | FastAPI + thread pool for LLM interpretation |
 | Delivery Bot | 128 MB | 0.25 core | Mostly idle, wakes on scan-complete events |
 | Prometheus | 256 MB | Shared | 30-day / 2GB retention |
@@ -190,8 +189,8 @@ Cache hit rate on second run: 100% (1827 hits, 0 misses).
 ## Network
 
 - **Outbound only** — no inbound ports except monitoring UIs. Connectivity via Tailscale VPN.
-- Workers make HTTPS requests to target domains and third-party APIs (GrayHatWarfare).
-- CT collector maintains persistent WebSocket to CertStream (`wss://certstream.calidog.io/`).
+- Workers make HTTPS requests to target domains and third-party APIs (GrayHatWarfare, crt.sh).
+- Scheduler daemon calls SSLMate CertSpotter (`https://api.certspotter.com/v1/issuances`) once per day per Sentinel client with monitoring enabled.
 - API communicates with Telegram Bot API via HTTPS.
 - Claude API called via HTTPS for finding interpretation.
 - All inter-container traffic on Docker bridge network (never leaves the Pi).
