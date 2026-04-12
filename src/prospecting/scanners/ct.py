@@ -36,14 +36,22 @@ def query_crt_sh_single(domain: str) -> tuple:
         certs = []
         for entry in data:
             cn = entry.get("common_name", "")
-            if cn and cn not in seen:
-                seen.add(cn)
-                certs.append({
-                    "common_name": cn,
-                    "issuer_name": entry.get("issuer_name", ""),
-                    "not_before": entry.get("not_before", ""),
-                    "not_after": entry.get("not_after", ""),
-                })
+            if not cn or cn in seen:
+                continue
+            seen.add(cn)
+            name_value = entry.get("name_value", "") or ""
+            sans = sorted({
+                n.strip().lower()
+                for n in name_value.splitlines()
+                if n.strip()
+            })
+            certs.append({
+                "common_name": cn,
+                "issuer_name": entry.get("issuer_name", ""),
+                "not_before": entry.get("not_before", ""),
+                "not_after": entry.get("not_after", ""),
+                "sans": sans,
+            })
         return domain, certs
 
     except (requests.RequestException, json.JSONDecodeError) as e:

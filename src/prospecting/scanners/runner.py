@@ -128,6 +128,22 @@ def _scan_single_domain(
     scan.ct_certificates = crt_sh_results.get(domain, [])
     scan.exposed_cloud_storage = ghw_results.get(domain, [])
 
+    # Merge SAN hostnames from CT certs into subdomains (free enrichment)
+    domain_lower = domain.lower()
+    suffix = "." + domain_lower
+    existing_subs = {s.lower() for s in scan.subdomains}
+    san_additions: list[str] = []
+    for cert in scan.ct_certificates:
+        for san in cert.get("sans", []) or []:
+            host = san.lstrip("*.").lower()
+            if not host or host in existing_subs:
+                continue
+            if host == domain_lower or host.endswith(suffix):
+                existing_subs.add(host)
+                san_additions.append(host)
+    if san_additions:
+        scan.subdomains.extend(san_additions)
+
     total_ms = int((time.monotonic() - domain_t0) * 1000)
     findings_count = len(scan.tech_stack) + len(scan.subdomains) + len(scan.ct_certificates) + len(scan.exposed_cloud_storage)
     logger.bind(context={"domain": domain, "duration_ms": total_ms, "findings_count": findings_count}).info("domain_scan_complete")
