@@ -234,7 +234,7 @@ def main(argv: list | None = None) -> None:
     hour_start = time.monotonic()
     insert_count: int = 0
     batch_buffer: list[dict] = []
-    batch_size = 50
+    batch_size = 5
     last_status_write = time.monotonic()
     status_interval = 60  # seconds
 
