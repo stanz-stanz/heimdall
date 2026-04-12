@@ -5,6 +5,28 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-12 — Pi5 deployment: console auth + scheduler daemon wiring
+
+**Decided**
+- Phase 1/2 + hooks + Valdí rehash deployed to Pi5. Discovered two latent deployment bugs during the deploy, both fixed inline.
+- Bug 1 (commit `38bb8bd`): Phase 1 added `BasicAuthMiddleware` to `src/api/app.py` reading `CONSOLE_USER`/`CONSOLE_PASSWORD` from env, but `infra/docker/docker-compose.yml` never passed those vars through the `api` service. Middleware silently stayed inactive even with values in `.env`. Fix: added both env vars to the api service environment block. `.env.template` also refreshed to document `CONSOLE_USER`, `CONSOLE_PASSWORD`, and `HEIMDALL_BACKUP_DIR` (stale since Phase 1 / microSD backup work). Verified on Pi5: unauthenticated `GET /console/dashboard` returns `401`, authenticated returns `200`.
+- Bug 2 (commit `13f26cc`): Scheduler service in compose was pinned to `command: ["--mode", "prospect", "--confirmed"]` under `profiles: ["run"]` (one-shot batch pattern from Sprint 2). The daemon mode (`--mode daemon`) added in Sprint 4 for console command dispatch was never wired into the stack. Console "Run Pipeline" button dispatched `run-pipeline` to `queue:operator-commands` but nothing was consuming the queue — every button press went to dead air. Fix: flipped default command to `--mode daemon` and dropped the `profiles` gate so the scheduler starts with the stack. CLI one-shot pattern preserved via compose run override: `docker compose run --rm scheduler --mode prospect --confirmed` still spawns a short-lived container alongside the persistent daemon (no duplication).
+- Console credentials: `CONSOLE_USER=admin`, 32-char random `CONSOLE_PASSWORD` generated via `secrets.token_urlsafe`-equivalent and stored in Pi5 `infra/docker/.env` only. Saved to Federico's password manager.
+- Pi5 cron layout finalized: two jobs, both source `infra/docker/.env` before running. Backup at `0 3 * * *` with `export $(grep HEIMDALL_BACKUP_DIR infra/docker/.env)`. Healthcheck at `*/5 * * * *` with `set -a && . infra/docker/.env && set +a` to pull `TELEGRAM_BOT_TOKEN` and `TELEGRAM_OPERATOR_CHAT_ID`. The `set -a` pattern is cleaner than `export $(grep ...)` for multi-var env loading.
+- Valdí approval tokens loaded cleanly on Pi5 after rehash — worker logs show `"Valdi approval tokens validated (max_level=%d)"` with no errors. Confirms the Phase 1/2 refactor + regeneration pipeline is sound.
+- Smoke test in progress: queued `run-pipeline` command (1,179 domains) picked up by the daemon immediately on first daemon startup — the command had been sitting in Redis from an earlier button press during deployment, so no events were lost. Expected runtime ~50 min based on Sprint 2 throughput (204 domains / 8.5 min).
+
+**Rejected**
+- Adding a separate `scheduler-daemon` service alongside the existing one-shot `scheduler`. Considered but the single-service-with-override pattern is simpler and uses `docker compose run`'s existing argument override behavior — no duplication, no second RAM footprint.
+- Leaving the scheduler as one-shot and telling Federico to ignore the console button. Treats a real bug as a UX quirk. Wrong trade.
+
+**Unresolved**
+- Smoke test end-to-end verdict pending pipeline completion (~50 min). Want to see: worker scan count increase, interpreter cache hits, delivery bot silent (no paying clients yet), backup still runs at 03:00.
+- `infra/docker/.env.template` was updated in the repo, but existing Pi5 `.env` was not regenerated from it. `HEIMDALL_BACKUP_DIR` may or may not be set on the Pi5 — Federico to verify manually (`grep HEIMDALL_BACKUP_DIR infra/docker/.env`) and add if missing. No automated drift check between template and live env.
+- Two initial wrong cron lines given to Federico that lacked env sourcing — caught by Federico, corrected. Pattern to avoid: giving shell commands for long-running tasks without verifying the execution environment has the expected vars.
+
+---
+
 ## 2026-04-12 — Hooks, Valdí rehash, documentation refresh
 
 **Decided**
@@ -23,7 +45,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 - Rewriting the Sprint 3/4 historical prose in CLAUDE.md — too risky to edit line-by-line without verification. Left as historical "sprints 1-3 delivered" with a new MVP hardening section on top.
 
 **Unresolved**
-- Pi5 deployment of Phase 1/2 + Valdí rehash still pending: rebuild containers (`heimdall-deploy`), set `CONSOLE_USER`/`CONSOLE_PASSWORD` in Pi5 `.env`, install `scripts/healthcheck.sh` cron, smoke test (trigger a scan, verify tokens validate, verify delivery, verify backup still works).
+- Pi5 deployment of Phase 1/2 + Valdí rehash — **done 2026-04-12**, see the newer "Pi5 deployment: console auth + scheduler daemon wiring" entry above for details and two latent bugs fixed during the deploy.
 - `scan_types.json` missing 5 documentary entries (see Rejected list). Not runtime-critical.
 - Shell heredoc handling in hooks — workaround documented but the limitation persists.
 
