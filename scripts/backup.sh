@@ -5,17 +5,25 @@
 #
 # Cron: 0 3 * * * /path/to/heimdall/scripts/backup.sh
 #
+# Backup destination:
+#   Defaults to $PROJECT_DIR/backups (same filesystem — laptop dev).
+#   On Pi5, set HEIMDALL_BACKUP_DIR to a separate physical medium for
+#   protection against NVMe SSD failure:
+#     export HEIMDALL_BACKUP_DIR=/mnt/sdbackup/heimdall
+#   (Pi5 has a dormant microSD boot fallback that can be mounted here.)
+#
 # Restore:
 #   1. Stop the service that uses the DB
-#   2. cp backups/YYYY-MM-DD-HHMMSS/clients.db data/clients/clients.db
+#   2. cp $BACKUP_ROOT/YYYY-MM-DD-HHMMSS/clients.db data/clients/clients.db
 #   3. Restart the service
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-BACKUP_DIR="$PROJECT_DIR/backups/$(date +%Y-%m-%d-%H%M%S)"
-LOG_FILE="$PROJECT_DIR/backups/backup.log"
+BACKUP_ROOT="${HEIMDALL_BACKUP_DIR:-$PROJECT_DIR/backups}"
+BACKUP_DIR="$BACKUP_ROOT/$(date +%Y-%m-%d-%H%M%S)"
+LOG_FILE="$BACKUP_ROOT/backup.log"
 RETENTION_DAYS=30
 
 DATABASES=(
@@ -23,7 +31,7 @@ DATABASES=(
     "data/enriched/companies.db"
 )
 
-mkdir -p "$BACKUP_DIR"
+mkdir -p "$BACKUP_ROOT" "$BACKUP_DIR"
 
 log() { echo "$(date -Iseconds) $1" >> "$LOG_FILE"; }
 
@@ -56,7 +64,7 @@ for db_rel in "${DATABASES[@]}"; do
 done
 
 # Cleanup old backups
-find "$PROJECT_DIR/backups" -maxdepth 1 -type d -name "20*" -mtime +$RETENTION_DAYS -exec rm -rf {} \; 2>/dev/null || true
+find "$BACKUP_ROOT" -maxdepth 1 -type d -name "20*" -mtime +$RETENTION_DAYS -exec rm -rf {} \; 2>/dev/null || true
 
 if [ $FAILURES -gt 0 ]; then
     log "COMPLETED WITH $FAILURES FAILURES"
