@@ -17,7 +17,7 @@ import redis
 from loguru import logger
 from telegram.ext import CallbackQueryHandler
 
-from src.composer.telegram import compose_telegram
+from src.composer.telegram import compose_cert_change, compose_telegram
 from src.db.clients import get_client_by_domain
 from src.db.connection import init_db, verify_integrity
 from src.db.scans import get_latest_brief
@@ -145,10 +145,10 @@ class DeliveryRunner:
             try:
                 r = redis.from_url(self.redis_url, decode_responses=True)
                 pubsub = r.pubsub()
-                pubsub.subscribe("client-scan-complete")
-                logger.bind(context={"channel": "client-scan-complete"}).info(
-                    "redis_subscribed"
-                )
+                pubsub.subscribe("client-scan-complete", "client-cert-change")
+                logger.bind(context={
+                    "channels": ["client-scan-complete", "client-cert-change"],
+                }).info("redis_subscribed")
             except redis.ConnectionError as exc:
                 logger.error("redis_connection_failed: {}", exc)
                 await asyncio.sleep(_RECONNECT_BACKOFF[-1])
@@ -160,7 +160,11 @@ class DeliveryRunner:
                 try:
                     message = pubsub.get_message(timeout=1.0)
                     if message and message.get("type") == "message":
-                        await self._handle_scan_complete(message["data"])
+                        channel = message.get("channel", "")
+                        if channel == "client-cert-change":
+                            await self._handle_cert_change(message["data"])
+                        else:
+                            await self._handle_scan_complete(message["data"])
                     reconnect_attempt = 0
                 except redis.ConnectionError:
                     delay = _RECONNECT_BACKOFF[
@@ -296,6 +300,111 @@ class DeliveryRunner:
                 approved_by="auto",
                 reply_markup=reply_markup,
             )
+
+
+    async def _handle_cert_change(self, data: str) -> None:
+        """Process a single client-cert-change event.
+
+        Flow:
+            1. Parse event → extract change_id, cvr, domain
+            2. Load client_cert_changes row from DB
+            3. Look up client, get chat_id + preferred_language
+            4. Compose via compose_cert_change
+            5. Dispatch through approval or direct send
+            6. Mark row as delivered
+        """
+        try:
+            event = json.loads(data)
+        except (json.JSONDecodeError, TypeError):
+            logger.bind(context={"data": str(data)[:200]}).warning(
+                "invalid_cert_change_event"
+            )
+            return
+
+        change_id = event.get("change_id")
+        cvr = event.get("cvr", "")
+        domain = event.get("domain", "")
+        if not change_id or not cvr:
+            logger.bind(context={"event": event}).warning("incomplete_cert_change_event")
+            return
+
+        row = self._conn.execute(
+            "SELECT change_type, details_json, status FROM client_cert_changes WHERE id = ?",
+            (change_id,),
+        ).fetchone()
+        if not row:
+            logger.bind(context={"change_id": change_id}).warning("cert_change_not_found")
+            return
+        if row["status"] != "pending":
+            logger.bind(context={
+                "change_id": change_id, "status": row["status"],
+            }).debug("cert_change_not_pending")
+            return
+
+        try:
+            details = json.loads(row["details_json"] or "{}")
+        except (json.JSONDecodeError, TypeError):
+            details = {}
+
+        client = self._conn.execute(
+            "SELECT cvr, company_name, contact_name, telegram_chat_id, preferred_language, plan "
+            "FROM clients WHERE cvr = ?",
+            (cvr,),
+        ).fetchone()
+        if not client:
+            logger.bind(context={"cvr": cvr}).warning("cert_change_no_client")
+            return
+        chat_id = client["telegram_chat_id"]
+        if not chat_id:
+            logger.bind(context={"cvr": cvr}).info("cert_change_no_chat_id")
+            return
+
+        change_payload = {
+            "change_type": row["change_type"],
+            "domain": domain,
+            "details": details,
+        }
+        lang = client["preferred_language"] or "en"
+        contact_name = client["contact_name"] or ""
+        messages = compose_cert_change(
+            change_payload, lang=lang, contact_name=contact_name
+        )
+        if not messages:
+            logger.bind(context={"change_id": change_id}).warning("empty_cert_change_msg")
+            return
+
+        company_name = client["company_name"] or ""
+        if should_require_approval(self.config):
+            operator_chat_id = get_operator_chat_id()
+            await request_approval(
+                self._app.bot, operator_chat_id, messages,
+                cvr=cvr, domain=domain, conn=self._conn,
+                company_name=company_name,
+                bot_data=self._app.bot_data,
+                reply_markup=None,  # cert-change alerts have no client buttons
+            )
+        else:
+            await send_with_logging(
+                self._app.bot, chat_id, messages,
+                conn=self._conn, cvr=cvr, domain=domain,
+                approved_by="auto",
+                reply_markup=None,
+            )
+
+        # Mark the change row as delivered. If an operator rejects the
+        # approval, status stays at 'delivered' — we don't model rollback
+        # at this tier. The auditor can see delivered_at vs acknowledged_at.
+        self._conn.execute(
+            "UPDATE client_cert_changes SET delivered_at = ?, status = 'delivered' "
+            "WHERE id = ?",
+            (self._now_iso(), change_id),
+        )
+        self._conn.commit()
+
+    @staticmethod
+    def _now_iso() -> str:
+        from datetime import UTC, datetime as _dt
+        return _dt.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def main() -> None:

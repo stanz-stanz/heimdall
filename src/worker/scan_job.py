@@ -16,12 +16,12 @@ from typing import Any
 import redis
 from loguru import logger
 
-from src.ct_collector.db import open_readonly, query_certificates
 from src.prospecting.brief_generator import generate_brief
 from src.prospecting.bucketer import classify
 from src.core.config import CMS_KEYWORDS, DEFAULT_FILTERS, HOSTING_PROVIDERS
 from src.prospecting.cvr import Company
 from src.prospecting.filters import load_filters
+from src.prospecting.scanners.ct import query_crt_sh_single
 from src.prospecting.scanners.models import ScanResult
 from src.prospecting.scanners.tls import check_ssl
 from src.prospecting.scanners.headers import get_response_headers
@@ -44,36 +44,6 @@ _BUCKET_FILTER = None
 _bucket_raw = _filters.get("bucket")
 if _bucket_raw:
     _BUCKET_FILTER = {b.upper() for b in _bucket_raw}
-
-# Path to the local CT database (set via CT_DB_PATH env var or --ct-db arg)
-_CT_DB_PATH: str = os.environ.get("CT_DB_PATH", "/data/ct/certificates.db")
-
-
-def _query_local_ct(domain: str) -> tuple:
-    """Query the local CT SQLite database for certificates matching *domain*.
-
-    Returns ``(domain, certs_list)`` in the same format as
-    ``_query_crt_sh_single`` for backward compatibility with cache unpacking
-    on lines 191-199.
-
-    Degrades gracefully: if the database is missing or unreadable, returns
-    ``(domain, [])``.
-    """
-    if not os.path.isfile(_CT_DB_PATH):
-        logger.bind(context={"path": _CT_DB_PATH}).debug("ct_db_not_found")
-        return domain, []
-
-    try:
-        conn = open_readonly(_CT_DB_PATH)
-        try:
-            certs = query_certificates(conn, domain, include_expired=False)
-            return domain, certs
-        finally:
-            conn.close()
-    except Exception as exc:
-        logger.bind(context={"domain": domain, "error": str(exc)}).debug("ct_db_query_failed")
-        return domain, []
-
 
 def _timed(fn: Any, *args: Any, **kwargs: Any) -> tuple[Any, float]:
     """Call *fn* and return ``(result, elapsed_seconds)``."""
@@ -335,7 +305,7 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     subfinder_results = _cached_or_run("subfinder", run_subfinder, [domain])
     dnsx_results = _cached_or_run("dnsx", run_dnsx, [domain])
-    crtsh_raw = _cached_or_run("crtsh", _query_local_ct, domain)
+    crtsh_raw = _cached_or_run("crtsh", query_crt_sh_single, domain)
     ghw_results = _cached_or_run("ghw", query_grayhatwarfare, [domain])
 
     # Subdomains

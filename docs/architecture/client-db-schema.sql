@@ -744,6 +744,90 @@ CREATE INDEX IF NOT EXISTS idx_delivery_retry_pending
     ON delivery_retry(status, next_retry_at);
 
 
+-- =================================================================
+-- SECTION 10: Sentinel-tier CT monitoring
+-- =================================================================
+--
+-- Per-client Certificate Transparency monitoring. Polls SSLMate's
+-- CertSpotter API for each Sentinel client's domains on a daily
+-- schedule, compares new certs against stored snapshots, and emits
+-- Telegram alerts for new certs, new SANs, and CA changes.
+--
+-- Watchman tier: monitoring_enabled = 0 (no polling).
+-- Sentinel tier: monitoring_enabled = 1 (daily polling).
+--
+-- See src/client_memory/ct_monitor.py for the implementation.
+
+-- Monitoring toggle and last-poll timestamp live on the clients row.
+-- Added via ALTER TABLE in src/db/migrate.py (idempotent).
+--   clients.monitoring_enabled INTEGER NOT NULL DEFAULT 0
+--   clients.ct_last_polled_at  TEXT
+
+-- -----------------------------------------------------------------
+-- client_cert_snapshots
+-- -----------------------------------------------------------------
+-- One row per (cvr, domain, cert_sha256). The cert fingerprint dedupes
+-- across polls — if the same cert appears in a later poll we UPDATE
+-- last_seen_at without inserting a new row. first_seen_at is frozen at
+-- initial detection.
+
+CREATE TABLE IF NOT EXISTS client_cert_snapshots (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    domain          TEXT NOT NULL,                   -- the monitored domain (may be any client_domains row)
+    cert_sha256     TEXT NOT NULL,                   -- hex fingerprint, primary dedupe key
+    common_name     TEXT,                            -- cert CN
+    issuer_name     TEXT,                            -- e.g. "Let's Encrypt", "DigiCert"
+    dns_names_json  TEXT NOT NULL DEFAULT '[]',     -- JSON array of SANs
+    not_before      TEXT,                            -- ISO-8601 UTC
+    not_after       TEXT,                            -- ISO-8601 UTC
+    first_seen_at   TEXT NOT NULL,                   -- when we first detected this cert
+    last_seen_at    TEXT NOT NULL,                   -- last poll that confirmed this cert
+    UNIQUE(cvr, domain, cert_sha256)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ccs_cvr_domain
+    ON client_cert_snapshots(cvr, domain);
+
+
+-- -----------------------------------------------------------------
+-- client_cert_changes
+-- -----------------------------------------------------------------
+-- Audit log of detected changes. One row per change event. The
+-- delivery runner subscribes to the Redis channel client-cert-change
+-- and transitions status pending -> delivered -> acknowledged.
+--
+-- change_type values:
+--   new_cert  — a cert_sha256 we have never seen before for this (cvr, domain)
+--   new_san   — the new cert has SANs not present on any prior snapshot
+--   ca_change — issuer_name differs from the most-recent prior snapshot
+--
+-- status values:
+--   pending     — detected, not yet delivered
+--   delivered   — Telegram message sent
+--   acknowledged — client clicked the "Got it" button
+--   failed      — delivery exhausted retries
+
+CREATE TABLE IF NOT EXISTS client_cert_changes (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    domain          TEXT NOT NULL,
+    change_type     TEXT NOT NULL
+        CHECK (change_type IN ('new_cert','new_san','ca_change')),
+    details_json    TEXT NOT NULL,                   -- JSON blob with cert fields + diff
+    detected_at     TEXT NOT NULL,                   -- when ct_monitor identified the change
+    delivered_at    TEXT,                            -- when composer handed to delivery
+    acknowledged_at TEXT,                            -- when client clicked Got it
+    status          TEXT NOT NULL DEFAULT 'pending'
+);
+
+CREATE INDEX IF NOT EXISTS idx_ccc_pending
+    ON client_cert_changes(status, detected_at);
+
+CREATE INDEX IF NOT EXISTS idx_ccc_cvr
+    ON client_cert_changes(cvr, detected_at);
+
+
 -- Campaign performance summary
 CREATE VIEW IF NOT EXISTS v_campaign_summary AS
 SELECT campaign,

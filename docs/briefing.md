@@ -200,7 +200,8 @@ Finding interpretations are cached by `sha256(sorted findings + tier + language 
 | webanalyze | Batch CMS detection (Wappalyzer port) | 1 | https://github.com/rverton/webanalyze |
 | subfinder | Subdomain enumeration (passive sources) | 1 | https://github.com/projectdiscovery/subfinder |
 | dnsx | DNS resolution and enrichment | 1 | https://github.com/projectdiscovery/dnsx |
-| CertStream | Certificate Transparency log monitoring | 1 | https://github.com/CaliDog/certstream-python |
+| crt.sh | Certificate Transparency log queries — prospecting SAN subdomain enrichment (HTTP API, free) | 1 | https://crt.sh |
+| SSLMate CertSpotter | Certificate Transparency monitoring — Sentinel-tier per-client cert change alerts (HTTP API, free tier) | 1 | https://sslmate.com/ct_search_api/ |
 | GrayHatWarfare | Exposed cloud storage index search | 1 | https://grayhatwarfare.com |
 | Nuclei | Template-based vulnerability scanner | 2 | https://github.com/projectdiscovery/nuclei |
 | WPVulnerability API | WordPress plugin/core CVE lookups (free, CVSS-scored) | 1 | https://www.wpvulnerability.net/ |

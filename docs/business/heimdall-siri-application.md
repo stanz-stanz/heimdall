@@ -545,7 +545,7 @@ This is not a slide deck. I have built and am running:
 - **Digital twin framework** — reconstructs client WordPress environments locally for safe vulnerability testing without touching real sites. Legal foundation documented.
 - **Valdí legal compliance system** — two-gate validation (scan-type approval + consent check), forensic logging, approval token registry. Born from a real compliance boundary violation — correction mechanism proven.
 - **WordPress passive detection** — plugin version extraction via HTML `?ver=` params, REST API namespace enumeration, meta generator tags, CSS class signatures. Outdated plugin checks against wordpress.org.
-- **Vulnerability enrichment** — WPVulnerability API integration for plugin/core CVE lookups with local SQLite cache. CertStream CT log collector for .dk domains.
+- **Vulnerability enrichment** — WPVulnerability API integration for plugin/core CVE lookups with local SQLite cache. Certificate Transparency coverage via crt.sh for prospecting (SAN subdomain enrichment) and SSLMate CertSpotter for Sentinel-tier per-client certificate change monitoring.
 - **CVR enrichment tool** — 7-step pipeline: Excel ingestion → static enrichments → email domain extraction → name-match validation → search-based discovery → deduplication → summary. SQLite output.
 - **Docker Compose deployment** — Pi5 production stack with two-phase architecture (subfinder batch → per-domain scans), warm caching, smoke tests, version pinning.
 - **12 agent specifications** with documented boundaries, handoff protocols, and chain architecture.

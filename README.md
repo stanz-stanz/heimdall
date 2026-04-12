@@ -13,8 +13,8 @@ External Attack Surface Management (EASM) for Danish SMBs. Finds vulnerabilities
 ```
 src/prospecting/     Lead generation pipeline (Phase 0)
 src/worker/          Docker scan worker (BRPOP loop, enrichment, scan execution)
-src/scheduler/       Job scheduler (two-phase: enrichment → scan)
-src/ct_collector/    CertStream CT log subscriber + local SQLite store
+src/scheduler/       Job scheduler daemon (operator commands + daily CT monitoring timer)
+src/client_memory/   Client state + Sentinel CT monitoring (CertSpotter polling, diff, alerts)
 .claude/agents/      Agent specs + agent-owned data (12 agents)
 config/              Static configuration (JSON)
 data/input/          Manual input (CVR extracts)

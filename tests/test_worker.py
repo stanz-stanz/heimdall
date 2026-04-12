@@ -64,7 +64,7 @@ def _patch_all_scans():
         patch("src.worker.scan_job.run_webanalyze", return_value=_WEBANALYZE_RESULT),
         patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
         patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
-        patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT),
+        patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT),
         patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
         patch("src.worker.scan_job._BUCKET_FILTER", None),
     ]
@@ -132,7 +132,7 @@ class TestWarmCache:
              patch("src.worker.scan_job.run_webanalyze") as mock_wa, \
              patch("src.worker.scan_job.run_subfinder") as mock_sf, \
              patch("src.worker.scan_job.run_dnsx") as mock_dnsx, \
-             patch("src.worker.scan_job._query_local_ct") as mock_crtsh, \
+             patch("src.worker.scan_job.query_crt_sh_single") as mock_crtsh, \
              patch("src.worker.scan_job.query_grayhatwarfare") as mock_ghw:
 
             result = execute_scan_job(_BASE_JOB, cache)
@@ -175,7 +175,7 @@ class TestMixedCache:
              patch("src.worker.scan_job.run_webanalyze", return_value=_WEBANALYZE_RESULT), \
              patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT), \
              patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT), \
-             patch("src.worker.scan_job._query_local_ct", return_value=_CRTSH_RESULT), \
+             patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT), \
              patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT):
 
             result = execute_scan_job(_BASE_JOB, cache)
@@ -270,7 +270,7 @@ class TestCMSDerivation:
              patch("src.worker.scan_job.run_webanalyze", return_value={}), \
              patch("src.worker.scan_job.run_subfinder", return_value={}), \
              patch("src.worker.scan_job.run_dnsx", return_value={}), \
-             patch("src.worker.scan_job._query_local_ct", return_value=(_DOMAIN, [])), \
+             patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
              patch("src.worker.scan_job.query_grayhatwarfare", return_value={}):
 
             result = execute_scan_job(_BASE_JOB, cache)
@@ -292,7 +292,7 @@ class TestCMSDerivation:
              patch("src.worker.scan_job.run_webanalyze", return_value={}), \
              patch("src.worker.scan_job.run_subfinder", return_value={}), \
              patch("src.worker.scan_job.run_dnsx", return_value={}), \
-             patch("src.worker.scan_job._query_local_ct", return_value=(_DOMAIN, [])), \
+             patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
              patch("src.worker.scan_job.query_grayhatwarfare", return_value={}):
 
             result = execute_scan_job(_BASE_JOB, cache)
@@ -319,7 +319,7 @@ class TestBucketFilterEarlyReturn:
              patch("src.worker.scan_job.run_webanalyze", return_value={}), \
              patch("src.worker.scan_job.run_subfinder") as mock_subfinder, \
              patch("src.worker.scan_job.run_dnsx", return_value={}), \
-             patch("src.worker.scan_job._query_local_ct", return_value=(_DOMAIN, [])), \
+             patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
              patch("src.worker.scan_job.query_grayhatwarfare", return_value={}), \
              patch("src.worker.scan_job._BUCKET_FILTER", {"A"}):
 

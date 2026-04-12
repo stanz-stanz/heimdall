@@ -1,6 +1,6 @@
 """SQLite database layer for enriched CVR data.
 
-Follows the ct_collector/db.py pattern: WAL mode, Row factory, batch ops.
+WAL mode, Row factory, batch ops.
 """
 
 from __future__ import annotations
