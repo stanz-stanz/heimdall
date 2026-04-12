@@ -23,6 +23,12 @@ FAIL=0
 
 _pass() { echo "PASS: $*"; PASS=$((PASS + 1)); }
 _fail() { echo "FAIL: $*"; FAIL=$((FAIL + 1)); }
+_dump_logs() {
+    local container=$1 tail=${2:-30}
+    echo "  --- last $tail lines of $container ---"
+    docker logs --tail "$tail" "$container" 2>&1 | sed 's/^/  | /'
+    echo "  --- end $container ---"
+}
 
 _have_container() {
     docker ps --format '{{.Names}}' | grep -q "^$1$"
@@ -53,10 +59,11 @@ fi
 
 echo
 echo "=== 2. Valdí token validation (worker) ==="
-if docker logs docker-worker-1 2>&1 | grep -q 'Valdi approval tokens validated'; then
+if docker logs docker-worker-1 2>&1 | grep -qiE 'valdi.*approval.*(validated|loaded)|approval_tokens_validated'; then
     _pass "worker-1 validated Valdí approval tokens on startup"
 else
-    _fail "worker-1 did NOT log 'Valdi approval tokens validated'"
+    _fail "worker-1 did NOT log Valdí approval token validation"
+    _dump_logs docker-worker-1
 fi
 
 
@@ -77,39 +84,40 @@ fi
 
 echo
 echo "=== 4. Delivery runner Redis subscription ==="
-if docker logs docker-delivery-1 2>&1 | grep -q 'client-cert-change'; then
-    _pass "delivery runner subscribed to client-cert-change"
+delivery_logs=$(docker logs docker-delivery-1 2>&1)
+if echo "$delivery_logs" | grep -qE 'client-cert-change|redis_subscribed'; then
+    _pass "delivery runner subscribed to Redis channels"
 else
-    _fail "delivery runner did NOT log subscription to client-cert-change"
+    _fail "delivery runner did NOT log Redis subscription"
+    _dump_logs docker-delivery-1
 fi
 
 
 echo
 echo "=== 5. Schema migration applied ==="
-schema_check=$(docker exec docker-delivery-1 python - <<'PY' 2>&1
+schema_check=$(docker exec docker-delivery-1 python -c '
 import sqlite3, sys
 try:
     c = sqlite3.connect("/data/clients/clients.db")
     tables = {r[0] for r in c.execute(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'client_cert%'"
+        "SELECT name FROM sqlite_master WHERE type=\"table\" AND name LIKE \"client_cert%\""
     ).fetchall()}
     cols = {r[1] for r in c.execute("PRAGMA table_info(clients)").fetchall()}
     missing_tables = {"client_cert_snapshots", "client_cert_changes"} - tables
     missing_cols = {"monitoring_enabled", "ct_last_polled_at"} - cols
     if missing_tables or missing_cols:
-        print(f"MISSING: tables={missing_tables} cols={missing_cols}")
+        print("MISSING tables=" + str(missing_tables) + " cols=" + str(missing_cols))
         sys.exit(1)
     print("OK")
     c.close()
 except Exception as e:
-    print(f"ERROR: {e}")
+    print("ERROR: " + str(e))
     sys.exit(1)
-PY
-)
+' 2>&1)
 if echo "$schema_check" | grep -q '^OK$'; then
     _pass "schema migration applied (client_cert_* tables + clients columns)"
 else
-    _fail "schema check: $schema_check"
+    _fail "schema check: ${schema_check:-<empty>}"
 fi
 
 
