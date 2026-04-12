@@ -22,8 +22,9 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.scheduler
-    command: ["--mode", "prospect", "--confirmed"]
-    profiles: ["run"]  # Only runs via: docker compose run --rm scheduler
+    command: ["--mode", "daemon"]
+    # Persistent daemon: BRPOPs queue:operator-commands for console dispatch.
+    # One-shot prospect runs: docker compose run --rm scheduler --mode prospect --confirmed
     environment:
       - REDIS_URL=redis://redis:6379/0
       - HEIMDALL_SOURCE=scheduler
