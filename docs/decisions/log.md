@@ -5,6 +5,38 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-12 — MVP Phase 1/2 hardening + microSD backup setup
+
+**Decided**
+- MVP hardening shipped in two PRs (merged to main): Phase 1 (#23 — 14 commits, "Safe to Operate") and Phase 2 (#25 — 9 commits, "Safe to Maintain"). Maturity moved from Late Prototype / Early MVP (6.4/10) to Solid MVP / Approaching Production (7.75/10).
+- Phase 1 delivered: CI pipeline (GitHub Actions), 8 bug fixes (scheduler daemon crash, worker BRPOP spin-loop, delivery reconnection, Telegram Forbidden/BadRequest, feedparser timeout, slug map logging, opaque scheduler errors, approval safety), delivery_retry table, SQLite integrity check on startup, Docker health checks (worker, twin), cron-based Telegram alerting, atomic SQLite backup, console HTTP Basic Auth, error boundaries, dead button cleanup.
+- Phase 2 delivered: scanner.py (1,353 lines) decomposed into `src/prospecting/scanners/` package (18 modules), shared infra extracted to `src/core/` (logging_config, config, exceptions), Pydantic input validation on Redis payloads, fail_under=65 coverage floor (measured 69%), golden-path smoke test. 959 tests passing, CI green.
+- Pi5 backup destination: **microSD** (`mmcblk0p2`, ext4, UUID `d6944274-f2f7-4644-96a4-213c3b367f5c`, label `rootfs`) — dormant boot-fallback image, 29.2 GB available. Mounted at `/mnt/sdbackup` via fstab with `defaults,nofail,noatime`. Backup directory: `/mnt/sdbackup/heimdall` (owned by stan_stan). Cron: daily 03:00.
+- `backup.sh` enhanced to handle Docker named volumes: `companies.db` from host bind mount path (`data/enriched/companies.db`), `clients.db` via `docker exec api python -c "...sqlite3.backup..."` + `docker cp`. No sudo required. Graceful skip if no container is running. Integrity check on every backup copy.
+- `HEIMDALL_BACKUP_DIR` env var added to `infra/docker/.env` (not root `.env` — Heimdall's convention). `backup.sh` reads from this for destination override.
+- `sqlite3` CLI installed on Pi5 via `apt` (3 MB, standard tool, useful for ad-hoc DB inspection).
+- First production backup verified: companies.db (5.6 MB) + clients.db (21.2 MB, real production data) atomically snapshotted with WAL-safe sqlite3 `.backup`, integrity check passed, log COMPLETED SUCCESSFULLY.
+
+**Rejected**
+- External USB drive for Pi5 backup — microSD is already in the chassis, no new hardware, physically separate from NVMe primary.
+- Off-site backup (rclone to S3/Backblaze) — Production-tier concern, not pilot-tier. Revisit when scaling beyond 5 clients.
+- Prometheus alerting rules — cron-based healthcheck.sh with Telegram curl is simpler, works when app stack is down, saves 400+ MB RAM on Pi5.
+- Multi-stage Docker builds in Phase 1 — low priority, existing images work, add when image size becomes a problem.
+- Valdí approval token regeneration deferred — Phase 1/2 ruff reformatting + scanner decomposition invalidated SHA-256 hashes of all scan functions. Worker will refuse to start on Pi5 until regenerated. NEXT STEP after backup task completes.
+
+**Rejected — in-session mistakes I made**
+- Added `data/**/*.db` to .gitignore without reading `docs/decisions/log.md` first. Broke the documented "enriched CVR database synced via git" deployment mechanism. Companies.db was deleted from the Pi5 working tree on git pull. Fixed in commit d72522d by adding `!data/enriched/companies.db` negative exception and restoring the file from git history (b014d80). New memory: `feedback_read_decision_log_before_infra.md`.
+- Wrote `.github/workflows/ci.yml` with `uv sync` without verifying it actually installs runtime deps. Heimdall declares deps in `requirements.txt`, not pyproject.toml's `[project.dependencies]`. CI was broken on first push. Fixed with `pip install -r requirements.txt`. New memory: `feedback_ci_config_must_run.md`.
+- Installed ruff with `pip3 install` locally instead of adding to project metadata. Fresh CI runner didn't have it. Should have added to `[dependency-groups]` or requirements.
+
+**Unresolved**
+- Valdí approval tokens need regeneration before Pi5 worker can run scans with Phase 1/2 code. Blocker for pilot launch.
+- `test_ws_ping_pong` race condition fix (commit ecbf370) is a workaround — the underlying WebSocket frame interleaving is by design. Good enough for pilot; reconsider if more WebSocket tests fail.
+- Fall-through CI lint enforcement: 621 pre-existing ruff violations, 138 files need formatting. CI skips lint to unblock merges. Full cleanup deferred to future Phase 3.
+- Approval-state messages stored in `bot_data["pending_messages"]` are lost on delivery container restart. Acceptable for pilot (Federico reviews quickly). Log for Sprint 5.
+
+---
+
 ## 2026-04-08 — Competitor analysis + campaign messaging
 
 **Decided**
