@@ -1,48 +1,31 @@
 """Docker healthcheck for the CT collector service.
 
-Verifies the database is receiving recent data by checking that the most
-recent ``seen_at`` timestamp is within 5 minutes.
+Reads the mtime of a liveness file that ``main.py`` touches on every
+incoming CertStream WebSocket message (regardless of the ``.dk`` filter).
+Decouples health from data freshness, so low-volume feeds or batch flush
+cadence do not cause false alerts.
 """
 
 from __future__ import annotations
 
 import os
 import sys
-from datetime import UTC, datetime, timedelta
-
-from .db import open_readonly
+import time
 
 
-def check(db_path: str = "/data/ct/certificates.db", max_age_minutes: int = 5) -> bool:
-    """Return True if the CT database has data within the last *max_age_minutes*.
-
-    Degrades gracefully: returns False if the database cannot be opened.
-    """
+def check(liveness_file: str = "/data/ct/liveness", max_age_seconds: int = 300) -> bool:
+    """Return True if *liveness_file* has been touched within *max_age_seconds*."""
     try:
-        conn = open_readonly(db_path)
-    except Exception:
+        mtime = os.path.getmtime(liveness_file)
+    except OSError:
         return False
-
-    try:
-        row = conn.execute("SELECT MAX(seen_at) as newest FROM certificates").fetchone()
-        if row is None or row[0] is None:
-            return False
-
-        newest = row[0]
-        # Parse ISO format timestamp
-        newest_dt = datetime.fromisoformat(newest.replace("Z", "+00:00"))
-        cutoff = datetime.now(UTC) - timedelta(minutes=max_age_minutes)
-        return newest_dt >= cutoff
-    except Exception:
-        return False
-    finally:
-        conn.close()
+    return (time.time() - mtime) < max_age_seconds
 
 
 def main() -> None:
     """Docker healthcheck entry point: exit 0 (healthy) or 1 (unhealthy)."""
-    db_path = os.environ.get("CT_DB_PATH", "/data/ct/certificates.db")
-    healthy = check(db_path=db_path)
+    liveness_file = os.environ.get("LIVENESS_FILE", "/data/ct/liveness")
+    healthy = check(liveness_file=liveness_file)
     sys.exit(0 if healthy else 1)
 
 

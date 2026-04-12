@@ -199,6 +199,11 @@ def _parse_args(argv: list | None = None) -> argparse.Namespace:
         default=os.environ.get("STATUS_FILE", "/data/ct/collector_status.json"),
         help="Path to status JSON file (default: /data/ct/collector_status.json)",
     )
+    parser.add_argument(
+        "--liveness-file",
+        default=os.environ.get("LIVENESS_FILE", "/data/ct/liveness"),
+        help="Path to liveness touch file, mtime updated on every ws message",
+    )
     return parser.parse_args(argv)
 
 
@@ -250,6 +255,15 @@ def main(argv: list | None = None) -> None:
 
         if _shutdown_requested:
             return
+
+        # Liveness signal: touch the file on every ws message regardless of
+        # the .dk filter. Decouples health from data freshness on low-volume
+        # feeds (e.g. weekend nights) and from batch buffer flush cadence.
+        try:
+            with open(args.liveness_file, "w") as f:
+                f.write(datetime.now(UTC).isoformat())
+        except OSError:
+            pass
 
         # Reset backoff on successful message
         backoff_current = backoff_base

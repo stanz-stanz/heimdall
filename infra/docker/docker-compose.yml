@@ -31,6 +31,8 @@ services:
       - CLIENT_DATA_DIR=/data/clients
       - VALDI_DIR=/data/valdi
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
     volumes:
       - client-data:/data/clients:ro
       - valdi-data:/data/valdi:ro
@@ -72,6 +74,7 @@ services:
       interval: 60s
       timeout: 10s
       retries: 3
+      start_period: 600s
 
   ct-backfill:
     build:
