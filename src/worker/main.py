@@ -81,11 +81,6 @@ def _parse_args(argv: list | None = None) -> argparse.Namespace:
         help="Base directory for result JSON files (default: /data/results)",
     )
     parser.add_argument(
-        "--ct-db",
-        default=os.environ.get("CT_DB_PATH", "/data/ct/certificates.db"),
-        help="Path to local CT certificate database (default: /data/ct/certificates.db)",
-    )
-    parser.add_argument(
         "--client-data-dir",
         default=os.environ.get("CLIENT_DATA_DIR", "/data/clients"),
         help="Base directory for client authorisation data (default: /data/clients)",
@@ -238,21 +233,6 @@ def main(argv: list | None = None) -> None:
     add_redis_sink(os.environ.get("REDIS_URL", ""))
 
     logger.info("Heimdall worker starting")
-
-    # ------------------------------------------------------------------
-    # 0. Check CT database availability
-    # ------------------------------------------------------------------
-    ct_db_path = args.ct_db
-    if os.path.isfile(ct_db_path):
-        logger.info("CT database found at %s", ct_db_path)
-    else:
-        logger.warning("CT database not found at %s — crt.sh queries will return empty results", ct_db_path)
-
-    # Set module-level CT_DB_PATH for scan_job to use
-    import src.worker.scan_job as _scan_job_mod
-
-    from .scan_job import _CT_DB_PATH as _unused  # noqa: F401
-    _scan_job_mod._CT_DB_PATH = ct_db_path
 
     # ------------------------------------------------------------------
     # 1. Validate Valdi approval tokens (fail-fast)

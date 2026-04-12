@@ -101,5 +101,5 @@ Copy `.env.example` to `.env`:
 ```bash
 GRAYHATWARFARE_API_KEY=          # Optional — cloud storage exposure search
 ENRICHMENT_WORKERS=3             # Number of subfinder batch workers (default: 3)
-CT_DB_PATH=/data/ct/certificates.db  # Path to local CT database
+CERTSPOTTER_API_KEY=             # Optional — Sentinel-tier CT monitoring (free tier OK)
 ```
