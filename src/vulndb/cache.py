@@ -1,6 +1,6 @@
 """SQLite cache layer for WordPress vulnerability data.
 
-Follows the ct_collector/db.py pattern: WAL mode, Row factory, batch ops.
+WAL mode, Row factory, batch upserts, TTL-driven refresh.
 """
 
 from __future__ import annotations
