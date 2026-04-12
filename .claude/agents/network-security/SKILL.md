@@ -56,7 +56,8 @@ Before ANY scan execution, you MUST verify:
 | webanalyze | CMS/technology detection | v0.4.1 |
 | subfinder | Subdomain enumeration (passive sources) | v2.13.0 |
 | dnsx | DNS resolution and enrichment | v1.2.3 |
-| CertStream | Certificate Transparency log monitoring | local SQLite collector |
+| crt.sh | Certificate Transparency log queries — prospecting SAN subdomain enrichment | HTTP API (free, no key) |
+| SSLMate CertSpotter | Certificate Transparency log queries — Sentinel-tier per-client cert change monitoring | HTTP API (free tier, key recommended) |
 | GrayHatWarfare API | Exposed cloud storage index search | API (key required) |
 | Python ssl module | TLS certificate validity, issuer, expiry | stdlib |
 
@@ -129,7 +130,8 @@ Before ANY scan execution, you MUST verify:
 - webanalyze: CMS identification, plugin detection
 - subfinder: subdomain enumeration via passive sources
 - dnsx: DNS resolution and enrichment (A, AAAA, MX, TXT, CNAME, NS)
-- CertStream: Certificate Transparency log monitoring (local SQLite)
+- crt.sh: Certificate Transparency log queries at scan time; SAN hostnames from each cert merged into `scan.subdomains` for subdomain enrichment
+- SSLMate CertSpotter: per-client CT monitoring for Sentinel-tier clients; daily polling from `src/client_memory/ct_monitor.py`, detects new_cert / new_san / ca_change events
 - GrayHatWarfare: exposed cloud storage search (API key required)
 - Python ssl module: TLS certificate validity, issuer, expiry
 
