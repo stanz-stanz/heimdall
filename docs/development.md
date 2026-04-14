@@ -62,7 +62,21 @@ If you ever see a dev-stack message land in a real client's Telegram,
 the prod bot token leaked into the dev stack — stop everything and
 rotate both tokens.
 
-### 4. `infra/docker/.env.dev`
+### 4. Pre-push hook (one-time)
+
+Activate the pre-push hook that refuses stray pushes to the `prod`
+branch:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The hook lives at `.githooks/pre-push`. It blocks `git push origin
+prod` unless `HEIMDALL_APPROVED=1` is set in the same shell command,
+and is a cheap belt before GitHub branch protection is wired up. See
+`docs/runbook-prod-deploy.md` for the full deploy flow.
+
+### 5. `infra/docker/.env.dev`
 
 Copy the template and fill in the dev secrets:
 

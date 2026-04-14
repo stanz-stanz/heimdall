@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Heimdall pre-push hook — refuses to push to the `prod` branch unless
+# the operator has explicitly set HEIMDALL_APPROVED=1, which is meant
+# to be done only after `make dev-smoke` has run green.
+#
+# Activate once per clone:
+#
+#   git config core.hooksPath .githooks
+#
+# Deploy flow (see docs/runbook-prod-deploy.md):
+#
+#   make dev-smoke                               # must pass green
+#   git checkout main && git pull                # latest dev-tested main
+#   git branch -f prod main                      # fast-forward prod
+#   HEIMDALL_APPROVED=1 git push origin prod     # explicit approval
+#   ssh pi5 heimdall-deploy                      # deploy
+#
+# This hook is a cheap belt — GitHub branch protection is the real
+# fence. It catches the "muscle memory pushed to prod from laptop"
+# class of mistake before it reaches the remote.
+
+set -eu
+
+remote="${1:-}"
+# stdin format, per `man githooks`:
+#   <local-ref> SP <local-sha> SP <remote-ref> SP <remote-sha> LF
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+    case "$remote_ref" in
+        refs/heads/prod)
+            if [ "${HEIMDALL_APPROVED:-}" != "1" ]; then
+                printf >&2 '\npre-push: refusing to push to %s %s\n' "$remote" "$remote_ref"
+                printf >&2 'pre-push: set HEIMDALL_APPROVED=1 only after `make dev-smoke` is green.\n'
+                printf >&2 'pre-push: see docs/runbook-prod-deploy.md for the full flow.\n\n'
+                exit 1
+            fi
+            ;;
+    esac
+done
+
+exit 0
