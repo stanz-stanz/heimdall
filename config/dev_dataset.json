@@ -1,0 +1,49 @@
+{
+  "campaign": "dev-fixture",
+  "description": "Static 30-site fixture for the Mac dev stack. 5 worst-finding sites per hosting bucket, picked from the 1,173-domain run on 2026-04-05. Chosen once, not regenerated. Add new domains deliberately.",
+  "source_run": "2026-04-05",
+  "buckets": {
+    "wordpress": [
+      "farylochan.dk",
+      "minpersonligebog.dk",
+      "buffalopizzagive.dk",
+      "jesma.dk",
+      "hopballe.dk"
+    ],
+    "drupal": [
+      "a-skrot.dk",
+      "bbkv.dk",
+      "byggefirmaet-pmp.dk",
+      "damkjaergaard.dk",
+      "lhservice.dk"
+    ],
+    "joomla": [
+      "b2bsupply.dk",
+      "done.as",
+      "bertelnielsen.dk",
+      "experts4experts.dk",
+      "flexkom.dk"
+    ],
+    "squarespace": [
+      "t-rex-effects.com",
+      "eir-diagnostics.com",
+      "thedigital.dk",
+      "boegedal.com",
+      "deire.dk"
+    ],
+    "wix": [
+      "crr.dk",
+      "dinmadpartner.dk",
+      "equinesport.dk",
+      "fyrogflamme.dk",
+      "givevvs.dk"
+    ],
+    "shopify": [
+      "solanum.dk",
+      "allbyvoss.dk",
+      "archcph.com",
+      "bakocare.dk",
+      "cabanaliving.dk"
+    ]
+  }
+}

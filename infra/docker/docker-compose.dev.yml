@@ -1,0 +1,50 @@
+# Heimdall dev stack overlay — Mac laptop only.
+#
+# Layered on top of docker-compose.yml via the root Makefile:
+#
+#   make dev-up
+#
+# which expands to:
+#
+#   docker compose -p heimdall_dev \
+#     --env-file infra/docker/.env.dev \
+#     -f infra/docker/docker-compose.yml \
+#     -f infra/docker/docker-compose.dev.yml \
+#     up -d --wait
+#
+# Convention: env files live next to the compose file at
+# `infra/docker/.env` (prod) and `infra/docker/.env.dev` (dev). Both
+# are gitignored; `.env.dev.example` is committed as a template.
+#
+# Isolation:
+# - Project pinned to `heimdall_dev` so all volumes/networks are
+#   prefixed `heimdall_dev_*`, never colliding with a Pi5 prod stack.
+# - Secrets/tokens interpolated from `infra/docker/.env.dev` at render
+#   time via the top-level --env-file flag. The prod compose file's
+#   environment: blocks already use `${VAR:-}` placeholders — they pick
+#   up dev values automatically, no per-service env_file block needed.
+#
+# Overrides vs prod:
+# 1. redis publishes 6379 on the host so pytest integration tests can
+#    connect from the Mac, push messages, and verify the real wire flow.
+#    Prod keeps redis internal-only (no host publish).
+# 2. worker replicas 3 → 1 (Mac laptop capacity).
+# 3. api port 8000 → 8001 (avoid collision with any other local service).
+# 4. dozzle moved behind `profiles: ["tools"]` so it is opt-in on Mac
+#    (still unconditionally started on Pi5, which never sees this file).
+
+services:
+  redis:
+    ports:
+      - "6379:6379"
+
+  worker:
+    deploy:
+      replicas: 1
+
+  api:
+    ports:
+      - "8001:8000"
+
+  dozzle:
+    profiles: ["tools"]
