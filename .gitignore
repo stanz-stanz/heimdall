@@ -21,6 +21,10 @@ data/**/*.db
 *.key
 *.pem
 *.env.*
+# Exceptions: example / template env files are committed
+!infra/docker/.env.template
+!infra/docker/.env.example
+!infra/docker/.env.dev.example
 secrets/
 
 # Valdí compliance logs (regenerated on each run)
