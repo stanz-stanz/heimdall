@@ -28,4 +28,6 @@ jobs:
       # Full lint cleanup deferred to Phase 3.
 
       - name: Test
-        run: pytest --tb=short --timeout=30
+        # Integration tests require a live dev stack (Redis on localhost:6379)
+        # which CI does not provision. They run on Mac via `make dev-pytest-integration`.
+        run: pytest -m "not integration" --tb=short --timeout=30
