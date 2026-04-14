@@ -83,7 +83,7 @@ def run_promote(
 
         # Attempt insert (skip on UNIQUE violation = already promoted)
         try:
-            _insert_prospect(conn, campaign, brief)
+            insert_prospect(conn, campaign, brief)
             inserted += 1
         except sqlite3.IntegrityError:
             skipped += 1
@@ -155,7 +155,7 @@ def _count_by_severity(findings: list[dict], severity: str) -> int:
     )
 
 
-def _insert_prospect(
+def insert_prospect(
     conn: sqlite3.Connection,
     campaign: str,
     brief: dict,
