@@ -1,173 +1,71 @@
 {
-  "last_updated": "2026-04-04T15:00:00Z",
-  "phase": "sprint-4-in-progress",
+  "last_updated": "2026-04-13T00:00:00Z",
+  "phase": "mvp-hardening-complete — pre-pilot, blocked by SIRI",
   "current_sprint": {
-    "name": "Sprint 4 — Pilot Launch (Vejle, 5 clients)",
-    "started": "2026-03-30",
+    "name": "MVP Hardening → Pilot Prep",
+    "started": "2026-04-05",
     "target_end": "2026-04-30",
-    "status": "in-progress",
-    "progress_pct": 55,
-    "notes": "Pipeline fully operational at 1,179 domains. Client SQLite DB implemented (11 tables, 150 tests). Telegram delivery bot deployed. Finding status flow implemented (open→sent→acknowledged|fix_requested→in_progress→resolved). Button behavior finalized. E2E Telegram test passing (both buttons). Client onboarding not started."
+    "status": "code-ready, onboarding blocked by SIRI",
+    "progress_pct": 90,
+    "notes": "Phase 1 (Safe to Operate) + Phase 2 (Safe to Maintain) shipped via PRs #23/#25. Scanner decomposed into src/prospecting/scanners/ (18 modules). src/core/ extracted. Pydantic Redis payload validation. 65% coverage floor. 7 enforcement hooks in .claude/hooks/. Valdí tokens regenerated. CT rebuild (PR #26) shipped: ct-collector deleted, crt.sh SAN extraction + Sentinel CertSpotter monitoring live. Pi5 stack green (17/17 verification checks). 947 tests passing on main."
   },
   "completed_sprints": [
-    {
-      "name": "Sprint 1 — Consolidate & Ship",
-      "status": "complete",
-      "notes": "153 tests, structured logging, benchmarks, merged to main"
-    },
-    {
-      "name": "Sprint 2 — Docker Architecture (Pi5)",
-      "status": "complete",
-      "notes": "204 domains in 8.5 min (9x improvement). Subfinder batch enrichment, local CT database, observability stack. 217 tests."
-    },
-    {
-      "name": "Sprint 3 — Consent-Gated Pipeline (3.0-3.5)",
-      "status": "complete",
-      "notes": "Results API, consent management, Layer 2 scanners (Nuclei/CMSeek), finding interpreter, message composer, client memory, digital twin, mobile console, deployment hardening. 500 tests. All versions pinned. Smoke test integrated into pipeline command."
-    }
+    {"name": "Sprint 1 — Consolidate & Ship", "status": "complete", "notes": "153 tests, structured logging, benchmarks"},
+    {"name": "Sprint 2 — Docker Architecture (Pi5)", "status": "complete", "notes": "204 domains in 8.5 min. 217 tests."},
+    {"name": "Sprint 3 — Consent-Gated Pipeline", "status": "complete", "notes": "Results API, consent, Layer 2 scanners, interpreter, composer, client memory, digital twin. 500 tests."},
+    {"name": "Sprint 4 — Pilot Prep", "status": "complete", "notes": "Client SQLite DB, Telegram delivery, tier-aware interpreter, provenance split, operator console, scheduler daemon, console API+WS, Redis log streaming, Nmap, prospect lifecycle, interpretation cache."},
+    {"name": "MVP Hardening Phase 1/2", "status": "complete", "notes": "PRs #23/#25. CI pipeline, 8 production bug fixes, delivery retry, SQLite integrity check, Docker health checks, cron Telegram alerting, atomic WAL-safe backup, HTTP Basic Auth, scanner decomposition, core extraction, Pydantic validation, coverage floor, golden-path smoke test."}
   ],
   "milestones": [
     {
-      "id": "M20",
-      "name": "Docker smoke test (Sprint 3.5)",
-      "status": "complete",
-      "completed_date": "2026-03-29",
-      "owner_agent": "devops",
-      "notes": "19 checks: Go binaries, templates, CMSeek, app code, imports. Integrated into heimdall-pipeline."
-    },
-    {
-      "id": "M21",
-      "name": "Export script tests (Sprint 3.5)",
-      "status": "complete",
-      "completed_date": "2026-03-29",
-      "owner_agent": "python-expert",
-      "notes": "11 tests: CSV schema, CVR enrichment, contactable field, graceful fallbacks."
-    },
-    {
-      "id": "M22",
-      "name": "Version pinning (Sprint 3.5)",
-      "status": "complete",
-      "completed_date": "2026-03-29",
-      "owner_agent": "devops",
-      "notes": "CMSeek commit 20f9780, Nuclei v3.7.1, httpx v1.9.0, webanalyze v0.4.1, subfinder v2.13.0, dnsx v1.2.3."
-    },
-    {
-      "id": "M23",
-      "name": "WPScan sidecar replaced with WPVulnerability API",
-      "status": "complete",
-      "completed_date": "2026-04-02",
-      "owner_agent": "network-security",
-      "notes": "WPVulnerability API + local SQLite cache. No Ruby sidecar. Docs updated across CLAUDE.md, SCANNING_RULES.md, briefing.md."
-    },
-    {
-      "id": "M24",
-      "name": "CVR enriched database operational",
-      "status": "complete",
-      "completed_date": "2026-04-02",
-      "owner_agent": "prospecting",
-      "notes": "5.6MB SQLite deployed to Pi5 via git. Scheduler auto-detects, skips legacy Excel pipeline. 1,179 domains loaded."
-    },
-    {
-      "id": "M25",
-      "name": "WordPress plugin detection parity with competitors",
-      "status": "complete",
-      "completed_date": "2026-04-02",
-      "owner_agent": "osint",
-      "notes": "HTML ver= extraction, REST API namespace enumeration, meta generator parsing, CSS class signatures, slug_map.json merge, WordPress.org API latest-version checks."
-    },
-    {
-      "id": "M26",
-      "name": "OSINT agent created",
-      "status": "complete",
-      "completed_date": "2026-04-02",
-      "owner_agent": "project-coordinator",
-      "notes": "Web fingerprinting knowledge base. 13 agents total."
-    },
-    {
-      "id": "M27",
-      "name": "Full pipeline at scale (1,179 domains)",
-      "status": "in-progress",
-      "owner_agent": "devops",
-      "notes": "Running on Pi5. Previous: 10 restaurants-only. Local CSV export shows 210 briefs from partial/test run. Awaiting full 1,179-domain completion."
-    },
-    {
-      "id": "M28",
-      "name": "Client SQLite DB implemented",
-      "status": "complete",
-      "completed_date": "2026-04-02",
-      "owner_agent": "client-memory",
-      "notes": "11 tables, 9 views, 34+ indexes. src/db/ module with full CRUD. DB-backed delta detection. Worker hook saves scan results to DB. 92 tests. PR #14."
-    },
-    {
-      "id": "M30",
-      "name": "Telegram delivery bot (Sprint 4, Increment 4.1)",
-      "status": "complete",
-      "completed_date": "2026-04-04",
-      "owner_agent": "message-composer",
-      "blockers": [],
-      "notes": "Deployed on Pi5. Finding status flow (open→sent→acknowledged|fix_requested→in_progress→resolved). Button redesign: Got it (silent ack), fix request (reply). E2E Telethon test passing. GDPR sentence flexible. Loguru migration (31 modules)."
-    },
-    {
       "id": "M31",
-      "name": "Client onboarding — first 5 Vejle businesses (Sprint 4, Increment 4.2)",
+      "name": "Client onboarding — first 5 Vejle businesses",
       "target_date": "2026-04-30",
-      "status": "not-started",
+      "status": "blocked",
       "owner_agent": "project-coordinator",
-      "blockers": [],
-      "notes": "Real clients, real scans, real messages. Free first month. No onboarding workflow exists. Need to register telegram_chat_id per client."
-    },
-    {
-      "id": "M32",
-      "name": "Tailscale remote access (Sprint 4)",
-      "target_date": "2026-04-16",
-      "status": "pending",
-      "owner_agent": "devops",
-      "blockers": [],
-      "notes": "Remote console, Grafana, Dozzle access. Soft dependency."
+      "blockers": ["SIRI approval"],
+      "notes": "Soft-blocked by SIRI approval (pilot launch gates). Code is ready. No onboarding workflow yet; need telegram_chat_id registration per client."
     },
     {
       "id": "M33",
-      "name": "Finding Interpreter integration with Claude API",
+      "name": "Finding Interpreter wired to live pipeline",
       "target_date": "2026-04-20",
       "status": "in-progress",
       "owner_agent": "finding-interpreter",
-      "blockers": [],
-      "notes": "Interpreter code exists and works (src/interpreter/). E2E test calls interpret_brief() with live Claude API. Needs Claude API key in prod for pipeline integration."
+      "notes": "Interpreter works in isolation. Needs Claude API key wired into prod pipeline trigger."
     },
     {
-      "id": "M34",
-      "name": "Finding confidence split (Confirmed vs Potential)",
-      "target_date": "2026-04-20",
+      "id": "M35",
+      "name": "CT monitoring rebuild (Sentinel tier)",
       "status": "complete",
-      "completed_date": "2026-04-03",
-      "owner_agent": "finding-interpreter",
-      "blockers": [],
-      "notes": "Implemented: Confirmed/Potential sections in composer, interpreter respects provenance, Telegram templates split by provenance."
+      "completed_date": "2026-04-12",
+      "owner_agent": "client-memory",
+      "notes": "PR #26. ct-collector deleted (CertStream upstream dead). crt.sh SAN extraction merged into prospecting. Sentinel-tier daily CertSpotter polling (07:00 UTC), new_cert/new_san/ca_change events on Redis, Telegram delivery wired. $0 recurring cost. src/client_memory/ct_monitor.py."
+    },
+    {
+      "id": "M36",
+      "name": "MVP Hardening Phase 1/2",
+      "status": "complete",
+      "completed_date": "2026-04-12",
+      "owner_agent": "devops",
+      "notes": "PRs #23 #25. CI, 8 bug fixes, scanner decomposed (18 modules), src/core/, Pydantic validation, 65% coverage floor, microSD backup, 7 enforcement hooks, Valdí tokens regenerated."
     }
   ],
   "external_deadlines": [
     {
       "name": "Lawyer consultation — outreach legal questions",
-      "date": "2026-03-31",
-      "status": "overdue — check outcome",
+      "date": "postponed",
+      "status": "postponed this week",
       "owner_agent": "project-coordinator",
-      "notes": "Was scheduled for week of 2026-03-31. 16 questions prepared. Outcome determines viable outreach channels. Status unknown."
+      "notes": "Postponed — new date TBD. 16 questions prepared. Outcome determines viable outreach channels."
     },
     {
       "name": "Startup Denmark (SIRI) application",
       "date": "TBD",
-      "status": "drafting — strong (digital twin + Valdi featured)",
+      "status": "drafting — video pitch script pending",
       "owner_agent": "grant-funding",
-      "dependency_type": "soft",
-      "notes": "Ready for final review and submission. Video pitch script still unwritten (mandatory)."
-    },
-    {
-      "name": "NCC-DK grant application",
-      "date": "2026-04-15",
-      "status": "removed",
-      "owner_agent": "grant-funding",
-      "dependency_type": "none",
-      "notes": "Removed from all plans. SIRI eval takes months, CVR depends on SIRI. See memory: project_no_grant.md."
+      "dependency_type": "hard",
+      "notes": "Application drafted. Video pitch script unwritten (mandatory). SIRI approval gates CVR registration, which gates pilot onboarding."
     }
   ],
   "clients": {
@@ -176,52 +74,42 @@
     "scanned": 0
   },
   "pipeline_run": {
-    "last_run": "2026-04-02",
-    "domains_loaded": 1179,
-    "briefs_generated": 210,
-    "domains_in_csv": 10,
-    "bucket_a_sample": "jellingkro.dk (39 findings), conrads.dk (15 findings), hosingeborg.dk (9 findings)",
-    "wordpress_detection": "10 plugins (jellingkro.dk), 6 plugins (conrads.dk) — up from 4 pre-session",
-    "cvr_enriched": true,
-    "twin_enriched": true,
-    "wpvulnerability_operational": true,
-    "wpscan_sidecar": "removed",
-    "notes": "Full 1,179-domain pipeline running on Pi5. Client DB now saves scan results via worker hook."
+    "last_full_analysis": "2026-04-05",
+    "domains_analyzed": 1173,
+    "briefs_generated": 1173,
+    "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
   },
-  "test_count": 648,
+  "test_count": 947,
   "blockers": [
     {
       "id": "B1",
-      "description": "Lawyer consultation outcome unknown — determines viable outreach channels",
+      "description": "SIRI approval gates CVR registration → gates pilot onboarding",
       "severity": "high",
-      "affects": ["M31", "marketing"],
-      "notes": "Phone and in-person are primary channels. If contact-form also restricted, fallback is phone only for contactable prospects."
+      "affects": ["M31", "business launch"],
+      "notes": "Not a code blocker. Application drafted, video pitch script still unwritten."
     },
     {
       "id": "B2",
-      "description": "API keys rotated (SERPER_API_KEY, CLAUDE_API_KEY)",
-      "severity": "resolved",
-      "affects": ["security"],
-      "notes": "Rotated 2026-04-04. No longer a blocker."
+      "description": "Lawyer consultation postponed — outreach channel viability unconfirmed",
+      "severity": "medium",
+      "affects": ["marketing", "outreach"],
+      "notes": "Postponed this week. New date TBD. Does not block technical work."
     }
   ],
   "next_actions": [
-    "Onboard first test client with telegram_chat_id",
-    "Finding Interpreter wired to live pipeline (Claude API in prod)",
-    "Verify 1,179-domain pipeline completion on Pi5",
-    "Confirm lawyer consultation outcome — outreach channels",
-    "Unit tests for _transition_findings",
-    "osTicket integration for fix_requested → in_progress flow"
+    "SIRI video pitch script",
+    "Wire Claude API key into prod pipeline trigger (M33)",
+    "Exercise cert-change alert end-to-end with first Sentinel client (organic on cert rotation)",
+    "Close Valdí helper-hash gap on query_crt_sh_single",
+    "Compose-lint test for env passthrough (shipping-theater prevention)"
   ],
   "follow_ups": [
-    "Nikto + Nmap implementation",
     "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",
     "Grafana pipeline operations dashboard",
     "Tailscale remote access",
-    "Marketing strategy finalization (post legal consultation)",
     "Threat feed integration: abuse.ch URLhaus + WHOIS domain age",
     "Professional indemnity insurance quote",
-    "SIRI video pitch script",
-    "Retire src/client_memory/ JSON module (once all consumers migrated)"
+    "Retire src/client_memory/ JSON module once all consumers migrated",
+    "Marketing strategy finalization (post lawyer consultation)"
   ]
 }
