@@ -162,8 +162,13 @@ The first deploy after this runbook ships needs a one-shot setup:
 ```bash
 git checkout main && git pull --ff-only
 git branch prod main
-git push origin prod
+HEIMDALL_APPROVED=1 git push origin prod
 ```
+
+The pre-push hook fires on *any* push to `refs/heads/prod` including
+the initial branch creation — there is no "first push is free"
+carve-out. Treat the first push like every subsequent deploy: it
+requires the approval ritual.
 
 Then configure Pi5 to track `prod`:
 
