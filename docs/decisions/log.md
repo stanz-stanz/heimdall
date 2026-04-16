@@ -29,8 +29,13 @@ Running record of architectural decisions, rejections, and reasoning made during
 **Unresolved**
 - Worker GHCR package (`heimdall-worker`) still building at wrap-up time — cold-cache arm64 Go compilation under QEMU runs ~15-25 min. Other 4 packages already flipped to public; flip worker once the first green run finishes.
 - First `publish-images` run failed only on the broken sanity step; the five `build-and-push` steps went green, so GHCR has the images at SHA `4d55d0a` already. Second run (post-`ef9329c`) in flight.
-- Pi5 rollback smoke test (`docker image rm heimdall-api:<prior-sha> && heimdall-rollback <prior-sha>` → pulls from GHCR → retag → deploy) not yet exercised.
 - `docs/decisions/log.md` 2026-04-14 entry annotated "Superseded 2026-04-16" inline rather than rewritten in place.
+
+**Session-end addendum**
+
+- Rollback smoke test executed end-to-end on Pi5 against `ef9329c`: `heimdall-rollback ef9329c` pulled all 5 images from GHCR, retagged each with digest logged, deployed cleanly. `heimdall-deploy` rolled forward back to `4d55d0a`. Registry-backed rollback is proven.
+- `heimdall-worker` GHCR package flipped to Public. All 5 `heimdall-*` packages now world-pullable; Pi5 rollback from GHCR requires zero auth.
+- Handoff session planning produced by architect + tpmo agents (read-only, dispatched in parallel). Synthesised next-session priorities: (1) compose env-passthrough regression test, (2) cert-change alert dry run with synthetic target, (3) Valdí `query_crt_sh_single` helper-hash gap, (4) dev Telegram bot creation to unblock `make dev-smoke`. SIRI and Plesner remain external gates for non-technical work.
 
 ---
 
