@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # =============================================================================
 # Heimdall API — Placeholder Dockerfile
 # Target: linux/arm64 (Raspberry Pi 5)
@@ -5,7 +6,22 @@
 # NOTE: src/api/main.py does not exist yet — this Dockerfile is ready for when it does.
 # =============================================================================
 
-FROM python:3.11-slim
+# --- Builder stage: compile wheels into /install ---
+FROM python:3.11-slim AS builder
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        build-essential \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+
+COPY requirements.txt .
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --prefix=/install --no-warn-script-location -r requirements.txt
+
+# --- Runtime stage: slim image with only runtime deps ---
+FROM python:3.11-slim AS runtime
 
 LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
 LABEL description="Heimdall API — serves scan results and delivers Telegram messages"
@@ -26,9 +42,8 @@ RUN mkdir -p /data/clients /data/results /data/messages /config \
 
 WORKDIR /app
 
-# Install Python deps first (layer caching)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Bring in the pre-built Python environment from the builder stage
+COPY --from=builder /install /usr/local
 
 # Copy application code and config
 COPY src/ ./src/

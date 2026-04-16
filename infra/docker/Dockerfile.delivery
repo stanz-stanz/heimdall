@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # =============================================================================
 # Heimdall Delivery Bot — Lightweight Dockerfile
 # Target: linux/arm64 (Raspberry Pi 5)
@@ -5,7 +6,22 @@
 # Mostly idle — wakes on Redis pub/sub scan-complete events
 # =============================================================================
 
-FROM python:3.11-slim
+# --- Builder stage: compile wheels into /install ---
+FROM python:3.11-slim AS builder
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+        build-essential \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+
+COPY requirements.txt .
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --prefix=/install --no-warn-script-location -r requirements.txt
+
+# --- Runtime stage: slim image with only runtime deps ---
+FROM python:3.11-slim AS runtime
 
 LABEL maintainer="Heimdall <heimdall@fsaf.dev>"
 LABEL description="Heimdall delivery bot — Telegram scan report delivery with operator approval"
@@ -26,9 +42,8 @@ RUN mkdir -p /data/clients /data/messages /config \
 WORKDIR /app
 ENV PYTHONPATH=/app
 
-# Install Python deps first (layer caching)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Bring in the pre-built Python environment from the builder stage
+COPY --from=builder /install /usr/local
 
 # Copy application code, config, schema, and scripts
 COPY src/ ./src/
