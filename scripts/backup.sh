@@ -91,7 +91,7 @@ backup_clients_db() {
     local container_id=""
     local container_name=""
     for name in "${CONTAINER_PREFERENCES[@]}"; do
-        container_id=$(docker compose -f "$COMPOSE_FILE" ps -q "$name" 2>/dev/null | head -1 || true)
+        container_id=$(docker compose -p docker -f "$COMPOSE_FILE" ps -q "$name" 2>/dev/null | head -1 || true)
         if [ -n "$container_id" ]; then
             container_name="$name"
             break

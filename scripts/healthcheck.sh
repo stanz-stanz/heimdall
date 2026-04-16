@@ -41,7 +41,7 @@ ALERTS=""
 
 # Check each service's health status
 for service in redis worker api delivery scheduler ct-collector; do
-    container=$(docker compose -f "$COMPOSE_DIR/docker-compose.yml" ps -q "$service" 2>/dev/null | head -1)
+    container=$(docker compose -p docker -f "$COMPOSE_DIR/docker-compose.yml" ps -q "$service" 2>/dev/null | head -1)
     [ -z "$container" ] && continue
 
     health=$(docker inspect --format='{{.State.Health.Status}}' "$container" 2>/dev/null || echo "no-healthcheck")
