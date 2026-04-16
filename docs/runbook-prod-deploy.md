@@ -169,11 +169,27 @@ Find the prior SHA with `heimdall-rollback` (no args — prints the
 list of locally cached tags), or `git log --oneline origin/prod` on
 the laptop and pick the SHA before the bad one.
 
-**Limitation.** This PR does not push images to a registry, so the
-cache-only window is as wide as `docker image prune` allows. Treat
-Option D as a fast emergency lever; fix the real problem via Option
-A or B before the cache rotates out. PR-F (GHCR publish) removes
-this limitation.
+**How it finds the image.** `heimdall-rollback` tries the local
+cache first. If the target SHA is not cached (image-prune, fresh host,
+SD card restore), it pulls all 5 images from GHCR
+(`ghcr.io/stanz-stanz/heimdall-<svc>:<sha>`) atomically, retags them
+as the local short names the compose `image:` field expects, and
+recreates the stack. If any pull fails mid-sequence, no retag
+happens — local state stays consistent.
+
+**GHCR packages must be public** for the pull path to work without
+auth. After the first successful `publish-images` run flips a package
+to "Published", visit GitHub → Settings → Packages → `heimdall-<svc>`
+→ Package settings → Change visibility → Public. Do this once per
+service. If the packages stay private, the operator needs a one-time
+`echo $PAT | docker login ghcr.io -u stanz-stanz --password-stdin`
+with a `read:packages`-only classic PAT.
+
+**Tag sources.** The `publish-images` workflow on every main-branch
+build pushes `:<full-sha>`, `:<short-sha>`, and `:main`. Use
+`heimdall-tags` to see what's cached locally, or browse the package
+list in GitHub Packages for a full history. `prune-ghcr` runs monthly
+and keeps the last 30 SHAs per service.
 
 ---
 

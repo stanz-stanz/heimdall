@@ -26,6 +26,8 @@ data/**/*.db
 !infra/compose/.env.example
 !infra/compose/.env.dev.example
 secrets/
+infra/compose/secrets/
+infra/compose/secrets.dev/
 
 # Valdí compliance logs (regenerated on each run)
 .claude/agents/valdi/compliance/

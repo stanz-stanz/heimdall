@@ -1,0 +1,32 @@
+name: prune-ghcr
+
+# Monthly retention policy for the 5 heimdall-* GHCR packages. Keeps the
+# most recent 30 tagged versions per service; deletes untagged manifests
+# eagerly. Image storage grows ~2.5 GB per main merge (5 images × ~500 MB
+# avg); without this, the tag list becomes unreadable and the storage
+# footprint grows unbounded.
+
+on:
+  schedule:
+    # First of the month, 03:00 UTC. Well past any reasonable deploy
+    # window, quiet period for the free GHA cron scheduler.
+    - cron: "0 3 1 * *"
+  workflow_dispatch:
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [heimdall-api, heimdall-delivery, heimdall-scheduler, heimdall-worker, heimdall-twin]
+    steps:
+      - name: Prune ${{ matrix.package }}
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ matrix.package }}
+          package-type: container
+          min-versions-to-keep: 30
+          delete-only-untagged-versions: false
