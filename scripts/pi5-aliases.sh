@@ -44,9 +44,9 @@ alias heimdall-backup="$HEIMDALL_DIR/scripts/backup.sh"
 alias heimdall-health="$HEIMDALL_DIR/scripts/healthcheck.sh"
 alias heimdall-validate="bash $HEIMDALL_DIR/scripts/validate_pi5.sh"
 
-# List locally-cached SHA-tagged Heimdall images — the set that
-# heimdall-rollback can target. Until PR-F adds GHCR publish, this is
-# also the only place those tags exist.
+# List locally-cached SHA-tagged Heimdall images — first-choice rollback
+# targets. If a SHA is not in this list, heimdall-rollback falls through
+# to GHCR pull (publish-images.yml keeps the last ~30 SHAs per service).
 alias heimdall-tags="docker images --format '{{.Repository}}:{{.Tag}}\t{{.CreatedSince}}' | grep '^heimdall-' | sort -u"
 
 # GHCR org — derived from HEIMDALL_GHCR_OWNER or the git remote.

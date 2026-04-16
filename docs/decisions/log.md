@@ -5,6 +5,35 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-16 — Docker infra unpark plan shipped (6 PRs + 2 support PRs)
+
+**Decided**
+- All six PRs from the 2026-04-14 "deferred Docker hardening" plan landed:
+  - **PR-A** (#30) external volumes + log rotation — `external: true` + `name: docker_<vol>` on all 6 data volumes decouples identity from project name.
+  - **PR-B** (#33) multi-stage Dockerfiles for `api`/`delivery`/`scheduler` — pip install to `--prefix=/install`, `COPY --from=builder /install /usr/local`. Size delta −12 to −13 MB per image (smaller than expected because original already used `--no-cache-dir`; real value is pattern consistency + BuildKit pip cache for faster rebuilds). Worker (already multi-stage) and twin (no pip) left alone.
+  - **PR-C** (#31) git-SHA image tags + `heimdall-rollback` — every buildable service now `image: heimdall-<svc>:${HEIMDALL_TAG:-latest}`, `-dirty` suffix on uncommitted builds. New `heimdall-rollback <sha>` function on Pi5.
+  - **PR-D** (#36) file-backed secrets — 5 credentials (`TELEGRAM_BOT_TOKEN`, `CLAUDE_API_KEY`, `CONSOLE_PASSWORD`, `CERTSPOTTER_API_KEY`, `GRAYHATWARFARE_API_KEY`) moved from env-var interpolation to compose `secrets:` blocks. New `src/core/secrets.py` helper with env fallback for tests. `scripts/migrate_env_to_secrets.sh` idempotently splits the env file and backs up `.env.pre-secrets`. `make dev-secrets` auto-materialises dev secret files on first `make dev-up`. `SERPER_API_KEY` kept as env (CLI-only, not containerised). `TAILSCALE_AUTH_KEY` left alone (zero container reads).
+  - **PR-E** (#34) directory rename `infra/docker/` → `infra/compose/` — 15 tracked files moved via `git mv`, 8 code files + 6 doc files updated. Volume safety held via PR-A's `external: true`.
+  - **PR-F** (#37) GHCR publish on main + registry-backed rollback — `.github/workflows/publish-images.yml` builds 5 linux/arm64 images via buildx + QEMU, three tags per service (`:<full-sha>`, `:<short-sha>`, `:main`), per-service GHA cache scope. `heimdall-rollback` now atomically pulls from GHCR when local cache misses (two-pass: pull all → retag all). `heimdall-deploy` unchanged (local build). Separate `prune-ghcr.yml` keeps last 30 SHAs/service. Expected wall time: ~15-25 min cold, ~5-8 min warm (worker dominates).
+- **Two supporting PRs**: #32 surfaces `heimdall-backup` / `heimdall-health` / `heimdall-validate` / `heimdall-tags` aliases; #35 parameterises compose project via `HEIMDALL_COMPOSE_PROJECT` + adds `make dev-ops-smoke` covering backup.sh against dev stack (closes the class of silent-fail bugs PR-E surfaced).
+- **Two direct-to-main bug fixes**: `2489905` pinned `-p docker` on `backup.sh`/`healthcheck.sh` compose calls after PR-E broke the implicit project-name coupling; `ef9329c` dropped a broken "sanity — no secrets in image history" step from publish-images that failed on x86_64 runners trying to pull arm64-only images.
+- Pi5 deployed and verified on SHA `4d55d0a`: 10 containers up, all healthy, `/run/secrets/` populated with 3 secrets in the delivery container, `env | grep -iE "token|api_key|password"` returns empty.
+- docker-expert consulted in advisory mode before writing code for PR-B, PR-D, and PR-F (per `feedback_docker_to_expert`). Plans refined against live-code exploration before implementation.
+
+**Rejected**
+- **Native arm64 runners** (`ubuntu-24.04-arm`) for PR-F CI — deferred. Private-repo billing at ~$0.90 extra per merge for ~5 min saved. Kept QEMU for now; revisit if merge cadence or patience changes.
+- **Reverting PR-F entirely** — considered given the 8-min CI cost is not obviously worth the "registry rollback for a single Pi5" optionality. Federico kept PR-F for optionality ("I want options").
+- **Committing dev secret files** — prevented by GitHub push protection + gitignore. During PR-F branch work, `git add -A` staged `infra/compose/secrets.dev/*` because the gitignore rule lives on PR-D's branch; push rejected, soft reset + gitignore update on PR-F branch too. No secrets reached any remote.
+- **`docker history` sanity step** in publish-images — removed in `ef9329c` per docker-expert's original framing ("visibility, not a gate"). Operator can `docker buildx imagetools inspect` ad-hoc when needed.
+
+**Unresolved**
+- Worker GHCR package (`heimdall-worker`) still building at wrap-up time — cold-cache arm64 Go compilation under QEMU runs ~15-25 min. Other 4 packages already flipped to public; flip worker once the first green run finishes.
+- First `publish-images` run failed only on the broken sanity step; the five `build-and-push` steps went green, so GHCR has the images at SHA `4d55d0a` already. Second run (post-`ef9329c`) in flight.
+- Pi5 rollback smoke test (`docker image rm heimdall-api:<prior-sha> && heimdall-rollback <prior-sha>` → pulls from GHCR → retag → deploy) not yet exercised.
+- `docs/decisions/log.md` 2026-04-14 entry annotated "Superseded 2026-04-16" inline rather than rewritten in place.
+
+---
+
 ## 2026-04-14 — Dev/prod split shipped, legal briefing sent to Plesner
 
 **Decided**
@@ -13,7 +42,7 @@ Running record of architectural decisions, rejections, and reasoning made during
 - **`delete_branch_on_merge: true`** enabled in GitHub repo settings after stacked-PR mishap: PR #28 was opened with `--base dev-stack` and GitHub did not auto-retarget the base to `main` when #27 merged (because `dev-stack` branch was not auto-deleted). Lesson: never stack PRs; base everything on `main` directly. PR #29 (cherry-pick of #28) fixed it.
 - **Legal briefing sent to Plesner (David van Boen) on 2026-04-14.** 14 questions (down from 16 — merged Q10+Q11 consent authority, Q12+Q13 compliance/audit, Q3+Q5 channels). New Q14 added on NIS2 (`LOV 434/2025`) and CRA (`Regulation 2024/2847`) applicability to Heimdall. Two attachments: `sample-security-notification.md` (updated provenance: `confirmed`/`unconfirmed`, NIS2+CRA refs) and `scanning-authorization-template.md` (WPScan removed from tool list, cross-refs updated). Briefing renamed from `legal-briefing-outreach-2026-03-29.md` → `legal-briefing-outreach-20260414.md`.
 - **Internal "What Hinges" summary** extracted from lawyer-facing briefing into `docs/legal/legal-briefing-summary-internal.md`. Lawyer doesn't need it; we use it to track which go-to-market paths open or close per answer.
-- Docker infra hardening (multi-stage Dockerfiles, file-backed `secrets:`, git-sha image tags, directory rename `infra/docker/` → `infra/compose/`, volume external bridge + cutover) deferred to a follow-up plan — to be executed on top of the operational dev stack so each change can be dev-tested before touching Pi5.
+- Docker infra hardening (multi-stage Dockerfiles, file-backed `secrets:`, git-sha image tags, directory rename `infra/docker/` → `infra/compose/`, volume external bridge + cutover) deferred to a follow-up plan — to be executed on top of the operational dev stack so each change can be dev-tested before touching Pi5. **[Superseded 2026-04-16: all six PRs (PR-A through PR-F) shipped. See the 2026-04-16 entry at the top of this log.]**
 
 **Rejected**
 - **Full 9-phase Docker restructure in one PR.** Architect review flagged that the directory rename alone carries 5/5 risk (volume data loss on Pi5 if materialized names are wrong, mitigated by `external: true` bridge that is unverifiable until runtime). Deferred everything except the dev stack itself. Ship the value now; harden when the dev stack exists to catch its own bugs.
