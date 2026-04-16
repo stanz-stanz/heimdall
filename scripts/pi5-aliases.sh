@@ -49,23 +49,47 @@ alias heimdall-validate="bash $HEIMDALL_DIR/scripts/validate_pi5.sh"
 # also the only place those tags exist.
 alias heimdall-tags="docker images --format '{{.Repository}}:{{.Tag}}\t{{.CreatedSince}}' | grep '^heimdall-' | sort -u"
 
+# GHCR org — derived from HEIMDALL_GHCR_OWNER or the git remote.
+# Override via export HEIMDALL_GHCR_OWNER=... in ~/.bashrc if the repo owner
+# ever changes.
+HEIMDALL_GHCR_OWNER="${HEIMDALL_GHCR_OWNER:-stanz-stanz}"
+
 # Rollback to a prior git-SHA image tag. Usage: heimdall-rollback abc1234
-# The tag must already exist as a local docker image — this PR does not push
-# to a registry, so rollback is limited to the local image cache (which
-# `docker image prune` will wipe). PR-F will remove that limitation by
-# pushing to GHCR on every main-branch build.
+# Tries local cache first; if absent, pulls all 5 images from GHCR,
+# retags atomically, then recreates the stack. If any pull fails, no
+# retag happens — local state stays consistent.
 heimdall-rollback() {
-    if [ -z "${1:-}" ]; then
+    local target="${1:-}"
+    if [ -z "$target" ]; then
         echo "usage: heimdall-rollback <short-sha>"
-        echo "available local tags:"
+        echo "local tags:"
         docker images --format '{{.Repository}}:{{.Tag}}' | grep '^heimdall-' | sort -u
         return 1
     fi
-    local target="$1"
+
+    local svcs=(api delivery scheduler worker twin)
+
     if ! docker images --format '{{.Repository}}:{{.Tag}}' | grep -q ":${target}$"; then
-        echo "error: no local image tagged :${target}. Rebuild or pull first."
-        return 1
+        echo "not in local cache. pulling heimdall-*:${target} from GHCR..."
+        for svc in "${svcs[@]}"; do
+            local ref="ghcr.io/${HEIMDALL_GHCR_OWNER}/heimdall-${svc}:${target}"
+            if ! docker pull "$ref"; then
+                echo "ERROR: pull failed for ${ref}. aborting before retag."
+                return 1
+            fi
+        done
+        # All pulls succeeded — retag as the local short name so the
+        # compose image: field resolves without modification, and log
+        # each digest for the forensic trail.
+        for svc in "${svcs[@]}"; do
+            local ref="ghcr.io/${HEIMDALL_GHCR_OWNER}/heimdall-${svc}:${target}"
+            local digest
+            digest=$(docker image inspect "$ref" --format '{{.Id}}')
+            docker tag "$ref" "heimdall-${svc}:${target}"
+            echo "retagged heimdall-${svc}:${target} (digest: ${digest})"
+        done
     fi
+
     cd "$HEIMDALL_DIR" || return 1
     HEIMDALL_TAG="$target" docker compose -p docker -f "$COMPOSE_FILE" -f "$COMPOSE_MON" up -d --force-recreate --remove-orphans
 }

@@ -1,0 +1,80 @@
+name: publish-images
+
+# Publish SHA-tagged Docker images to GHCR on every main-branch build so
+# `heimdall-rollback <sha>` on Pi5 can pull from a registry when the local
+# image cache has been pruned. Pi5 keeps local-building on `heimdall-deploy`
+# — GHCR is rollback-only, not a new prod dependency.
+
+on:
+  push:
+    branches: [main]
+  # Manual trigger so a stuck run or a one-off rebuild can be retriggered
+  # without a no-op commit.
+  workflow_dispatch:
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    # Job-level permissions (defense in depth over workflow-level).
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      # Parallelise 5 services. If one fails, the others keep going so we
+      # can tell whether the regression is service-specific or systemic.
+      fail-fast: false
+      matrix:
+        service: [api, delivery, scheduler, worker, twin]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute short SHA
+        id: shortsha
+        run: echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up QEMU (for linux/arm64 on x86_64 runners)
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push ${{ matrix.service }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infra/compose/Dockerfile.${{ matrix.service }}
+          platforms: linux/arm64
+          push: true
+          # Three tags:
+          #   :<full-sha>          — immutable anchor, permanent
+          #   :<short-sha>         — matches HEIMDALL_TAG / heimdall-rollback
+          #   :main                — floating pointer to latest main build
+          # No :latest — ambiguous for rollback ("rollback to latest" is nonsense).
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/heimdall-${{ matrix.service }}:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/heimdall-${{ matrix.service }}:${{ steps.shortsha.outputs.short }}
+            ghcr.io/${{ github.repository_owner }}/heimdall-${{ matrix.service }}:main
+          # Provenance + SBOM: free, auditable, useful for NIS2/CRA posture.
+          provenance: mode=max
+          sbom: true
+          # Per-service cache scope. Without this the 5 matrix jobs thrash
+          # GHA's 10 GB LRU cache, with each job evicting the others.
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+
+      - name: Sanity — no secrets in image history
+        run: |
+          docker pull ghcr.io/${{ github.repository_owner }}/heimdall-${{ matrix.service }}:${{ steps.shortsha.outputs.short }}
+          # Eyeball the layer list for obvious secret leakage (env var values
+          # printed in RUN output, inline tokens). This is a visibility gate,
+          # not a blocking check — images are public once flipped, so anything
+          # in the layers is observable.
+          docker history --no-trunc ghcr.io/${{ github.repository_owner }}/heimdall-${{ matrix.service }}:${{ steps.shortsha.outputs.short }} | head -50
