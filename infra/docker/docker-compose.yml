@@ -31,6 +31,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.scheduler
+    image: heimdall-scheduler:${HEIMDALL_TAG:-latest}
     command: ["--mode", "daemon"]
     # Persistent daemon: BRPOPs queue:operator-commands for console dispatch.
     # One-shot prospect runs: docker compose run --rm scheduler --mode prospect --confirmed
@@ -61,6 +62,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.worker
+    image: heimdall-worker:${HEIMDALL_TAG:-latest}
     environment:
       - REDIS_URL=redis://redis:6379/0
       - HEIMDALL_SOURCE=worker
@@ -102,6 +104,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.api
+    image: heimdall-api:${HEIMDALL_TAG:-latest}
     environment:
       - REDIS_URL=redis://redis:6379/0
       - HEIMDALL_SOURCE=api
@@ -143,6 +146,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.delivery
+    image: heimdall-delivery:${HEIMDALL_TAG:-latest}
     command: ["--redis-url", "redis://redis:6379/0", "--db-path", "/data/clients/clients.db"]
     environment:
       - REDIS_URL=redis://redis:6379/0
@@ -177,6 +181,7 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/Dockerfile.twin
+    image: heimdall-twin:${HEIMDALL_TAG:-latest}
     profiles: ["twin"]
     environment:
       - BRIEF_FILE=${BRIEF_FILE:-/config/conrads.dk.json}

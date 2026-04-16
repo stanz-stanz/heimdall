@@ -153,6 +153,28 @@ heimdall-stop
 Stops the stack entirely. No deploy, no data corruption continues.
 Fix the code on `main`, test with `make dev-smoke`, redeploy.
 
+### Option D — Image-tag rollback (fastest, if the bad deploy is recent)
+
+Every `heimdall-deploy` tags each image with the short git SHA of
+the commit it was built from (PR-C of the infra unpark). If the bad
+SHA is still in the local image cache on Pi5, you can pin the stack
+to a prior SHA in ~30 seconds — no git operations, no rebuild.
+
+```bash
+# On Pi5 (SSH):
+heimdall-rollback <prev-short-sha>
+```
+
+Find the prior SHA with `heimdall-rollback` (no args — prints the
+list of locally cached tags), or `git log --oneline origin/prod` on
+the laptop and pick the SHA before the bad one.
+
+**Limitation.** This PR does not push images to a registry, so the
+cache-only window is as wide as `docker image prune` allows. Treat
+Option D as a fast emergency lever; fix the real problem via Option
+A or B before the cache rotates out. PR-F (GHCR publish) removes
+this limitation.
+
 ---
 
 ## First-time `prod` branch creation

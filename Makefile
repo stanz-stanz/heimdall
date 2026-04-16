@@ -27,6 +27,12 @@ COMPOSE_MON     := infra/docker/docker-compose.monitoring.yml
 ENV_DEV         := infra/docker/.env.dev
 ENV_DEV_EXAMPLE := infra/docker/.env.dev.example
 
+# Git SHA is the immutable image tag. `-dirty` suffix fires if the working
+# tree has uncommitted changes — stops accidental "latest"-builds of
+# untracked code shipping silently to Pi5.
+HEIMDALL_TAG := $(shell git rev-parse --short HEAD 2>/dev/null)$(shell git diff --quiet 2>/dev/null || echo -dirty)
+export HEIMDALL_TAG
+
 DC_DEV  := docker compose -p heimdall_dev --env-file $(ENV_DEV) \
 	           -f $(COMPOSE_PROD) -f $(COMPOSE_DEV)
 DC_PROD_RENDER := docker compose -p docker \
