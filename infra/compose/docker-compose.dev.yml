@@ -7,19 +7,19 @@
 # which expands to:
 #
 #   docker compose -p heimdall_dev \
-#     --env-file infra/docker/.env.dev \
-#     -f infra/docker/docker-compose.yml \
-#     -f infra/docker/docker-compose.dev.yml \
+#     --env-file infra/compose/.env.dev \
+#     -f infra/compose/docker-compose.yml \
+#     -f infra/compose/docker-compose.dev.yml \
 #     up -d --wait
 #
 # Convention: env files live next to the compose file at
-# `infra/docker/.env` (prod) and `infra/docker/.env.dev` (dev). Both
+# `infra/compose/.env` (prod) and `infra/compose/.env.dev` (dev). Both
 # are gitignored; `.env.dev.example` is committed as a template.
 #
 # Isolation:
 # - Project pinned to `heimdall_dev` so all volumes/networks are
 #   prefixed `heimdall_dev_*`, never colliding with a Pi5 prod stack.
-# - Secrets/tokens interpolated from `infra/docker/.env.dev` at render
+# - Secrets/tokens interpolated from `infra/compose/.env.dev` at render
 #   time via the top-level --env-file flag. The prod compose file's
 #   environment: blocks already use `${VAR:-}` placeholders — they pick
 #   up dev values automatically, no per-service env_file block needed.

@@ -36,7 +36,7 @@ send_alert() {
         -d parse_mode="HTML" > /dev/null 2>&1
 }
 
-COMPOSE_DIR="$PROJECT_DIR/infra/docker"
+COMPOSE_DIR="$PROJECT_DIR/infra/compose"
 ALERTS=""
 
 # Check each service's health status

@@ -64,7 +64,7 @@ You are the DevOps agent for Heimdall. You manage all infrastructure configurati
 
 ## Outputs
 
-- `infra/docker/` — Dockerfiles, docker-compose.yml
+- `infra/compose/` — Dockerfiles, docker-compose.yml
 - `infra/config/` — environment templates, Tailscale config, cron schedules
 - `infra/scripts/` — deployment, backup, migration scripts
 - `docs/infrastructure/` — operational documentation
@@ -74,7 +74,7 @@ You are the DevOps agent for Heimdall. You manage all infrastructure configurati
 
 ### docker-compose.yml (Pi5 Architecture)
 
-See `infra/docker/docker-compose.yml` for the full file. Summary:
+See `infra/compose/docker-compose.yml` for the full file. Summary:
 
 ```
 Pi5 (Docker Compose)

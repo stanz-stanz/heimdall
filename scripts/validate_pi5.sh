@@ -125,31 +125,31 @@ echo "Project files:"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
-if [ -f "$PROJECT_ROOT/infra/docker/docker-compose.yml" ]; then
+if [ -f "$PROJECT_ROOT/infra/compose/docker-compose.yml" ]; then
     pass "docker-compose.yml found"
 else
-    fail "docker-compose.yml not found at infra/docker/"
+    fail "docker-compose.yml not found at infra/compose/"
 fi
 
-if [ -f "$PROJECT_ROOT/infra/docker/Dockerfile.worker" ]; then
+if [ -f "$PROJECT_ROOT/infra/compose/Dockerfile.worker" ]; then
     pass "Dockerfile.worker found"
 else
     fail "Dockerfile.worker not found"
 fi
 
-if [ -f "$PROJECT_ROOT/infra/docker/Dockerfile.scheduler" ]; then
+if [ -f "$PROJECT_ROOT/infra/compose/Dockerfile.scheduler" ]; then
     pass "Dockerfile.scheduler found"
 else
     fail "Dockerfile.scheduler not found"
 fi
 
-if [ -f "$PROJECT_ROOT/infra/docker/.env.template" ]; then
+if [ -f "$PROJECT_ROOT/infra/compose/.env.template" ]; then
     pass ".env.template found"
 else
     fail ".env.template not found"
 fi
 
-if [ -f "$PROJECT_ROOT/infra/docker/.env" ]; then
+if [ -f "$PROJECT_ROOT/infra/compose/.env" ]; then
     pass ".env file exists"
 else
     warn ".env not found — copy from .env.template and fill in values"
@@ -191,6 +191,6 @@ if [ "$FAIL" -gt 0 ]; then
     exit 1
 else
     echo ""
-    echo "  Ready for: docker compose -f infra/docker/docker-compose.yml up --build"
+    echo "  Ready for: docker compose -f infra/compose/docker-compose.yml up --build"
     exit 0
 fi

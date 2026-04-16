@@ -30,7 +30,7 @@ services:
   scheduler:
     build:
       context: ../..
-      dockerfile: infra/docker/Dockerfile.scheduler
+      dockerfile: infra/compose/Dockerfile.scheduler
     image: heimdall-scheduler:${HEIMDALL_TAG:-latest}
     command: ["--mode", "daemon"]
     # Persistent daemon: BRPOPs queue:operator-commands for console dispatch.
@@ -61,7 +61,7 @@ services:
   worker:
     build:
       context: ../..
-      dockerfile: infra/docker/Dockerfile.worker
+      dockerfile: infra/compose/Dockerfile.worker
     image: heimdall-worker:${HEIMDALL_TAG:-latest}
     environment:
       - REDIS_URL=redis://redis:6379/0
@@ -103,7 +103,7 @@ services:
   api:
     build:
       context: ../..
-      dockerfile: infra/docker/Dockerfile.api
+      dockerfile: infra/compose/Dockerfile.api
     image: heimdall-api:${HEIMDALL_TAG:-latest}
     environment:
       - REDIS_URL=redis://redis:6379/0
@@ -145,7 +145,7 @@ services:
   delivery:
     build:
       context: ../..
-      dockerfile: infra/docker/Dockerfile.delivery
+      dockerfile: infra/compose/Dockerfile.delivery
     image: heimdall-delivery:${HEIMDALL_TAG:-latest}
     command: ["--redis-url", "redis://redis:6379/0", "--db-path", "/data/clients/clients.db"]
     environment:
@@ -180,7 +180,7 @@ services:
   twin:
     build:
       context: ../..
-      dockerfile: infra/docker/Dockerfile.twin
+      dockerfile: infra/compose/Dockerfile.twin
     image: heimdall-twin:${HEIMDALL_TAG:-latest}
     profiles: ["twin"]
     environment:
