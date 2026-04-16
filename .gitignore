@@ -60,6 +60,14 @@ venv/
 *.swp
 *.swo
 
+# Other-vendor AI tool configs (Heimdall's agent contracts live in .claude/agents/ + CLAUDE.md)
+.cursorrules
+.windsurfrules
+skills-lock.json
+
+# Test coverage artifact
+.coverage
+
 # OS
 .DS_Store
 Thumbs.db
