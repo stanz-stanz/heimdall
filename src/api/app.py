@@ -28,6 +28,7 @@ from src.client_memory import (
     RemediationTracker,
 )
 from src.composer.telegram import compose_telegram
+from src.core.secrets import get_secret
 from src.interpreter.interpreter import InterpreterError, interpret_brief
 
 from .console import router as console_router
@@ -406,7 +407,7 @@ def create_app(
     app.add_middleware(RequestLoggingMiddleware)
 
     console_user = os.environ.get("CONSOLE_USER", "")
-    console_password = os.environ.get("CONSOLE_PASSWORD", "")
+    console_password = get_secret("console_password", "CONSOLE_PASSWORD")
     if console_user and console_password:
         app.add_middleware(BasicAuthMiddleware,
                            username=console_user, password=console_password)

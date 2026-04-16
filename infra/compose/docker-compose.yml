@@ -41,9 +41,10 @@ services:
       - CLIENT_DATA_DIR=/data/clients
       - VALDI_DIR=/data/valdi
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
-      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
-      - CERTSPOTTER_API_KEY=${CERTSPOTTER_API_KEY:-}
+    secrets:
+      - claude_api_key
+      - telegram_bot_token
+      - certspotter_api_key
     volumes:
       - client-data:/data/clients
       - valdi-data:/data/valdi:ro
@@ -68,11 +69,12 @@ services:
       - HEIMDALL_SOURCE=worker
       - VALDI_DIR=/data/valdi
       - CLIENT_DATA_DIR=/data/clients
-      - GRAYHATWARFARE_API_KEY=${GRAYHATWARFARE_API_KEY:-}
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
       - WORKER_MAX_LEVEL=${WORKER_MAX_LEVEL:-0}
       - NUCLEI_TEMPLATES_DIR=/opt/nuclei-templates
       - VULNDB_PATH=/data/cache/vulndb.sqlite3
+    secrets:
+      - grayhatwarfare_api_key
     volumes:
       - valdi-data:/data/valdi
       - client-data:/data/clients
@@ -110,12 +112,13 @@ services:
       - HEIMDALL_SOURCE=api
       - RESULTS_DIR=/data/results
       - MESSAGES_DIR=/data/messages
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
-      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
       - CONSOLE_USER=${CONSOLE_USER:-}
-      - CONSOLE_PASSWORD=${CONSOLE_PASSWORD:-}
       - CLIENT_DATA_DIR=/data/clients
       - BRIEFS_DIR=/data/briefs
+    secrets:
+      - telegram_bot_token
+      - claude_api_key
+      - console_password
     volumes:
       - client-data:/data/clients:ro
       - ../../data/results:/data/results:ro
@@ -151,10 +154,11 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379/0
       - HEIMDALL_SOURCE=delivery
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
       - TELEGRAM_OPERATOR_CHAT_ID=${TELEGRAM_OPERATOR_CHAT_ID:-}
-      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
-      - CERTSPOTTER_API_KEY=${CERTSPOTTER_API_KEY:-}
+    secrets:
+      - telegram_bot_token
+      - claude_api_key
+      - certspotter_api_key
     volumes:
       - client-data:/data/clients
       - message-data:/data/messages
@@ -244,3 +248,19 @@ networks:
   # tailscale:
   #   external: true
   # Uncomment when Tailscale is installed and `docker network create tailscale` is run
+
+# File-backed secrets. Files live in infra/compose/secrets/ on Pi5 (0600,
+# gitignored). Dev overlay (docker-compose.dev.yml) points to secrets.dev/
+# instead so dev + prod never share a source directory. Files are populated
+# via scripts/migrate_env_to_secrets.sh on first run.
+secrets:
+  telegram_bot_token:
+    file: ./secrets/telegram_bot_token
+  claude_api_key:
+    file: ./secrets/claude_api_key
+  console_password:
+    file: ./secrets/console_password
+  certspotter_api_key:
+    file: ./secrets/certspotter_api_key
+  grayhatwarfare_api_key:
+    file: ./secrets/grayhatwarfare_api_key

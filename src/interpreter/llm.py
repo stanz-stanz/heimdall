@@ -17,6 +17,8 @@ from pathlib import Path
 
 from loguru import logger
 
+from src.core.secrets import get_secret
+
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "interpreter.json"
 
 # Retry settings for transient failures (429, 500, 503, 529)
@@ -79,9 +81,9 @@ def _get_anthropic_client():
     except ImportError:
         raise LLMError("anthropic package not installed — pip install anthropic")
 
-    api_key = os.environ.get("CLAUDE_API_KEY", "")
+    api_key = get_secret("claude_api_key", "CLAUDE_API_KEY")
     if not api_key:
-        raise LLMError("CLAUDE_API_KEY environment variable not set")
+        raise LLMError("CLAUDE_API_KEY not set (secret file or env var)")
 
     if _anthropic_client is None or _anthropic_client_key != api_key:
         _anthropic_client = anthropic.Anthropic(

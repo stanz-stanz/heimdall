@@ -19,6 +19,8 @@ from pathlib import Path
 from loguru import logger
 from telegram.ext import Application
 
+from src.core.secrets import get_secret
+
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "delivery.json"
 
 _DEFAULT_CONFIG: dict = {
@@ -52,12 +54,12 @@ def load_config(config_path: Path | str | None = None) -> dict:
 
 
 def get_bot_token() -> str:
-    """Get bot token from environment.
+    """Get bot token from the compose secret or env fallback.
 
     Raises:
         RuntimeError: If ``TELEGRAM_BOT_TOKEN`` is not set or empty.
     """
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    token = get_secret("telegram_bot_token", "TELEGRAM_BOT_TOKEN")
     if not token:
         raise RuntimeError(
             "TELEGRAM_BOT_TOKEN not set. "
