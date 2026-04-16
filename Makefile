@@ -107,6 +107,34 @@ dev-pytest-integration: ## Run integration tests against the running dev stack.
 dev-smoke: dev-up dev-seed dev-pytest-integration ## End-to-end dev verification.
 	@echo "dev smoke: OK"
 
+.PHONY: dev-ops-smoke
+dev-ops-smoke: dev-up ## Exercise Pi5 operational scripts against the dev stack.
+	@echo "==> backup.sh (dev stack, tmp backup dir)"
+	@tmpdir=$$(mktemp -d); \
+	    HEIMDALL_COMPOSE_PROJECT=heimdall_dev HEIMDALL_BACKUP_DIR=$$tmpdir \
+	        bash scripts/backup.sh; \
+	    rc=$$?; \
+	    if [ $$rc -ne 0 ]; then \
+	        echo "backup.sh failed (rc=$$rc). Log:"; \
+	        cat $$tmpdir/backup.log; \
+	        rm -rf $$tmpdir; \
+	        exit 1; \
+	    fi; \
+	    if ! grep -q "OK: companies.db" $$tmpdir/backup.log; then \
+	        echo "backup.sh: companies.db was not backed up. Log:"; \
+	        cat $$tmpdir/backup.log; \
+	        rm -rf $$tmpdir; \
+	        exit 1; \
+	    fi; \
+	    if ! grep -q "OK: clients.db" $$tmpdir/backup.log; then \
+	        echo "backup.sh: clients.db was not backed up (the PR-E regression). Log:"; \
+	        cat $$tmpdir/backup.log; \
+	        rm -rf $$tmpdir; \
+	        exit 1; \
+	    fi; \
+	    rm -rf $$tmpdir
+	@echo "dev ops smoke: OK"
+
 # --- Compose lint / diff ------------------------------------------------
 
 .PHONY: compose-lint

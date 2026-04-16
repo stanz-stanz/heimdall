@@ -32,6 +32,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 COMPOSE_FILE="$PROJECT_DIR/infra/compose/docker-compose.yml"
+COMPOSE_PROJECT="${HEIMDALL_COMPOSE_PROJECT:-docker}"
 BACKUP_ROOT="${HEIMDALL_BACKUP_DIR:-$PROJECT_DIR/backups}"
 BACKUP_DIR="$BACKUP_ROOT/$(date +%Y-%m-%d-%H%M%S)"
 LOG_FILE="$BACKUP_ROOT/backup.log"
@@ -91,7 +92,7 @@ backup_clients_db() {
     local container_id=""
     local container_name=""
     for name in "${CONTAINER_PREFERENCES[@]}"; do
-        container_id=$(docker compose -p docker -f "$COMPOSE_FILE" ps -q "$name" 2>/dev/null | head -1 || true)
+        container_id=$(docker compose -p "$COMPOSE_PROJECT" -f "$COMPOSE_FILE" ps -q "$name" 2>/dev/null | head -1 || true)
         if [ -n "$container_id" ]; then
             container_name="$name"
             break
