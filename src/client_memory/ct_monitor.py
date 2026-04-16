@@ -22,6 +22,8 @@ from typing import Any
 import httpx
 from loguru import logger
 
+from src.core.secrets import get_secret
+
 _CERTSPOTTER_URL = os.environ.get(
     "CERTSPOTTER_URL", "https://api.certspotter.com/v1/issuances"
 )
@@ -221,7 +223,7 @@ def poll_and_diff_client(
     ``client_cert_changes`` entries, publishes events on Redis, and updates
     ``clients.ct_last_polled_at``.
     """
-    api_key = api_key or os.environ.get("CERTSPOTTER_API_KEY") or None
+    api_key = api_key or get_secret("certspotter_api_key", "CERTSPOTTER_API_KEY") or None
     summary = {"issuances": 0, "new_snapshots": 0, "changes": 0}
 
     with httpx.Client(timeout=http_timeout_s) as client:

@@ -101,6 +101,34 @@ $EDITOR infra/compose/.env.dev
 All `make dev-*` targets refuse to run if this file is missing — by
 design, because a dev stack with prod secrets is a prod stack.
 
+### 6. Secrets auto-materialise on first `make dev-up`
+
+Compose services no longer read credentials from env vars — they mount
+them as files under `/run/secrets/`. The first `make dev-up` (or
+`make dev-build`, or `make dev-secrets` directly) splits each secret
+out of `.env.dev` into `infra/compose/secrets.dev/<name>` with `chmod
+600`, backs up the original file as `.env.dev.pre-secrets`, and removes
+the migrated lines from `.env.dev`.
+
+You do not run this manually. It fires automatically, and re-runs
+skip any file that already exists.
+
+Files produced:
+- `infra/compose/secrets.dev/telegram_bot_token`
+- `infra/compose/secrets.dev/claude_api_key`
+- `infra/compose/secrets.dev/console_password`
+- `infra/compose/secrets.dev/certspotter_api_key`
+- `infra/compose/secrets.dev/grayhatwarfare_api_key`
+
+To **edit** a secret, edit the file in `secrets.dev/`. Don't put it back
+in `.env.dev` — the migrator won't overwrite an existing secret file,
+so the env value will be ignored. The directory is gitignored.
+
+`SERPER_API_KEY`, `CONSOLE_USER`, `TELEGRAM_OPERATOR_CHAT_ID`,
+`HEIMDALL_BACKUP_DIR`, etc. stay in `.env.dev` — they are configuration
+or identifiers, not credentials, and the CLI enrichment tool that reads
+`SERPER_API_KEY` runs outside any container.
+
 ---
 
 ## Daily loop

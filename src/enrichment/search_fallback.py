@@ -18,6 +18,8 @@ from functools import lru_cache
 import requests
 from loguru import logger
 
+from src.core.secrets import get_secret
+
 _RETRY_BACKOFF = [1, 3, 5]
 _MAX_RETRIES = 3
 _DOMAIN_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$")
@@ -202,13 +204,13 @@ def search_company_domain(
     Returns (domain, detail) where domain is the discovered domain (or "")
     and detail is the full audit trail.
 
-    Requires env vars: SERPER_API_KEY, CLAUDE_API_KEY.
+    Requires SERPER_API_KEY + CLAUDE_API_KEY (compose secret or env var).
     """
-    serper_api_key = os.environ.get("SERPER_API_KEY", "")
+    serper_api_key = get_secret("serper_api_key", "SERPER_API_KEY")
 
     if not serper_api_key:
         raise SearchError(
-            "SERPER_API_KEY environment variable required. "
+            "SERPER_API_KEY not set (secret file or env var). "
             "Sign up at https://serper.dev/"
         )
 

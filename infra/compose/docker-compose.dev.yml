@@ -72,3 +72,18 @@ volumes:
   message-data:
     external: false
     name: heimdall_dev_message-data
+
+# Dev secret sources point to secrets.dev/ so Mac dev and Pi5 prod never
+# share a files-dir. make dev-secrets (auto-invoked by dev-up) materialises
+# secrets.dev/* from infra/compose/.env.dev on first run.
+secrets:
+  telegram_bot_token:
+    file: ./secrets.dev/telegram_bot_token
+  claude_api_key:
+    file: ./secrets.dev/claude_api_key
+  console_password:
+    file: ./secrets.dev/console_password
+  certspotter_api_key:
+    file: ./secrets.dev/certspotter_api_key
+  grayhatwarfare_api_key:
+    file: ./secrets.dev/grayhatwarfare_api_key

@@ -26,6 +26,7 @@ COMPOSE_DEV     := infra/compose/docker-compose.dev.yml
 COMPOSE_MON     := infra/compose/docker-compose.monitoring.yml
 ENV_DEV         := infra/compose/.env.dev
 ENV_DEV_EXAMPLE := infra/compose/.env.dev.example
+SECRETS_DEV     := infra/compose/secrets.dev
 
 # Git SHA is the immutable image tag. `-dirty` suffix fires if the working
 # tree has uncommitted changes — stops accidental "latest"-builds of
@@ -55,12 +56,16 @@ check-env: ## Error if infra/compose/.env.dev is missing.
 		exit 1; \
 	fi
 
+.PHONY: dev-secrets
+dev-secrets: check-env ## Materialise $(SECRETS_DEV)/* from .env.dev (idempotent).
+	@bash scripts/migrate_env_to_secrets.sh --env $(ENV_DEV) --out $(SECRETS_DEV)
+
 .PHONY: dev-build
-dev-build: check-env ## Build dev stack images.
+dev-build: check-env dev-secrets ## Build dev stack images.
 	$(DC_DEV) build
 
 .PHONY: dev-up
-dev-up: check-env ## Start the dev stack (detached, waits for healthchecks).
+dev-up: check-env dev-secrets ## Start the dev stack (detached, waits for healthchecks).
 	$(DC_DEV) up -d --wait
 
 .PHONY: dev-down

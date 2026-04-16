@@ -37,6 +37,32 @@ the cheap belt before GitHub branch protection. The hook is
 deliberately noisy — it prints exactly why it refused and points you
 here.
 
+### Secret files migration (Pi5, one-shot, required the first time PR-D is deployed)
+
+From PR-D onward, compose services read credentials from
+`infra/compose/secrets/*` instead of env-var interpolation. The first
+deploy that includes PR-D needs a one-shot migration on the Pi5:
+
+```bash
+cd ~/heimdall
+git fetch origin && git checkout prod && git pull --ff-only origin prod
+bash scripts/migrate_env_to_secrets.sh --env infra/compose/.env --out infra/compose/secrets
+```
+
+The script splits each credential from `infra/compose/.env` into its
+own file under `infra/compose/secrets/` (chmod 600), backs up the env
+file to `.env.pre-secrets`, and removes the migrated lines. After it
+prints "migrated: 5", continue with the normal deploy flow
+(`heimdall-deploy`).
+
+If `heimdall-deploy` fails with "env file not found" or a missing
+secret, check that every expected file exists under
+`infra/compose/secrets/` and is non-empty. To roll back to the old
+env-var layout: revert the PR-D commit, restore
+`.env.pre-secrets` to `.env`, redeploy.
+
+Secret files are gitignored. Back them up outside the repo if needed.
+
 ---
 
 ## The deploy flow

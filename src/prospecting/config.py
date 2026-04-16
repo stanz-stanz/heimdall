@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # --- Re-export shared constants from core ---
+from src.core.secrets import get_secret
 from src.core.config import (  # noqa: F401
     BRIEFS_DIR,
     CONFIG_DIR,
@@ -44,7 +45,7 @@ COL_AD_PROTECTED = 11
 # --- External API settings ---
 CRT_SH_API_URL = "https://crt.sh"
 CRT_SH_DELAY = 2.0  # seconds between requests (avoid 429s from crt.sh)
-GRAYHATWARFARE_API_KEY = os.environ.get("GRAYHATWARFARE_API_KEY", "")
+GRAYHATWARFARE_API_KEY = get_secret("grayhatwarfare_api_key", "GRAYHATWARFARE_API_KEY")
 
 # --- CLI tool timeouts ---
 SUBFINDER_TIMEOUT = 300  # 5 min — sufficient for ~23 passive-only domains per batch
