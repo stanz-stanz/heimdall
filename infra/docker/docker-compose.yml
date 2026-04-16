@@ -1,3 +1,11 @@
+# Shared log-driver config. Pi5 runs 24/7 on NVMe; unbounded json-file logs
+# silently fill the disk over weeks. Cap every service at 10MB × 3 files.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   redis:
     image: redis:7-alpine
@@ -12,6 +20,7 @@ services:
     networks:
       - internal
     restart: unless-stopped
+    logging: *default-logging
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
@@ -46,6 +55,7 @@ services:
       redis:
         condition: service_healthy
     restart: "no"
+    logging: *default-logging
 
   worker:
     build:
@@ -80,6 +90,7 @@ services:
           memory: 1G
           cpus: '1.0'
     restart: unless-stopped
+    logging: *default-logging
     healthcheck:
       test: ["CMD-SHELL", "test $$(( $$(date +%s) - $$(stat -c %Y /tmp/healthcheck 2>/dev/null || echo 0) )) -lt 300"]
       interval: 60s
@@ -121,6 +132,7 @@ services:
           memory: 256M
           cpus: '0.5'
     restart: unless-stopped
+    logging: *default-logging
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
@@ -154,6 +166,7 @@ services:
           memory: 128M
           cpus: '0.25'
     restart: unless-stopped
+    logging: *default-logging
     healthcheck:
       test: ["CMD", "python", "-c", "import redis, os; r = redis.from_url(os.environ.get('REDIS_URL','redis://redis:6379/0')); r.ping()"]
       interval: 30s
@@ -180,6 +193,7 @@ services:
           memory: 256M
           cpus: '0.25'
     restart: "no"
+    logging: *default-logging
     healthcheck:
       test: ["CMD", "curl", "-sf", "http://localhost:9080/"]
       interval: 30s
@@ -193,14 +207,31 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    logging: *default-logging
 
 volumes:
+  # External on Pi5 so the rename/restructure safety net holds: volumes are
+  # identified by their explicit `name:` below, not by the compose project
+  # prefix. Dev overlay (docker-compose.dev.yml) re-declares these keys as
+  # local auto-created volumes prefixed `heimdall_dev_*`.
   redis-data:
+    external: true
+    name: docker_redis-data
   client-data:
+    external: true
+    name: docker_client-data
   valdi-data:
+    external: true
+    name: docker_valdi-data
   cache-data:
+    external: true
+    name: docker_cache-data
   config-data:
+    external: true
+    name: docker_config-data
   message-data:
+    external: true
+    name: docker_message-data
 
 networks:
   internal:

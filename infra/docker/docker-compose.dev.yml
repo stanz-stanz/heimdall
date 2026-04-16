@@ -48,3 +48,27 @@ services:
 
   dozzle:
     profiles: ["tools"]
+
+# Dev volumes are local (auto-created by Compose) under the `heimdall_dev_*`
+# prefix. Explicit `external: false` + dev `name:` override the base file's
+# `external: true` + `name: docker_*` entries — Compose merge is field-wise,
+# so an empty overlay does NOT override individual fields; must be explicit.
+volumes:
+  redis-data:
+    external: false
+    name: heimdall_dev_redis-data
+  client-data:
+    external: false
+    name: heimdall_dev_client-data
+  valdi-data:
+    external: false
+    name: heimdall_dev_valdi-data
+  cache-data:
+    external: false
+    name: heimdall_dev_cache-data
+  config-data:
+    external: false
+    name: heimdall_dev_config-data
+  message-data:
+    external: false
+    name: heimdall_dev_message-data
