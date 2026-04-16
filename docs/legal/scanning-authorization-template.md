@@ -2,7 +2,7 @@
 
 **Status:** DRAFT — awaiting review by Danish IT/cybersecurity lawyer
 **Prepared:** 2026-04-01
-**For meeting:** Week of 2026-03-31 (see legal briefing Q7, Q15)
+**For meeting:** Week of 2026-04-14 (see legal briefing Q6, Q12)
 
 This template is a starting point for legal counsel to refine. It addresses the elements required by Straffeloven SS263 (scope, identity, duration, explicit authorization), GDPR Article 28 (data processing), and the Heimdall consent validation system. The lawyer should verify that the form and language satisfy Danish evidentiary requirements.
 
@@ -71,7 +71,7 @@ The Client authorizes the following scanning layers (check one):
 
 - [ ] **Layer 1 (Passive observation):** Reading publicly available information — HTTP headers, HTML source code, DNS lookups, SSL/TLS certificate data, technology fingerprints. Equivalent to what a normal browser receives when visiting the website.
 
-- [ ] **Layer 1 + Layer 2 (Active scanning):** Everything in Layer 1, plus: template-based vulnerability scanning (Nuclei), WordPress-specific scanning (WPScan), port scanning (Nmap), CMS detection with admin panels (CMSeek), and other active probes within the agreed scope. These tools send targeted requests beyond what a normal visitor would generate.
+- [ ] **Layer 1 + Layer 2 (Active scanning):** Everything in Layer 1, plus: template-based vulnerability scanning (Nuclei), port scanning (Nmap), CMS detection (CMSeek), and other active probes within the agreed scope. These tools send targeted requests beyond what a normal visitor would generate. WordPress plugin and core CVE enrichment is performed via lookups against the public WPVulnerability API — no requests are sent to the Client's systems for this enrichment.
 
 **Layer 3 (Exploitation) is ALWAYS excluded.** Heimdall will never exploit discovered vulnerabilities, regardless of this agreement's scope.
 
@@ -155,7 +155,7 @@ Heimdall implements appropriate technical and organizational measures pursuant t
 
 - Encryption of stored scan results
 - Access controls on scan data
-- Audit trails for all scanning activities (Valdi forensic log files)
+- Audit trails for all scanning activities (Valdí forensic log files)
 - Secure deletion upon agreement termination
 
 ##### 8.6 Sub-processors
@@ -240,14 +240,14 @@ This template should be reviewed for:
 
 1. **SS263 compliance** — Does the authorization language adequately establish "berettiget adgang" (authorized access)? Is the scope definition (domains, layers, duration) sufficient to withstand a challenge?
 
-2. **Who can sign** — The template does not currently restrict who on the client side can sign. Legal briefing Q10 asks whether the CVR-registered legal representative is required, or whether any person with administrative control over the domain suffices. The signer's role is currently recorded as informational only in the technical system. Counsel should advise on whether role validation is needed.
+2. **Who can sign** — The template does not currently restrict who on the client side can sign. Legal briefing Q9 asks whether the CVR-registered legal representative is required, or whether any person with administrative control over the domain suffices, and also covers the agency delegation case. The signer's role is currently recorded as informational only in the technical system. Counsel should advise on whether role validation is needed.
 
-3. **Subdomain scope** — The template requires explicit listing of each subdomain (no wildcards). Legal briefing Q14 asks whether `*.company.dk` would be legally sufficient. The conservative default (explicit listing) is implemented in the consent validation system.
+3. **Subdomain scope** — The template requires explicit listing of each subdomain (no wildcards). Legal briefing Q11 asks whether `*.company.dk` would be legally sufficient. The conservative default (explicit listing) is implemented in the consent validation system.
 
-4. **Electronic consent** — Legal briefing Q15 asks whether click-to-accept with audit logging carries the same weight as a wet-ink signature. The template assumes physical or digital signature. Counsel should advise on acceptable electronic alternatives.
+4. **Electronic consent** — Legal briefing Q12 asks whether click-to-accept with audit logging carries the same weight as a wet-ink signature. The template assumes physical or digital signature. Counsel should advise on acceptable electronic alternatives.
 
 5. **DPA sufficiency** — Section 8 includes GDPR Article 28 provisions inline. Counsel should advise whether a separate, standalone DPA is required or whether the inline provisions are sufficient for Heimdall's processing activities.
 
-6. **Agency delegation** — If a web agency signs on behalf of their clients, does this template need modification? Legal briefing Q11 asks whether agency delegation is valid. If so, the template may need a clause for agency authorization with evidence of delegated authority from the end client.
+6. **Agency delegation** — If a web agency signs on behalf of their clients, does this template need modification? Legal briefing Q9 covers agency delegation as part of the consent-authority question. If delegation is valid, the template may need a clause for agency authorization with evidence of delegated authority from the end client.
 
 7. **robots.txt contradiction** — Section 5 states Heimdall will respect robots.txt even with consent. This means a client could sign a scanning authorization, but if their robots.txt denies automated access, Heimdall will not scan and will notify the client. Counsel should confirm this approach is appropriate.

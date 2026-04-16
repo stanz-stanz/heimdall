@@ -1,4 +1,4 @@
-<!-- CLAUDE.md v2.8 — Last updated: 2026-04-12 -->
+<!-- CLAUDE.md v2.9 — Last updated: 2026-04-16 -->
 
 # CLAUDE.md
 
@@ -38,7 +38,7 @@ MANDATORY: Before performing any task, determine which agent(s) from `.claude/ag
 
 Heimdall is an External Attack Surface Management (EASM) service for small businesses. It uses a Claude API agent (Anthropic SDK with tool use) to interpret findings in plain language and delivers results through Telegram. No client dashboard.
 
-Business phase: **pre-pilot, blocked by SIRI approval.** Infrastructure runs as a Docker Compose stack on a Raspberry Pi 5 (NVMe SSD primary, microSD backup). Code is developed on the laptop and deployed to Pi5 via `git pull` + `heimdall-deploy` aliases (see `scripts/pi5-aliases.sh`).
+Business phase: **pre-pilot, blocked by SIRI approval.** Infrastructure runs as a Docker Compose stack on a Raspberry Pi 5 (NVMe SSD primary, microSD backup). **Pi5 is PROD, Macbook is DEV.** Code is developed and integration-tested locally via `make dev-up` / `make dev-smoke` (see `docs/development.md`), then deployed to Pi5 via the `prod` branch gate: `main` → `make dev-smoke` green → fast-forward `prod` → `HEIMDALL_APPROVED=1 git push origin prod` → SSH Pi5 `heimdall-deploy` (see `docs/runbook-prod-deploy.md`, `scripts/pi5-aliases.sh`).
 
 ---
 
@@ -93,7 +93,8 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `src/composer/telegram.py` | Message Composer — Telegram HTML formatting with 🔴 Critical: / 🟠 High: severity labels, Confirmed/Potential sections, greeting, footer, 4096-char auto-splitting. Also `compose_celebration()` for fix acknowledgements. Provenance: binary `confirmed`/`unconfirmed` (source-agnostic). |
 | `docs/digital-twin-use-cases.md` | Digital twin architecture, use cases, legal foundation |
 | `config/synthetic_targets.json` | Config: synthetic target registry for twin consent bypass |
-| `docs/legal/legal-briefing-outreach-2026-03-29.md` | Legal briefing for lawyer meeting — 16 questions on outreach (§10, Reklamebeskyttet), scanning (§263), consent, and GDPR |
+| `docs/legal/legal-briefing-outreach-20260414.md` | Legal briefing for lawyer meeting (sent to Plesner 2026-04-14) — 14 questions on outreach (§10, Reklamebeskyttet), scanning (§263), consent, GDPR, and NIS2/CRA applicability |
+| `docs/legal/legal-briefing-summary-internal.md` | Internal decision matrix — "What Hinges on Legal Advice" (favourable/unfavourable per question). Removed from lawyer-facing briefing. |
 | `docs/business/marketing-strategy-draft.md` | Marketing strategy draft — channels, legal constraints, outreach plan |
 | `scripts/analyze_pipeline.py` | Pipeline analysis (`--deep` for full breakdown with outreach prioritization) |
 | `scripts/audit.py` | Project audit — Dockerfile, compose, tests, configs, known gaps |
@@ -142,6 +143,13 @@ The complete definition of what is allowed and forbidden at each Layer and conse
 | `.claude/settings.json` | Claude Code harness settings (project-scoped). Registers the hooks in `.claude/hooks/` plus existing `code-review-graph` integration. Precedence over user-level `~/.claude/settings.json`. |
 | `.claude/hooks/` | PreToolUse, PostToolUse, and SessionStart hooks that enforce rules mechanically (not via memory). See the "Hook-Based Enforcement" section below for the full list and behaviour. |
 | `.claude/agents/valdi/approvals.json` | Valdí approval token registry. 14 entries (one per approved scan function) with SHA-256 hash, UUID token, level, layer, and forensic log pointer. Read at worker startup by `_validate_approval_tokens`. Regenerate via `scripts/valdi/regenerate_approvals.py` after any refactor that changes function source. |
+| `infra/docker/docker-compose.dev.yml` | Dev stack overlay for Mac (sibling to `docker-compose.yml`). Publishes Redis 6379 on host, pins worker replicas=1, shifts api to port 8001, gates dozzle behind `profiles: ["tools"]`. Loaded via `make dev-up` with project `-p heimdall_dev`. |
+| `Makefile` | Mac dev ergonomics — 17 targets: `dev-up`, `dev-down`, `dev-nuke`, `dev-logs`, `dev-ps`, `dev-shell`, `dev-seed`, `dev-seed-check`, `dev-pytest`, `dev-pytest-integration`, `dev-smoke`, `compose-lint`, `prod-render`, `dev-render`, `dev-build`, `check-env`, `help`. Every target pins `-p heimdall_dev` and refuses to run without `infra/docker/.env.dev`. |
+| `docs/development.md` | Mac dev workflow — prerequisites (OrbStack, venv, BotFather, pre-push hook, `.env.dev`), daily loop (`dev-pytest`, `dev-pytest-integration`, `dev-smoke`), isolation guarantees, troubleshooting. |
+| `docs/runbook-prod-deploy.md` | Deploy discipline — branch model (`main` = dev-tested, `prod` = what Pi5 tracks), 6-step deploy flow, rollback options A/B/C, first-time `prod` branch creation, NOT-allowed list. |
+| `.githooks/pre-push` | Pre-push hook — refuses `git push origin prod` unless `HEIMDALL_APPROVED=1` in the same shell command. Activate once per clone: `git config core.hooksPath .githooks`. |
+| `config/dev_dataset.json` | Static 30-site dev fixture — 5 worst-finding domains × 6 hosting buckets (WordPress, Drupal, Joomla, Squarespace, Wix, Shopify). Seeded into `data/dev/clients.db` by `scripts/dev/seed_dev_db.py`. |
+| `scripts/dev/seed_dev_db.py` | Dev DB seed script — wipes and recreates `data/dev/clients.db` from the 30-domain fixture + matching briefs. `--check` mode verifies briefs exist without writing. |
 
 ---
 

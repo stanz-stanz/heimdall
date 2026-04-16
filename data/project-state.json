@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-13T00:00:00Z",
+  "last_updated": "2026-04-14T00:00:00Z",
   "phase": "mvp-hardening-complete — pre-pilot, blocked by SIRI",
   "current_sprint": {
     "name": "MVP Hardening → Pilot Prep",
@@ -54,10 +54,11 @@
   "external_deadlines": [
     {
       "name": "Lawyer consultation — outreach legal questions",
-      "date": "postponed",
-      "status": "postponed this week",
+      "date": "sent 2026-04-14",
+      "status": "sent — awaiting response from Plesner",
       "owner_agent": "project-coordinator",
-      "notes": "Postponed — new date TBD. 16 questions prepared. Outcome determines viable outreach channels."
+      "counsel": "David van Boen, Plesner",
+      "notes": "Intro call with David van Boen (Plesner) on 2026-04-14 followed by email containing the full briefing (14 questions) and two attachments: sample-security-notification.md (first-contact message, two variants) and scanning-authorization-template.md (customer consent document). Briefing includes a new Q14 on NIS2/CRA applicability and cites LOV 434/2025 + CRA Article 14 (2026-09-11). Awaiting written response."
     },
     {
       "name": "Startup Denmark (SIRI) application",
@@ -90,10 +91,10 @@
     },
     {
       "id": "B2",
-      "description": "Lawyer consultation postponed — outreach channel viability unconfirmed",
+      "description": "Outreach channel viability unconfirmed — awaiting Plesner response to legal briefing",
       "severity": "medium",
       "affects": ["marketing", "outreach"],
-      "notes": "Postponed this week. New date TBD. Does not block technical work."
+      "notes": "Briefing sent to David van Boen (Plesner) on 2026-04-14 with 14 questions + 2 attachments. Does not block technical work. Blocks finalisation of outreach campaign copy and channel selection."
     }
   ],
   "next_actions": [

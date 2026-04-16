@@ -5,6 +5,30 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-14 — Dev/prod split shipped, legal briefing sent to Plesner
+
+**Decided**
+- **Dev/prod environment split (PRs #27, #29).** Pi5 = PROD, Macbook = DEV. Hard separation via sibling `docker-compose.dev.yml` (not a directory rename — architect review recommended deferring the full infra restructure). Compose overlay publishes Redis 6379 for integration tests, pins `worker.deploy.replicas: 1`, shifts api to port 8001, gates dozzle behind `profiles: ["tools"]`. Mac dev ergonomics via root `Makefile` (17 targets). Static 30-site dev dataset in `config/dev_dataset.json` seeded by `scripts/dev/seed_dev_db.py`. Four integration tests in `tests/integration/` with fail-loud autouse TCP probe (never `pytest.skip`). `prod` branch created from `main`, pre-push hook (`.githooks/pre-push`) refuses `git push origin prod` without `HEIMDALL_APPROVED=1`. Pi5 `heimdall-deploy` now does `git checkout prod && git pull --ff-only origin prod`. Deploy runbook at `docs/runbook-prod-deploy.md`.
+- **OrbStack installed** as Mac container runtime (Docker 28.5.2 / Compose v2.40.3). Chosen over Docker Desktop for lower RAM/CPU overhead on arm64 Mac.
+- **`delete_branch_on_merge: true`** enabled in GitHub repo settings after stacked-PR mishap: PR #28 was opened with `--base dev-stack` and GitHub did not auto-retarget the base to `main` when #27 merged (because `dev-stack` branch was not auto-deleted). Lesson: never stack PRs; base everything on `main` directly. PR #29 (cherry-pick of #28) fixed it.
+- **Legal briefing sent to Plesner (David van Boen) on 2026-04-14.** 14 questions (down from 16 — merged Q10+Q11 consent authority, Q12+Q13 compliance/audit, Q3+Q5 channels). New Q14 added on NIS2 (`LOV 434/2025`) and CRA (`Regulation 2024/2847`) applicability to Heimdall. Two attachments: `sample-security-notification.md` (updated provenance: `confirmed`/`unconfirmed`, NIS2+CRA refs) and `scanning-authorization-template.md` (WPScan removed from tool list, cross-refs updated). Briefing renamed from `legal-briefing-outreach-2026-03-29.md` → `legal-briefing-outreach-20260414.md`.
+- **Internal "What Hinges" summary** extracted from lawyer-facing briefing into `docs/legal/legal-briefing-summary-internal.md`. Lawyer doesn't need it; we use it to track which go-to-market paths open or close per answer.
+- Docker infra hardening (multi-stage Dockerfiles, file-backed `secrets:`, git-sha image tags, directory rename `infra/docker/` → `infra/compose/`, volume external bridge + cutover) deferred to a follow-up plan — to be executed on top of the operational dev stack so each change can be dev-tested before touching Pi5.
+
+**Rejected**
+- **Full 9-phase Docker restructure in one PR.** Architect review flagged that the directory rename alone carries 5/5 risk (volume data loss on Pi5 if materialized names are wrong, mitigated by `external: true` bridge that is unverifiable until runtime). Deferred everything except the dev stack itself. Ship the value now; harden when the dev stack exists to catch its own bugs.
+- **Stacked PRs.** PR #28 merged into stale `dev-stack` instead of `main` because GitHub doesn't auto-retarget base when the base branch isn't deleted. Rule for this repo: base every PR on `main`, never on another feature branch.
+- **`override.yml` auto-merge pattern.** Docker-expert recommended explicit `-f` files over Docker's auto-merge convention — one extra flag buys total explicitness about what's loaded where, critical for a project that was just burned by implicit env passthrough.
+
+**Unresolved**
+- `prod` branch is 1 commit behind `main` (`6ba32ba` runbook doc fix). Per the runbook's own rule, prod only fast-forwards after `make dev-smoke` green — and dev-stack secrets (`.env.dev`, dev Telegram bot) are not yet configured. Prod will catch up on the next real code change that earns a full smoke run.
+- 6 files staged but uncommitted on `main` (legal briefing rename + attachment updates + project state). Need commit + push.
+- `CLAUDE.md` Key Documents table does not yet list `docs/development.md`, `docs/runbook-prod-deploy.md`, `Makefile`, `infra/docker/docker-compose.dev.yml`, `.githooks/pre-push`, or the renamed legal briefing. Pricing reference still says "199–799 kr./month" vs current Watchman/Sentinel tiers.
+- Dev Telegram bot (@BotFather) not yet created. Blocks `make dev-smoke` and therefore blocks any future `prod` fast-forward.
+- `feedback_never_touch_user_edits.md` memory saved but the "no honest framing" feedback was NOT saved (user rejected the memory write mid-session). Rule is active in-session but will not persist unless explicitly saved in a future session.
+
+---
+
 ## 2026-04-12 — ct-collector deleted, crt.sh SAN extraction + Sentinel CT monitoring shipped
 
 **Decided**

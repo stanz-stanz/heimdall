@@ -3,7 +3,7 @@
 **Document type:** Draft for lawyer review
 **Status:** PENDING LEGAL APPROVAL — do not send before counsel signs off
 **Prepared:** 2026-04-01
-**Related:** Legal briefing Q1, Q2, Q6
+**Related:** Legal briefing Q1, Q2, Q5
 
 ---
 
@@ -11,15 +11,15 @@
 
 This is the proposed first-contact message from Heimdall to a Danish small business. It contains one specific security finding about the recipient's website, framed as a security notification — not marketing.
 
-The message is channel-neutral: it may be delivered via email, website contact form, or Facebook Messenger depending on counsel's guidance on which channels are permissible (legal briefing Q1, Q3, Q5).
+The message is channel-neutral: it may be delivered via email, website contact form, or Facebook Messenger depending on counsel's guidance on which channels are permissible (legal briefing Q1, Q3).
 
 The message is intended to be reviewed by legal counsel to determine whether:
 
 1. This framing survives classification as "direkte markedsfoering" under Markedsforingsloven §10 (Q1)
 2. This message can lawfully be sent to Reklamebeskyttet businesses using website-sourced contact data (Q2)
-3. The responsible disclosure framing provides protection for a commercial sender (Q6)
+3. The responsible disclosure framing provides protection for a commercial sender (Q5)
 
-Two finding variants are included — one for directly observed findings (`provenance: direct`) and one for twin-derived findings (`provenance: unconfirmed`). The provenance distinction affects what language is legally defensible.
+Two finding variants are included — one for directly observed findings (`provenance: confirmed`) and one for twin-derived findings (`provenance: unconfirmed`). The provenance distinction affects what language is legally defensible.
 
 ---
 
@@ -84,15 +84,15 @@ The message contains one factual finding, a risk explanation, and a recommendati
 
 **Question:** Does sender identity as a commercial entity convert this into marketing, even when the message body has no commercial content?
 
-### 2. Provenance distinction — twin-derived vs. directly observed (Q4)
+### 2. Provenance distinction — confirmed vs. unconfirmed (Q4)
 
-Variant A uses "we have observed" (directly seen in public data). Variant B uses hedged language — "publicly known to be affected by" and "we have not tested your system directly." Presenting twin-derived findings as directly observed would constitute misrepresentation.
+Variant A uses "we have observed" (directly seen in public data, `provenance: confirmed`). Variant B uses hedged language — "publicly known to be affected by" and "we have not tested your system directly" (`provenance: unconfirmed`). Presenting unconfirmed findings as confirmed would constitute misrepresentation.
 
 **Question:** Is Variant B language sufficient to avoid liability if the finding is inaccurate?
 
-### 3. Responsible disclosure framing (Q6)
+### 3. Responsible disclosure framing (Q5)
 
-The message follows standard responsible disclosure structure: identifies the issue, explains the risk, recommends remediation via the recipient's own resources, identifies the disclosing party. This mirrors NIS2-encouraged practices.
+The message follows standard responsible disclosure structure: identifies the issue, explains the risk, recommends remediation via the recipient's own resources, identifies the disclosing party. This mirrors the supervised practice under Denmark's NIS2 law (`LOV 434/2025`, in force 2025-07-01) and the coordinated vulnerability disclosure framework of the EU Cyber Resilience Act Article 14 (Regulation 2024/2847, reporting obligations from 2026-09-11).
 
 **Question:** Does responsible disclosure framing protect a commercial entity from §10 complaints?
 
@@ -110,4 +110,4 @@ The footer establishes that no §263 violation occurred (only publicly served da
 
 1. **Include the Heimdall self-description sentence?** It's the only sentence that could be construed as promotional. Removing it makes the message a pure disclosure but eliminates context.
 2. **Twin-derived findings in first contact at all?** More compelling but carry misrepresentation risk if inaccurate. Counsel should confirm whether Variant B language is sufficient.
-3. **Channel selection:** Which electronic channels are permissible for this message? (Depends on Q1, Q3, Q5 answers.)
+3. **Channel selection:** Which electronic channels are permissible for this message? (Depends on Q1 and Q3 answers.)
