@@ -38,6 +38,17 @@ alias heimdall-pipeline="docker compose -p docker -f $COMPOSE_FILE run --rm --en
 alias heimdall-smoke="docker compose -p docker -f $COMPOSE_FILE run --rm --entrypoint bash -v $HEIMDALL_DIR/scripts/docker-smoke.sh:/tmp/smoke.sh:ro worker /tmp/smoke.sh"
 alias heimdall-audit="cd $HEIMDALL_DIR && python3 scripts/audit.py"
 
+# Manual wrappers for scripts that normally run via cron/one-shot.
+# Surfacing them as aliases lets the operator trigger them ad-hoc.
+alias heimdall-backup="$HEIMDALL_DIR/scripts/backup.sh"
+alias heimdall-health="$HEIMDALL_DIR/scripts/healthcheck.sh"
+alias heimdall-validate="bash $HEIMDALL_DIR/scripts/validate_pi5.sh"
+
+# List locally-cached SHA-tagged Heimdall images — the set that
+# heimdall-rollback can target. Until PR-F adds GHCR publish, this is
+# also the only place those tags exist.
+alias heimdall-tags="docker images --format '{{.Repository}}:{{.Tag}}\t{{.CreatedSince}}' | grep '^heimdall-' | sort -u"
+
 # Rollback to a prior git-SHA image tag. Usage: heimdall-rollback abc1234
 # The tag must already exist as a local docker image — this PR does not push
 # to a registry, so rollback is limited to the local image cache (which
