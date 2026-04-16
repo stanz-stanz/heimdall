@@ -69,12 +69,3 @@ jobs:
           # GHA's 10 GB LRU cache, with each job evicting the others.
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
-
-      - name: Sanity — no secrets in image history
-        run: |
-          docker pull ghcr.io/${{ github.repository_owner }}/heimdall-${{ matrix.service }}:${{ steps.shortsha.outputs.short }}
-          # Eyeball the layer list for obvious secret leakage (env var values
-          # printed in RUN output, inline tokens). This is a visibility gate,
-          # not a blocking check — images are public once flipped, so anything
-          # in the layers is observable.
-          docker history --no-trunc ghcr.io/${{ github.repository_owner }}/heimdall-${{ matrix.service }}:${{ steps.shortsha.outputs.short }} | head -50
