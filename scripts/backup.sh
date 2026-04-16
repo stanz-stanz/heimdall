@@ -31,7 +31,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-COMPOSE_FILE="$PROJECT_DIR/infra/docker/docker-compose.yml"
+COMPOSE_FILE="$PROJECT_DIR/infra/compose/docker-compose.yml"
 BACKUP_ROOT="${HEIMDALL_BACKUP_DIR:-$PROJECT_DIR/backups}"
 BACKUP_DIR="$BACKUP_ROOT/$(date +%Y-%m-%d-%H%M%S)"
 LOG_FILE="$BACKUP_ROOT/backup.log"

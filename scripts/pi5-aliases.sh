@@ -8,8 +8,8 @@
 unset COMPOSE_PROJECT_NAME
 
 HEIMDALL_DIR="$HOME/heimdall"
-COMPOSE_FILE="$HEIMDALL_DIR/infra/docker/docker-compose.yml"
-COMPOSE_MON="$HEIMDALL_DIR/infra/docker/docker-compose.monitoring.yml"
+COMPOSE_FILE="$HEIMDALL_DIR/infra/compose/docker-compose.yml"
+COMPOSE_MON="$HEIMDALL_DIR/infra/compose/docker-compose.monitoring.yml"
 
 # Git-SHA image tags. Exported so docker compose expands ${HEIMDALL_TAG:-latest}
 # in the image: field of every buildable service. `-dirty` suffix fires if the

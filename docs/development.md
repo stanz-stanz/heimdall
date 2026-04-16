@@ -76,16 +76,16 @@ prod` unless `HEIMDALL_APPROVED=1` is set in the same shell command,
 and is a cheap belt before GitHub branch protection is wired up. See
 `docs/runbook-prod-deploy.md` for the full deploy flow.
 
-### 5. `infra/docker/.env.dev`
+### 5. `infra/compose/.env.dev`
 
 Copy the template and fill in the dev secrets:
 
 ```bash
-cp infra/docker/.env.dev.example infra/docker/.env.dev
-$EDITOR infra/docker/.env.dev
+cp infra/compose/.env.dev.example infra/compose/.env.dev
+$EDITOR infra/compose/.env.dev
 ```
 
-`infra/docker/.env.dev` is **gitignored**. It must contain at minimum:
+`infra/compose/.env.dev` is **gitignored**. It must contain at minimum:
 
 | Key | Source |
 |---|---|
@@ -199,8 +199,8 @@ The dev stack cannot collide with prod. Every layer of isolation:
   All containers, networks, and volumes are prefixed accordingly.
 - **Host ports**: dev api is on `8001`, prod is on `8000`. Dev redis
   publishes `6379` to the host for integration tests; prod never does.
-- **Secrets**: dev stack reads `infra/docker/.env.dev`, prod reads
-  `infra/docker/.env`. Both are gitignored. Both require manual setup
+- **Secrets**: dev stack reads `infra/compose/.env.dev`, prod reads
+  `infra/compose/.env`. Both are gitignored. Both require manual setup
   on their respective machines.
 - **Database**: dev uses `data/dev/clients.db`; prod uses the Pi5
   named volume `docker_client-data`. Different files on different
@@ -219,7 +219,7 @@ The dev stack cannot collide with prod. Every layer of isolation:
 **`make dev-up` hangs at "waiting for healthcheck"**
 Inspect the stuck service: `make dev-ps`, then `make dev-logs`. Most
 common: a Dockerfile change broke the healthcheck, or a container is
-crash-looping on a missing env var — check `infra/docker/.env.dev`
+crash-looping on a missing env var — check `infra/compose/.env.dev`
 against the example file.
 
 **`pytest -m integration` errors with "dev stack Redis unreachable"**
@@ -249,7 +249,7 @@ new test dependency locally, also add it to the CI workflow's
 
 ## Do not
 
-- Do not commit `infra/docker/.env.dev` or any file under `secrets/`.
+- Do not commit `infra/compose/.env.dev` or any file under `secrets/`.
 - Do not commit `data/dev/clients.db` or its WAL/SHM siblings — they
   are rebuilt on demand from the JSON fixture.
 - Do not point the dev stack at real client domains. The dev dataset

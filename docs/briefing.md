@@ -178,7 +178,7 @@ The Pi is an implementation detail for the pilot, not a selling point. Clients c
 
 ### Digital Twin Container (Testing Infrastructure)
 
-The digital twin runs as a Docker Compose service under profile `["twin"]`, exposing ports 9080 (HTTP) and 9443 (HTTPS with self-signed TLS cert). Resource budget: 256 MB RAM. The twin container reconstructs a target's CMS environment from Layer 1 scan data (detected CMS version, plugins, theme) and serves it locally for Layer 2 scanning. This is testing infrastructure — it does not serve client traffic and is not part of the production scanning pipeline. Implementation: `tools/twin/`, Docker support in `infra/docker/Dockerfile.twin`, pipeline integration via `src/worker/twin_scan.py`.
+The digital twin runs as a Docker Compose service under profile `["twin"]`, exposing ports 9080 (HTTP) and 9443 (HTTPS with self-signed TLS cert). Resource budget: 256 MB RAM. The twin container reconstructs a target's CMS environment from Layer 1 scan data (detected CMS version, plugins, theme) and serves it locally for Layer 2 scanning. This is testing infrastructure — it does not serve client traffic and is not part of the production scanning pipeline. Implementation: `tools/twin/`, Docker support in `infra/compose/Dockerfile.twin`, pipeline integration via `src/worker/twin_scan.py`.
 
 ### Operator Console
 

@@ -21,11 +21,11 @@ SHELL := /bin/bash
 # do NOT want that. Every docker-compose invocation pins `-p` explicitly.
 unexport COMPOSE_PROJECT_NAME
 
-COMPOSE_PROD    := infra/docker/docker-compose.yml
-COMPOSE_DEV     := infra/docker/docker-compose.dev.yml
-COMPOSE_MON     := infra/docker/docker-compose.monitoring.yml
-ENV_DEV         := infra/docker/.env.dev
-ENV_DEV_EXAMPLE := infra/docker/.env.dev.example
+COMPOSE_PROD    := infra/compose/docker-compose.yml
+COMPOSE_DEV     := infra/compose/docker-compose.dev.yml
+COMPOSE_MON     := infra/compose/docker-compose.monitoring.yml
+ENV_DEV         := infra/compose/.env.dev
+ENV_DEV_EXAMPLE := infra/compose/.env.dev.example
 
 # Git SHA is the immutable image tag. `-dirty` suffix fires if the working
 # tree has uncommitted changes — stops accidental "latest"-builds of
@@ -47,7 +47,7 @@ help: ## Show this help.
 # --- Dev stack lifecycle ------------------------------------------------
 
 .PHONY: check-env
-check-env: ## Error if infra/docker/.env.dev is missing.
+check-env: ## Error if infra/compose/.env.dev is missing.
 	@if [ ! -f "$(ENV_DEV)" ]; then \
 		echo "error: $(ENV_DEV) not found."; \
 		echo "Copy $(ENV_DEV_EXAMPLE) to $(ENV_DEV) and fill in dev secrets."; \

@@ -20,7 +20,7 @@ config/              Static configuration (JSON)
 data/input/          Manual input (CVR extracts)
 data/output/         Pipeline results (briefs, CSV)
 docs/                Briefing, business plan, legal, architecture
-infra/docker/        Docker Compose, Dockerfiles, Prometheus, Grafana
+infra/compose/        Docker Compose, Dockerfiles, Prometheus, Grafana
 scripts/             Benchmark, analysis, and utility scripts
 tests/               pytest test suite (217 tests)
 ```
@@ -29,7 +29,7 @@ tests/               pytest test suite (217 tests)
 
 ```bash
 # Build and start the full stack (scheduler, 3 workers, Redis, ct-collector, monitoring)
-docker compose -f infra/docker/docker-compose.yml -f infra/docker/docker-compose.monitoring.yml up -d --build
+docker compose -f infra/compose/docker-compose.yml -f infra/compose/docker-compose.monitoring.yml up -d --build
 
 # Analyze results after a run completes
 docker exec docker-worker-1 python scripts/analyze_results.py /data/results/prospect

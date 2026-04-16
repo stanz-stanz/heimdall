@@ -19,7 +19,7 @@ def is_env_path(token: str) -> bool:
         return True
     if token.startswith(".env.") or "/.env." in token:
         return True
-    # Matches things like infra/docker/.env
+    # Matches things like infra/compose/.env
     parts = token.split("/")
     return parts[-1].startswith(".env")
 

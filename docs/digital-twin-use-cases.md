@@ -114,7 +114,7 @@ The twin runs as a Docker Compose profile:
 
 ```bash
 # Start twin for a specific prospect
-BRIEF_FILE=/config/conrads.dk.json docker compose -f infra/docker/docker-compose.yml --profile twin up --build twin
+BRIEF_FILE=/config/conrads.dk.json docker compose -f infra/compose/docker-compose.yml --profile twin up --build twin
 
 # Or via convenience script
 ./tools/twin/run.sh conrads.dk.json
@@ -132,5 +132,5 @@ SSL_CERT_FILE=/tmp/twin-cert.pem python -m src.prospecting.main
 ```
 
 Source: `tools/twin/` — templates, server, tests, slug mapping.
-Docker: `infra/docker/Dockerfile.twin` — python:3.11-slim, self-signed cert at build time.
-Compose: `infra/docker/docker-compose.yml` — profile `["twin"]`, ports 9080/9443.
+Docker: `infra/compose/Dockerfile.twin` — python:3.11-slim, self-signed cert at build time.
+Compose: `infra/compose/docker-compose.yml` — profile `["twin"]`, ports 9080/9443.
