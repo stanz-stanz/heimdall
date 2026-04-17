@@ -1,0 +1,12 @@
+{
+  "_note": "Synthetic target for the interpreter operational dry run. Consumed by scripts/dev/interpret_dry_run.py only. Separate from config/ct_dry_run.json (different pipeline path) and config/synthetic_targets.json (twin consent-bypass; this script only exercises the Layer-1 brief-interpretation path).",
+  "cvr_prefix": "DRYRUN-INT-",
+  "synthetic_cvr": "DRYRUN-INT-M33-001",
+  "synthetic_company_name": "Dry Run Interpret Demo",
+  "synthetic_contact_name": "Dry Run Operator",
+  "synthetic_preferred_language": "en",
+  "synthetic_plan": "watchman",
+  "domain": "interpret-dryrun.heimdall.invalid",
+  "industry": "restaurant with online booking system",
+  "subscriber_wait_seconds": 60
+}
