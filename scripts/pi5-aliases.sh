@@ -44,6 +44,34 @@ alias heimdall-backup="$HEIMDALL_DIR/scripts/backup.sh"
 alias heimdall-health="$HEIMDALL_DIR/scripts/healthcheck.sh"
 alias heimdall-validate="bash $HEIMDALL_DIR/scripts/validate_pi5.sh"
 
+# M33 operational verification: confirm the Claude API key is delivered via
+# /run/secrets (file-backed) and NOT leaked into the CLAUDE_API_KEY env var
+# for every service that mounts it. Run post-deploy and after any compose
+# secrets edit.
+#
+# Uses `test -s` (exit code only) — never reads secret contents. Even a byte
+# count leaks signal, so no cat/head/wc. The env-var absence check catches
+# a PR-D regression where a service still pulls the key from the environment.
+heimdall-verify-secrets() {
+    local fail=0
+    local svc
+    for svc in scheduler api delivery; do
+        if ! docker compose -p docker -f "$COMPOSE_FILE" exec -T "$svc" test -s /run/secrets/claude_api_key; then
+            echo "FAIL: $svc /run/secrets/claude_api_key missing or empty"
+            fail=1
+        fi
+        if ! docker compose -p docker -f "$COMPOSE_FILE" exec -T "$svc" sh -c 'test -z "$CLAUDE_API_KEY"'; then
+            echo "FAIL: $svc CLAUDE_API_KEY env var is SET — file-backed secret bypassed"
+            fail=1
+        fi
+    done
+    if [ "$fail" -ne 0 ]; then
+        return 1
+    fi
+    echo "OK: claude_api_key populated via /run/secrets in 3 services, no env fallback"
+    return 0
+}
+
 # List locally-cached SHA-tagged Heimdall images — first-choice rollback
 # targets. If a SHA is not in this list, heimdall-rollback falls through
 # to GHCR pull (publish-images.yml keeps the last ~30 SHAs per service).
