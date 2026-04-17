@@ -22,7 +22,7 @@ _COLUMN_ADDS: list[tuple[str, str, str]] = [
 ]
 
 
-def _add_missing_columns(conn: sqlite3.Connection) -> list[str]:
+def apply_pending_migrations(conn: sqlite3.Connection) -> list[str]:
     """Apply ALTER TABLE ADD COLUMN for any missing columns listed in _COLUMN_ADDS.
 
     Returns the list of columns added this run (empty if schema already up to date).
@@ -36,6 +36,12 @@ def _add_missing_columns(conn: sqlite3.Connection) -> list[str]:
         conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {col_def}")
         added.append(f"{table}.{col}")
     return added
+
+
+# Backwards-compatible alias. Keep for one release so existing callers
+# (tests/test_ct_monitor.py, tests/test_scheduler_monitor_handler.py,
+# scripts/dev/cert_change_dry_run.py) continue to work unchanged.
+_add_missing_columns = apply_pending_migrations
 
 
 def main():
@@ -55,7 +61,7 @@ def main():
         sys.exit(1)
 
     conn = init_db(args.db_path)
-    added = _add_missing_columns(conn)
+    added = apply_pending_migrations(conn)
     if added:
         print(f"Added columns: {', '.join(added)}")
     # Checkpoint WAL so immutable=1 readers can see the new tables

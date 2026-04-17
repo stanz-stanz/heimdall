@@ -104,6 +104,43 @@ def test_init_db_idempotent(tmp_path: object) -> None:
     conn2.close()
 
 
+def test_init_db_applies_ct_columns(tmp_path: object) -> None:
+    """init_db applies pending ALTER TABLE migrations on a fresh database.
+
+    Sentinel CT monitoring columns live in migrate._COLUMN_ADDS, not in
+    CREATE TABLE. A fresh DB must have them present immediately after
+    init_db returns, otherwise the CT monitor path breaks.
+    """
+    conn = init_db(tmp_path / "test.db")  # type: ignore[arg-type]
+    rows = conn.execute("PRAGMA table_info(clients)").fetchall()
+    column_names = {row[1] for row in rows}
+    assert "monitoring_enabled" in column_names, (
+        f"monitoring_enabled missing from clients; got {sorted(column_names)}"
+    )
+    assert "ct_last_polled_at" in column_names, (
+        f"ct_last_polled_at missing from clients; got {sorted(column_names)}"
+    )
+    conn.close()
+
+
+def test_init_db_idempotent_on_migrated_db(tmp_path: object) -> None:
+    """Calling init_db twice on an already-migrated DB is safe and a no-op.
+
+    The second call must not raise (duplicate-column error) and the CT
+    columns must still be present.
+    """
+    db_path = tmp_path / "test.db"  # type: ignore[operator]
+    conn1 = init_db(db_path)
+    conn1.close()
+
+    conn2 = init_db(db_path)
+    rows = conn2.execute("PRAGMA table_info(clients)").fetchall()
+    column_names = {row[1] for row in rows}
+    assert "monitoring_enabled" in column_names
+    assert "ct_last_polled_at" in column_names
+    conn2.close()
+
+
 def test_open_readonly_rejects_writes(tmp_path: object) -> None:
     """A read-only connection must reject INSERT statements."""
     db_path = tmp_path / "test.db"  # type: ignore[operator]
