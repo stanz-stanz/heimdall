@@ -209,3 +209,84 @@ def test_ct_last_polled_at_updated(tmp_path, monkeypatch) -> None:
     ct_monitor.poll_and_diff_client("123", "foo.dk", db, redis)
     row = db.execute("SELECT ct_last_polled_at FROM clients WHERE cvr = '123'").fetchone()
     assert row["ct_last_polled_at"] is not None
+
+
+class _CommitTrackingConn:
+    """Proxy around sqlite3.Connection that flips a flag on commit().
+
+    sqlite3.Connection is a C type and its ``commit`` attribute is read-only,
+    so we cannot monkeypatch it directly. A thin proxy is enough: the module
+    under test only calls ``.execute()`` and ``.commit()`` on the connection.
+    """
+
+    def __init__(self, conn: sqlite3.Connection) -> None:
+        self._conn = conn
+        self.committed = False
+
+    def execute(self, *args, **kwargs):
+        return self._conn.execute(*args, **kwargs)
+
+    def commit(self) -> None:
+        self._conn.commit()
+        self.committed = True
+
+
+def test_publish_happens_after_commit(tmp_path, monkeypatch) -> None:
+    """Regression: Redis publish must fire AFTER db_conn.commit() so the
+    delivery runner never races the SELECT on client_cert_changes.
+
+    We wrap the connection to flip a flag on commit(), and give the MagicMock
+    redis a publish side_effect that records the commit flag value at the
+    moment publish is invoked. The top-level assertion then inspects that
+    recorded value — kept outside the production code's try/except so a
+    swallowed AssertionError can't mask the regression.
+    """
+    real_db = _mk_db(tmp_path)
+
+    # Seed a baseline directly on the real connection so the second poll's
+    # new cert actually produces a change.
+    baseline = [
+        {
+            "id": "1",
+            "cert_sha256": "aaa",
+            "dns_names": ["foo.dk"],
+            "issuer": {"friendly_name": "Let's Encrypt"},
+        }
+    ]
+    monkeypatch.setattr(ct_monitor, "_fetch_issuances", lambda *a, **k: baseline)
+    ct_monitor.poll_and_diff_client("123", "foo.dk", real_db, MagicMock())
+
+    # Now wrap the connection for the assertion-under-test on the second poll.
+    tracked = _CommitTrackingConn(real_db)
+
+    # Record the commit flag state at each publish call. The production code
+    # wraps publish in `try: ... except Exception:`, so an AssertionError
+    # raised from inside this side_effect would be silently swallowed. We
+    # therefore only record here and assert at test scope.
+    publish_order: list[bool] = []
+
+    def asserting_publish(channel, data):
+        publish_order.append(tracked.committed)
+
+    redis = MagicMock()
+    redis.publish.side_effect = asserting_publish
+
+    second = [
+        *baseline,
+        {
+            "id": "2",
+            "cert_sha256": "bbb",
+            "dns_names": ["foo.dk"],
+            "issuer": {"friendly_name": "Let's Encrypt"},
+        },
+    ]
+    monkeypatch.setattr(ct_monitor, "_fetch_issuances", lambda *a, **k: second)
+    summary = ct_monitor.poll_and_diff_client("123", "foo.dk", tracked, redis)
+
+    assert summary["changes"] == 1
+    assert tracked.committed is True
+    redis.publish.assert_called_once()
+    assert publish_order == [True], (
+        f"redis.publish fired with committed={publish_order} — "
+        "pre-commit race reintroduced"
+    )
