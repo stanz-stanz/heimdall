@@ -221,27 +221,6 @@ def main() -> int:
         if summary["changes"] == 0:
             return _fail("ct_monitor emitted 0 changes — classifier did not fire")
 
-        # Re-publish the change event after ct_monitor's commit has flushed.
-        # NOTE: ct_monitor.poll_and_diff_client publishes each event BEFORE the
-        # final db_conn.commit() (src/client_memory/ct_monitor.py:286 vs :306),
-        # so the delivery runner's first lookup can race and emit
-        # `cert_change_not_found`. Separately documented as a production bug.
-        # Repeat publish after commit guarantees the subscriber sees the row.
-        latest = conn.execute(
-            "SELECT id, change_type FROM client_cert_changes "
-            "WHERE cvr = ? AND domain = ? ORDER BY id DESC LIMIT 1",
-            (cvr, domain),
-        ).fetchone()
-        r.publish(
-            "client-cert-change",
-            json.dumps({
-                "change_id": latest["id"],
-                "cvr": cvr,
-                "domain": domain,
-                "change_type": latest["change_type"],
-            }),
-        )
-
         got_event: dict | None = None
         got_sub_log = False
         deadline = time.time() + wait_s

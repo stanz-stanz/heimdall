@@ -241,6 +241,16 @@ def poll_and_diff_client(
 
     first_poll = not prior
 
+    # Buffer Redis payloads inside the loop and drain them AFTER db_conn.commit()
+    # below. Publishing before commit let the delivery runner race the SELECT on
+    # client_cert_changes and log cert_change_not_found (see runner.py). Order
+    # is: INSERT → buffer payload → commit → publish. Crash window: if the
+    # process dies between commit() and drain, rows exist with status='pending'
+    # but no event fires. Follow-up (not this PR): delivery runner startup
+    # could sweep client_cert_changes WHERE status='pending' AND detected_at >
+    # now()-1h and re-trigger.
+    buffered_events: list[dict[str, Any]] = []
+
     for issuance in issuances:
         norm = _normalize_issuance(issuance)
         if not norm["cert_sha256"]:
@@ -282,28 +292,30 @@ def poll_and_diff_client(
         summary["changes"] += 1
 
         if redis_conn is not None:
-            try:
-                redis_conn.publish(
-                    _CHANNEL,
-                    json.dumps(
-                        {
-                            "change_id": change_id,
-                            "cvr": cvr,
-                            "domain": primary_domain,
-                            "change_type": change_type,
-                        }
-                    ),
-                )
-            except Exception as exc:  # Redis publish is best-effort
-                logger.bind(context={"error": str(exc)}).warning(
-                    "ct_change_publish_failed"
-                )
+            buffered_events.append(
+                {
+                    "change_id": change_id,
+                    "cvr": cvr,
+                    "domain": primary_domain,
+                    "change_type": change_type,
+                }
+            )
 
     db_conn.execute(
         "UPDATE clients SET ct_last_polled_at = ? WHERE cvr = ?",
         (_now(), cvr),
     )
     db_conn.commit()
+
+    # Drain buffered publishes post-commit. Per-event try/except so one Redis
+    # hiccup does not abort subsequent publishes in the same batch.
+    for payload in buffered_events:
+        try:
+            redis_conn.publish(_CHANNEL, json.dumps(payload))
+        except Exception as exc:  # Redis publish is best-effort
+            logger.bind(
+                context={"change_id": payload.get("change_id"), "error": str(exc)}
+            ).warning("ct_change_publish_failed")
 
     logger.bind(
         context={"cvr": cvr, "domain": primary_domain, **summary}
