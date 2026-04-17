@@ -236,8 +236,10 @@ def test_publish_happens_after_commit(tmp_path, monkeypatch) -> None:
     delivery runner never races the SELECT on client_cert_changes.
 
     We wrap the connection to flip a flag on commit(), and give the MagicMock
-    redis a publish side_effect that asserts the flag is True. If publish runs
-    before commit, the side_effect raises and the test fails loudly.
+    redis a publish side_effect that records the commit flag value at the
+    moment publish is invoked. The top-level assertion then inspects that
+    recorded value — kept outside the production code's try/except so a
+    swallowed AssertionError can't mask the regression.
     """
     real_db = _mk_db(tmp_path)
 
@@ -257,11 +259,14 @@ def test_publish_happens_after_commit(tmp_path, monkeypatch) -> None:
     # Now wrap the connection for the assertion-under-test on the second poll.
     tracked = _CommitTrackingConn(real_db)
 
+    # Record the commit flag state at each publish call. The production code
+    # wraps publish in `try: ... except Exception:`, so an AssertionError
+    # raised from inside this side_effect would be silently swallowed. We
+    # therefore only record here and assert at test scope.
+    publish_order: list[bool] = []
+
     def asserting_publish(channel, data):
-        assert tracked.committed is True, (
-            "redis.publish fired BEFORE db_conn.commit() — the pre-commit race "
-            "is back and delivery runner will emit cert_change_not_found"
-        )
+        publish_order.append(tracked.committed)
 
     redis = MagicMock()
     redis.publish.side_effect = asserting_publish
@@ -281,3 +286,7 @@ def test_publish_happens_after_commit(tmp_path, monkeypatch) -> None:
     assert summary["changes"] == 1
     assert tracked.committed is True
     redis.publish.assert_called_once()
+    assert publish_order == [True], (
+        f"redis.publish fired with committed={publish_order} — "
+        "pre-commit race reintroduced"
+    )
