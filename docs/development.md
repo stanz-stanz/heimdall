@@ -187,6 +187,24 @@ make compose-lint
 Validates that both prod and dev compose renders parse without error.
 Fast, deterministic. Run it before committing any compose file change.
 
+### Cert-change dry run
+
+```bash
+make dev-cert-dry-run
+```
+
+End-to-end verification of the Sentinel-tier cert-change alert path
+against a synthetic target. Docker-cps the current host copy of
+`scripts/dev/cert_change_dry_run.py` + `config/ct_dry_run.json` into
+the delivery container, then execs the driver. Hits CertSpotter (one
+real HTTP request), seeds a fabricated stale snapshot in
+`client_cert_snapshots`, calls `poll_and_diff_client`, watches the
+`client-cert-change` and `console:logs` Redis channels, and asserts
+composer output. Telegram is never invoked — the synthetic client's
+`telegram_chat_id` is NULL, so the delivery runner short-circuits at
+`src/delivery/runner.py:358`. Cleanup is unconditional on the `DRYRUN-`
+CVR prefix. Wall-clock ≈ 10s. Safe to rerun.
+
 ### Stack lifecycle
 
 | Command | What it does |

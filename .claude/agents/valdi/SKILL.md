@@ -172,6 +172,8 @@ File: `data/valdi/active_approvals.json`
 
 If a function's source code changes (detected by hash comparison), the corresponding approval token is automatically invalidated. A new validation is required.
 
+**Helper-function hashing.** When a registered function delegates to an internal helper that does the scan work, the approval entry may carry `helper_hash` + `helper_function` fields. The runtime validator (`src/prospecting/scanners/registry.py::_validate_helper_hash`) re-hashes the helper from the wrapper's own module and fails worker boot on any drift. Invariant: the helper MUST be a module-level attribute of the wrapper's module (no cross-module helpers). Lambdas, non-callables, and unsourceable builtins are rejected. As of 2026-04-17 three approvals carry enforceable helper hashes: `homepage_meta_extraction::extract_rest_api_plugins`, `certificate_transparency_query::query_crt_sh_single`, `nmap_port_scan::parse_nmap_xml`. Every failure log line names `python scripts/valdi/regenerate_approvals.py --apply` as the remediation.
+
 ---
 
 ## Gate 2: Per-Target Authorisation

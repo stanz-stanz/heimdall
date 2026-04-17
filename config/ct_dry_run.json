@@ -1,0 +1,17 @@
+{
+  "_note": "Synthetic target for the cert-change alert dry run. Not related to config/synthetic_targets.json (that file is for twin consent-bypass; CT log data is consent-irrelevant public info). Consumed by scripts/dev/cert_change_dry_run.py only.",
+  "cvr_prefix": "DRYRUN-",
+  "synthetic_cvr": "DRYRUN-CERTDEMO-001",
+  "synthetic_company_name": "Dry Run Cert Demo",
+  "synthetic_contact_name": "Dry Run Operator",
+  "synthetic_preferred_language": "en",
+  "domain": "heimdall.dk",
+  "fake_prior_cert_sha256": "dryrun0000000000000000000000000000000000000000000000000000000000",
+  "fake_prior_issuer_name": "Dry Run CA (stale)",
+  "fake_prior_common_name": "heimdall.dk",
+  "fake_prior_dns_names": ["heimdall.dk"],
+  "fake_prior_not_before": "2024-01-01T00:00:00Z",
+  "fake_prior_not_after": "2024-04-01T00:00:00Z",
+  "subscriber_wait_seconds": 10,
+  "certspotter_timeout_seconds": 20
+}

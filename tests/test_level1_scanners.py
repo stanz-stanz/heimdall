@@ -14,6 +14,7 @@ from src.prospecting.scanners.registry import (
     _SCAN_TYPE_FUNCTIONS,
     _init_scan_type_map,
     _validate_approval_tokens,
+    _validate_helper_hash,
 )
 from src.prospecting.scanners.nuclei import run_nuclei
 from src.worker.cache import ScanCache
@@ -239,6 +240,103 @@ class TestLevelGatedValidation:
         with patch("builtins.open", return_value=io.StringIO(fake_approvals)):
             result = _validate_approval_tokens(max_level=1)
         assert result is None  # Should fail — missing nuclei token
+
+
+# ---------------------------------------------------------------------------
+# Helper hash enforcement tests
+# ---------------------------------------------------------------------------
+
+class TestHelperHashEnforcement:
+    """Verify _validate_helper_hash fails-closed on every unsafe branch."""
+
+    @staticmethod
+    def _live_helper_hash(wrapper, helper_name: str) -> str:
+        import hashlib
+        import inspect as _inspect
+        module = _inspect.getmodule(wrapper)
+        helper = getattr(module, helper_name)
+        return "sha256:" + hashlib.sha256(
+            _inspect.getsource(helper).encode("utf-8")
+        ).hexdigest()
+
+    def test_helper_hash_match_passes(self):
+        """A live, matching helper hash is accepted."""
+        from src.prospecting.scanners.wordpress import extract_page_meta
+        approval = {
+            "helper_function": "extract_rest_api_plugins",
+            "helper_hash": self._live_helper_hash(extract_page_meta, "extract_rest_api_plugins"),
+        }
+        assert _validate_helper_hash("homepage_meta_extraction", extract_page_meta, approval) is True
+
+    def test_no_helper_hash_is_backward_compatible(self):
+        """Approvals without helper_hash pass untouched (11 of 14 entries today)."""
+        from src.prospecting.scanners.tls import check_ssl
+        assert _validate_helper_hash("ssl_certificate_check", check_ssl, {}) is True
+
+    def test_helper_hash_mismatch_fails(self):
+        """A corrupted helper hash fails closed."""
+        from src.prospecting.scanners.wordpress import extract_page_meta
+        approval = {
+            "helper_function": "extract_rest_api_plugins",
+            "helper_hash": "sha256:" + "0" * 64,
+        }
+        assert _validate_helper_hash("homepage_meta_extraction", extract_page_meta, approval) is False
+
+    def test_helper_hash_without_helper_function_fails(self):
+        """Malformed entry (hash set, name missing) fails closed."""
+        from src.prospecting.scanners.wordpress import extract_page_meta
+        approval = {"helper_hash": "sha256:" + "a" * 64}
+        assert _validate_helper_hash("homepage_meta_extraction", extract_page_meta, approval) is False
+
+    def test_helper_function_not_in_module_fails(self):
+        """Helper name resolving to nothing on the wrapper's module fails closed."""
+        from src.prospecting.scanners.wordpress import extract_page_meta
+        approval = {
+            "helper_function": "nonexistent_helper_xyz",
+            "helper_hash": "sha256:" + "b" * 64,
+        }
+        assert _validate_helper_hash("homepage_meta_extraction", extract_page_meta, approval) is False
+
+    def test_helper_function_non_callable_fails(self):
+        """Helper name resolving to a module-level constant fails closed."""
+        from src.prospecting.scanners import wordpress
+        from src.prospecting.scanners.wordpress import extract_page_meta
+        try:
+            wordpress._TEST_CONSTANT = 42
+            approval = {
+                "helper_function": "_TEST_CONSTANT",
+                "helper_hash": "sha256:" + "c" * 64,
+            }
+            assert _validate_helper_hash("homepage_meta_extraction", extract_page_meta, approval) is False
+        finally:
+            delattr(wordpress, "_TEST_CONSTANT")
+
+    def test_helper_function_lambda_fails(self):
+        """Lambdas are rejected — they're brittle under formatter changes."""
+        from src.prospecting.scanners import wordpress
+        from src.prospecting.scanners.wordpress import extract_page_meta
+        try:
+            wordpress._test_lambda = lambda x: x
+            approval = {
+                "helper_function": "_test_lambda",
+                "helper_hash": "sha256:" + "d" * 64,
+            }
+            assert _validate_helper_hash("homepage_meta_extraction", extract_page_meta, approval) is False
+        finally:
+            delattr(wordpress, "_test_lambda")
+
+    def test_helper_function_unsourceable_fails(self):
+        """A helper whose source cannot be read fails closed."""
+        from src.prospecting.scanners.wordpress import extract_page_meta
+        approval = {
+            "helper_function": "extract_rest_api_plugins",
+            "helper_hash": "sha256:" + "e" * 64,
+        }
+        with patch(
+            "src.prospecting.scanners.registry.inspect.getsource",
+            side_effect=OSError("source not available"),
+        ):
+            assert _validate_helper_hash("homepage_meta_extraction", extract_page_meta, approval) is False
 
 
 # ---------------------------------------------------------------------------
