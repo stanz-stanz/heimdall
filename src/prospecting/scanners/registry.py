@@ -72,6 +72,12 @@ def _validate_approval_tokens(max_level: int = 0) -> dict | None:
     Only validates functions at or below *max_level*. A Level 0 worker does
     not need approval tokens for Level 1 scan types.
 
+    For approvals that carry `helper_hash` + `helper_function`, the helper is
+    re-hashed and compared too. Invariant: the helper must be a module-level
+    attribute of the wrapper's own module. Lambdas, non-callables, and
+    unsourceable builtins are rejected. Any mismatch fails the whole boot
+    and names `scripts/valdi/regenerate_approvals.py --apply` as the remedy.
+
     Returns the approvals dict on success, None on failure.
     """
     from src.prospecting.config import PROJECT_ROOT
@@ -109,4 +115,83 @@ def _validate_approval_tokens(max_level: int = 0) -> dict | None:
             )
             return None
 
+        if not _validate_helper_hash(scan_type_id, func, approval):
+            return None
+
     return data
+
+
+def _validate_helper_hash(scan_type_id: str, func: callable, approval: dict) -> bool:
+    """Enforce approval[helper_hash] when present.
+
+    Fails closed on missing helper_function, helper not co-located with the
+    wrapper's module, non-callable helper, lambda, unsourceable helper, or
+    hash mismatch. Returns True if the approval has no helper_hash (the
+    common case) or the helper matches.
+    """
+    helper_hash = approval.get("helper_hash")
+    if not helper_hash:
+        return True
+
+    remedy = "`python scripts/valdi/regenerate_approvals.py --apply`"
+    helper_name = approval.get("helper_function")
+    if not helper_name:
+        logger.error(
+            "Approval for {} has helper_hash but no helper_function — "
+            "malformed entry. Re-submit to Valdi: {}",
+            scan_type_id, remedy,
+        )
+        return False
+
+    module = inspect.getmodule(func)
+    helper = getattr(module, helper_name, None)
+    if helper is None:
+        logger.error(
+            "helper_function `{}` is not a module-level attribute of `{}` "
+            "for scan type {} — approval invalid. "
+            "(Invariant: helpers must co-locate with their wrapper module.) "
+            "Re-submit to Valdi: {}",
+            helper_name,
+            module.__name__ if module else "<unknown>",
+            scan_type_id,
+            remedy,
+        )
+        return False
+
+    if not callable(helper):
+        logger.error(
+            "helper_function `{}` for {} resolves to a non-callable — "
+            "approval invalid. Re-submit to Valdi: {}",
+            helper_name, scan_type_id, remedy,
+        )
+        return False
+
+    if getattr(helper, "__name__", "") == "<lambda>":
+        logger.error(
+            "helper_function `{}` for {} is a lambda — lambdas are not "
+            "approval-gated. Refactor to a named function. "
+            "Re-submit to Valdi: {}",
+            helper_name, scan_type_id, remedy,
+        )
+        return False
+
+    try:
+        helper_source = inspect.getsource(helper).encode("utf-8")
+    except (TypeError, OSError) as e:
+        logger.error(
+            "Cannot read source of helper `{}` for {} ({}). "
+            "Approval invalid. Re-submit to Valdi: {}",
+            helper_name, scan_type_id, e, remedy,
+        )
+        return False
+
+    current_helper_hash = "sha256:" + hashlib.sha256(helper_source).hexdigest()
+    if current_helper_hash != helper_hash:
+        logger.error(
+            "Helper hash mismatch for {}::{} — approval token invalidated. "
+            "Re-submit to Valdi: {}",
+            scan_type_id, helper_name, remedy,
+        )
+        return False
+
+    return True
