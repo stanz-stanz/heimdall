@@ -112,6 +112,12 @@ dev-pytest-integration: ## Run integration tests against the running dev stack.
 dev-smoke: dev-up dev-seed dev-pytest-integration ## End-to-end dev verification.
 	@echo "dev smoke: OK"
 
+.PHONY: dev-cert-dry-run
+dev-cert-dry-run: dev-up ## End-to-end cert-change alert dry run (synthetic target, no Telegram send).
+	@docker cp scripts/dev/cert_change_dry_run.py heimdall_dev-delivery-1:/app/scripts/dev/cert_change_dry_run.py
+	@docker cp config/ct_dry_run.json heimdall_dev-delivery-1:/app/config/ct_dry_run.json
+	@docker exec heimdall_dev-delivery-1 python scripts/dev/cert_change_dry_run.py
+
 .PHONY: dev-ops-smoke
 dev-ops-smoke: dev-up ## Exercise Pi5 operational scripts against the dev stack.
 	@echo "==> backup.sh (dev stack, tmp backup dir)"
@@ -138,6 +144,62 @@ dev-ops-smoke: dev-up ## Exercise Pi5 operational scripts against the dev stack.
 	        exit 1; \
 	    fi; \
 	    rm -rf $$tmpdir
+	@echo "==> backup.sh under default project 'docker' should SKIP clients.db (guards 2489905 regression)"
+	@tmpdir=$$(mktemp -d); \
+	    default_count=$$(docker compose -p docker -f $(COMPOSE_PROD) ps -q 2>/dev/null | wc -l | tr -d ' '); \
+	    if [ "$$default_count" -ne 0 ]; then \
+	        echo "    skipping — 'docker' project has $$default_count containers locally, cannot isolate"; \
+	        rm -rf $$tmpdir; \
+	    else \
+	        env -u HEIMDALL_COMPOSE_PROJECT HEIMDALL_BACKUP_DIR=$$tmpdir \
+	            bash scripts/backup.sh >/dev/null 2>&1 || true; \
+	        if grep -q "OK: clients.db" $$tmpdir/backup.log 2>/dev/null; then \
+	            echo "REGRESSION: clients.db backed up under default project 'docker' — project-name coupling is broken"; \
+	            cat $$tmpdir/backup.log; \
+	            rm -rf $$tmpdir; \
+	            exit 1; \
+	        fi; \
+	        if ! grep -q "SKIP: clients.db" $$tmpdir/backup.log 2>/dev/null; then \
+	            echo "REGRESSION: backup.sh did not emit 'SKIP: clients.db' under default project 'docker'"; \
+	            cat $$tmpdir/backup.log 2>/dev/null || echo "(no log written)"; \
+	            rm -rf $$tmpdir; \
+	            exit 1; \
+	        fi; \
+	        rm -rf $$tmpdir; \
+	    fi
+	@echo "==> project-name coupling: dev stack resolves under 'heimdall_dev'"
+	@count=$$($(DC_DEV) ps -q 2>/dev/null | wc -l | tr -d ' '); \
+	    if [ "$$count" -lt 5 ]; then \
+	        echo "FAIL: 'heimdall_dev' project resolves $$count containers, expected >=5"; \
+	        exit 1; \
+	    fi
+	@echo "==> /run/secrets populated in every service that mounts them"
+	@fail=0; \
+	    for pair in scheduler:claude_api_key scheduler:telegram_bot_token scheduler:certspotter_api_key \
+	                worker:grayhatwarfare_api_key \
+	                api:telegram_bot_token api:claude_api_key api:console_password \
+	                delivery:telegram_bot_token delivery:claude_api_key delivery:certspotter_api_key; do \
+	        svc=$${pair%:*}; secret=$${pair#*:}; \
+	        if ! $(DC_DEV) exec -T $$svc test -s /run/secrets/$$secret 2>/dev/null; then \
+	            echo "FAIL: /run/secrets/$$secret missing or empty in $$svc"; \
+	            fail=1; \
+	        fi; \
+	    done; \
+	    if [ $$fail -ne 0 ]; then exit 1; fi
+	@echo "==> no env-var fallback for the 5 file-backed credentials"
+	@fail=0; \
+	    for pair in scheduler:CLAUDE_API_KEY scheduler:TELEGRAM_BOT_TOKEN scheduler:CERTSPOTTER_API_KEY \
+	                worker:GRAYHATWARFARE_API_KEY \
+	                api:TELEGRAM_BOT_TOKEN api:CLAUDE_API_KEY api:CONSOLE_PASSWORD \
+	                delivery:TELEGRAM_BOT_TOKEN delivery:CLAUDE_API_KEY delivery:CERTSPOTTER_API_KEY; do \
+	        svc=$${pair%:*}; var=$${pair#*:}; \
+	        value=$$($(DC_DEV) exec -T $$svc printenv $$var 2>/dev/null || true); \
+	        if [ -n "$$value" ]; then \
+	            echo "FAIL: env var $$var is set in $$svc — file-backed secret bypassed"; \
+	            fail=1; \
+	        fi; \
+	    done; \
+	    if [ $$fail -ne 0 ]; then exit 1; fi
 	@echo "dev ops smoke: OK"
 
 # --- Compose lint / diff ------------------------------------------------

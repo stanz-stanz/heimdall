@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-04-14T00:00:00Z",
+  "last_updated": "2026-04-17T00:00:00Z",
   "phase": "mvp-hardening-complete — pre-pilot, blocked by SIRI",
   "current_sprint": {
     "name": "MVP Hardening → Pilot Prep",
     "started": "2026-04-05",
     "target_end": "2026-04-30",
     "status": "code-ready, onboarding blocked by SIRI",
-    "progress_pct": 90,
-    "notes": "Phase 1 (Safe to Operate) + Phase 2 (Safe to Maintain) shipped via PRs #23/#25. Scanner decomposed into src/prospecting/scanners/ (18 modules). src/core/ extracted. Pydantic Redis payload validation. 65% coverage floor. 7 enforcement hooks in .claude/hooks/. Valdí tokens regenerated. CT rebuild (PR #26) shipped: ct-collector deleted, crt.sh SAN extraction + Sentinel CertSpotter monitoring live. Pi5 stack green (17/17 verification checks). 947 tests passing on main."
+    "progress_pct": 96,
+    "notes": "Phase 1/2 (PRs #23/#25) + CT rebuild (PR #26) + Docker infra unpark (PRs #30-#37) + dev/prod split (PRs #27/#29) all shipped. All four 2026-04-16 handoff priorities closed 2026-04-17: Valdí helper-hash enforcement (M38), env-passthrough regression test (M39), cert-change dry run (M40), dev-smoke verified green. Valdí helper-hash gap closed: declaration + runtime enforcement for 3 helpers (extract_rest_api_plugins, parse_nmap_xml, query_crt_sh_single). 981 unit tests passing, coverage 70.26% (floor 65). Pi5 on SHA 4d55d0a: 10 containers healthy, file-backed secrets live, GHCR publish + registry-backed rollback verified. Cert-change dry run surfaced two production bugs (ct_monitor race, init_db migration gap) — filed for separate PRs."
   },
   "completed_sprints": [
     {"name": "Sprint 1 — Consolidate & Ship", "status": "complete", "notes": "153 tests, structured logging, benchmarks"},
@@ -49,6 +49,38 @@
       "completed_date": "2026-04-12",
       "owner_agent": "devops",
       "notes": "PRs #23 #25. CI, 8 bug fixes, scanner decomposed (18 modules), src/core/, Pydantic validation, 65% coverage floor, microSD backup, 7 enforcement hooks, Valdí tokens regenerated."
+    },
+    {
+      "id": "M37",
+      "name": "Dev/prod environment split + Docker infra unpark",
+      "status": "complete",
+      "completed_date": "2026-04-16",
+      "owner_agent": "devops",
+      "notes": "PRs #27 #29 #30 #31 #32 #33 #34 #35 #36 #37. Pi5=PROD / Mac=DEV hard split via sibling docker-compose.dev.yml. External volumes + log rotation, multi-stage Dockerfiles, SHA-tagged images, file-backed secrets, infra/docker→infra/compose rename, GHCR publish + registry-backed rollback. Root Makefile (17 targets). prod branch with pre-push hook. Dev bot @HeimdallSecurityDEVbot confirmed live 2026-04-17 — make dev-smoke green end-to-end."
+    },
+    {
+      "id": "M38",
+      "name": "Valdí helper-hash gap closed (declaration + enforcement)",
+      "status": "complete",
+      "completed_date": "2026-04-17",
+      "owner_agent": "valdi",
+      "notes": "query_crt_sh_single now tracked. _validate_helper_hash extracted in registry.py, fails-closed on 6 unsafe branches (missing helper_function, non-colocated, non-callable, lambda, unsourceable, hash mismatch). 3 of 14 approvals now carry enforceable helper_hash (up from 0). 8 new regression tests in TestHelperHashEnforcement. Architect-reviewed APPROVE-WITH-CHANGES, all changes folded in."
+    },
+    {
+      "id": "M39",
+      "name": "Compose env-passthrough regression test",
+      "status": "complete",
+      "completed_date": "2026-04-17",
+      "owner_agent": "devops",
+      "notes": "Extended make dev-ops-smoke with 4 new check blocks: backup.sh regression guard for bug 2489905 (project-name coupling), dev-project container resolution (>=5), /run/secrets populated across 10 (service, secret) pairs, no env-var fallback for the 5 file-backed credentials. Total wall time <15s."
+    },
+    {
+      "id": "M40",
+      "name": "Cert-change alert dry run (synthetic target)",
+      "status": "complete",
+      "completed_date": "2026-04-17",
+      "owner_agent": "client-memory",
+      "notes": "scripts/dev/cert_change_dry_run.py + config/ct_dry_run.json + make dev-cert-dry-run. Exercises publisher + subscriber + composer end-to-end against heimdall.dk via CertSpotter. No Telegram send (telegram_chat_id=NULL). Architect APPROVE-WITH-CHANGES — single Python driver (no bash shim), no response cache, one wait. Surfaced TWO production bugs (filed as unresolved): ct_monitor commit-before-publish race + init_db not applying migrations. Wall-clock ~10s per run. Working tree uncommitted pending feature branch + PR covering all 2026-04-17 work."
     }
   ],
   "external_deadlines": [
@@ -80,7 +112,7 @@
     "briefs_generated": 1173,
     "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
   },
-  "test_count": 947,
+  "test_count": 981,
   "blockers": [
     {
       "id": "B1",
@@ -100,9 +132,9 @@
   "next_actions": [
     "SIRI video pitch script",
     "Wire Claude API key into prod pipeline trigger (M33)",
-    "Exercise cert-change alert end-to-end with first Sentinel client (organic on cert rotation)",
-    "Close Valdí helper-hash gap on query_crt_sh_single",
-    "Compose-lint test for env passthrough (shipping-theater prevention)"
+    "Fix ct_monitor commit-before-publish race (src/client_memory/ct_monitor.py:286 vs :306) — silently drops Sentinel cert-change alerts; surfaced by scripts/dev/cert_change_dry_run.py today",
+    "Fix init_db to apply _add_missing_columns (fresh dev DBs lack clients.ct_last_polled_at / monitoring_enabled)",
+    "Feature branch + PR for 2026-04-17 work (helper-hash enforcement + env-passthrough checks + cert dry run). All uncommitted on main."
   ],
   "follow_ups": [
     "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",
