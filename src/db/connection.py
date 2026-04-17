@@ -52,6 +52,19 @@ def init_db(db_path: str | Path = _DEFAULT_DB_PATH) -> sqlite3.Connection:
     schema_sql = _load_schema()
     conn.executescript(schema_sql)
 
+    # Apply pending ALTER TABLE migrations that cannot live in CREATE TABLE
+    # IF NOT EXISTS (e.g. columns added to existing tables). Lazy-imported
+    # because src.db.migrate imports init_db from this module.
+    from src.db.migrate import apply_pending_migrations
+
+    added = apply_pending_migrations(conn)
+    if added:
+        logger.info("Applied pending column migrations: {}", ", ".join(added))
+
+    # Checkpoint the WAL so immutable=1 readers (e.g. the API container
+    # mounting client-data:/data/clients:ro) observe the new columns.
+    conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+
     logger.info("Client database initialized: {}", db_path)
     return conn
 
