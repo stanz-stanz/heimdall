@@ -118,6 +118,12 @@ dev-cert-dry-run: dev-up ## End-to-end cert-change alert dry run (synthetic targ
 	@docker cp config/ct_dry_run.json heimdall_dev-delivery-1:/app/config/ct_dry_run.json
 	@docker exec heimdall_dev-delivery-1 python scripts/dev/cert_change_dry_run.py
 
+.PHONY: dev-interpret-dry-run
+dev-interpret-dry-run: dev-up ## Interpreter operational dry run (MODE=observe|send-to-operator, default observe; send mode costs ~0.02 USD).
+	@docker cp scripts/dev/interpret_dry_run.py heimdall_dev-delivery-1:/app/scripts/dev/interpret_dry_run.py
+	@docker cp config/interpret_dry_run.json heimdall_dev-delivery-1:/app/config/interpret_dry_run.json
+	@docker exec heimdall_dev-delivery-1 python scripts/dev/interpret_dry_run.py --mode=$(or $(MODE),observe)
+
 .PHONY: dev-ops-smoke
 dev-ops-smoke: dev-up ## Exercise Pi5 operational scripts against the dev stack.
 	@echo "==> backup.sh (dev stack, tmp backup dir)"
