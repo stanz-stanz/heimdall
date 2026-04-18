@@ -22,13 +22,13 @@ Word count target: ~600 spoken words at a natural 135–140 wpm.
 
 > [On camera. No title card yet.]
 >
-> Forty percent of Danish small businesses don't have cybersecurity that matches the threats they face. That number comes from Styrelsen for Samfundssikkerhed — the Danish agency. The government's response, in January 2026, was to commit 211 million kroner over four years to close the gap.
+> Forty percent of Danish small businesses don't have cybersecurity that matches the threats they face. That number comes from the Danish government. The government's response, in January 2026, was to commit 211 million Danish crowns over four years to close the gap.
 >
 > [Brief pause.]
 >
-> The tools to find these problems already exist. They run in dashboards built for security teams. The restaurant owner with an online booking system doesn't have a security team. She has a phone.
+> The tools to find these problems already exist. They run in very throrough and comprehensive dashboards built for security teams. But the restaurant owner with an online booking system doesn't have a security team. She has a phone.
 
-**On-screen text (0:20):** *40% · 211M kr. · Styrelsen for Samfundssikkerhed, 2026*
+**On-screen text (0:20):** *40% · 211M DKK · Danish government, 2026*
 
 ---
 
@@ -54,9 +54,9 @@ Word count target: ~600 spoken words at a natural 135–140 wpm.
 >
 > Two pieces of the system are genuinely new.
 >
-> The first is a digital twin. Heimdall collects publicly visible data about a prospect's website — the same information any browser receives — and reconstructs the technology stack on dedicated infrastructure Heimdall operates. Danish criminal law, Straffeloven §263, protects "another person's data system." A twin Heimdall builds and runs is Heimdall's own system. That means CVE-level vulnerability scanning becomes possible without touching the prospect's live site and without requiring their consent. No competitor offers this.
+> The first is a digital twin. Heimdall collects publicly visible data about a prospect's website — the same information any browser receives — and reconstructs the technology stack on dedicated infrastructure Heimdall operates. That means CVE-level vulnerability scanning becomes possible without touching the prospect's live site and without requiring their consent. No competitor offers this.
 >
-> The second is Valdí — a programmatic compliance agent. Every scanning function in the codebase passes through two automated gates before execution: one validates the scan type against documented legal rules, the other checks per-target consent. Every decision is logged. I built Valdí after I caught a boundary violation in my own code during early development. The systemic response was to make that class of error structurally impossible going forward.
+> The second is what we internally named 'Valdí' — a programmatic compliance agent. Every scanning function in the codebase passes through two automated gates before execution: one validates the scan type against documented legal rules, the other checks per-target consent. Every decision is logged. I built Valdí after I caught a boundary violation in my own code during early development. The systemic response was to make that class of error structurally impossible going forward.
 
 **On-screen text (1:30–1:55, small, lower third):** *Telegram · digital twin · persistent memory · programmatic compliance*
 
@@ -70,7 +70,7 @@ Word count target: ~600 spoken words at a natural 135–140 wpm.
 >
 > These aren't survey estimates. They're direct observations. The government's 40-percent figure is consistent with what I measured.
 >
-> Pricing is where the competitive gap is widest. The cheapest alternative on the market starts around 215 kroner per month and still ships through a dashboard. Heimdall's Watchman trial is 199 kroner per month. Sentinel — the actual product with daily monitoring and active testing — is 399 kroner per month. All prices excluding moms. For a restaurant with an online booking system, 399 kroner a month is less than a single evening's delivery orders. Price stops being the objection.
+> Pricing is where the competitive gap is widest. The cheapest alternative on the market starts around 215 Danish crowns per month and still ships through a dashboard. Heimdall's Watchman trial is 199 Danish crowns per month. Sentinel — the actual product with daily monitoring and active testing — is 399 Danish crowns per month. All prices excluding VAT. For a restaurant with an online booking system, 399 Danish crowns a month is less than a single evening's delivery orders. Price stops being the objection.
 
 **On-screen text (2:25–2:50, stacked bullets):**
 *1,173 sites scanned · 49.3% Critical or High · 60% zero security headers*
@@ -103,7 +103,7 @@ Word count target: ~600 spoken words at a natural 135–140 wpm.
 
 > The pilot is ready. The code is ready. The market is measured. What's missing is the legal vehicle — a Danish company, a CVR number, the ability to sign the first paid contract.
 >
-> That's what the Startup Denmark residence permit unlocks. With it, I register Heimdall ApS in Vejle, open the first five pilot contracts, and start work on the local agency partnerships.
+> That's what the Startup Denmark residence permit unlocks. With it, I establish the company in Vejle, open the first five pilot contracts, and start work on the local agency partnerships.
 >
 > Denmark created the market. I built the product for it. I'm asking for the permit to run it here.
 >
@@ -131,5 +131,4 @@ Word count target: ~600 spoken words at a natural 135–140 wpm.
 
 - Read section-by-section, with a natural pause between sections. Don't try to do it in one take.
 - The hook at 0:00 should not start with "Hi, I'm Federico." The 40% statistic is the hook; introduce yourself at 0:25 after the problem is on the table.
-- Enunciate "Styrelsen for Samfundssikkerhed" and "Straffeloven §263" slowly — these are the two Danish-specific phrases that signal local embeddedness to the panel.
-- Numbers to land cleanly: 40 percent, 211 million kroner, 1,173 sites, 49.3 percent, 199 and 399 kroner, 20 years, 2019.
+- Numbers to land cleanly: 40 percent, 211 million Danish crowns, 1,173 sites, 49.3 percent, 199 and 399 Danish crowns, 20 years, 2019.
