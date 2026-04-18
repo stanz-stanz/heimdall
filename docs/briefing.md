@@ -19,7 +19,7 @@ Unlike endpoint security (which protects devices inside the network), EASM prote
 
 ## The Owner
 
-Federico, based in Vejle, Denmark. Technical background: Claude Code, React/TSX, self-hosted infrastructure, Raspberry Pi experience. Building this alongside the Fjordleather brand. Partnering with a network security specialist for domain expertise.
+Federico, based in Vejle, Denmark. Technical background: Claude Code, React/TSX, self-hosted infrastructure, Raspberry Pi experience. Partnering with a network security specialist for domain expertise.
 
 ---
 
