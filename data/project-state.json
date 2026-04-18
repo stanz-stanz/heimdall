@@ -130,8 +130,7 @@
     }
   ],
   "next_actions": [
-    "SIRI video pitch script",
-    "Run heimdall-verify-secrets on Pi5 post-merge of PR #41 to confirm prod secret file presence"
+    "SIRI video pitch script"
   ],
   "follow_ups": [
     "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",

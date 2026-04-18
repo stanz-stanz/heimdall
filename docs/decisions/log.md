@@ -21,7 +21,7 @@ Running record of architectural decisions, rejections, and reasoning made during
   - **Observe mode** (free, no Claude API call) — green. `[SUB] processing_scan_event` + `[SUB] no_chat_id_for_client` on `DRYRUN-INT-M33-001`; cleanup deleted 3 seeded rows. Proves the runner receives the Redis event, walks the pre-interpreter branch, and early-returns on NULL chat_id.
   - **Send-to-operator mode**, first run (~$0.02 real Claude API call) — green through `[PASS]`, but Approve click hit `Error: Delivery 1 not found` (see bug surfaced above).
   - **Send-to-operator mode**, second run post-amend (~$0.02) — green. Full path: `[PUB] client-scan-complete` → `[SUB] processing_scan_event` → `interpret_brief` (Claude API) → `compose_telegram` → `send_with_logging` → `[PASS] delivery_log id=2 status=pending channel=telegram message_type=scan_report` → `[NO-CLEANUP]` banner. Wall-clock 13s. Telegram message visible on operator account; Approve button resolved cleanly.
-  - **Pi5 `heimdall-verify-secrets`** — not yet run. Will be executed post-merge; noted in `next_actions`. Not a blocker on flipping M33 to `complete` because the dev send-mode dry run against a real Claude API key is the authoritative proof of the wire.
+  - **Pi5 `heimdall-verify-secrets`** — run 2026-04-18 post-deploy (prod at `4427062`): `OK: claude_api_key populated via /run/secrets in 3 services, no env fallback`. Closes the last open thread from the session. Pruned from `data/project-state.json::next_actions`.
 - **Architect sign-off**: reviewed each item at implementation time. Items #5 and #4 APPROVED clean; Item #2 APPROVED after the regression-test authenticity fix.
 
 **Rejected**
@@ -32,10 +32,14 @@ Running record of architectural decisions, rejections, and reasoning made during
 - **Item #3 (client onboarding, M31)** — out of scope for this session. Deferred per Federico's call at the start of the work block. SIRI approval remains the business gate on M31; technical onboarding work will be planned in a later session.
 
 **Unresolved**
-- **Pi5 `heimdall-verify-secrets` run** — deferred to post-merge. Federico will source `scripts/pi5-aliases.sh` on Pi5 after PR #41 lands in `prod` and invoke the function. Any FAIL output becomes a follow-up bug; OK confirms prod secret file presence matches what the dev send-mode run already proved works against a real Claude API key.
 - **Delivery-runner startup sweep** for the `commit-and-drain` crash window (Item #2 follow-up). Not urgent — the current behavior is still safer than the pre-fix race (no more silent `cert_change_not_found`), and the synthetic-client dry run has no way to trigger the crash path deterministically.
 - **Pre-existing `ruff format --check` drift** on `ct_monitor.py`, `test_ct_monitor.py`, `cert_change_dry_run.py`, and the new `interpret_dry_run.py`. Not introduced by these PRs — confirmed by stashing. Project CI does not run `ruff format --check` (only `ruff check`), so not a merge blocker. Separate-PR cleanup if desired.
 - **SIRI** and **Plesner** remain external gates for non-technical work. Unchanged from the 2026-04-17 session.
+
+**Session-end addendum — 2026-04-18 prod deploy + CLAUDE.md shrink**
+
+- **Deploy.** `make dev-smoke` green (13 integration tests, 992 deselected). `prod` fast-forwarded `4d55d0a → 4427062` with `HEIMDALL_APPROVED=1`. Pi5 `heimdall-deploy` pulled + rebuilt + recreated all 10 containers. `heimdall-verify-secrets` returned `OK: claude_api_key populated via /run/secrets in 3 services, no env fallback`.
+- **CLAUDE.md compressed (v2.9 → v3.0).** 339 → 225 lines, 42.8 KB → 18.8 KB (−56%). Target was moderate cut (option B of three presented). Deletions: "Historical sprint work" paragraph (~2400 words, duplicated in this log); Phase 1/2/Follow-up prose collapsed into a 2-line Status; Key Documents rows trimmed to ≤120 chars each and sibling files merged under parent directory entries; Supporting Data Files table merged into Key Documents; 12-step pipeline list cut to a 1-line pointer; MCP Tools section 35→12 lines. Preserved intact: MANDATORY header/footer, Before Every Task, Workflow Rules, Document Hierarchy, Terminology, Scanning Workflow, Do Not list, Hook-Based Enforcement table + limitations + misfire guidance, Content & Copywriting. Grep of critical terms (`Valdí`, `SCANNING_RULES`, `robots.txt`, `Layer 1/2`, `HEIMDALL_APPROVED`, `code-review-graph`, `hook`) returned 30 hits — no critical pointer lost.
 
 ---
 
