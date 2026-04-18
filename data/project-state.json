@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-17T00:00:00Z",
+  "last_updated": "2026-04-18T00:00:00Z",
   "phase": "mvp-hardening-complete — pre-pilot, blocked by SIRI",
   "current_sprint": {
     "name": "MVP Hardening → Pilot Prep",
@@ -29,10 +29,10 @@
     {
       "id": "M33",
       "name": "Finding Interpreter wired to live pipeline",
-      "target_date": "2026-04-20",
-      "status": "in-progress",
+      "status": "complete",
+      "completed_date": "2026-04-18",
       "owner_agent": "finding-interpreter",
-      "notes": "Interpreter works in isolation. Needs Claude API key wired into prod pipeline trigger."
+      "notes": "Interpreter wire exists in src/delivery/runner.py:266 (interpret_brief on every client-scan-complete). Operational proof shipped 2026-04-18: scripts/dev/interpret_dry_run.py (observe + send-to-operator modes with CI cost guard) + heimdall-verify-secrets Pi5 alias. Send-mode dry run green on dev stack 2026-04-18 — 12s wall-clock, real Claude API call, delivery_log row written. Observe mode proves runner reachability zero-cost."
     },
     {
       "id": "M35",
@@ -131,10 +131,7 @@
   ],
   "next_actions": [
     "SIRI video pitch script",
-    "Wire Claude API key into prod pipeline trigger (M33)",
-    "Fix ct_monitor commit-before-publish race (src/client_memory/ct_monitor.py:286 vs :306) — silently drops Sentinel cert-change alerts; surfaced by scripts/dev/cert_change_dry_run.py today",
-    "Fix init_db to apply _add_missing_columns (fresh dev DBs lack clients.ct_last_polled_at / monitoring_enabled)",
-    "Feature branch + PR for 2026-04-17 work (helper-hash enforcement + env-passthrough checks + cert dry run). All uncommitted on main."
+    "Run heimdall-verify-secrets on Pi5 post-merge of PR #41 to confirm prod secret file presence"
   ],
   "follow_ups": [
     "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",
