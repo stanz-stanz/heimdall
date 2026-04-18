@@ -112,7 +112,7 @@
     "briefs_generated": 1173,
     "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
   },
-  "test_count": 981,
+  "test_count": 976,
   "blockers": [
     {
       "id": "B1",
