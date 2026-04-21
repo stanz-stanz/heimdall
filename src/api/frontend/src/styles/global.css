@@ -612,3 +612,55 @@ td.domain {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* --- v1.1 type scale utilities ------------------------------------- */
+.t-display       { font: 600 28px/1.1 var(--mono); }
+.t-title         { font: 700 22px/1.2 var(--sans); }
+.t-heading       { font: 600 18px/1.3 var(--sans); }
+.t-subheading    { font: 600 16px/1.3 var(--sans); }
+.t-section       {
+  font: 600 14px/1.3 var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.t-body          { font: 400 13px/1.5 var(--sans); }
+.t-body-strong   { font: 500 13px/1.5 var(--sans); }
+.t-label         { font: 500 12px/1.4 var(--sans); }
+.t-caption       {
+  font: 600 11px/1.2 var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.t-mono-label    { font: 500 12px/1.4 var(--mono); }
+.t-mono-stat     { font: 700 18px/1.1 var(--mono); }
+
+/* --- v1.1 elevation utilities -------------------------------------- */
+.overlay {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-backdrop);
+}
+
+.modal {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
+}
+
+.dropdown {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
+}
+
+.toast {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
+}

@@ -27,4 +27,15 @@
   --sans: 'DM Sans', sans-serif;
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   --transition: 180ms ease;
+
+  /* v1.1 additions */
+  --red-soft: #f87171;
+  --red-muted: rgba(239, 68, 68, 0.07);
+  --red-outline: rgba(239, 68, 68, 0.38);
+  --bg-overlay: #1e2c48;
+  --shadow-overlay:
+    0 10px 24px rgba(0, 0, 0, 0.55),
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(245, 158, 11, 0.18);
+  --overlay-backdrop: rgba(6, 13, 26, 0.72);
 }
