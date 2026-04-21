@@ -196,7 +196,7 @@
 <div class="section-header">
   <div class="title-row">
     <span class="section-title">Logs</span>
-    <span class="log-badge">{totalCount.toLocaleString()}</span>
+    <span class="log-badge t-mono-label">{totalCount.toLocaleString()}</span>
   </div>
 </div>
 
@@ -216,7 +216,7 @@
     {/each}
 
     <input
-      class="log-search"
+      class="log-search t-label"
       type="text"
       placeholder="Search..."
       bind:value={searchText}
@@ -260,19 +260,19 @@
   {/if}
 
   {#each filtered as entry}
-    <div class="log-row">
+    <div class="log-row t-mono-label">
       <span class="log-ts">{formatTime(entry.ts)}</span>
       <span class="log-source" style="color: {sourceColor(entry.source)}">{padRight(entry.source ?? '', 10)}</span>
       <span class="log-level" style="color: {levelColor(entry.level)}">{padRight(entry.level ?? '', 8)}</span>
       <span class="log-msg">{entry.message ?? ''}{formatCtx(entry.ctx)}</span>
     </div>
     {#if entry.exc}
-      <div class="log-exc">{entry.exc}</div>
+      <div class="log-exc t-mono-label">{entry.exc}</div>
     {/if}
   {/each}
 
   {#if userScrolledUp}
-    <button class="jump-btn" onclick={scrollToBottom}>Jump to bottom</button>
+    <button class="jump-btn t-label" onclick={scrollToBottom}>Jump to bottom</button>
   {/if}
 </div>
 
@@ -285,14 +285,11 @@
   }
 
   .log-badge {
-    font-family: var(--mono);
-    font-size: 11px;
     color: var(--text-muted);
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: 10px;
     padding: 2px 8px;
-    line-height: 1.4;
   }
 
   /* ── Single filter bar ──────────────────────────────── */
@@ -339,8 +336,6 @@
     color: var(--text);
     padding: 6px 12px;
     border-radius: 20px;
-    font-size: 12px;
-    font-family: var(--sans);
     width: 180px;
     outline: none;
     transition: border-color var(--transition);
@@ -389,8 +384,6 @@
     display: flex;
     align-items: baseline;
     gap: 0;
-    font-family: var(--mono);
-    font-size: 12px;
     line-height: 1.6;
     white-space: nowrap;
   }
@@ -426,11 +419,8 @@
   }
 
   .log-exc {
-    font-family: var(--mono);
-    font-size: 11px;
     color: var(--red);
     padding-left: 7em;
-    line-height: 1.4;
     white-space: pre-wrap;
     word-break: break-all;
     margin-bottom: 4px;
@@ -449,9 +439,6 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     color: var(--text-dim);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
     cursor: pointer;
     transition: all var(--transition);
     z-index: 10;

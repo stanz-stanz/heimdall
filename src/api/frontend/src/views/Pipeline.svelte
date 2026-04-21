@@ -104,7 +104,7 @@
 
 {#if error}
   <div class="card" style="margin-bottom: 20px; border-color: var(--red-dim);">
-    <span style="color: var(--red); font-size: 13px;">{error}</span>
+    <span class="t-body" style="color: var(--red);">{error}</span>
   </div>
 {/if}
 
@@ -117,7 +117,7 @@
 {#if lastRun}
   <div class="section-header">
     <span class="section-title">Last Run</span>
-    <span style="font-size: 11px; color: var(--text-muted);">{formatDate(lastRun.run_date)}</span>
+    <span class="t-label" style="color: var(--text-muted);">{formatDate(lastRun.run_date)}</span>
   </div>
 
   <div class="grid grid-4">

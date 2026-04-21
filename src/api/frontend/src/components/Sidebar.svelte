@@ -40,25 +40,25 @@
 
 <aside class="sidebar">
   <div class="brand">
-    <h1 class="brand-title">Heimdall<span class="brand-dot">.</span></h1>
-    <span class="brand-sub">Operator Console</span>
+    <h1 class="brand-title t-title">Heimdall<span class="brand-dot">.</span></h1>
+    <span class="brand-sub t-caption">Operator Console</span>
   </div>
 
   <nav class="nav">
     {#each navSections as section}
       <div class="nav-section">
-        <span class="nav-section-label">{section.label}</span>
+        <span class="nav-section-label t-caption">{section.label}</span>
         {#each section.items as item}
           {@const active = router.view === item.id}
           <button
-            class="nav-item"
+            class="nav-item t-body-strong"
             class:active
             onclick={() => item.external ? window.open(item.external, '_blank') : navigate(item.id, item.title)}
           >
-            <span class="nav-icon">{item.icon}</span>
+            <span class="nav-icon t-body-strong">{item.icon}</span>
             <span class="nav-label">{item.title}</span>
             {#if getBadge(item.id) !== null}
-              <span class="nav-badge">{getBadge(item.id)}</span>
+              <span class="nav-badge t-mono-label">{getBadge(item.id)}</span>
             {/if}
           </button>
         {/each}
@@ -68,7 +68,7 @@
 
   <div class="sidebar-footer">
     <span class="status-dot" class:online={wsState.connected}></span>
-    <span class="status-text">
+    <span class="status-text t-mono-label">
       {#if wsState.connected}
         Online &middot; Redis OK
       {:else}
@@ -95,8 +95,6 @@
   }
 
   .brand-title {
-    font-size: 22px;
-    font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--text);
   }
@@ -107,10 +105,6 @@
 
   .brand-sub {
     display: block;
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
     color: var(--text-muted);
     margin-top: 2px;
   }
@@ -126,10 +120,6 @@
 
   .nav-section-label {
     display: block;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
     color: var(--text-muted);
     padding: 0 8px;
     margin-bottom: 6px;
@@ -145,9 +135,6 @@
     border-radius: var(--radius-sm);
     background: transparent;
     color: var(--text-dim);
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 500;
     cursor: pointer;
     transition: all var(--transition);
     position: relative;
@@ -176,7 +163,6 @@
   }
 
   .nav-icon {
-    font-size: 14px;
     width: 18px;
     text-align: center;
     flex-shrink: 0;
@@ -187,9 +173,6 @@
   }
 
   .nav-badge {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 600;
     background: var(--bg-surface);
     color: var(--text-dim);
     padding: 1px 6px;
@@ -218,8 +201,6 @@
   }
 
   .status-text {
-    font-size: 11px;
     color: var(--text-muted);
-    font-family: var(--mono);
   }
 </style>

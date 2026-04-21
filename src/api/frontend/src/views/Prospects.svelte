@@ -33,7 +33,7 @@
 
   function renderCell(row, key) {
     if (key === 'domain') {
-      return `<span style="font-family: var(--mono); font-size: 12px;">${escapeHtml(row.domain)}</span>`;
+      return `<span class="t-mono-label">${escapeHtml(row.domain)}</span>`;
     }
     if (key === 'bucket') {
       return `<span class="badge-bucket">${escapeHtml(row.bucket)}</span>`;
@@ -113,8 +113,8 @@
 
 {#if !currentCampaign}
   <div class="card" style="margin-bottom: 20px;">
-    <label class="form-label" for="campaign-select">Select Campaign</label>
-    <select id="campaign-select" class="form-select" onchange={handleCampaignSelect}>
+    <label class="form-label t-label" for="campaign-select">Select Campaign</label>
+    <select id="campaign-select" class="form-select t-body" onchange={handleCampaignSelect}>
       <option value="">-- Select a campaign --</option>
       {#each campaigns as c}
         <option value={c.campaign}>{c.campaign} ({c.total} prospects)</option>
@@ -134,7 +134,6 @@
 <style>
   .form-label {
     display: block;
-    font-size: 12px;
     color: var(--text-dim);
     margin-bottom: 6px;
   }
@@ -145,8 +144,6 @@
     color: var(--text);
     border-radius: var(--radius-sm);
     padding: 8px 12px;
-    font-family: var(--sans);
-    font-size: 13px;
     width: 100%;
     max-width: 400px;
   }

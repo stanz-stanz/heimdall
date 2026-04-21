@@ -22,8 +22,8 @@
 </script>
 
 <header class="topbar">
-  <h2 class="topbar-title">{router.title}</h2>
-  <span class="topbar-clock">{clock}</span>
+  <h2 class="topbar-title t-heading">{router.title}</h2>
+  <span class="topbar-clock t-mono-label">{clock}</span>
 </header>
 
 <style>
@@ -37,14 +37,10 @@
   }
 
   .topbar-title {
-    font-size: 18px;
-    font-weight: 600;
     color: var(--text);
   }
 
   .topbar-clock {
-    font-family: var(--mono);
-    font-size: 13px;
     color: var(--text-muted);
   }
 </style>
