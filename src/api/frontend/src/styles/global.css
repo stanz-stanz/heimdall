@@ -283,47 +283,35 @@ td.domain {
   align-items: center;
   padding: 2px 8px;
   border-radius: var(--radius-xs);
-  font-size: 11px;
-  font-weight: 600;
+  font: 600 11px/1.2 var(--sans);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
-.badge-critical {
-  background: var(--red-dim);
-  color: var(--red);
-}
-
-.badge-high {
-  background: var(--orange-dim);
-  color: var(--orange);
-}
+.badge-critical { background: var(--red-dim);    color: var(--red);    }
+.badge-high     { background: var(--orange-dim); color: var(--orange); }
 
 .badge-medium {
-  background: var(--gold-glow);
-  color: var(--gold);
+  background: var(--red-muted);
+  color: var(--red-soft);
+  border: 1px solid var(--red-outline);
 }
 
-.badge-new {
-  background: var(--blue-dim);
-  color: var(--blue);
+.badge-low {
+  background: var(--red-muted);
+  color: var(--text-dim);
+  border: 1px solid var(--red-outline);
 }
 
 .badge-interpreted {
-  background: var(--gold-glow);
-  color: var(--gold);
-}
-
-.badge-sent {
-  background: var(--green-dim);
-  color: var(--green);
-}
-
-.badge-bucket {
-  background: var(--bg-surface);
+  background: transparent;
   color: var(--text-dim);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border);
 }
+
+.badge-new     { background: var(--blue-dim);  color: var(--blue);     }
+.badge-sent    { background: var(--green-dim); color: var(--green);    }
+.badge-bucket  { background: var(--bg-surface); color: var(--text-dim); border: 1px solid var(--border-subtle); }
 
 /* ── Plan Badges ────────────────────────────────────── */
 
