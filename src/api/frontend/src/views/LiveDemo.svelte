@@ -1,5 +1,7 @@
 <script>
   import { onDestroy } from 'svelte';
+  import { fade, slide } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
 
   /** @typedef {'select' | 'scanning' | 'complete'} Phase */
 
@@ -17,12 +19,12 @@
   let total = $state(0);
   let completed = $state(0);
   let percent = $derived(total > 0 ? Math.round((completed / total) * 100) : 0);
+  let scansDone = $derived(total > 0 && completed >= total);
 
   const CIRC = 2 * Math.PI * 52;
   let radialOffset = $derived(CIRC - (percent / 100) * CIRC);
 
   let timeline = $state([]); // { id, label, state: 'running' | 'done', duration_ms? }
-  let tech = $state([]); // string[]
   let findings = $state([]); // { index, severity, description, risk, typed }
   let findingsTotal = $state(0);
 
@@ -59,7 +61,6 @@
     total = 0;
     completed = 0;
     timeline = [];
-    tech = [];
     findings = [];
     findingsTotal = 0;
     summaryText = '';
@@ -126,7 +127,7 @@
         );
         break;
       case 'tech_reveal':
-        tech = [...evt.tech_stack];
+        // Tech stack intentionally not rendered — findings take the stage.
         break;
       case 'finding':
         findingsTotal = evt.total ?? findingsTotal;
@@ -300,10 +301,16 @@
       </div>
     </div>
 
-    {#if timeline.length > 0}
-      <div class="timeline">
-        {#each timeline as row (row.id)}
-          <div class="timeline-row">
+    {#if timeline.length > 0 && !scansDone}
+      <div
+        class="timeline"
+        out:slide={{ duration: 450, easing: cubicOut }}
+      >
+        {#each timeline as row, i (row.id)}
+          <div
+            class="timeline-row"
+            out:fade={{ duration: 220, delay: i * 35, easing: cubicOut }}
+          >
             <span class="timeline-dot" class:done={row.state === 'done'} class:running={row.state === 'running'}></span>
             <span class="timeline-label t-body-strong">{row.label}</span>
             {#if row.duration_ms != null}
@@ -311,22 +318,6 @@
             {/if}
           </div>
         {/each}
-      </div>
-    {/if}
-
-    {#if tech.length > 0}
-      <div class="section">
-        <div class="section-header">
-          <h3 class="t-section">Technology Stack</h3>
-          <span class="section-tag t-caption">Detected</span>
-        </div>
-        <div class="tech-badges">
-          {#each tech as t, i (t)}
-            <span class="tech-badge t-mono-label" style:animation-delay="{i * 80}ms">
-              <span class="tech-dot"></span>{t}
-            </span>
-          {/each}
-        </div>
       </div>
     {/if}
 
@@ -647,33 +638,6 @@
     border-radius: 999px;
   }
 
-  /* ---- Tech badges ---- */
-
-  .tech-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .tech-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    color: var(--text-dim);
-    animation: badge-in 0.35s ease-out both;
-  }
-
-  .tech-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-  }
-
   /* ---- Findings (warm-only severity per design system) ---- */
 
   .findings {
@@ -790,10 +754,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes badge-in {
-    from { opacity: 0; transform: scale(0.85); }
-    to   { opacity: 1; transform: scale(1); }
-  }
 
   @keyframes fade-in {
     from { opacity: 0; transform: translateY(10px); }
