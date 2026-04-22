@@ -142,7 +142,7 @@
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ domain: targetDomain, mode: 'replay' }),
+        body: JSON.stringify({ domain: targetDomain }),
       });
       if (!res.ok) {
         status = 'Failed to start demo';
@@ -176,9 +176,6 @@
             ? { ...row, state: 'done', duration_ms: evt.duration_ms }
             : row,
         );
-        break;
-      case 'tech_reveal':
-        // Tech stack intentionally not rendered — findings take the stage.
         break;
       case 'finding':
         findingsTotal = evt.total ?? findingsTotal;

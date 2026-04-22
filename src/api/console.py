@@ -17,7 +17,6 @@ from .demo_orchestrator import (
     cleanup_demo_queue,
     generate_scan_id,
     get_demo_queue,
-    run_demo_live,
     run_demo_replay,
 )
 
@@ -30,7 +29,6 @@ router = APIRouter(prefix="/console", tags=["console"])
 
 class DemoStartRequest(BaseModel):
     domain: str
-    mode: str = "replay"  # "replay" or "live"
 
 
 class DemoStartResponse(BaseModel):
@@ -657,9 +655,6 @@ async def demo_start(body: DemoStartRequest, request: Request):
     WebSocket connects, avoiding the race where events publish
     before the client is listening.
     """
-    if body.mode not in ("replay", "live"):
-        raise HTTPException(400, detail="mode must be 'replay' or 'live'")
-
     briefs_path = _briefs_dir(request)
     brief = _load_brief(briefs_path, body.domain)
     if brief is None:
@@ -667,9 +662,8 @@ async def demo_start(body: DemoStartRequest, request: Request):
 
     scan_id = generate_scan_id()
 
-    # Store the brief + mode for the WebSocket handler
     pending = getattr(request.app.state, "_pending_demos", {})
-    pending[scan_id] = (brief, body.mode)
+    pending[scan_id] = brief
     request.app.state._pending_demos = pending
 
     return DemoStartResponse(scan_id=scan_id, domain=body.domain)
@@ -686,18 +680,13 @@ async def demo_websocket(websocket: WebSocket, scan_id: str):
 
     # Launch the demo now that the client is connected
     pending = getattr(websocket.app.state, "_pending_demos", {})
-    entry = pending.pop(scan_id, None)
-    if entry is None:
+    brief = pending.pop(scan_id, None)
+    if brief is None:
         await websocket.close(code=1008, reason="Unknown scan_id")
         return
 
-    brief, mode = entry
     redis_conn = getattr(websocket.app.state, "redis", None)
-
-    if mode == "live":
-        task = asyncio.create_task(run_demo_live(scan_id, brief, redis_conn))
-    else:
-        task = asyncio.create_task(run_demo_replay(scan_id, brief, redis_conn))
+    task = asyncio.create_task(run_demo_replay(scan_id, brief, redis_conn))
     queue = get_demo_queue(scan_id)
 
     try:

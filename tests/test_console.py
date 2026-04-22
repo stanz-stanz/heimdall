@@ -218,9 +218,9 @@ class TestDemoOrchestrator:
             assert scan_events[i + 1]["type"] == "scan_complete"
             assert scan_events[i]["scan_type"] == scan_events[i + 1]["scan_type"]
 
-        # Then tech_reveal
-        tech_idx = types.index("tech_reveal")
-        assert events[tech_idx]["tech_stack"] == SAMPLE_BRIEF["tech_stack"]
+        # tech_reveal event was removed when the Tech Stack panel
+        # was dropped from the frontend (PR #42 + post-merge cleanup).
+        assert "tech_reveal" not in types
 
         # Then findings
         finding_events = [e for e in events if e["type"] == "finding"]
