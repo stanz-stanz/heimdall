@@ -8,7 +8,6 @@
   let phase = $state(/** @type {Phase} */ ('select'));
   let briefs = $state([]);
   let briefsError = $state('');
-  let mode = $state('replay'); // 'replay' | 'live'
 
   let domain = $state('');
   let status = $state('Initializing scan…');
@@ -101,7 +100,7 @@
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ domain: targetDomain, mode }),
+        body: JSON.stringify({ domain: targetDomain, mode: 'replay' }),
       });
       if (!res.ok) {
         status = 'Failed to start demo';
@@ -232,29 +231,6 @@
       <h2 class="t-title">Security Assessment</h2>
       <p class="t-help">Select a target to begin the live demonstration.</p>
     </header>
-
-    <div class="mode-toggle" role="tablist" aria-label="Demo mode">
-      <button
-        type="button"
-        class="mode-btn"
-        class:active={mode === 'replay'}
-        role="tab"
-        aria-selected={mode === 'replay'}
-        onclick={() => (mode = 'replay')}
-      >
-        Replay
-      </button>
-      <button
-        type="button"
-        class="mode-btn"
-        class:active={mode === 'live'}
-        role="tab"
-        aria-selected={mode === 'live'}
-        onclick={() => (mode = 'live')}
-      >
-        Live Twin
-      </button>
-    </div>
 
     {#if briefsError}
       <div class="empty-state">
@@ -391,41 +367,6 @@
 
   .demo-select-header .t-help {
     margin: 6px auto 0;
-  }
-
-  .mode-toggle {
-    display: flex;
-    gap: 4px;
-    background: var(--bg-raised);
-    border: 1px solid var(--border-subtle);
-    border-radius: 999px;
-    padding: 4px;
-    width: fit-content;
-    margin: 0 auto 20px;
-  }
-
-  .mode-btn {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 999px;
-    background: transparent;
-    color: var(--text-dim);
-    font: 500 13px/1.4 var(--sans);
-    cursor: pointer;
-    transition: all var(--transition);
-  }
-
-  .mode-btn:hover {
-    color: var(--text);
-  }
-
-  .mode-btn.active {
-    background: var(--gold);
-    color: var(--bg-deep);
-  }
-
-  .mode-btn.active:not(:first-child) {
-    background: var(--green);
   }
 
   .briefs-grid {
