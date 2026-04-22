@@ -1124,3 +1124,28 @@ Running record of architectural decisions, rejections, and reasoning made during
 - Local `main` still holds the 15 session commits ahead of `origin/main`. After PR #42 merges, sync with `git fetch && git branch -f main origin/main` from the feature branch.
 - Dashboard's "Prospects" stat reads 0 in dev because `prospects` table is empty in the volume (briefs exist but nothing was joined to a campaign). Card routes to `#/campaigns` as an interim; revisit if the dev seed gets wired into the volume.
 - Briefs view has no Sidebar nav entry — reachable only via Dashboard clicks today.
+
+## 2026-04-22 — console overhaul session 2 (light/dark + Live Demo rewrite) [PR #42 merged]
+
+**Decided**
+- Operator console gains a **light/dark theme toggle** in the topbar. `tokens.css` split into `:root[data-theme="dark"|"light"]` blocks; same token names, different values. Light palette tuned for AA contrast with warm-only severity (darker red/orange) and amber-700 brand gold. Store at `src/api/frontend/src/lib/theme.svelte.js` seeds from `prefers-color-scheme`, persists override in `localStorage['heimdall.theme']`, stops tracking OS once overridden. Inline no-FOUC bootstrap in `index.html` sets `data-theme` before the Svelte bundle mounts.
+- **Live Demo ported to a native Svelte view** (`src/api/frontend/src/views/LiveDemo.svelte`, ~830 lines). Replaces the legacy `/static/index.html` PWA shell which contained a redundant Monitor tab duplicating the Svelte console. Flow: brief selector → scan progress (radial + timeline + timer + status) → streamed findings with typewriter-effect risk text → spotlight Assessment Complete summary → findings list below. WebSocket and REST endpoints (`/console/demo/start`, `/console/demo/ws/{id}`, `/console/briefs`) unchanged. Sidebar "Live Demo" entry no longer opens a new window — navigates in-place to `#/demo`.
+- Live Demo UX decisions: findings **dynamically sorted by severity descending** in real time (critical → high → medium → low → info, stable sort preserves arrival order within tier); **scan-timeline collapses** with staggered fade + height-slide once the last scan step completes (35ms row stagger, 450ms container slide); **Technology Stack panel dropped entirely** (backend event still published, frontend ignores); **spotlight summary crossfades** into the scan-hero's slot on completion (shared `.stage` grid cell, fly transitions with cubicInOut easing, ~260ms overlap); **summary holds** until every finding's typewriter has finished (`allTyped` derived); **Replay/Twin mode toggle removed** — frontend always sends `mode: 'replay'`.
+- Brief selector gets **prefix search + pagination**: case-insensitive char-1-anchored filter on `company_name` (substrings explicitly excluded per product spec), 24 briefs per page, Previous/Next + "Page X of Y · N targets" indicator. Current page clamps when the filter shrinks the set below it.
+- Backend `demo_orchestrator.py` tech-reveal pause cut from 1.5s → 0.4s. With the frontend hiding the tech-stack panel, the original 1.5s was dead air between timeline collapse and first finding.
+- Legacy `/static/` contents deleted: `index.html`, `js/app.js`, `css/main.css`, `mockup.html`, `sw.js`, `manifest.json`, `icons/`. `src/api/static/` now contains only the Svelte build output (`dist/`).
+- `docs/briefing.md` tagline reference updated: `/static/index.html` → `/app/#/demo`.
+- README tagline sharpened toward GDPR/SMB angle.
+- Session-internal memory added: `feedback_small_ui_ship_dont_spec.md` — for small, unambiguous UI asks in auto mode, skip brainstorming + spec + writing-plans and just build. Triggered by Federico calling out a 164-line spec written for a toggle button.
+- **PR #42 merged to main** carrying 14 session commits (`9f44c38..2857d20`) plus the earlier v1.2 / hash-router / Briefs work.
+
+**Rejected — in-session mistakes I made**
+- Ran the full `superpowers:brainstorming` → spec → `writing-plans` ritual for "add a light/dark toggle". Produced `docs/superpowers/specs/2026-04-22-console-light-dark-toggle-design.md` while Federico was waiting in auto mode for the button to appear. Corrected mid-session; memory saved.
+- Spec describes work that did not ship: `scripts/verify_theme_contrast.mjs` (AA-ratio CI check), Playwright visual-regression snapshots in both themes, unit tests for the theme store, a formal `design-system.md` v1.3 rewrite with per-theme token tables, and a dedicated `ui-ux-pro-max` palette design pass. The light palette was instead picked inline using Tailwind-derived hex values that meet AA by eye. Gap is deliberate — scope cut to match real priorities.
+
+**Unresolved**
+- `docs/design/design-system.md` header still reads **"Theme: Dark-only"**. Now factually wrong since light/dark shipped to main. Needs v1.3 bump — either a short rider documenting the added light palette, or a full rewrite per the unshipped spec. Decision pending.
+- CLAUDE.md `src/api/` row's views list ("Dashboard, Pipeline, Campaigns, Prospects, Briefs, Clients, Logs, Settings") omits **Live Demo**. One-line edit.
+- Backend `demo_orchestrator.run_demo_live` + the twin HTTP server + Nuclei wiring are still in place, just unreachable from the UI. Kept for now; remove if/when confirmed dead.
+- Backend still publishes the `tech_reveal` WebSocket event even though the frontend ignores it. Cheap to keep; remove if/when confirmed dead.
+- Local `main` now behind origin — needs `git fetch && git branch -f main origin/main` before next session's work.

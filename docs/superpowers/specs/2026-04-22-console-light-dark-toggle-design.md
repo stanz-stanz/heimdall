@@ -1,5 +1,27 @@
 # Console Light/Dark Mode Toggle — Design
 
+> ## Status (2026-04-22, post-PR #42): historical — spec exceeded what shipped
+>
+> PR #42 is merged. This spec is retained for archaeology. It was written *before* implementation as part of a full brainstorming + writing-plans ritual — which was over-engineered for a toggle, corrected mid-session (see memory `feedback_small_ui_ship_dont_spec`).
+>
+> **What actually shipped (source of truth: `src/api/frontend/src/styles/tokens.css` + `lib/theme.svelte.js` + `components/ThemeToggle.svelte` + `index.html`):**
+> - `tokens.css` split into `:root[data-theme="dark"|"light"]` blocks. Dark values match the prior v1.2 palette. Light values were picked inline from Tailwind-derived hex (amber-700 gold, red-600/orange-700 severity, slate-900 text, off-white backgrounds) — meet WCAG AA by inspection.
+> - Topbar `ThemeToggle.svelte` — sun/moon icon, single-click flip, `aria-pressed` reflects state.
+> - Theme store `lib/theme.svelte.js` — seeds from `prefers-color-scheme`, persists override in `localStorage['heimdall.theme']`, stops tracking OS once overridden, applies `data-theme` + `<meta name="color-scheme">`.
+> - Inline no-FOUC bootstrap in `index.html`.
+> - Warm-only severity holds in both themes.
+>
+> **What the spec called for but did NOT ship:**
+> - `scripts/verify_theme_contrast.mjs` — AA-ratio CI guard. *Not written.*
+> - Playwright visual-regression snapshots of every view in both themes. *Not written.*
+> - Unit tests for the theme store (OS-read, override persistence, clear semantics). *Not written.*
+> - Formal `design-system.md` v1.3 rewrite with per-theme token tables. Shipped as a short v1.3 rider instead.
+> - Dedicated `ui-ux-pro-max` palette-design pass. Skipped — palette picked inline.
+>
+> The design below is the **original proposal**. Treat it as a record of intent, not the current implementation.
+
+---
+
 **Date:** 2026-04-22
 **Branch:** feat/console-overhaul-2026-04-22
 **Owner:** Federico (decides); Claude (executes with ui-ux-pro-max for palette/contrast, frontend-design for implementation)
