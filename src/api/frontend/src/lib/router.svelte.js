@@ -8,6 +8,7 @@ const VALID_VIEWS = new Set([
   'briefs',
   'clients',
   'logs',
+  'demo',
   'settings',
 ]);
 
@@ -19,6 +20,7 @@ const TITLES = {
   briefs: 'Briefs',
   clients: 'Clients',
   logs: 'Logs',
+  demo: 'Live Demo',
   settings: 'Settings',
 };
 

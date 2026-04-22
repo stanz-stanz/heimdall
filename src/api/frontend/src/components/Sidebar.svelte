@@ -24,7 +24,7 @@
     {
       label: 'System',
       items: [
-        { id: 'demo', title: 'Live Demo', icon: '\u26A1', external: '/static/index.html' },
+        { id: 'demo', title: 'Live Demo', icon: '\u26A1' },
         { id: 'settings', title: 'Settings', icon: '\u2699' },
       ],
     },
@@ -53,7 +53,7 @@
           <button
             class="nav-item t-body-strong"
             class:active
-            onclick={() => item.external ? window.open(item.external, '_blank') : navigate(item.id, item.title)}
+            onclick={() => navigate(item.id, item.title)}
           >
             <span class="nav-icon t-body-strong">{item.icon}</span>
             <span class="nav-label">{item.title}</span>
