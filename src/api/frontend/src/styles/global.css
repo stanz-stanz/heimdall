@@ -17,6 +17,9 @@ body {
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 body::before {
@@ -24,8 +27,8 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 10% 90%, rgba(59, 130, 246, 0.04), transparent),
-    radial-gradient(ellipse 60% 50% at 90% 10%, rgba(245, 158, 11, 0.03), transparent);
+    radial-gradient(ellipse 80% 60% at 10% 90%, var(--mesh-a), transparent),
+    radial-gradient(ellipse 60% 50% at 90% 10%, var(--mesh-b), transparent);
   pointer-events: none;
   z-index: 0;
 }

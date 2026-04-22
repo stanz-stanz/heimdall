@@ -1,6 +1,7 @@
 <script>
   import { router } from '../lib/router.svelte.js';
   import { onMount } from 'svelte';
+  import ThemeToggle from './ThemeToggle.svelte';
 
   let clock = $state('');
 
@@ -23,7 +24,10 @@
 
 <header class="topbar">
   <h2 class="topbar-title t-heading">{router.title}</h2>
-  <span class="topbar-clock t-mono-label">{clock}</span>
+  <div class="topbar-right">
+    <span class="topbar-clock t-mono-label">{clock}</span>
+    <ThemeToggle />
+  </div>
 </header>
 
 <style>
@@ -38,6 +42,12 @@
 
   .topbar-title {
     color: var(--text);
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
 
   .topbar-clock {
