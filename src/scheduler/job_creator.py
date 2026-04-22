@@ -89,16 +89,33 @@ class JobCreator:
     ) -> list[str]:
         """Read CVR data, apply filters, derive domains, return deduplicated domain list.
 
-        Checks for a pre-enriched SQLite database first (from the local
-        enrichment tool). Falls back to the legacy Excel pipeline if no
-        database is found.
+        Resolution order:
+        1. ``HEIMDALL_DEV_DATASET`` env var, if set and the path exists —
+           returns the flat list of domains from ``config/dev_dataset.json``
+           (30-site dev fixture). Used by the Mac dev stack to keep the
+           pipeline off production prospects.
+        2. Pre-enriched SQLite database at ``<input_path parent>/enriched/companies.db``.
+        3. Legacy Excel pipeline on ``input_path``.
         """
-        # Check for pre-enriched SQLite database
+        import os
+
+        # 1. Dev-fixture escape hatch — scoped to the Mac dev stack.
+        dev_dataset = os.environ.get("HEIMDALL_DEV_DATASET")
+        if dev_dataset:
+            dev_path = Path(dev_dataset)
+            if dev_path.is_file():
+                return self._read_dev_dataset(dev_path)
+            logger.warning(
+                "HEIMDALL_DEV_DATASET set to {} but file not found — falling through",
+                dev_dataset,
+            )
+
+        # 2. Check for pre-enriched SQLite database
         db_path = input_path.parent.parent / "enriched" / "companies.db"
         if db_path.exists():
             return self._read_enriched_db(db_path)
 
-        # Legacy Excel pipeline
+        # 3. Legacy Excel pipeline
         companies = read_excel(input_path)
         if not companies:
             logger.info("No companies found in {} — 0 domains extracted", input_path)
@@ -124,6 +141,37 @@ class JobCreator:
             len(companies),
         )
         return unique_domains
+
+    @staticmethod
+    def _read_dev_dataset(dataset_path: Path) -> list[str]:
+        """Read flat domain list from the dev fixture JSON (config/dev_dataset.json).
+
+        Structure is ``{"buckets": {"<name>": ["domain.tld", ...]}}``.
+        Returns deduplicated, order-preserving list so the scheduler
+        never scans more than the fixture allows.
+        """
+        import json
+
+        data = json.loads(dataset_path.read_text(encoding="utf-8"))
+        buckets = data.get("buckets", {}) if isinstance(data, dict) else {}
+
+        seen: set[str] = set()
+        domains: list[str] = []
+        for items in buckets.values():
+            if not isinstance(items, list):
+                continue
+            for raw in items:
+                if not isinstance(raw, str):
+                    continue
+                d = raw.strip().lower()
+                if d and d not in seen:
+                    seen.add(d)
+                    domains.append(d)
+
+        logger.info(
+            "dev_dataset_loaded path={} domains={}", dataset_path, len(domains),
+        )
+        return domains
 
     @staticmethod
     def _read_enriched_db(db_path: Path) -> list[str]:
