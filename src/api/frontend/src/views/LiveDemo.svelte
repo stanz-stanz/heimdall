@@ -148,7 +148,7 @@
       risk: evt.risk || '',
       typed: '',
     };
-    findings = [...findings, record];
+    findings = sortBySeverity([...findings, record]);
     typewrite(evt.index, evt.risk || '');
   }
 
@@ -195,8 +195,23 @@
     info: 'sev-info',
   };
 
+  const SEVERITY_RANK = {
+    critical: 0,
+    high: 1,
+    medium: 2,
+    low: 3,
+    info: 4,
+  };
+
   function severityClass(s) {
     return SEVERITY_CLASS[s] ?? 'sev-info';
+  }
+
+  function sortBySeverity(list) {
+    // Stable sort: Array.prototype.sort is stable in modern engines.
+    return [...list].sort(
+      (a, b) => (SEVERITY_RANK[a.severity] ?? 99) - (SEVERITY_RANK[b.severity] ?? 99),
+    );
   }
 </script>
 
