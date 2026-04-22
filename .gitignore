@@ -2,6 +2,10 @@
 # data/output/*.csv
 # data/output/briefs/*.json
 
+# Per-domain Layer 1 scan results — real third-party SMB data, never committed.
+# The directory is regenerated on every pipeline run.
+data/results/
+
 # Benchmark results (local only)
 data/benchmarks/*.json
 
