@@ -136,7 +136,7 @@
     sub="across all campaigns"
     color="gold"
     icon="&#9733;"
-    onclick={() => navigate('prospects')}
+    onclick={() => navigate('campaigns')}
   />
   <StatCard
     label="Briefs"
@@ -144,7 +144,7 @@
     sub={timestamp ? `last scan: ${timestamp}` : ''}
     color="blue"
     icon="&#9830;"
-    onclick={() => navigate('prospects', { has_brief: '1' })}
+    onclick={() => navigate('briefs')}
   />
   <StatCard
     label="Clients"
@@ -160,7 +160,7 @@
     sub="across all briefs"
     color="red"
     icon="&#9888;"
-    onclick={() => navigate('prospects', { critical: '1' })}
+    onclick={() => navigate('briefs', { critical: '1' })}
   />
 </div>
 

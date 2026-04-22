@@ -21,6 +21,12 @@ export const fetchProspects = (campaign, status, limit = 50, offset = 0) => {
 };
 
 export const fetchClients = () => fetchJSON('/console/clients/list');
+
+export const fetchBriefs = (criticalOnly = false, limit = 200) => {
+  const params = new URLSearchParams({ limit });
+  if (criticalOnly) params.set('critical', 'true');
+  return fetchJSON(`/console/briefs/list?${params}`);
+};
 export const fetchLogs = (limit = 200) => fetchJSON(`/console/logs?limit=${limit}`);
 export const fetchSettings = () => fetchJSON('/console/settings');
 

@@ -286,6 +286,51 @@ async def console_campaign_prospects(
     return await asyncio.to_thread(_query)
 
 
+@router.get("/briefs/list")
+async def console_briefs_list(
+    request: Request,
+    critical: bool = Query(default=False),
+    limit: int = Query(default=200, ge=1, le=1000),
+    offset: int = Query(default=0, ge=0),
+):
+    """List briefs from v_current_briefs — the dashboard's "Briefs" and
+    "Critical" indicators both target this endpoint. Returns one row per
+    current brief (latest snapshot per domain)."""
+    db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
+
+    def _query():
+        try:
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                sql = (
+                    "SELECT domain, scan_date, bucket, cms, hosting,"
+                    "       finding_count, critical_count, high_count,"
+                    "       medium_count, low_count, info_count,"
+                    "       company_name"
+                    " FROM v_current_briefs"
+                )
+                params: list = []
+                if critical:
+                    sql += " WHERE critical_count > 0"
+                sql += " ORDER BY critical_count DESC, high_count DESC,"
+                sql += "          finding_count DESC, domain ASC"
+                sql += " LIMIT ? OFFSET ?"
+                params.extend([limit, offset])
+                rows = conn.execute(sql, params).fetchall()
+                return [dict(r) for r in rows]
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
+
+    return await asyncio.to_thread(_query)
+
+
 @router.get("/clients/list")
 async def console_clients_list(request: Request):
     """Onboarded clients with domain, latest scan, open findings, last delivery."""
