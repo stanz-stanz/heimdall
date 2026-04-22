@@ -39,6 +39,48 @@
 
   let summaryText = $state('');
 
+  // --- Brief selector: prefix search + pagination -----------------------
+
+  const PAGE_SIZE = 24;
+  let searchQuery = $state('');
+  let currentPage = $state(1);
+
+  // Prefix match against company_name, case-insensitive, from char 1.
+  // Substring matches are intentionally excluded per product requirement.
+  let filteredBriefs = $derived.by(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return briefs;
+    return briefs.filter((b) =>
+      (b.company_name || '').toLowerCase().startsWith(q),
+    );
+  });
+
+  let totalPages = $derived(
+    Math.max(1, Math.ceil(filteredBriefs.length / PAGE_SIZE)),
+  );
+
+  let visibleBriefs = $derived(
+    filteredBriefs.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+  );
+
+  // Clamp page when the filter shrinks the result set below the current page.
+  $effect(() => {
+    if (currentPage > totalPages) currentPage = totalPages;
+  });
+
+  function clearSearch() {
+    searchQuery = '';
+    currentPage = 1;
+  }
+
+  function prevPage() {
+    if (currentPage > 1) currentPage -= 1;
+  }
+
+  function nextPage() {
+    if (currentPage < totalPages) currentPage += 1;
+  }
+
   let ws = null;
   const typewriters = new Map();
 
@@ -242,23 +284,72 @@
         <p class="t-body">Loading available targets…</p>
       </div>
     {:else}
-      <div class="briefs-grid">
-        {#each briefs as brief}
+      <div class="search-row">
+        <input
+          type="text"
+          class="search-input t-body"
+          placeholder="Filter by company name…"
+          aria-label="Filter targets by company name"
+          bind:value={searchQuery}
+        />
+        {#if searchQuery}
           <button
             type="button"
-            class="brief-card"
-            onclick={() => startDemo(brief.domain)}
-          >
-            <div class="brief-domain t-subheading">{brief.domain}</div>
-            <div class="brief-company t-body">{brief.company_name}</div>
-            <div class="brief-meta t-mono-label">
-              <span>Bucket {brief.bucket}</span>
-              <span class="meta-dot"></span>
-              <span>{brief.findings_count} findings</span>
-            </div>
-          </button>
-        {/each}
+            class="search-clear"
+            aria-label="Clear search"
+            onclick={clearSearch}
+          >×</button>
+        {/if}
       </div>
+
+      {#if visibleBriefs.length === 0}
+        <div class="empty-state">
+          <p class="t-body">No targets start with "{searchQuery}".</p>
+        </div>
+      {:else}
+        <div class="briefs-grid">
+          {#each visibleBriefs as brief (brief.domain)}
+            <button
+              type="button"
+              class="brief-card"
+              onclick={() => startDemo(brief.domain)}
+            >
+              <div class="brief-domain t-subheading">{brief.domain}</div>
+              <div class="brief-company t-body">{brief.company_name}</div>
+              <div class="brief-meta t-mono-label">
+                <span>Bucket {brief.bucket}</span>
+                <span class="meta-dot"></span>
+                <span>{brief.findings_count} findings</span>
+              </div>
+            </button>
+          {/each}
+        </div>
+
+        {#if totalPages > 1}
+          <nav class="pagination" aria-label="Pagination">
+            <button
+              type="button"
+              class="btn btn-sm page-btn"
+              disabled={currentPage === 1}
+              onclick={prevPage}
+            >
+              ← Previous
+            </button>
+            <span class="page-indicator t-mono-label">
+              Page {currentPage} of {totalPages}
+              <span class="page-count">· {filteredBriefs.length} targets</span>
+            </span>
+            <button
+              type="button"
+              class="btn btn-sm page-btn"
+              disabled={currentPage === totalPages}
+              onclick={nextPage}
+            >
+              Next →
+            </button>
+          </nav>
+        {/if}
+      {/if}
     {/if}
   </section>
 {:else}
@@ -367,6 +458,89 @@
 
   .demo-select-header .t-help {
     margin: 6px auto 0;
+  }
+
+  /* ---- Search bar ---- */
+
+  .search-row {
+    position: relative;
+    margin: 0 auto 20px;
+    max-width: 420px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 10px 36px 10px 14px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    transition:
+      border-color var(--transition),
+      box-shadow var(--transition);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow);
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color var(--transition), background-color var(--transition);
+  }
+
+  .search-clear:hover {
+    color: var(--text);
+    background: var(--bg-hover);
+  }
+
+  /* ---- Pagination ---- */
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .page-btn {
+    min-width: 96px;
+  }
+
+  .page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .page-indicator {
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .page-count {
+    color: var(--text-muted);
   }
 
   .briefs-grid {
