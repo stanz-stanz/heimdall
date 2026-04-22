@@ -106,9 +106,13 @@ async def run_demo_replay(
         await asyncio.sleep(0.3)
 
     # --- Phase 3: Tech stack reveal ---------------------------------------
+    # The event is still published (frontend currently ignores it), but
+    # the pause is short — the frontend no longer renders the tech-stack
+    # panel, so a long pause here is just dead air between the scan
+    # timeline collapsing and the first finding arriving.
     tech_stack = brief.get("tech_stack", [])
     publish({"type": "tech_reveal", "tech_stack": tech_stack})
-    await asyncio.sleep(1.5)
+    await asyncio.sleep(0.4)
 
     # --- Phase 4: Findings one by one -------------------------------------
     findings = brief.get("findings", [])
