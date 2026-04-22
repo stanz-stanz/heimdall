@@ -321,6 +321,22 @@
       </div>
     {/if}
 
+    {#if phase === 'complete'}
+      <div class="summary">
+        <div class="summary-shield" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M32 4L8 16v16c0 14.4 10.24 27.84 24 32 13.76-4.16 24-17.6 24-32V16L32 4z" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1"/>
+            <path d="M24 32l6 6 12-12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="summary-label t-caption">Assessment Complete</div>
+        <p class="t-help summary-text">{summaryText}</p>
+        <button type="button" class="btn btn-primary" onclick={newAssessment}>
+          New Assessment
+        </button>
+      </div>
+    {/if}
+
     {#if findings.length > 0}
       <div class="section">
         <div class="section-header">
@@ -338,23 +354,6 @@
             </article>
           {/each}
         </div>
-      </div>
-    {/if}
-
-    {#if phase === 'complete'}
-      <div class="summary">
-        <div class="summary-shield" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none">
-            <path d="M32 4L8 16v16c0 14.4 10.24 27.84 24 32 13.76-4.16 24-17.6 24-32V16L32 4z" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1"/>
-            <path d="M24 32l6 6 12-12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="summary-label t-caption">Assessment Complete</div>
-        <h2 class="t-title">{domain}</h2>
-        <p class="t-help summary-text">{summaryText}</p>
-        <button type="button" class="btn btn-primary" onclick={newAssessment}>
-          New Assessment
-        </button>
       </div>
     {/if}
   </section>
