@@ -277,29 +277,52 @@
   </section>
 {:else}
   <section class="demo-run">
-    <div class="scan-hero">
-      <div class="radial" aria-label="Scan progress {percent}%">
-        <svg viewBox="0 0 120 120" aria-hidden="true">
-          <circle class="radial-track" cx="60" cy="60" r="52" />
-          <circle
-            class="radial-fill"
-            cx="60"
-            cy="60"
-            r="52"
-            style:stroke-dashoffset={radialOffset}
-          />
-        </svg>
-        <div class="radial-inner">
-          <div class="radial-percent t-display">{percent}%</div>
-          <div class="radial-label t-caption">Complete</div>
+    {#if phase !== 'complete'}
+      <div
+        class="scan-hero"
+        out:fade={{ duration: 320, easing: cubicOut }}
+      >
+        <div class="radial" aria-label="Scan progress {percent}%">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="radial-track" cx="60" cy="60" r="52" />
+            <circle
+              class="radial-fill"
+              cx="60"
+              cy="60"
+              r="52"
+              style:stroke-dashoffset={radialOffset}
+            />
+          </svg>
+          <div class="radial-inner">
+            <div class="radial-percent t-display">{percent}%</div>
+            <div class="radial-label t-caption">Complete</div>
+          </div>
+        </div>
+        <div class="hero-info">
+          <div class="hero-domain t-title">{domain}</div>
+          <div class="hero-timer t-mono-stat">{elapsedSec.toFixed(1)}s</div>
+          <div class="hero-status t-help">{status}</div>
         </div>
       </div>
-      <div class="hero-info">
-        <div class="hero-domain t-title">{domain}</div>
-        <div class="hero-timer t-mono-stat">{elapsedSec.toFixed(1)}s</div>
-        <div class="hero-status t-help">{status}</div>
+    {:else}
+      <div
+        class="summary spotlight"
+        in:fade={{ duration: 500, delay: 220, easing: cubicOut }}
+      >
+        <div class="summary-shield" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M32 4L8 16v16c0 14.4 10.24 27.84 24 32 13.76-4.16 24-17.6 24-32V16L32 4z" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1"/>
+            <path d="M24 32l6 6 12-12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="summary-label t-caption">Assessment Complete</div>
+        <h2 class="summary-domain t-display">{domain}</h2>
+        <p class="summary-text t-body">{summaryText}</p>
+        <button type="button" class="btn btn-primary" onclick={newAssessment}>
+          New Assessment
+        </button>
       </div>
-    </div>
+    {/if}
 
     {#if timeline.length > 0 && !scansDone}
       <div
@@ -318,22 +341,6 @@
             {/if}
           </div>
         {/each}
-      </div>
-    {/if}
-
-    {#if phase === 'complete'}
-      <div class="summary">
-        <div class="summary-shield" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none">
-            <path d="M32 4L8 16v16c0 14.4 10.24 27.84 24 32 13.76-4.16 24-17.6 24-32V16L32 4z" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1"/>
-            <path d="M24 32l6 6 12-12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="summary-label t-caption">Assessment Complete</div>
-        <p class="t-help summary-text">{summaryText}</p>
-        <button type="button" class="btn btn-primary" onclick={newAssessment}>
-          New Assessment
-        </button>
       </div>
     {/if}
 
@@ -709,23 +716,50 @@
     padding: 32px 24px;
     max-width: 520px;
     margin: 0 auto;
-    animation: fade-in 0.6s ease-out;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
   }
 
+  /* Spotlight: takes the scan-hero's slot after completion. Bigger
+     footprint, centered, dominates the top of the stage. */
+  .summary.spotlight {
+    padding: 40px 24px 32px;
+    max-width: 640px;
+    gap: 16px;
+  }
+
   .summary-shield {
     width: 80px;
     height: 80px;
     color: var(--green);
-    animation: shield-in 0.7s ease-out;
+    animation: shield-in 0.7s ease-out 0.15s both;
+  }
+
+  .summary.spotlight .summary-shield {
+    width: 108px;
+    height: 108px;
   }
 
   .summary-shield svg {
     width: 100%;
     height: 100%;
+  }
+
+  .summary-domain {
+    color: var(--text);
+    margin: 0;
+  }
+
+  .summary.spotlight .summary-domain {
+    letter-spacing: -0.02em;
+  }
+
+  .summary.spotlight .summary-text {
+    max-width: 52ch;
+    color: var(--text-dim);
+    margin: 0;
   }
 
   .summary-label {
@@ -754,10 +788,6 @@
   }
 
 
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
 
   @keyframes shield-in {
     0%   { opacity: 0; transform: scale(0.5) translateY(20px); }
