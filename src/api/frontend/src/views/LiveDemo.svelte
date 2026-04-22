@@ -28,6 +28,16 @@
   let findings = $state([]); // { index, severity, description, risk, typed }
   let findingsTotal = $state(0);
 
+  // True when every finding's typewriter has finished (or there are no
+  // findings to type). Gates the swap from scan-hero to the spotlight
+  // summary — we don't want "Assessment Complete" landing while risk
+  // text is still being typed below.
+  let allTyped = $derived(
+    findings.length === 0 ||
+      findings.every((f) => f.typed.length >= (f.risk?.length ?? 0)),
+  );
+  let showSummary = $derived(phase === 'complete' && allTyped);
+
   let summaryText = $state('');
 
   let ws = null;
@@ -278,7 +288,7 @@
 {:else}
   <section class="demo-run">
     <div class="stage">
-      {#if phase !== 'complete'}
+      {#if !showSummary}
         <div
           class="scan-hero"
           out:fly={{ duration: 520, y: -6, easing: cubicInOut }}
