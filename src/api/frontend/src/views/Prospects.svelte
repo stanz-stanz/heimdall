@@ -3,6 +3,7 @@
   import DataTable from '../components/DataTable.svelte';
   import { fetchProspects, fetchCampaigns } from '../lib/api.js';
   import { getSelectedCampaign, setSelectedCampaign } from './prospects-state.svelte.js';
+  import { router } from '../lib/router.svelte.js';
   import { onMount } from 'svelte';
 
   let campaigns = $state([]);
@@ -33,7 +34,7 @@
 
   function renderCell(row, key) {
     if (key === 'domain') {
-      return `<span style="font-family: var(--mono); font-size: 12px;">${escapeHtml(row.domain)}</span>`;
+      return `<span class="t-mono-label">${escapeHtml(row.domain)}</span>`;
     }
     if (key === 'bucket') {
       return `<span class="badge-bucket">${escapeHtml(row.bucket)}</span>`;
@@ -99,6 +100,20 @@
   });
 
   let currentCampaign = $derived(getSelectedCampaign());
+
+  let filteredRows = $derived.by(() => {
+    const p = router.params ?? {};
+    let r = rows;
+    if (p.critical === '1') r = r.filter(row => (row.critical_count ?? 0) > 0);
+    return r;
+  });
+
+  let filterBanner = $derived.by(() => {
+    const p = router.params ?? {};
+    if (p.critical === '1') return 'Filtered: critical findings only';
+    if (p.has_brief === '1') return 'Filtered: prospects with briefs';
+    return '';
+  });
 </script>
 
 <div class="section-header" style="margin-top: 0;">
@@ -113,8 +128,8 @@
 
 {#if !currentCampaign}
   <div class="card" style="margin-bottom: 20px;">
-    <label class="form-label" for="campaign-select">Select Campaign</label>
-    <select id="campaign-select" class="form-select" onchange={handleCampaignSelect}>
+    <label class="form-label t-label" for="campaign-select">Select Campaign</label>
+    <select id="campaign-select" class="form-select t-body" onchange={handleCampaignSelect}>
       <option value="">-- Select a campaign --</option>
       {#each campaigns as c}
         <option value={c.campaign}>{c.campaign} ({c.total} prospects)</option>
@@ -123,8 +138,17 @@
   </div>
 {/if}
 
+{#if filterBanner}
+  <div class="filter-banner t-label">
+    {filterBanner}
+    <button class="btn btn-ghost btn-sm filter-clear" onclick={() => (window.location.hash = '#/prospects')}>
+      Clear
+    </button>
+  </div>
+{/if}
+
 {#if currentCampaign}
-  <DataTable {columns} {rows} {renderCell} />
+  <DataTable {columns} rows={filteredRows} {renderCell} />
 {:else if loaded}
   <div class="empty-state">
     <span class="empty-state-text">Select a campaign to view prospects</span>
@@ -134,7 +158,6 @@
 <style>
   .form-label {
     display: block;
-    font-size: 12px;
     color: var(--text-dim);
     margin-bottom: 6px;
   }
@@ -145,8 +168,6 @@
     color: var(--text);
     border-radius: var(--radius-sm);
     padding: 8px 12px;
-    font-family: var(--sans);
-    font-size: 13px;
     width: 100%;
     max-width: 400px;
   }
@@ -154,5 +175,21 @@
   .form-select:focus {
     outline: none;
     border-color: var(--gold);
+  }
+
+  .filter-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: var(--gold-glow);
+    border: 1px solid var(--gold);
+    border-radius: var(--radius-sm);
+    color: var(--gold);
+  }
+
+  .filter-clear {
+    margin-left: auto;
   }
 </style>

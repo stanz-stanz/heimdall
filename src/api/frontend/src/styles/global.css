@@ -17,6 +17,9 @@ body {
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 body::before {
@@ -24,8 +27,8 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 10% 90%, rgba(59, 130, 246, 0.04), transparent),
-    radial-gradient(ellipse 60% 50% at 90% 10%, rgba(245, 158, 11, 0.03), transparent);
+    radial-gradient(ellipse 80% 60% at 10% 90%, var(--mesh-a), transparent),
+    radial-gradient(ellipse 60% 50% at 90% 10%, var(--mesh-b), transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -98,28 +101,24 @@ body::before {
 }
 
 .card-label {
-  font-size: 12px;
-  font-weight: 500;
+  font: 500 12px/1.4 var(--sans);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-dim);
 }
 
 .card-value {
-  font-family: var(--mono);
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1.1;
+  font: 600 28px/1.1 var(--mono);
 }
 
 .card-sub {
-  font-size: 12px;
-  color: var(--text-muted);
+  font: 400 13px/1.5 var(--sans);
+  color: var(--text-dim);
   margin-top: 4px;
 }
 
 .card-icon {
-  font-size: 18px;
+  font: 600 18px/1.3 var(--sans);
   opacity: 0.5;
 }
 
@@ -167,8 +166,7 @@ body::before {
 }
 
 .section-title {
-  font-size: 14px;
-  font-weight: 600;
+  font: 600 14px/1.3 var(--sans);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-dim);
@@ -185,9 +183,7 @@ body::before {
   border-radius: var(--radius-sm);
   background: var(--bg-surface);
   color: var(--text);
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 500;
+  font: 500 13px/1.5 var(--sans);
   cursor: pointer;
   transition: all var(--transition);
   white-space: nowrap;
@@ -220,7 +216,7 @@ body::before {
 
 .btn-sm {
   padding: 4px 10px;
-  font-size: 12px;
+  font: 500 12px/1.4 var(--sans);
 }
 
 .btn-danger {
@@ -243,7 +239,7 @@ body::before {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font: 400 13px/1.5 var(--sans);
 }
 
 thead {
@@ -253,11 +249,10 @@ thead {
 th {
   padding: 10px 14px;
   text-align: left;
-  font-size: 11px;
-  font-weight: 600;
+  font: 600 11px/1.2 var(--sans);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--text-dim);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -283,47 +278,35 @@ td.domain {
   align-items: center;
   padding: 2px 8px;
   border-radius: var(--radius-xs);
-  font-size: 11px;
-  font-weight: 600;
+  font: 600 11px/1.2 var(--sans);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
-.badge-critical {
-  background: var(--red-dim);
-  color: var(--red);
-}
-
-.badge-high {
-  background: var(--orange-dim);
-  color: var(--orange);
-}
+.badge-critical { background: var(--red-dim);    color: var(--red);    }
+.badge-high     { background: var(--orange-dim); color: var(--orange); }
 
 .badge-medium {
-  background: var(--gold-glow);
-  color: var(--gold);
+  background: var(--red-muted);
+  color: var(--red-soft);
+  border: 1px solid var(--red-outline);
 }
 
-.badge-new {
-  background: var(--blue-dim);
-  color: var(--blue);
+.badge-low {
+  background: var(--red-muted);
+  color: var(--text-dim);
+  border: 1px solid var(--red-outline);
 }
 
 .badge-interpreted {
-  background: var(--gold-glow);
-  color: var(--gold);
-}
-
-.badge-sent {
-  background: var(--green-dim);
-  color: var(--green);
-}
-
-.badge-bucket {
-  background: var(--bg-surface);
+  background: transparent;
   color: var(--text-dim);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border);
 }
+
+.badge-new     { background: var(--blue-dim);  color: var(--blue);     }
+.badge-sent    { background: var(--green-dim); color: var(--green);    }
+.badge-bucket  { background: var(--bg-surface); color: var(--text-dim); border: 1px solid var(--border-subtle); }
 
 /* ── Plan Badges ────────────────────────────────────── */
 
@@ -332,10 +315,9 @@ td.domain {
   align-items: center;
   padding: 2px 8px;
   border-radius: var(--radius-xs);
-  font-size: 11px;
-  font-weight: 600;
+  font: 600 11px/1.2 var(--sans);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
 .plan-watchman {
@@ -370,9 +352,7 @@ td.domain {
   border-radius: 20px;
   background: transparent;
   color: var(--text-dim);
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 500;
+  font: 500 12px/1.4 var(--sans);
   cursor: pointer;
   transition: all var(--transition);
 }
@@ -414,15 +394,14 @@ td.domain {
 }
 
 .progress-label {
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 500;
+  font: 500 12px/1.4 var(--mono);
   color: var(--gold);
 }
 
 .progress-msg {
-  font-size: 12px;
-  color: var(--text-muted);
+  font: 400 13px/1.5 var(--sans);
+  color: var(--text-dim);
+  max-width: 60ch;
   margin-top: 4px;
 }
 
@@ -456,15 +435,13 @@ td.domain {
 }
 
 .feed-text {
-  font-size: 13px;
+  font: 400 13px/1.4 var(--sans);
   color: var(--text-dim);
-  line-height: 1.4;
 }
 
 .feed-time {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-muted);
+  font: 500 12px/1.4 var(--mono);
+  color: var(--text-dim);
   margin-left: auto;
   white-space: nowrap;
   flex-shrink: 0;
@@ -486,8 +463,7 @@ td.domain {
 }
 
 .campaign-name {
-  font-size: 16px;
-  font-weight: 600;
+  font: 600 16px/1.3 var(--sans);
   margin-bottom: 4px;
 }
 
@@ -498,7 +474,7 @@ td.domain {
 }
 
 .campaign-stat {
-  font-size: 12px;
+  font: 500 12px/1.4 var(--sans);
   color: var(--text-dim);
 }
 
@@ -527,15 +503,11 @@ td.domain {
   text-align: center;
 }
 
-.empty-state-icon {
-  font-size: 36px;
-  opacity: 0.3;
-  margin-bottom: 12px;
-}
-
 .empty-state-text {
-  font-size: 14px;
-  color: var(--text-muted);
+  font: 400 13px/1.5 var(--sans);
+  color: var(--text-dim);
+  max-width: 60ch;
+  margin-inline: auto;
 }
 
 /* ── Config Editor ──────────────────────────────────── */
@@ -554,15 +526,13 @@ td.domain {
 
 .config-tab {
   padding: 10px 20px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-muted);
+  font: 500 13px/1.5 var(--sans);
+  color: var(--text-dim);
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
   transition: all var(--transition);
-  font-family: var(--sans);
 }
 
 .config-tab:hover {
@@ -611,4 +581,63 @@ td.domain {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* --- v1.1 type scale utilities ------------------------------------- */
+.t-display       { font: 600 28px/1.1 var(--mono); }
+.t-title         { font: 700 22px/1.2 var(--sans); }
+.t-heading       { font: 600 18px/1.3 var(--sans); }
+.t-subheading    { font: 600 16px/1.3 var(--sans); }
+.t-section       {
+  font: 600 14px/1.3 var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.t-body          { font: 400 13px/1.5 var(--sans); }
+.t-body-strong   { font: 500 13px/1.5 var(--sans); }
+.t-label         { font: 500 12px/1.4 var(--sans); }
+.t-caption       {
+  font: 600 11px/1.2 var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.t-mono-label    { font: 500 12px/1.4 var(--mono); }
+.t-mono-stat     { font: 700 18px/1.1 var(--mono); }
+
+/* --- v1.2 explanatory prose utility -------------------------------- */
+.t-help {
+  font: 400 13px/1.5 var(--sans);
+  color: var(--text-dim);
+  max-width: 60ch;
+}
+
+/* --- v1.1 elevation utilities -------------------------------------- */
+.overlay {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-backdrop);
+}
+
+.modal {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
+}
+
+.dropdown {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
+}
+
+.toast {
+  background: var(--bg-overlay);
+  box-shadow: var(--shadow-overlay);
+  border-radius: var(--radius);
 }

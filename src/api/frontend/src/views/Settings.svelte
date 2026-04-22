@@ -148,8 +148,8 @@
   <div class="config-body">
     {#if activeTab === 'filters'}
       <div class="form-section">
-        <div class="form-group-label">Bucket Filter</div>
-        <div class="form-desc">Select which prospect buckets to include in pipeline output</div>
+        <div class="form-group-label t-section">Bucket Filter</div>
+        <div class="form-desc t-help">Select which prospect buckets to include in pipeline output</div>
         <div class="checkbox-group">
           {#each Object.entries(buckets) as [key, checked]}
             <label class="checkbox-item">
@@ -159,7 +159,7 @@
                 onchange={() => toggleBucket(key)}
               />
               <span class="checkbox-visual"></span>
-              <span class="checkbox-label">{key}</span>
+              <span class="checkbox-label t-mono-label">{key}</span>
             </label>
           {/each}
         </div>
@@ -168,8 +168,8 @@
     {:else if activeTab === 'interpreter'}
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label" for="interp-backend">Backend</label>
-          <select id="interp-backend" class="form-input" bind:value={interpreter.backend}>
+          <label class="form-label t-label" for="interp-backend">Backend</label>
+          <select id="interp-backend" class="form-input t-body" bind:value={interpreter.backend}>
             {#each backendOptions as opt}
               <option value={opt}>{opt}</option>
             {/each}
@@ -177,17 +177,17 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="interp-model">Model</label>
-          <input id="interp-model" class="form-input" type="text" bind:value={interpreter.model} />
+          <label class="form-label t-label" for="interp-model">Model</label>
+          <input id="interp-model" class="form-input t-body" type="text" bind:value={interpreter.model} />
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="interp-tokens">Max Tokens</label>
-          <input id="interp-tokens" class="form-input" type="number" bind:value={interpreter.max_output_tokens} min="256" max="8192" step="256" />
+          <label class="form-label t-label" for="interp-tokens">Max Tokens</label>
+          <input id="interp-tokens" class="form-input t-body" type="number" bind:value={interpreter.max_output_tokens} min="256" max="8192" step="256" />
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="interp-temp">Temperature</label>
+          <label class="form-label t-label" for="interp-temp">Temperature</label>
           <div class="range-row">
             <input
               id="interp-temp"
@@ -198,27 +198,27 @@
               step="0.1"
               bind:value={interpreter.temperature}
             />
-            <span class="range-value">{interpreter.temperature}</span>
+            <span class="range-value t-mono-label">{interpreter.temperature}</span>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="interp-tone">Tone</label>
-          <select id="interp-tone" class="form-input" bind:value={interpreter.tone}>
+          <label class="form-label t-label" for="interp-tone">Tone</label>
+          <select id="interp-tone" class="form-input t-body" bind:value={interpreter.tone}>
             {#each toneOptions as opt}
               <option value={opt.value}>{opt.label}</option>
             {/each}
           </select>
           {#each toneOptions as opt}
             {#if opt.value === interpreter.tone}
-              <div class="form-hint">{opt.desc}</div>
+              <div class="form-hint t-label">{opt.desc}</div>
             {/if}
           {/each}
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="interp-lang">Language</label>
-          <select id="interp-lang" class="form-input" bind:value={interpreter.language}>
+          <label class="form-label t-label" for="interp-lang">Language</label>
+          <select id="interp-lang" class="form-input t-body" bind:value={interpreter.language}>
             {#each languageOptions as opt}
               <option value={opt.value}>{opt.label}</option>
             {/each}
@@ -229,7 +229,7 @@
     {:else if activeTab === 'delivery'}
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label" for="del-approval">Require Approval</label>
+          <label class="form-label t-label" for="del-approval">Require Approval</label>
           <div class="toggle-row">
             <button
               id="del-approval"
@@ -241,25 +241,25 @@
             >
               <span class="toggle-thumb"></span>
             </button>
-            <span class="toggle-label">
+            <span class="toggle-label t-label">
               {delivery.require_approval ? 'Operator must approve before delivery' : 'Auto-deliver without approval'}
             </span>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="del-retries">Max Retries</label>
-          <input id="del-retries" class="form-input" type="number" bind:value={delivery.retry_max} min="0" max="10" />
+          <label class="form-label t-label" for="del-retries">Max Retries</label>
+          <input id="del-retries" class="form-input t-body" type="number" bind:value={delivery.retry_max} min="0" max="10" />
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="del-delay">Retry Delay (seconds)</label>
-          <input id="del-delay" class="form-input" type="number" bind:value={delivery.retry_delay_seconds} min="1" max="300" />
+          <label class="form-label t-label" for="del-delay">Retry Delay (seconds)</label>
+          <input id="del-delay" class="form-input t-body" type="number" bind:value={delivery.retry_delay_seconds} min="1" max="300" />
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="del-rate">Rate Limit (per second)</label>
-          <input id="del-rate" class="form-input" type="number" bind:value={delivery.rate_limit_per_second} min="1" max="30" />
+          <label class="form-label t-label" for="del-rate">Rate Limit (per second)</label>
+          <input id="del-rate" class="form-input t-body" type="number" bind:value={delivery.rate_limit_per_second} min="1" max="30" />
         </div>
       </div>
     {/if}
@@ -277,15 +277,11 @@
   }
 
   .form-group-label {
-    font-size: 14px;
-    font-weight: 600;
     color: var(--text);
     margin-bottom: 4px;
   }
 
   .form-desc {
-    font-size: 12px;
-    color: var(--text-muted);
     margin-bottom: 12px;
   }
 
@@ -302,9 +298,7 @@
   }
 
   .form-label {
-    font-size: 12px;
     color: var(--text-dim);
-    font-weight: 500;
   }
 
   .form-input {
@@ -313,8 +307,6 @@
     color: var(--text);
     border-radius: var(--radius-sm);
     padding: 8px 12px;
-    font-family: var(--sans);
-    font-size: 13px;
     max-width: 400px;
     transition: border-color var(--transition);
   }
@@ -325,8 +317,7 @@
   }
 
   .form-hint {
-    font-size: 11px;
-    color: var(--text-muted);
+    color: var(--text-dim);
     font-style: italic;
   }
 
@@ -375,9 +366,6 @@
   }
 
   .checkbox-label {
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 600;
     color: var(--text);
   }
 
@@ -419,9 +407,6 @@
   }
 
   .range-value {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
     color: var(--gold);
     min-width: 32px;
     text-align: right;
@@ -469,7 +454,6 @@
   }
 
   .toggle-label {
-    font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-dim);
   }
 </style>

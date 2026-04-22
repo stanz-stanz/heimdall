@@ -15,25 +15,25 @@
 </script>
 
 <div class="campaign-card">
-  <div class="campaign-name">{campaign.campaign ?? 'Untitled'}</div>
-  <div class="campaign-desc">{campaign.total ?? 0} prospects</div>
+  <div class="campaign-name t-subheading">{campaign.campaign ?? 'Untitled'}</div>
+  <div class="campaign-desc t-label">{campaign.total ?? 0} prospects</div>
 
   <div class="campaign-stats">
     <div class="campaign-stat">
-      <div class="campaign-stat-value" style="color: var(--text-dim)">{newCount}</div>
-      <div class="campaign-stat-label">New</div>
+      <div class="campaign-stat-value t-mono-stat" style="color: var(--text-dim)">{newCount}</div>
+      <div class="campaign-stat-label t-caption">New</div>
     </div>
     <div class="campaign-stat">
-      <div class="campaign-stat-value" style="color: var(--blue)">{interpreted}</div>
-      <div class="campaign-stat-label">Interpreted</div>
+      <div class="campaign-stat-value t-mono-stat" style="color: var(--blue)">{interpreted}</div>
+      <div class="campaign-stat-label t-caption">Interpreted</div>
     </div>
     <div class="campaign-stat">
-      <div class="campaign-stat-value" style="color: var(--gold)">{sent}</div>
-      <div class="campaign-stat-label">Sent</div>
+      <div class="campaign-stat-value t-mono-stat" style="color: var(--gold)">{sent}</div>
+      <div class="campaign-stat-label t-caption">Sent</div>
     </div>
     <div class="campaign-stat">
-      <div class="campaign-stat-value" style="color: var(--red)">{failed}</div>
-      <div class="campaign-stat-label">Failed</div>
+      <div class="campaign-stat-value t-mono-stat" style="color: var(--red)">{failed}</div>
+      <div class="campaign-stat-label t-caption">Failed</div>
     </div>
   </div>
 
@@ -77,8 +77,7 @@
 
 <style>
   .campaign-desc {
-    font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-dim);
     margin-top: 2px;
   }
 
@@ -93,18 +92,8 @@
     text-align: center;
   }
 
-  .campaign-stat-value {
-    font-family: var(--mono);
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
-  }
-
   .campaign-stat-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
+    color: var(--text-dim);
     margin-top: 4px;
   }
 

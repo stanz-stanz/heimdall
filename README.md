@@ -6,7 +6,7 @@
 
 ## An AI-Powered Cybersecurity Service for Small Businesses
 
-External Attack Surface Management (EASM) for Danish SMBs. Finds vulnerabilities, explains them in plain language, delivers via Telegram.
+External Attack Surface Management (EASM) for small and medium businesses (SMBs) that handle customer data and risk breaching GDPR regulations. Finds vulnerabilities, explains them in plain language, delivers via Telegram.
 
 ### Project structure
 
@@ -20,7 +20,7 @@ config/              Static configuration (JSON)
 data/input/          Manual input (CVR extracts)
 data/output/         Pipeline results (briefs, CSV)
 docs/                Briefing, business plan, legal, architecture
-infra/compose/        Docker Compose, Dockerfiles, Prometheus, Grafana
+infra/compose/       Docker Compose, Dockerfiles, Prometheus, Grafana
 scripts/             Benchmark, analysis, and utility scripts
 tests/               pytest test suite (217 tests)
 ```

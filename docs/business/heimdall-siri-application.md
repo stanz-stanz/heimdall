@@ -34,7 +34,7 @@ Forty percent of Danish small and medium businesses do not have a security level
 
 **The innovation:** No existing EASM product delivers findings through messaging apps to non-technical business owners. Heimdall's architecture is built from the ground up around conversational delivery, persistent memory of each client's infrastructure, AI-powered interpretation of technical findings, and automated legal compliance governance. Two technical innovations are particularly distinctive. First, a **digital twin** system that reconstructs a prospect's website from publicly available data and runs it on Heimdall's own infrastructure — enabling CVE-level vulnerability scanning without touching the prospect's systems or requiring their consent, because Danish criminal law (Straffeloven §263) only protects "another person's data system." Second, **Valdí**, a programmatic compliance agent with two-gate validation and forensic logging, built as a systemic response to a real compliance incident — demonstrating a governance maturity that most startups never achieve. This is not an incremental improvement — it is a fundamentally different approach to cybersecurity for SMBs.
 
-**Business model:** Three subscription tiers at 199, 399, and 799 kr./month — Watchman is cheaper than every competitor's entry tier. Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~13–14 paying clients.
+**Business model:** Two subscription tiers — Watchman at 199 kr./month and Sentinel at 399 kr./month. Watchman is cheaper than every competitor's entry tier. Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~13–14 paying clients.
 
 **Current state:** I am building the product. The lead generation pipeline is operational — 14 Python modules, a 10-agent architecture, a programmatic legal compliance system (Valdí) with two-gate validation and forensic logging, and a complete legal risk assessment of Danish scanning law. I have tested the pipeline against 203 live Vejle-area domains.
 
@@ -529,8 +529,6 @@ I bring nearly 20 years of enterprise software engineering experience to Heimdal
 **Education:** Computer Systems Analyst (Instituto Superior del Milagro).
 
 **Languages:** Spanish (native), English (professional).
-
-**Entrepreneurial experience:** I am also building the Fjordleather brand alongside Heimdall — leather goods, separate business, shared entrepreneurial drive.
 
 **In Denmark since 2019.** Based in Vejle.
 

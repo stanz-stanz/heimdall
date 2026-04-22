@@ -223,3 +223,99 @@ class TestCreateClientJobs:
         job = json.loads(raw)
         assert job["client_id"] == "cli-001"
         assert job["tier"] == "sentinel"  # from profile, not from arg
+
+
+class TestDevDataset:
+    """HEIMDALL_DEV_DATASET env var scopes the pipeline to the 30-site fixture.
+
+    The bug this guards: Mac dev stack mounted the real enriched DB (1179
+    domains). Clicking "Run Pipeline" in the dev console triggered scans
+    against real prospects outside the fixture — violating the dev/prod
+    separation agreement.
+    """
+
+    def test_env_var_reads_dev_fixture(self, creator, tmp_path, monkeypatch):
+        """When HEIMDALL_DEV_DATASET points to a valid fixture JSON, it
+        overrides the enriched-DB path and returns only the fixture's domains.
+        """
+        fixture = tmp_path / "dev_dataset.json"
+        fixture.write_text(
+            json.dumps({
+                "buckets": {
+                    "wordpress": ["one.dk", "two.dk"],
+                    "drupal": ["three.dk"],
+                },
+            }),
+            encoding="utf-8",
+        )
+        monkeypatch.setenv("HEIMDALL_DEV_DATASET", str(fixture))
+
+        domains = creator.extract_prospect_domains(
+            Path("/does/not/matter/cvr.xlsx"),
+            Path("/does/not/matter/filters.json"),
+        )
+
+        assert domains == ["one.dk", "two.dk", "three.dk"]
+
+    def test_env_var_missing_file_falls_through(
+        self, creator, tmp_path, monkeypatch,
+    ):
+        """If the env var points at a non-existent file, the scheduler
+        emits a warning and falls through to the next source (Excel here,
+        since no enriched DB exists under /does/not/matter)."""
+        monkeypatch.setenv(
+            "HEIMDALL_DEV_DATASET", str(tmp_path / "does_not_exist.json"),
+        )
+
+        # read_excel will be hit; stub it to return empty so we don't
+        # actually try to open a file.
+        with patch(
+            "src.scheduler.job_creator.read_excel", return_value=[],
+        ):
+            domains = creator.extract_prospect_domains(
+                Path("/does/not/matter/cvr.xlsx"),
+                Path("/does/not/matter/filters.json"),
+            )
+
+        assert domains == []
+
+    def test_dedup_preserves_first_occurrence(
+        self, creator, tmp_path, monkeypatch,
+    ):
+        """Duplicate domains across buckets collapse to a single entry,
+        first-seen wins, order preserved."""
+        fixture = tmp_path / "dev_dataset.json"
+        fixture.write_text(
+            json.dumps({
+                "buckets": {
+                    "a": ["shared.dk", "alpha.dk"],
+                    "b": ["shared.dk", "beta.dk"],
+                },
+            }),
+            encoding="utf-8",
+        )
+        monkeypatch.setenv("HEIMDALL_DEV_DATASET", str(fixture))
+
+        domains = creator.extract_prospect_domains(
+            Path("/irrelevant.xlsx"), Path("/irrelevant.json"),
+        )
+
+        assert domains == ["shared.dk", "alpha.dk", "beta.dk"]
+
+    def test_reads_real_fixture(self, creator, monkeypatch):
+        """The committed config/dev_dataset.json produces ≤30 unique
+        domains — guards against accidental fixture explosion."""
+        fixture = Path("config/dev_dataset.json")
+        if not fixture.is_file():
+            pytest.skip("dev fixture not present in this checkout")
+
+        monkeypatch.setenv("HEIMDALL_DEV_DATASET", str(fixture))
+        domains = creator.extract_prospect_domains(
+            Path("/irrelevant.xlsx"), Path("/irrelevant.json"),
+        )
+
+        assert 0 < len(domains) <= 30, (
+            f"dev fixture must stay ≤30 domains, got {len(domains)}"
+        )
+        # No duplicates
+        assert len(domains) == len(set(domains))

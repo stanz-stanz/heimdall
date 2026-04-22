@@ -5,8 +5,10 @@
   import Pipeline from './views/Pipeline.svelte';
   import Campaigns from './views/Campaigns.svelte';
   import Prospects from './views/Prospects.svelte';
+  import Briefs from './views/Briefs.svelte';
   import Clients from './views/Clients.svelte';
   import Logs from './views/Logs.svelte';
+  import LiveDemo from './views/LiveDemo.svelte';
   import Settings from './views/Settings.svelte';
   import { router } from './lib/router.svelte.js';
   import { connect, disconnect, wsState } from './lib/ws.svelte.js';
@@ -43,10 +45,14 @@
       <Campaigns />
     {:else if router.view === 'prospects'}
       <Prospects />
+    {:else if router.view === 'briefs'}
+      <Briefs />
     {:else if router.view === 'clients'}
       <Clients />
     {:else if router.view === 'logs'}
       <Logs />
+    {:else if router.view === 'demo'}
+      <LiveDemo />
     {:else if router.view === 'settings'}
       <Settings />
     {/if}

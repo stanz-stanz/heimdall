@@ -1,7 +1,21 @@
 # Heimdall Design System
 
-**Version:** 1.0
-**Last updated:** 2026-04-07
+**Version:** 1.2
+**Last updated:** 2026-04-22
+
+**v1.2 changes:**
+- New `.t-help` utility class for explanatory prose — bundles size, weight, colour, and the §11.4 max-width cap into one role (§1.2, §11.2, §11.4)
+- §11.2 tightened — muted-on-text violations are a reviewer-checklist failure, with `.t-help` as the prescribed fix for help copy
+- §11.7 reviewer checklist gains an explicit line for explanatory prose
+
+**v1.1 changes:**
+- Severity palette rebuilt warm-only — findings never wear blue or green (§1.1, §2.4, §6)
+- Gold is brand-exclusive — no longer used for severity or status (§1.1, §8.2)
+- Added elevation tokens for detached surfaces (§1.5)
+- Type scale consolidated from 18 roles to 10 utility classes (§1.2)
+- 9px campaign stat label raised to 11px (readability fix)
+- New §11: Readability rules
+
 **Scope:** Operator Console (`src/api/frontend/`)
 **Stack:** Svelte 5 + vanilla CSS (no Tailwind, no preprocessors)
 **Theme:** Dark-only
@@ -32,7 +46,7 @@ Visual depth is created through background layering, not shadows. The 5-level sc
 |-------|-----|-------|
 | `--text` | `#e2e8f0` | Primary body text |
 | `--text-dim` | `#7a8ba8` | Secondary text, labels |
-| `--text-muted` | `#4a5b78` | Hints, placeholders, timestamps |
+| `--text-muted` | `#4a5b78` | Decorative / non-essential only — fails AA contrast. See §11.2 |
 
 #### Semantic Colors
 
@@ -40,16 +54,19 @@ Each semantic color has a full-intensity value and a dim/tinted background varia
 
 | Token | Hex | Meaning |
 |-------|-----|---------|
-| `--gold` | `#f59e0b` | Primary accent, CTAs, active states |
+| `--gold` | `#f59e0b` | **Brand only** — CTAs, active nav, focus, progress. Never severity or status. |
 | `--gold-dim` | `#b47008` | Darker gold (pressed states) |
 | `--gold-glow` | `rgba(245, 158, 11, 0.12)` | Gold background tint |
 | `--red` | `#ef4444` | Critical severity, errors, destructive actions |
-| `--red-dim` | `rgba(239, 68, 68, 0.15)` | Red background tint |
+| `--red-dim` | `rgba(239, 68, 68, 0.15)` | Critical badge background |
+| `--red-muted` | `rgba(239, 68, 68, 0.07)` | **v1.1** · Medium/low badge background |
+| `--red-outline` | `rgba(239, 68, 68, 0.38)` | **v1.1** · Medium/low badge border |
+| `--red-soft` | `#f87171` | **v1.1** · Medium badge text |
 | `--orange` | `#f97316` | High severity, warnings |
 | `--orange-dim` | `rgba(249, 115, 22, 0.15)` | Orange background tint |
-| `--green` | `#22c55e` | Success, active/online status |
+| `--green` | `#22c55e` | Operational health, online status, operator action succeeded. **Never a vulnerability severity.** |
 | `--green-dim` | `rgba(34, 197, 94, 0.15)` | Green background tint |
-| `--blue` | `#3b82f6` | Informational, secondary actions |
+| `--blue` | `#3b82f6` | Informational UI, un-triaged metadata, Logs timeframe. **Never a vulnerability severity.** |
 | `--blue-dim` | `rgba(59, 130, 246, 0.12)` | Blue background tint |
 
 #### Borders
@@ -76,28 +93,26 @@ The page background has subtle radial gradient overlays to add depth:
 
 Both fonts are loaded via Google Fonts.
 
-#### Type Scale
+#### Type Scale (v1.1)
 
-| Role | Size | Weight | Font | Letter Spacing |
-|------|------|--------|------|----------------|
-| Brand title | 22px | 700 | Sans | — |
-| Brand subtitle | 11px | 500 | Sans | 0.08em |
-| Page title | 18px | 600 | Sans | — |
-| Campaign name | 16px | 600 | Sans | — |
-| Section header | 14px | 600 | Sans | — |
-| Card value (stat) | 28px | 600 | Mono | — |
-| Campaign stat value | 18px | 700 | Mono | — |
-| Card label | 12px | 500 | Sans | — |
-| Body text | 13px | 400 | Sans | — |
-| Button text | 13px | 500 | Sans | — |
-| Log row | 12px | 400 | Mono | — |
-| Table header | 11px | 600 | Sans | 0.06em |
-| Table body | 13px | 400 | Sans | — |
-| Badge | 11px | 600 | Sans | 0.04em |
-| Nav badge | 11px | 600 | Mono | — |
-| Nav section label | 10px | 600 | Sans | 0.1em |
-| Filter chip | 12px | 500 | Sans | — |
-| Campaign stat label | 9px | 600 | Sans | 0.06em |
+10 utility classes replace all raw `font-size` / `font-weight` declarations. Defined in `global.css`.
+
+| Class | Size | Weight | Font | Transform | Usage |
+|-------|------|--------|------|-----------|-------|
+| `.t-display` | 28 | 600 | Mono | — | Dashboard stat values |
+| `.t-title` | 22 | 700 | Sans | — | Brand title only |
+| `.t-heading` | 18 | 600 | Sans | — | Page titles, card titles |
+| `.t-subheading` | 16 | 600 | Sans | — | Campaign names, modal titles |
+| `.t-section` | 14 | 600 | Sans | upper · 0.06em | All section headers |
+| `.t-body` | 13 | 400 | Sans | — | Default body, table rows |
+| `.t-body-strong` | 13 | 500 | Sans | — | Buttons, emphasized body |
+| `.t-label` | 12 | 500 | Sans | — | Form labels, chips, card meta |
+| `.t-caption` | 11 | 600 | Sans | upper · 0.06em | Badges, table heads, nav labels |
+| `.t-mono-label` | 12 | 500 | Mono | — | Log rows, inline data, timestamps |
+| `.t-mono-stat` | 18 | 700 | Mono | — | Campaign stat values |
+| `.t-help` | 13 | 400 | Sans | — | **Explanatory prose** — card subtitles, form descriptions, empty states, hints. Bundles `color: var(--text-dim)` + `max-width: 60ch`. See §11.2, §11.4. |
+
+**Rules:** No font-size below 11px. One tracking value (`0.06em`) for all uppercase captions. See §11 for enforcement.
 
 #### Line Heights
 
@@ -134,11 +149,18 @@ The system uses a base-4 spacing scale. Common values:
 | `--radius-xs` | 4px | Checkboxes, small elements |
 | 20px | Filter chips (pill shape) |
 
-### 1.5 Shadows & Elevation
+### 1.5 Shadows & Elevation (v1.1)
+
+Hierarchy is conveyed through the background ramp. Shadow is reserved exclusively for **detached surfaces** — modals, dropdowns, popovers, toasts.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--shadow` | `0 4px 24px rgba(0, 0, 0, 0.4)` | Rare; depth is primarily conveyed via background color layering |
+| `--bg-overlay` | `#1e2c48` | Detached-surface background |
+| `--shadow-overlay` | 3-layer drop + 1px gold rim | Detached-surface shadow |
+| `--overlay-backdrop` | `rgba(6, 13, 26, 0.72)` | Modal scrim |
+| `--shadow` | `0 4px 24px rgba(0, 0, 0, 0.4)` | Legacy · prefer `--shadow-overlay` |
+
+**Utility classes:** `.overlay`, `.scrim`, `.modal`, `.dropdown`, `.toast` (in `global.css`).
 
 ### 1.6 Transitions
 
@@ -191,23 +213,22 @@ Built as `StatCard.svelte` component with `label`, `value`, `sub`, `icon`, `colo
 
 Used in nearly every view to introduce content sections (e.g. "Active Campaigns", "Queue Status").
 
-### 2.4 Badges
+### 2.4 Badges (v1.1)
 
-| Class | Color | Usage |
-|-------|-------|-------|
-| `.badge` | Base style | Container with 2px 8px padding |
-| `.badge-critical` | Red | Critical severity |
-| `.badge-high` | Orange | High severity |
-| `.badge-medium` | Gold | Medium severity |
-| `.badge-new` | Blue | New status |
-| `.badge-interpreted` | Gold | Interpreted status |
-| `.badge-sent` | Green | Sent status |
-| `.badge-bucket` | Surface + border | Non-semantic (bucket labels) |
-| `.client-plan` | Varies | Watchman (trial), Sentinel |
+Severity is warm-only. **Findings never wear blue or green** — see §6.
 
-**Usage:** `<span class="badge badge-critical">Critical</span>` (hyphenated modifier, not dot-chained).
+| Class | Treatment | Meaning |
+|-------|-----------|---------|
+| `.badge-critical` | `--red` on `--red-dim` | Critical severity |
+| `.badge-high` | `--orange` on `--orange-dim` | High severity |
+| `.badge-medium` | `--red-soft` on `--red-muted`, red outline | Medium severity |
+| `.badge-low` | `--text-dim` on `--red-muted`, red outline | Low severity |
+| `.badge-new` | `--blue` on `--blue-dim` | Status: un-triaged |
+| `.badge-interpreted` | Neutral outline | Status: processed |
+| `.badge-sent` | `--green` on `--green-dim` | Status: dispatch succeeded |
+| `.badge-bucket` | `--text-dim` on `--bg-surface` | Non-semantic |
 
-**Sizing:** 11px font, 600 weight, 0.04em letter-spacing.
+**Usage:** `<span class="badge badge-critical">Critical</span>`. Sizing: `.t-caption` (11px, 600, 0.06em uppercase).
 
 ### 2.5 Tables
 
@@ -417,16 +438,18 @@ Stat card icons are passed as props (also Unicode).
 
 ---
 
-## 6. Severity Mapping
+## 6. Severity Mapping (v1.1)
 
-Consistent color-to-severity mapping used across badges, Telegram messages, and the interpreter.
+**Axiom:** A security finding is never good news. The severity ramp stays in the red family end-to-end. **Blue and green never represent a vulnerability.**
 
-| Severity | Color Token | Badge Class | Telegram Label |
-|----------|-------------|-------------|----------------|
-| Critical | `--red` | `.badge-critical` | `🔴 Critical:` |
-| High | `--orange` | `.badge-high` | `🟠 High:` |
-| Medium | `--gold` | `.badge-medium` | — |
-| Low | `--blue` | — | — |
+| Severity | Tokens | Badge Class | Telegram Label |
+|----------|--------|-------------|----------------|
+| Critical | `--red` on `--red-dim` | `.badge-critical` | `🔴 Critical:` |
+| High | `--orange` on `--orange-dim` | `.badge-high` | `🟠 High:` |
+| Medium | `--red-soft` on `--red-muted`, red outline | `.badge-medium` | `🔴 Medium:` |
+| Low | `--text-dim` on `--red-muted`, red outline | `.badge-low` | `🔴 Low:` |
+
+Status badges (`new` / `interpreted` / `sent`) are a **separate axis** from severity — pipeline state, not urgency. Green on `.badge-sent` means *the dispatch action succeeded*, not *the finding is good*.
 
 ---
 
@@ -462,13 +485,13 @@ src/api/frontend/src/lib/
 
 ## 8. Design Principles
 
-1. **Depth through color, not shadow.** The 5-level background scale (`deep` → `base` → `raised` → `surface` → `hover`) creates visual hierarchy without relying on drop shadows.
+1. **Depth through color for hierarchy, shadow for detachment.** The 5-level `deep → base → raised → surface → hover` ramp conveys position in the document. The `--bg-overlay` + `--shadow-overlay` pair conveys *detachment from the document* — reserved exclusively for modals, menus, popovers, and toasts.
 
-2. **Gold as accent.** Gold (`#f59e0b`) is the single primary accent color — used for CTAs, active navigation, focus rings, and progress indicators. This creates a distinctive, recognizable identity.
+2. **Gold is brand-exclusive.** Gold (`#f59e0b`) is used for CTAs, active navigation, focus rings, and progress indicators — *never* for severity or status. Seeing gold means "attention / action," full stop.
 
 3. **Monospace for data.** Domain names, statistics, timestamps, and any numerical/code content use JetBrains Mono. This visually separates "data" from "UI chrome."
 
-4. **Semantic color is functional.** Red = critical/error. Orange = high/warning. Green = success/active. Blue = info/secondary. These mappings are consistent across every surface (badges, cards, Telegram messages).
+4. **Findings never wear positive or neutral colors.** The severity ramp lives inside the red family end-to-end. Blue and green have legitimate meanings elsewhere (informational UI, operational health, operator action succeeded) but can never represent a vulnerability.
 
 5. **Operator-first.** This is an internal tool — optimize for information density and keyboard efficiency over visual polish. No decorative elements.
 
@@ -488,7 +511,78 @@ This is an internal single-operator tool, but these standards are maintained:
 
 ---
 
-## 10. File Reference
+## 10. Readability Rules
+
+Readability is a first-class constraint, not a nice-to-have. Every rule below is enforceable in PR review.
+
+### 11.1 Minimum sizes
+
+- **No font-size below 11px, ever.** 9px stat labels (previously on `CampaignCard`) are forbidden.
+- **Mono at 12px is the floor** for inline data, log rows, timestamps.
+
+### 11.2 Contrast
+
+All text must meet WCAG ratios against its actual background:
+
+| Role | Minimum ratio | Standard |
+|------|---------------|----------|
+| Body text | 4.5:1 | AA |
+| Large text (≥18px or ≥14px bold) | 3:1 | AA Large |
+| Caption / label text | 4.5:1 | AA |
+| Decorative / non-essential only | 3:1 | — |
+
+**Known-good pairings:**
+
+| Text color | On background | Ratio |
+|------------|---------------|-------|
+| `--text` (`#e2e8f0`) | `--bg-raised` (`#111b2e`) | ~9.5:1 ✓ AAA |
+| `--text-dim` (`#7a8ba8`) | `--bg-raised` | ~6.8:1 ✓ AA |
+| `--text-muted` (`#4a5b78`) | `--bg-raised` | ~3.2:1 ✗ fails AA |
+
+**Rule:** `--text-muted` is reserved for **non-essential decoration only** — elements that could disappear without loss of meaning (e.g. subtle separators, `--` placeholders, decorative borders). Never use it for information an operator must read.
+
+**Fix pattern for help copy:** explanatory prose (card subtitles, form descriptions, empty states, tooltips, hints) must use `.t-help` — which bundles `var(--text-dim)` at 13/400 with the §11.4 max-width cap. If you find `--text-muted` on text an operator reads, that is a §11.2 violation and the fix is to apply `.t-help` (prose) or swap the colour to `var(--text-dim)` (short categorical labels).
+
+### 11.3 Uppercase + tracking
+
+Uppercase at small sizes with letter-spacing destroys word shapes, letter shapes, and pair recognition simultaneously. It is acceptable *only* when all three of these hold:
+
+1. The string is ≤ 2 words
+2. The size is ≥ 11px
+3. It's a categorical label, not reading material
+
+Any uppercase-cap text longer than 2 words is a readability bug — use sentence case instead.
+
+### 11.4 Line length
+
+Explanatory prose (empty states, help text, modal bodies, tooltips) must cap at **`max-width: 60ch`**. Dense tabular / data layouts are exempt — those are scanned, not read.
+
+`.t-help` applies this cap automatically alongside the correct size and colour. Prefer applying the class to adding a one-off `max-width: 60ch`.
+
+### 11.5 Gold on gold-glow
+
+Gold text (`--gold`) on `--gold-glow` backgrounds is a borderline contrast pair (~3.9:1 on `--bg-raised`). It's acceptable on **small surfaces only** — active filter chips, active nav items. Never use this combo for body-sized text.
+
+### 11.6 Findings never disappear
+
+Per §6, vulnerability findings never wear blue or green. This is a readability rule too — an operator's eye should not slide past a finding because its color reads as "fine."
+
+### 11.7 Reviewer checklist
+
+A PR introducing text styling must be rejected if any of these are true:
+
+- [ ] Raw `font-size:` outside the type scale (§1.2)
+- [ ] Any size below 11px
+- [ ] `--text-muted` on information the operator must read
+- [ ] Explanatory prose that does not use `.t-help` (covers §11.2 and §11.4 together)
+- [ ] Uppercase + tracking on strings > 2 words
+- [ ] Explanatory paragraph without a `max-width` cap
+- [ ] Gold text on gold-glow at body size
+- [ ] Blue or green on a vulnerability finding
+
+---
+
+## 12. File Reference
 
 | File | Role |
 |------|------|

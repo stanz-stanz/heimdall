@@ -11,7 +11,7 @@
     >
       {opt.label}
       {#if opt.count !== undefined}
-        <span class="filter-count">{opt.count}</span>
+        <span class="filter-count t-mono-label">{opt.count}</span>
       {/if}
     </button>
   {/each}
@@ -19,8 +19,6 @@
 
 <style>
   .filter-count {
-    font-family: var(--mono);
-    font-size: 11px;
     opacity: 0.7;
   }
 </style>

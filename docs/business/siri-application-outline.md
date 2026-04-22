@@ -163,7 +163,6 @@ Directly addresses SIRI Criterion 4.
   - Led team of ~30 SAP CRM consultants at Grupo Bancolombia (via Deloitte), managing 170+ developments
   - Technical: Python, REST APIs, cloud platforms (SAP BTP, Cloud Foundry), CI/CD, test automation, data pipelines (Databricks)
   - Built Heimdall's entire codebase: 14-module Python pipeline, 10 agent specifications, Valdí compliance system, legal risk assessment, 203-domain test run
-  - Entrepreneurial: Fjordleather brand (leather goods — separate business)
   - Education: Computer Systems Analyst
   - Languages: Spanish (native), English (professional)
   - In Denmark since 2019 (7 years by application date), based in Vejle

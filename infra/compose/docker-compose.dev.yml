@@ -46,6 +46,13 @@ services:
     ports:
       - "8001:8000"
 
+  scheduler:
+    # Dev-only: point JobCreator at the flat 30-domain fixture so clicking
+    # "Run Pipeline" in the dev console never touches the 1,179-row enriched
+    # production DB. Prod leaves this unset and reads /data/enriched as usual.
+    environment:
+      HEIMDALL_DEV_DATASET: /app/config/dev_dataset.json
+
   dozzle:
     profiles: ["tools"]
 

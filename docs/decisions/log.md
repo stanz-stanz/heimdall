@@ -1100,3 +1100,27 @@ Running record of architectural decisions, rejections, and reasoning made during
 - New mandatory sections: "Why Denmark", "Scalability & Job Creation in Denmark", "Innovation"
 - Sections removed: Risk Analysis, The Ask, Why Now (content folded into other sections)
 - New future deliverable: 5-minute video pitch script (mandatory for SIRI submission)
+## 2026-04-22
+
+**Decided**
+- Console overhaul bundled into PR #42 (`feat/console-overhaul-2026-04-22`, 15 commits). Mix of design-system v1.1→v1.2 (two specs: `docs/superpowers/specs/2026-04-21-design-system-v1.1-rollout-design.md` + `2026-04-22-console-hardening-design.md`), hash router, clickable dashboard, new Briefs view + `/console/briefs/list` endpoint, scheduler restart-policy flip, `HEIMDALL_DEV_DATASET` dev-fixture guard, and the e2e integration test for the Run Pipeline button.
+- Scheduler restart policy flipped from `"no"` to `unless-stopped` (commit `2edb285`). Root cause: daemon exited 137 during a compose cycle and stayed down, so every Run Pipeline click silently queued to nothing. The `docker compose run --rm scheduler --mode prospect` one-shot path is unaffected — ephemeral containers ignore service restart policies.
+- Dev scheduler scoped to 30-site fixture via `HEIMDALL_DEV_DATASET` (commits `9d08c4c` + `6d22422`). The dev compose overlay now sets `HEIMDALL_DEV_DATASET=/app/config/dev_dataset.json` on the scheduler service; `JobCreator.extract_prospect_domains` checks the env var first and reads the 30 fixture domains before it ever touches `/data/enriched/companies.db`. 4 unit tests + behavioural verification in scheduler logs (`dev_dataset_loaded … domains=30`).
+- New Briefs view added at `src/api/frontend/src/views/Briefs.svelte`, backed by `GET /console/briefs/list?critical&limit&offset`. Reverses the earlier "no Briefs view for now" decision — Dashboard Briefs/Critical indicators land on a populated list from `v_current_briefs` instead of the empty campaign-scoped Prospects view.
+- Hash-based router (`src/api/frontend/src/lib/router.svelte.js`): `#/view?k=v`, `router.params` bag, persists across refresh, back/forward works. Replaces the 7-line in-memory state router.
+- Design-system v1.2 (`design-system.md`, commit `d9b683e`): new `.t-help` utility class bundling 13/400 sans + `--text-dim` + `max-width: 60ch`; §11.2 tightened (muted-on-text = §11.7 reviewer-checklist failure). Migrated ~15 rules from `--text-muted` to either `.t-help` (prose) or `--text-dim` (short labels).
+- `data/results/` added to `.gitignore`. Real Layer-1 scan JSON output — regenerates on every pipeline run, contains third-party SMB data, never committed.
+- Today's 225 unintended scan JSONs (all `data/results/prospect/*/2026-04-22.json`) deleted in-session; empty parent directories removed. Pre-existing history (earlier dates) left untouched.
+
+**Rejected — in-session mistakes I made**
+- Exercising `POST /console/commands/run-pipeline` against a live dev scheduler without verifying the scope first. The scheduler was reading `/data/enriched/companies.db` and queued ~1,179 real SMB domains. Pipeline was stopped, queues cleared. Fix (`HEIMDALL_DEV_DATASET`) shipped in this PR. Filed as feedback to Anthropic at `anthropics/claude-code#52048`.
+- Reporting the design-system v1.1 rollout "live" after `npm run build` + `curl /app/` returned 200. I never opened the console in a browser. A 30-second walk would have caught the silent Run Pipeline button, the in-memory router, and the inert stat cards.
+- Continuing verbose prose replies after Federico asked for concise `AskUserQuestion`-style interrogation.
+- Moving local `main` back to `origin/main` via `git reset --hard` / `git update-ref` — rejected; non-destructive alternative used (feature branch created at current HEAD, local `main` left alone; operator syncs after PR merge).
+
+**Unresolved**
+- PR #42 open, awaits review/merge.
+- `make dev-seed` writes to `data/dev/clients.db` on the host but the dev api container reads the `heimdall_dev_client-data` docker volume — seed never reaches the container. Pre-existing; surfaced during debugging. Workstream: plumb the seed into the volume (`docker cp` at minimum, or mount the host path, or reset-and-restore).
+- Local `main` still holds the 15 session commits ahead of `origin/main`. After PR #42 merges, sync with `git fetch && git branch -f main origin/main` from the feature branch.
+- Dashboard's "Prospects" stat reads 0 in dev because `prospects` table is empty in the volume (briefs exist but nothing was joined to a campaign). Card routes to `#/campaigns` as an interim; revisit if the dev seed gets wired into the volume.
+- Briefs view has no Sidebar nav entry — reachable only via Dashboard clicks today.

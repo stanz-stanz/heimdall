@@ -56,7 +56,12 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-    restart: "no"
+    # Daemon auto-restarts so operator-console "Run Pipeline" dispatches don't
+    # silently go to dead air if the container exits (e.g. SIGKILL 137 during
+    # a compose cycle). One-shot runs via `docker compose run --rm scheduler`
+    # are unaffected — `compose run` uses ephemeral containers that ignore
+    # the service restart policy.
+    restart: unless-stopped
     logging: *default-logging
 
   worker:

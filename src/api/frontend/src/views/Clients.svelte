@@ -23,7 +23,7 @@
 
   function renderCell(row, key) {
     if (key === 'domain') {
-      return `<span style="font-family: var(--mono); font-size: 12px;">${escapeHtml(row.domain)}</span>`;
+      return `<span class="t-mono-label">${escapeHtml(row.domain)}</span>`;
     }
     if (key === 'plan') {
       const plan = (row.plan ?? '').toLowerCase();
