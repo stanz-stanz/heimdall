@@ -32,6 +32,15 @@
     requestAnimationFrame(tick);
   }
 
+  function activityTarget(item) {
+    const type = (item.type ?? item.source ?? '').toString();
+    if (type.includes('pipeline')) return { view: 'pipeline', params: {} };
+    if (type.includes('delivery')) return { view: 'clients', params: {} };
+    if (type.includes('campaign')) return { view: 'campaigns', params: {} };
+    if (type.includes('interpret')) return { view: 'logs', params: { source: 'delivery' } };
+    return null;
+  }
+
   function formatActivity(item) {
     const type = item.type ?? '';
     let color = 'var(--text-muted)';
@@ -121,21 +130,56 @@
 </script>
 
 <div class="grid grid-4">
-  <StatCard label="Prospects" value={displayStats.prospects.toLocaleString()} sub="across all campaigns" color="gold" icon="&#9733;" />
-  <StatCard label="Briefs" value={displayStats.briefs.toLocaleString()} sub={timestamp ? `last scan: ${timestamp}` : ''} color="blue" icon="&#9830;" />
-  <StatCard label="Clients" value={displayStats.clients.toLocaleString()} sub="all active" color="green" icon="&#9826;" />
-  <StatCard label="Critical" value={displayStats.critical.toLocaleString()} sub="across all briefs" color="red" icon="&#9888;" />
+  <StatCard
+    label="Prospects"
+    value={displayStats.prospects.toLocaleString()}
+    sub="across all campaigns"
+    color="gold"
+    icon="&#9733;"
+    onclick={() => navigate('prospects')}
+  />
+  <StatCard
+    label="Briefs"
+    value={displayStats.briefs.toLocaleString()}
+    sub={timestamp ? `last scan: ${timestamp}` : ''}
+    color="blue"
+    icon="&#9830;"
+    onclick={() => navigate('prospects', { has_brief: '1' })}
+  />
+  <StatCard
+    label="Clients"
+    value={displayStats.clients.toLocaleString()}
+    sub="all active"
+    color="green"
+    icon="&#9826;"
+    onclick={() => navigate('clients')}
+  />
+  <StatCard
+    label="Critical"
+    value={displayStats.critical.toLocaleString()}
+    sub="across all briefs"
+    color="red"
+    icon="&#9888;"
+    onclick={() => navigate('prospects', { critical: '1' })}
+  />
 </div>
 
 <div class="section-header" style="margin-top: 28px;">
   <span class="section-title">Recent Activity</span>
-  <button class="btn btn-ghost btn-sm" onclick={() => navigate('logs', 'Logs')}>View all</button>
+  <button class="btn btn-ghost btn-sm" onclick={() => navigate('logs')}>View all</button>
 </div>
 
 <div class="feed">
   {#each activity as item}
     {@const formatted = formatActivity(item)}
-    <FeedItem color={formatted.color} text={formatted.text} time={formatted.time} />
+    {@const target = activityTarget(item)}
+    {#if target}
+      <button class="feed-link" onclick={() => navigate(target.view, target.params)}>
+        <FeedItem color={formatted.color} text={formatted.text} time={formatted.time} />
+      </button>
+    {:else}
+      <FeedItem color={formatted.color} text={formatted.text} time={formatted.time} />
+    {/if}
   {/each}
   {#if activity.length === 0 && loaded}
     <div class="empty-state" style="padding: 30px;">
@@ -149,19 +193,65 @@
 </div>
 
 <div class="grid grid-3">
-  <div class="card">
+  <button class="card card-button" onclick={() => navigate('logs', { source: 'worker' })}>
     <div class="card-label">Scan Queue</div>
     <div class="card-value" style="color: var(--text)">{queues.scan}</div>
     <div class="card-sub">{queueSubs.scan}</div>
-  </div>
-  <div class="card">
+  </button>
+  <button class="card card-button" onclick={() => navigate('logs', { source: 'scheduler' })}>
     <div class="card-label">Enrichment</div>
     <div class="card-value" style="color: var(--text)">{queues.enrichment}</div>
     <div class="card-sub">{queueSubs.enrichment}</div>
-  </div>
-  <div class="card">
+  </button>
+  <button class="card card-button" onclick={() => navigate('logs', { source: 'delivery' })}>
     <div class="card-label">Interpretation Cache</div>
     <div class="card-value" style="color: var(--text)">{queues.cache}</div>
     <div class="card-sub">{queueSubs.cache}</div>
-  </div>
+  </button>
 </div>
+
+<style>
+  .feed-link {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition);
+  }
+
+  .feed-link:hover {
+    background: var(--bg-hover);
+  }
+
+  .feed-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--gold-glow);
+  }
+
+  .card-button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition);
+  }
+
+  .card-button:hover {
+    border-color: var(--gold);
+    background: var(--bg-hover);
+  }
+
+  .card-button:focus-visible {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px var(--gold-glow);
+  }
+</style>

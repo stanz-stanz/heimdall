@@ -1,6 +1,7 @@
 <script>
   import { wsState } from '../lib/ws.svelte.js';
   import { fetchLogs } from '../lib/api.js';
+  import { router } from '../lib/router.svelte.js';
   import { onMount, untrack } from 'svelte';
 
   const MAX_ENTRIES = 5000;
@@ -148,6 +149,12 @@
   }
 
   onMount(async () => {
+    // Apply URL-driven source filter (e.g. #/logs?source=worker)
+    const src = router.params?.source;
+    if (src && SOURCES.some(s => s.key === src)) {
+      activeSources = new Set([src]);
+    }
+
     try {
       const data = await fetchLogs(200);
       allEntries = data.entries ?? [];
