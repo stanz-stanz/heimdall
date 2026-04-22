@@ -1,7 +1,7 @@
 <script>
   import { onDestroy } from 'svelte';
-  import { fade, slide } from 'svelte/transition';
-  import { cubicOut } from 'svelte/easing';
+  import { fade, fly, slide } from 'svelte/transition';
+  import { cubicOut, cubicInOut } from 'svelte/easing';
 
   /** @typedef {'select' | 'scanning' | 'complete'} Phase */
 
@@ -277,52 +277,54 @@
   </section>
 {:else}
   <section class="demo-run">
-    {#if phase !== 'complete'}
-      <div
-        class="scan-hero"
-        out:fade={{ duration: 320, easing: cubicOut }}
-      >
-        <div class="radial" aria-label="Scan progress {percent}%">
-          <svg viewBox="0 0 120 120" aria-hidden="true">
-            <circle class="radial-track" cx="60" cy="60" r="52" />
-            <circle
-              class="radial-fill"
-              cx="60"
-              cy="60"
-              r="52"
-              style:stroke-dashoffset={radialOffset}
-            />
-          </svg>
-          <div class="radial-inner">
-            <div class="radial-percent t-display">{percent}%</div>
-            <div class="radial-label t-caption">Complete</div>
+    <div class="stage">
+      {#if phase !== 'complete'}
+        <div
+          class="scan-hero"
+          out:fly={{ duration: 520, y: -6, easing: cubicInOut }}
+        >
+          <div class="radial" aria-label="Scan progress {percent}%">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="radial-track" cx="60" cy="60" r="52" />
+              <circle
+                class="radial-fill"
+                cx="60"
+                cy="60"
+                r="52"
+                style:stroke-dashoffset={radialOffset}
+              />
+            </svg>
+            <div class="radial-inner">
+              <div class="radial-percent t-display">{percent}%</div>
+              <div class="radial-label t-caption">Complete</div>
+            </div>
+          </div>
+          <div class="hero-info">
+            <div class="hero-domain t-title">{domain}</div>
+            <div class="hero-timer t-mono-stat">{elapsedSec.toFixed(1)}s</div>
+            <div class="hero-status t-help">{status}</div>
           </div>
         </div>
-        <div class="hero-info">
-          <div class="hero-domain t-title">{domain}</div>
-          <div class="hero-timer t-mono-stat">{elapsedSec.toFixed(1)}s</div>
-          <div class="hero-status t-help">{status}</div>
+      {:else}
+        <div
+          class="summary spotlight"
+          in:fly={{ duration: 720, y: 8, delay: 160, easing: cubicInOut }}
+        >
+          <div class="summary-shield" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M32 4L8 16v16c0 14.4 10.24 27.84 24 32 13.76-4.16 24-17.6 24-32V16L32 4z" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1"/>
+              <path d="M24 32l6 6 12-12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="summary-label t-caption">Assessment Complete</div>
+          <h2 class="summary-domain t-display">{domain}</h2>
+          <p class="summary-text t-body">{summaryText}</p>
+          <button type="button" class="btn btn-primary" onclick={newAssessment}>
+            New Assessment
+          </button>
         </div>
-      </div>
-    {:else}
-      <div
-        class="summary spotlight"
-        in:fade={{ duration: 500, delay: 220, easing: cubicOut }}
-      >
-        <div class="summary-shield" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none">
-            <path d="M32 4L8 16v16c0 14.4 10.24 27.84 24 32 13.76-4.16 24-17.6 24-32V16L32 4z" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1"/>
-            <path d="M24 32l6 6 12-12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="summary-label t-caption">Assessment Complete</div>
-        <h2 class="summary-domain t-display">{domain}</h2>
-        <p class="summary-text t-body">{summaryText}</p>
-        <button type="button" class="btn btn-primary" onclick={newAssessment}>
-          New Assessment
-        </button>
-      </div>
-    {/if}
+      {/if}
+    </div>
 
     {#if timeline.length > 0 && !scansDone}
       <div
@@ -488,6 +490,23 @@
     display: flex;
     flex-direction: column;
     gap: 28px;
+  }
+
+  /* Stage: a single slot that both scan-hero and spotlight summary
+     share via CSS grid. Guarantees they overlap during the crossfade
+     (no layout jump) and caps the slot height so content below does
+     not shift when the swap happens. */
+  .stage {
+    display: grid;
+    min-height: 260px;
+    place-items: center;
+  }
+
+  .stage > * {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    align-self: center;
   }
 
   .scan-hero {
@@ -734,7 +753,7 @@
     width: 80px;
     height: 80px;
     color: var(--green);
-    animation: shield-in 0.7s ease-out 0.15s both;
+    animation: shield-soft 680ms cubic-bezier(0.22, 0.61, 0.36, 1) 260ms both;
   }
 
   .summary.spotlight .summary-shield {
@@ -789,9 +808,8 @@
 
 
 
-  @keyframes shield-in {
-    0%   { opacity: 0; transform: scale(0.5) translateY(20px); }
-    60%  { transform: scale(1.05) translateY(-2px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+  @keyframes shield-soft {
+    0%   { opacity: 0; transform: scale(0.92); }
+    100% { opacity: 1; transform: scale(1); }
   }
 </style>
