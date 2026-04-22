@@ -105,7 +105,7 @@
 
   .brand-sub {
     display: block;
-    color: var(--text-muted);
+    color: var(--text-dim);
     margin-top: 2px;
   }
 
@@ -120,7 +120,7 @@
 
   .nav-section-label {
     display: block;
-    color: var(--text-muted);
+    color: var(--text-dim);
     padding: 0 8px;
     margin-bottom: 6px;
   }
@@ -201,6 +201,6 @@
   }
 
   .status-text {
-    color: var(--text-muted);
+    color: var(--text-dim);
   }
 </style>

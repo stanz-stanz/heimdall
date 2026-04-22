@@ -41,6 +41,6 @@
   }
 
   .topbar-clock {
-    color: var(--text-muted);
+    color: var(--text-dim);
   }
 </style>

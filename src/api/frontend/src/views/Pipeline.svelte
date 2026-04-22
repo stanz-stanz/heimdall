@@ -88,7 +88,7 @@
   <div style="display: flex; justify-content: space-between; align-items: center;">
     <div>
       <div class="card-label">Prospecting Pipeline</div>
-      <div class="card-sub" style="margin-top: 6px;">
+      <div class="card-sub t-help" style="margin-top: 6px;">
         Scans all domains from CVR extract. Produces briefs and prospect list.
       </div>
     </div>
@@ -117,7 +117,7 @@
 {#if lastRun}
   <div class="section-header">
     <span class="section-title">Last Run</span>
-    <span class="t-label" style="color: var(--text-muted);">{formatDate(lastRun.run_date)}</span>
+    <span class="t-label" style="color: var(--text-dim);">{formatDate(lastRun.run_date)}</span>
   </div>
 
   <div class="grid grid-4">

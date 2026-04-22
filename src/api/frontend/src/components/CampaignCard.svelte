@@ -77,7 +77,7 @@
 
 <style>
   .campaign-desc {
-    color: var(--text-muted);
+    color: var(--text-dim);
     margin-top: 2px;
   }
 
@@ -93,7 +93,7 @@
   }
 
   .campaign-stat-label {
-    color: var(--text-muted);
+    color: var(--text-dim);
     margin-top: 4px;
   }
 

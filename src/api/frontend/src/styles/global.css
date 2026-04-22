@@ -109,8 +109,8 @@ body::before {
 }
 
 .card-sub {
-  font: 500 12px/1.4 var(--sans);
-  color: var(--text-muted);
+  font: 400 13px/1.5 var(--sans);
+  color: var(--text-dim);
   margin-top: 4px;
 }
 
@@ -249,7 +249,7 @@ th {
   font: 600 11px/1.2 var(--sans);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: var(--text-dim);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -396,8 +396,9 @@ td.domain {
 }
 
 .progress-msg {
-  font: 500 12px/1.4 var(--sans);
-  color: var(--text-muted);
+  font: 400 13px/1.5 var(--sans);
+  color: var(--text-dim);
+  max-width: 60ch;
   margin-top: 4px;
 }
 
@@ -437,7 +438,7 @@ td.domain {
 
 .feed-time {
   font: 500 12px/1.4 var(--mono);
-  color: var(--text-muted);
+  color: var(--text-dim);
   margin-left: auto;
   white-space: nowrap;
   flex-shrink: 0;
@@ -501,7 +502,9 @@ td.domain {
 
 .empty-state-text {
   font: 400 13px/1.5 var(--sans);
-  color: var(--text-muted);
+  color: var(--text-dim);
+  max-width: 60ch;
+  margin-inline: auto;
 }
 
 /* ── Config Editor ──────────────────────────────────── */
@@ -521,7 +524,7 @@ td.domain {
 .config-tab {
   padding: 10px 20px;
   font: 500 13px/1.5 var(--sans);
-  color: var(--text-muted);
+  color: var(--text-dim);
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
@@ -597,6 +600,13 @@ td.domain {
 }
 .t-mono-label    { font: 500 12px/1.4 var(--mono); }
 .t-mono-stat     { font: 700 18px/1.1 var(--mono); }
+
+/* --- v1.2 explanatory prose utility -------------------------------- */
+.t-help {
+  font: 400 13px/1.5 var(--sans);
+  color: var(--text-dim);
+  max-width: 60ch;
+}
 
 /* --- v1.1 elevation utilities -------------------------------------- */
 .overlay {

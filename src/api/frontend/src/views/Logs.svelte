@@ -285,7 +285,7 @@
   }
 
   .log-badge {
-    color: var(--text-muted);
+    color: var(--text-dim);
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: 10px;
@@ -393,7 +393,7 @@
   }
 
   .log-ts {
-    color: var(--text-muted);
+    color: var(--text-dim);
     width: 7em;
     flex-shrink: 0;
   }

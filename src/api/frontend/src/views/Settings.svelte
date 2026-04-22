@@ -149,7 +149,7 @@
     {#if activeTab === 'filters'}
       <div class="form-section">
         <div class="form-group-label t-section">Bucket Filter</div>
-        <div class="form-desc t-body">Select which prospect buckets to include in pipeline output</div>
+        <div class="form-desc t-help">Select which prospect buckets to include in pipeline output</div>
         <div class="checkbox-group">
           {#each Object.entries(buckets) as [key, checked]}
             <label class="checkbox-item">
@@ -282,7 +282,6 @@
   }
 
   .form-desc {
-    color: var(--text-muted);
     margin-bottom: 12px;
   }
 
@@ -318,7 +317,7 @@
   }
 
   .form-hint {
-    color: var(--text-muted);
+    color: var(--text-dim);
     font-style: italic;
   }
 
@@ -455,6 +454,6 @@
   }
 
   .toggle-label {
-    color: var(--text-muted);
+    color: var(--text-dim);
   }
 </style>
