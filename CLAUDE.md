@@ -70,7 +70,7 @@ Without written consent, only Layer 1 is permitted. With written consent (Sentin
 | `.claude/settings.json` + `.claude/hooks/` | Project-scoped settings + mechanical-enforcement hooks. See "Hook-Based Enforcement" below. |
 | `docs/legal/Heimdall_Legal_Risk_Assessment.md` | Danish legal analysis under Straffeloven §263. |
 | `docs/legal/compliance-checklist.md` | Compliance checklist for scanning operations. |
-| `docs/legal/legal-briefing-outreach-20260414.md` | 14-question briefing sent to Plesner 2026-04-14 (outreach + §263 + NIS2/CRA). |
+| `docs/legal/legal-briefing-outreach-20260414.md` | 16-question briefing (outreach + §263 + NIS2/CRA). Plesner dropped 2026-04-23; brief being re-sent to Anders Wernblad, Aumento Law. |
 | `docs/legal/legal-briefing-summary-internal.md` | Internal "what hinges on legal advice" decision matrix. |
 | `docs/business/heimdall-siri-application.md` | SIRI application targeting 4 scoring criteria (Innovation, Market, Scalability, Team). |
 | `docs/business/siri-application-outline.md` | Outline/structure reference for the SIRI application. |

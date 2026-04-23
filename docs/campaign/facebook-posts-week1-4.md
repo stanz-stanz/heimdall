@@ -226,7 +226,7 @@
 > De sporgsmal, vi far oftest:
 >
 > "Koster det noget?"
-> Det forste tjek er gratis. Hvis I vil proeve lopende overvaagning bagefter, starter det fra 199 kr. om maneden -- helt uforpligtende.
+> Det forste tjek er gratis. Bagefter kan I proeve lopende overvaagning i 30 dage -- ogsa gratis, helt uforpligtende. Hvis I vil fortsaette efter provperioden, koster det 399 kr. om maneden.
 >
 > "Jeg er for lille til at vaere et mal."
 > De fleste angreb er automatiserede -- de scanner tusindvis af sider og leder efter kendte svagheder. De ved ikke, om det er en restaurant eller en bank. Storrelse er ikke en faktor.

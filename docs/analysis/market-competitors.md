@@ -34,7 +34,7 @@
 - **Pricing:** Free tier; paid from ~215 kr./month
 - **Delivery:** Web dashboard + API
 - **Key features:** Free tier with basic scanning, API access
-- **SMB gap:** Dashboard requires the user to understand CVSS scores and technical output. If you can navigate dashboards and interpret findings, HostedScan is cheaper — but for the target SMB owner, the dashboard might as well not exist. Heimdall's Watchman tier (199 kr./month) undercuts their paid plan.
+- **SMB gap:** Dashboard requires the user to understand CVSS scores and technical output. If you can navigate dashboards and interpret findings, HostedScan is cheaper — but for the target SMB owner, the dashboard might as well not exist. Heimdall's free 30-day Watchman trial undercuts every competitor's entry tier (HostedScan's paid plan starts at ~215 kr./mo).
 
 ### Beagle Security
 
@@ -202,7 +202,7 @@ These validate the EASM category exists but serve enterprises, not SMBs. They ar
 
 | | Heimdall (Watchman) | Heimdall (Sentinel) | Cheapest direct | Cheapest mid-market |
 |---|---|---|---|---|
-| **Price** | 199 kr./month | 399 kr./month | ~215 kr./month (HostedScan) | ~903 kr./month (Attaxion) |
+| **Price** | FREE — 30-day trial | 399 kr./month | ~215 kr./month (HostedScan) | ~903 kr./month (Attaxion) |
 | **Delivery** | Telegram (plain Danish) | Telegram (plain Danish + fix instructions) | Web dashboard | Web dashboard + Slack/Jira |
 | **Interpretation** | AI, non-technical language | AI, non-technical language | Raw CVSS | CVSS + EPSS + AI prioritisation |
 | **Setup** | Zero — no dashboard login | Zero | Account + dashboard | Account + asset configuration |

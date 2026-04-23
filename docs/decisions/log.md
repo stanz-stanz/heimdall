@@ -5,6 +5,49 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-23 — Sentinel onboarding plan: 22 decisions, tier correction, new counsel
+
+**Decided**
+
+Full onboarding product specified end-to-end and locked via a 22-decision interview. Full plan archived at `/Users/fsaf/.claude/plans/i-need-you-to-logical-pebble.md`. Implementation started on branch `feat/sentinel-onboarding`.
+
+**Tier correction (supersedes 2026-03-25 entry).** Watchman is a **FREE 30-day trial**, not a paid 199 kr./mo tier. Every doc that said "Watchman 199 kr." was wrong and has been swept in this session (`docs/briefing.md`, `.claude/agents/product-marketing-context.md`, `.claude/agents/marketing/SKILL.md`, `docs/business/heimdall-siri-application.md`, `docs/business/siri-application-outline.md`, `docs/business/siri-video-pitch-script.md`, `docs/analysis/market-competitors.md`, `docs/campaign/facebook-posts-week1-4.md`, `scripts/generate_pitch_deck.py`). Decision-log historical entries left intact as factual record of the prior state. Only Sentinel is paid: 399 kr./mo (annual 339 kr./mo), excl. moms. Memory `project_tier_restructure.md` updated.
+
+**New legal counsel.** Plesner engagement did not proceed (declared incompetent). Active counsel: **Anders Wernblad, Aumento Law** — Danish IT law specialist, member of Association of Danish IT Attorneys, IT Society, Network for IT contracts, Danish Bar. The 16-question brief at `docs/legal/legal-briefing-outreach-20260414.md` is being re-targeted to Wernblad. All active-state docs updated (CLAUDE.md, briefing.md, SIRI application, marketing strategy, marketing SKILL, valdí SKILL, legal briefing header, legal risk assessment, project-state.json). Historical decision-log references to Plesner preserved as record.
+
+**Channel + Message (D1–D8).** Email-first conversion channel (D1), Telegram only for nudges. Conversion email runtime-picks between a scoreboard variant (if trial produced findings) and a quiet-continuation variant (if trial was clean) — D2. Trigger is Day 23 time-only (D3). Price upfront in email body (D4). First healthy scan message sent once, then silent (D5). No Day-14 mid-trial nudge (D6). One Day-28 reminder, no further touches (D7). Referral programme deferred (D8).
+
+**Consent + Legal (D9–D13).** One-click consent: two PDFs on one page (Subscription+DPA, then §263 scanning authorisation), signed in a single **MitID Erhverv** action (D9/D10/D12). Scope: dropdown of Watchman-observed domains plus free-text addition with Layer-1 pre-flight (D11). Aumento Law / Wernblad engaged this week (D13).
+
+**State + Data (D14–D16).** KISS: 8-value `clients.status` enum (`prospect → watchman_pending → watchman_active → watchman_expired → onboarding → active → paused → churned`) plus a separate `onboarding_stage` column for Sentinel funnel fine-grain (D14). Signup vector: email reply + magic link → Telegram `/start <token>` (D15). Tiered retention (D16): Watchman non-converter anonymised at 90d, purged at 1yr; Sentinel cancelled anonymised at 30d, invoice records kept 5yr per Bogføringsloven.
+
+**Website + Payment (D17–D22).** SvelteKit on Hetzner Cloud (Falkenstein/Nürnberg) — ~40 kr./mo CAX11 + backups, EU data residency (D17/D19). Payment via **Betalingsservice** (NETS direct debit — Danish standard for recurring B2B billing; D18). Not Stripe, not Reepay. Domain ownership verification via **CVR-match through MitID Erhverv** — our prospecting pipeline already maps domain → CVR in `data/enriched/companies.db`; MitID login authenticates the CVR; no DNS TXT, no file upload, zero client friction (D20). Naming session deferred (D22).
+
+**Cost assessment.** Minimum running cost (zero clients, Hetzner + domain + MitID sandbox): ~56 kr./mo excl. moms. Break-even: **~12 Sentinel clients**. Unit economics: 81% gross margin at 50 clients, 93% at 200, 98% at 1,000. Aumento Law one-off budget: 21,000–38,500 kr. excl. moms for review of the 16-Q brief + consent/DPA templates. **MitID Erhverv broker sandbox is free** — signing flow can be built and tested today without CVR, unblocking dev during SIRI wait. Betalingsservice merchant agreement and MitID production switch remain CVR-gated.
+
+**Architecture.** Three TLS boundaries: (1) prospect email → magic link → Telegram bound on Pi5; (2) prospect browser → Hetzner SvelteKit site with MitID + CVR match + scope + both signatures + Betalingsservice mandate; (3) Betalingsservice webhook → Hetzner endpoint → POST to Pi5 activation handler via Tailscale Funnel with shared-secret auth. Pi5 writes `clients.db` (status, plan, consent_granted, 7 `consent_records` audit rows), Valdí Gate 2 re-checks consent, Layer-2 scan scheduled. New Pi5 service: `heimdall-signup` (activation handler container). New public host service: SvelteKit marketing + signup site on Hetzner. 6 new DB tables (`signup_tokens`, `subscriptions`, `payment_events`, `conversion_events`, `onboarding_stage_log`, `retention_jobs`), 8 new `clients` columns, 5 new indexes.
+
+**Why this shape.** Danish-native every layer: MitID Erhverv is the identity Danish businesses already use for Skat/Virk; Betalingsservice is the recurring-payment mechanism they already trust; SvelteKit/Hetzner keeps data in the EU; Aumento Law is specialised Danish IT counsel. CVR-match verification eliminates the DNS/file-upload step that the architect originally proposed — Federico surfaced it as an elegant alternative because our prospecting data already has the mapping. Result: a one-click onboarding that works for SMB owner-operators who don't touch DNS.
+
+**Rejected / deferred.** Day-14 mid-trial nudge (D6 — filler breaks alert-only promise). Referral programme (D8 — Janteloven-sensitive, defer). Flat 15-value status enum (D14 — index pollution). Stripe / Reepay / Quickpay (D18 — Betalingsservice is the Danish standard). DNS TXT / well-known file domain verification (D20 — CVR-match is friction-free).
+
+**Memories updated.**
+- `project_tier_restructure.md` — Watchman = free (was: 199 kr.).
+- New: `project_legal_counsel.md` — Aumento Law / Wernblad (Plesner dropped).
+- New: `project_onboarding_decisions.md` — the 22 decisions in one place.
+- New: `feedback_no_pilot_framing.md` — never frame decisions around "the pilot."
+
+**Next implementation steps (branch `feat/sentinel-onboarding`).**
+1. DB schema migration spec (`docs/architecture/client-db-schema.sql` diff).
+2. Extend `docs/business/onboarding-playbook.md` with the state machine + message sequence.
+3. MitID Erhverv broker sandbox integration (pick Idura / Criipto / Signicat, build OIDC flow).
+4. Engage Anders Wernblad with the adapted 16-Q brief.
+5. SvelteKit signup site scaffold (Hetzner deployment later).
+6. Trial-lifecycle automation (cron, Telegram touchpoints).
+7. Operator console onboarding views V1–V6.
+
+---
+
 ## 2026-04-18 — M33 closed + post-hardening cleanup (Items #5 / #2 / #4)
 
 **Decided**

@@ -147,7 +147,7 @@ When a web agency authorizes Heimdall to scan their clients' websites, the legal
 
 *Updated April 1, 2026. Items 1–3 are now in progress — see status notes.*
 
-1. **Engage a Danish IT/cybersecurity lawyer** to confirm the Layer 1 / Layer 2 distinction and its treatment under §263. Firms with relevant specialization include Plesner, Kromann Reumert, and Bech-Bruun. *Status: meeting scheduled for week of 2026-03-31. Legal briefing with 17 questions prepared (`docs/legal/legal-briefing-outreach-2026-03-29.md`).*
+1. **Engage a Danish IT/cybersecurity lawyer** to confirm the Layer 1 / Layer 2 distinction and its treatment under §263. Active counsel: **Anders Wernblad, Aumento Law** (Danish IT law specialist). *Status: 16-question legal briefing (`docs/legal/legal-briefing-outreach-20260414.md`) re-targeted to Wernblad on 2026-04-23 after the initial Plesner engagement did not proceed.*
 
 2. **Have counsel draft or review a scanning authorization template** — a simple document the client signs before active scanning begins, granting explicit permission for Heimdall to perform external vulnerability scanning against specified domains. *Status: template to be brought to the meeting. See legal briefing Q7, Q15.*
 

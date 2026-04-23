@@ -70,7 +70,7 @@ Word count target: ~600 spoken words at a natural 135–140 wpm.
 >
 > These aren't survey estimates. They're direct observations. The government's 40-percent figure is consistent with what I measured.
 >
-> Pricing is where the competitive gap is widest. The cheapest alternative on the market starts around 215 Danish crowns per month and still ships through a dashboard. Heimdall's Watchman trial is 199 Danish crowns per month. Sentinel — the actual product with daily monitoring and active testing — is 399 Danish crowns per month. All prices excluding VAT. For a restaurant with an online booking system, 399 Danish crowns a month is less than a single evening's delivery orders. Price stops being the objection.
+> Pricing is where the competitive gap is widest. The cheapest alternative on the market starts around 215 Danish crowns per month and still ships through a dashboard. Heimdall offers a free 30-day Watchman trial — no payment, no commitment. Sentinel — the paid product with daily monitoring and active testing — is 399 Danish crowns per month, excluding VAT. For a restaurant with an online booking system, 399 Danish crowns a month is less than a single evening's delivery orders. Price stops being the objection.
 
 **On-screen text (2:25–2:50, stacked bullets):**
 *1,173 sites scanned · 49.3% Critical or High · 60% zero security headers*

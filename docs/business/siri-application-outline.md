@@ -21,7 +21,7 @@ The Startup Denmark program is administered by the Danish Business Authority and
 **Key constraints:**
 - "Do not fabricate capabilities" — all budget figures must trace back to documented estimates in the briefing
 - Unit economics included to demonstrate self-sustainability
-- Pricing: Watchman 199 kr./mo (trial, annual: 169) / Sentinel 399 kr./mo (annual: 339). All prices excl. moms. Guardian tier dropped 2026-04-08.
+- Pricing: Watchman FREE 30-day trial / Sentinel 399 kr./mo (annual: 339). All prices excl. moms. Guardian tier dropped 2026-04-08. Watchman reframed to free 2026-04-23.
 - No CVR required at application — CVR registration happens after approval
 
 ---
@@ -96,11 +96,11 @@ Directly addresses SIRI Criterion 1. Synthesize from existing sections:
 
 ### 7. Business Model & Unit Economics (1 page) — C2
 
-- Pricing tiers: Watchman 199 (trial) / Sentinel 399 kr./mo (annual: 169 / 339)
-- Unit economics per client (monthly): revenue ~305 kr. blended, COGS ~95–125, gross margin ~59–69%
-- Acquisition economics: Layer 1 scan = near-zero cost; agency partnerships = high leverage
-- Break-even: ~13–14 paying clients
-- Frame: "199 kr./mo eliminates price as an objection. Volume compensates for margin."
+- Pricing tiers: Watchman FREE 30-day trial / Sentinel 399 kr./mo (annual: 339)
+- Unit economics per client (monthly): Sentinel revenue 339–399 kr., COGS ~95–125, gross margin ~70–76%
+- Acquisition economics: Layer 1 Watchman trial = near-zero cost; agency partnerships = high leverage
+- Break-even: ~12 paying Sentinel clients
+- Frame: "Free Watchman trial eliminates price as the first objection. Sentinel converts on demonstrated value."
 
 ### 8. Go-to-Market Strategy (1 page) — C2, C3
 

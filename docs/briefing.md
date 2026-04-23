@@ -109,7 +109,7 @@ the §263 review.
 1. Confirm the Layer 1/Layer 2 boundary under §263
 2. Draft/review a scanning authorization template
 3. Clarify whether a web agency can authorize scanning of their clients' sites, or whether each end client must consent independently
-4. Recommended firms: Plesner, Kromann Reumert, Bech-Bruun (all have IT law / cybersecurity practices)
+4. Active counsel: **Anders Wernblad, Aumento Law** (Danish IT law specialist; member of Association of Danish IT Attorneys, IT Society, Network for IT contracts, Danish Bar). Plesner dropped 2026-04-23.
 
 Full legal research memo: see `docs/Heimdall_Legal_Risk_Assessment.md`
 
@@ -263,30 +263,30 @@ CrowdStrike Falcon Surface, Trend Micro Cyber Risk Exposure Management, Censys A
 
 ## Service Tiers and Pricing (all prices excl. moms)
 
-### Watchman — 199 kr./month (annual: 169 kr./month)
+### Watchman — FREE 30-day trial
 
 *We find problems on your website and explain them in plain language.*
 
-Passive scanning. Findings delivered straight to Telegram. We track what's changed since last time and follow up on anything unresolved.
+Passive scanning (Layer 1 only). Weekly findings delivered straight to Telegram. No payment, no written consent required. Trial ends automatically after 30 days — no automatic conversion, no invoice.
 
 ### Sentinel — 399 kr./month (annual: 339 kr./month)
 
 *We watch your website every day. If something changes or a new threat hits your setup, you'll know the same day — with step-by-step fix instructions in a written report.*
 
-Everything in Watchman, plus: daily scans, active vulnerability testing (Layer 2, with written permission), uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, detailed fix instructions for your developer or hosting provider.
+Daily scans, active vulnerability testing (Layer 2, with written consent via MitID Erhverv), uptime monitoring, SSL and DNS change alerts, new vulnerability matching for your specific tech stack, detailed fix instructions. Payment via Betalingsservice (NETS direct debit — cancel anytime via your online banking).
 
 ### Tier Logic
 
-Two tiers. Watchman is a trial/on-ramp; Sentinel is the product. Every SMB needs what Sentinel delivers — active scanning, confirmed findings, and fix instructions. Watchman exists as a low-commitment entry point because passive scans are nearly free to run.
+Two tiers. Watchman is a free trial/on-ramp; Sentinel is the only paid product. Every SMB needs what Sentinel delivers — active scanning, confirmed findings, and fix instructions. Watchman exists as a zero-friction entry point because passive scans are nearly free to run.
 
-- **Watchman** (trial) tells you *what* is wrong — in plain language. Stepping stone to Sentinel.
+- **Watchman** (free trial) tells you *what* is wrong — in plain language. Stepping stone to Sentinel.
 - **Sentinel** (the product) tells you *what* is wrong and *how* to fix it — with confirmed findings and a written report.
 
 ### Pricing Summary
 
 | Tier | Price | Scanning Type | What the Client Gets |
 |------|-------|--------------|---------------------|
-| Watchman (trial) | 199 kr./month (annual: 169) | Passive | Plain-language alert: what is wrong |
+| Watchman (trial) | FREE — 30 days | Passive (Layer 1) | Plain-language alert: what is wrong |
 | Sentinel | 399 kr./month (annual: 339) | Passive + Active | Alert + written fix report + active testing + daily monitoring |
 
 *All prices excl. moms (Danish VAT).*
@@ -412,7 +412,7 @@ When asked to produce or update the Heimdall Startup Denmark (SIRI) application 
 - Incorporate the legal framework summary (§263, consent requirement, Layer 1/2/3 distinction)
 - Incorporate GDPR Article 32 as a compliance driver¹¹
 - Add the EASM reference sources (CrowdStrike, Trend Micro, Censys, NCSC UK, Vectra) to the references
-- Use aggressive pricing tiers: Watchman 199 kr. (trial), Sentinel 399 kr. ✓ (updated in SIRI application; Guardian dropped 2026-04-08)
+- Use aggressive pricing: Watchman FREE 30-day trial, Sentinel 399 kr./mo ✓ (Watchman reframed to free 2026-04-23; Guardian dropped 2026-04-08)
 - Include unit economics in the SIRI application to demonstrate self-sustainability (break-even, gross margins)
 - Remove "exposed admin panels" from Layer 1 findings — admin panel detection is Layer 2 ✓ (done in v3)
 - Reference Valdí compliance controls in legal and scanning sections ✓ (done in v3)

@@ -168,9 +168,9 @@ def build_deck():
     _add_table_slide(prs, "Business Model & Pricing", [
         "Tier", "Monthly", "Annual", "Scanning", "Key Value"
     ], [
-        ["Watchman (trial)", "199 kr.", "169 kr./mo", "Passive", "What is wrong, in plain language"],
+        ["Watchman (free trial)", "FREE", "30 days", "Passive (Layer 1)", "What is wrong, in plain language"],
         ["Sentinel", "399 kr.", "339 kr./mo", "Passive + Active", "What's wrong + how to fix it + daily monitoring"],
-    ], notes="Two tiers: Watchman trial → Sentinel product. 399 kr./mo is cheaper than every competitor's comparable offering.")
+    ], notes="Two tiers: Watchman free 30-day trial → Sentinel paid product. 399 kr./mo is cheaper than every competitor's comparable offering; the free Watchman trial has no direct equivalent in the Danish SMB market.")
 
     # --- SLIDE 8: Unit Economics ---
     _add_table_slide(prs, "Unit Economics (Per Client, Monthly)", [
@@ -201,7 +201,7 @@ def build_deck():
     _add_table_slide(prs, "Competitive Landscape", [
         "Competitor", "Starting Price", "Interface", "SMB Messaging"
     ], [
-        ["Heimdall", "199 kr./mo", "Telegram/WhatsApp", "Yes"],
+        ["Heimdall", "FREE trial · 399 kr./mo", "Telegram/WhatsApp", "Yes"],
         ["Intruder.io", "~740 kr./mo", "Dashboard + Slack", "No"],
         ["Detectify", "~610 kr./mo", "Dashboard", "No"],
         ["HostedScan", "~215 kr./mo", "Dashboard + API", "No"],
@@ -263,8 +263,8 @@ def build_deck():
         "Denmark is investing 211M kr. to close the SMB cybersecurity gap.",
         "I am building the service that makes that investment reach the businesses that need it.",
         "",
-        "199 kr./month. Telegram. Plain language. No dashboard required.",
-    ], notes="Break-even at 13-14 clients. 68 prime targets identified in Vejle alone. I have proof of financial capacity for the establishment phase.")
+        "Free 30-day trial. 399 kr./month. Telegram. Plain language. No dashboard required.",
+    ], notes="Break-even at ~12 Sentinel clients. 68 prime targets identified in Vejle alone. I have proof of financial capacity for the establishment phase.")
 
     # Save
     out = Path("data/output/heimdall-siri-pitch-deck.pptx")

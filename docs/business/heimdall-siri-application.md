@@ -34,7 +34,7 @@ Forty percent of Danish small and medium businesses do not have a security level
 
 **The innovation:** No existing EASM product delivers findings through messaging apps to non-technical business owners. Heimdall's architecture is built from the ground up around conversational delivery, persistent memory of each client's infrastructure, AI-powered interpretation of technical findings, and automated legal compliance governance. Two technical innovations are particularly distinctive. First, a **digital twin** system that reconstructs a prospect's website from publicly available data and runs it on Heimdall's own infrastructure — enabling CVE-level vulnerability scanning without touching the prospect's systems or requiring their consent, because Danish criminal law (Straffeloven §263) only protects "another person's data system." Second, **Valdí**, a programmatic compliance agent with two-gate validation and forensic logging, built as a systemic response to a real compliance incident — demonstrating a governance maturity that most startups never achieve. This is not an incremental improvement — it is a fundamentally different approach to cybersecurity for SMBs.
 
-**Business model:** Two subscription tiers — Watchman at 199 kr./month and Sentinel at 399 kr./month. Watchman is cheaper than every competitor's entry tier. Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~13–14 paying clients.
+**Business model:** One paid subscription tier — Sentinel at 399 kr./month (339 kr./month annual). Preceded by Watchman, a FREE 30-day trial (passive Layer 1 only, no payment, no written consent required). Client acquisition starts with a free first scan — a passive analysis that produces real findings (outdated CMS versions, expiring SSL certificates, missing security headers) at near-zero marginal cost. Break-even at ~12 paying clients.
 
 **Current state:** I am building the product. The lead generation pipeline is operational — 14 Python modules, a 10-agent architecture, a programmatic legal compliance system (Valdí) with two-gate validation and forensic logging, and a complete legal risk assessment of Danish scanning law. I have tested the pipeline against 203 live Vejle-area domains.
 
@@ -122,13 +122,13 @@ This persistent memory also creates a natural switching cost — a new provider 
 
 Heimdall's prospecting scan (Layer 1 — passive observation) reads publicly served information: HTTP headers, HTML source, DNS records, SSL certificates, CMS versions. This produces real, actionable findings at near-zero cost. The sales motion is not a pitch — it is a demonstration:
 
-"We already scanned your website. Your WordPress is three major versions behind, and your SSL certificate expires in two weeks. Here is what that means for your business. Heimdall monitors this continuously and tells you the moment something changes — starting at 199 kr./month."
+"We already scanned your website. Your WordPress is three major versions behind, and your SSL certificate expires in two weeks. Here is what that means for your business. Heimdall monitors this continuously and tells you the moment something changes — 30 days free, then 399 kr./month if you want to continue."
 
 ### 3.4 Service Tiers
 
 | Tier | Price | What It Does |
 |------|-------|------------|
-| **Watchman** (trial) | 199 kr./mo (annual: 169 kr./mo) | Finds problems and explains them in plain language. Low-commitment entry point. |
+| **Watchman** (free trial) | FREE — 30 days | Finds problems and explains them in plain language. Zero-friction entry point (no payment, no written consent). |
 | **Sentinel** | 399 kr./mo (annual: 339 kr./mo) | Daily monitoring + active vulnerability testing + step-by-step fix instructions (written report) |
 
 *All prices excl. moms (Danish VAT).*
@@ -290,14 +290,14 @@ The conservative financial projections assume Denmark only. EU expansion is upsi
 
 | Tier | Monthly Price | Annual Option | Scanning Type | Key Value |
 |------|-------------|---------------|---------------|-----------|
-| Watchman (trial) | 199 kr. | 169 kr./mo | Passive | What is wrong, in plain language |
+| Watchman (free trial) | FREE — 30 days | N/A | Passive (Layer 1) | What is wrong, in plain language |
 | Sentinel | 399 kr. | 339 kr./mo | Passive + Active | What's wrong + how to fix it + daily monitoring + active testing |
 
 *All prices excl. moms.*
 
-Blended average revenue per client (ARPC): ~305 kr./month (early mix weighted toward Watchman, 30% annual uptake). Increases to ~370 kr./month as tier mix matures.
+Blended average revenue per client (ARPC): ~370 kr./month at mature tier mix (30% annual uptake). Watchman contributes no revenue — it's a zero-friction acquisition surface.
 
-At 199 kr./mo, Watchman is cheaper than every competitor's entry tier — including HostedScan's paid plan (~215 kr./mo). For a restaurant owner, 199 kr./month is less than a single dinner delivery. Price is eliminated as an objection.
+Free Watchman trial eliminates price as the first objection entirely. Every Sentinel competitor charges for any form of ongoing scanning; a free 30-day demonstration of daily passive findings, delivered in plain language, has no direct equivalent in the Danish SMB market.
 
 ### 7.2 Unit Economics Per Client (Monthly, at Scale)
 
@@ -309,11 +309,11 @@ At 199 kr./mo, Watchman is cheaper than every competitor's entry tier — includ
 | Tool licensing | ~0 kr. | WPVulnerability API (free) |
 | Insurance allocation | ~30–45 kr. | Professional indemnity, pro-rated |
 | **Total COGS** | **~95–125 kr.** | |
-| **Gross margin** | **~59–69%** | Improves with scale and tier migration |
+| **Gross margin** | **~70–76%** | Improves with scale |
 
-The margin is lower than premium-priced competitors but the pricing creates a fundamentally different market dynamic: 199 kr./mo eliminates price as an objection. Volume compensates for margin.
+Margins are comparable to premium-priced competitors at much lower absolute price. The free 30-day Watchman trial creates a fundamentally different market dynamic: it eliminates price as the first objection entirely, and demonstrates value before any payment ask. Conversion to Sentinel (399 kr./mo) happens on evidence, not on commitment.
 
-Revenue projections are based on subscription fees only. Tier migration (Watchman trial → Sentinel) is the primary upsell mechanism.
+Revenue projections are based on Sentinel subscription fees only. Watchman contributes no revenue — it is a zero-friction acquisition surface whose job is to convert trialists to Sentinel.
 
 ### 7.3 Acquisition Economics
 
@@ -340,7 +340,7 @@ Danish marketing law (Markedsføringsloven) prohibits unsolicited electronic mar
 **Phase 1 — Vejle Pilot (Month 1–3)**
 - 5 pilot clients recruited through in-person visits
 - "First finding free" — show a real scan result before asking for anything
-- Free first month; convert to paid Watchman (199 kr./mo)
+- Free 30-day Watchman trial; convert to paid Sentinel at 399 kr./mo
 - Human-in-the-loop: I review every message before delivery
 
 **Phase 2 — Agency Partnerships (Month 3–6)**
@@ -405,7 +405,7 @@ The same agent architecture runs at every tier. The scanning pipeline, Valdí co
 
 | Competitor | Starting Price | Interface | SMB Messaging |
 |-----------|---------------|-----------|---------------|
-| **Heimdall** | 199 kr./mo | Telegram/WhatsApp | Yes |
+| **Heimdall** | FREE trial · 399 kr./mo | Telegram/WhatsApp | Yes |
 | Intruder.io | ~740 kr./mo | Dashboard + Slack/Jira | No |
 | Detectify | ~610 kr./mo (app) | Dashboard | No |
 | HostedScan | Free tier; paid ~215 kr./mo | Dashboard + API | No |
@@ -422,9 +422,9 @@ Enterprise EASM players (CrowdStrike, Qualys, Censys) are moving upmarket, not d
 
 They could add a Telegram notification. But notification is not delivery. Heimdall's architecture is built around non-technical users from the ground up — plain-language interpretation, persistent memory, escalating follow-up, and actionable next steps. Adding a Telegram webhook to a dashboard product does not replicate this. It would require rebuilding the product's entire communication layer, output format, and user model.
 
-**"HostedScan has a free tier — why pay 199 kr.?"**
+**"HostedScan has a free tier — why pay 399 kr.?"**
 
-If the business owner can navigate a vulnerability scanning dashboard, configure scan targets, interpret CVSS scores, and act on the findings — HostedScan is the better choice. At 199 kr./mo, Heimdall costs less than HostedScan's own paid tier (~215 kr./mo) while delivering through the channel the owner actually uses. For the majority of SMB owners who cannot navigate a dashboard, the dashboard might as well not exist.
+If the business owner can navigate a vulnerability scanning dashboard, configure scan targets, interpret CVSS scores, and act on the findings — HostedScan is the better choice. Heimdall offers its own free tier (30-day Watchman trial) to prove value without payment. The paid Sentinel tier at 399 kr./mo adds daily monitoring, active Layer 2 testing under written consent, and step-by-step fix instructions delivered through the channel the owner actually uses. For the majority of SMB owners who cannot navigate a dashboard, the dashboard might as well not exist.
 
 ### 10.3 Four Durable Differentiators
 
@@ -464,7 +464,7 @@ The Valdí compliance system — two-gate validation, forensic logging, approval
 
 ### 11.5 Open Questions for Counsel
 
-Legal counsel engagement is planned for the establishment phase to confirm the Layer 1/Layer 2 boundary under §263, validate the digital twin's legal basis (self-owned system built from public data does not constitute "another person's data system" under §263), draft a scanning authorization template, and clarify agency delegation rights. Recommended firms: Plesner, Kromann Reumert, Bech-Bruun (all with IT law / cybersecurity practices).
+Legal counsel engagement is underway with **Anders Wernblad, Aumento Law** — a Danish IT law specialist (member of the Association of Danish IT Attorneys, IT Society, Network for IT contracts, and Danish Bar). A 16-question briefing covers: the Layer 1 / Layer 2 boundary under §263, the digital twin's legal basis (self-owned system built from public data does not constitute "another person's data system" under §263), the scanning authorisation template, the GDPR DPA, Markedsføringsloven §10 on outreach, NIS2/CRA duty-to-report interaction, and agency delegation rights.
 
 ---
 
@@ -563,7 +563,7 @@ I built the codebase with Claude Code — Anthropic's AI development assistant. 
 | Role | Purpose | Status |
 |------|---------|--------|
 | University partner (AAU/SDU/DTU) | Research validation, technical credibility | Outreach post-establishment |
-| Legal counsel (Plesner/Kromann/Bech-Bruun) | §263 confirmation, authorization template | Planned post-establishment |
+| Legal counsel (Anders Wernblad, Aumento Law) | §263 confirmation, scanning-authorisation template, DPA, Markedsføringsloven, NIS2/CRA | Active; 16-Q briefing in review |
 | Industriens Fond | Cybersikkerhedsprogram alignment | Research stage |
 | Operations hire (part-time) | Client communication, pilot support | First hire priority |
 
@@ -612,12 +612,12 @@ Assumptions: 3+ agency partnerships. Strong tier migration. EU pilot begins in M
 
 | Metric | Value |
 |--------|-------|
-| Fixed monthly costs (infra + API + insurance) | ~2,600 kr. |
-| Blended ARPC | ~305 kr. |
-| Margin per client | ~180–210 kr. |
-| **Break-even point** | **~13–14 paying clients** |
+| Fixed monthly costs (infra + API + insurance + legal retainer amortised) | ~4,650 kr. |
+| ARPC (Sentinel only; Watchman is free) | ~370 kr. |
+| Margin per Sentinel client | ~245–275 kr. |
+| **Break-even point** | **~12 paying Sentinel clients** |
 
-The trade-off is explicit: aggressive pricing requires ~14 clients to break even instead of 5–6 at premium pricing. But at 199 kr./mo, each conversion is significantly easier. The pipeline has identified 68 prime targets in Vejle alone — a ~5× surplus over the break-even requirement.
+The trade-off is explicit: aggressive pricing requires ~12 paying clients to break even instead of 5–6 at premium pricing. But with a free 30-day Watchman trial preceding every paid conversion, each Sentinel sale is backed by 30 days of demonstrated value — not a cold ask. The pipeline has identified 68 prime targets in Vejle alone — a ~5× surplus over the break-even requirement.
 
 Tool licensing costs have been eliminated by replacing the WPScan commercial API with the free WPVulnerability API.
 

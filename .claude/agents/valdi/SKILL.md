@@ -443,7 +443,7 @@ When a new scan type is created or an existing one is modified, it must go throu
 3. Or must each end client consent independently?
 4. Does a programmatic compliance layer (Valdí) with forensic logs reduce liability for inadvertent boundary crossings?
 5. What audit trail documentation would a court expect to see?
-6. Recommended firms: Plesner, Kromann Reumert, Bech-Bruun
+6. Active counsel: Anders Wernblad, Aumento Law (Danish IT law specialist — member of Association of Danish IT Attorneys, IT Society, Network for IT contracts, Danish Bar).
 
 ---
 

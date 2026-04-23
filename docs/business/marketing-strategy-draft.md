@@ -147,7 +147,7 @@ We can scan 2,400 businesses in Vejle and produce specific findings. We cannot r
 
 | Item | Cost | Priority |
 |------|------|----------|
-| Legal consultation (Plesner/Kromann Reumert) | 3,000–5,000 kr. | **Highest** — unlocks multiple channels |
+| Legal consultation (Aumento Law / Wernblad) | 21,000–38,500 kr. one-off + ~3,000 kr./mo retainer | **Highest** — unlocks multiple channels |
 | Phone campaign (68 prospects, first wave) | 0 kr. | High — after legal clears the framing |
 | Domain + landing page | ~200 kr. | Medium — for inbound CTA |
 | Loom (free) for personalized video | 0 kr. | Test alongside phone outreach |
