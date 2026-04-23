@@ -1,7 +1,21 @@
 # Heimdall Design System
 
-**Version:** 1.2
+**Version:** 1.3 (rider)
 **Last updated:** 2026-04-22
+
+**v1.3 rider — what actually shipped (PR #42):**
+- Operator console is now **dual-theme** (light + dark). Token names are identical across themes; values swap via `data-theme="dark"|"light"` on `<html>`.
+- `tokens.css` split into two `:root[data-theme="…"]` blocks. Dark values below are authoritative; light values are defined in `src/api/frontend/src/styles/tokens.css` and tuned for WCAG AA by inspection (no automated contrast CI yet).
+- Theme toggle lives in the Topbar (`ThemeToggle.svelte`). Seeds from `prefers-color-scheme`, persists in `localStorage['heimdall.theme']`, stops tracking the OS once the user overrides.
+- Warm-only severity rule from v1.1 holds in both themes — light mode darkens the red/orange hues to keep contrast. Brand gold darkens to amber-700 range in light mode.
+
+**v1.3 deferred — spec called for, not shipped:**
+- A `scripts/verify_theme_contrast.mjs` AA-ratio CI guard (all text-on-bg pairs, both themes).
+- Playwright visual-regression snapshots of every view in both themes.
+- Unit tests for the theme store (OS-read, override persistence, clear-override semantics).
+- A formal per-theme token-table rewrite of §1.1 (this rider documents both themes by reference to `tokens.css` rather than duplicating the table).
+
+See `docs/superpowers/specs/2026-04-22-console-light-dark-toggle-design.md` for the original design; what actually shipped is annotated at the top of that spec.
 
 **v1.2 changes:**
 - New `.t-help` utility class for explanatory prose — bundles size, weight, colour, and the §11.4 max-width cap into one role (§1.2, §11.2, §11.4)
@@ -18,7 +32,7 @@
 
 **Scope:** Operator Console (`src/api/frontend/`)
 **Stack:** Svelte 5 + vanilla CSS (no Tailwind, no preprocessors)
-**Theme:** Dark-only
+**Theme:** Light + Dark (toggle in Topbar, defaults to OS preference)
 
 ---
 
