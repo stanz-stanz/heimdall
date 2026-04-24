@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-04-18T00:00:00Z",
-  "phase": "mvp-hardening-complete — pre-pilot, blocked by SIRI",
+  "last_updated": "2026-04-24T00:00:00Z",
+  "phase": "onboarding-design-locked — backend data layer in progress on feat/sentinel-onboarding",
   "current_sprint": {
-    "name": "MVP Hardening → Pilot Prep",
-    "started": "2026-04-05",
-    "target_end": "2026-04-30",
-    "status": "code-ready, onboarding blocked by SIRI",
-    "progress_pct": 96,
-    "notes": "Phase 1/2 (PRs #23/#25) + CT rebuild (PR #26) + Docker infra unpark (PRs #30-#37) + dev/prod split (PRs #27/#29) all shipped. All four 2026-04-16 handoff priorities closed 2026-04-17: Valdí helper-hash enforcement (M38), env-passthrough regression test (M39), cert-change dry run (M40), dev-smoke verified green. Valdí helper-hash gap closed: declaration + runtime enforcement for 3 helpers (extract_rest_api_plugins, parse_nmap_xml, query_crt_sh_single). 981 unit tests passing, coverage 70.26% (floor 65). Pi5 on SHA 4d55d0a: 10 containers healthy, file-backed secrets live, GHCR publish + registry-backed rollback verified. Cert-change dry run surfaced two production bugs (ct_monitor race, init_db migration gap) — filed for separate PRs."
+    "name": "Sentinel Onboarding — End-to-End",
+    "started": "2026-04-23",
+    "target_end": "TBD (SIRI-gated for production cutover)",
+    "status": "plan locked, docs swept, backend data layer 50% (schema + signup + subscriptions shipped)",
+    "progress_pct": 30,
+    "notes": "2026-04-23 plan session produced 22 locked decisions (D1–D22), archived at ~/.claude/plans/i-need-you-to-logical-pebble.md. Key architectural commitments: Watchman = FREE 30-day trial (not 199 kr.); Sentinel = 399 kr./mo via Betalingsservice direct debit; one-click consent via MitID Erhverv (QES-grade, Danish-native); SvelteKit public site on Hetzner Cloud (EU residency); CVR-match domain verification (no DNS TXT / file upload); legal counsel re-targeted from Plesner to Anders Wernblad, Aumento Law; tiered retention (Watchman 90d anonymise/1yr purge, Sentinel 30d anonymise + 5yr invoices per Bogføringsloven). Branch feat/sentinel-onboarding has 6 commits: docs sweep, DB schema migration (6 tables + 8 clients columns + 5 indexes), onboarding-playbook extended, signup_tokens helpers (+16 tests), subscriptions+payment_events helpers (+24 tests). 1,029 non-integration tests passing (+35 new). MitID Erhverv sandbox is free → dev unblocked during SIRI wait."
   },
   "completed_sprints": [
     {"name": "Sprint 1 — Consolidate & Ship", "status": "complete", "notes": "153 tests, structured logging, benchmarks"},
@@ -81,6 +81,15 @@
       "completed_date": "2026-04-17",
       "owner_agent": "client-memory",
       "notes": "scripts/dev/cert_change_dry_run.py + config/ct_dry_run.json + make dev-cert-dry-run. Exercises publisher + subscriber + composer end-to-end against heimdall.dk via CertSpotter. No Telegram send (telegram_chat_id=NULL). Architect APPROVE-WITH-CHANGES — single Python driver (no bash shim), no response cache, one wait. Surfaced TWO production bugs (filed as unresolved): ct_monitor commit-before-publish race + init_db not applying migrations. Wall-clock ~10s per run. Working tree uncommitted pending feature branch + PR covering all 2026-04-17 work."
+    },
+    {
+      "id": "M41",
+      "name": "Sentinel onboarding — plan locked + backend data layer (partial)",
+      "status": "in_progress",
+      "started_date": "2026-04-23",
+      "owner_agent": "project-coordinator",
+      "branch": "feat/sentinel-onboarding",
+      "notes": "Plan session 2026-04-23: 22 decisions (D1–D22) locked across channel/message, consent/legal, state/data, website/payment. Full plan at ~/.claude/plans/i-need-you-to-logical-pebble.md (state machine, 12-message sequence DA+EN, integration architecture, cost math, critical path). Implementation progress (6 commits): (1) docs sweep — Watchman = FREE across 10 files + Plesner → Aumento Law across 10 files + new decision log entry; (2) DB schema migration — 8 new clients columns (trial_started_at, trial_expires_at, onboarding_stage, signup_source, churn_reason, churn_requested_at, churn_purge_at, data_retention_mode), 6 new tables (signup_tokens, subscriptions, payment_events, conversion_events, onboarding_stage_log, retention_jobs), 5 new indexes, validation updates (VALID_STATUSES extended, VALID_PLANS drops guardian, VALID_ONBOARDING_STAGES added); (3) onboarding-playbook.md cherry-picked from orphan chore branch; (4) onboarding-playbook extended with 2026-04-23 design section; (5) src/db/signup.py + 16 tests (magic-link handshake, 30-min TTL, single-use); (6) src/db/subscriptions.py + 24 tests (subscriptions + payment_events append log, øre integer math). Remaining: conversion_events helpers, onboarding_stage_log helpers, retention_jobs helpers, SvelteKit signup site, MitID Erhverv broker integration (sandbox free — dev unblocked), Betalingsservice sandbox integration, operator console views V1–V6, Wernblad 16-Q brief adaptation."
     }
   ],
   "external_deadlines": [
@@ -112,7 +121,8 @@
     "briefs_generated": 1173,
     "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
   },
-  "test_count": 976,
+  "test_count": 1029,
+  "test_count_notes": "1029 unit tests (+35 since 2026-04-18). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
   "blockers": [
     {
       "id": "B1",
@@ -130,7 +140,15 @@
     }
   ],
   "next_actions": [
-    "SIRI video pitch script"
+    "Push feat/sentinel-onboarding + open PR (6 commits: docs sweep, schema, playbook, signup, subscriptions)",
+    "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md",
+    "Pick MitID Erhverv broker (Idura / Criipto / Signicat) — sandboxes all free, unblocks dev during SIRI wait",
+    "Build src/db/conversion.py — conversion_events + onboarding_stage_log helpers (same pattern as signup/subscriptions)",
+    "Build src/db/retention.py — retention_jobs helpers + anonymise/purge runner for D16 tiered policy",
+    "Scaffold SvelteKit signup site (Hetzner-deployable, reuses design-system tokens from src/api/frontend/)",
+    "Wire signup_tokens consumption to clients.status='watchman_active' transition + trial_started/expires_at + Telegram chat_id bind",
+    "Operator console views V1–V6 (trial-expiring, stuck-on-consent, stuck-on-payment, stuck-on-scope, funnel, retention queue)",
+    "SIRI video pitch script (still unwritten — blocks SIRI decision)"
   ],
   "follow_ups": [
     "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",
@@ -139,6 +157,11 @@
     "Threat feed integration: abuse.ch URLhaus + WHOIS domain age",
     "Professional indemnity insurance quote",
     "Retire src/client_memory/ JSON module once all consumers migrated",
-    "Marketing strategy finalization (post lawyer consultation)"
+    "Marketing strategy finalization (post lawyer consultation)",
+    "Naming session (post SIRI / post tech+legal spec lock — D22)",
+    "Betalingsservice merchant agreement — CVR-gated (SIRI-blocked)",
+    "MitID Erhverv production switch — CVR-gated (SIRI-blocked)",
+    "Liability insurance quote (Danish IT SMB, est. 8,000–15,000 kr./yr excl. moms)",
+    "Sole-proprietorship (enkeltmandsvirksomhed) contingency plan if SIRI > 4 months"
   ]
 }
