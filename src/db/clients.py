@@ -14,8 +14,25 @@ from src.db.connection import _now
 # Validation constants
 # ---------------------------------------------------------------------------
 
-VALID_PLANS: set[str | None] = {None, "watchman", "sentinel", "guardian"}
-VALID_STATUSES: set[str] = {"prospect", "onboarding", "active", "churned", "paused"}
+VALID_PLANS: set[str | None] = {None, "watchman", "sentinel"}
+VALID_STATUSES: set[str] = {
+    "prospect",
+    "watchman_pending",
+    "watchman_active",
+    "watchman_expired",
+    "onboarding",
+    "active",
+    "paused",
+    "churned",
+}
+VALID_ONBOARDING_STAGES: set[str | None] = {
+    None,
+    "upgrade_interest",
+    "pending_payment",
+    "pending_consent",
+    "pending_scope",
+    "provisioning",
+}
 
 # Columns on the clients table that callers may set via create/update.
 # Excludes cvr (immutable PK) and timestamps (auto-managed).
@@ -33,6 +50,14 @@ _CLIENT_MUTABLE_COLS: set[str] = {
     "gdpr_sensitive",
     "gdpr_reasons",
     "preferred_language",
+    "trial_started_at",
+    "trial_expires_at",
+    "onboarding_stage",
+    "signup_source",
+    "churn_reason",
+    "churn_requested_at",
+    "churn_purge_at",
+    "data_retention_mode",
 }
 
 # ---------------------------------------------------------------------------
@@ -102,6 +127,15 @@ def _validate_status(status: str) -> None:
         )
 
 
+def _validate_onboarding_stage(stage: str | None) -> None:
+    """Raise ValueError if onboarding_stage is not a recognised value."""
+    if stage not in VALID_ONBOARDING_STAGES:
+        valid = sorted(s for s in VALID_ONBOARDING_STAGES if s is not None)
+        raise ValueError(
+            f"Invalid onboarding_stage {stage!r}. Must be one of: {valid} or None"
+        )
+
+
 def create_client(
     conn: sqlite3.Connection,
     cvr: str,
@@ -129,6 +163,9 @@ def create_client(
 
     status = kwargs.get("status", "prospect")
     _validate_status(status)
+
+    if "onboarding_stage" in kwargs:
+        _validate_onboarding_stage(kwargs["onboarding_stage"])  # type: ignore[arg-type]
 
     now = _now()
     data: dict[str, object] = {
@@ -191,6 +228,8 @@ def update_client(
         _validate_plan(updates["plan"])
     if "status" in updates:
         _validate_status(updates["status"])
+    if "onboarding_stage" in updates:
+        _validate_onboarding_stage(updates["onboarding_stage"])
 
     # Filter to recognised columns only.
     filtered = {k: v for k, v in updates.items() if k in _CLIENT_MUTABLE_COLS}

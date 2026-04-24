@@ -19,6 +19,15 @@ from src.db.connection import init_db
 _COLUMN_ADDS: list[tuple[str, str, str]] = [
     ("clients", "monitoring_enabled", "INTEGER NOT NULL DEFAULT 0"),
     ("clients", "ct_last_polled_at", "TEXT"),
+    # Onboarding lifecycle (2026-04-23 — Sentinel onboarding plan)
+    ("clients", "trial_started_at", "TEXT"),
+    ("clients", "trial_expires_at", "TEXT"),
+    ("clients", "onboarding_stage", "TEXT"),
+    ("clients", "signup_source", "TEXT"),
+    ("clients", "churn_reason", "TEXT"),
+    ("clients", "churn_requested_at", "TEXT"),
+    ("clients", "churn_purge_at", "TEXT"),
+    ("clients", "data_retention_mode", "TEXT NOT NULL DEFAULT 'standard'"),
 ]
 
 

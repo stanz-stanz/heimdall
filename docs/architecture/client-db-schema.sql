@@ -62,8 +62,11 @@ CREATE TABLE IF NOT EXISTS clients (
     cvr             TEXT PRIMARY KEY,               -- Danish CVR number, e.g. "12345678"
     company_name    TEXT NOT NULL,
     industry_code   TEXT,                            -- FK to industries.code
-    plan            TEXT,                            -- watchman | sentinel | guardian | NULL (prospect)
-    status          TEXT NOT NULL DEFAULT 'prospect',-- prospect | onboarding | active | churned | paused
+    plan            TEXT,                            -- watchman | sentinel | NULL (prospect)
+    status          TEXT NOT NULL DEFAULT 'prospect',
+                                                     -- prospect | watchman_pending | watchman_active
+                                                     -- | watchman_expired | onboarding | active
+                                                     -- | paused | churned
     consent_granted INTEGER NOT NULL DEFAULT 0,     -- 0 = Layer 1 only, 1 = Layer 1 + Layer 2
     telegram_chat_id TEXT,                           -- client's Telegram chat for delivery
     contact_name    TEXT,
@@ -80,6 +83,16 @@ CREATE TABLE IF NOT EXISTS clients (
     notes           TEXT,
     gdpr_sensitive  INTEGER NOT NULL DEFAULT 0,     -- 1 if company handles GDPR-sensitive data (industry + website functionality)
     gdpr_reasons    TEXT NOT NULL DEFAULT '[]',     -- JSON array of reason strings
+    -- Onboarding lifecycle (added 2026-04-23 for Sentinel onboarding plan)
+    trial_started_at    TEXT,                        -- ISO-8601 UTC; set at Watchman enrollment
+    trial_expires_at    TEXT,                        -- trial_started_at + 30 days
+    onboarding_stage    TEXT,                        -- upgrade_interest | pending_payment | pending_consent | pending_scope | provisioning | NULL when 'active'
+    signup_source       TEXT,                        -- 'email_reply' | 'operator_manual'
+    churn_reason        TEXT,
+    churn_requested_at  TEXT,                        -- ISO-8601 UTC
+    churn_purge_at      TEXT,                        -- scheduled hard-purge date (ISO-8601)
+    data_retention_mode TEXT NOT NULL DEFAULT 'standard',
+                                                     -- 'standard' | 'anonymised' | 'purge_scheduled' | 'purged'
     created_at      TEXT NOT NULL,                   -- ISO-8601 UTC
     updated_at      TEXT NOT NULL
 );
@@ -838,3 +851,192 @@ SELECT campaign,
        SUM(CASE WHEN outreach_status = 'failed' THEN 1 ELSE 0 END) AS failed_count
 FROM prospects
 GROUP BY campaign;
+
+
+-- =================================================================
+-- SECTION 9: Onboarding lifecycle (added 2026-04-23)
+-- =================================================================
+--
+-- Supports the Sentinel onboarding plan: Watchman free trial →
+-- Sentinel conversion → MitID Erhverv consent → Betalingsservice
+-- direct debit → active paid client → offboarding/retention.
+--
+-- See /Users/fsaf/.claude/plans/i-need-you-to-logical-pebble.md
+-- and the 2026-04-23 entry in docs/decisions/log.md.
+--
+-- Related columns on clients (above): trial_started_at,
+-- trial_expires_at, onboarding_stage, signup_source, churn_reason,
+-- churn_requested_at, churn_purge_at, data_retention_mode.
+
+-- -----------------------------------------------------------------
+-- signup_tokens
+-- -----------------------------------------------------------------
+-- Magic-link handshake. Issued when a prospect replies with signup
+-- intent. The token is single-use, 30-min TTL, and encodes a bind
+-- between the email address and the eventual Telegram chat_id on
+-- /start <token>.
+
+CREATE TABLE IF NOT EXISTS signup_tokens (
+    token           TEXT PRIMARY KEY,                -- URL-safe random token
+    cvr             TEXT NOT NULL,                   -- target CVR (pre-matched from prospecting)
+    email           TEXT,                            -- optional; the reply-from address
+    source          TEXT NOT NULL DEFAULT 'email_reply',
+                                                     -- 'email_reply' | 'operator_manual'
+    expires_at      TEXT NOT NULL,                   -- ISO-8601 UTC (typically created_at + 30 min)
+    consumed_at     TEXT,                            -- NULL = unconsumed; set at Telegram /start
+    created_at      TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_signup_tokens_cvr
+    ON signup_tokens(cvr, expires_at);
+
+
+-- -----------------------------------------------------------------
+-- subscriptions
+-- -----------------------------------------------------------------
+-- One row per Sentinel subscription. Canonical "current period"
+-- source; history preserved (status transitions) rather than mutated.
+
+CREATE TABLE IF NOT EXISTS subscriptions (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    plan            TEXT NOT NULL,                   -- 'sentinel' (Watchman has no subscription row)
+    status          TEXT NOT NULL,
+                                                     -- 'pending_payment' | 'active' | 'past_due'
+                                                     -- | 'cancelled' | 'refunded'
+    started_at      TEXT NOT NULL,                   -- ISO-8601 UTC
+    current_period_end TEXT,                         -- ISO-8601 UTC next billing date
+    cancelled_at    TEXT,
+    invoice_ref     TEXT,                            -- last invoice ref (Bogføringsloven link)
+    amount_dkk      INTEGER NOT NULL,                -- periodic amount in øre (to avoid float)
+    billing_period  TEXT NOT NULL DEFAULT 'monthly', -- 'monthly' | 'annual'
+    mandate_id      TEXT,                            -- Betalingsservice PBS-aftale reference
+    created_at      TEXT NOT NULL,
+    updated_at      TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_subscriptions_cvr_status
+    ON subscriptions(cvr, status);
+
+CREATE INDEX IF NOT EXISTS idx_subscriptions_status_period
+    ON subscriptions(status, current_period_end);
+
+
+-- -----------------------------------------------------------------
+-- payment_events
+-- -----------------------------------------------------------------
+-- Immutable append-only log of every Betalingsservice event. Used
+-- both for reconciliation and for dunning (Message 9). Never update
+-- or delete — refunds are recorded as new rows.
+
+CREATE TABLE IF NOT EXISTS payment_events (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    subscription_id INTEGER,                         -- FK to subscriptions.id (nullable for ad-hoc)
+    event_type      TEXT NOT NULL,
+                                                     -- 'invoice_issued' | 'mandate_registered'
+                                                     -- | 'payment_succeeded' | 'payment_failed'
+                                                     -- | 'refund' | 'chargeback'
+                                                     -- | 'mandate_cancelled'
+    amount_dkk      INTEGER NOT NULL,                -- in øre
+    external_id     TEXT,                            -- NETS / Betalingsservice reference
+    occurred_at     TEXT NOT NULL,                   -- ISO-8601 UTC
+    payload_json    TEXT,                            -- raw webhook / reconciliation payload
+    created_at      TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_payment_events_cvr_time
+    ON payment_events(cvr, occurred_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_payment_events_subscription
+    ON payment_events(subscription_id);
+
+
+-- -----------------------------------------------------------------
+-- conversion_events
+-- -----------------------------------------------------------------
+-- Every touchpoint on the Watchman → Sentinel funnel. Feeds the
+-- funnel dashboard view (V5) and the "stuck on X" operator views.
+
+CREATE TABLE IF NOT EXISTS conversion_events (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    event_type      TEXT NOT NULL,
+                                                     -- 'signup' | 'cta_click' | 'upgrade_reply'
+                                                     -- | 'invoice_opened' | 'consent_opened'
+                                                     -- | 'consent_signed' | 'payment_intent'
+                                                     -- | 'scope_confirmed' | 'abandoned'
+                                                     -- | 'cancellation'
+    source          TEXT,                            -- e.g. 'email_click', 'telegram_reply', 'signup_form'
+    payload_json    TEXT,                            -- optional context
+    occurred_at     TEXT NOT NULL,                   -- ISO-8601 UTC
+    created_at      TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_conversion_cvr_time
+    ON conversion_events(cvr, occurred_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_conversion_type_time
+    ON conversion_events(event_type, occurred_at DESC);
+
+
+-- -----------------------------------------------------------------
+-- onboarding_stage_log
+-- -----------------------------------------------------------------
+-- Audit trail for clients.onboarding_stage transitions. Mirrors the
+-- finding_status_log pattern. Not load-bearing for product logic —
+-- operator visibility and post-hoc debugging only.
+
+CREATE TABLE IF NOT EXISTS onboarding_stage_log (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    from_stage      TEXT,                            -- may be NULL (first entry into the funnel)
+    to_stage        TEXT,                            -- may be NULL (exit to 'active')
+    source          TEXT,                            -- 'webhook' | 'operator' | 'cron' | 'system'
+    note            TEXT,
+    created_at      TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_onboarding_log_cvr
+    ON onboarding_stage_log(cvr, created_at DESC);
+
+
+-- -----------------------------------------------------------------
+-- retention_jobs
+-- -----------------------------------------------------------------
+-- GDPR purge scheduler. Tiered retention (D16):
+--   Watchman non-converter: anonymise at 90d, purge at 365d.
+--   Sentinel cancelled:     anonymise at 30d; invoice records kept
+--                           5 years (Bogføringsloven), scan data purged.
+-- A cron / scheduler picks up rows where scheduled_for <= now and
+-- status = 'pending', executes the action, then marks completed.
+
+CREATE TABLE IF NOT EXISTS retention_jobs (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    cvr             TEXT NOT NULL,                   -- FK to clients.cvr
+    action          TEXT NOT NULL,
+                                                     -- 'anonymise' | 'purge' | 'export'
+    scheduled_for   TEXT NOT NULL,                   -- ISO-8601 UTC
+    executed_at     TEXT,                            -- NULL until run
+    status          TEXT NOT NULL DEFAULT 'pending',
+                                                     -- 'pending' | 'completed' | 'failed' | 'cancelled'
+    notes           TEXT,
+    created_at      TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_retention_pending
+    ON retention_jobs(scheduled_for) WHERE status = 'pending';
+
+CREATE INDEX IF NOT EXISTS idx_retention_cvr
+    ON retention_jobs(cvr);
+
+
+-- -----------------------------------------------------------------
+-- Extra indexes on clients for onboarding console views
+-- -----------------------------------------------------------------
+
+CREATE INDEX IF NOT EXISTS idx_clients_trial_expires
+    ON clients(trial_expires_at) WHERE status = 'watchman_active';
+
+CREATE INDEX IF NOT EXISTS idx_clients_onboarding_stage
+    ON clients(onboarding_stage) WHERE onboarding_stage IS NOT NULL;
