@@ -5,6 +5,42 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-24 — Session wrap-up: onboarding backend slice landed on feat/sentinel-onboarding
+
+**Decided**
+- Committed 7 commits to `feat/sentinel-onboarding` (branched from `main` at `3d2a8f6`):
+  - `32b4960` docs: Watchman = FREE + counsel → Aumento Law + onboarding decision log
+  - `9bc793c` feat(db): onboarding lifecycle schema — 6 tables + 8 columns + indexes
+  - `08a5e9b` docs: add onboarding-playbook (cherry-picked from orphan chore branch)
+  - `f882988` docs: extend onboarding-playbook with 2026-04-23 design
+  - `af74f68` feat(db): signup-token helpers for magic-link flow
+  - `eb98649` feat(db): subscriptions + payment_events helpers
+  - `0ce93a3` chore(state): sync project-state.json with 2026-04-23 onboarding session
+- 1,029 non-integration tests passing (+35 since 2026-04-18). Pre-existing Docker-integration test `tests/integration/test_pipeline_button_flow.py` still requires dev stack up — behaviour unchanged.
+- Wrap-up eval: Valdí compliance GREEN (no new scan functions); agent boundaries GREEN; document consistency GREEN (SCANNING_RULES.md untouched, SKILL.md files + decision log + onboarding playbook + project-state.json all in sync); code hygiene GREEN (no new TODOs / FIXMEs / debug flags / hardcoded credentials / env vars / Python deps); CLAUDE.md AMBER, actioned in this entry.
+- CLAUDE.md Key Documents table updated to list `src/db/signup.py` + `src/db/subscriptions.py` and note the active feature branch.
+
+**Rejected**
+- Pushing `feat/sentinel-onboarding` + opening a PR in the same session. Held for explicit Federico approval.
+- Writing `src/db/conversion.py` and `src/db/retention.py` this session. Deferred to keep the review slice tight; 7 commits touching 20+ files is already a substantial PR.
+
+**Unresolved**
+- `feat/sentinel-onboarding`: 7 commits local, nothing pushed. No PR opened.
+- Ultraplan attempted twice during the session to refine the onboarding plan; both remote containers failed (session IDs `01KT2kyaUGYY5QV1fZUwmH1j` and `01Dm4AGxWZX9qCnre3Hh3kDR` — first `error_during_execution`, second `ExitPlanMode never reached after 90 minutes`). Plan refinement happened manually in-chat via targeted specialist agents (marketing cost-math, message-composer polishing).
+- Remaining plan deliverables to build:
+  - `src/db/conversion.py` — conversion_events + onboarding_stage_log helpers
+  - `src/db/retention.py` — retention_jobs + tiered anonymise/purge runner (per D16)
+  - SvelteKit signup site scaffold (reuses `src/api/frontend/` design tokens; deploys to Hetzner)
+  - MitID Erhverv broker pick (Idura / Criipto / Signicat — all sandboxes free)
+  - Betalingsservice sandbox integration (CSV/XML mock; production gated on CVR)
+  - Operator console onboarding views V1–V6 (in existing Svelte operator console)
+  - Wernblad (Aumento Law) engagement — send adapted 16-Q brief
+
+**Next-session opener**
+"Continue `feat/sentinel-onboarding`: pick a MitID Erhverv broker, build `src/db/conversion.py` + `retention.py` with tests, then commit and push the branch as a reviewable PR."
+
+---
+
 ## 2026-04-23 — Sentinel onboarding plan: 22 decisions, tier correction, new counsel
 
 **Decided**

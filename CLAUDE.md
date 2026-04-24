@@ -26,7 +26,7 @@ MANDATORY: Before performing any task, determine which agent(s) from `.claude/ag
 
 Heimdall is an External Attack Surface Management (EASM) service for small businesses. A Claude API agent interprets findings in plain language, delivered via Telegram. No client dashboard.
 
-**Pi5 is PROD. Macbook is DEV.** Develop locally (`make dev-up` / `make dev-smoke`, see `docs/development.md`). Deploy: `main` → dev-smoke green → fast-forward `prod` → `HEIMDALL_APPROVED=1 git push origin prod` → SSH Pi5 `heimdall-deploy` (see `docs/runbook-prod-deploy.md`). Business phase: **pre-pilot, blocked by SIRI approval.**
+**Pi5 is PROD. Macbook is DEV.** Develop locally (`make dev-up` / `make dev-smoke`, see `docs/development.md`). Deploy: `main` → dev-smoke green → fast-forward `prod` → `HEIMDALL_APPROVED=1 git push origin prod` → SSH Pi5 `heimdall-deploy` (see `docs/runbook-prod-deploy.md`). Business phase: **pre-pilot, blocked by SIRI approval.** Active feature work: `feat/sentinel-onboarding` — Sentinel onboarding plan (22 decisions locked 2026-04-23) + backend data layer in progress.
 
 ---
 
@@ -95,7 +95,7 @@ Without written consent, only Layer 1 is permitted. With written consent (Sentin
 | `src/core/` | Shared infra: `config.py`, `logging_config.py` (loguru), `exceptions.py`, `secrets.py` (`get_secret` with `/run/secrets/` priority + env fallback). |
 | `src/worker/` | Worker process. Executes scan jobs, manages caching, runs twin scans. Pydantic validation: `src/worker/models.py`. |
 | `src/scheduler/` | Scan-job creator + daemon. `--mode daemon` = BRPOP on `queue:operator-commands`, dispatches pipeline/interpret/send, publishes progress to Redis pub/sub. |
-| `src/db/` | Client SQLite DB (CRUD). Schema: `docs/architecture/client-db-schema.sql`. DB: `data/clients/clients.db`. Migration: `src/db/migrate.py` (auto-applied by `init_db` since PR #39). |
+| `src/db/` | Client SQLite DB (CRUD). Schema: `docs/architecture/client-db-schema.sql`. DB: `data/clients/clients.db`. Migration: `src/db/migrate.py` (auto-applied by `init_db` since PR #39). Onboarding modules: `src/db/signup.py` (magic-link token handshake — 30-min TTL, single-use), `src/db/subscriptions.py` (Sentinel subscriptions + Betalingsservice `payment_events` append log, øre integer math). |
 | `src/logging/redis_sink.py` | Shared loguru sink → Redis `console:logs`. `HEIMDALL_SOURCE` env var per container. |
 | `src/client_memory/` | Client history, delta detection. `ct_monitor.py` = Sentinel CT monitoring (CertSpotter daily poll, post-commit publish since PR #40). |
 | `src/enrichment/` | CVR enrichment (7-step pipeline). Outputs to `data/enriched/companies.db`. Entry: `python -m src.enrichment`. |
