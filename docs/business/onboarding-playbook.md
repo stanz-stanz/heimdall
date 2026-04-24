@@ -1,13 +1,62 @@
 # Onboarding Playbook
 
-**Purpose:** Reference playbook for Heimdall client onboarding (Watchman trial → Sentinel paid). Not a decision doc — input material for the onboarding design we do post-SIRI.
+**Purpose:** Reference playbook for Heimdall client onboarding (Watchman free trial → Sentinel paid). Reference material — the actual Heimdall onboarding design was locked on 2026-04-23 (see below).
 **Ingested:** 2026-04-22
+**Updated:** 2026-04-23 (Heimdall-specific design section added)
 **Sources digested in this doc:**
 - Custify — *SaaS Customer Onboarding Guide* (Irina Vatafu, upd. 2026-04-01) — https://www.custify.com/blog/saas-customer-onboarding-guide/
 - Plecto — *SaaS Onboarding* (Sage Crawford, 2026-01-01) — https://www.plecto.com/blog/customer-service/saas-onboarding/
 - Rocketlane — *The Ultimate Guide to SaaS Customer Onboarding* — https://www.rocketlane.com/blogs/the-ultimate-guide-to-saas-customer-onboarding
 
-Sections labelled **[Custify]** below form the core structure. Sections labelled **[Plecto]** / **[Rocketlane]** add only material that was *not* already in Custify and that is *relevant to Heimdall* (restaurants/physios/barbershops, Telegram-first delivery, 199/399 kr. ARPU, solo operator). Material irrelevant to our model — Forward Deployed Engineers, steering committees, POCs for large ACVs, RACI charts, linear progress bars, training phases, self-segmentation tracks for technical vs. non-technical users — has been intentionally dropped.
+Sections labelled **[Custify]** below form the core structure. Sections labelled **[Plecto]** / **[Rocketlane]** add only material that was *not* already in Custify and that is *relevant to Heimdall* (restaurants/physios/barbershops, Telegram-first delivery, FREE Watchman trial + 399 kr. Sentinel ARPU, solo operator). Material irrelevant to our model — Forward Deployed Engineers, steering committees, POCs for large ACVs, RACI charts, linear progress bars, training phases, self-segmentation tracks for technical vs. non-technical users — has been intentionally dropped.
+
+---
+
+## Heimdall onboarding design — 2026-04-23 (supersedes speculation elsewhere in this doc)
+
+The Sentinel onboarding product is fully specified. Decision log: `docs/decisions/log.md` → 2026-04-23 entry. Full plan: `/Users/fsaf/.claude/plans/i-need-you-to-logical-pebble.md`.
+
+**Tiers (authoritative).** Watchman = FREE 30-day trial, Layer 1 only, Telegram delivery, no payment, no written consent. Sentinel = 399 kr./mo (339 kr./mo annual), Layer 1+2 with MitID Erhverv written consent, Betalingsservice direct-debit payment.
+
+**State machine (8 client statuses).** `prospect → watchman_pending → watchman_active → watchman_expired → onboarding → active → paused → churned`. Sentinel funnel detail lives in the separate `onboarding_stage` column (`upgrade_interest | pending_payment | pending_consent | pending_scope | provisioning`).
+
+**End-to-end flow.**
+1. Prospecting pipeline produces a brief; first-finding email sent (responsible-disclosure framing).
+2. Prospect replies with signup intent → magic link email → client opens Telegram via `/start <token>` → `watchman_active`, trial clock starts.
+3. 30 days of weekly Layer-1 scans, findings delivered via Telegram. First-scan "healthy" message sent once if no critical findings (D5), then silent.
+4. Day 23: conversion email fires (D3). Template selected at runtime (D2): scoreboard if findings exist, quiet-continuation if clean. Price stated upfront (D4). One reminder at Day 28 (D7).
+5. CTA click → SvelteKit signup page on Hetzner. MitID Erhverv login authenticates CVR. CVR matched against `data/enriched/companies.db` domain→CVR mapping (D20). Domain scope selected from Watchman-observed list + free-text (D11).
+6. Two PDFs presented on one page: (1) Subscription + DPA, (2) §263 scanning authorisation. Both signed in a single MitID action (D9/D12). Betalingsservice mandate registered (D18).
+7. Betalingsservice webhook → Hetzner endpoint → Pi5 activation handler via Tailscale Funnel. `clients.db` updated (status, plan, consent_granted, 7 `consent_records` audit rows). Valdí Gate 2 passes. First Sentinel scan scheduled.
+8. First Sentinel finding delivered with fix instructions (tier differentiator per Finding Interpreter).
+9. Offboarding: tiered retention (D16). Watchman non-converter: anonymise at 90d, purge at 1yr. Sentinel cancelled: anonymise PII at 30d, invoice records kept 5yr per Bogføringsloven.
+
+**12-message sequence.** Full drafts (DA + EN) at `/Users/fsaf/.claude/plans/i-need-you-to-logical-pebble.md`. Summary:
+
+| # | Name | Channel | Trigger |
+|---|------|---------|---------|
+| 0 | Magic link | Email | Signup-intent reply flagged |
+| 1 | Watchman kickoff | Email + Telegram | After `/start` |
+| 2 | Healthy scan (once) | Telegram | First clean scan |
+| 3 | Watchman finding | Telegram | Confirmed critical/high |
+| 4 | Conversion — scoreboard | Email + TG nudge | Day 23, findings ≥ 1 |
+| 5 | Conversion — quiet | Email + TG nudge | Day 23, clean trial |
+| 6 | Conversion reminder | Email | Day 28 |
+| 7 | Sentinel welcome | Email + Telegram | Signing + mandate OK |
+| 8 | First Sentinel finding (with fix) | Telegram | First confirmed Sentinel finding |
+| 9 | Dunning × 3 | Email | NACK on Betalingsservice debit |
+| 10 | Farewell | Email + Telegram | Cancellation |
+| 11 | Re-activation | Email (+TG if prior chat) | ≥ 90d churned + engaged |
+
+**Operator console views (V1–V6).** Trial-expiring, stuck-on-consent, stuck-on-payment, stuck-on-scope, funnel dashboard, retention queue. SQL in the plan file.
+
+**Schema additions.** 8 new `clients` columns (`trial_started_at`, `trial_expires_at`, `onboarding_stage`, `signup_source`, `churn_reason`, `churn_requested_at`, `churn_purge_at`, `data_retention_mode`). 6 new tables: `signup_tokens`, `subscriptions`, `payment_events`, `conversion_events`, `onboarding_stage_log`, `retention_jobs`. Schema and migration shipped in `docs/architecture/client-db-schema.sql` + `src/db/migrate.py`.
+
+**Costs locked.** Minimum running cost at 0 clients: ~56 kr./mo. Break-even: ~12 Sentinel clients. Unit economics: 81% / 93% / 98% gross margins at 50 / 200 / 1,000 clients. Aumento Law one-off: 21,000–38,500 kr. excl. moms.
+
+**Legal.** Active counsel: Anders Wernblad, Aumento Law (Plesner dropped 2026-04-23). 16-Q brief at `docs/legal/legal-briefing-outreach-20260414.md` being re-targeted.
+
+The sections below remain useful as external reference material. Where they disagree with the design above, the design above wins.
 
 ---
 
@@ -129,16 +178,16 @@ Churn after 90 days is a product-fit signal; churn inside 90 days is an onboardi
 
 ---
 
-## What this means for Heimdall (present, not decided)
+## What this means for Heimdall (resolved 2026-04-23)
 
-Three candidate next actions, each with a trade-off — **Federico decides**:
+The four candidate next actions previously listed here are all resolved or superseded by the 2026-04-23 design session:
 
-1. **Write Watchman + Sentinel onboarding SOPs before pilot.** Cost: half-day doc work. Benefit: prevents ad-hoc variance in the first 5 clients. Risk: premature if SIRI takes 6+ months.
-2. **Define time-to-first-value SLA — as a sequence of small-win deadlines, not a single number.** Post-FVD merge: welcome-ack, first-finding-delivered, first-alert-delivered, first-monthly-summary, each with its own target. Cost: small. Benefit: turns a soft claim into a measurable sequence. Risk: commits us before we know real operational load.
-3. **Build the onboarding survey into the Telegram welcome flow.** Cost: 1–2 dev days + bot UX. Benefit: captures desired outcomes in customer's own words (feeds interpreter tone). Risk: adds friction to the "first finding free" promise.
-4. **Define the first-90-day churn diagnostic split + the one-question end-of-onboarding feedback prompt, both before client #1.** Cost: near-zero (both are policy, not code). Benefit: the two cheapest pieces of the Plecto/Rocketlane merge; both need to exist at pilot start to be meaningful. Risk: none worth listing.
+1. **~~Write Watchman + Sentinel onboarding SOPs before pilot.~~** → Replaced by the end-to-end flow + 12-message sequence locked in the decision log entry above. The state machine + schema + consent audit trail *are* the SOP.
+2. **~~Define time-to-first-value SLA.~~** → Encoded into the flow: Watchman trial day 1 first-scan delivery (TTFV = one night), Sentinel day 1 first expanded scan (TTFV = same night as MitID signing + Betalingsservice mandate confirmation).
+3. **~~Build the onboarding survey into the Telegram welcome flow.~~** → Dropped. D6 skips the Day-14 nudge; D5 limits "system alive" confirmation to one message. The interpreter tone captures client context from the brief + first findings, not a survey.
+4. **~~First-90-day churn diagnostic + end-of-onboarding feedback prompt.~~** → Encoded into the 12-message sequence (Message 10 Cancellation + Message 11 Re-activation handle re-engagement) and into the `churn_reason` column on `clients` (captured at cancellation time, reviewed in the operator console funnel dashboard V5).
 
-None of these are urgent — all are pilot-prep.
+Remaining speculative items in this doc (below) should be read as *external best-practice reference*, not outstanding Heimdall decisions.
 
 ---
 
