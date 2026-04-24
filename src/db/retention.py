@@ -1,12 +1,14 @@
 """Retention-job helpers for GDPR-aligned offboarding.
 
-Tiered retention policy (D16, 2026-04-23):
+Tiered retention policy (D16, 2026-04-23, revised 2026-04-24):
 
-- **Watchman non-converter**: anonymise at anchor + 90 days,
-  hard-purge at anchor + 365 days.
-- **Sentinel cancelled**: anonymise at anchor + 30 days. Invoice
-  records are retained 5 years per Bogføringsloven — handled at the
-  application layer, not scheduled as a retention job.
+- **Watchman non-converter**: hard-purge at the anchor (trial-expiry
+  timestamp). No anonymise stage — a free trial retains nothing past
+  expiry. The next cron tick claims and executes the purge.
+- **Sentinel cancelled**: anonymise at anchor + 30 days, then a
+  separate ``purge_bookkeeping`` job at anchor + 5 years for
+  ``subscriptions`` + ``payment_events`` only (Bogføringsloven 5-year
+  invoice retention).
 
 :func:`schedule_churn_retention` is the canonical entry point; it
 schedules the plan-appropriate jobs, flips
@@ -30,10 +32,20 @@ from datetime import UTC, datetime, timedelta
 from src.db.clients import get_client
 from src.db.connection import _now
 
-VALID_RETENTION_ACTIONS: set[str] = {"anonymise", "purge", "export"}
+VALID_RETENTION_ACTIONS: set[str] = {
+    "anonymise",
+    "purge",
+    # Bogføringsloven 5-year bookkeeping purge for Sentinel — runs against
+    # subscriptions + payment_events only, after all other retention is done.
+    "purge_bookkeeping",
+    "export",
+}
 
 VALID_RETENTION_JOB_STATUSES: set[str] = {
     "pending",
+    # 'running' is claimed by the executor; see claim_due_retention_jobs.
+    # A startup reaper moves long-stuck 'running' rows back to 'pending'.
+    "running",
     "completed",
     "failed",
     "cancelled",
@@ -46,10 +58,18 @@ VALID_DATA_RETENTION_MODES: set[str] = {
     "purged",
 }
 
-# D16 tier schedule, in days from the churn anchor.
-WATCHMAN_ANONYMISE_DAYS = 90
-WATCHMAN_PURGE_DAYS = 365
+# Tiered retention windows, in days from the churn anchor.
+#
+# Watchman has no constant here: a free trial retains no data past the
+# trial-expiry anchor. The purge runs at the anchor (scheduled_for =
+# anchor), claimed by the next cron tick.
 SENTINEL_ANONYMISE_DAYS = 30
+# Bogføringsloven: Danish bookkeeping law requires retention of invoice
+# records for five years after the end of the financial year they belong
+# to. We approximate "end of financial year + 5y" as anchor + 5 × 365 d;
+# this is conservative (the real boundary is later, not sooner, so the
+# delete is always after the legal minimum).
+SENTINEL_BOOKKEEPING_PURGE_DAYS = 5 * 365
 
 
 # ---------------------------------------------------------------------------
@@ -349,14 +369,17 @@ def schedule_churn_retention(
 ) -> list[dict]:
     """Schedule the plan-appropriate retention jobs for a churning client.
 
-    Watchman non-converter → two jobs:
-        - anonymise at anchor + 90 days
-        - purge     at anchor + 365 days
+    Watchman non-converter → one job:
+        - purge at the anchor (trial-expiry timestamp)
+      A free trial retains nothing. The purge claims on the next tick
+      and hard-deletes every row attached to the CVR (clients row
+      included — no tombstone). Only the ``retention_jobs`` audit row
+      itself survives.
 
-    Sentinel cancelled → one job:
-        - anonymise at anchor + 30 days
-      (Invoice records are kept 5 years per Bogføringsloven; that's a
-      business-layer constraint, not a retention job.)
+    Sentinel cancelled → two jobs:
+        - anonymise        at anchor + 30 days
+        - purge_bookkeeping at anchor + 5 years (subscriptions +
+          payment_events only, Bogføringsloven invoice retention).
 
     Also:
         - Flips ``clients.data_retention_mode`` to ``'purge_scheduled'``
@@ -405,18 +428,10 @@ def schedule_churn_retention(
             schedule_retention_job(
                 conn,
                 cvr,
-                "anonymise",
-                _iso_plus_days(anchor, WATCHMAN_ANONYMISE_DAYS),
-                notes="watchman non-converter — anonymise PII",
-            )
-        )
-        jobs.append(
-            schedule_retention_job(
-                conn,
-                cvr,
                 "purge",
-                _iso_plus_days(anchor, WATCHMAN_PURGE_DAYS),
-                notes="watchman non-converter — hard purge",
+                anchor,
+                notes="watchman non-converter — immediate hard purge "
+                "(no anonymise stage; free trial retains no data)",
             )
         )
     else:  # sentinel
@@ -428,6 +443,19 @@ def schedule_churn_retention(
                 _iso_plus_days(anchor, SENTINEL_ANONYMISE_DAYS),
                 notes="sentinel cancelled — anonymise PII "
                 "(invoice records retained 5y per Bogføringsloven)",
+            )
+        )
+        # B2: schedule the 5-year bookkeeping purge upfront so it appears
+        # immediately in operator console V6. The dispatcher handles
+        # subscriptions + payment_events rows at that horizon.
+        jobs.append(
+            schedule_retention_job(
+                conn,
+                cvr,
+                "purge_bookkeeping",
+                _iso_plus_days(anchor, SENTINEL_BOOKKEEPING_PURGE_DAYS),
+                notes="sentinel cancelled — Bogføringsloven 5y window: "
+                "purge subscriptions + payment_events",
             )
         )
 

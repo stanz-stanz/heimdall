@@ -5,6 +5,18 @@
 **Scope:** §3 (anonymise) + §4 (purge cascade) of `docs/architecture/retention-cron-options.md`.
 **Locked upstream (do not relitigate):** Q2 tombstone, Q3 null-at-anonymise, Q4 alert channel.
 
+> **2026-04-24 revision — Watchman anonymise corrections are now moot.**
+> Federico revised the retention policy later the same day: Watchman is a
+> free trial, we keep nothing past expiry. The Watchman anonymise stage
+> does not exist. All column-level anonymise guidance in this review
+> applies to **Sentinel only**. Watchman runs a single `purge` action at
+> the trial-expiry anchor that hard-deletes every row attached to the
+> CVR (clients row included — **no tombstone, Q2 revised to hard-delete**).
+> Sentinel corrections — CT snapshots, `consent_granted=0` at
+> `offboarding_triggered`, `signup_tokens` delete,
+> `delivery_retry.last_error` null, filesystem PDF delete — remain valid
+> as written.
+
 ---
 
 ## Agreement

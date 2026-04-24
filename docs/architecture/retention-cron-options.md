@@ -1,5 +1,19 @@
 # Retention-Execution Cron — Architecture Options
 
+> **2026-04-24 revision — supersedes §3 and parts of §4 for Watchman.**
+> Watchman is a free trial and retains **no data** past trial expiry.
+> `schedule_churn_retention` for Watchman now schedules exactly one
+> `purge` job at the trial-expiry anchor (immediate on next tick) — no
+> anonymise stage, no 90d/365d window. The clients row is
+> **hard-deleted** (Q2 revised from tombstone). Sentinel retention is
+> unchanged: 30-day anonymise + 5-year `purge_bookkeeping` for
+> `subscriptions` + `payment_events` per Bogføringsloven.
+>
+> Everywhere §3 or §4 of this doc references "Watchman anonymise at 90d"
+> or "Watchman purge at 365d", read "Watchman purge at anchor=0 days,
+> hard-delete, no anonymise." Sentinel-specific analysis remains valid.
+> Code reference: `src/db/retention.py::schedule_churn_retention`.
+
 **Status:** Proposal (2026-04-24). Decision-ready, not yet implemented.
 **Author:** Application Architect
 **Scope:** Where and how retention_jobs rows (`anonymise` / `purge` / `export`) are claimed and executed. DB layer (`src/db/retention.py`) shipped today in `9c58bc6` and is frozen for this proposal.

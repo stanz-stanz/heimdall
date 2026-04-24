@@ -28,6 +28,8 @@ _COLUMN_ADDS: list[tuple[str, str, str]] = [
     ("clients", "churn_requested_at", "TEXT"),
     ("clients", "churn_purge_at", "TEXT"),
     ("clients", "data_retention_mode", "TEXT NOT NULL DEFAULT 'standard'"),
+    # Retention cron claim tracking (2026-04-24 — B5 / architect §6 concurrency)
+    ("retention_jobs", "claimed_at", "TEXT"),
 ]
 
 

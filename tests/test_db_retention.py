@@ -10,11 +10,10 @@ from src.db.clients import create_client, get_client
 from src.db.connection import init_db
 from src.db.retention import (
     SENTINEL_ANONYMISE_DAYS,
+    SENTINEL_BOOKKEEPING_PURGE_DAYS,
     VALID_DATA_RETENTION_MODES,
     VALID_RETENTION_ACTIONS,
     VALID_RETENTION_JOB_STATUSES,
-    WATCHMAN_ANONYMISE_DAYS,
-    WATCHMAN_PURGE_DAYS,
     cancel_retention_job,
     list_due_retention_jobs,
     list_retention_jobs_for_cvr,
@@ -256,31 +255,30 @@ class TestSetDataRetentionMode:
 
 
 class TestScheduleChurnRetentionWatchman:
-    def test_schedules_anonymise_and_purge(self, db, watchman_client):
+    """Watchman is a free trial — no anonymise stage, immediate hard-purge
+    at the anchor. Revised 2026-04-24 from the initial 90d/365d read."""
+
+    def test_schedules_single_immediate_purge(self, db, watchman_client):
         anchor = "2026-04-24T00:00:00Z"
         jobs = schedule_churn_retention(
             db, cvr=watchman_client["cvr"], plan="watchman", anchor_at=anchor
         )
 
-        assert len(jobs) == 2
-        actions = [j["action"] for j in jobs]
-        assert actions == ["anonymise", "purge"]
+        assert len(jobs) == 1
+        assert jobs[0]["action"] == "purge"
+        assert jobs[0]["scheduled_for"] == anchor
 
-    def test_anonymise_at_plus_90d(self, db, watchman_client):
-        anchor = "2026-04-24T00:00:00Z"
+    def test_no_anonymise_step(self, db, watchman_client):
         jobs = schedule_churn_retention(
-            db, cvr=watchman_client["cvr"], plan="watchman", anchor_at=anchor
+            db, cvr=watchman_client["cvr"], plan="watchman"
         )
-        delta = _days_between(anchor, jobs[0]["scheduled_for"])
-        assert abs(delta - WATCHMAN_ANONYMISE_DAYS) < 1e-6
+        assert "anonymise" not in {j["action"] for j in jobs}
 
-    def test_purge_at_plus_365d(self, db, watchman_client):
-        anchor = "2026-04-24T00:00:00Z"
+    def test_notes_document_the_zero_retention_policy(self, db, watchman_client):
         jobs = schedule_churn_retention(
-            db, cvr=watchman_client["cvr"], plan="watchman", anchor_at=anchor
+            db, cvr=watchman_client["cvr"], plan="watchman"
         )
-        delta = _days_between(anchor, jobs[1]["scheduled_for"])
-        assert abs(delta - WATCHMAN_PURGE_DAYS) < 1e-6
+        assert "free trial retains no data" in jobs[0]["notes"]
 
     def test_updates_client_purge_at_to_final_job(self, db, watchman_client):
         anchor = "2026-04-24T00:00:00Z"
@@ -304,14 +302,14 @@ class TestScheduleChurnRetentionWatchman:
 
 
 class TestScheduleChurnRetentionSentinel:
-    def test_schedules_only_anonymise(self, db, sentinel_client):
+    def test_schedules_anonymise_and_bookkeeping_purge(self, db, sentinel_client):
         anchor = "2026-04-24T00:00:00Z"
         jobs = schedule_churn_retention(
             db, cvr=sentinel_client["cvr"], plan="sentinel", anchor_at=anchor
         )
 
-        assert len(jobs) == 1
-        assert jobs[0]["action"] == "anonymise"
+        assert len(jobs) == 2
+        assert [j["action"] for j in jobs] == ["anonymise", "purge_bookkeeping"]
 
     def test_anonymise_at_plus_30d(self, db, sentinel_client):
         anchor = "2026-04-24T00:00:00Z"
@@ -321,11 +319,20 @@ class TestScheduleChurnRetentionSentinel:
         delta = _days_between(anchor, jobs[0]["scheduled_for"])
         assert abs(delta - SENTINEL_ANONYMISE_DAYS) < 1e-6
 
+    def test_bookkeeping_purge_at_plus_5y(self, db, sentinel_client):
+        anchor = "2026-04-24T00:00:00Z"
+        jobs = schedule_churn_retention(
+            db, cvr=sentinel_client["cvr"], plan="sentinel", anchor_at=anchor
+        )
+        delta = _days_between(anchor, jobs[1]["scheduled_for"])
+        assert abs(delta - SENTINEL_BOOKKEEPING_PURGE_DAYS) < 1e-6
+
     def test_notes_mention_bogforingsloven(self, db, sentinel_client):
         jobs = schedule_churn_retention(
             db, cvr=sentinel_client["cvr"], plan="sentinel"
         )
-        assert "Bogføringsloven" in jobs[0]["notes"]
+        bookkeeping = [j for j in jobs if j["action"] == "purge_bookkeeping"][0]
+        assert "Bogføringsloven" in bookkeeping["notes"]
 
 
 class TestScheduleChurnRetentionCommon:
@@ -340,28 +347,33 @@ class TestScheduleChurnRetentionCommon:
             schedule_churn_retention(db, cvr="99999999", plan="watchman")
 
     def test_defaults_anchor_to_now(self, db, watchman_client):
-        # With no explicit anchor, both jobs should be ~WATCHMAN_* days
-        # into the future from test execution.
+        # With no explicit anchor, the single Watchman purge job's
+        # scheduled_for equals "now" (immediate — the cron claims it on
+        # the next tick).
         jobs = schedule_churn_retention(
             db, cvr=watchman_client["cvr"], plan="watchman"
         )
         now = datetime.now(UTC).replace(microsecond=0)
-        anonymise_at = datetime.strptime(
+        scheduled = datetime.strptime(
             jobs[0]["scheduled_for"], "%Y-%m-%dT%H:%M:%SZ"
         ).replace(tzinfo=UTC)
-        delta = anonymise_at - now
-        assert abs(delta - timedelta(days=WATCHMAN_ANONYMISE_DAYS)) < timedelta(
-            minutes=1
-        )
+        delta = abs(scheduled - now)
+        assert delta < timedelta(seconds=2)
 
 
 class TestEnumCoverage:
     def test_retention_actions_expected(self):
-        assert VALID_RETENTION_ACTIONS == {"anonymise", "purge", "export"}
+        assert VALID_RETENTION_ACTIONS == {
+            "anonymise",
+            "purge",
+            "purge_bookkeeping",
+            "export",
+        }
 
     def test_retention_statuses_expected(self):
         assert VALID_RETENTION_JOB_STATUSES == {
             "pending",
+            "running",
             "completed",
             "failed",
             "cancelled",

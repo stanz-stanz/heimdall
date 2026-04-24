@@ -1015,11 +1015,12 @@ CREATE TABLE IF NOT EXISTS retention_jobs (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
     cvr             TEXT NOT NULL,                   -- FK to clients.cvr
     action          TEXT NOT NULL,
-                                                     -- 'anonymise' | 'purge' | 'export'
+                                                     -- 'anonymise' | 'purge' | 'purge_bookkeeping' | 'export'
     scheduled_for   TEXT NOT NULL,                   -- ISO-8601 UTC
-    executed_at     TEXT,                            -- NULL until run
+    claimed_at      TEXT,                            -- ISO-8601 UTC when runner took the job (status='running')
+    executed_at     TEXT,                            -- NULL until run completes (success or failure)
     status          TEXT NOT NULL DEFAULT 'pending',
-                                                     -- 'pending' | 'completed' | 'failed' | 'cancelled'
+                                                     -- 'pending' | 'running' | 'completed' | 'failed' | 'cancelled'
     notes           TEXT,
     created_at      TEXT NOT NULL
 );
