@@ -92,11 +92,14 @@ class TestCreateSignupToken:
 
 class TestConsumeSignupToken:
     def test_consume_returns_payload(self, db):
+        # Note: email is intentionally nulled on consumption for GDPR
+        # Art 5(1)(e) compliance — see test_consume_nulls_email_for_gdpr
+        # below. The returned dict reflects the post-consumption state.
         issued = create_signup_token(db, cvr="12345678", email="owner@example.dk")
         consumed = consume_signup_token(db, issued["token"])
         assert consumed is not None
         assert consumed["cvr"] == "12345678"
-        assert consumed["email"] == "owner@example.dk"
+        assert consumed["email"] is None
         assert consumed["consumed_at"] is not None
 
     def test_double_consume_returns_none(self, db):
@@ -140,6 +143,24 @@ class TestConsumeSignupToken:
             tzinfo=UTC
         )
         assert consumed_at >= before
+
+    def test_consume_nulls_email_for_gdpr(self, db):
+        """GDPR Art 5(1)(e): the reply-from email is only needed during
+        the handshake; after consumption the duplicate on the token row
+        is no longer justified. CVR + source + consumed_at remain.
+        """
+        issued = create_signup_token(
+            db, cvr="12345678", email="owner@example.dk"
+        )
+        consumed = consume_signup_token(db, issued["token"])
+        assert consumed is not None
+        assert consumed["email"] is None
+
+        row = get_signup_token(db, issued["token"])
+        assert row["email"] is None
+        assert row["cvr"] == "12345678"
+        assert row["source"] == "email_reply"
+        assert row["consumed_at"] is not None
 
 
 # ---------------------------------------------------------------------------

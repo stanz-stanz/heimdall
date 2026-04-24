@@ -7,6 +7,8 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 
+import hashlib
+
 from src.db.clients import create_client, get_client
 from src.db.connection import init_db
 from src.db.conversion import list_conversion_events_for_cvr
@@ -96,6 +98,11 @@ class TestActivateWatchmanTrial:
         assert signup_events[0]["source"] == "operator_manual"
         payload = json.loads(signup_events[0]["payload_json"])
         assert payload["trial_days"] == WATCHMAN_TRIAL_DAYS
+        assert payload["telegram_chat_id"] == "chat-42"
+        # SHA-256 of the token is 64 hex chars; never the token itself.
+        expected_hash = hashlib.sha256(token["token"].encode("utf-8")).hexdigest()
+        assert payload["token_sha256"] == expected_hash
+        assert token["token"] not in signup_events[0]["payload_json"]
 
     def test_creates_client_when_absent(self, db):
         # No pre-existing clients row for this CVR.
@@ -182,6 +189,56 @@ class TestActivateWatchmanTrial:
 
         assert result["onboarding_stage"] is None
         assert result["status"] == "watchman_active"
+
+    def test_downgrades_consent_on_ex_sentinel_reactivation(self, db):
+        """Valdí audit: a pre-existing row with consent_granted=1 must be
+        downgraded to Layer 1 when a Watchman token activates it, so
+        Gate 2 cannot reach Layer 2 without a fresh written-consent
+        record.
+        """
+        create_client(
+            db,
+            cvr="44444444",
+            company_name="Former Sentinel ApS",
+            status="churned",
+            plan="sentinel",
+            consent_granted=1,
+        )
+        token = create_signup_token(db, cvr="44444444")
+
+        result = activate_watchman_trial(
+            db, token=token["token"], telegram_chat_id="chat-reactivated"
+        )
+
+        assert result["plan"] == "watchman"
+        assert result["status"] == "watchman_active"
+        assert result["consent_granted"] == 0
+
+    def test_new_client_consent_granted_defaults_to_zero(self, db):
+        token = create_signup_token(db, cvr="33333333")
+        result = activate_watchman_trial(
+            db,
+            token=token["token"],
+            telegram_chat_id="chat-new",
+            company_name="Net New ApS",
+        )
+        assert result["consent_granted"] == 0
+
+    def test_email_nulled_on_activation(self, db, prospect):
+        """GDPR Art 5(1)(e): reply-from email must not persist on the
+        consumed token. CVR + source + consumed_at remain as audit trail.
+        """
+        token = create_signup_token(
+            db, cvr=prospect["cvr"], email="owner@kro.dk"
+        )
+        activate_watchman_trial(
+            db, token=token["token"], telegram_chat_id="chat-42"
+        )
+        row = get_signup_token(db, token["token"])
+        assert row["email"] is None
+        assert row["cvr"] == prospect["cvr"]
+        assert row["source"] == "email_reply"
+        assert row["consumed_at"] is not None
 
     def test_double_activation_with_fresh_tokens_is_idempotent(
         self, db, prospect

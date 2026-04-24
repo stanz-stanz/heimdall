@@ -99,6 +99,13 @@ def consume_signup_token(conn: sqlite3.Connection, token: str) -> dict | None:
     consumed, or has expired. On success, marks the token consumed
     (single-use enforcement) and returns the row as a dict.
 
+    The ``email`` field is nulled at consumption time for GDPR Art 5(1)(e)
+    (storage-limitation) compliance — the reply-from address was only
+    needed to bind CVR ↔ email during the handshake; after consumption
+    the canonical contact_email lives on ``clients`` and the duplicate on
+    the token row is no longer justified. CVR + source + consumed_at
+    remain as the audit trail.
+
     Uses a conditional UPDATE that both sets ``consumed_at`` and asserts
     the token is still valid — so two concurrent ``consume_signup_token``
     calls for the same token cannot both succeed.
@@ -108,7 +115,8 @@ def consume_signup_token(conn: sqlite3.Connection, token: str) -> dict | None:
     cursor = conn.execute(
         """
         UPDATE signup_tokens
-           SET consumed_at = ?
+           SET consumed_at = ?,
+               email = NULL
          WHERE token = ?
            AND consumed_at IS NULL
            AND expires_at > ?

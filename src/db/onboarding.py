@@ -26,9 +26,12 @@ signup; D17 — Watchman trial window 30d).
 
 from __future__ import annotations
 
+import hashlib
 import json
 import sqlite3
 from datetime import UTC, datetime, timedelta
+
+from loguru import logger
 
 from src.db.connection import _now
 
@@ -124,11 +127,18 @@ def activate_watchman_trial(
 
         # 3. Decide create-vs-update without a second round-trip: try the
         #    update first, and only INSERT if nothing was updated.
+        #    ``consent_granted = 0`` is explicit: a Watchman token
+        #    authorises Layer 1 only. If the row previously held
+        #    consent_granted=1 (e.g. ex-Sentinel re-activating via a
+        #    Watchman token), downgrade to Layer 1 so the scheduler's
+        #    Gate 2 check (src/consent/validator.py) cannot reach
+        #    Layer 2 without a fresh written-consent record.
         update_cursor = conn.execute(
             """
             UPDATE clients
                SET status = 'watchman_active',
                    plan = 'watchman',
+                   consent_granted = 0,
                    telegram_chat_id = ?,
                    signup_source = ?,
                    trial_started_at = ?,
@@ -170,8 +180,11 @@ def activate_watchman_trial(
             )
 
         # 4. Record the conversion event so the funnel dashboard can
-        #    count signups. ``payload_json`` captures which magic-link
-        #    source the prospect came from.
+        #    count signups. Payload captures enough for Valdí forensic
+        #    reconstruction: which magic-link source, trial window, the
+        #    chat_id bound, and a SHA-256 fingerprint of the consumed
+        #    token (the token itself is never stored in the event log).
+        token_sha256 = hashlib.sha256(token.encode("utf-8")).hexdigest()
         conn.execute(
             """
             INSERT INTO conversion_events
@@ -181,10 +194,27 @@ def activate_watchman_trial(
             (
                 cvr,
                 signup_source,
-                json.dumps({"trial_days": WATCHMAN_TRIAL_DAYS}),
+                json.dumps(
+                    {
+                        "trial_days": WATCHMAN_TRIAL_DAYS,
+                        "telegram_chat_id": telegram_chat_id,
+                        "token_sha256": token_sha256,
+                    }
+                ),
                 now,
                 now,
             ),
+        )
+
+        # 5. GDPR data-minimisation (Art 5(1)(e)): the reply-from email
+        #    on the consumed token was only needed to bind CVR ↔ email
+        #    during the handshake. After consumption the canonical
+        #    contact_email lives on clients; nulling the token row's
+        #    email removes duplicate retention without losing the audit
+        #    trail (CVR + source + consumed_at remain).
+        conn.execute(
+            "UPDATE signup_tokens SET email = NULL WHERE token = ?",
+            (token,),
         )
 
         conn.commit()
@@ -193,6 +223,17 @@ def activate_watchman_trial(
         # including the token consumption, so the prospect can retry.
         conn.rollback()
         raise
+
+    # Grep-able forensic trail outside the DB for Valdí post-incident
+    # review. chat_id is hashed (not logged verbatim) to avoid PII in logs.
+    chat_id_sha8 = hashlib.sha256(
+        str(telegram_chat_id).encode("utf-8")
+    ).hexdigest()[:8]
+    logger.bind(
+        cvr=cvr,
+        signup_source=signup_source,
+        chat_id_sha8=chat_id_sha8,
+    ).info("watchman_trial_activated")
 
     row = conn.execute("SELECT * FROM clients WHERE cvr = ?", (cvr,)).fetchone()
     return dict(row)
