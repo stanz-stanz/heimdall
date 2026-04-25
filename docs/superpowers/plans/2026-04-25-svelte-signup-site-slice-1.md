@@ -199,7 +199,7 @@ with:
 Run: `python -c "from src.api.signup import router; print(router.prefix)"`
 Expected: `/signup` printed. No import error.
 
-(No commit yet — this lands in commit 1 with the rest of the backend changes in Task 7.)
+(No commit yet — this lands in commit 1 with the rest of the backend changes in Task 6.)
 
 ---
 
