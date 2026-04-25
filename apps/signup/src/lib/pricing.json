@@ -1,0 +1,30 @@
+{
+  "currency": "kr.",
+  "currency_label": "DKK",
+  "plans": [
+    {
+      "id": "watchman",
+      "name": "Watchman",
+      "price_monthly": 199,
+      "tagline": "Free 30-day trial, then 199 kr./month.",
+      "features": [
+        "Layer 1 monthly scans",
+        "Plain-language Telegram alerts",
+        "Critical-severity alerts within 24 h",
+        "Cancel anytime"
+      ]
+    },
+    {
+      "id": "sentinel",
+      "name": "Sentinel",
+      "price_monthly": 399,
+      "tagline": "Active monitoring with consent-gated probing.",
+      "features": [
+        "Everything in Watchman",
+        "Layer 2 active probes (with written consent)",
+        "Same-day alerts for actively-exploited CVEs",
+        "Quarterly Danish-language summary"
+      ]
+    }
+  ]
+}

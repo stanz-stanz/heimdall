@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Digital Vagt">
+  <rect width="32" height="32" rx="6" fill="#0b1120"/>
+  <path d="M16 5l9 3v8c0 6-4 10-9 12-5-2-9-6-9-12V8l9-3z" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M11 16l4 4 7-8" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
