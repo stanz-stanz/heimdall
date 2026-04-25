@@ -434,15 +434,30 @@ def main(argv: list | None = None) -> None:
         except OSError as exc:
             logger.error("Failed to write result for %s: %s", domain, exc)
 
-        # Save to client database (fail-safe: errors logged, not fatal)
+        # Save to client database (fail-safe: ordinary errors logged,
+        # not fatal — the result is already on disk). Bookkeeping-data
+        # integrity violations are an exception: they signal a duplicate
+        # payment_events conflict that blocks the partial UNIQUE
+        # migration, and silently continuing would erode the audit
+        # trail. Refuse to keep processing in that case.
         try:
             from src.db.connection import init_db
+            from src.db.migrate import LegacyDataIntegrityError
             from src.db.worker_hook import save_scan_to_db
 
             client_data_dir = os.environ.get("CLIENT_DATA_DIR", "data/clients")
             db_path = os.path.join(client_data_dir, "clients.db")
             db_conn = init_db(db_path)
             save_scan_to_db(db_conn, job, result)
+        except LegacyDataIntegrityError as exc:
+            logger.critical(
+                "FATAL worker_db_integrity for {}: {} — process exiting "
+                "non-zero so the container restart policy surfaces the "
+                "stop condition. Operator action required.",
+                domain,
+                exc,
+            )
+            sys.exit(2)
         except Exception:
             logger.opt(exception=True).error("db_hook_error for %s", domain)
 

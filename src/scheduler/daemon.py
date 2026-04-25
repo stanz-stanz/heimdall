@@ -336,6 +336,7 @@ def _start_retention_timer(conn: redis.Redis) -> None:
         # only exercise the command dispatcher do not need sqlite or
         # retention deps wired up).
         from src.db.connection import init_db
+        from src.db.migrate import LegacyDataIntegrityError
         from src.retention.runner import _default_redis_alert, tick
 
         db_path = _resolve_retention_db_path()
@@ -365,10 +366,33 @@ def _start_retention_timer(conn: redis.Redis) -> None:
                             )
                     finally:
                         db.close()
+            except LegacyDataIntegrityError as e:
+                # Bookkeeping-data integrity violation (e.g. duplicate
+                # payment_events rows blocking the (provider, external_id,
+                # event_type) UNIQUE migration). Refuse to silently
+                # continue — the operator must clean up the offending
+                # rows before the daemon can resume. Container restart
+                # policy will keep retrying until the duplicates are
+                # resolved, which is the intended fail-loud behavior.
+                #
+                # `os._exit(2)` (NOT `sys.exit(2)`) because we are inside
+                # a non-main thread: sys.exit only raises SystemExit in
+                # the current thread, leaving the daemon process alive
+                # without retention coverage. os._exit terminates the
+                # whole process immediately so the container restart
+                # policy can surface the stop condition.
+                logger.critical(
+                    "FATAL retention_tick_db_integrity: {} — process exiting "
+                    "non-zero so the container restart policy surfaces the "
+                    "stop condition. Operator action required.",
+                    e,
+                )
+                os._exit(2)
             except Exception:
-                # Swallow so the tick loop keeps running. The DB and
-                # Redis paths both have their own internal logging; the
-                # opt(exception) gives us a stack trace in console logs.
+                # Swallow ordinary transient errors so the tick loop
+                # keeps running. The DB and Redis paths both have their
+                # own internal logging; the opt(exception) gives us a
+                # stack trace in console logs.
                 logger.opt(exception=True).warning("retention_tick_failed")
 
             # Sleep in 5-second slices so shutdown does not wait the
