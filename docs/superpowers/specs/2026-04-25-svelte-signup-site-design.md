@@ -15,7 +15,7 @@ Heimdall has a complete backend pipeline (scan → consent → interpret → com
 **Locked context** from prior sessions:
 - D17 (2026-04-23): SvelteKit chosen for the public site.
 - D19 (2026-04-23): Hetzner Cloud, Falkenstein.
-- 2026-04-25 cloud-hosting plan: `adapter-static` + Caddy serves bundle directly; MitID OIDC redirect_uri lands on backend FastAPI; Postmark EU API for transactional email; Caddy reverse-proxies `signup.<domain>/api/*` to backend over Tailscale.
+- 2026-04-25 cloud-hosting plan: `adapter-static` + Caddy serves bundle directly; MitID OIDC redirect_uri lands on backend FastAPI; Postmark EU API for transactional email; Caddy reverse-proxies `signup.digitalvagt.dk/api/*` to backend over Tailscale.
 - Backend already shipped: `src/db/signup.py` (token issue + consume), `/start <token>` Telegram handler. The magic-link consumer has a server but no UI.
 
 ---
@@ -35,7 +35,7 @@ Heimdall has a complete backend pipeline (scan → consent → interpret → com
 
 **Explicitly deferred to later slices:**
 - Hetzner box provisioning, Caddyfile, Simply DNS records, TLS, Tailscale wiring → slice 2.
-- Postmark integration + Message 0 send → slice 2 or 3 (needs Postmark account + `mail.<domain>` DNS).
+- Postmark integration + Message 0 send → slice 2 or 3 (needs Postmark account + `mail.digitalvagt.dk` DNS).
 - Danish translations of all stub copy → slice 3 (after EN copy is approved).
 - Operator console "issue magic link" UI → slice 3 (separate backend endpoint to *issue* tokens; verify exists).
 - MitID Erhverv OIDC flow, scope picker, PDF generation, Betalingsservice mandate → separate Sentinel-onboarding slice (broker selection still pending).
@@ -55,7 +55,7 @@ Both the Vite dev proxy and the prod Caddy reverse-proxy **strip the leading `/a
                                 Public internet
                                        │
                                        ▼
-                              signup.<domain>:443
+                              signup.digitalvagt.dk:443
                           ┌────────────────────────┐
                           │ Caddy (signup box)     │
                           │ • serves /build/*      │
@@ -123,11 +123,11 @@ apps/signup/
 
 ## Magic-link flow
 
-1. User clicks the link in Message 0 email: `https://signup.<domain>/signup/consume?t=<32-char-token>`.
+1. User clicks the link in Message 0 email: `https://signup.digitalvagt.dk/signup/consume?t=<32-char-token>`.
 2. SvelteKit page `signup/consume/+page.svelte` reads `?t=<token>` from `$page.url.searchParams`.
 3. Page calls `POST /api/signup/consume` with `{token}` (Vite proxy → backend `/signup/consume` in dev; Caddy proxy in prod).
 4. Backend handler:
-   - Validates Origin header (rejects requests not from `signup.<domain>` in prod or `http://localhost:5173` in dev — dev allowlist from env var).
+   - Validates Origin header (rejects requests not from `signup.digitalvagt.dk` in prod or `http://localhost:5173` in dev — dev allowlist from env var).
    - Calls `src/db/signup.consume_token(token)`.
    - Returns `{ok: true, bot_username: "<from env TELEGRAM_BOT_USERNAME>"}` on success.
    - Returns `{ok: false, reason: "expired"|"used"|"invalid"}` on failure (HTTP 200 either way — payload carries the outcome; this is a UX-driven endpoint, not a REST-purist one).
@@ -291,7 +291,7 @@ signup-test:
 Anything below is **not** in slice 1; do not let scope creep pull it in:
 
 - Hetzner box provisioning, Caddyfile, Simply DNS records, TLS cert, Tailscale wiring (slice 2).
-- Postmark account setup, API key management, `mail.<domain>` SPF/DKIM/DMARC (slice 2 or 3).
+- Postmark account setup, API key management, `mail.digitalvagt.dk` SPF/DKIM/DMARC (slice 2 or 3).
 - Postmark integration + Message 0 sender code (slice 2 or 3).
 - Danish translations of stub copy (slice 3).
 - Final marketing copy (Federico writes; follow-up slice).

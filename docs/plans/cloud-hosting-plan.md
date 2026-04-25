@@ -26,7 +26,7 @@ The onboarding decisions (D17/D19, 2026-04-23) already selected Hetzner Cloud (F
                                           │
                               ┌───────────┴───────────┐
                               ▼                       ▼
-             signup.<heimdall-domain>        api.<heimdall-domain>
+             signup.digitalvagt.dk        api.digitalvagt.dk
                   (signup UX)                (console + webhook ingress)
                               │                       │
                   ┌───────────┴────────┐    ┌─────────┴──────────────┐
@@ -75,8 +75,8 @@ Key optimization: the backend no longer assumes "same compose and same published
 - 2 vCPU Ampere, 4 GB RAM, 40 GB NVMe.
 - Services: `caddy`, `tailscale`. No Node.js runtime. No `signup-app` container.
 - SvelteKit uses `adapter-static`. Caddy serves the pre-built static bundle directly from a named volume. The bundle is baked into a `ghcr.io/<owner>/heimdall-signup-static:<short-sha>` image in CI (`npm install` + `svelte-kit build`) — immutable pull-by-SHA on deploy, same discipline as backend services.
-- MitID OIDC `redirect_uri` lands on the backend FastAPI (`api.<domain>/api/signup/...`), not on the SvelteKit bundle.
-- SvelteKit → backend API path: two options (decided at scaffolding time): (a) Caddy reverse-proxy rule `signup.<domain>/api/* → backend Tailscale IP`; (b) SvelteKit fetches directly to public `api.<domain>`. Both are valid; see "Open items requiring decision".
+- MitID OIDC `redirect_uri` lands on the backend FastAPI (`api.digitalvagt.dk/api/signup/...`), not on the SvelteKit bundle.
+- SvelteKit → backend API path: **decided 2026-04-25** — Caddy reverse-proxy rule `signup.digitalvagt.dk/api/* → backend Tailscale IP` with `/api` prefix-strip. Backend FastAPI sees clean paths (`/signup/consume`, `/health`, etc.). SvelteKit bundle stays generic (relative `/api/*` fetches work in dev via Vite proxy and in prod via Caddy).
 - Stateful data: only cert/state artifacts (`caddy/data`, tailscale state).
 - Firewall: inbound `80/443` world, `22` tailscale only.
 - No DB or Redis persistence on this host.
@@ -93,19 +93,19 @@ Key optimization: the backend no longer assumes "same compose and same published
 
 ### Transactional email
 
-Backend FastAPI calls the Postmark EU API (`https://api.postmarkapp.com`, EU server region) with a server token stored in Secrets Manager (Docker secrets file, same pattern as other credentials). Templates rendered server-side. Sending subdomain: `mail.<domain>` (exact subdomain set at registrar setup).
+Backend FastAPI calls the Postmark EU API (`https://api.postmarkapp.com`, EU server region) with a server token stored in Secrets Manager (Docker secrets file, same pattern as other credentials). Templates rendered server-side. Sending subdomain: `mail.digitalvagt.dk` (exact subdomain set at registrar setup).
 
 DNS records required (set via Simply API at registrar setup):
 
-- SPF: `v=spf1 include:spf.mtasv.net ~all` on `mail.<domain>`
+- SPF: `v=spf1 include:spf.mtasv.net ~all` on `mail.digitalvagt.dk`
 - DKIM: 3 CNAME records (exact targets provided by Postmark on domain verification)
-- DMARC: `v=DMARC1; p=quarantine; rua=mailto:dmarc@<domain>; pct=100` on `_dmarc.<domain>`
+- DMARC: `v=DMARC1; p=quarantine; rua=mailto:dmarc@digitalvagt.dk; pct=100` on `_dmarc.digitalvagt.dk`
 
 Postmark cost: free tier covers ~100 emails/mo; ~112 kr/mo at 10k emails/mo. Used by Messages 0, 4, 5, 6, 7, 9, 10, 11 (see locked Sentinel onboarding plan for full message inventory).
 
 ### Betalingsservice webhook
 
-Webhook target is Hetzner Caddy `:443` (`api.<domain>/api/webhooks/betalingsservice`). **This supersedes the locked Sentinel plan integration diagram (line 543), which originally routed the webhook to Pi5 via Tailscale Funnel.** That path is no longer used.
+Webhook target is Hetzner Caddy `:443` (`api.digitalvagt.dk/api/webhooks/betalingsservice`). **This supersedes the locked Sentinel plan integration diagram (line 543), which originally routed the webhook to Pi5 via Tailscale Funnel.** That path is no longer used.
 
 Binding migration constraint: `clients.db` must be live on Hetzner and verified (Step 7 complete + integrity checks passed) before any production webhook URL is registered with NETS. Registering the webhook URL before Step 7 is complete will cause webhook delivery to a backend with no client data.
 
@@ -131,6 +131,7 @@ RTO: bounded by Hetzner regional restore time (no self-imposed SLA number). RPO:
 - Inter-box traffic: tailscale only.
 - Operator SSH: tailscale only, no public SSH.
 - Public ingress: Caddy on signup and backend hosts with Let's Encrypt HTTP-01.
+- **Domain allocation:** `digitalvagt.dk` is canonical; all subdomains (`signup`, `api`, `mail`, `_dmarc`) live under `.dk`. `digitalvagt.com` and `*.digitalvagt.com` 301-redirect to the `.dk` equivalent (handled by Caddy on the signup box for root + `signup.`; backend Caddy for `api.`). `.com` exists for brand protection.
 
 ## Security baseline (corrected by layer)
 
@@ -185,8 +186,8 @@ Pi5 (Cortex-A76) and Hetzner Ampere (Neoverse-N1) are both `linux/arm64` Docker 
   - node exporter (backend + signup).
 - Grafana remains backend-local (tailscale/operator access).
 - Synthetic uptime:
-  - external probe for `https://api.<domain>/health`,
-  - backend probe for `https://signup.<domain>/health` (or service health route).
+  - external probe for `https://api.digitalvagt.dk/health`,
+  - backend probe for `https://signup.digitalvagt.dk/health` (or service health route).
 
 ### Logging
 
@@ -231,16 +232,17 @@ Pi5 (Cortex-A76) and Hetzner Ampere (Neoverse-N1) are both `linux/arm64` Docker 
 - `src/db/migrate.py` (and `docs/architecture/client-db-schema.sql`)
   - add `UNIQUE (provider, external_id, event_type)` index on `payment_events` as a new migration step.
 - DNS records at Simply.com (D8 registrar)
-  - SPF, DKIM (3 CNAME records), DMARC for `mail.<domain>` via Simply API.
-  - DNSSEC enabled; Simply is a DK Hostmaster-accredited registrar. Cost: ~190 kr/yr total for `.dk` + `.com`.
+  - `digitalvagt.dk`: A/AAAA records for `signup`, `api`, `mail`, `_dmarc.` SPF + DKIM (3 CNAMEs) + DMARC for `mail.digitalvagt.dk` via Simply API.
+  - `digitalvagt.com`: A/AAAA records for root + `signup` + `api` pointing to the same Caddy hosts; Caddy serves `308 Permanent Redirect` to the `.dk` equivalent on every `.com` request.
+  - DNSSEC enabled on both zones; Simply is a DK Hostmaster-accredited registrar. Cost: ~190 kr/yr total for `.dk` + `.com`.
 - `src/api/app.py` (optional)
   - add `/healthz` alias only if compatibility is required; canonical remains `/health`.
 
 ### To create
 
 - `infra/compose/docker-compose.signup.yml` (caddy + tailscale only; no signup-app container)
-- `infra/caddy/Caddyfile.signup` (serves static bundle from volume; no `/api` proxy until inter-box path decided)
-- `infra/caddy/Caddyfile.backend` (public `443` for API + webhooks; `/app` restricted to Tailscale magic-DNS hostname)
+- `infra/caddy/Caddyfile.signup` (serves static bundle from volume; reverse-proxies `signup.digitalvagt.dk/api/*` to backend over Tailscale, stripping the `/api` prefix; also handles the `digitalvagt.com` → `digitalvagt.dk` 308 redirect for root and `signup.`)
+- `infra/caddy/Caddyfile.backend` (public `443` for API + webhooks; `/app` restricted to Tailscale magic-DNS hostname; 308 redirect `api.digitalvagt.com` → `api.digitalvagt.dk`)
 - `scripts/heimdall-deploy-signup` (pull `heimdall-signup-static:<sha>`, copy bundle to volume, restart caddy)
 - `scripts/heimdall-deploy-backend`
 - `scripts/restore_drill.sh`
@@ -295,8 +297,8 @@ Hosting costs only. For the full vendor cost table (Postmark, Dinero, Aumento La
 
 ## Verification checklist (corrected)
 
-1. `curl https://signup.<heimdall-domain>/health` returns 200 externally.
-2. `curl https://api.<heimdall-domain>/health` returns 200 externally.
+1. `curl https://signup.digitalvagt.dk/health` returns 200 externally.
+2. `curl https://api.digitalvagt.dk/health` returns 200 externally.
 3. `tailscale status` and `tailscale ping` are green between boxes.
 4. Inter-box API call from signup host to backend over tailscale succeeds.
 5. Intentional bad deploy rollback drill succeeds within target RTO.
@@ -314,5 +316,3 @@ Hosting costs only. For the full vendor cost table (Postmark, Dinero, Aumento La
 ## Open items requiring decision
 
 1. **GDPR Art 5(1)(e) retention basis for 5-year backups** — Backups carrying full client PII for 5 years require a documented lawful basis. Bogføringsloven covers `subscriptions` + `payment_events`; broader scan history (briefs, findings, enrichment data) is not covered by an obvious statutory basis. Legal review by Anders Wernblad (Aumento Law) required before the first backup is retained past the 30-day default.
-
-2. **Inter-box API path for SvelteKit → backend** — Two options at scaffolding time: (a) Caddy reverse-proxy rule on signup box: `signup.<domain>/api/* → backend Tailscale IP` (adds config surface, keeps SvelteKit bundle generic); (b) SvelteKit fetch directly to public `api.<domain>` (simpler, one less hop, exposes API hostname in bundle). Federico decides at scaffolding time.
