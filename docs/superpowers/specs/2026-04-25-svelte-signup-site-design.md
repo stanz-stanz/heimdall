@@ -201,11 +201,11 @@ def _allowed_origins() -> set[str]:
 def _open_clients_db(request: Request) -> sqlite3.Connection:
     """Resolve the clients.db connection from app state.
 
-    Mirrors the existing pattern: src/api/app.py wires
-    `app.state.clients_db_path` at startup; handlers open per-request
+    Mirrors the existing pattern: src/api/app.py:405 wires
+    `app.state.db_path` at startup; handlers open per-request
     connections so each handler sees a clean transactional view.
     """
-    db_path = getattr(request.app.state, "clients_db_path", None)
+    db_path = getattr(request.app.state, "db_path", None)
     if not db_path:
         raise HTTPException(503, "clients_db_unavailable")
     conn = sqlite3.connect(db_path, timeout=10)
