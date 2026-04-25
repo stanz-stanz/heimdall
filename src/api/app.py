@@ -33,6 +33,7 @@ from src.interpreter.interpreter import InterpreterError, interpret_brief
 
 from .console import router as console_router
 from .result_store import ResultStore
+from .signup import router as signup_router
 
 # Path parameter validation — rejects path traversal attempts
 _SAFE_NAME = re.compile(r"^[a-z0-9][a-z0-9.\-]{0,253}[a-z0-9]$")
@@ -414,6 +415,7 @@ def create_app(
 
     # Console router + static PWA files
     app.include_router(console_router)
+    app.include_router(signup_router)
     static_dir = Path(__file__).parent / "static"
     if static_dir.is_dir():
         app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")

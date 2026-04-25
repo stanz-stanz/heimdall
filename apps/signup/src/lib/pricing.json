@@ -1,0 +1,21 @@
+{
+  "currency": "kr.",
+  "currency_label": "DKK",
+  "plans": [
+    {
+      "id": "sentinel",
+      "name": "Sentinel",
+      "price_monthly": 399,
+      "tagline": "30-day free Watchman trial, then 399 kr./month.",
+      "features": [
+        "30-day Watchman trial — full monitoring, no card required",
+        "Continuous external attack-surface scans",
+        "Plain-language Telegram alerts within 24 h of any change",
+        "Layer 2 active probes once written consent is on file",
+        "Same-day alerts for actively-exploited CVEs",
+        "Quarterly Danish-language summary",
+        "Cancel anytime"
+      ]
+    }
+  ]
+}

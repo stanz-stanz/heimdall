@@ -1,0 +1,120 @@
+/* ============================================================
+   Heimdall Design Tokens — v1.3
+   Two themes: dark (default) and light. Token names are identical
+   across themes; only values swap. Select via data-theme on <html>.
+   ============================================================ */
+
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Backgrounds (5-level depth: darkest → lightest) */
+  --bg-deep: #060d1a;
+  --bg-base: #0b1120;
+  --bg-raised: #111b2e;
+  --bg-surface: #162037;
+  --bg-hover: #1c2a45;
+
+  /* Borders */
+  --border: #1e2d4a;
+  --border-subtle: #152238;
+
+  /* Text */
+  --text: #e2e8f0;
+  --text-dim: #7a8ba8;
+  --text-muted: #4a5b78;
+
+  /* Gold — brand only */
+  --gold: #f59e0b;
+  --gold-dim: #b47008;
+  --gold-glow: rgba(245, 158, 11, 0.12);
+
+  /* Severity — warm only */
+  --red: #ef4444;
+  --red-dim: rgba(239, 68, 68, 0.15);
+  --red-muted: rgba(239, 68, 68, 0.07);
+  --red-outline: rgba(239, 68, 68, 0.38);
+  --red-soft: #f87171;
+  --orange: #f97316;
+  --orange-dim: rgba(249, 115, 22, 0.15);
+
+  /* Non-severity semantic */
+  --green: #22c55e;
+  --green-dim: rgba(34, 197, 94, 0.15);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59, 130, 246, 0.12);
+
+  /* Elevation */
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --bg-overlay: #1e2c48;
+  --shadow-overlay:
+    0 10px 24px rgba(0, 0, 0, 0.55),
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(245, 158, 11, 0.18);
+  --overlay-backdrop: rgba(6, 13, 26, 0.72);
+
+  /* Background-effect stops (global.css body::before) */
+  --mesh-a: rgba(59, 130, 246, 0.04);
+  --mesh-b: rgba(245, 158, 11, 0.03);
+
+  /* Shape + motion */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-xs: 4px;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --transition: 180ms ease;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Backgrounds (5-level depth: lightest → slightly deeper) */
+  --bg-deep: #f4f6fa;
+  --bg-base: #eaeef5;
+  --bg-raised: #ffffff;
+  --bg-surface: #eef1f7;
+  --bg-hover: #dfe5ef;
+
+  /* Borders */
+  --border: #d2d9e4;
+  --border-subtle: #e3e8ef;
+
+  /* Text */
+  --text: #0f172a;
+  --text-dim: #475569;
+  --text-muted: #94a3b8;
+
+  /* Gold — brand only. Darkened to pass AA on white. */
+  --gold: #b45309;
+  --gold-dim: #92400e;
+  --gold-glow: rgba(180, 83, 9, 0.10);
+
+  /* Severity — warm only, darkened for AA on light */
+  --red: #dc2626;
+  --red-dim: rgba(220, 38, 38, 0.10);
+  --red-muted: rgba(220, 38, 38, 0.06);
+  --red-outline: rgba(220, 38, 38, 0.35);
+  --red-soft: #b91c1c;
+  --orange: #c2410c;
+  --orange-dim: rgba(194, 65, 12, 0.10);
+
+  /* Non-severity semantic */
+  --green: #15803d;
+  --green-dim: rgba(21, 128, 61, 0.10);
+  --blue: #1d4ed8;
+  --blue-dim: rgba(29, 78, 216, 0.10);
+
+  /* Elevation — softer conventional shadows */
+  --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --bg-overlay: #ffffff;
+  --shadow-overlay:
+    0 10px 24px rgba(15, 23, 42, 0.10),
+    0 4px 12px rgba(15, 23, 42, 0.06),
+    0 0 0 1px rgba(180, 83, 9, 0.22);
+  --overlay-backdrop: rgba(15, 23, 42, 0.32);
+
+  /* Background-effect stops */
+  --mesh-a: rgba(29, 78, 216, 0.04);
+  --mesh-b: rgba(180, 83, 9, 0.04);
+}

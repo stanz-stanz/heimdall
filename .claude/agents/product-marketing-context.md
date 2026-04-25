@@ -12,11 +12,11 @@
 
 **Product type:** B2B SaaS subscription (monthly/annual), delivered via messaging app.
 
-**Business model:** Two tiers, all prices excl. moms:
-- Watchman: 199 kr./mo (annual: 169 kr./mo) — trial/on-ramp tier. Passive scanning, plain-language alerts. Designed as a stepping stone to Sentinel, not a permanent product.
-- Sentinel: 399 kr./mo (annual: 339 kr./mo) — the actual product. Daily monitoring, active vulnerability testing (Layer 2), confirmed findings, step-by-step fix instructions.
+**Business model:** One paid tier, prices excl. moms:
+- Watchman: FREE 30-day trial. Passive scanning (Layer 1 only), plain-language alerts via Telegram. No payment, no written consent. Trial ends automatically after 30 days.
+- Sentinel: 399 kr./mo (annual: 339 kr./mo) — the only paid tier. Daily monitoring, active vulnerability testing (Layer 2 with MitID Erhverv written consent), confirmed findings, step-by-step fix instructions. Payment via Betalingsservice (NETS direct debit).
 
-Watchman exists because passive scans are nearly free to run — it's the low-commitment entry point. Sentinel is where real protection starts. Every SMB needs what Sentinel delivers; Watchman is a bridge to get there.
+Watchman is the free entry point — passive scans are nearly free to run. Sentinel is where real protection starts. Every SMB needs what Sentinel delivers; Watchman is a zero-friction bridge to get there.
 
 Acquisition: "First finding free" — passive scan produces real findings at near-zero cost, shared before asking for anything.
 
@@ -173,7 +173,7 @@ These rules are derived from `docs/campaign/marketing-keys-denmark.md` and apply
 - 40% of Danish SMBs lack adequate security (government statistic)
 - 211 million kr. government investment in SMB cybersecurity 2026-2029
 - Sentinel at 399 kr./mo — cheaper than every competitor's comparable offering
-- Watchman trial at 199 kr./mo — low-commitment entry point
+- Watchman: FREE 30-day trial — zero-friction entry point
 
 **Customers:** Pre-launch (pilot in progress, blocked by SIRI approval)
 

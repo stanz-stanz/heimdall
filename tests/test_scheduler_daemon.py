@@ -7,7 +7,12 @@ from unittest.mock import patch
 import fakeredis
 import pytest
 
-from src.scheduler.daemon import _handle_interpret, _handle_send, run_daemon
+from src.scheduler.daemon import (
+    _handle_interpret,
+    _handle_send,
+    _resolve_retention_db_path,
+    run_daemon,
+)
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -121,6 +126,38 @@ class TestSendHandler:
         """Send without campaign publishes error."""
         _handle_send(fake_redis, {})
         # Verify no crash — error is published to Redis
+
+
+class TestResolveRetentionDBPath:
+    """Verify the retention timer resolves db_path with the same precedence as init_db.
+
+    Regression guard for Codex P2 (2026-04-24): a stale ``/data/clients`` fallback
+    in the inline resolution caused the timer to point at an absolute prod path
+    in dev, where ``os.path.exists()`` would silently skip every tick.
+    """
+
+    def test_explicit_db_path_takes_precedence(self, monkeypatch):
+        """DB_PATH wins, even when CLIENT_DATA_DIR is also set."""
+        monkeypatch.setenv("DB_PATH", "/some/path/foo.db")
+        monkeypatch.setenv("CLIENT_DATA_DIR", "/should-be-ignored")
+
+        assert _resolve_retention_db_path() == "/some/path/foo.db"
+
+    def test_client_data_dir_used_when_db_path_unset(self, monkeypatch):
+        """CLIENT_DATA_DIR + /clients.db is the second-precedence resolution."""
+        monkeypatch.delenv("DB_PATH", raising=False)
+        monkeypatch.setenv("CLIENT_DATA_DIR", "/data/prod")
+
+        assert _resolve_retention_db_path() == "/data/prod/clients.db"
+
+    def test_falls_back_to_init_db_default_when_both_env_unset(self, monkeypatch):
+        """With no env vars, the timer must use the same default as init_db."""
+        from src.db.connection import _DEFAULT_DB_PATH
+
+        monkeypatch.delenv("DB_PATH", raising=False)
+        monkeypatch.delenv("CLIENT_DATA_DIR", raising=False)
+
+        assert _resolve_retention_db_path() == _DEFAULT_DB_PATH
 
 
 class TestDaemonMainIntegration:

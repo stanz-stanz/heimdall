@@ -43,6 +43,7 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
 
     monitoring_cfg = _load_monitoring_config()
     _start_monitoring_timer(conn, monitoring_cfg)
+    _start_retention_timer(conn)
 
     while not _shutdown_requested:
         try:
@@ -66,6 +67,14 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
         payload = cmd.get("payload", {})
         logger.info("Received command: {} payload={}", command, payload)
 
+        # Lazy-import LegacyDataIntegrityError so the dispatcher can
+        # elevate bookkeeping-integrity violations to fatal across every
+        # command handler that touches init_db (currently
+        # `_handle_monitor_clients`; future handlers inherit the policy
+        # for free). Lazy import matches the existing `init_db` import
+        # discipline on lines 338, 412.
+        from src.db.migrate import LegacyDataIntegrityError
+
         try:
             if command == "run-pipeline":
                 _handle_run_pipeline(conn, input_path, filters_path)
@@ -78,6 +87,32 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
             else:
                 logger.warning("Unknown command: {}", command)
                 _publish_result(conn, command, "error", f"Unknown command: {command}")
+        except LegacyDataIntegrityError as exc:
+            # Bookkeeping-data integrity violation (duplicate
+            # payment_events rows blocking the (provider, external_id,
+            # event_type) UNIQUE migration). Refuse to silently continue
+            # — the operator must clean up the offending rows before
+            # the daemon can resume. Container restart policy will keep
+            # retrying until the duplicates are resolved. sys.exit(2)
+            # is correct here because _run_loop is the main thread; the
+            # retention timer thread uses os._exit(2) for the same
+            # reason. Ordering matters: this catch must precede the
+            # broad `except Exception` below.
+            logger.critical(
+                "FATAL command_dispatch_db_integrity ({}): {} — process "
+                "exiting non-zero so the container restart policy "
+                "surfaces the stop condition. Operator action required.",
+                command,
+                exc,
+            )
+            try:
+                _publish_result(
+                    conn, command, "error",
+                    f"FATAL bookkeeping integrity violation — daemon exiting: {exc}",
+                )
+            except Exception:
+                pass  # best-effort; we are exiting anyway
+            sys.exit(2)
         except Exception as exc:
             logger.opt(exception=True).error("Command failed: {}", command)
             try:
@@ -280,6 +315,134 @@ def _start_monitoring_timer(conn: redis.Redis, cfg: dict) -> None:
     t.start()
 
 
+# ---------------------------------------------------------------------------
+# Retention-execution timer (D16 — 2026-04-24)
+# ---------------------------------------------------------------------------
+
+# 5-minute cadence. Mirrors architect's recommendation in
+# docs/architecture/retention-cron-options.md §2 (Option A).
+_RETENTION_TICK_SECONDS = 300
+
+
+def _resolve_retention_db_path() -> str:
+    """Resolve the daemon's DB path with the same precedence as ``init_db``.
+
+    Used by both the retention timer (:func:`_start_retention_timer`) and
+    the CT-monitor handler (:func:`_handle_monitor_clients`) so the two
+    callers can never point at different files.
+
+    Order:
+      1. ``DB_PATH`` env var (full file path, takes precedence).
+      2. ``CLIENT_DATA_DIR + /clients.db`` (deployed default, prod sets this).
+      3. ``src.db.connection._DEFAULT_DB_PATH`` (canonical fallback —
+         matches what ``init_db()`` uses with no args; keeps dev/prod
+         parity so the daemon never points at a different file from the
+         rest of the app).
+    """
+    explicit = os.environ.get("DB_PATH")
+    if explicit:
+        return explicit
+    client_data_dir = os.environ.get("CLIENT_DATA_DIR")
+    if client_data_dir:
+        return os.path.join(client_data_dir, "clients.db")
+    from src.db.connection import _DEFAULT_DB_PATH
+
+    return _DEFAULT_DB_PATH
+
+
+def _start_retention_timer(conn: redis.Redis) -> None:
+    """Start a daemon thread that runs ``src.retention.runner.tick`` every 5 min.
+
+    Peer of ``_start_monitoring_timer``. The tick:
+    - reaps stuck 'running' rows,
+    - atomically claims due pending rows,
+    - dispatches each to its action handler,
+    - handles backoff / terminal-failure alerting via Redis publish.
+
+    A top-level try/except inside the loop ensures that a deadlocked
+    retention execution (or a surprise exception in the runner) cannot
+    starve the command BRPOP loop. The thread runs daemon=True so
+    SIGTERM shutdown does not wait on it.
+    """
+
+    def _timer_loop() -> None:
+        # Lazy imports keep module-import of daemon light (tests that
+        # only exercise the command dispatcher do not need sqlite or
+        # retention deps wired up).
+        from src.db.connection import init_db
+        from src.db.migrate import LegacyDataIntegrityError
+        from src.retention.runner import _default_redis_alert, tick
+
+        db_path = _resolve_retention_db_path()
+        logger.info(
+            "Retention timer started — cadence={}s db={}",
+            _RETENTION_TICK_SECONDS,
+            db_path,
+        )
+
+        alert_cb = _default_redis_alert(conn)
+
+        while not _shutdown_requested:
+            try:
+                if not os.path.exists(db_path):
+                    # DB not yet initialised (fresh container start
+                    # ordering) — sleep and retry. Common on cold boot.
+                    logger.debug(
+                        "Retention timer: DB not found at {}, waiting", db_path
+                    )
+                else:
+                    db = init_db(db_path)
+                    try:
+                        n = tick(db, alert_cb=alert_cb)
+                        if n:
+                            logger.info(
+                                "Retention tick processed {} job(s)", n
+                            )
+                    finally:
+                        db.close()
+            except LegacyDataIntegrityError as e:
+                # Bookkeeping-data integrity violation (e.g. duplicate
+                # payment_events rows blocking the (provider, external_id,
+                # event_type) UNIQUE migration). Refuse to silently
+                # continue — the operator must clean up the offending
+                # rows before the daemon can resume. Container restart
+                # policy will keep retrying until the duplicates are
+                # resolved, which is the intended fail-loud behavior.
+                #
+                # `os._exit(2)` (NOT `sys.exit(2)`) because we are inside
+                # a non-main thread: sys.exit only raises SystemExit in
+                # the current thread, leaving the daemon process alive
+                # without retention coverage. os._exit terminates the
+                # whole process immediately so the container restart
+                # policy can surface the stop condition.
+                logger.critical(
+                    "FATAL retention_tick_db_integrity: {} — process exiting "
+                    "non-zero so the container restart policy surfaces the "
+                    "stop condition. Operator action required.",
+                    e,
+                )
+                os._exit(2)
+            except Exception:
+                # Swallow ordinary transient errors so the tick loop
+                # keeps running. The DB and Redis paths both have their
+                # own internal logging; the opt(exception) gives us a
+                # stack trace in console logs.
+                logger.opt(exception=True).warning("retention_tick_failed")
+
+            # Sleep in 5-second slices so shutdown does not wait the
+            # full 300 s. Same shape as the monitoring timer uses 60 s
+            # slices for its hourly cadence.
+            slept = 0
+            while slept < _RETENTION_TICK_SECONDS and not _shutdown_requested:
+                time.sleep(5)
+                slept += 5
+
+    t = threading.Thread(
+        target=_timer_loop, name="retention-timer", daemon=True
+    )
+    t.start()
+
+
 def _handle_monitor_clients(conn: redis.Redis, payload: dict) -> None:
     """Poll CertSpotter for every Sentinel client with monitoring enabled.
 
@@ -290,9 +453,12 @@ def _handle_monitor_clients(conn: redis.Redis, payload: dict) -> None:
     from src.client_memory.ct_monitor import poll_and_diff_client
     from src.db.connection import init_db
 
-    db_path = os.environ.get("DB_PATH") or os.path.join(
-        os.environ.get("CLIENT_DATA_DIR", "/data/clients"), "clients.db"
-    )
+    # Note: any LegacyDataIntegrityError raised by `init_db()` here
+    # bubbles to the dispatcher's specific `except` in `run_daemon`
+    # (lines ~88) and triggers a fatal sys.exit(2). The fail-closed
+    # policy lives at the dispatch layer so every command handler
+    # inherits it — see the comment block on the dispatcher catch.
+    db_path = _resolve_retention_db_path()
     if not os.path.exists(db_path):
         _publish_result(conn, "monitor-clients", "error", f"DB not found: {db_path}")
         return

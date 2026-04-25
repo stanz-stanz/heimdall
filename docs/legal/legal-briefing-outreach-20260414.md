@@ -1,8 +1,7 @@
 # Legal Briefing — Outreach, Scanning & Operations for Heimdall
 
-**Prepared for:** Legal consultation (Plesner / David van Boen)
-**Date:** 2026-03-29 (updated 2026-04-14)
-**Meeting:** Week of 2026-04-14
+**Prepared for:** Legal consultation (Anders Wernblad, Aumento Law)
+**Date:** 2026-03-29 (re-targeted to Aumento Law 2026-04-23; originally sent to Plesner / David van Boen 2026-04-14)
 **Prepared by:** Federico Alvarez, Heimdall
 
 ---

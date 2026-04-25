@@ -26,7 +26,13 @@ from src.delivery.approval import (
     request_approval,
     should_require_approval,
 )
-from src.delivery.bot import create_application, get_bot_token, get_operator_chat_id, load_config
+from src.delivery.bot import (
+    create_application,
+    get_bot_token,
+    get_operator_chat_id,
+    load_config,
+    register_start_handler,
+)
 from src.delivery.buttons import build_client_buttons, handle_client_callback
 from src.delivery.sender import send_with_logging
 from src.interpreter.interpreter import interpret_brief
@@ -91,6 +97,9 @@ class DeliveryRunner:
             handle_client_callback,
             pattern=r"^got_it:",
         ))
+
+        # /start <token> — Watchman-trial magic-link redemption.
+        register_start_handler(self._app)
 
         # Initialize the application (sets up the bot)
         await self._app.initialize()
