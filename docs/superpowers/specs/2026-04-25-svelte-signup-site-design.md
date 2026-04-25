@@ -25,9 +25,9 @@ Heimdall has a complete backend pipeline (scan → consent → interpret → com
 **This slice ships:**
 - Standalone SvelteKit project at `apps/signup/`, `adapter-static`.
 - Design tokens copied once from `src/api/frontend/src/styles/tokens.css`.
-- 6 routes: `/`, `/pricing`, `/signup/consume`, `/legal/{privacy,terms,dpa}` + SvelteKit defaults (404, 500).
-- Magic-link consumer end-to-end: SvelteKit page calls a new backend endpoint, renders Telegram deep-link + QR code on success, error UI on failure.
-- New FastAPI endpoint `POST /signup/consume` wrapping `src/db/signup.consume_token()`.
+- 6 routes: `/`, `/pricing`, `/signup/start`, `/legal/{privacy,terms,dpa}` + SvelteKit defaults (404, 500).
+- Magic-link landing end-to-end (validate-only): SvelteKit page calls a read-only backend endpoint, renders Telegram deep-link + QR code on success, error UI on failure. Token consumption happens later in the existing Telegram `/start` handler — not here.
+- New FastAPI endpoint `POST /signup/validate` wrapping `src/db/signup.get_signup_token()` (read-only).
 - i18n machinery: simple JSON dict + `t()` helper, EN as source of truth, DA placeholder file.
 - Light/dark theme support via the same no-FOUC bootstrap pattern as the operator console.
 - Vitest unit tests (i18n + api wrapper), pytest tests for the new endpoint.
@@ -60,8 +60,9 @@ Both the Vite dev proxy and the prod Caddy reverse-proxy **strip the leading `/a
                           │ Caddy (signup box)     │
                           │ • serves /build/*      │
                           │ • proxies /api/*       │──── Tailscale ───►  Backend FastAPI
-                          └────────────────────────┘                     /signup/consume
-                                                                         (calls src/db/signup.consume_token)
+                          └────────────────────────┘                     /signup/validate
+                                                                         (calls src/db/signup.get_signup_token — READ-ONLY)
+                                                                         /start <token> in Telegram → activate_watchman_trial
 ```
 
 Slice 1 stops at the dashed line above — only the SvelteKit + backend endpoint pair lands. Caddy + Hetzner are slice 2.
@@ -81,7 +82,7 @@ apps/signup/
       +layout.svelte            # nav, footer
       +page.svelte              # /
       pricing/+page.svelte      # /pricing (reads lib/pricing.json)
-      signup/consume/+page.svelte    # /signup/consume — the only functional route
+      signup/start/+page.svelte      # /signup/start — magic-link landing (validate-only)
       legal/
         privacy/+page.svelte    # /legal/privacy (Aumento Law disclaimer)
         terms/+page.svelte      # /legal/terms (Aumento Law disclaimer)
@@ -113,7 +114,7 @@ apps/signup/
 |------|---------|-----------------|
 | `/` | Landing page | H1 + 4 section stubs ("How it works", "What we monitor", "Pricing", "FAQ"); CTA button → `mailto:` until email-issue flow lands |
 | `/pricing` | Pricing | Watchman + Sentinel cards reading from `lib/pricing.json`; CTA → `mailto:` |
-| `/signup/consume?t=<token>` | Magic-link consumer | **Functional.** See "Magic-link flow" below. |
+| `/signup/start?t=<token>` | Magic-link landing (validate-only) | **Functional.** See "Magic-link flow" below. Page name mirrors Telegram `/start`. |
 | `/legal/privacy` | Privacy stub | H1 + disclaimer block: *"This is a placeholder. Final terms pending review by Anders Wernblad, Aumento Law. Do not rely on this text."* |
 | `/legal/terms` | Terms stub | Same disclaimer pattern |
 | `/legal/dpa` | DPA stub | Same disclaimer pattern |
@@ -121,59 +122,158 @@ apps/signup/
 
 ---
 
-## Magic-link flow
+## Magic-link flow — token consumption ownership
 
-1. User clicks the link in Message 0 email: `https://signup.digitalvagt.dk/signup/consume?t=<32-char-token>`.
-2. SvelteKit page `signup/consume/+page.svelte` reads `?t=<token>` from `$page.url.searchParams`.
-3. Page calls `POST /api/signup/consume` with `{token}` (Vite proxy → backend `/signup/consume` in dev; Caddy proxy in prod).
-4. Backend handler:
-   - Validates Origin header (rejects requests not from `signup.digitalvagt.dk` in prod or `http://localhost:5173` in dev — dev allowlist from env var).
-   - Calls `src/db/signup.consume_token(token)`.
-   - Returns `{ok: true, bot_username: "<from env TELEGRAM_BOT_USERNAME>"}` on success.
-   - Returns `{ok: false, reason: "expired"|"used"|"invalid"}` on failure (HTTP 200 either way — payload carries the outcome; this is a UX-driven endpoint, not a REST-purist one).
+**Critical constraint (Codex finding 1):** The existing Telegram `/start <token>` handler already consumes the token atomically via `activate_watchman_trial(conn, token, telegram_chat_id)` in `src/db/onboarding.py`. That function is the **sole** state-mutation point in the production Watchman-activation flow: token consumption + client upsert + `conversion_events` row + email-nulling all happen in one `BEGIN IMMEDIATE` transaction. If the SvelteKit landing also consumed the token, the subsequent Telegram `/start` would fail with `InvalidSignupToken` and the user would see a broken activation.
+
+The SvelteKit landing is therefore **validate-only** — it inspects the token's state without mutating it.
+
+### End-to-end flow
+
+1. User clicks the link in Message 0 email: `https://signup.digitalvagt.dk/signup/start?t=<32-char-urlsafe-token>`.
+2. SvelteKit page `signup/start/+page.svelte` reads `?t=<token>` from `$page.url.searchParams`.
+3. Page calls `POST /api/signup/validate` with `{"token": "<token>"}` (Vite proxy strips `/api` → backend `POST /signup/validate` in dev; Caddy proxy strips `/api` in prod).
+4. Backend handler (read-only, no DB writes):
+   - Validates `Origin` header (rejects requests not from `https://signup.digitalvagt.dk` in prod, `http://localhost:5173` in dev — allowlist from `SIGNUP_ALLOWED_ORIGINS` env var).
+   - Calls `src.db.signup.get_signup_token(conn, token)` — returns the row dict or `None`.
+   - Computes status:
+     - `None` → `{"ok": false, "reason": "invalid"}`
+     - row with `consumed_at IS NOT NULL` → `{"ok": false, "reason": "used"}`
+     - row with `expires_at <= now()` → `{"ok": false, "reason": "expired"}`
+     - otherwise → `{"ok": true, "bot_username": "<TELEGRAM_BOT_USERNAME env>"}`
+   - All responses are HTTP 200 (UX-driven payload, not REST-purist). HTTP 4xx is reserved for Origin/rate-limit failures.
 5. **On success**, page renders:
    - Heading: *"Almost there — open Telegram to finish."*
-   - Primary CTA: `<a href="https://t.me/<bot_username>?start=<token>">Open Telegram</a>` styled as a button.
-   - QR code below the button: `<img alt="Open Telegram on your phone — scan this code" src="<data-url>">`. QR generated client-side by the `qrcode` npm package (~5KB).
+   - Primary CTA: `<a href="https://t.me/<bot_username>?start=<token>">Open Telegram</a>` styled as a button. The token in the deep-link is what Telegram passes to the `/start` handler, which calls `activate_watchman_trial` and binds the `chat_id`.
+   - QR code below the button: `<img alt="Open Telegram on your phone — scan this code" src="<data-url>">`. QR generated client-side by the `qrcode` npm package (~5 KB).
    - Fallback text: *"No Telegram? Reply to the email and Federico will help."*
-   - Calls `history.replaceState({}, '', '/signup/consume')` to strip the token from the visible URL.
-6. **On failure**, page renders the reason-specific copy + the same fallback CTA.
+   - Calls `history.replaceState({}, '', '/signup/start')` to strip the token from the visible URL.
+6. **On failure**, page renders reason-specific copy + the same fallback CTA. The token is replaceState-stripped on failure too.
 
-**Why the bot username comes from the backend response** rather than a build-time env var: dev and prod use different bots (`@HeimdallSecurityDEVbot` in dev, prod TBD post-naming-session). Backend reads `TELEGRAM_BOT_USERNAME` env var; bundle stays generic.
+### Why this design closes the Codex token-race finding
 
-**Why `consume_token` semantics need verification before binding the response shape**: open question (see Open items below) — does `consume_token` write to `consent_records`? If yes, Valdí is on the path and Gate-2 must run.
+- The validate endpoint is **read-only** — concurrent calls from two browsers or a refresh loop cannot leave the DB in an inconsistent state.
+- The atomic write happens **once**, in `activate_watchman_trial`, which uses `BEGIN IMMEDIATE` + a conditional `UPDATE` on `signup_tokens.consumed_at` to enforce single-use. The `cursor.rowcount == 0` branch raises `InvalidSignupToken` and rolls back.
+- If a user clicks the magic link twice (browser back-forward, accidental refresh) the validate endpoint returns `ok=true` both times until Telegram `/start` runs, after which validate returns `reason=used`. The flow is idempotent at the SvelteKit layer.
+
+### Bot username delivery
+
+`TELEGRAM_BOT_USERNAME` env var on the backend container. Dev value: `HeimdallSecurityDEVbot`. Prod value: TBD post-Digital-Vagt-naming. Backend reads it at handler invocation; bundle stays generic. **Open item:** verify the env-var convention against `src/core/config.py` patterns before commit (next section).
 
 ---
 
 ## Backend additions
 
-New file: `src/api/signup.py` (or extension to existing `src/api/console.py` — implementer's call, prefer new module to avoid bloating console.py beyond its 9 endpoints).
+New file: `src/api/signup.py` (separate module — keeps `src/api/console.py` focused on operator endpoints; matches the `prefix="/console"` / `prefix="/signup"` separation by audience).
+
+### Router pattern (mirrors `src/api/console.py`)
 
 ```python
-# Sketch — actual implementation per python-expert + Codex review
-from fastapi import APIRouter, Request, HTTPException
-from src.db.signup import consume_token
+# Verified shape — aligned with src/api/console.py:23 and src/db/signup.py
+from __future__ import annotations
 
-router = APIRouter(prefix="/signup")
+import os
+import sqlite3
+from datetime import UTC, datetime
+from pathlib import Path
 
-ALLOWED_ORIGINS = os.environ.get("SIGNUP_ALLOWED_ORIGINS", "http://localhost:5173").split(",")
+from fastapi import APIRouter, HTTPException, Request
+from loguru import logger
+from pydantic import BaseModel
 
-@router.post("/consume")
-async def consume(request: Request, body: ConsumeBody):
-    if request.headers.get("origin") not in ALLOWED_ORIGINS:
+from src.db.signup import get_signup_token
+
+router = APIRouter(prefix="/signup", tags=["signup"])
+
+
+class ValidateBody(BaseModel):
+    token: str
+
+
+def _allowed_origins() -> set[str]:
+    raw = os.environ.get(
+        "SIGNUP_ALLOWED_ORIGINS",
+        "http://localhost:5173",
+    )
+    return {o.strip() for o in raw.split(",") if o.strip()}
+
+
+def _open_clients_db(request: Request) -> sqlite3.Connection:
+    """Resolve the clients.db connection from app state.
+
+    Mirrors the existing pattern: src/api/app.py wires
+    `app.state.clients_db_path` at startup; handlers open per-request
+    connections so each handler sees a clean transactional view.
+    """
+    db_path = getattr(request.app.state, "clients_db_path", None)
+    if not db_path:
+        raise HTTPException(503, "clients_db_unavailable")
+    conn = sqlite3.connect(db_path, timeout=10)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+@router.post("/validate")
+async def validate(request: Request, body: ValidateBody):
+    """Read-only check on a magic-link token. Never mutates state.
+
+    Returns 200 with a payload that the SvelteKit landing reads to
+    decide which UI to render. Token consumption happens later in
+    `src/db/onboarding.py:activate_watchman_trial` via the Telegram
+    `/start <token>` handler.
+    """
+    if request.headers.get("origin") not in _allowed_origins():
         raise HTTPException(403, "origin_not_allowed")
-    # Rate limit: 10 req/min per client IP — slowapi or equivalent.
-    result = consume_token(body.token)
+
+    conn = _open_clients_db(request)
+    try:
+        row = get_signup_token(conn, body.token)
+    finally:
+        conn.close()
+
+    if row is None:
+        return {"ok": False, "reason": "invalid"}
+    if row["consumed_at"] is not None:
+        return {"ok": False, "reason": "used"}
+    expires_at = datetime.fromisoformat(row["expires_at"].replace("Z", "+00:00"))
+    if expires_at <= datetime.now(UTC):
+        return {"ok": False, "reason": "expired"}
+
     return {
-        "ok": result.ok,
-        "reason": result.reason,
-        "bot_username": os.environ["TELEGRAM_BOT_USERNAME"] if result.ok else None,
+        "ok": True,
+        "bot_username": os.environ["TELEGRAM_BOT_USERNAME"],
     }
 ```
 
-**Wired into the FastAPI app** at `src/api/app.py` via `app.include_router(signup.router)`.
+### Wiring
 
-**Pytest coverage** in `tests/test_api_signup_consume.py` mirrors the patterns in `tests/test_db_signup.py`: valid token → 200 + ok=true; expired → 200 + ok=false + reason="expired"; bad origin → 403; rate-limited → 429.
+`src/api/app.py` adds `app.include_router(signup.router)` next to the existing `app.include_router(console.router)`. The router mounts under `/signup/*` (no `/api` prefix — matches existing FastAPI convention from `/console/*`, `/health`).
+
+### Rate limiting
+
+Slice 1 ships **without** a rate limiter. Reasons: (a) `slowapi` is not currently in `requirements.txt` (verified via grep); adding it is a separate dep decision; (b) the validate endpoint is read-only and idempotent — abuse impact is bounded to DB reads, not state writes. **Slice 2 must add a rate limiter** before the signup site goes public on Hetzner. Tracked in "Open items" + slice-2 scope. The Origin allowlist is the slice-1 abuse control.
+
+### Pytest coverage
+
+`tests/test_api_signup_validate.py` covers:
+- valid unconsumed token → 200 + `{ok: true, bot_username}`
+- nonexistent token → 200 + `{ok: false, reason: "invalid"}`
+- consumed token (call `consume_signup_token` first to mutate, then validate) → 200 + `{ok: false, reason: "used"}`
+- expired token (insert with `expires_at` in the past) → 200 + `{ok: false, reason: "expired"}`
+- bad Origin header → 403
+- two concurrent validate calls on the same valid token both succeed AND the DB token state is unchanged after both (no consumption)
+- token state asserted unchanged via `PRAGMA table_info(signup_tokens)` row count + `consumed_at IS NULL` check
+
+### End-to-end activation round-trip (per Codex finding 6)
+
+`tests/test_signup_round_trip.py` (new): exercises the full state transition, asserting validate-then-Telegram is the only path that mutates:
+
+1. Create a fresh signup token via `create_signup_token`.
+2. Call `POST /signup/validate` → assert `ok=true`. Re-query `signup_tokens` → assert `consumed_at IS NULL` (still unconsumed).
+3. Call `activate_watchman_trial(conn, token, "tg_chat_id_123")` directly (simulates Telegram `/start`).
+4. Assert: `clients` row has `status='watchman_active'`, `plan='watchman'`, `telegram_chat_id='tg_chat_id_123'`; `signup_tokens.consumed_at IS NOT NULL` and `email IS NULL`; `conversion_events` has one `signup` row for the CVR.
+5. Call `POST /signup/validate` again → assert `ok=false, reason="used"`.
+6. Race case: spawn two threads that simultaneously call `activate_watchman_trial`; assert exactly one succeeds and one raises `InvalidSignupToken`.
 
 ---
 
@@ -226,12 +326,14 @@ signup-test:
 - `tests/api.test.js`: fetch wrapper success path, error normalization for 4xx/5xx/network failure.
 
 **Pytest** (existing test suite):
-- `tests/test_api_signup_consume.py`: valid token, expired token, used token, invalid token, bad Origin (403), rate-limit hit (429). Mirrors the contract pattern from `tests/test_db_signup.py`.
+- `tests/test_api_signup_validate.py` — see "Pytest coverage" in Backend additions for the full case list.
+- `tests/test_signup_round_trip.py` — full validate → Telegram-activate → re-validate round-trip; race test on `activate_watchman_trial`.
 
 **Browser verification** (mandatory per `feedback_test_frontend_in_browser`):
 - `make signup-dev`, open `http://localhost:5173/`, walk all 6 routes manually.
-- `/signup/consume?t=<test-token-from-fixture>` shows Telegram CTA + QR.
-- `/signup/consume?t=invalid` shows error UI.
+- `/signup/start?t=<test-token-from-fixture>` shows Telegram CTA + QR.
+- `/signup/start?t=invalid` shows error UI.
+- After clicking the Telegram CTA in browser dev (no real Telegram redirect — just check the href), `/signup/start?t=<same-token>` still shows valid (token only consumed by Telegram bot).
 - DevTools Network tab: zero requests to external domains.
 - DevTools Console: no errors, no warnings.
 - Switch theme via DevTools `localStorage.setItem('heimdall.theme', 'light')` → reload → no FOUC.
@@ -244,11 +346,11 @@ signup-test:
 
 ## Security
 
-- **Origin validation** on `POST /signup/consume`. Allowlist from `SIGNUP_ALLOWED_ORIGINS` env var.
-- **Rate limit** 10 req/min per client IP (slowapi or equivalent — verify dep before adding).
-- **Token format**: `src/db/signup.py` must issue URL-safe base64 (no `+/=` padding) so `?t=<token>` doesn't need encoding. Verify during implementation; if format is unsafe, fix in `src/db/signup.py` (open-issue ticket).
+- **Origin validation** on `POST /signup/validate`. Allowlist from `SIGNUP_ALLOWED_ORIGINS` env var. Slice 1 single abuse control (read-only endpoint, no state mutation, idempotent).
+- **Rate limiter deferred to slice 2.** `slowapi` is not in `requirements.txt`; the dep + limiter wiring is a slice-2 concern alongside the Hetzner public exposure. Until then, the endpoint is read-only and the Origin allowlist limits cross-site abuse.
+- **Token format verified:** `src/db/signup.py` issues `secrets.token_urlsafe(24)` = 32 URL-safe characters (no `+/=` padding). No URL-encoding needed for the `?t=<token>` parameter.
 - **No third-party scripts in the bundle.** No analytics, no error tracking, no fonts from CDN, no embedded social widgets. Tokens in `?t=...` would leak via Referer header to any external load. Self-hosted favicon. **System font stack** (`font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`) — no font files to ship, no CDN load. Zero outbound network calls except to `/api/*`.
-- **`history.replaceState` strips the token** from the visible URL after consume call (whether success or failure) so the token doesn't sit in browser history past the page lifetime.
+- **`history.replaceState` strips the token** from the visible URL after the validate call (whether success or failure) so the token doesn't sit in browser history past the page lifetime.
 - **No tracking cookies set.** Only `localStorage["heimdall.theme"]` is written, which is strictly necessary (not subject to ePrivacy consent). Therefore: **no cookie consent banner.** Adding one later "to be safe" is a regression unless tracking is actually introduced.
 
 ## Accessibility (a11y)
@@ -264,25 +366,27 @@ signup-test:
 ## Verification checklist for slice 1 (writing-plans success criteria)
 
 1. `make signup-dev` opens at `http://localhost:5173`, all 6 routes render without error.
-2. `/signup/consume?t=<valid-test-token>` shows the Telegram deep-link button + QR code with the correct `?start=<token>` payload.
-3. `/signup/consume?t=invalid` shows the error UI with the fallback CTA.
-4. `make signup-build` produces a non-empty `apps/signup/build/` directory.
-5. `make signup-test` is green.
-6. `pytest tests/test_api_signup_consume.py` is green.
-7. The new FastAPI endpoint passed Codex review before its commit (`HEIMDALL_CODEX_REVIEWED=1` only after actual review).
-8. Theme bootstrap: light/dark switches via `localStorage` override, no FOUC on reload.
-9. DevTools Network tab during a full session shows zero requests to external domains.
-10. DevTools Console: zero errors, zero warnings.
+2. `/signup/start?t=<valid-test-token>` shows the Telegram deep-link button + QR code with the correct `https://t.me/<bot>?start=<token>` payload.
+3. `/signup/start?t=invalid` shows the error UI with the fallback CTA.
+4. `/signup/start?t=<expired-token>` and `/signup/start?t=<consumed-token>` each show their reason-specific UI.
+5. After validate succeeds, the DB token row is **unchanged** (`consumed_at IS NULL`, `email` not nulled). Verifies the no-mutation contract.
+6. `make signup-build` produces a non-empty `apps/signup/build/` directory.
+7. `make signup-test` is green (Vitest).
+8. `pytest tests/test_api_signup_validate.py tests/test_signup_round_trip.py` is green, including the round-trip and race tests.
+9. The new FastAPI endpoint + the `payment_events` migration both passed Codex review before their commits (`HEIMDALL_CODEX_REVIEWED=1` only after actual review).
+10. Theme bootstrap: light/dark switches via `localStorage` override, no FOUC on reload.
+11. DevTools Network tab during a full session shows zero requests to external domains.
+12. DevTools Console: zero errors, zero warnings.
+
+**Slice 1 acceptance is `dev-ready`, not `prod-ready`.** Hetzner deploy, Postmark Message-0 sender, public DNS, the `/health` Caddy responder, and the rate limiter are slice-2 work. A green slice-1 means: the SvelteKit project builds, the validate endpoint serves correct responses against the dev DB, the Telegram round-trip works against the dev bot, and the design tokens render in both themes. It does **not** mean a public user can sign up — that's slice 2.
 
 ---
 
 ## Open items (require resolution during implementation)
 
-1. **`consume_token` semantics**: does it write to `consent_records`, or only update `signup_tokens.consumed_at`? If consent_records is touched, Valdí is on the path and a Gate-2 check is required. **Action:** read `src/db/signup.py` first thing during implementation; loop in valdi if consent_records is touched.
-2. **Token URL-safety**: confirm tokens issued by `src/db/signup.py` are URL-safe base64. If not, fix in `src/db/signup.py` before binding the URL shape.
-3. **Rate-limit dependency**: confirm `slowapi` (or equivalent) is in `requirements.txt`. If not, python-expert decides between adding it and rolling a minimal limiter against Redis (already in the stack).
-4. **Bot username env var name**: settle on `TELEGRAM_BOT_USERNAME` (proposed) vs whatever convention exists in `src/core/config.py`. Use existing convention if there is one.
-5. **API path alignment with operator console**: console uses `/console/...`. Spec uses `/signup/...` for public signup paths. Confirm with python-expert during implementation that this matches the existing FastAPI router-prefix pattern.
+1. **Bot username env var name**: spec uses `TELEGRAM_BOT_USERNAME`. Verify against `src/core/config.py` conventions before commit; rename to match if a convention exists.
+2. **Signup-site `/health` route**: cloud-hosting plan verification step requires `curl https://signup.digitalvagt.dk/health → 200`. Slice-1 (dev-only) does not need this; slice 2 must add a Caddy `/health` static responder when the box is provisioned. Tracked here so the Hetzner runbook doesn't get caught off-guard.
+3. **`activate_watchman_trial` `company_name` parameter**: the function requires `company_name` if no client row exists for the CVR. Slice 1 uses test fixtures where the row pre-exists, so this is not exercised. Slice 3 (operator UI to issue magic links) needs to decide whether to enforce a clients-row precondition before token issuance, or pass `company_name` through. Not blocking slice 1.
 
 ---
 
@@ -308,7 +412,8 @@ Anything below is **not** in slice 1; do not let scope creep pull it in:
 - `~/.claude/plans/i-need-you-to-logical-pebble.md` — locked Sentinel onboarding plan (D1–D22).
 - `docs/plans/cloud-hosting-plan.md` — hosting + DevSecOps plan (committed 2026-04-25, includes the cloud-devsec critique resolutions).
 - `docs/business/onboarding-playbook.md` — onboarding flow + 12-message sequence.
-- `src/db/signup.py` — magic-link token table + `consume_token`.
+- `src/db/signup.py` — magic-link token CRUD: `create_signup_token`, `consume_signup_token`, `get_signup_token`, `expire_stale_tokens`.
+- `src/db/onboarding.py` — `activate_watchman_trial(conn, token, telegram_chat_id)` is the sole atomic state-mutation point in the Watchman activation flow. Called by the Telegram `/start <token>` handler.
 - `src/api/frontend/` — operator console, source of design tokens to copy.
 - `.claude/agents/architect/SKILL.md`, `.claude/agents/python-expert/SKILL.md` — agent ownership.
 

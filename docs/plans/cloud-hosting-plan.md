@@ -75,7 +75,7 @@ Key optimization: the backend no longer assumes "same compose and same published
 - 2 vCPU Ampere, 4 GB RAM, 40 GB NVMe.
 - Services: `caddy`, `tailscale`. No Node.js runtime. No `signup-app` container.
 - SvelteKit uses `adapter-static`. Caddy serves the pre-built static bundle directly from a named volume. The bundle is baked into a `ghcr.io/<owner>/heimdall-signup-static:<short-sha>` image in CI (`npm install` + `svelte-kit build`) — immutable pull-by-SHA on deploy, same discipline as backend services.
-- MitID OIDC `redirect_uri` lands on the backend FastAPI (`api.digitalvagt.dk/api/signup/...`), not on the SvelteKit bundle.
+- MitID OIDC `redirect_uri` lands on the backend FastAPI at a clean path (`https://api.digitalvagt.dk/signup/mitid-callback`), not on the SvelteKit bundle. The `/api` prefix is a signup-host proxy convenience only — backend FastAPI router prefixes are clean (`/signup`, `/console`, `/webhooks`, `/health`), matching the existing `src/api/console.py:23` pattern.
 - SvelteKit → backend API path: **decided 2026-04-25** — Caddy reverse-proxy rule `signup.digitalvagt.dk/api/* → backend Tailscale IP` with `/api` prefix-strip. Backend FastAPI sees clean paths (`/signup/consume`, `/health`, etc.). SvelteKit bundle stays generic (relative `/api/*` fetches work in dev via Vite proxy and in prod via Caddy).
 - Stateful data: only cert/state artifacts (`caddy/data`, tailscale state).
 - Firewall: inbound `80/443` world, `22` tailscale only.
@@ -105,7 +105,7 @@ Postmark cost: free tier covers ~100 emails/mo; ~112 kr/mo at 10k emails/mo. Use
 
 ### Betalingsservice webhook
 
-Webhook target is Hetzner Caddy `:443` (`api.digitalvagt.dk/api/webhooks/betalingsservice`). **This supersedes the locked Sentinel plan integration diagram (line 543), which originally routed the webhook to Pi5 via Tailscale Funnel.** That path is no longer used.
+Webhook target is Hetzner Caddy `:443` at the clean path `https://api.digitalvagt.dk/webhooks/betalingsservice` (no `/api` prefix — see "External clean paths" decision; `/api` is signup-host proxy convenience only). **This supersedes the locked Sentinel plan integration diagram (line 543), which originally routed the webhook to Pi5 via Tailscale Funnel.** That path is no longer used.
 
 Binding migration constraint: `clients.db` must be live on Hetzner and verified (Step 7 complete + integrity checks passed) before any production webhook URL is registered with NETS. Registering the webhook URL before Step 7 is complete will cause webhook delivery to a backend with no client data.
 
