@@ -67,6 +67,14 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
         payload = cmd.get("payload", {})
         logger.info("Received command: {} payload={}", command, payload)
 
+        # Lazy-import LegacyDataIntegrityError so the dispatcher can
+        # elevate bookkeeping-integrity violations to fatal across every
+        # command handler that touches init_db (currently
+        # `_handle_monitor_clients`; future handlers inherit the policy
+        # for free). Lazy import matches the existing `init_db` import
+        # discipline on lines 338, 412.
+        from src.db.migrate import LegacyDataIntegrityError
+
         try:
             if command == "run-pipeline":
                 _handle_run_pipeline(conn, input_path, filters_path)
@@ -79,6 +87,32 @@ def run_daemon(redis_url: str, input_path: Path, filters_path: Path) -> None:
             else:
                 logger.warning("Unknown command: {}", command)
                 _publish_result(conn, command, "error", f"Unknown command: {command}")
+        except LegacyDataIntegrityError as exc:
+            # Bookkeeping-data integrity violation (duplicate
+            # payment_events rows blocking the (provider, external_id,
+            # event_type) UNIQUE migration). Refuse to silently continue
+            # — the operator must clean up the offending rows before
+            # the daemon can resume. Container restart policy will keep
+            # retrying until the duplicates are resolved. sys.exit(2)
+            # is correct here because _run_loop is the main thread; the
+            # retention timer thread uses os._exit(2) for the same
+            # reason. Ordering matters: this catch must precede the
+            # broad `except Exception` below.
+            logger.critical(
+                "FATAL command_dispatch_db_integrity ({}): {} — process "
+                "exiting non-zero so the container restart policy "
+                "surfaces the stop condition. Operator action required.",
+                command,
+                exc,
+            )
+            try:
+                _publish_result(
+                    conn, command, "error",
+                    f"FATAL bookkeeping integrity violation — daemon exiting: {exc}",
+                )
+            except Exception:
+                pass  # best-effort; we are exiting anyway
+            sys.exit(2)
         except Exception as exc:
             logger.opt(exception=True).error("Command failed: {}", command)
             try:
@@ -419,6 +453,11 @@ def _handle_monitor_clients(conn: redis.Redis, payload: dict) -> None:
     from src.client_memory.ct_monitor import poll_and_diff_client
     from src.db.connection import init_db
 
+    # Note: any LegacyDataIntegrityError raised by `init_db()` here
+    # bubbles to the dispatcher's specific `except` in `run_daemon`
+    # (lines ~88) and triggers a fatal sys.exit(2). The fail-closed
+    # policy lives at the dispatch layer so every command handler
+    # inherits it — see the comment block on the dispatcher catch.
     db_path = _resolve_retention_db_path()
     if not os.path.exists(db_path):
         _publish_result(conn, "monitor-clients", "error", f"DB not found: {db_path}")
