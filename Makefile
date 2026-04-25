@@ -227,6 +227,11 @@ signup-verify: dev-up ## Run scripts/dev/verify_signup_slice1.py inside the dev 
 	@docker cp scripts/dev/verify_signup_slice1.py heimdall_dev-delivery-1:/app/scripts/dev/verify_signup_slice1.py
 	@docker exec heimdall_dev-delivery-1 python scripts/dev/verify_signup_slice1.py
 
+.PHONY: signup-issue-token
+signup-issue-token: dev-up ## Issue a fresh signup token + print the browser URL for /signup/start.
+	@docker cp scripts/dev/issue_signup_token.py heimdall_dev-delivery-1:/app/scripts/dev/issue_signup_token.py
+	@docker exec heimdall_dev-delivery-1 python scripts/dev/issue_signup_token.py
+
 # --- Compose lint / diff ------------------------------------------------
 
 .PHONY: compose-lint
