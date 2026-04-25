@@ -120,6 +120,8 @@ services:
       - CONSOLE_USER=${CONSOLE_USER:-}
       - CLIENT_DATA_DIR=/data/clients
       - BRIEFS_DIR=/data/briefs
+      - TELEGRAM_BOT_USERNAME=${TELEGRAM_BOT_USERNAME:-}
+      - SIGNUP_ALLOWED_ORIGINS=${SIGNUP_ALLOWED_ORIGINS:-}
     secrets:
       - telegram_bot_token
       - claude_api_key
