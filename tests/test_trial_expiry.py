@@ -9,11 +9,17 @@ import pytest
 from src.client_memory.trial_expiry import (
     expire_watchman_trial,
     find_expired_trials,
+    reconcile_watchman_expired_orphans,
     run_trial_expiry_sweep,
 )
 from src.db.clients import create_client, get_client
 from src.db.connection import init_db
-from src.db.retention import list_retention_jobs_for_cvr
+from src.db.retention import (
+    cancel_retention_job,
+    list_retention_jobs_for_cvr,
+    mark_retention_job_completed,
+    mark_retention_job_failed,
+)
 
 
 @pytest.fixture()
@@ -208,3 +214,134 @@ class TestRunTrialExpirySweep:
 
         # One succeeded, one failed — sweep reports 1, does not raise.
         assert count == 1
+
+
+# ---------------------------------------------------------------------------
+# reconcile_watchman_expired_orphans
+# ---------------------------------------------------------------------------
+
+
+class TestReconcileWatchmanExpiredOrphans:
+    def _seed_expired_without_job(self, db, cvr: str) -> dict:
+        """Create a watchman_expired client with no retention job.
+
+        Mimics the crash-between-commits scenario inside
+        ``expire_watchman_trial``.
+        """
+        return create_client(
+            db,
+            cvr=cvr,
+            company_name=f"Co {cvr}",
+            status="watchman_expired",
+            plan="watchman",
+            trial_started_at=_iso_offset(-35),
+            trial_expires_at=_iso_offset(-5),
+        )
+
+    def test_reconciles_orphan_by_scheduling_purge(self, db):
+        client = self._seed_expired_without_job(db, "11111111")
+
+        count = reconcile_watchman_expired_orphans(db)
+
+        assert count == 1
+        jobs = list_retention_jobs_for_cvr(db, client["cvr"])
+        assert len(jobs) == 1
+        assert jobs[0]["action"] == "purge"
+        assert jobs[0]["scheduled_for"] == client["trial_expires_at"]
+        # The "reconciled — " prefix is stamped on clients.churn_reason,
+        # not on retention_jobs.notes (that's the fixed schedule string).
+        assert "reconciled" in get_client(db, client["cvr"])["churn_reason"]
+
+    def test_ignores_expired_with_pending_purge(self, db):
+        # Healthy case: expire_watchman_trial ran to completion, so the
+        # client has a pending purge job. The reconciler must skip.
+        client = self._seed_expired_without_job(db, "11111111")
+        expire_watchman_trial.__globals__["schedule_churn_retention"](
+            db, client["cvr"], plan="watchman",
+            anchor_at=client["trial_expires_at"],
+            churn_reason="seeded healthy case",
+        )
+        assert len(list_retention_jobs_for_cvr(db, client["cvr"])) == 1
+
+        count = reconcile_watchman_expired_orphans(db)
+
+        assert count == 0
+        assert len(list_retention_jobs_for_cvr(db, client["cvr"])) == 1
+
+    def test_ignores_expired_with_running_job(self, db):
+        from src.db.retention import schedule_retention_job
+        client = self._seed_expired_without_job(db, "11111111")
+        # Simulate a job already claimed by the runner.
+        schedule_retention_job(
+            db, client["cvr"], "purge", client["trial_expires_at"],
+            notes="seeded",
+        )
+        db.execute(
+            "UPDATE retention_jobs SET status = 'running' WHERE cvr = ?",
+            (client["cvr"],),
+        )
+        db.commit()
+
+        assert reconcile_watchman_expired_orphans(db) == 0
+
+    def test_ignores_expired_with_completed_purge(self, db):
+        # A completed purge should also block reconciliation — the work
+        # is done even if a stale clients row somehow lingered.
+        from src.db.retention import schedule_retention_job
+        client = self._seed_expired_without_job(db, "11111111")
+        job = schedule_retention_job(
+            db, client["cvr"], "purge", client["trial_expires_at"],
+            notes="seeded",
+        )
+        mark_retention_job_completed(db, job["id"])
+
+        assert reconcile_watchman_expired_orphans(db) == 0
+
+    def test_reschedules_when_prior_job_failed_or_cancelled(self, db):
+        # A failed or cancelled job leaves the client un-purged — the
+        # reconciler SHOULD reschedule in that case.
+        from src.db.retention import schedule_retention_job
+        client = self._seed_expired_without_job(db, "11111111")
+        job = schedule_retention_job(
+            db, client["cvr"], "purge", client["trial_expires_at"],
+            notes="seeded",
+        )
+        mark_retention_job_failed(db, job["id"], error="synthetic")
+
+        count = reconcile_watchman_expired_orphans(db)
+
+        assert count == 1
+        jobs = list_retention_jobs_for_cvr(db, client["cvr"])
+        # Original failed row + new reconciled pending row.
+        assert len(jobs) == 2
+        pending = [j for j in jobs if j["status"] == "pending"]
+        assert len(pending) == 1
+
+    def test_cancelled_job_also_triggers_reschedule(self, db):
+        from src.db.retention import schedule_retention_job
+        client = self._seed_expired_without_job(db, "11111111")
+        job = schedule_retention_job(
+            db, client["cvr"], "purge", client["trial_expires_at"],
+        )
+        cancel_retention_job(db, job["id"])
+
+        assert reconcile_watchman_expired_orphans(db) == 1
+
+    def test_ignores_watchman_active_clients(self, db):
+        _make_watchman(db, "11111111", expires_offset_days=+5)  # still active
+        assert reconcile_watchman_expired_orphans(db) == 0
+
+    def test_ignores_sentinel_clients(self, db):
+        # A sentinel in churned / expired-ish state is not the reconciler's
+        # job — sentinel retention goes through a different operator path.
+        create_client(
+            db,
+            cvr="22222222",
+            company_name="Sentinel Co",
+            status="churned",
+            plan="sentinel",
+        )
+        assert reconcile_watchman_expired_orphans(db) == 0
+
+    def test_returns_zero_when_nothing_to_do(self, db):
+        assert reconcile_watchman_expired_orphans(db) == 0

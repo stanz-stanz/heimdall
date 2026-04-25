@@ -156,3 +156,64 @@ def run_trial_expiry_sweep(
                 "trial_expiry_failed: {}", exc
             )
     return count
+
+
+def reconcile_watchman_expired_orphans(
+    conn: sqlite3.Connection,
+    now: str | None = None,
+) -> int:
+    """Recover any ``watchman_expired`` clients with no retention job.
+
+    :func:`expire_watchman_trial` flips the status and schedules the
+    retention job under two separate commits. If the process crashes
+    between them — or if an operator sets ``status='watchman_expired'``
+    manually — the client is stuck: the purge will never fire.
+
+    This reconciler finds every ``watchman_expired`` row on the
+    ``watchman`` plan that has no ``purge`` / ``purge_bookkeeping``
+    retention job in any non-terminal state (pending / running) or
+    completed state, and schedules the missing purge at the trial-expiry
+    anchor.
+
+    Returns the count of orphans reconciled this run. Intended to be
+    called once at scheduler-daemon startup, before the trial-expiry
+    sweep begins its regular cadence.
+    """
+    when = now or _now()
+    orphans = conn.execute(
+        """
+        SELECT c.cvr, c.trial_expires_at
+          FROM clients c
+         WHERE c.status = 'watchman_expired'
+           AND c.plan = 'watchman'
+           AND NOT EXISTS (
+               SELECT 1 FROM retention_jobs r
+                WHERE r.cvr = c.cvr
+                  AND r.action IN ('purge', 'purge_bookkeeping')
+                  AND r.status IN ('pending', 'running', 'completed')
+           )
+        """,
+    ).fetchall()
+
+    count = 0
+    for row in orphans:
+        cvr = row["cvr"]
+        anchor = row["trial_expires_at"] or when
+        try:
+            jobs = schedule_churn_retention(
+                conn,
+                cvr,
+                plan="watchman",
+                anchor_at=anchor,
+                churn_reason=f"reconciled — {_EXPIRY_CHURN_REASON}",
+            )
+            logger.bind(
+                cvr=cvr,
+                retention_job_id=jobs[0]["id"],
+            ).warning("watchman_expired_orphan_reconciled")
+            count += 1
+        except Exception as exc:  # noqa: BLE001 — don't abort startup on one row
+            logger.bind(cvr=cvr).error(
+                "watchman_expired_reconcile_failed: {}", exc
+            )
+    return count
