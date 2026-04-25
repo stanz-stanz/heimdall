@@ -933,6 +933,14 @@ CREATE TABLE IF NOT EXISTS payment_events (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
     cvr             TEXT NOT NULL,                   -- FK to clients.cvr
     subscription_id INTEGER,                         -- FK to subscriptions.id (nullable for ad-hoc)
+    provider        TEXT NOT NULL DEFAULT 'betalingsservice',
+                                                     -- Source of the event row. Defaults to
+                                                     -- 'betalingsservice' for parity with the
+                                                     -- single-provider state in D18; the column
+                                                     -- is here so a later provider switch (e.g.
+                                                     -- a Stripe fallback) does not break the
+                                                     -- (provider, external_id, event_type)
+                                                     -- idempotency contract.
     event_type      TEXT NOT NULL,
                                                      -- 'invoice_issued' | 'mandate_registered'
                                                      -- | 'payment_succeeded' | 'payment_failed'
@@ -950,6 +958,13 @@ CREATE INDEX IF NOT EXISTS idx_payment_events_cvr_time
 
 CREATE INDEX IF NOT EXISTS idx_payment_events_subscription
     ON payment_events(subscription_id);
+
+-- The partial UNIQUE index `uq_payment_events_provider_extid_eventtype`
+-- on (provider, external_id, event_type) WHERE external_id IS NOT NULL
+-- is created in `src/db/migrate.py` AFTER the `provider` column is added
+-- to existing databases — placing it inline here would break ordering
+-- on legacy DBs whose payment_events table predates the column.
+-- Resolves R3 from the 2026-04-25 cloud-hosting plan.
 
 
 -- -----------------------------------------------------------------
