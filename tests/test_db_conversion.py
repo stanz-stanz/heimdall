@@ -261,6 +261,7 @@ class TestEnumCoverage:
 
     def test_conversion_event_types_expected(self):
         assert VALID_CONVERSION_EVENT_TYPES == {
+            # Funnel / prospect → trialist
             "signup",
             "cta_click",
             "upgrade_reply",
@@ -271,6 +272,15 @@ class TestEnumCoverage:
             "scope_confirmed",
             "abandoned",
             "cancellation",
+            # 2026-04-23 Sentinel consent + scope 7-row audit trail.
+            "contract_signed",
+            "scanning_authorisation_signed",
+            "scope_declared",
+            "authorisation_file_written",
+            "valdi_gate2_first_pass",
+            # 2026-04-24 retention lifecycle markers.
+            "offboarding_triggered",
+            "authorisation_revoked",
         }
 
     def test_stage_log_sources_expected(self):

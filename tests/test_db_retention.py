@@ -15,10 +15,12 @@ from src.db.retention import (
     VALID_RETENTION_ACTIONS,
     VALID_RETENTION_JOB_STATUSES,
     cancel_retention_job,
+    claim_due_retention_jobs,
     list_due_retention_jobs,
     list_retention_jobs_for_cvr,
     mark_retention_job_completed,
     mark_retention_job_failed,
+    reap_stuck_running_jobs,
     schedule_churn_retention,
     schedule_retention_job,
     set_data_retention_mode,
@@ -359,6 +361,170 @@ class TestScheduleChurnRetentionCommon:
         ).replace(tzinfo=UTC)
         delta = abs(scheduled - now)
         assert delta < timedelta(seconds=2)
+
+
+class TestClaimDueRetentionJobs:
+    def test_returns_empty_when_nothing_due(self, db):
+        schedule_retention_job(
+            db, "11111111", "purge", "2099-01-01T00:00:00Z"
+        )
+        assert claim_due_retention_jobs(db) == []
+
+    def test_claims_due_pending_rows_oldest_first(self, db):
+        b = schedule_retention_job(
+            db, "22222222", "purge", "2026-02-01T00:00:00Z"
+        )
+        a = schedule_retention_job(
+            db, "11111111", "purge", "2026-01-01T00:00:00Z"
+        )
+
+        claimed = claim_due_retention_jobs(db, now="2026-04-24T00:00:00Z")
+
+        assert [c["id"] for c in claimed] == [a["id"], b["id"]]
+        # Status flipped + claimed_at stamped.
+        for c in claimed:
+            assert c["status"] == "running"
+            assert c["claimed_at"] == "2026-04-24T00:00:00Z"
+
+    def test_does_not_re_claim_already_running(self, db):
+        schedule_retention_job(
+            db, "11111111", "purge", "2026-01-01T00:00:00Z"
+        )
+        first = claim_due_retention_jobs(db, now="2026-04-24T00:00:00Z")
+        second = claim_due_retention_jobs(db, now="2026-04-24T00:00:00Z")
+
+        assert len(first) == 1
+        assert second == []
+
+    def test_skips_completed_failed_cancelled(self, db):
+        good = schedule_retention_job(
+            db, "11111111", "purge", "2026-01-01T00:00:00Z"
+        )
+        done = schedule_retention_job(
+            db, "22222222", "purge", "2026-01-01T00:00:00Z"
+        )
+        bad = schedule_retention_job(
+            db, "33333333", "purge", "2026-01-01T00:00:00Z"
+        )
+        gone = schedule_retention_job(
+            db, "44444444", "purge", "2026-01-01T00:00:00Z"
+        )
+        mark_retention_job_completed(db, done["id"])
+        mark_retention_job_failed(db, bad["id"], error="x")
+        cancel_retention_job(db, gone["id"])
+
+        claimed = claim_due_retention_jobs(db, now="2026-04-24T00:00:00Z")
+
+        assert [c["id"] for c in claimed] == [good["id"]]
+
+    def test_respects_limit(self, db):
+        for i in range(5):
+            schedule_retention_job(
+                db, f"{i:08d}", "purge", "2026-01-01T00:00:00Z"
+            )
+
+        claimed = claim_due_retention_jobs(
+            db, now="2026-04-24T00:00:00Z", limit=2
+        )
+        assert len(claimed) == 2
+
+    def test_persists_status_running_after_commit(self, db):
+        job = schedule_retention_job(
+            db, "11111111", "purge", "2026-01-01T00:00:00Z"
+        )
+        claim_due_retention_jobs(db, now="2026-04-24T00:00:00Z")
+
+        # Re-fetch via a separate query path to confirm the commit.
+        rows = list_retention_jobs_for_cvr(db, "11111111")
+        assert rows[0]["id"] == job["id"]
+        assert rows[0]["status"] == "running"
+        assert rows[0]["claimed_at"] == "2026-04-24T00:00:00Z"
+
+
+class TestReapStuckRunningJobs:
+    def _claim_at(self, db, scheduled: str, claimed_at: str) -> dict:
+        """Helper: schedule a job and force its status=running + claimed_at."""
+        job = schedule_retention_job(db, "12345678", "purge", scheduled)
+        db.execute(
+            "UPDATE retention_jobs SET status = 'running', claimed_at = ? WHERE id = ?",
+            (claimed_at, job["id"]),
+        )
+        db.commit()
+        return job
+
+    def test_demotes_old_running_back_to_pending(self, db):
+        self._claim_at(
+            db,
+            scheduled="2026-04-24T00:00:00Z",
+            claimed_at="2026-04-24T00:00:00Z",  # 2h before "now"
+        )
+
+        n = reap_stuck_running_jobs(
+            db, timeout_seconds=3600, now="2026-04-24T02:00:00Z"
+        )
+
+        assert n == 1
+        rows = list_retention_jobs_for_cvr(db, "12345678")
+        assert rows[0]["status"] == "pending"
+        assert rows[0]["claimed_at"] is None
+
+    def test_leaves_recently_claimed_alone(self, db):
+        self._claim_at(
+            db,
+            scheduled="2026-04-24T00:00:00Z",
+            claimed_at="2026-04-24T01:30:00Z",  # 30m before "now"
+        )
+
+        n = reap_stuck_running_jobs(
+            db, timeout_seconds=3600, now="2026-04-24T02:00:00Z"
+        )
+
+        assert n == 0
+        rows = list_retention_jobs_for_cvr(db, "12345678")
+        assert rows[0]["status"] == "running"
+
+    def test_ignores_completed_and_pending_rows(self, db):
+        # Completed, far in the past — should not be reaped.
+        completed = schedule_retention_job(
+            db, "11111111", "purge", "2026-01-01T00:00:00Z"
+        )
+        mark_retention_job_completed(db, completed["id"])
+        # Plain pending — should not be reaped.
+        schedule_retention_job(
+            db, "22222222", "purge", "2026-01-01T00:00:00Z"
+        )
+
+        n = reap_stuck_running_jobs(db, now="2026-04-24T00:00:00Z")
+        assert n == 0
+
+    def test_returns_zero_when_nothing_to_reap(self, db):
+        assert reap_stuck_running_jobs(db) == 0
+
+    def test_reap_stuck_running_jobs_normalises_offset_now(self, db):
+        """Offset-aware ``now`` must be converted before the cutoff is stamped.
+
+        Job claimed at 07:30 UTC. ``now`` = 10:00+02:00 = 08:00 UTC, only
+        30m after the claim — under the 1h timeout, so the job should NOT
+        be reaped. Without .astimezone(UTC), the bug would treat the +02
+        wall clock as Z, producing cutoff = 09:00Z (2h ahead), and the
+        07:30Z claim would fall under the cutoff and get demoted.
+        """
+        self._claim_at(
+            db,
+            scheduled="2026-04-24T07:30:00Z",
+            claimed_at="2026-04-24T07:30:00Z",
+        )
+
+        n = reap_stuck_running_jobs(
+            db,
+            timeout_seconds=3600,
+            now="2026-04-24T10:00:00+02:00",
+        )
+
+        assert n == 0
+        rows = list_retention_jobs_for_cvr(db, "12345678")
+        assert rows[0]["status"] == "running"
+        assert rows[0]["claimed_at"] == "2026-04-24T07:30:00Z"
 
 
 class TestEnumCoverage:

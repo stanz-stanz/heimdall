@@ -28,6 +28,7 @@ from src.db.clients import VALID_ONBOARDING_STAGES, get_client
 from src.db.connection import _now
 
 VALID_CONVERSION_EVENT_TYPES: set[str] = {
+    # Funnel / prospect → trialist
     "signup",
     "cta_click",
     "upgrade_reply",
@@ -38,6 +39,24 @@ VALID_CONVERSION_EVENT_TYPES: set[str] = {
     "scope_confirmed",
     "abandoned",
     "cancellation",
+    # Sentinel consent + scope audit trail (2026-04-23 plan, 7-row trail).
+    # Written at onboarding by the onboarding handlers; surviving at
+    # retention time via the conversion_events table (not consent_records,
+    # which is cascaded at purge).
+    "contract_signed",
+    "scanning_authorisation_signed",
+    "scope_declared",
+    "authorisation_file_written",
+    "valdi_gate2_first_pass",
+    # Retention lifecycle markers. Written by the retention cron runner
+    # at start/end of anonymise / purge. ``authorisation_revoked`` must be
+    # inserted BEFORE the cascade deletes consent_records — the audit
+    # record survives in conversion_events, which retention at purge also
+    # deletes, but the *scheduling* is what matters: the row exists until
+    # its own CVR cascade runs, giving operator-console visibility while
+    # retention is in flight.
+    "offboarding_triggered",
+    "authorisation_revoked",
 }
 
 # Stage-log source labels. Free-form at the schema level, but we constrain

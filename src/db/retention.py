@@ -1,5 +1,19 @@
 """Retention-job helpers for GDPR-aligned offboarding.
 
+Claim-lock helpers
+------------------
+
+:func:`claim_due_retention_jobs` and :func:`reap_stuck_running_jobs`
+underpin the cron runner in ``src/retention/runner.py``. They were added
+in the 2026-04-24 retention-execution cron work; ``claim_due_retention_jobs``
+flips pending rows to ``status='running'`` inside a single
+``BEGIN IMMEDIATE`` transaction (SQLite 3.35+ ``UPDATE ... RETURNING``),
+and ``reap_stuck_running_jobs`` rescues rows stranded by a crashed
+executor by demoting them back to ``pending`` once ``claimed_at`` is
+older than a timeout. These sit in the DB layer because the atomicity
+guarantees belong to SQL, not to the orchestration layer.
+
+
 Tiered retention policy (D16, 2026-04-23, revised 2026-04-24):
 
 - **Watchman non-converter**: hard-purge at the anchor (trial-expiry
@@ -478,3 +492,141 @@ def schedule_churn_retention(
     conn.commit()
 
     return jobs
+
+
+# ---------------------------------------------------------------------------
+# Claim-lock helpers (cron runner)
+# ---------------------------------------------------------------------------
+#
+# These two helpers are the concurrency contract between the scheduler
+# daemon's retention timer (``src/retention/runner.py::tick``) and the
+# ``retention_jobs`` table. ``list_due_retention_jobs`` above is a plain
+# SELECT and is kept for read-only operator-console queries; the cron
+# path MUST use ``claim_due_retention_jobs`` so two ticks never both win
+# the same row.
+#
+# Architecture: see ``docs/architecture/retention-cron-options.md`` §6
+# (concurrency + locking). SQLite 3.35+'s ``UPDATE ... RETURNING`` under
+# ``BEGIN IMMEDIATE`` gives us atomic claim without adding a ``claimed_by``
+# column (architect explicitly argued against that — noise for a
+# single-writer deployment).
+
+
+def claim_due_retention_jobs(
+    conn: sqlite3.Connection,
+    now: str | None = None,
+    limit: int = 10,
+) -> list[dict]:
+    """Atomically claim up to ``limit`` due pending retention jobs.
+
+    Flips rows where ``status='pending'`` AND ``scheduled_for <= now``
+    over to ``status='running'`` inside a single ``BEGIN IMMEDIATE``
+    transaction. Stamps ``claimed_at = now`` so the reaper can identify
+    rows that have been running for too long.
+
+    The sqlite3 module handles rollback on exception automatically; a
+    successful claim commits.
+
+    Args:
+        conn: Database connection (read-write).
+        now: ISO-8601 UTC timestamp; defaults to the server clock.
+        limit: Maximum rows to claim in one call. Default 10 keeps the
+            worst-case tick bounded while still supporting burst drains.
+
+    Returns:
+        The claimed rows as dicts, oldest ``scheduled_for`` first.
+        Empty list if nothing is due.
+    """
+    when = now or _now()
+
+    # SQLite's UPDATE with subquery + RETURNING: we select the target ids
+    # in the subquery, constrain to LIMIT in the same statement, then
+    # RETURNING hands back the full row snapshot post-update. BEGIN
+    # IMMEDIATE acquires the writer lock for the entire claim so a peer
+    # connection's concurrent claim will either block (until we commit,
+    # seeing our updates) or fail with SQLITE_BUSY (and retry).
+    conn.execute("BEGIN IMMEDIATE")
+    try:
+        rows = conn.execute(
+            """
+            UPDATE retention_jobs
+               SET status = 'running',
+                   claimed_at = ?
+             WHERE id IN (
+                 SELECT id FROM retention_jobs
+                  WHERE status = 'pending' AND scheduled_for <= ?
+                  ORDER BY scheduled_for ASC, id ASC
+                  LIMIT ?
+             )
+             RETURNING *
+            """,
+            (when, when, limit),
+        ).fetchall()
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+
+    # SQLite's RETURNING clause does not honour the inner SELECT's ORDER BY
+    # — rows come back in rowid / insertion order. Re-sort in Python so the
+    # docstring's "oldest scheduled_for first" promise is kept.
+    claimed = [dict(r) for r in rows]
+    claimed.sort(key=lambda r: (r["scheduled_for"], r["id"]))
+    return claimed
+
+
+def reap_stuck_running_jobs(
+    conn: sqlite3.Connection,
+    timeout_seconds: int = 3600,
+    now: str | None = None,
+) -> int:
+    """Demote ``running`` rows stale beyond ``timeout_seconds`` back to ``pending``.
+
+    A retention tick that crashes mid-execute leaves its claimed row in
+    ``status='running'`` with a stamped ``claimed_at``. Without a reaper
+    the row would block forever. This function is called once at runner
+    start and periodically thereafter.
+
+    Args:
+        conn: Database connection (read-write).
+        timeout_seconds: How old ``claimed_at`` must be to qualify as
+            stuck. Default 1h covers the worst-case 5-min tick cadence
+            plus a generous safety margin against slow anonymise/purge
+            transactions on large histories.
+        now: ISO-8601 UTC timestamp; defaults to server clock.
+
+    Returns:
+        Number of rows demoted. 0 means nothing was stuck.
+    """
+    when = now or _now()
+    # Compute cutoff in Python rather than SQL because SQLite date math
+    # is awkward across timezones. Input is ISO-8601 UTC throughout.
+    if when.endswith("Z"):
+        ref = datetime.strptime(when, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
+    else:
+        ref = datetime.fromisoformat(when)
+        if ref.tzinfo is None:
+            ref = ref.replace(tzinfo=UTC)
+    # Normalise to UTC before stamping the literal `Z` suffix. _now() always
+    # returns Z-suffixed UTC, so this is a no-op in production — defensive
+    # against future / test callers passing offset-aware non-UTC inputs
+    # (Codex flagged 2026-04-25 / pass 3).
+    cutoff = (
+        (ref - timedelta(seconds=timeout_seconds))
+        .astimezone(UTC)
+        .strftime("%Y-%m-%dT%H:%M:%SZ")
+    )
+
+    cursor = conn.execute(
+        """
+        UPDATE retention_jobs
+           SET status = 'pending',
+               claimed_at = NULL
+         WHERE status = 'running'
+           AND claimed_at IS NOT NULL
+           AND claimed_at <= ?
+        """,
+        (cutoff,),
+    )
+    conn.commit()
+    return cursor.rowcount or 0
