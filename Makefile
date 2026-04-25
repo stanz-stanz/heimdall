@@ -223,8 +223,9 @@ signup-test: ## Run the signup-site Vitest suite.
 	cd apps/signup && npm install --prefer-offline && npm run test
 
 .PHONY: signup-verify
-signup-verify: ## Run scripts/dev/verify_signup_slice1.py against the running dev stack.
-	python -m scripts.dev.verify_signup_slice1
+signup-verify: dev-up ## Run scripts/dev/verify_signup_slice1.py inside the dev delivery container (RW client-data + scripts/dev mounted).
+	@docker cp scripts/dev/verify_signup_slice1.py heimdall_dev-delivery-1:/app/scripts/dev/verify_signup_slice1.py
+	@docker exec heimdall_dev-delivery-1 python scripts/dev/verify_signup_slice1.py
 
 # --- Compose lint / diff ------------------------------------------------
 
