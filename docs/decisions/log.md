@@ -5,6 +5,56 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-25 (afternoon) — Retention cron landed; Codex pre-commit gate; pre-dispatch checklist
+
+**Decided**
+
+Eight more commits on `feat/sentinel-onboarding` after the morning entry, taking today's total to 14:
+
+- `bec0f40` chore(hooks): pre-commit Codex review guard + Workflow Rules update
+- `816c7c3` feat(db): claim-lock helpers + retention audit event-types
+- `d63b138` feat(retention): execution cron — runner + action handlers
+- `70103ac` feat(scheduler): wire retention timer + DB-path helper
+- `65ee28b` fix(client_memory): trial-expiry race + sweep counter + DRYRUN skip
+
+Suite at **1201 passed, 16 skipped**. Eight Codex passes against the working tree drove six P1/P2 fixes before the final pass returned clean.
+
+**Codex pre-commit gate.** New hook `.claude/hooks/precommit_codex_review_guard.py` soft-blocks `git commit` on any `src/**/*.py` or `tests/**/*.py` diff unless prefixed with `HEIMDALL_CODEX_REVIEWED=1`. Mirrors the `HEIMDALL_APPROVED=1` pattern from `.githooks/pre-push`. CLAUDE.md Workflow Rules now codify both rules ("Codex review before the commit, not after" + "Graph before Grep") so they're discoverable, not just hook-enforced.
+
+**Valdí ruling on `consent_records`.** Anonymise must NOT touch `authorised_by_name` / `authorised_by_email` — the row is §263 evidence per GDPR Art 17(3)(e). Only `notes` is scrubbed and `status` flipped to `'revoked'`. Preserved through the +5y bookkeeping purge. **Wernblad confirmation pending** on whether the §263 stk. 3 (aggravated) 10-year limitation period applies; affects `purge_bookkeeping` schedule timing only, not the anonymise behaviour.
+
+**Q3 extension (locked 2026-04-25).** Same conservative-anonymise reasoning that nulls `scan_history.result_json` and `brief_snapshots.brief_json` at Sentinel 30d also nulls `prospects.brief_json` / `interpreted_json` / `error_message`. Same scraped-PII shape, same GDPR posture, no Bogføringsloven exemption.
+
+**Path-traversal hardening.** `_delete_client_filesystem` resolves both candidate and base, rejects `candidate == base` (empty/`.`-CVR data-loss vector) and `not candidate.is_relative_to(base)` (escape vector) with distinct log event names so post-incident greps separate the failure modes.
+
+**`expire_watchman_trial` returns `(client, transitioned)`.** Status-only re-reads cannot distinguish "I performed the CAS flip" from "another worker already did" — the multi-worker race over-counts otherwise. Sweep now counts only its own CAS wins.
+
+**`_resolve_retention_db_path()` helper.** Both daemon callers (retention timer + CT-monitor handler) go through one resolver with the same precedence chain as `init_db`. Closes the `/data/clients` (prod) vs `data/clients/clients.db` (dev) drift that made the timer skip every dev tick.
+
+**Pre-dispatch checklist memory.** New `feedback_pre_dispatch_checklist.md` codifies the antipattern bank (cascade completeness, NOT-NULL, path traversal, UTC normalisation, transaction boundaries, race semantics, schema-aware defaults) to apply BEFORE dispatching agents and AGAIN before sending to Codex. Codex stays as the safety net, not the first line.
+
+**Agent rename.** `cloud-devsecops-architect` → `cloud-devsec` per Federico's call. File + memory dir + all in-file references aligned. Harness restart needed (registry is loaded at session start, not re-scanned on file changes).
+
+**Rejected**
+
+- D16's literal "Watchman 90d anonymise / 365d purge" — superseded earlier the same day; this entry adds the implementation evidence.
+- Sentinel-string anonymisation of `consent_records` PII (Option a) — Valdí ruled preserve.
+- Schema NOT NULL relaxation on `consent_records` (Option b) — Valdí ruled preserve makes the schema change unnecessary.
+- python-expert dispatch for the `_handle_monitor_clients` follow-up — Federico's Anthropic limit pre-empted it; the 2-line helper-reuse swap was applied directly per the "trivial mechanical edits belong to me" line in the new checklist.
+
+**Unresolved**
+
+- Wernblad confirmation pending (5y vs 10y `consent_records` retention).
+- Branch `feat/sentinel-onboarding` has 14 commits today, ~22 local relative to `main`. Nothing pushed. No PR opened.
+- Untracked working-tree items: `.claude/agents/cloud-devsec.md` (renamed agent), `docs/plans/cloud-hosting-plan.md` (Federico's plan, not touched by the assistant). The agent file is committed in this wrap-up; the plan is left for Federico.
+- Harness restart pending so the agent registry picks up the `cloud-devsec` slug (the rename succeeded on disk but the running session still serves the old name from cache).
+
+**Next-session opener**
+
+"Push `feat/sentinel-onboarding` and open the PR — or pick the next critical-path item: operator console V1 (Trial expiring), Message 0 magic-link email sender, or the SvelteKit signup page scaffold."
+
+---
+
 ## 2026-04-25 — Retention + activation layer; Watchman zero-retention revision; agent-handoff correction
 
 **Decided**

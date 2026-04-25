@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-04-24T00:00:00Z",
-  "phase": "onboarding-design-locked — backend data layer in progress on feat/sentinel-onboarding",
+  "last_updated": "2026-04-25T11:00:00Z",
+  "phase": "onboarding backend complete — SvelteKit + operator console views next on feat/sentinel-onboarding",
   "current_sprint": {
     "name": "Sentinel Onboarding — End-to-End",
     "started": "2026-04-23",
     "target_end": "TBD (SIRI-gated for production cutover)",
-    "status": "plan locked, docs swept, backend data layer 50% (schema + signup + subscriptions shipped)",
-    "progress_pct": 30,
-    "notes": "2026-04-23 plan session produced 22 locked decisions (D1–D22), archived at ~/.claude/plans/i-need-you-to-logical-pebble.md. Key architectural commitments: Watchman = FREE 30-day trial (not 199 kr.); Sentinel = 399 kr./mo via Betalingsservice direct debit; one-click consent via MitID Erhverv (QES-grade, Danish-native); SvelteKit public site on Hetzner Cloud (EU residency); CVR-match domain verification (no DNS TXT / file upload); legal counsel re-targeted from Plesner to Anders Wernblad, Aumento Law; tiered retention (Watchman 90d anonymise/1yr purge, Sentinel 30d anonymise + 5yr invoices per Bogføringsloven). Branch feat/sentinel-onboarding has 6 commits: docs sweep, DB schema migration (6 tables + 8 clients columns + 5 indexes), onboarding-playbook extended, signup_tokens helpers (+16 tests), subscriptions+payment_events helpers (+24 tests). 1,029 non-integration tests passing (+35 new). MitID Erhverv sandbox is free → dev unblocked during SIRI wait."
+    "status": "backend complete: schema + signup + subscriptions + conversion + retention DB layer + retention cron + trial-expiry + /start handler + Valdí §263 hardening + pre-commit Codex gate. Frontend (SvelteKit signup site) + operator console V1–V6 are the next critical-path slice.",
+    "progress_pct": 65,
+    "notes": "2026-04-23 plan session produced 22 locked decisions (D1–D22), archived at ~/.claude/plans/i-need-you-to-logical-pebble.md. Key architectural commitments: Watchman = FREE 30-day trial (not 199 kr.); Sentinel = 399 kr./mo via Betalingsservice direct debit; one-click consent via MitID Erhverv (QES-grade, Danish-native); SvelteKit public site on Hetzner Cloud (EU residency); CVR-match domain verification (no DNS TXT / file upload); legal counsel re-targeted from Plesner to Anders Wernblad, Aumento Law. Tiered retention REVISED 2026-04-25 to Watchman zero-retention (immediate hard-purge at trial expiry, no anonymise stage, no tombstone — D16's literal '90d/365d' rejected as inconsistent with a free trial) and Sentinel 30d anonymise + 5y purge_bookkeeping (per Bogføringsloven). Valdí ruled `consent_records` is §263 evidence per GDPR Art 17(3)(e) — anonymise preserves structured PII; only `notes` scrubbed. Branch feat/sentinel-onboarding has ~22 commits (14 today): DB-layer additions, /start handler, retention cron (runner + actions + scheduler timer), trial-expiry scanner + reconciler, Codex pre-commit hook. 1,201 non-integration tests passing (+207 since 2026-04-18). 8 Codex passes drove 6 P1/P2 fixes in the retention slice before the gate returned clean. MitID Erhverv sandbox is free → dev unblocked during SIRI wait."
   },
   "completed_sprints": [
     {"name": "Sprint 1 — Consolidate & Ship", "status": "complete", "notes": "153 tests, structured logging, benchmarks"},
@@ -121,8 +121,8 @@
     "briefs_generated": 1173,
     "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
   },
-  "test_count": 1029,
-  "test_count_notes": "1029 unit tests (+35 since 2026-04-18). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
+  "test_count": 1201,
+  "test_count_notes": "1201 unit tests (+207 since 2026-04-18). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
   "blockers": [
     {
       "id": "B1",
@@ -140,15 +140,14 @@
     }
   ],
   "next_actions": [
-    "Push feat/sentinel-onboarding + open PR (6 commits: docs sweep, schema, playbook, signup, subscriptions)",
-    "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md",
+    "Push feat/sentinel-onboarding + open PR (~22 commits across 2026-04-24 / 2026-04-25 sessions: docs sweep, full backend slice, retention cron, /start handler, Codex pre-commit hook)",
+    "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md (now also carries the 5y vs 10y consent_records retention question — depends on whether §263 stk. 3 aggravated limitation applies)",
     "Pick MitID Erhverv broker (Idura / Criipto / Signicat) — sandboxes all free, unblocks dev during SIRI wait",
-    "Build src/db/conversion.py — conversion_events + onboarding_stage_log helpers (same pattern as signup/subscriptions)",
-    "Build src/db/retention.py — retention_jobs helpers + anonymise/purge runner for D16 tiered policy",
     "Scaffold SvelteKit signup site (Hetzner-deployable, reuses design-system tokens from src/api/frontend/)",
-    "Wire signup_tokens consumption to clients.status='watchman_active' transition + trial_started/expires_at + Telegram chat_id bind",
-    "Operator console views V1–V6 (trial-expiring, stuck-on-consent, stuck-on-payment, stuck-on-scope, funnel, retention queue)",
-    "SIRI video pitch script (still unwritten — blocks SIRI decision)"
+    "Operator console views V1–V6 (trial-expiring, stuck-on-consent, stuck-on-payment, stuck-on-scope, funnel, retention queue) — V1 + V6 implementable now against the shipped DB layer; V2-V5 wait on Betalingsservice webhook writing pending-state",
+    "Message 0 magic-link email sender (transactional email infra — Postmark or equivalent EU-residency provider; Federico to pick once cost vs deliverability is benchmarked)",
+    "SIRI video pitch script (still unwritten — blocks SIRI decision)",
+    "Restart Claude Code harness so the renamed cloud-devsec agent slug resolves (registry is loaded at session start, currently still serving cloud-devsecops-architect from cache)"
   ],
   "follow_ups": [
     "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",
