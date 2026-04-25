@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
+from io import StringIO
 
 import pytest
+from loguru import logger
 
 from src.client_memory.trial_expiry import (
     expire_watchman_trial,
@@ -110,12 +112,14 @@ class TestFindExpiredTrials:
 class TestExpireWatchmanTrial:
     def test_flips_status_to_watchman_expired(self, db):
         client = _make_watchman(db, "12345678", expires_offset_days=-1)
-        updated = expire_watchman_trial(db, client["cvr"])
+        updated, transitioned = expire_watchman_trial(db, client["cvr"])
         assert updated["status"] == "watchman_expired"
+        assert transitioned is True
 
     def test_schedules_single_immediate_purge(self, db):
         client = _make_watchman(db, "12345678", expires_offset_days=-1)
-        expire_watchman_trial(db, client["cvr"])
+        _, transitioned = expire_watchman_trial(db, client["cvr"])
+        assert transitioned is True
 
         jobs = list_retention_jobs_for_cvr(db, client["cvr"])
         assert len(jobs) == 1
@@ -126,13 +130,15 @@ class TestExpireWatchmanTrial:
 
     def test_stores_churn_reason(self, db):
         client = _make_watchman(db, "12345678", expires_offset_days=-1)
-        expire_watchman_trial(db, client["cvr"])
+        _, transitioned = expire_watchman_trial(db, client["cvr"])
+        assert transitioned is True
         row = get_client(db, client["cvr"])
         assert row["churn_reason"] == "watchman trial expired without conversion"
 
     def test_marks_data_retention_mode_purge_scheduled(self, db):
         client = _make_watchman(db, "12345678", expires_offset_days=-1)
-        expire_watchman_trial(db, client["cvr"])
+        _, transitioned = expire_watchman_trial(db, client["cvr"])
+        assert transitioned is True
         row = get_client(db, client["cvr"])
         assert row["data_retention_mode"] == "purge_scheduled"
 
@@ -163,7 +169,8 @@ class TestExpireWatchmanTrial:
             plan="watchman",
         )
         when = "2026-06-01T00:00:00Z"
-        expire_watchman_trial(db, "12345678", now=when)
+        _, transitioned = expire_watchman_trial(db, "12345678", now=when)
+        assert transitioned is True
 
         jobs = list_retention_jobs_for_cvr(db, "12345678")
         assert jobs[0]["scheduled_for"] == when
@@ -214,6 +221,69 @@ class TestRunTrialExpirySweep:
 
         # One succeeded, one failed — sweep reports 1, does not raise.
         assert count == 1
+
+    def test_sweep_count_excludes_raced_rows(self, db, monkeypatch):
+        # Two seeded rows: one will transition normally, the other will
+        # come back from expire_watchman_trial with transitioned=False —
+        # simulating the CAS race where a concurrent writer flipped the
+        # row out of 'watchman_active' between the SELECT and UPDATE.
+        # The sweep must count only the real transition.
+        _make_watchman(db, "11111111", expires_offset_days=-1)
+        _make_watchman(db, "22222222", expires_offset_days=-2)
+
+        original_expire = expire_watchman_trial
+        call_count = {"n": 0}
+
+        def raced_then_real(conn, cvr, **kwargs):
+            call_count["n"] += 1
+            if call_count["n"] == 1:
+                # Simulate the CAS race outcome: the function returns
+                # (row, False) — status unchanged, no retention scheduled.
+                row = dict(get_client(conn, cvr))
+                row["status"] = "watchman_active"
+                return row, False
+            return original_expire(conn, cvr, **kwargs)
+
+        monkeypatch.setattr(
+            "src.client_memory.trial_expiry.expire_watchman_trial",
+            raced_then_real,
+        )
+
+        count = run_trial_expiry_sweep(db)
+
+        # Only the second row genuinely transitioned.
+        assert count == 1
+
+    def test_sweep_does_not_count_concurrent_worker_winning_the_race(
+        self, db, monkeypatch
+    ):
+        # Codex P3 scenario: a concurrent worker has already flipped the
+        # row to 'watchman_expired' before our CAS UPDATE ran, so our
+        # rowcount==0 and the post-UPDATE re-read returns a row whose
+        # status is 'watchman_expired'. The fixed expire_watchman_trial
+        # must signal this with transitioned=False, and the sweep must
+        # NOT count it as a local success — otherwise two workers racing
+        # the same row would each report +1 and the operator metric
+        # would double-count every contended expiry.
+        _make_watchman(db, "11111111", expires_offset_days=-1)
+
+        def concurrent_worker_won(conn, cvr, **kwargs):
+            # Mirror what the real function would now return on a lost
+            # CAS where another worker already won: the post-re-read
+            # reflects 'watchman_expired', but transitioned is False.
+            row = dict(get_client(conn, cvr))
+            row["status"] = "watchman_expired"
+            return row, False
+
+        monkeypatch.setattr(
+            "src.client_memory.trial_expiry.expire_watchman_trial",
+            concurrent_worker_won,
+        )
+
+        count = run_trial_expiry_sweep(db)
+
+        # The concurrent worker did the work; we must not also count it.
+        assert count == 0
 
 
 # ---------------------------------------------------------------------------
@@ -345,3 +415,113 @@ class TestReconcileWatchmanExpiredOrphans:
 
     def test_returns_zero_when_nothing_to_do(self, db):
         assert reconcile_watchman_expired_orphans(db) == 0
+
+
+# ---------------------------------------------------------------------------
+# Race condition + DRYRUN skip + logger event-name regression coverage
+# ---------------------------------------------------------------------------
+
+
+class TestExpireWatchmanTrialRace:
+    """Concurrent writers between SELECT and UPDATE must not be clobbered."""
+
+    def test_stale_read_does_not_overwrite_concurrent_status_change(
+        self, db, monkeypatch
+    ):
+        # Real DB state: client is 'active' (already converted to Sentinel).
+        create_client(
+            db,
+            cvr="12345678",
+            company_name="Converted to Sentinel",
+            status="active",
+            plan="sentinel",
+            trial_started_at=_iso_offset(-30),
+            trial_expires_at=_iso_offset(-1),
+        )
+
+        # Simulate the race by having the FIRST get_client call return
+        # a stale 'watchman_active' snapshot (as if the read had landed
+        # before a concurrent Sentinel-conversion writer flipped the
+        # row). Subsequent calls — including the function's own final
+        # "return current state" lookup — read the real row.
+        real_row = get_client(db, "12345678")
+        stale_row = dict(real_row)
+        stale_row["status"] = "watchman_active"
+        calls = {"n": 0}
+
+        def stale_then_real(conn, cvr):
+            calls["n"] += 1
+            return stale_row if calls["n"] == 1 else real_row
+
+        monkeypatch.setattr(
+            "src.client_memory.trial_expiry.get_client",
+            stale_then_real,
+        )
+
+        # If the race fix is missing, schedule_churn_retention would fire.
+        # Patch it to raise so any call surfaces as a test failure.
+        def boom(*args, **kwargs):
+            raise AssertionError(
+                "schedule_churn_retention must not run on a raced row"
+            )
+
+        monkeypatch.setattr(
+            "src.client_memory.trial_expiry.schedule_churn_retention",
+            boom,
+        )
+
+        # Should NOT raise — the function detects the race and bails.
+        result, transitioned = expire_watchman_trial(db, "12345678")
+
+        # The returned row reflects current DB state (still 'active').
+        assert result["status"] == "active"
+        # Race-loss path must explicitly signal "this worker did nothing".
+        assert transitioned is False
+
+        # And no retention job was scheduled.
+        assert list_retention_jobs_for_cvr(db, "12345678") == []
+
+
+class TestRunTrialExpirySweepDryRunSkip:
+    """B7 default-lean: synthetic DRYRUN-* CVRs are skipped by the sweep."""
+
+    def test_dryrun_cvr_is_left_untouched_and_not_counted(self, db):
+        # Synthetic CVR — must be skipped.
+        _make_watchman(db, "DRYRUN-12345678", expires_offset_days=-1)
+        # Real CVR — must be expired normally.
+        _make_watchman(db, "11111111", expires_offset_days=-1)
+
+        count = run_trial_expiry_sweep(db)
+
+        # Only the real client counted.
+        assert count == 1
+
+        dryrun_row = get_client(db, "DRYRUN-12345678")
+        assert dryrun_row["status"] == "watchman_active"
+        assert list_retention_jobs_for_cvr(db, "DRYRUN-12345678") == []
+
+        real_row = get_client(db, "11111111")
+        assert real_row["status"] == "watchman_expired"
+        assert len(list_retention_jobs_for_cvr(db, "11111111")) == 1
+
+
+class TestLoggerEventNameContract:
+    """Federico's monitoring greps for the literal event name. Lock it in."""
+
+    def test_watchman_trial_expired_event_name_is_emitted(self, db):
+        buf = StringIO()
+        # Plain text sink so we can substring-match the event name. Loguru
+        # default handler is removed during the test so all output flows
+        # through ``buf``; we restore it in the finally block.
+        logger.remove()
+        sink_id = logger.add(buf, level="INFO", format="{message}")
+        try:
+            client = _make_watchman(db, "12345678", expires_offset_days=-1)
+            expire_watchman_trial(db, client["cvr"])
+        finally:
+            logger.remove(sink_id)
+            # Re-add a default-ish sink so subsequent tests are unaffected.
+            import sys
+            logger.add(sys.stderr, level="INFO")
+
+        assert "watchman_trial_expired" in buf.getvalue()

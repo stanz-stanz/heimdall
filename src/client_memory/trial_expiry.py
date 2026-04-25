@@ -41,6 +41,12 @@ from src.db.retention import schedule_churn_retention
 
 _EXPIRY_CHURN_REASON = "watchman trial expired without conversion"
 
+# Mirrors ``src/retention/runner.DRYRUN_CVR_PREFIX``. Synthetic targets
+# from dev dry-run scripts (``scripts/dev/cert_change_dry_run.py`` and
+# friends) must never have their state machine touched by real production
+# sweeps — re-declared locally to keep this module dependency-free.
+_DRYRUN_CVR_PREFIX = "DRYRUN-"
+
 
 def find_expired_trials(
     conn: sqlite3.Connection,
@@ -71,7 +77,7 @@ def expire_watchman_trial(
     cvr: str,
     *,
     now: str | None = None,
-) -> dict:
+) -> tuple[dict, bool]:
     """Mark one Watchman trial expired and schedule its hard-purge.
 
     Args:
@@ -81,8 +87,16 @@ def expire_watchman_trial(
             a single sweep self-consistent). Defaults to live clock.
 
     Returns:
-        The updated client row. ``status`` is ``'watchman_expired'``
-        and ``data_retention_mode`` is ``'purge_scheduled'``.
+        ``(client_row, transitioned)``. ``client_row`` is the current
+        DB state for the CVR after the call (post-CAS re-read).
+        ``transitioned`` is ``True`` only when *this* call performed
+        the ``watchman_active → watchman_expired`` flip (CAS UPDATE
+        rowcount == 1). It is ``False`` when the CAS lost to a
+        concurrent writer (rowcount == 0) — even if the row's status
+        is now ``'watchman_expired'`` because another worker won the
+        race. Callers must rely on ``transitioned`` for accounting,
+        not on the row's status, to avoid double-counting concurrent
+        sweeps.
 
     Raises:
         KeyError: If the client does not exist.
@@ -103,13 +117,33 @@ def expire_watchman_trial(
             "expire_watchman_trial only transitions from 'watchman_active'"
         )
 
-    # Step 1: flip status. The retention schedule in step 2 will own
-    # the data_retention_mode / churn_purge_at fields.
-    conn.execute(
-        "UPDATE clients SET status = 'watchman_expired', updated_at = ? WHERE cvr = ?",
+    # Step 1: flip status. The ``AND status = 'watchman_active'`` guard
+    # turns the UPDATE into a compare-and-swap so a concurrent writer
+    # (e.g. Sentinel conversion) flipping ``status`` between our SELECT
+    # above and this UPDATE cannot be silently overwritten — instead we
+    # observe rowcount=0 and bail without scheduling a purge.
+    cursor = conn.execute(
+        "UPDATE clients SET status = 'watchman_expired', updated_at = ? "
+        "WHERE cvr = ? AND status = 'watchman_active'",
         (when, cvr),
     )
     conn.commit()
+
+    if cursor.rowcount == 0:
+        # Status was changed under us — abort. Do NOT call
+        # schedule_churn_retention; the new owner of the row decides
+        # retention. The sweep's per-row try/except handles this as a
+        # non-fatal outcome.
+        logger.bind(context={
+            "cvr": cvr,
+            "stale_status": client["status"],
+        }).warning("trial_expiry_raced")
+        # Defensive: get_client should not return None here — the row
+        # existed at the SELECT above and nothing in this codepath
+        # deletes clients rows. If it somehow does, treat as race-loss
+        # and return the stale snapshot we already have.
+        current = get_client(conn, cvr)
+        return (current if current is not None else client), False
 
     # Step 2: schedule the immediate purge anchored at the trial-expiry
     # timestamp (or, if that's somehow NULL, the sweep's ``now``). The
@@ -124,13 +158,13 @@ def expire_watchman_trial(
         churn_reason=_EXPIRY_CHURN_REASON,
     )
 
-    logger.bind(
-        cvr=cvr,
-        anchor=anchor,
-        retention_job_id=jobs[0]["id"],
-    ).info("watchman_trial_expired")
+    logger.bind(context={
+        "cvr": cvr,
+        "anchor": anchor,
+        "retention_job_id": jobs[0]["id"],
+    }).info("watchman_trial_expired")
 
-    return get_client(conn, cvr)  # type: ignore[return-value]
+    return get_client(conn, cvr), True  # type: ignore[return-value]
 
 
 def run_trial_expiry_sweep(
@@ -148,11 +182,31 @@ def run_trial_expiry_sweep(
     count = 0
     for client in expired:
         cvr = client["cvr"]
+        # Skip synthetic dry-run CVRs so dev fixtures left behind in the
+        # DB never ride the production state-machine. Mirrors the same
+        # B7-default-lean behaviour in src/retention/runner.py.
+        if cvr.startswith(_DRYRUN_CVR_PREFIX):
+            logger.bind(context={"cvr": cvr}).debug("trial_expiry_skip_dryrun")
+            continue
         try:
-            expire_watchman_trial(conn, cvr, now=when)
-            count += 1
+            result_client, transitioned = expire_watchman_trial(
+                conn, cvr, now=when
+            )
+            # Only count actual transitions. ``transitioned`` is True
+            # only when this worker's CAS UPDATE succeeded (rowcount==1).
+            # The status-based check is unsafe in the concurrent-worker
+            # case: another worker may have already flipped the row to
+            # 'watchman_expired' before our re-read, which would make a
+            # status check spuriously count this no-op as a local success.
+            if transitioned:
+                count += 1
+            else:
+                logger.bind(context={
+                    "cvr": cvr,
+                    "stale_status": result_client["status"],
+                }).debug("trial_expiry_sweep_raced")
         except Exception as exc:  # noqa: BLE001 — sweep must not abort on one row
-            logger.bind(cvr=cvr).error(
+            logger.bind(context={"cvr": cvr}).error(
                 "trial_expiry_failed: {}", exc
             )
     return count
@@ -207,13 +261,13 @@ def reconcile_watchman_expired_orphans(
                 anchor_at=anchor,
                 churn_reason=f"reconciled — {_EXPIRY_CHURN_REASON}",
             )
-            logger.bind(
-                cvr=cvr,
-                retention_job_id=jobs[0]["id"],
-            ).warning("watchman_expired_orphan_reconciled")
+            logger.bind(context={
+                "cvr": cvr,
+                "retention_job_id": jobs[0]["id"],
+            }).warning("watchman_expired_orphan_reconciled")
             count += 1
         except Exception as exc:  # noqa: BLE001 — don't abort startup on one row
-            logger.bind(cvr=cvr).error(
+            logger.bind(context={"cvr": cvr}).error(
                 "watchman_expired_reconcile_failed: {}", exc
             )
     return count
