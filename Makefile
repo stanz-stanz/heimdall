@@ -208,6 +208,24 @@ dev-ops-smoke: dev-up ## Exercise Pi5 operational scripts against the dev stack.
 	    if [ $$fail -ne 0 ]; then exit 1; fi
 	@echo "dev ops smoke: OK"
 
+# --- Signup site (apps/signup/) -----------------------------------------
+
+.PHONY: signup-dev
+signup-dev: ## Run the SvelteKit signup site dev server (host :5173, /api → :8001).
+	cd apps/signup && npm install --prefer-offline && npm run dev
+
+.PHONY: signup-build
+signup-build: ## Build the SvelteKit signup site to apps/signup/build/.
+	cd apps/signup && npm install --prefer-offline && npm run build
+
+.PHONY: signup-test
+signup-test: ## Run the signup-site Vitest suite.
+	cd apps/signup && npm install --prefer-offline && npm run test
+
+.PHONY: signup-verify
+signup-verify: ## Run scripts/dev/verify_signup_slice1.py against the running dev stack.
+	python -m scripts.dev.verify_signup_slice1
+
 # --- Compose lint / diff ------------------------------------------------
 
 .PHONY: compose-lint
