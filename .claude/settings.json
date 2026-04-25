@@ -50,6 +50,11 @@
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/main_branch_push_guard.py\"",
             "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/precommit_codex_review_guard.py\"",
+            "timeout": 10
           }
         ]
       }

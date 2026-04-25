@@ -18,13 +18,17 @@ MANDATORY: Before performing any task, determine which agent(s) from `.claude/ag
 
 **Verification before done.** Never mark a task complete without proving it works. Run tests, check logs, diff behavior vs `main`. Ask "would a staff engineer approve this?"
 
-**Demand elegance (balanced).** For non-trivial changes, pause and ask "is there a more elegant way?" If a fix feels hacky: "knowing everything I know now, implement the elegant solution." Skip for simple fixes.
+**Demand balanced sophistication.** For non-trivial changes, pause and ask "is there a more elegant, simpler way?" If a fix feels hacky: "knowing everything I know now, implement a better solution." Skip for simple fixes.
+
+**Codex review before the commit, not after.** Any commit that touches `src/**/*.py` or `tests/**/*.py` must be Codex-reviewed *before* `git commit` runs. Run `/codex:review` (or `node ~/.claude/plugins/cache/openai-codex/codex/1.0.4/scripts/codex-companion.mjs review ""`), read the output, address findings. The `precommit_codex_review_guard.py` hook (see "Hook-Based Enforcement" below) soft-blocks Python commits without review. Bypass — only when you have actually reviewed — by prefixing with `HEIMDALL_CODEX_REVIEWED=1`. Pure-docs / config commits are unaffected.
+
+**Graph before Grep.** When exploring code, the first stop is the code-review-graph MCP tools (`semantic_search_nodes`, `query_graph`, `get_review_context`, `get_impact_radius`, `get_affected_flows`). They are faster, cheaper, and surface structural context (callers, tests, impact) that text scans cannot. Fall back to Grep / Glob / Read only when the graph genuinely does not cover the question.
 
 ---
 
 ## What This Repository Is
 
-Heimdall is an External Attack Surface Management (EASM) service for small businesses. A Claude API agent interprets findings in plain language, delivered via Telegram. No client dashboard.
+Heimdall is an External Attack Surface Management (EASM) service for small businesses, with aspiration to have enterprise-greade architecture and maturity. A Claude API agent interprets findings in plain language, delivered via Telegram. No client dashboard.
 
 **Pi5 is PROD. Macbook is DEV.** Develop locally (`make dev-up` / `make dev-smoke`, see `docs/development.md`). Deploy: `main` → dev-smoke green → fast-forward `prod` → `HEIMDALL_APPROVED=1 git push origin prod` → SSH Pi5 `heimdall-deploy` (see `docs/runbook-prod-deploy.md`). Business phase: **pre-pilot, blocked by SIRI approval.** Active feature work: `feat/sentinel-onboarding` — Sentinel onboarding plan (22 decisions locked 2026-04-23) + backend data layer in progress.
 
@@ -164,6 +168,7 @@ Full sprint history, per-PR scope, and any unresolved threads live in `docs/deci
 
 - Do not write or run scanning code without a valid Valdí approval token.
 - Do not scan, probe, or make automated requests to a domain whose `robots.txt` denies automated access. Hard skip, log, move on. All layers including Layer 1. No exceptions.
+- Do not overengineer solutions (Occam's razor principle).
 - Do not restate scanning rules from `SCANNING_RULES.md` in other documents — reference the source.
 - Do not write client-facing text mentioning Raspberry Pi, specific hardware, or internal infrastructure. Use abstract language ("dedicated secure infrastructure", "cloud-based AI interpretation layer").
 - Do not store API keys, tokens, or secrets in any committed file.
@@ -178,7 +183,7 @@ Full sprint history, per-PR scope, and any unresolved threads live in `docs/deci
 ---
 
 ## Hook-Based Enforcement (`.claude/hooks/`)
-
+Do not overengineer solutions (Occam's razor principle).
 Hooks defined in `.claude/settings.json`. **Mechanical enforcement** for rules that repeatedly failed as passive memory. They run in the harness, cannot be bypassed by model intent, and take precedence over anything in this file.
 
 | Hook | Event | Behaviour |
@@ -188,6 +193,7 @@ Hooks defined in `.claude/settings.json`. **Mechanical enforcement** for rules t
 | `secret_exposure_guard.py` | PreToolUse / `Bash` | Blocks `source .env`, `cat .env`, bare `env`/`printenv`, `echo $*_KEY/*_TOKEN/*_SECRET/*_PASSWORD`. |
 | `inline_script_guard.py` | PreToolUse / `Bash` | Soft-blocks inline `python -c` / `node -e` scripts > 150 chars or multi-line. |
 | `main_branch_push_guard.py` | PreToolUse / `Bash` | Soft-blocks `git push origin main` when local commits contain `src/**/*.py` changes. |
+| `precommit_codex_review_guard.py` | PreToolUse / `Bash` | Soft-blocks `git commit` when the staged diff includes `src/**/*.py` or `tests/**/*.py` and the command is missing the `HEIMDALL_CODEX_REVIEWED=1` self-attestation prefix. Forces a conscious "did I run Codex first?" before any Python commit. |
 | `ci_config_reminder.py` | PostToolUse / `Edit\|Write` | Reminder to push + `gh run watch` after editing CI/dep files. |
 | `session_start_context.py` | SessionStart | Injects current branch, `git status`, recent commits, latest decision-log headline, top rules. |
 
