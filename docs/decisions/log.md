@@ -1341,3 +1341,29 @@ Full onboarding product specified end-to-end and locked via a 22-decision interv
 - Backend `demo_orchestrator.run_demo_live` + the twin HTTP server + Nuclei wiring are still in place, just unreachable from the UI. Kept for now; remove if/when confirmed dead.
 - Backend still publishes the `tech_reveal` WebSocket event even though the frontend ignores it. Cheap to keep; remove if/when confirmed dead.
 - Local `main` now behind origin — needs `git fetch && git branch -f main origin/main` before next session's work.
+
+## 2026-04-25 (evening) — SvelteKit signup site slice-1 dev-ready
+
+**Decided**
+- Slice-1 backend `POST /signup/validate` is read-only by contract; the validate endpoint never mutates DB state. Token consumption stays in `src/db/onboarding.activate_watchman_trial`, called by the Telegram `/start <token>` handler. Round-trip + activation-race tests assert the contract. (Commit `05c4089`.)
+- `apps/signup/` is the new top-level home for the SvelteKit signup site. Independent `package.json` and `node_modules` from `src/api/frontend/` (the operator console). Whether the operator console eventually moves to `apps/operator/` or the signup site moves under `src/` is deferred to a future ADR. (Commits `b0e01b3` … `8c7b558`.)
+- Vite dev proxy targets `http://localhost:8001`, not `:8000` as the original spec said. `:8001` is what `infra/compose/docker-compose.dev.yml:47` actually exposes; `:8000` is the api container's internal port. Spec file corrected this session; plan flagged the divergence with rationale.
+- Magic-link URL token is stripped via `history.replaceState(history.state, ...)` to preserve SvelteKit's router state (Codex finding addressed pre-merge). Page `<title>` follows the active state instead of being hardcoded to the success copy.
+- Customer-facing pricing presentation is ONE plan (Sentinel, 399 kr./mo) with the 30-day Watchman trial as a feature, not two peer tiers. Internal data model (`clients.plan = 'watchman'` during trial, `'sentinel'` after) is unchanged. Memory `project_tier_restructure.md` rewritten to enforce single-plan framing. (Commit `02c7fe0`.)
+- Verification ships as committed scripts (`scripts/dev/verify_signup_slice1.py` + `scripts/dev/issue_signup_token.py`) wrapped by Makefile targets (`signup-verify`, `signup-issue-token`), per `feedback_build_reusable_verify_scripts`. The slice-1 plan's Task-20 ad-hoc one-liners are obsolete in practice. (Commits `02e3dec`, `4005cbe`.)
+- All 11 session commits stripped of the `Co-Authored-By: Claude` trailer (filter-branch over `720db87..HEAD`). New session memory `feedback_no_claude_signature` enforces this going forward.
+- During plan execution, do NOT dispatch spec-reviewer or code-quality-reviewer subagents — Codex via `/codex:review` is the quality gate. New session memory `feedback_no_review_subagents` captures the rule.
+
+**Rejected — in-session corrections**
+- Subagent-driven plan execution per `superpowers:subagent-driven-development` for the SvelteKit clusters (B–G). Federico explicitly switched to direct execution after the Cluster A backend bundle showed the per-task implementer + spec-reviewer + code-quality-reviewer chain to be process theater on top of Codex.
+- Adding `slowapi` rate limiter on `POST /signup/validate` for slice 1. Deferred to slice 2 (alongside Hetzner public exposure) per spec. The Origin allowlist is the slice-1 abuse control.
+- `/codex:review` slash-command invocation from the model side. The command has `disable-model-invocation: true`; underlying `codex-companion.mjs review ""` is the documented tool invocation used instead.
+- Two-tier pricing presentation (Watchman + Sentinel as peer cards). Federico corrected mid-walk: "Only one plan, Sentinel — which has a 30-day free trial called Watchman."
+
+**Unresolved**
+- Visual / typography / spacing / layout tune-up of the signup site. Federico walked all six routes — "a lot to tune up; no console errors." Deferred to a separate session.
+- Hetzner box / Caddyfile / TLS cert / Postmark Message-0 sender / public DNS / robots.txt for public crawl / signup-site `/health` Caddy responder / rate limiter — all slice 2.
+- Danish translations of stub copy (`apps/signup/src/messages/da.json` is `{}`) — slice 3.
+- Operator console "issue magic link" UI — slice 3.
+- Slice-3 `<html lang>` runtime flip needs either a SvelteKit `handle` hook (SSR) or a build-time multi-locale prerender; `apps/signup/src/app.html` is hard-coded `<html lang="en">` for slice 1.
+- `apps/` vs `src/api/frontend/` long-term home for SvelteKit code: no ADR yet.

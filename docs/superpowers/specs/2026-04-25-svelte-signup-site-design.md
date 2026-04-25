@@ -45,7 +45,7 @@ Heimdall has a complete backend pipeline (scan → consent → interpret → com
 
 ## Architecture
 
-`apps/signup/` is a standalone SvelteKit project, independent of `src/api/frontend/` (the operator console). Vite dev server runs on host `:5173` with a proxy `/api/*` → `http://localhost:8000` (the FastAPI dev container, exposed on host via `make dev-up`). Production build (slice 2) emits to `apps/signup/build/`, which Caddy on the signup box serves directly. No Node runtime in production.
+`apps/signup/` is a standalone SvelteKit project, independent of `src/api/frontend/` (the operator console). Vite dev server runs on host `:5173` with a proxy `/api/*` → `http://localhost:8001` (the FastAPI dev container, exposed on host via `make dev-up`). Production build (slice 2) emits to `apps/signup/build/`, which Caddy on the signup box serves directly. No Node runtime in production.
 
 The bundle uses **relative** `/api/*` fetches so the same code works in dev (Vite proxy) and prod (Caddy reverse-proxy to backend Tailscale IP). No `PUBLIC_API_BASE` env-baking.
 
@@ -75,7 +75,7 @@ Slice 1 stops at the dashed line above — only the SvelteKit + backend endpoint
 apps/signup/
   package.json
   svelte.config.js              # adapter-static
-  vite.config.js                # /api/* dev-proxy → localhost:8000
+  vite.config.js                # /api/* dev-proxy → localhost:8001
   src/
     app.html                    # no-FOUC theme bootstrap (mirrors src/api/frontend/index.html)
     routes/
@@ -113,7 +113,7 @@ apps/signup/
 | Path | Purpose | Slice 1 content |
 |------|---------|-----------------|
 | `/` | Landing page | H1 + 4 section stubs ("How it works", "What we monitor", "Pricing", "FAQ"); CTA button → `mailto:` until email-issue flow lands |
-| `/pricing` | Pricing | Watchman + Sentinel cards reading from `lib/pricing.json`; CTA → `mailto:` |
+| `/pricing` | Pricing | Single Sentinel card reading from `lib/pricing.json`; the 30-day Watchman trial is listed as a feature, not a peer tier (per project_tier_restructure memory). CTA → `mailto:` |
 | `/signup/start?t=<token>` | Magic-link landing (validate-only) | **Functional.** See "Magic-link flow" below. Page name mirrors Telegram `/start`. |
 | `/legal/privacy` | Privacy stub | H1 + disclaimer block: *"This is a placeholder. Final terms pending review by Anders Wernblad, Aumento Law. Do not rely on this text."* |
 | `/legal/terms` | Terms stub | Same disclaimer pattern |
@@ -313,7 +313,7 @@ signup-test:
 	cd apps/signup && npm install --prefer-offline && npm run test
 ```
 
-`make dev-up` is unchanged — backend stack still comes up via `infra/compose/docker-compose.dev.yml`. `make signup-dev` runs SvelteKit on the host (port 5173) and proxies to the backend at `localhost:8000`.
+`make dev-up` is unchanged — backend stack still comes up via `infra/compose/docker-compose.dev.yml`. `make signup-dev` runs SvelteKit on the host (port 5173) and proxies to the backend at `localhost:8001`.
 
 **Editing `Makefile` will trigger the `infra_danger_zone.py` hook** (context-injection, non-blocking). Expected.
 
