@@ -5,6 +5,85 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-26 — Telegram-only delivery channel locked; WhatsApp declined; channel-as-feature positioning
+
+**Decided**
+
+Telegram-only is now the explicit MVP delivery channel. No alternative (WhatsApp, SMS, email-only, web dashboard) will be built. The absence is surfaced as a deliberate channel design, not an apology.
+
+**WhatsApp evaluation summary** (full eval done in chat, not as a separate doc):
+
+- Cost at DK rates: ~$0.24/Sentinel-client/mo for outbound utility templates outside the 24h customer-service window. Trivial at any scale (≤0.5% margin hit at 399 kr./mo).
+- DK adoption: WhatsApp is #1 messaging app in Denmark; Telegram is niche.
+- Onboarding cost free (user-initiated message opens 24h free window covering Message 0 + welcome + first scan).
+
+**Why declined**
+
+- **Meta dependency.** WhatsApp Business pricing changed three times in three years (conversation-based → per-template July 2025 → 2026 currency-local + max-price options). Telegram has been free and stable for a decade.
+- **Template-approval friction.** Outside the 24h service window every alert variant must be a Meta-pre-approved utility template. Slows iteration on copy, introduces rejection risk, removes free-form alert phrasing.
+- **Architectural cost.** Parallel transport in `src/delivery/`, parallel composer in `src/composer/`, schema discriminator (`telegram_chat_id` is channel-specific), signup-site channel-picker UX. ~1–2 weeks of work before a single message ships.
+- **DK adoption gap is real but not fatal.** Telegram-niche-in-DK is a conversion hypothesis, not a known loss. Federico's posture: surface the channel choice as a values statement and let the prospects who don't want a Meta-mediated security feed self-select in.
+
+**Channel-as-feature positioning**
+
+Marketing-agent reviewed Federico's original draft (Cambridge-Analytica hook + "we don't preach from the hill" + "now we know why"). Verdict: instinct sound, execution preaches. Janteloven failures: "we speak the truth" is preacher-coded; named scandal as opening hook is the moral-authority voice DK SMBs distrust; invites a comparison to WhatsApp/Meta the buyer wasn't making.
+
+Final framing (Federico-authored, marketing-input incorporated):
+
+> *"We deliver findings through Telegram. No ads, no algorithms reading your data — a private communication with sensitive information."*
+
+Functional, no comparison, no scandal name, no virtue closer. Janteloven-clean per `docs/campaign/marketing-keys-denmark.md`.
+
+**Placement**
+
+- Home — short line: appended *"No ads, no algorithms reading your data."* to `home.section.howitworks.body`.
+- Home — dedicated *"Why Telegram?"* article in the sections grid (between `whatwemonitor` and `pricing`), full statement above. EN + DA mirrored.
+- Decision-log entry (this).
+
+**Retired**
+
+- `signup.start.ok.fallback` — *"No Telegram? Reply to the email and Federico will help."* Promised a non-Telegram path nobody had designed; named "Federico" without prior introduction; the only state on the page lacking a `mailto:` button (the other states — `invalid` / `used` / `expired` / `error` — keep their generic contact CTA, untouched). With Telegram-required posture confirmed, the only honest UX on the OK state is no fallback. Key + paragraph + orphaned `.fallback` CSS removed from EN, DA, and the Svelte template.
+
+**Rejected**
+
+- WhatsApp Business Cloud API as parallel or replacement transport (above).
+- Marketing-agent's exact wording (*"…no second business model running on your data — just the message."*) — Federico preferred his own *"a private communication with sensitive information"* close.
+
+**Out of scope (deferred)**
+
+- `hello@digitalvagt.dk` mailbox infrastructure — Federico explicitly accepted dummy-email posture for now; revisit when Message 0 sender lands (M42).
+- "Requires Telegram" pre-qualification banner on home / pricing — positioning copy may be sufficient signal on its own; revisit if real-world friction shows up.
+- Native-DA review pass on the new strings — inherits the same C5 (ship-as-is) posture from PR #45.
+- Removing other "Email us" CTAs across the site — same dummy-email caveat.
+
+Bundled into PR #45 (signup-site v1: bilingual toggle + DA dictionary + Telegram-only positioning).
+
+---
+
+## 2026-04-26 — Signup site EN/DA locale toggle + Watchman codename scrub + PR #44 state refresh
+
+**Decided**
+
+- **EN/DA locale toggle shipped** in the signup-site topbar (`apps/signup/src/lib/LocaleToggle.svelte`). Persistence: URL `?lang=` query param + `localStorage['signup.locale']`. Precedence on init: URL > localStorage > default (`en`). Setting back to default strips the URL param to keep canonical links clean; setting to non-default preserves other query params (so `/signup/start?t=...&lang=da` stays shareable).
+- **`t` migrated from plain function to Svelte derived store**, invoked as `$t(key)` everywhere (home, pricing, legal, signup/start). Driven off the `locale` writable so toggling reactively re-renders all strings without component rebinds. Lookup falls back EN when DA missing.
+- **DA dictionary populated** (49 strings — every key the EN dictionary uses). Federico accepted C5 (ship as-is, polish on backlog) — disclosed 8 specific lines a native would tighten; he holds the call to revisit later.
+- **17-test i18n suite** added (`apps/signup/tests/i18n.test.js`) covering derived translator, `setLocale` paths (persist on/off, syncUrl on/off, default-locale URL strip, other-param preservation), `initLocale` precedence (URL > localStorage > default + invalid-code rejection). vitest+jsdom returns a method-less `window.localStorage` object — fixed by installing an in-memory shim per test via `Object.defineProperty(window, 'localStorage', { value: shim, writable: true, configurable: true })`. Total signup-site suite: 21/21 green.
+- **"Watchman" removed from all client-facing signup copy** — internal codename only. Replaced with "30-day free trial" framing across pricing, home, and legal copy. Saved as memory: `feedback_no_watchman_in_client_copy.md`.
+- **`data/project-state.json` refreshed** for PR #44 merge: M41 closed (completed 2026-04-25, merge_commit 2b189e6), M42 opened (signup site slice 2 + console V1–V6 + Message 0 magic-link sender), `next_actions` reordered, `progress_pct` 65 → 75. Committed as 5b978a3 to `main`.
+- **`CLAUDE.md` signup-site row refreshed** in this same session — `t(key)` updated to `$t(key)` derived-store form; home-page sections list updated with `why_telegram` between `whatwemonitor` and `pricing`; test count 9/9 → 21/21; Watchman→"30-day free trial" framing.
+
+**Rejected**
+
+- Native-DA review pass before merge of PR #45. Federico's call (C5) — visual + copy polish on backlog, not blocking.
+- TaskCreate-tracked breakdown for the two-action wrap-up edit set. Two simple edits, same session, single review surface — not worth the ceremony.
+
+**Unresolved**
+
+- Browser-eyeball QA on PR #45 still pending Federico verification (locale toggle behaviour, URL sync on refresh, "Why Telegram?" article in EN+DA, OK state confirmed clean of fallback). Token issued for QA: `http://127.0.0.1:5173/signup/start?t=9k5C9t-IjrEuF__CYd4VfB7Xr4APUehr`. PR: https://github.com/stanz-stanz/heimdall/pull/45
+- M42 critical-path queue: SvelteKit signup site slice 2, operator console views V1–V6, Message 0 magic-link email sender, MitID Erhverv broker pick, send adapted 16-Q brief to Anders Wernblad, SIRI video pitch script.
+
+---
+
 ## 2026-04-25 (afternoon) — Retention cron landed; Codex pre-commit gate; pre-dispatch checklist
 
 **Decided**

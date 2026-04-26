@@ -6,16 +6,18 @@
       "id": "sentinel",
       "name": "Sentinel",
       "price_monthly": 399,
-      "tagline": "30-day free trial, then 399 kr./month.",
-      "features": [
-        "30-day free trial — full monitoring, no card required",
-        "Continuous external attack-surface scans",
-        "Plain-language Telegram alerts within 24 h of any change",
-        "Layer 2 active probes once written consent is on file",
-        "Same-day alerts for actively-exploited CVEs",
-        "Quarterly Danish-language summary",
-        "Cancel anytime"
-      ]
+      "i18n": {
+        "tagline": "pricing.plan.sentinel.tagline",
+        "features": [
+          "pricing.plan.sentinel.feature.trial",
+          "pricing.plan.sentinel.feature.scans",
+          "pricing.plan.sentinel.feature.alerts",
+          "pricing.plan.sentinel.feature.layer2",
+          "pricing.plan.sentinel.feature.cve",
+          "pricing.plan.sentinel.feature.summary",
+          "pricing.plan.sentinel.feature.cancel"
+        ]
+      }
     }
   ]
 }
