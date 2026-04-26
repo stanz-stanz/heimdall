@@ -10,6 +10,34 @@ async function fetchJSON(url) {
   return res.json();
 }
 
+async function postJSON(url, body = null) {
+  const init = {
+    method: 'POST',
+    credentials: 'same-origin',
+  };
+  if (body !== null && body !== undefined) {
+    init.headers = { 'Content-Type': 'application/json' };
+    init.body = JSON.stringify(body);
+  }
+  const res = await fetch(url, init);
+  if (res.status === 401) {
+    window.location.reload();
+    throw new Error('Authentication required');
+  }
+  if (!res.ok) {
+    let detail = '';
+    try {
+      const body = await res.json();
+      detail = body?.detail ?? '';
+    } catch {
+      // ignore
+    }
+    const suffix = detail ? `: ${detail}` : '';
+    throw new Error(`${res.status} ${res.statusText}${suffix}`);
+  }
+  return res.json();
+}
+
 export const fetchDashboard = () => fetchJSON('/console/dashboard');
 export const fetchPipelineLast = () => fetchJSON('/console/pipeline/last');
 export const fetchCampaigns = () => fetchJSON('/console/campaigns');
@@ -51,3 +79,19 @@ export async function sendCommand(command, payload = {}) {
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
   return res.json();
 }
+
+// Operator-console V1 / V6 wrappers
+export const fetchTrialExpiring = (windowDays = 7) =>
+  fetchJSON(`/console/clients/trial-expiring?window_days=${windowDays}`);
+
+export const fetchRetentionQueue = (limit = 200, offset = 0) =>
+  fetchJSON(`/console/clients/retention-queue?limit=${limit}&offset=${offset}`);
+
+export const forceRunRetentionJob = (id) =>
+  postJSON(`/console/retention-jobs/${id}/force-run`);
+
+export const cancelRetentionJob = (id, notes = null) =>
+  postJSON(`/console/retention-jobs/${id}/cancel`, notes ? { notes } : null);
+
+export const retryRetentionJob = (id) =>
+  postJSON(`/console/retention-jobs/${id}/retry`);
