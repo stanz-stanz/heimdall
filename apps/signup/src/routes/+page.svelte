@@ -27,6 +27,10 @@
     <p>{$t('home.section.whatwemonitor.body')}</p>
   </article>
   <article>
+    <h2>{$t('home.section.why_telegram.title')}</h2>
+    <p>{$t('home.section.why_telegram.body')}</p>
+  </article>
+  <article>
     <h2>{$t('home.section.pricing.title')}</h2>
     <p>{$t('home.section.pricing.body')}</p>
     <a class="btn btn-outline" href="/pricing">{$t('home.cta.primary')}</a>

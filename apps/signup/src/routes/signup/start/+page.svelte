@@ -93,7 +93,6 @@
         <img src={qrDataUrl} alt={$t('signup.start.ok.qr.alt')} width="240" height="240" />
       </div>
     {/if}
-    <p class="muted fallback">{$t('signup.start.ok.fallback')}</p>
   {:else if state === 'used'}
     <h1>{$t('signup.start.used.title')}</h1>
     <p>{$t('signup.start.used.body')}</p>
@@ -138,8 +137,5 @@
     background: var(--bg-raised);
     border: 1px solid var(--border);
     border-radius: 8px;
-  }
-  .fallback {
-    margin-top: 2rem;
   }
 </style>
