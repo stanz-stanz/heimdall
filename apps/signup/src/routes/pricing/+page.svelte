@@ -4,12 +4,12 @@
 </script>
 
 <svelte:head>
-  <title>{t('pricing.h1')} — {t('nav.brand')}</title>
+  <title>{$t('pricing.h1')} — {$t('nav.brand')}</title>
 </svelte:head>
 
 <section class="container">
-  <h1>{t('pricing.h1')}</h1>
-  <p class="lede">{t('pricing.subtitle')}</p>
+  <h1>{$t('pricing.h1')}</h1>
+  <p class="lede">{$t('pricing.subtitle')}</p>
 
   <div class="cards">
     {#each pricing.plans as plan}
@@ -17,16 +17,16 @@
         <h2>{plan.name}</h2>
         <p class="price">
           <span class="amount">{plan.price_monthly}</span>
-          <span class="unit">{pricing.currency} / month</span>
+          <span class="unit">{pricing.currency} {$t('pricing.unit.per_month')}</span>
         </p>
-        <p class="muted">{plan.tagline}</p>
+        <p class="muted">{$t(plan.i18n.tagline)}</p>
         <ul class="features">
-          {#each plan.features as feature}
-            <li>{feature}</li>
+          {#each plan.i18n.features as featureKey}
+            <li>{$t(featureKey)}</li>
           {/each}
         </ul>
         <a class="btn" href="mailto:hello@digitalvagt.dk?subject=Interested in {plan.name}">
-          {t('pricing.cta.email')}
+          {$t('pricing.cta.email')}
         </a>
       </article>
     {/each}

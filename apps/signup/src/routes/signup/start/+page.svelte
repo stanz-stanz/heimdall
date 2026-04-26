@@ -76,47 +76,47 @@
 </script>
 
 <svelte:head>
-  <title>{t(titles[state] || 'signup.start.checking')} — {t('nav.brand')}</title>
+  <title>{$t(titles[state] || 'signup.start.checking')} — {$t('nav.brand')}</title>
 </svelte:head>
 
 <section class="container start-page">
   {#if state === 'checking'}
-    <p class="muted">{t('signup.start.checking')}</p>
+    <p class="muted">{$t('signup.start.checking')}</p>
   {:else if state === 'ok'}
-    <h1>{t('signup.start.ok.title')}</h1>
-    <p>{t('signup.start.ok.body')}</p>
+    <h1>{$t('signup.start.ok.title')}</h1>
+    <p>{$t('signup.start.ok.body')}</p>
     <a class="btn" href={telegramDeepLink()} rel="noopener noreferrer">
-      {t('signup.start.ok.cta')}
+      {$t('signup.start.ok.cta')}
     </a>
     {#if qrDataUrl}
       <div class="qr">
-        <img src={qrDataUrl} alt={t('signup.start.ok.qr.alt')} width="240" height="240" />
+        <img src={qrDataUrl} alt={$t('signup.start.ok.qr.alt')} width="240" height="240" />
       </div>
     {/if}
-    <p class="muted fallback">{t('signup.start.ok.fallback')}</p>
+    <p class="muted fallback">{$t('signup.start.ok.fallback')}</p>
   {:else if state === 'used'}
-    <h1>{t('signup.start.used.title')}</h1>
-    <p>{t('signup.start.used.body')}</p>
+    <h1>{$t('signup.start.used.title')}</h1>
+    <p>{$t('signup.start.used.body')}</p>
     <a class="btn btn-outline" href="mailto:hello@digitalvagt.dk">
-      {t('home.cta.secondary')}
+      {$t('home.cta.secondary')}
     </a>
   {:else if state === 'expired'}
-    <h1>{t('signup.start.expired.title')}</h1>
-    <p>{t('signup.start.expired.body')}</p>
+    <h1>{$t('signup.start.expired.title')}</h1>
+    <p>{$t('signup.start.expired.body')}</p>
     <a class="btn btn-outline" href="mailto:hello@digitalvagt.dk">
-      {t('home.cta.secondary')}
+      {$t('home.cta.secondary')}
     </a>
   {:else if state === 'invalid'}
-    <h1>{t('signup.start.invalid.title')}</h1>
-    <p>{t('signup.start.invalid.body')}</p>
+    <h1>{$t('signup.start.invalid.title')}</h1>
+    <p>{$t('signup.start.invalid.body')}</p>
     <a class="btn btn-outline" href="mailto:hello@digitalvagt.dk">
-      {t('home.cta.secondary')}
+      {$t('home.cta.secondary')}
     </a>
   {:else}
-    <h1>{t('signup.start.error.title')}</h1>
-    <p>{t('signup.start.error.body')}</p>
+    <h1>{$t('signup.start.error.title')}</h1>
+    <p>{$t('signup.start.error.body')}</p>
     <a class="btn btn-outline" href="mailto:hello@digitalvagt.dk">
-      {t('home.cta.secondary')}
+      {$t('home.cta.secondary')}
     </a>
   {/if}
 </section>
