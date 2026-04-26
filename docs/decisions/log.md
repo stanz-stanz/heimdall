@@ -60,6 +60,30 @@ Bundled into PR #45 (signup-site v1: bilingual toggle + DA dictionary + Telegram
 
 ---
 
+## 2026-04-26 — Signup site EN/DA locale toggle + Watchman codename scrub + PR #44 state refresh
+
+**Decided**
+
+- **EN/DA locale toggle shipped** in the signup-site topbar (`apps/signup/src/lib/LocaleToggle.svelte`). Persistence: URL `?lang=` query param + `localStorage['signup.locale']`. Precedence on init: URL > localStorage > default (`en`). Setting back to default strips the URL param to keep canonical links clean; setting to non-default preserves other query params (so `/signup/start?t=...&lang=da` stays shareable).
+- **`t` migrated from plain function to Svelte derived store**, invoked as `$t(key)` everywhere (home, pricing, legal, signup/start). Driven off the `locale` writable so toggling reactively re-renders all strings without component rebinds. Lookup falls back EN when DA missing.
+- **DA dictionary populated** (49 strings — every key the EN dictionary uses). Federico accepted C5 (ship as-is, polish on backlog) — disclosed 8 specific lines a native would tighten; he holds the call to revisit later.
+- **17-test i18n suite** added (`apps/signup/tests/i18n.test.js`) covering derived translator, `setLocale` paths (persist on/off, syncUrl on/off, default-locale URL strip, other-param preservation), `initLocale` precedence (URL > localStorage > default + invalid-code rejection). vitest+jsdom returns a method-less `window.localStorage` object — fixed by installing an in-memory shim per test via `Object.defineProperty(window, 'localStorage', { value: shim, writable: true, configurable: true })`. Total signup-site suite: 21/21 green.
+- **"Watchman" removed from all client-facing signup copy** — internal codename only. Replaced with "30-day free trial" framing across pricing, home, and legal copy. Saved as memory: `feedback_no_watchman_in_client_copy.md`.
+- **`data/project-state.json` refreshed** for PR #44 merge: M41 closed (completed 2026-04-25, merge_commit 2b189e6), M42 opened (signup site slice 2 + console V1–V6 + Message 0 magic-link sender), `next_actions` reordered, `progress_pct` 65 → 75. Committed as 5b978a3 to `main`.
+- **`CLAUDE.md` signup-site row refreshed** in this same session — `t(key)` updated to `$t(key)` derived-store form; home-page sections list updated with `why_telegram` between `whatwemonitor` and `pricing`; test count 9/9 → 21/21; Watchman→"30-day free trial" framing.
+
+**Rejected**
+
+- Native-DA review pass before merge of PR #45. Federico's call (C5) — visual + copy polish on backlog, not blocking.
+- TaskCreate-tracked breakdown for the two-action wrap-up edit set. Two simple edits, same session, single review surface — not worth the ceremony.
+
+**Unresolved**
+
+- Browser-eyeball QA on PR #45 still pending Federico verification (locale toggle behaviour, URL sync on refresh, "Why Telegram?" article in EN+DA, OK state confirmed clean of fallback). Token issued for QA: `http://127.0.0.1:5173/signup/start?t=9k5C9t-IjrEuF__CYd4VfB7Xr4APUehr`. PR: https://github.com/stanz-stanz/heimdall/pull/45
+- M42 critical-path queue: SvelteKit signup site slice 2, operator console views V1–V6, Message 0 magic-link email sender, MitID Erhverv broker pick, send adapted 16-Q brief to Anders Wernblad, SIRI video pitch script.
+
+---
+
 ## 2026-04-25 (afternoon) — Retention cron landed; Codex pre-commit gate; pre-dispatch checklist
 
 **Decided**
