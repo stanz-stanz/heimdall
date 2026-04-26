@@ -1,12 +1,12 @@
 {
-  "last_updated": "2026-04-25T11:00:00Z",
-  "phase": "onboarding backend complete — SvelteKit + operator console views next on feat/sentinel-onboarding",
+  "last_updated": "2026-04-26T06:35:56Z",
+  "phase": "PR #44 merged — onboarding backend + signup-site slice 1 on main; browser QA pending, then SvelteKit slice 2+ + operator console V1–V6 + Message 0 sender",
   "current_sprint": {
     "name": "Sentinel Onboarding — End-to-End",
     "started": "2026-04-23",
     "target_end": "TBD (SIRI-gated for production cutover)",
-    "status": "backend complete: schema + signup + subscriptions + conversion + retention DB layer + retention cron + trial-expiry + /start handler + Valdí §263 hardening + pre-commit Codex gate. Frontend (SvelteKit signup site) + operator console V1–V6 are the next critical-path slice.",
-    "progress_pct": 65,
+    "status": "PR #44 merged 2026-04-25 22:07 +0200 (commit 2b189e6) — backend (schema + signup + subscriptions + conversion + retention DB layer + retention cron + trial-expiry + /start handler + Valdí §263 hardening + pre-commit Codex gate) + SvelteKit signup-site slice 1 (landing/pricing/legal/magic-link landing) all on main. feat/sentinel-onboarding now 1 commit behind main, effectively closed. Next critical-path: browser-eyeball QA on slice 1, then SvelteKit slice 2+, operator console views V1–V6, Message 0 magic-link email sender.",
+    "progress_pct": 75,
     "notes": "2026-04-23 plan session produced 22 locked decisions (D1–D22), archived at ~/.claude/plans/i-need-you-to-logical-pebble.md. Key architectural commitments: Watchman = FREE 30-day trial (not 199 kr.); Sentinel = 399 kr./mo via Betalingsservice direct debit; one-click consent via MitID Erhverv (QES-grade, Danish-native); SvelteKit public site on Hetzner Cloud (EU residency); CVR-match domain verification (no DNS TXT / file upload); legal counsel re-targeted from Plesner to Anders Wernblad, Aumento Law. Tiered retention REVISED 2026-04-25 to Watchman zero-retention (immediate hard-purge at trial expiry, no anonymise stage, no tombstone — D16's literal '90d/365d' rejected as inconsistent with a free trial) and Sentinel 30d anonymise + 5y purge_bookkeeping (per Bogføringsloven). Valdí ruled `consent_records` is §263 evidence per GDPR Art 17(3)(e) — anonymise preserves structured PII; only `notes` scrubbed. Branch feat/sentinel-onboarding has ~22 commits (14 today): DB-layer additions, /start handler, retention cron (runner + actions + scheduler timer), trial-expiry scanner + reconciler, Codex pre-commit hook. 1,201 non-integration tests passing (+207 since 2026-04-18). 8 Codex passes drove 6 P1/P2 fixes in the retention slice before the gate returned clean. MitID Erhverv sandbox is free → dev unblocked during SIRI wait."
   },
   "completed_sprints": [
@@ -84,12 +84,21 @@
     },
     {
       "id": "M41",
-      "name": "Sentinel onboarding — plan locked + backend data layer (partial)",
-      "status": "in_progress",
+      "name": "Sentinel onboarding — plan locked + backend data layer + signup-site slice 1 (PR #44)",
+      "status": "complete",
       "started_date": "2026-04-23",
+      "completed_date": "2026-04-25",
       "owner_agent": "project-coordinator",
-      "branch": "feat/sentinel-onboarding",
-      "notes": "Plan session 2026-04-23: 22 decisions (D1–D22) locked across channel/message, consent/legal, state/data, website/payment. Full plan at ~/.claude/plans/i-need-you-to-logical-pebble.md (state machine, 12-message sequence DA+EN, integration architecture, cost math, critical path). Implementation progress (6 commits): (1) docs sweep — Watchman = FREE across 10 files + Plesner → Aumento Law across 10 files + new decision log entry; (2) DB schema migration — 8 new clients columns (trial_started_at, trial_expires_at, onboarding_stage, signup_source, churn_reason, churn_requested_at, churn_purge_at, data_retention_mode), 6 new tables (signup_tokens, subscriptions, payment_events, conversion_events, onboarding_stage_log, retention_jobs), 5 new indexes, validation updates (VALID_STATUSES extended, VALID_PLANS drops guardian, VALID_ONBOARDING_STAGES added); (3) onboarding-playbook.md cherry-picked from orphan chore branch; (4) onboarding-playbook extended with 2026-04-23 design section; (5) src/db/signup.py + 16 tests (magic-link handshake, 30-min TTL, single-use); (6) src/db/subscriptions.py + 24 tests (subscriptions + payment_events append log, øre integer math). Remaining: conversion_events helpers, onboarding_stage_log helpers, retention_jobs helpers, SvelteKit signup site, MitID Erhverv broker integration (sandbox free — dev unblocked), Betalingsservice sandbox integration, operator console views V1–V6, Wernblad 16-Q brief adaptation."
+      "merge_commit": "2b189e6",
+      "notes": "PR #44 merged to main 2026-04-25 22:07 +0200. Plan session 2026-04-23: 22 decisions (D1–D22) locked across channel/message, consent/legal, state/data, website/payment. Full plan at ~/.claude/plans/i-need-you-to-logical-pebble.md (state machine, 12-message sequence DA+EN, integration architecture, cost math, critical path). Shipped: (1) docs sweep — Watchman = FREE across 10 files + Plesner → Aumento Law across 10 files + new decision log entry; (2) DB schema migration — 8 new clients columns + 6 new tables (signup_tokens, subscriptions, payment_events, conversion_events, onboarding_stage_log, retention_jobs) + 5 new indexes + validation updates; (3) onboarding-playbook.md + 2026-04-23 design section; (4) src/db/signup.py + 16 tests; (5) src/db/subscriptions.py + 24 tests; (6) src/db/conversion.py (17 event types incl. 7-row Sentinel consent audit trail) + tests; (7) src/db/retention.py (D16 tiered policy: Watchman immediate hard-purge, Sentinel 30d anonymise + 5y purge_bookkeeping; claim-lock helpers) + tests; (8) src/db/onboarding.py (activate_watchman_trial atomic transition) + tests; (9) src/retention/ execution cron (runner.py + actions.py — claim-lock, action handlers, Telegram alert at attempt 5, two-tier path-traversal guard, Valdí §263 evidence preservation in anonymise); (10) Telegram /start <token> handler; (11) trial-expiry scanner + reconcile_watchman_expired_orphans; (12) pre-commit Codex review hook (precommit_codex_review_guard.py); (13) SvelteKit signup-site slice 1 at apps/signup/ (8 routes: /, /pricing, /legal/{privacy,terms,dpa}, /signup/start magic-link landing — Vitest 9/9, signup-verify green); (14) verify scripts + Make targets (signup-{dev,build,test,verify,issue-token}). 1,201 unit tests passing."
+    },
+    {
+      "id": "M42",
+      "name": "Sentinel onboarding — slice 2 (operator console V1–V6 + signup site beyond landing + Message 0 sender)",
+      "status": "in_progress",
+      "started_date": "2026-04-26",
+      "owner_agent": "project-coordinator",
+      "notes": "Critical-path slice from punchlist after PR #44 merge. Independent unblocked work streams: (a) browser-eyeball QA on slice 1 magic-link landing (one-off, gates real signups); (b) operator console V1 (trial-expiring) + V6 (retention queue) — implementable today against shipped DB layer; (c) signup site slice 2 (consent capture + scope picker + payment-mandate handoff); (d) Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent) and wire it. Soft-blocked items (need decisions, not code): MitID Erhverv broker pick (Idura / Criipto / Signicat — all sandbox-free), Betalingsservice merchant agreement (CVR-gated → SIRI-gated), CVR-match domain verification UX. Operator console V2–V5 wait on Betalingsservice webhook writing pending-state."
     }
   ],
   "external_deadlines": [
@@ -140,12 +149,12 @@
     }
   ],
   "next_actions": [
-    "Push feat/sentinel-onboarding + open PR (~22 commits across 2026-04-24 / 2026-04-25 sessions: docs sweep, full backend slice, retention cron, /start handler, Codex pre-commit hook)",
-    "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md (now also carries the 5y vs 10y consent_records retention question — depends on whether §263 stk. 3 aggravated limitation applies)",
+    "Browser-eyeball QA the SvelteKit slice-1 magic-link landing — `make signup-issue-token` + `make signup-dev`, walk the /signup/start?t=… flow in a real browser (token strip, Telegram CTA, QR, EN/DA copy)",
+    "Operator console V1 (trial-expiring) + V6 (retention queue) — implementable now against the shipped DB layer",
     "Pick MitID Erhverv broker (Idura / Criipto / Signicat) — sandboxes all free, unblocks dev during SIRI wait",
-    "Scaffold SvelteKit signup site (Hetzner-deployable, reuses design-system tokens from src/api/frontend/)",
-    "Operator console views V1–V6 (trial-expiring, stuck-on-consent, stuck-on-payment, stuck-on-scope, funnel, retention queue) — V1 + V6 implementable now against the shipped DB layer; V2-V5 wait on Betalingsservice webhook writing pending-state",
-    "Message 0 magic-link email sender (transactional email infra — Postmark or equivalent EU-residency provider; Federico to pick once cost vs deliverability is benchmarked)",
+    "Signup site slice 2 (consent capture + scope picker + payment-mandate handoff)",
+    "Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent), wire it",
+    "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md (also carries the 5y vs 10y consent_records retention question — depends on whether §263 stk. 3 aggravated limitation applies)",
     "SIRI video pitch script (still unwritten — blocks SIRI decision)",
     "Restart Claude Code harness so the renamed cloud-devsec agent slug resolves (registry is loaded at session start, currently still serving cloud-devsecops-architect from cache)"
   ],
