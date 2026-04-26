@@ -63,6 +63,42 @@ VALID_CONVERSION_EVENT_TYPES: set[str] = {
 # writes to these values so the funnel dashboard can group reliably.
 VALID_STAGE_LOG_SOURCES: set[str] = {"webhook", "operator", "cron", "system"}
 
+# Conversion-funnel events that signal the trialist is engaging with the
+# Sentinel upgrade flow. The operator-console "Trial expiring" view (V1)
+# uses this to filter out clients who are already in motion — no point
+# nudging someone who has already replied to the upgrade email.
+#
+# Excludes:
+#   - 'signup'   — every Watchman row carries this; it's not engagement.
+#   - 'abandoned' / 'cancellation' — terminal markers; client is gone.
+#   - 'offboarding_triggered' / 'authorisation_revoked' — retention
+#     lifecycle, not conversion intent.
+#
+# When a new event-type is added to VALID_CONVERSION_EVENT_TYPES, decide
+# whether it belongs here. The 'noise filter' membership test below
+# guarantees every member exists in VALID — drift produces ImportError
+# at module load.
+SENTINEL_CONVERSION_INTENT_EVENTS: frozenset[str] = frozenset(
+    {
+        "cta_click",
+        "upgrade_reply",
+        "invoice_opened",
+        "consent_opened",
+        "consent_signed",
+        "payment_intent",
+        "scope_confirmed",
+        "contract_signed",
+        "scanning_authorisation_signed",
+        "scope_declared",
+        "authorisation_file_written",
+        "valdi_gate2_first_pass",
+    }
+)
+assert SENTINEL_CONVERSION_INTENT_EVENTS <= VALID_CONVERSION_EVENT_TYPES, (
+    "SENTINEL_CONVERSION_INTENT_EVENTS drifted from VALID_CONVERSION_EVENT_TYPES; "
+    "every intent event must be a known conversion event_type."
+)
+
 
 # ---------------------------------------------------------------------------
 # Conversion events
