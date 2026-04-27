@@ -5,6 +5,33 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-27 (evening) — PR #47 merged + four architect-reframe decisions resolved
+
+**Context.** PR #47 (`feat/dev-prod-bind-mount-separation`, 9 commits incl. merge of `main` carrying #46) merged 2026-04-27 17:30 UTC as squash commit `efbbe6b`. Bundles M37 finalisation (host bind-mount dev/prod separation, `data/dev/*` fixture seeders, retired `HEIMDALL_DEV_DATASET` workaround) plus three operator-console pipeline-progress fixes (per-batch + intra-batch interpolated progress events, worker healthcheck heartbeat thread, env-configurable `SUBFINDER_TIMEOUT` with dev override). Federico browser-walked dev (Live Demo 30 not 1,179, pipeline 30s with smoothly-moving bar), then merged. After merge, the four operator-console reframe decisions still pending from the morning wrap-up were resolved in one batch.
+
+**Decided**
+
+- **D1 (Notifications context).** Notifications becomes a **7th bounded context**, not folded into Findings Lifecycle. Rationale: we already have three non-finding notification flows (CT-change alerts, retention-failure operator alerts, Message 0 magic-link emails) plus future monthly summaries / payment-event notifications / SMS. Folding into Findings would force every non-finding flow to either fake-finding or sidestep the context boundary. Cleaner to own delivery dispatch + template + channel-preference + retry/backoff + delivery-log retention in one place.
+- **D2 (`config_changes` write path — hybrid).** **Use DB triggers for mandatory `config_changes` capture; retain repository wrappers for validation, intentful APIs, and actor/context propagation; treat raw-SQL write bans as secondary discipline, not the audit mechanism.** Rationale: triggers make the audit row tamper-proof (any write fires the row, even a one-off `cursor.execute()`), so the discipline doesn't depend on developer attention. Repository wrappers stay because validation, intent (`schedule_force_run` vs `update_status`), and actor/trace_id propagation are application concerns that don't belong in DB triggers. The raw-SQL grep ban becomes a defense-in-depth, not the load-bearing control. Implementation: triggers in `src/db/migrate.py` migrations alongside the table definitions; repository in `src/db/config.py` (or wherever the affected table lives) calls into the wrapper that sets context (actor/request_id) for the trigger to read via SQLite session-state.
+- **D3 (RBAC v1 — staged code-backed).** **Adopt code-backed authorization for v1, exposed through `Permission` enum + `require_permission(Permission.X)` decorator, NOT inline role checks.** Defer table-backed RBAC (`roles`/`permissions`/`role_permissions`) until Heimdall has more than two real roles or requires runtime role administration. Rationale: code-backed gives us the decorator surface and permission vocabulary we need now (so V2-V5 endpoints declare `@require_permission(Permission.RETENTION_FORCE_RUN)` from day one), but skips the table plumbing + admin UI + seed-script work that pays off only when there are >2 roles. When the third role appears (or when Federico needs to grant a permission at runtime without a deploy), the migration is mechanical: extract the in-code permission map into the three tables, wire the decorator to read from them. Identity/session/audit attribution ship FIRST (Stage A foundation), `require_permission` decorator + `Permission` enum ship in Stage A.5; the table-backed extraction is a follow-up.
+- **D4 (Stage sprint sequence — three sprints).** **Stage A = identity/auth/session/router carve. Stage A.5 = control-plane guarantees (command_audit + config_changes triggers + Permission enum + require_permission decorator + X-Request-ID middleware + trace_id propagation + /console/config/history). V2 = first onboarding view that consumes the guarantees.** Three PRs, in that order. Rationale: each PR has a clean review boundary. Stage A is browser-walkable as soon as auth + WS gate land. Stage A.5 is non-visual (audit/RBAC plumbing) but lands cleanly tested. V2 proves the foundation by being the first feature that uses `require_permission`, X-Request-ID, and config_changes triggers.
+
+**Open questions (none — all four decisions closed)**
+
+**How to apply (next-up engineering implications).**
+
+- Repository pattern lands in Stage A.5 alongside the triggers — the repository sets `PRAGMA user_data` (or equivalent SQLite session var) for actor + request_id before each write; the trigger reads from that.
+- Stage A scope locked: `operators` table, `sessions` table, `audit_log` table, password auth (replacing `console_password` Basic Auth), session ticket, WebSocket auth gate, per-context router carve (`src/api/routers/{tenant,findings,onboarding,billing,retention,liveops}.py`).
+- Stage A.5 scope locked per D2-D3: `command_audit` table + `config_changes` table + DB triggers on config-affecting tables + `Permission` enum (in `src/api/auth/permissions.py`) + `require_permission` decorator + X-Request-ID middleware + trace_id propagation through loguru context + `GET /console/config/history` git-shelling endpoint.
+- DRYRUN-CONSOLE seed plan (V1+V6 modal exercise) is independent of Stage A/A.5 — can ship in parallel as a small infra PR. Resurface for sign-off before Stage A starts.
+
+**Process notes**
+
+- Architect memo content was reconstructed from the morning-wrap-up decision-log entry (the architect's ephemeral conversation deliveries weren't preserved). Federico's prior correction — "you should keep the architect logs instead of relying on me" — applies going forward; future architect dispatches should be persisted as files under `docs/architecture/` so the bridging context survives across sessions.
+- D2 and D3 came back as hybrid answers (not the binary A/B I framed). The framing was crude; recording so future framings start from "what's the design space" not "pick one of two".
+
+---
+
 ## 2026-04-27 (morning wrap-up) — PR #47 opened + operator console reframing started + Anthropic issue filed
 
 **Decided**
