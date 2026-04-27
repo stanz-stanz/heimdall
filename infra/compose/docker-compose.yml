@@ -41,6 +41,11 @@ services:
       - CLIENT_DATA_DIR=/data/clients
       - VALDI_DIR=/data/valdi
       - ENRICHMENT_WORKERS=${ENRICHMENT_WORKERS:-3}
+      # SUBFINDER_TIMEOUT must reach the scheduler too — the daemon
+      # uses it as the per-batch wall-time estimate when interpolating
+      # intra-batch progress for the operator console. Worker uses the
+      # same value as the actual subprocess timeout.
+      - SUBFINDER_TIMEOUT=${SUBFINDER_TIMEOUT:-300}
     secrets:
       - claude_api_key
       - telegram_bot_token

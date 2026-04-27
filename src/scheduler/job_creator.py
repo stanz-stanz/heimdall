@@ -299,9 +299,11 @@ class JobCreator:
         Returns True when all batches complete, False on timeout.
 
         ``progress_callback`` (optional) is invoked as
-        ``progress_callback(completed, total)`` on every poll where
-        the completed count has advanced — used by the daemon to publish
-        per-batch progress events to the operator console.
+        ``progress_callback(completed, total, elapsed_in_batch)`` on every
+        poll — used by the daemon to publish progress events with
+        intra-batch interpolation. ``elapsed_in_batch`` is wall-time
+        seconds since the last completion (or since wait start if zero
+        batches have completed yet).
         """
         deadline = time.monotonic() + timeout
         total = int(self._conn.get(ENRICHMENT_TOTAL_KEY) or 0)
@@ -313,16 +315,20 @@ class JobCreator:
         logger.info("Waiting for {} enrichment batches (timeout={}s)", total, timeout)
 
         last_completed = -1
+        last_completion_t = time.monotonic()
         while time.monotonic() < deadline:
             completed = int(self._conn.get(ENRICHMENT_COUNTER_KEY) or 0)
-            if progress_callback is not None and completed != last_completed:
+            if completed != last_completed:
+                last_completion_t = time.monotonic()
+                last_completed = completed
+            if progress_callback is not None:
+                elapsed = time.monotonic() - last_completion_t
                 try:
-                    progress_callback(completed, total)
+                    progress_callback(completed, total, elapsed)
                 except Exception:
                     logger.opt(exception=True).warning(
                         "enrichment progress_callback failed (non-fatal)"
                     )
-                last_completed = completed
             if completed >= total:
                 logger.info(
                     "All {} enrichment batches completed", total

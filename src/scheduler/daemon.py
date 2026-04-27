@@ -222,21 +222,40 @@ def _handle_run_pipeline(
             total=len(domains),
         )
 
-        # Enrichment phase — per-batch progress via callback
+        # Enrichment phase — per-batch progress + intra-batch wall-time
+        # interpolation so the bar moves continuously, not just at batch
+        # completions. Each batch is allotted (80 / total_batches) pct
+        # points of the progress curve; within a batch we ease from 0%
+        # to 90% of that allotment over a typical subfinder run, then
+        # snap to 100% on the actual completion event.
         logger.info("Starting enrichment for {} domains", len(domains))
         enrichment_count = creator.create_enrichment_jobs(domains)
         if enrichment_count > 0:
-            def _on_enrichment_tick(completed: int, total: int) -> None:
-                pct = 5 + int(80 * completed / max(total, 1))
+            try:
+                from src.prospecting.config import SUBFINDER_TIMEOUT
+                est_per_batch_s = max(1, int(SUBFINDER_TIMEOUT))
+            except Exception:
+                est_per_batch_s = 30
+
+            per_batch_pct = 80 / enrichment_count
+
+            def _on_enrichment_tick(completed: int, total: int, elapsed: float) -> None:
+                # Cap intra-batch progress at 90% of the per-batch slice so
+                # the next completion event still produces a visible jump.
+                intra_fraction = min(0.9, elapsed / est_per_batch_s)
+                pct = int(5 + per_batch_pct * (completed + intra_fraction))
+                pct = min(pct, 84)
+                if completed >= total:
+                    return  # final state handled by 90% / 100% emissions
                 _publish_progress(
                     conn, run_id, pct=pct,
-                    message=f"Enriching: {completed}/{total} batches complete",
+                    message=f"Enriching: batch {completed + 1}/{total} ({int(elapsed)}s)",
                     current=completed, total=total,
                 )
 
             creator.wait_for_enrichment(
                 timeout=3600,
-                poll_interval=2,
+                poll_interval=1,
                 progress_callback=_on_enrichment_tick,
             )
 
