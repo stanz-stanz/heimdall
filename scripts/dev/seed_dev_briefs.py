@@ -1,26 +1,30 @@
-"""Seed the Mac dev stack's clients.db with a static 30-site fixture.
+"""Seed the Mac dev stack's briefs directory from a static 30-site fixture.
 
-Reads the domain list from ``config/dev_dataset.json`` (committed), loads
-each matching brief from ``data/output/briefs/``, and inserts it into the
-prospects table of a fresh ``data/dev/clients.db``.
+Reads the domain list from ``config/dev_dataset.json`` (committed), copies
+each matching brief from ``data/output/briefs/`` (the production-pipeline
+output, also committed) into ``data/dev/briefs/`` so the dev API container's
+``BRIEFS_HOST_DIR`` bind-mount serves only fixture data.
 
-This script is the local equivalent of what the prospecting pipeline does in
-production, but pinned to a curated 30-domain fixture so the dev stack is
-reproducible from one run to the next. The dev DB is NOT committed; it is
-regenerated on demand via ``make dev-seed``.
+This closes one of the four bind-mount leaks identified during M37
+finalisation: the dev API was rendering 1,179 production briefs instead of
+the 30 chosen for DEV.
 
 Fail-loud: if any listed domain is missing a brief on disk, all missing
 domains are collected and a single error is raised at the end. A partial
 seed is never produced.
 
+Idempotent: the destination directory is cleared of stray ``*.json`` files
+before each run, so dropping a domain from the dataset removes it from
+``data/dev/briefs/`` automatically.
+
 Usage
 -----
-    python -m scripts.dev.seed_dev_db             # regenerate dev DB
-    python -m scripts.dev.seed_dev_db --check     # verify briefs only, no writes
-    python -m scripts.dev.seed_dev_db \\
-        --db-path data/dev/clients.db \\
+    python -m scripts.dev.seed_dev_briefs              # regenerate dev briefs
+    python -m scripts.dev.seed_dev_briefs --check      # verify only, no writes
+    python -m scripts.dev.seed_dev_briefs \\
         --dataset config/dev_dataset.json \\
-        --briefs-dir data/output/briefs
+        --briefs-dir data/output/briefs \\
+        --dest-dir data/dev/briefs
 """
 
 from __future__ import annotations
@@ -28,24 +32,21 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import sqlite3
+import shutil
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from loguru import logger
 
-from src.db.connection import init_db
-from src.outreach.promote import insert_prospect
-
 _PROJECT_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_DATASET = _PROJECT_ROOT / "config" / "dev_dataset.json"
 _DEFAULT_BRIEFS_DIR = _PROJECT_ROOT / "data" / "output" / "briefs"
-_DEFAULT_DB_PATH = _PROJECT_ROOT / "data" / "dev" / "clients.db"
+_DEFAULT_DEST_DIR = _PROJECT_ROOT / "data" / "dev" / "briefs"
 
 
 class SeedError(RuntimeError):
-    """Raised when the seed cannot produce a consistent dev dataset."""
+    """Raised when the seed cannot produce a consistent dev briefs set."""
 
 
 @dataclass
@@ -55,10 +56,10 @@ class SeedReport:
     campaign: str
     dataset_path: Path
     briefs_dir: Path
-    db_path: Path
+    dest_dir: Path
     total_domains: int = 0
-    inserted: int = 0
-    skipped: int = 0
+    copied: int = 0
+    pruned: int = 0
     missing: list[tuple[str, str]] = field(default_factory=list)
     mode: str = "write"
 
@@ -68,12 +69,12 @@ class SeedReport:
             f"mode={self.mode}",
             f"dataset={self.dataset_path}",
             f"briefs={self.briefs_dir}",
-            f"db={self.db_path}",
+            f"dest={self.dest_dir}",
             f"total_domains={self.total_domains}",
             f"missing={len(self.missing)}",
         ]
         if self.mode == "write":
-            lines.append(f"inserted={self.inserted} skipped={self.skipped}")
+            lines.append(f"copied={self.copied} pruned={self.pruned}")
         return " ".join(lines)
 
 
@@ -92,11 +93,11 @@ def _load_dataset(path: Path) -> dict:
 def _resolve_brief_paths(
     dataset: dict, briefs_dir: Path
 ) -> tuple[list[tuple[str, str, Path]], list[tuple[str, str]]]:
-    """Map (bucket, domain) → brief path. Separate found vs missing.
+    """Map (bucket, domain) → source brief path. Separate found vs missing.
 
     Raises SeedError if the dataset's buckets have zero domains in total.
-    A run that succeeded against an empty dataset would silently empty
-    the dev DB — never the intended outcome.
+    A run that succeeded against an empty dataset would silently prune the
+    dev fixture to nothing, which is never the intended outcome.
     """
     resolved: list[tuple[str, str, Path]] = []
     missing: list[tuple[str, str]] = []
@@ -110,43 +111,40 @@ def _resolve_brief_paths(
     if not resolved and not missing:
         raise SeedError(
             f"Dataset has zero domains across all buckets — refusing to "
-            f"seed an empty dev DB. Check {dataset.get('campaign', '<unknown>')}."
+            f"prune the dev fixture to empty. Check {dataset.get('campaign', '<unknown>')}."
         )
     return resolved, missing
 
 
-def _load_brief(path: Path) -> dict:
-    with open(path, encoding="utf-8") as f:
-        brief = json.load(f)
-    if not isinstance(brief, dict):
-        raise SeedError(f"Brief must be a JSON object: {path}")
-    if not brief.get("domain"):
-        raise SeedError(f"Brief missing 'domain' key: {path}")
-    return brief
+def _prune_dest(dest_dir: Path, expected_filenames: set[str]) -> int:
+    """Remove stray *.json files from dest_dir not in the expected set.
 
-
-def _reset_db_file(db_path: Path) -> None:
-    """Delete the dev DB and its WAL/SHM siblings if present."""
-    for suffix in ("", "-wal", "-shm"):
-        candidate = Path(f"{db_path}{suffix}")
-        if candidate.exists():
-            candidate.unlink()
-    db_path.parent.mkdir(parents=True, exist_ok=True)
+    Returns the number of files removed. Non-JSON files are left alone
+    (so a hypothetical README in data/dev/briefs/ is not blown away).
+    """
+    pruned = 0
+    if not dest_dir.is_dir():
+        return 0
+    for child in dest_dir.iterdir():
+        if child.is_file() and child.suffix == ".json" and child.name not in expected_filenames:
+            child.unlink()
+            pruned += 1
+    return pruned
 
 
 def run_seed(
     dataset_path: Path = _DEFAULT_DATASET,
     briefs_dir: Path = _DEFAULT_BRIEFS_DIR,
-    db_path: Path = _DEFAULT_DB_PATH,
+    dest_dir: Path = _DEFAULT_DEST_DIR,
     check_only: bool = False,
 ) -> SeedReport:
     """Run the seed operation.
 
     Args:
         dataset_path: Path to the JSON dataset file.
-        briefs_dir:   Path to the briefs directory.
-        db_path:      Path to the dev SQLite database.
-        check_only:   If True, verify briefs without writing the DB.
+        briefs_dir:   Source briefs directory (production pipeline output).
+        dest_dir:     Destination briefs directory (dev fixture).
+        check_only:   If True, verify briefs without writing.
 
     Returns:
         A ``SeedReport`` describing the outcome.
@@ -161,7 +159,7 @@ def run_seed(
         campaign=dataset["campaign"],
         dataset_path=dataset_path,
         briefs_dir=briefs_dir,
-        db_path=db_path,
+        dest_dir=dest_dir,
         total_domains=len(resolved) + len(missing),
         missing=missing,
         mode="check" if check_only else "write",
@@ -175,30 +173,26 @@ def run_seed(
         )
 
     if check_only:
-        logger.info("seed_check_ok {}", report.summary())
+        logger.info("dev_fixture_seed_briefs_check_ok {}", report.summary())
         return report
 
-    _reset_db_file(db_path)
-    conn = init_db(str(db_path))
-    try:
-        for _bucket, _domain, brief_path in resolved:
-            brief = _load_brief(brief_path)
-            try:
-                insert_prospect(conn, dataset["campaign"], brief)
-                report.inserted += 1
-            except sqlite3.IntegrityError:
-                report.skipped += 1
-    finally:
-        conn.close()
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    expected = {f"{domain}.json" for _bucket, domain, _src in resolved}
+    report.pruned = _prune_dest(dest_dir, expected)
 
-    logger.info("seed_complete {}", report.summary())
+    for _bucket, domain, src in resolved:
+        dst = dest_dir / f"{domain}.json"
+        shutil.copyfile(src, dst)
+        report.copied += 1
+
+    logger.info("dev_fixture_seed_briefs_complete {}", report.summary())
     return report
 
 
 def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        prog="seed_dev_db",
-        description="Seed the dev stack clients.db from a static fixture.",
+        prog="seed_dev_briefs",
+        description="Seed data/dev/briefs/ from the dev fixture domain list.",
     )
     parser.add_argument(
         "--dataset",
@@ -210,18 +204,18 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--briefs-dir",
         type=Path,
         default=_DEFAULT_BRIEFS_DIR,
-        help="Path to the briefs directory (default: data/output/briefs).",
+        help="Source briefs directory (default: data/output/briefs).",
     )
     parser.add_argument(
-        "--db-path",
+        "--dest-dir",
         type=Path,
-        default=_DEFAULT_DB_PATH,
-        help="Path to the dev SQLite DB (default: data/dev/clients.db).",
+        default=_DEFAULT_DEST_DIR,
+        help="Destination briefs directory (default: data/dev/briefs).",
     )
     parser.add_argument(
         "--check",
         action="store_true",
-        help="Verify briefs exist without writing the dev DB.",
+        help="Verify source briefs exist without copying.",
     )
     return parser.parse_args(argv)
 
@@ -232,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
         report = run_seed(
             dataset_path=args.dataset,
             briefs_dir=args.briefs_dir,
-            db_path=args.db_path,
+            dest_dir=args.dest_dir,
             check_only=args.check,
         )
     except SeedError as exc:
@@ -241,9 +235,9 @@ def main(argv: list[str] | None = None) -> int:
 
     verb = "checked" if args.check else "seeded"
     print(
-        f"{verb} {report.total_domains} domain(s) | "
+        f"{verb} {report.total_domains} brief(s) | "
         f"campaign={report.campaign} | "
-        f"inserted={report.inserted} skipped={report.skipped}"
+        f"copied={report.copied} pruned={report.pruned}"
     )
     return 0
 
