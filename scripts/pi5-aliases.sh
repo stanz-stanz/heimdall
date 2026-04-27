@@ -7,6 +7,13 @@
 # `docker ps`, regardless of cwd or environment.
 unset COMPOSE_PROJECT_NAME
 
+# Same defence for the dev/prod data-isolation overrides (M37 finalisation,
+# 2026-04-26). The base compose's host bind-mounts use ${VAR:-default}; if
+# any of these four were ever exported in this shell (e.g. someone sourced
+# infra/compose/.env.dev on a Mac dev box and then called the aliases) the
+# prod-targeted aliases below would silently mount data/dev/* paths.
+unset INPUT_HOST_DIR ENRICHED_HOST_DIR RESULTS_HOST_DIR BRIEFS_HOST_DIR
+
 HEIMDALL_DIR="$HOME/heimdall"
 COMPOSE_FILE="$HEIMDALL_DIR/infra/compose/docker-compose.yml"
 COMPOSE_MON="$HEIMDALL_DIR/infra/compose/docker-compose.monitoring.yml"

@@ -49,8 +49,8 @@ services:
       - client-data:/data/clients
       - valdi-data:/data/valdi:ro
       - config-data:/config:ro
-      - ../../data/input:/data/input:ro
-      - ../../data/enriched:/data/enriched:ro
+      - ${INPUT_HOST_DIR:-../../data/input}:/data/input:ro
+      - ${ENRICHED_HOST_DIR:-../../data/enriched}:/data/enriched:ro
     networks:
       - internal
     depends_on:
@@ -83,7 +83,7 @@ services:
     volumes:
       - valdi-data:/data/valdi
       - client-data:/data/clients
-      - ../../data/results:/data/results
+      - ${RESULTS_HOST_DIR:-../../data/results}:/data/results
       - cache-data:/data/cache
       - config-data:/config:ro
     networks:
@@ -128,10 +128,10 @@ services:
       - console_password
     volumes:
       - client-data:/data/clients:ro
-      - ../../data/results:/data/results:ro
+      - ${RESULTS_HOST_DIR:-../../data/results}:/data/results:ro
       - message-data:/data/messages
       - config-data:/config:ro
-      - ../../data/output/briefs:/data/briefs:ro
+      - ${BRIEFS_HOST_DIR:-../../data/output/briefs}:/data/briefs:ro
     networks:
       - internal
     depends_on:
@@ -197,7 +197,7 @@ services:
     environment:
       - BRIEF_FILE=${BRIEF_FILE:-/config/conrads.dk.json}
     volumes:
-      - ../../data/output/briefs:/config:ro
+      - ${BRIEFS_HOST_DIR:-../../data/output/briefs}:/config:ro
     ports:
       - "9080:9080"
       - "9443:9443"

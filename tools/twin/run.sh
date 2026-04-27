@@ -8,4 +8,7 @@ BRIEF="${1:-conrads.dk.json}"
 export BRIEF_FILE="/config/$BRIEF"
 
 cd "$(git rev-parse --show-toplevel)"
-docker compose -f infra/compose/docker-compose.yml --profile twin up --build twin
+# Unset the dev/prod-isolation overrides so a sourced .env.dev or exported
+# shell var can't redirect this base-compose call to data/dev/* paths.
+env -u INPUT_HOST_DIR -u ENRICHED_HOST_DIR -u RESULTS_HOST_DIR -u BRIEFS_HOST_DIR \
+	docker compose -f infra/compose/docker-compose.yml --profile twin up --build twin
