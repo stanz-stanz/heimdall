@@ -306,6 +306,138 @@ def cancel_retention_job(
 
 
 # ---------------------------------------------------------------------------
+# Operator-console interventions on existing jobs
+# ---------------------------------------------------------------------------
+#
+# These two helpers exist so the operator console (V6) can advance or
+# re-queue retention jobs without bypassing the cron's claim-lock. They
+# only mutate ``scheduled_for`` / ``status`` — the cron in
+# ``src/retention/runner.py`` remains the sole execution path. CAS
+# guards in the WHERE clause make the operations idempotent under
+# concurrent operator clicks.
+
+
+def force_run_retention_job(
+    conn: sqlite3.Connection,
+    job_id: int,
+    *,
+    operator: str = "console",
+) -> dict:
+    """Advance a pending job's ``scheduled_for`` to now.
+
+    The next cron tick (≤300 s) will then claim and execute it. Status
+    stays ``'pending'`` — the operator does not bypass the runner's
+    claim-lock. ``notes`` gains an audit line, appended in SQL so two
+    concurrent operator clicks cannot lose each other's audit row.
+
+    The CAS predicate ``status = 'pending'`` guarantees a no-op if the
+    cron claimed the job after the read. ``KeyError`` is raised when the
+    row doesn't exist or has moved out of pending state.
+
+    Args:
+        conn: Database connection (read-write).
+        job_id: ``retention_jobs.id``.
+        operator: Free-text provenance, stamped into the note.
+
+    Raises:
+        KeyError: Job not found, or no longer pending.
+    """
+    job = get_retention_job(conn, job_id)
+    if job is None:
+        raise KeyError(f"Retention job {job_id} not found")
+    if job["status"] != "pending":
+        raise KeyError(
+            f"Retention job {job_id} is not pending (status={job['status']!r})"
+        )
+
+    now = _now()
+    suffix = f"[force-run by {operator} at {now}]"
+    # Append in SQL using char(10) (newline) as the separator. The CASE
+    # consults the row's current notes value at write time, so two
+    # operator clicks racing in quick succession both end up appended —
+    # neither loses its audit line via TOCTOU on a Python read.
+    cursor = conn.execute(
+        """
+        UPDATE retention_jobs
+           SET scheduled_for = ?,
+               notes = CASE
+                 WHEN notes IS NULL OR notes = '' THEN ?
+                 ELSE notes || char(10) || ?
+               END
+         WHERE id = ?
+           AND status = 'pending'
+        """,
+        (now, suffix, suffix, job_id),
+    )
+    conn.commit()
+    if cursor.rowcount == 0:
+        # Lost the race to the cron's claim. Surface as KeyError so the
+        # API handler can return 409 / 404 — the caller's expectation
+        # (still pending) no longer holds.
+        raise KeyError(
+            f"Retention job {job_id} was claimed before force-run could apply"
+        )
+    return get_retention_job(conn, job_id)  # type: ignore[return-value]
+
+
+def retry_failed_retention_job(
+    conn: sqlite3.Connection,
+    job_id: int,
+    *,
+    operator: str = "console",
+) -> dict:
+    """Demote a ``failed`` job back to ``pending`` with ``scheduled_for=now``.
+
+    The cron will retry on its next tick. ``claimed_at`` and
+    ``executed_at`` are cleared so the row looks fresh to the runner.
+    ``notes`` gains an audit line appended in SQL; the prior failure
+    note is preserved so the trail isn't lost. Concurrent operator
+    clicks both record their audit line (same TOCTOU rationale as
+    :func:`force_run_retention_job`).
+
+    Args:
+        conn: Database connection (read-write).
+        job_id: ``retention_jobs.id``.
+        operator: Free-text provenance, stamped into the note.
+
+    Raises:
+        KeyError: Job not found, or not in ``'failed'`` state.
+    """
+    job = get_retention_job(conn, job_id)
+    if job is None:
+        raise KeyError(f"Retention job {job_id} not found")
+    if job["status"] != "failed":
+        raise KeyError(
+            f"Retention job {job_id} is not failed (status={job['status']!r})"
+        )
+
+    now = _now()
+    suffix = f"[retry by {operator} at {now}]"
+    cursor = conn.execute(
+        """
+        UPDATE retention_jobs
+           SET status = 'pending',
+               scheduled_for = ?,
+               claimed_at = NULL,
+               executed_at = NULL,
+               notes = CASE
+                 WHEN notes IS NULL OR notes = '' THEN ?
+                 ELSE notes || char(10) || ?
+               END
+         WHERE id = ?
+           AND status = 'failed'
+        """,
+        (now, suffix, suffix, job_id),
+    )
+    conn.commit()
+    if cursor.rowcount == 0:
+        raise KeyError(
+            f"Retention job {job_id} state changed before retry could apply"
+        )
+    return get_retention_job(conn, job_id)  # type: ignore[return-value]
+
+
+# ---------------------------------------------------------------------------
 # Client-level retention mode
 # ---------------------------------------------------------------------------
 

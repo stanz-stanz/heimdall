@@ -1,6 +1,9 @@
 """Tests for the new console API endpoints (dashboard, pipeline, campaigns, etc.)."""
 
 
+import sqlite3
+from datetime import UTC, datetime, timedelta
+
 import fakeredis
 import pytest
 from fastapi.testclient import TestClient
@@ -360,3 +363,368 @@ class TestConsoleWebSocket:
                 if resp["type"] == "pong":
                     return
             raise AssertionError("Did not receive pong after 10 frames")
+
+
+# ---------------------------------------------------------------------------
+# Operator-console V1 / V6 — trial-expiring + retention queue
+# ---------------------------------------------------------------------------
+
+
+def _iso(dt: datetime) -> str:
+    return dt.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+@pytest.fixture
+def retention_seed(client, db_path):
+    """Seed a trial-expiring Watchman client + a few retention jobs.
+
+    Returns the seed payload (CVRs + job IDs) so individual tests can
+    target them. Timestamps are relative to *real* `datetime.now(UTC)`
+    so the endpoint's server-side `now()` resolves into the same window.
+    """
+    now = datetime.now(UTC)
+    seed = {
+        "expiring_cvr": "TRIAL001",
+        "future_cvr": "TRIAL002",
+        "due_job_id": None,
+        "future_job_id": None,
+        "completed_job_id": None,
+        "failed_job_id": None,
+    }
+
+    conn = sqlite3.connect(db_path)
+    try:
+        # Watchman trial expiring in ~5 days (within default 7d window).
+        conn.execute(
+            "INSERT INTO clients (cvr, company_name, status, plan, "
+            "trial_started_at, trial_expires_at, created_at, updated_at) "
+            "VALUES (?, ?, 'watchman_active', 'watchman', ?, ?, ?, ?)",
+            (
+                seed["expiring_cvr"],
+                "Expiring Trial",
+                _iso(now - timedelta(days=25)),
+                _iso(now + timedelta(days=5)),
+                _iso(now),
+                _iso(now),
+            ),
+        )
+        # Watchman trial well beyond the 7d window.
+        conn.execute(
+            "INSERT INTO clients (cvr, company_name, status, plan, "
+            "trial_started_at, trial_expires_at, created_at, updated_at) "
+            "VALUES (?, ?, 'watchman_active', 'watchman', ?, ?, ?, ?)",
+            (
+                seed["future_cvr"],
+                "Future Trial",
+                _iso(now),
+                _iso(now + timedelta(days=29)),
+                _iso(now),
+                _iso(now),
+            ),
+        )
+
+        # Retention jobs — due, future, completed, failed.
+        cur = conn.execute(
+            "INSERT INTO retention_jobs (cvr, action, scheduled_for, status, created_at) "
+            "VALUES (?, 'purge', ?, 'pending', ?)",
+            (seed["expiring_cvr"], _iso(now - timedelta(hours=1)), _iso(now)),
+        )
+        seed["due_job_id"] = cur.lastrowid
+
+        cur = conn.execute(
+            "INSERT INTO retention_jobs (cvr, action, scheduled_for, status, created_at) "
+            "VALUES (?, 'purge', ?, 'pending', ?)",
+            (seed["future_cvr"], _iso(now + timedelta(days=30)), _iso(now)),
+        )
+        seed["future_job_id"] = cur.lastrowid
+
+        cur = conn.execute(
+            "INSERT INTO retention_jobs (cvr, action, scheduled_for, status, "
+            "executed_at, created_at) "
+            "VALUES (?, 'purge', ?, 'completed', ?, ?)",
+            (
+                seed["expiring_cvr"],
+                _iso(now - timedelta(days=2)),
+                _iso(now - timedelta(days=1)),
+                _iso(now - timedelta(days=2)),
+            ),
+        )
+        seed["completed_job_id"] = cur.lastrowid
+
+        cur = conn.execute(
+            "INSERT INTO retention_jobs (cvr, action, scheduled_for, status, "
+            "executed_at, notes, created_at) "
+            "VALUES (?, 'purge', ?, 'failed', ?, ?, ?)",
+            (
+                seed["future_cvr"],
+                _iso(now - timedelta(hours=3)),
+                _iso(now - timedelta(hours=2)),
+                "rds 5xx",
+                _iso(now - timedelta(hours=3)),
+            ),
+        )
+        seed["failed_job_id"] = cur.lastrowid
+
+        conn.commit()
+    finally:
+        conn.close()
+
+    return seed
+
+
+class TestTrialExpiringEndpoint:
+    def test_returns_only_clients_within_default_7d_window(self, client, retention_seed):
+        resp = client.get("/console/clients/trial-expiring")
+        assert resp.status_code == 200
+        body = resp.json()
+        cvrs = {row["cvr"] for row in body}
+        assert retention_seed["expiring_cvr"] in cvrs
+        assert retention_seed["future_cvr"] not in cvrs
+
+    def test_window_widens_to_30d(self, client, retention_seed):
+        resp = client.get("/console/clients/trial-expiring?window_days=30")
+        assert resp.status_code == 200
+        cvrs = {row["cvr"] for row in resp.json()}
+        assert retention_seed["expiring_cvr"] in cvrs
+        assert retention_seed["future_cvr"] in cvrs
+
+    def test_window_clamped_to_max(self, client, retention_seed):
+        resp = client.get("/console/clients/trial-expiring?window_days=999")
+        assert resp.status_code == 422  # FastAPI Query(le=30) rejects
+
+    def test_window_minimum_is_one(self, client, retention_seed):
+        resp = client.get("/console/clients/trial-expiring?window_days=0")
+        assert resp.status_code == 422
+
+
+class TestRetentionQueueEndpoint:
+    def test_returns_only_pending_due(self, client, retention_seed):
+        resp = client.get("/console/clients/retention-queue")
+        assert resp.status_code == 200
+        body = resp.json()
+        ids = {row["id"] for row in body}
+        assert retention_seed["due_job_id"] in ids
+        assert retention_seed["future_job_id"] not in ids
+        assert retention_seed["completed_job_id"] not in ids
+        assert retention_seed["failed_job_id"] not in ids
+
+    def test_pagination(self, client, retention_seed, db_path):
+        # Add several due jobs to test pagination
+        now = datetime.now(UTC)
+        conn = sqlite3.connect(db_path)
+        try:
+            for i in range(5):
+                conn.execute(
+                    "INSERT INTO retention_jobs (cvr, action, scheduled_for, status, created_at) "
+                    "VALUES (?, 'purge', ?, 'pending', ?)",
+                    (
+                        f"PAG{i:05d}",
+                        _iso(now - timedelta(hours=2 + i)),
+                        _iso(now),
+                    ),
+                )
+            conn.commit()
+        finally:
+            conn.close()
+
+        page1 = client.get("/console/clients/retention-queue?limit=2&offset=0").json()
+        page2 = client.get("/console/clients/retention-queue?limit=2&offset=2").json()
+        assert len(page1) == 2
+        assert len(page2) == 2
+        assert {r["id"] for r in page1}.isdisjoint({r["id"] for r in page2})
+
+
+class TestRetentionForceRun:
+    def test_advances_pending_due(self, client, retention_seed, db_path):
+        # The fixture's due_job_id is already due. To meaningfully test
+        # force-run, schedule a future job and force-advance it.
+        future_id = retention_seed["future_job_id"]
+        resp = client.post(f"/console/retention-jobs/{future_id}/force-run")
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["status"] == "pending"
+        assert "force-run by console" in (body["notes"] or "")
+
+    def test_404_on_missing(self, client, retention_seed):
+        resp = client.post("/console/retention-jobs/99999/force-run")
+        assert resp.status_code == 404
+
+    def test_404_on_completed(self, client, retention_seed):
+        resp = client.post(
+            f"/console/retention-jobs/{retention_seed['completed_job_id']}/force-run"
+        )
+        assert resp.status_code == 404
+
+
+class TestRetentionCancel:
+    def test_cancels_pending(self, client, retention_seed):
+        resp = client.post(
+            f"/console/retention-jobs/{retention_seed['due_job_id']}/cancel",
+            json={"notes": "operator override"},
+        )
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["status"] == "cancelled"
+        assert body["notes"] == "operator override"
+
+    def test_cancels_without_body(self, client, retention_seed, db_path):
+        # One-click cancel — no JSON body. Endpoint must accept this
+        # and must NOT erase any pre-existing notes.
+        # Seed an existing note so we can prove preservation.
+        conn = sqlite3.connect(db_path)
+        try:
+            conn.execute(
+                "UPDATE retention_jobs SET notes = ? WHERE id = ?",
+                ("watchman non-converter", retention_seed["due_job_id"]),
+            )
+            conn.commit()
+        finally:
+            conn.close()
+
+        resp = client.post(
+            f"/console/retention-jobs/{retention_seed['due_job_id']}/cancel",
+        )
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["status"] == "cancelled"
+        assert body["notes"] == "watchman non-converter"
+
+    def test_cancels_with_null_notes_preserves_existing(
+        self, client, retention_seed, db_path
+    ):
+        conn = sqlite3.connect(db_path)
+        try:
+            conn.execute(
+                "UPDATE retention_jobs SET notes = ? WHERE id = ?",
+                ("scheduled by churn flow", retention_seed["due_job_id"]),
+            )
+            conn.commit()
+        finally:
+            conn.close()
+
+        resp = client.post(
+            f"/console/retention-jobs/{retention_seed['due_job_id']}/cancel",
+            json={"notes": None},
+        )
+        assert resp.status_code == 200
+        assert resp.json()["notes"] == "scheduled by churn flow"
+
+    def test_404_on_missing(self, client, retention_seed):
+        resp = client.post(
+            "/console/retention-jobs/99999/cancel",
+            json={"notes": None},
+        )
+        assert resp.status_code == 404
+
+    def test_404_on_completed(self, client, retention_seed):
+        resp = client.post(
+            f"/console/retention-jobs/{retention_seed['completed_job_id']}/cancel",
+            json={"notes": None},
+        )
+        assert resp.status_code == 404
+
+
+class TestRetentionRetry:
+    def test_retries_failed(self, client, retention_seed):
+        resp = client.post(
+            f"/console/retention-jobs/{retention_seed['failed_job_id']}/retry"
+        )
+        assert resp.status_code == 200
+        body = resp.json()
+        assert body["status"] == "pending"
+        assert body["executed_at"] is None
+        assert "retry by console" in (body["notes"] or "")
+
+    def test_404_on_missing(self, client, retention_seed):
+        resp = client.post("/console/retention-jobs/99999/retry")
+        assert resp.status_code == 404
+
+    def test_404_on_pending(self, client, retention_seed):
+        # Retry only applies to failed jobs.
+        resp = client.post(
+            f"/console/retention-jobs/{retention_seed['due_job_id']}/retry"
+        )
+        assert resp.status_code == 404
+
+
+class TestRetentionActionAuditPublish:
+    def test_force_run_publishes_activity_with_structured_payload(
+        self, client, retention_seed
+    ):
+        # The fixture's `client` fixture wires fakeredis at app.state.redis.
+        # Subscribe BEFORE the action so the publish lands in our buffer.
+        # Pull the redis instance off the app state via the test-client app.
+        redis_conn = client.app.state.redis
+        pubsub = redis_conn.pubsub()
+        pubsub.subscribe("console:activity")
+        # First message is the subscribe ack — drain it.
+        pubsub.get_message(timeout=0.5)
+
+        future_id = retention_seed["future_job_id"]
+        resp = client.post(f"/console/retention-jobs/{future_id}/force-run")
+        assert resp.status_code == 200
+
+        seen_action = None
+        seen_message = None
+        for _ in range(5):
+            msg = pubsub.get_message(timeout=0.5)
+            if msg is None:
+                continue
+            if msg.get("type") != "message":
+                continue
+            import json as _json
+
+            payload = _json.loads(msg["data"])
+            # Existing console:activity convention: type == "activity".
+            # The structured fields ride along in payload for consumers
+            # that care.
+            if payload.get("type") == "activity":
+                seen_action = payload["payload"].get("action")
+                seen_message = payload["payload"].get("message")
+                break
+
+        pubsub.unsubscribe()
+        pubsub.close()
+        assert seen_action == "force_run"
+        assert seen_message is not None
+        assert "force-ran" in seen_message
+        assert str(future_id) in seen_message
+
+
+class TestRetentionCancelRaceGuard:
+    """Regression guard: cancel must use CAS so the cron can't race
+    with the operator. Codex flagged the original read-then-write as
+    TOCTOU-vulnerable on 2026-04-26."""
+
+    def test_cancel_loses_to_cron_claim_returns_404(
+        self, client, retention_seed, db_path
+    ):
+        # Simulate the cron beating the operator: flip the row to
+        # 'running' before the cancel POST hits the DB. With CAS the
+        # endpoint returns 404; without CAS it would silently cancel
+        # an in-flight job.
+        job_id = retention_seed["due_job_id"]
+        conn = sqlite3.connect(db_path)
+        try:
+            conn.execute(
+                "UPDATE retention_jobs SET status='running', claimed_at=? WHERE id=?",
+                (datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"), job_id),
+            )
+            conn.commit()
+        finally:
+            conn.close()
+
+        resp = client.post(
+            f"/console/retention-jobs/{job_id}/cancel",
+            json={"notes": None},
+        )
+        assert resp.status_code == 404
+        # Confirm the row stayed running.
+        conn = sqlite3.connect(db_path)
+        try:
+            row = conn.execute(
+                "SELECT status FROM retention_jobs WHERE id=?", (job_id,)
+            ).fetchone()
+        finally:
+            conn.close()
+        assert row[0] == "running"

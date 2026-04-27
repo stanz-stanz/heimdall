@@ -13,6 +13,15 @@ from fastapi import APIRouter, HTTPException, Query, Request, WebSocket, WebSock
 from loguru import logger
 from pydantic import BaseModel
 
+from src.db.console_views import (
+    list_retention_queue_pending_due,
+    list_trial_expiring,
+)
+from src.db.retention import (
+    force_run_retention_job,
+    retry_failed_retention_job,
+)
+
 from .demo_orchestrator import (
     cleanup_demo_queue,
     generate_scan_id,
@@ -34,6 +43,10 @@ class DemoStartRequest(BaseModel):
 class DemoStartResponse(BaseModel):
     scan_id: str
     domain: str
+
+
+class RetentionCancelBody(BaseModel):
+    notes: str | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -365,6 +378,304 @@ async def console_clients_list(request: Request):
             return {"error": "Database error", "detail": str(exc)}
 
     return await asyncio.to_thread(_query)
+
+
+# ---------------------------------------------------------------------------
+# Operator-console list views — V1 trial-expiring, V6 retention queue
+# ---------------------------------------------------------------------------
+#
+# Spec lives in ~/.claude/plans/i-need-you-to-logical-pebble.md (V1–V6).
+# V2–V5 are soft-blocked on the Betalingsservice webhook plumbing and
+# land alongside that work.
+
+
+def _resolve_db_path(request: Request) -> str:
+    return getattr(request.app.state, "db_path", "data/clients/clients.db")
+
+
+_RETENTION_ACTION_VERBS = {
+    "force_run": "force-ran",
+    "cancel": "cancelled",
+    "retry": "retried",
+}
+
+
+def _publish_retention_action(
+    request: Request,
+    *,
+    action: str,
+    job: dict,
+) -> None:
+    """Publish an operator-action event to console:activity.
+
+    Uses ``type='activity'`` to match the existing console-activity
+    consumer (``src/api/frontend/src/views/Logs.svelte`` and the
+    Dashboard activity feed only render messages tagged ``activity``).
+    The structured fields (``action``, ``job_id``, ``cvr``) ride along
+    in ``payload`` for any future consumer that wants them, but the
+    primary surface is the human-readable ``message`` field.
+
+    Failure to publish is logged but not raised — the DB write has
+    already committed.
+    """
+    redis_conn = getattr(request.app.state, "redis", None)
+    if redis_conn is None:
+        return
+    verb = _RETENTION_ACTION_VERBS.get(action, action)
+    message = (
+        f"Operator {verb} retention job #{job['id']} "
+        f"(cvr={job['cvr']}, action={job['action']})"
+    )
+    try:
+        redis_conn.publish(
+            "console:activity",
+            json.dumps(
+                {
+                    "type": "activity",
+                    "payload": {
+                        "message": message,
+                        "action": action,
+                        "job_id": job["id"],
+                        "cvr": job["cvr"],
+                        "status": job["status"],
+                    },
+                    "ts": datetime.now(UTC).isoformat(),
+                }
+            ),
+        )
+    except Exception as exc:
+        logger.warning("console_activity_publish_failed action={} err={}", action, exc)
+
+
+@router.get("/clients/trial-expiring")
+async def console_trial_expiring(
+    request: Request,
+    window_days: int = Query(default=7, ge=1, le=30),
+):
+    """V1 — Watchman trials expiring within ``window_days`` (default 7)
+    that have not engaged with the Sentinel upgrade flow."""
+    db_path = _resolve_db_path(request)
+
+    def _query():
+        try:
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                return list_trial_expiring(conn, window_days=window_days)
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
+
+    return await asyncio.to_thread(_query)
+
+
+@router.get("/clients/retention-queue")
+async def console_retention_queue(
+    request: Request,
+    limit: int = Query(default=200, ge=1, le=1000),
+    offset: int = Query(default=0, ge=0),
+):
+    """V6 — retention jobs the cron is about to claim
+    (``status='pending' AND scheduled_for <= now``)."""
+    db_path = _resolve_db_path(request)
+
+    def _query():
+        try:
+            conn = sqlite3.connect(db_path, timeout=5)
+            conn.row_factory = sqlite3.Row
+            try:
+                return list_retention_queue_pending_due(
+                    conn, limit=limit, offset=offset
+                )
+            finally:
+                conn.close()
+        except sqlite3.OperationalError as exc:
+            logger.warning("console_db_unavailable: {}", exc)
+            return {"error": "Database unavailable", "detail": str(exc)}
+        except sqlite3.DatabaseError as exc:
+            logger.critical("console_db_corruption: {}", exc)
+            return {"error": "Database error", "detail": str(exc)}
+
+    return await asyncio.to_thread(_query)
+
+
+def _run_retention_action(
+    db_path: str,
+    job_id: int,
+    *,
+    action: str,
+    fn,
+    fn_kwargs: dict | None = None,
+) -> dict:
+    """Open a connection, dispatch the helper, log the audit line.
+
+    The helper raises ``KeyError`` on missing / wrong-state rows; we
+    re-raise the same ``KeyError`` so the FastAPI handler can map it
+    to a 404. The DB write is the source of truth — logging happens
+    after a successful commit.
+    """
+    conn = sqlite3.connect(db_path, timeout=5)
+    conn.row_factory = sqlite3.Row
+    try:
+        kwargs = fn_kwargs or {}
+        updated = fn(conn, job_id, **kwargs)
+    finally:
+        conn.close()
+
+    logger.bind(
+        context={
+            "event": "operator_retention_action",
+            "action": action,
+            "job_id": job_id,
+            "cvr": updated["cvr"],
+            "operator": "console",
+        }
+    ).info("operator_retention_action")
+    return updated
+
+
+@router.post("/retention-jobs/{job_id}/force-run")
+async def console_retention_force_run(job_id: int, request: Request):
+    """Advance a pending retention job's ``scheduled_for`` to now so the
+    next cron tick claims it. The cron remains the sole executor."""
+    db_path = _resolve_db_path(request)
+    try:
+        updated = await asyncio.to_thread(
+            _run_retention_action,
+            db_path,
+            job_id,
+            action="force_run",
+            fn=force_run_retention_job,
+        )
+    except KeyError as exc:
+        raise HTTPException(404, detail=str(exc)) from exc
+    except sqlite3.OperationalError as exc:
+        logger.warning("console_db_unavailable_force_run job_id={} err={}", job_id, exc)
+        raise HTTPException(503, detail=f"Database unavailable: {exc}") from exc
+    except sqlite3.DatabaseError as exc:
+        logger.critical("console_db_corruption_force_run job_id={} err={}", job_id, exc)
+        raise HTTPException(500, detail=f"Database error: {exc}") from exc
+    _publish_retention_action(request, action="force_run", job=updated)
+    return updated
+
+
+@router.post("/retention-jobs/{job_id}/cancel")
+async def console_retention_cancel(
+    job_id: int,
+    request: Request,
+    body: RetentionCancelBody | None = None,
+):
+    """Cancel a pending retention job using a CAS UPDATE.
+
+    The CAS predicate ``status='pending'`` makes the transition atomic
+    against the cron's claim-lock — if the cron already promoted the
+    row to ``running`` we surface 404 rather than cancelling a job
+    mid-execution.
+
+    The request body is optional. When ``notes`` is omitted or ``null``
+    the existing ``notes`` column is preserved (one-click cancel flow);
+    a non-null ``notes`` value overwrites the column.
+    """
+    db_path = _resolve_db_path(request)
+    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    notes_override = body.notes if body is not None else None
+
+    def _do():
+        conn = sqlite3.connect(db_path, timeout=5)
+        conn.row_factory = sqlite3.Row
+        try:
+            # CAS UPDATE: only flip pending → cancelled. The cron's
+            # claim path uses BEGIN IMMEDIATE + UPDATE ... WHERE
+            # status='pending' RETURNING; this matches that pattern so
+            # exactly one of the two transitions wins.
+            #
+            # COALESCE preserves any pre-existing notes when the
+            # operator submits a body-less cancel — Codex flagged the
+            # naive ``notes = ?`` overwrite on 2026-04-26.
+            cursor = conn.execute(
+                """
+                UPDATE retention_jobs
+                   SET status = 'cancelled',
+                       executed_at = ?,
+                       notes = COALESCE(?, notes)
+                 WHERE id = ?
+                   AND status = 'pending'
+                """,
+                (now, notes_override, job_id),
+            )
+            conn.commit()
+            if cursor.rowcount == 0:
+                # Either the row doesn't exist or the cron beat us.
+                # Distinguish for the operator's sake.
+                row = conn.execute(
+                    "SELECT status FROM retention_jobs WHERE id = ?",
+                    (job_id,),
+                ).fetchone()
+                if row is None:
+                    raise KeyError(f"Retention job {job_id} not found")
+                raise KeyError(
+                    f"Retention job {job_id} is not pending "
+                    f"(status={row['status']!r})"
+                )
+            row = conn.execute(
+                "SELECT * FROM retention_jobs WHERE id = ?", (job_id,)
+            ).fetchone()
+            return dict(row)
+        finally:
+            conn.close()
+
+    try:
+        updated = await asyncio.to_thread(_do)
+    except KeyError as exc:
+        raise HTTPException(404, detail=str(exc)) from exc
+    except sqlite3.OperationalError as exc:
+        logger.warning("console_db_unavailable_cancel job_id={} err={}", job_id, exc)
+        raise HTTPException(503, detail=f"Database unavailable: {exc}") from exc
+    except sqlite3.DatabaseError as exc:
+        logger.critical("console_db_corruption_cancel job_id={} err={}", job_id, exc)
+        raise HTTPException(500, detail=f"Database error: {exc}") from exc
+
+    logger.bind(
+        context={
+            "event": "operator_retention_action",
+            "action": "cancel",
+            "job_id": job_id,
+            "cvr": updated["cvr"],
+            "operator": "console",
+        }
+    ).info("operator_retention_action")
+    _publish_retention_action(request, action="cancel", job=updated)
+    return updated
+
+
+@router.post("/retention-jobs/{job_id}/retry")
+async def console_retention_retry(job_id: int, request: Request):
+    """Re-queue a failed retention job. Sets status back to ``'pending'``
+    with ``scheduled_for=now``; the cron will retry on next tick."""
+    db_path = _resolve_db_path(request)
+    try:
+        updated = await asyncio.to_thread(
+            _run_retention_action,
+            db_path,
+            job_id,
+            action="retry",
+            fn=retry_failed_retention_job,
+        )
+    except KeyError as exc:
+        raise HTTPException(404, detail=str(exc)) from exc
+    except sqlite3.OperationalError as exc:
+        logger.warning("console_db_unavailable_retry job_id={} err={}", job_id, exc)
+        raise HTTPException(503, detail=f"Database unavailable: {exc}") from exc
+    except sqlite3.DatabaseError as exc:
+        logger.critical("console_db_corruption_retry job_id={} err={}", job_id, exc)
+        raise HTTPException(500, detail=f"Database error: {exc}") from exc
+    _publish_retention_action(request, action="retry", job=updated)
+    return updated
 
 
 @router.get("/settings")
