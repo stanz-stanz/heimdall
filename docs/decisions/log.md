@@ -5,6 +5,27 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-27 (late evening) — End-of-session wrap-up
+
+**Decided**
+
+- PR #47 merged 17:30 UTC after dev browser-walk: bind-mount separation + 3 pipeline UX bugs (progress event wiring, worker heartbeat thread, dev subfinder tuning + interpolated intra-batch progress).
+- Four operator-console reframe decisions captured (see preceding 2026-04-27 evening entry): D1=Notifications-7th-context, D2=triggers-for-capture+wrappers-for-intent, D3=staged-code-backed-RBAC (Permission enum + decorator), D4=three-sprint-sequence (Stage A → A.5 → V2).
+- Pipeline progress UX accepted as "ok but visibly forced" — real-signal refactor (subfinder JSON streaming OR indeterminate UI) parked per Federico's "move on".
+
+**Rejected**
+
+- Re-dispatching architect agent to reconstruct ephemeral memo content. Decision log + project-state had enough preserved context to draft the four-decision pack from first principles + recorded constraints.
+- Standalone docs-only branch for the architect-decisions commit. Cherry-picked to main directly per "docs-only commits go straight to main" precedent (matches prior wrap-up commits).
+
+**Unresolved**
+
+- DRYRUN-CONSOLE seed plan never drafted (was reading V1+V6 schema requirements when /wrap-up fired). Resume next session.
+- Stale local branches `feat/dev-prod-bind-mount-separation` and `docs/architect-decisions-2026-04-27` — both merged/applied to main, but `git branch -D` is hook-blocked. Federico to clean up manually if desired.
+- Process note from preceding entry — "persist architect dispatches under docs/architecture/" — not yet codified into CLAUDE.md or any agent SKILL.md.
+
+---
+
 ## 2026-04-27 (evening) — PR #47 merged + four architect-reframe decisions resolved
 
 **Context.** PR #47 (`feat/dev-prod-bind-mount-separation`, 9 commits incl. merge of `main` carrying #46) merged 2026-04-27 17:30 UTC as squash commit `efbbe6b`. Bundles M37 finalisation (host bind-mount dev/prod separation, `data/dev/*` fixture seeders, retired `HEIMDALL_DEV_DATASET` workaround) plus three operator-console pipeline-progress fixes (per-batch + intra-batch interpolated progress events, worker healthcheck heartbeat thread, env-configurable `SUBFINDER_TIMEOUT` with dev override). Federico browser-walked dev (Live Demo 30 not 1,179, pipeline 30s with smoothly-moving bar), then merged. After merge, the four operator-console reframe decisions still pending from the morning wrap-up were resolved in one batch.
