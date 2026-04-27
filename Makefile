@@ -34,9 +34,20 @@ SECRETS_DEV     := infra/compose/secrets.dev
 HEIMDALL_TAG := $(shell git rev-parse --short HEAD 2>/dev/null)$(shell git diff --quiet 2>/dev/null || echo -dirty)
 export HEIMDALL_TAG
 
-DC_DEV  := docker compose -p heimdall_dev --env-file $(ENV_DEV) \
+# env -u on both DC_DEV and DC_PROD_RENDER strips the four *_HOST_DIR vars
+# from the docker compose process environment so neither inherits them from
+# an interactive shell that has them exported. DC_DEV then re-populates them
+# from --env-file infra/compose/.env.dev (Compose env-file precedence kicks in
+# only when the var is unset), guaranteeing dev binds always come from the
+# committed dev fixture path. DC_PROD_RENDER lets the ${VAR:-default}
+# fallbacks in docker-compose.yml take over (no env-file).
+DC_DEV  := env -u INPUT_HOST_DIR -u ENRICHED_HOST_DIR \
+	           -u RESULTS_HOST_DIR -u BRIEFS_HOST_DIR \
+	           docker compose -p heimdall_dev --env-file $(ENV_DEV) \
 	           -f $(COMPOSE_PROD) -f $(COMPOSE_DEV)
-DC_PROD_RENDER := docker compose -p docker \
+DC_PROD_RENDER := env -u INPUT_HOST_DIR -u ENRICHED_HOST_DIR \
+	           -u RESULTS_HOST_DIR -u BRIEFS_HOST_DIR \
+	           docker compose -p docker \
 	           -f $(COMPOSE_PROD) -f $(COMPOSE_MON)
 
 # --- Help ---------------------------------------------------------------
@@ -48,11 +59,33 @@ help: ## Show this help.
 # --- Dev stack lifecycle ------------------------------------------------
 
 .PHONY: check-env
-check-env: ## Error if infra/compose/.env.dev is missing.
+check-env: ## Error if infra/compose/.env.dev is missing or lacks required overrides.
 	@if [ ! -f "$(ENV_DEV)" ]; then \
 		echo "error: $(ENV_DEV) not found."; \
 		echo "Copy $(ENV_DEV_EXAMPLE) to $(ENV_DEV) and fill in dev secrets."; \
 		echo "See docs/development.md for the BotFather setup."; \
+		exit 1; \
+	fi
+	@missing=""; \
+	for var in INPUT_HOST_DIR ENRICHED_HOST_DIR RESULTS_HOST_DIR BRIEFS_HOST_DIR; do \
+		line=$$(grep -E "^[[:space:]]*$$var[[:space:]]*=" $(ENV_DEV) | tail -1); \
+		if [ -z "$$line" ]; then missing="$$missing $$var"; continue; fi; \
+		val=$${line#*=}; \
+		val=$$(printf '%s' "$$val" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$$//'); \
+		val=$$(printf '%s' "$$val" | sed -e 's/^"\(.*\)"$$/\1/' -e "s/^'\(.*\)'$$/\1/"); \
+		case "$$val" in ""|'#'*) missing="$$missing $$var" ;; esac; \
+	done; \
+	if [ -n "$$missing" ]; then \
+		echo "error: $(ENV_DEV) is missing or has empty values for required dev/prod isolation overrides:$$missing"; \
+		echo ""; \
+		echo "Compose expands \$${VAR:-default} to the PROD default when VAR is empty,"; \
+		echo "so any of these forms still leak prod paths into DEV:"; \
+		echo "  BRIEFS_HOST_DIR="; \
+		echo "  BRIEFS_HOST_DIR=\"\""; \
+		echo "  BRIEFS_HOST_DIR=''"; \
+		echo "  BRIEFS_HOST_DIR= # comment"; \
+		echo "Copy the '--- Dev/prod data isolation ---' block from $(ENV_DEV_EXAMPLE)"; \
+		echo "into $(ENV_DEV) and re-run."; \
 		exit 1; \
 	fi
 
@@ -65,7 +98,7 @@ dev-build: check-env dev-secrets ## Build dev stack images.
 	$(DC_DEV) build
 
 .PHONY: dev-up
-dev-up: check-env dev-secrets ## Start the dev stack (detached, waits for healthchecks).
+dev-up: check-env dev-secrets dev-fixture-bootstrap ## Start the dev stack (detached, waits for healthchecks). Auto-refreshes data/dev/* fixture before bringing the stack up.
 	$(DC_DEV) up -d --wait
 
 .PHONY: dev-down
@@ -97,6 +130,21 @@ dev-seed: ## Regenerate data/dev/clients.db from config/dev_dataset.json.
 .PHONY: dev-seed-check
 dev-seed-check: ## Verify every dev-fixture brief exists on disk. No writes.
 	python -m scripts.dev.seed_dev_db --check
+
+.PHONY: dev-fixture-bootstrap
+dev-fixture-bootstrap: ## Populate the bind-mounted data/dev/{briefs,enriched,input,results}/ paths from prod sources + 30-domain fixture. Does NOT seed the dev stack's clients.db (lives in the heimdall_dev_client-data named volume) — use `make dev-seed` for the host-only data/dev/clients.db.
+	@mkdir -p data/dev/briefs data/dev/enriched data/dev/input data/dev/results
+	@python -m scripts.dev.seed_dev_briefs
+	@python -m scripts.dev.seed_dev_enriched
+
+.PHONY: dev-fixture-refresh
+dev-fixture-refresh: dev-fixture-bootstrap ## Re-run all dev fixture seeds (call after prod briefs / enriched DB change).
+	@echo "dev fixture refreshed"
+
+.PHONY: dev-fixture-check
+dev-fixture-check: ## Verify dev fixture sources exist (briefs + enriched companies). No writes.
+	@python -m scripts.dev.seed_dev_briefs --check
+	@python -m scripts.dev.seed_dev_enriched --check
 
 # --- Tests --------------------------------------------------------------
 

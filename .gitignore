@@ -21,6 +21,10 @@ data/**/*.db
 # Exception: enriched CVR database is a deployment artifact, synced via git
 !data/enriched/companies.db
 
+# Mac dev fixture — regenerated locally via `make dev-fixture-bootstrap`.
+# Contains only filtered copies of committed prod data; never a source of truth.
+data/dev/
+
 # Secrets and credentials
 *.key
 *.pem

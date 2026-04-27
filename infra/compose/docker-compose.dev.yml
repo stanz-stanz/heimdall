@@ -46,12 +46,21 @@ services:
     ports:
       - "8001:8000"
 
-  scheduler:
-    # Dev-only: point JobCreator at the flat 30-domain fixture so clicking
-    # "Run Pipeline" in the dev console never touches the 1,179-row enriched
-    # production DB. Prod leaves this unset and reads /data/enriched as usual.
+  # Scheduler: no dev-only env override needed. The host bind-mount on
+  # /data/enriched (parameterised via ENRICHED_HOST_DIR in .env.dev) now
+  # points at data/dev/enriched/companies.db — a 30-domain fixture filtered
+  # from the prod DB by `make dev-fixture-bootstrap`. Same code path as
+  # PROD; no special-case env var. The fallback at
+  # src/scheduler/job_creator.py:93-109 remains as a defensive escape hatch.
+
+  twin:
+    # The base compose's default BRIEF_FILE is /config/conrads.dk.json, which
+    # is NOT in the 30-domain dev fixture. With BRIEFS_HOST_DIR overridden to
+    # data/dev/briefs/ in .env.dev, the prod default would 404 on dev.
+    # Pick a WordPress-bucket fixture domain so `--profile twin up twin`
+    # works out of the box on a fresh dev checkout.
     environment:
-      HEIMDALL_DEV_DATASET: /app/config/dev_dataset.json
+      - BRIEF_FILE=${BRIEF_FILE:-/config/farylochan.dk.json}
 
   dozzle:
     profiles: ["tools"]
