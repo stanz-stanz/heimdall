@@ -16,11 +16,13 @@ from src.db.retention import (
     VALID_RETENTION_JOB_STATUSES,
     cancel_retention_job,
     claim_due_retention_jobs,
+    force_run_retention_job,
     list_due_retention_jobs,
     list_retention_jobs_for_cvr,
     mark_retention_job_completed,
     mark_retention_job_failed,
     reap_stuck_running_jobs,
+    retry_failed_retention_job,
     schedule_churn_retention,
     schedule_retention_job,
     set_data_retention_mode,
@@ -219,6 +221,181 @@ class TestListByCvr:
         rows = list_retention_jobs_for_cvr(db, "12345678")
 
         assert [r["id"] for r in rows] == [sooner["id"], later["id"]]
+
+
+# ---------------------------------------------------------------------------
+# Operator-console interventions (V6)
+# ---------------------------------------------------------------------------
+
+
+class TestForceRunRetentionJob:
+    def test_advances_scheduled_for_to_now(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2099-01-01T00:00:00Z",
+        )
+        updated = force_run_retention_job(db, job["id"], operator="alice")
+        assert updated["status"] == "pending"
+        assert updated["scheduled_for"] < "2099-01-01T00:00:00Z"
+
+    def test_appends_audit_note_without_dropping_prior(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2099-01-01T00:00:00Z",
+            notes="watchman non-converter",
+        )
+        updated = force_run_retention_job(db, job["id"], operator="alice")
+        assert "watchman non-converter" in updated["notes"]
+        assert "force-run by alice" in updated["notes"]
+
+    def test_appends_with_no_prior_note(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2099-01-01T00:00:00Z",
+        )
+        updated = force_run_retention_job(db, job["id"])
+        assert updated["notes"].startswith("[force-run by console")
+
+    def test_refuses_running_job(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2026-01-01T00:00:00Z",
+        )
+        # Promote to running via the claim-lock path.
+        claim_due_retention_jobs(db, now="2026-04-24T00:00:00Z")
+        with pytest.raises(KeyError, match="not pending"):
+            force_run_retention_job(db, job["id"])
+
+    def test_refuses_completed_job(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2026-01-01T00:00:00Z",
+        )
+        mark_retention_job_completed(db, job["id"])
+        with pytest.raises(KeyError, match="not pending"):
+            force_run_retention_job(db, job["id"])
+
+    def test_refuses_failed_job(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2026-01-01T00:00:00Z",
+        )
+        mark_retention_job_failed(db, job["id"], error="boom")
+        with pytest.raises(KeyError, match="not pending"):
+            force_run_retention_job(db, job["id"])
+
+    def test_refuses_cancelled_job(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2099-01-01T00:00:00Z",
+        )
+        cancel_retention_job(db, job["id"])
+        with pytest.raises(KeyError, match="not pending"):
+            force_run_retention_job(db, job["id"])
+
+    def test_missing_job_raises(self, db):
+        with pytest.raises(KeyError, match="not found"):
+            force_run_retention_job(db, 99999)
+
+
+class TestRetryFailedRetentionJob:
+    def test_demotes_failed_to_pending(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2026-01-01T00:00:00Z",
+        )
+        mark_retention_job_failed(db, job["id"], error="rds 5xx")
+        updated = retry_failed_retention_job(db, job["id"], operator="alice")
+        assert updated["status"] == "pending"
+
+    def test_clears_executed_at(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2026-01-01T00:00:00Z",
+        )
+        mark_retention_job_failed(db, job["id"], error="rds 5xx")
+        updated = retry_failed_retention_job(db, job["id"])
+        assert updated["executed_at"] is None
+        assert updated["claimed_at"] is None
+
+    def test_preserves_failure_note(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2026-01-01T00:00:00Z",
+        )
+        mark_retention_job_failed(db, job["id"], error="rds 5xx")
+        updated = retry_failed_retention_job(db, job["id"], operator="alice")
+        assert "rds 5xx" in updated["notes"]
+        assert "retry by alice" in updated["notes"]
+
+    def test_refuses_pending_job(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2099-01-01T00:00:00Z",
+        )
+        with pytest.raises(KeyError, match="not failed"):
+            retry_failed_retention_job(db, job["id"])
+
+    def test_refuses_completed_job(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2026-01-01T00:00:00Z",
+        )
+        mark_retention_job_completed(db, job["id"])
+        with pytest.raises(KeyError, match="not failed"):
+            retry_failed_retention_job(db, job["id"])
+
+    def test_missing_job_raises(self, db):
+        with pytest.raises(KeyError, match="not found"):
+            retry_failed_retention_job(db, 99999)
+
+
+class TestNoteAppendIsAtomic:
+    """Two interleaved operator clicks must both leave their audit
+    line in `notes`. Codex flagged the original read-modify-write
+    pattern as TOCTOU-vulnerable on 2026-04-26."""
+
+    def test_two_force_runs_both_audit_lines_present(self, db):
+        job = schedule_retention_job(
+            db,
+            cvr="12345678",
+            action="purge",
+            scheduled_for="2099-01-01T00:00:00Z",
+        )
+        # Two operators race. The implementation appends in SQL via
+        # CASE ... notes || char(10) || suffix, so both audit lines
+        # land regardless of read ordering.
+        force_run_retention_job(db, job["id"], operator="alice")
+        force_run_retention_job(db, job["id"], operator="bob")
+        final = list_retention_jobs_for_cvr(db, "12345678")[0]
+        assert "force-run by alice" in final["notes"]
+        assert "force-run by bob" in final["notes"]
+        # Newline separator preserved.
+        assert "\n" in final["notes"]
 
 
 # ---------------------------------------------------------------------------

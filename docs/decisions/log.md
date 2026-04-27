@@ -5,6 +5,39 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-26 (evening) — Operator console V1+V6 — tabs in Clients, strict spec, Codex pre-commit caught 5 real issues
+
+**Decided**
+
+- Operator console V1 (Trial expiring) + V6 (Retention queue) ship as **tabs inside Clients.svelte**, not separate top-level views. Tab state persists via `router.params.tab` (`#/clients?tab=trial-expiring|retention`). Default tab is `onboarded`. Existing `.config-tabs/.config-tab` styles re-used (matches Settings).
+- **Strict spec scope.** V1 = `watchman_active AND trial_expires_at BETWEEN now AND +7d AND no SENTINEL_CONVERSION_INTENT_EVENTS row`. V6 = `pending AND scheduled_for ≤ now`. No widening to expired-orphans / running / failed in this slice; the underlying read functions accept window/limit/offset for future widening.
+- **V1 is read-only this slice.** Operator messages clients out-of-band via Telegram. No Send-reminder / Extend-trial buttons. **V6 has Force run / Cancel / Retry**, all gated by a confirmation modal. Force-run = "advance `scheduled_for` to now so the next cron tick claims it" (no synchronous run — would block the API handler on a purge). Cancel uses a fresh CAS UPDATE in the API handler (not the existing `cancel_retention_job` lib helper) so the operator can't race-cancel a running job. Retry only fires on `status='failed'` (the strict-spec V6 read filter excludes failed, so the button effectively dark-ships until V6 widens).
+- **Refresh: polling on focus + manual reload.** No new WebSocket event types. Operator-action audit publishes use the existing `console:activity` envelope (`type='activity'` + structured payload) so the existing Logs view + Dashboard activity feed surface them automatically.
+- **New constant `SENTINEL_CONVERSION_INTENT_EVENTS`** in `src/db/conversion.py`. Module-load assertion guards drift from `VALID_CONVERSION_EVENT_TYPES`. Excludes `signup` (universal for Watchman), terminal markers (`abandoned`, `cancellation`), and retention markers (`offboarding_triggered`, `authorisation_revoked`).
+- **Multi-primary `client_domains` collapse via `MIN(domain)` subquery** — schema permits two rows tagged primary; without the collapse, V1 and V6 would fan out one row per primary. Codex P2 catch.
+- **SQL-side note append on operator actions** (`CASE … notes || char(10) || suffix`) — eliminates the read-modify-write TOCTOU where two concurrent operator clicks could lose each other's audit line. Codex P2 catch, two regression tests added.
+- **Cancel uses atomic CAS UPDATE on `status='pending'`** — prevents the operator from cancelling a job the cron has already claimed. Codex P1 catch (originally read-then-write).
+- **Codex pre-commit gate validated.** Three Codex passes against the working tree caught five real issues (multi-primary fan-out, TOCTOU on note append, cancel-vs-cron race, body-less-cancel + null-notes wipe, unmapped `sqlite3.OperationalError`). All fixed with regression tests; final pass returned clean. The hook + `HEIMDALL_CODEX_REVIEWED=1` workflow is paying for itself.
+- **PR #46 opened** with three commits — DB layer (`6bbfcfb`), API endpoints (`8d43264`), frontend (`72a38a6`). 1318/1318 tests green (+117 since baseline 1201). Live curl + SPA bundle hash verified end-to-end on local dev stack.
+
+**Rejected**
+
+- WebSocket-driven live updates for V1+V6 — operator queue turns over on minutes-to-hours, not seconds; polling on focus is sufficient.
+- Top-level views for V1+V6 — would clutter sidebar nav and split context away from Onboarded clients.
+- Dashboard-widget-only surface — would lose the deep table view for triage.
+- V1 action affordances (Send Day-28 reminder, Extend trial, Force expire) — Federico chose read-only; revisit after Federico has used the views.
+- Wider V6 read filter (running + recently-failed) — strict spec; widening is one filter param away when needed.
+- Synchronous "force run" — would block the API handler on a purge action; cron remains the sole executor.
+- Operator-identity threading from Basic Auth username — no multi-operator scenario yet; `operator="console"` is hard-coded.
+- Tightening `cancel_retention_job` lib helper to require `status='pending'` — would change a public-lib contract; the CAS lives in the API handler instead.
+
+**Unresolved**
+
+- **Browser-eyeball QA on PR #46** — three tabs render, deep-link via `?tab=trial-expiring`, action confirm modals fire, force-run cron pickup ≤5 min. Federico to verify before merge. Live curl confirms endpoints respond (`[]` on empty dev DB) and the SPA bundle (`index-B4MPvz6X.js`) carries all new strings.
+- **`feedback_self_review_chain.md` violation.** Discovery → domain-agent (python-expert / client-memory / valdi) → Codex → Federico is the documented self-enforcement chain. This session shortened it to Discovery → Codex → Federico. Outcome was clean (Codex caught real issues), but the process was loose — for retention-cron territory, dispatching python-expert + client-memory before Codex would likely have caught the multi-primary fan-out and the TOCTOU before Codex did. Tension with `feedback_no_review_subagents.md` ("during plan execution, do NOT dispatch spec-reviewer or code-quality-reviewer subagents") worth a clarification — domain implementation agents (python-expert / client-memory / valdi) are not the same as generic review subagents, but the boundary isn't explicit in the rules.
+
+---
+
 ## 2026-04-26 — Telegram-only delivery channel locked; WhatsApp declined; channel-as-feature positioning
 
 **Decided**

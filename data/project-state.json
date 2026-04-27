@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-04-26T06:35:56Z",
-  "phase": "PR #44 merged — onboarding backend + signup-site slice 1 on main; browser QA pending, then SvelteKit slice 2+ + operator console V1–V6 + Message 0 sender",
+  "last_updated": "2026-04-26T18:30:00Z",
+  "phase": "PR #46 open — operator console V1 (Trial expiring) + V6 (Retention queue) shipped as Clients tabs; browser QA pending. PR #44 + PR #45 merged earlier today. Next critical-path: SvelteKit slice 2 (consent + scope + payment-mandate handoff) + Message 0 magic-link email sender + MitID Erhverv broker pick.",
   "current_sprint": {
     "name": "Sentinel Onboarding — End-to-End",
     "started": "2026-04-23",
@@ -98,7 +98,7 @@
       "status": "in_progress",
       "started_date": "2026-04-26",
       "owner_agent": "project-coordinator",
-      "notes": "Critical-path slice from punchlist after PR #44 merge. Independent unblocked work streams: (a) browser-eyeball QA on slice 1 magic-link landing (one-off, gates real signups); (b) operator console V1 (trial-expiring) + V6 (retention queue) — implementable today against shipped DB layer; (c) signup site slice 2 (consent capture + scope picker + payment-mandate handoff); (d) Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent) and wire it. Soft-blocked items (need decisions, not code): MitID Erhverv broker pick (Idura / Criipto / Signicat — all sandbox-free), Betalingsservice merchant agreement (CVR-gated → SIRI-gated), CVR-match domain verification UX. Operator console V2–V5 wait on Betalingsservice webhook writing pending-state."
+      "notes": "Critical-path slice from punchlist after PR #44 merge. PR #46 opened 2026-04-26 (evening) — operator console V1 (Trial expiring) + V6 (Retention queue) shipped as tabs inside Clients view. Three commits: 6bbfcfb (DB layer — src/db/console_views.py + SENTINEL_CONVERSION_INTENT_EVENTS + force_run/retry helpers), 8d43264 (5 API endpoints with CAS guards, audit publish, error mapping), 72a38a6 (frontend — Clients.svelte tab host + 3 sub-views + ConfirmModal). 1318 unit tests passing (+117 since baseline 1201). Codex pre-commit gate caught 5 real issues across 3 passes (multi-primary domain fan-out, TOCTOU on note append, cancel-vs-cron CAS race, body-less-cancel + null-notes wipe, unmapped sqlite3.OperationalError) — all fixed with regression tests. Live curl + SPA bundle hash verified end-to-end on dev stack. Browser-eyeball QA on PR #46 still pending Federico verification. Remaining critical-path streams: (a) signup site slice 2 (consent capture + scope picker + payment-mandate handoff); (b) Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent) and wire it. Soft-blocked items (need decisions, not code): MitID Erhverv broker pick (Idura / Criipto / Signicat — all sandbox-free), Betalingsservice merchant agreement (CVR-gated → SIRI-gated), CVR-match domain verification UX. Operator console V2–V5 wait on Betalingsservice webhook writing pending-state."
     }
   ],
   "external_deadlines": [
@@ -149,8 +149,8 @@
     }
   ],
   "next_actions": [
+    "Browser-eyeball QA on PR #46 — http://127.0.0.1:8001/app/#/clients with the dev stack up. Walk the three tabs (Onboarded / Trial expiring / Retention queue), test deep-link via ?tab=trial-expiring, fire the V6 confirm modals (Force run / Cancel / Retry), verify the cron picks up a force-run within ≤5 min via `docker logs heimdall_dev-scheduler-1`. Merge once green.",
     "Browser-eyeball QA the SvelteKit slice-1 magic-link landing — `make signup-issue-token` + `make signup-dev`, walk the /signup/start?t=… flow in a real browser (token strip, Telegram CTA, QR, EN/DA copy)",
-    "Operator console V1 (trial-expiring) + V6 (retention queue) — implementable now against the shipped DB layer",
     "Pick MitID Erhverv broker (Idura / Criipto / Signicat) — sandboxes all free, unblocks dev during SIRI wait",
     "Signup site slice 2 (consent capture + scope picker + payment-mandate handoff)",
     "Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent), wire it",
