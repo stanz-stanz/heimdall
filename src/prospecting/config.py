@@ -48,7 +48,11 @@ CRT_SH_DELAY = 2.0  # seconds between requests (avoid 429s from crt.sh)
 GRAYHATWARFARE_API_KEY = get_secret("grayhatwarfare_api_key", "GRAYHATWARFARE_API_KEY")
 
 # --- CLI tool timeouts ---
-SUBFINDER_TIMEOUT = 300  # 5 min — sufficient for ~23 passive-only domains per batch
+# SUBFINDER_TIMEOUT is the outer subprocess wait — caps total wall time even
+# if subfinder's own -max-time governance fails. Env-configurable so the dev
+# stack (known-good 30-domain fixture) can run aggressively short while prod
+# keeps the conservative 5-min ceiling.
+SUBFINDER_TIMEOUT = int(os.environ.get("SUBFINDER_TIMEOUT", "300"))  # seconds
 DNSX_TIMEOUT = 300  # 5 min
 
 # --- Enrichment pre-scan settings ---

@@ -78,6 +78,11 @@ services:
       - WORKER_MAX_LEVEL=${WORKER_MAX_LEVEL:-0}
       - NUCLEI_TEMPLATES_DIR=/opt/nuclei-templates
       - VULNDB_PATH=/data/cache/vulndb.sqlite3
+      # Subfinder timeouts — defaults are prod-conservative (5 min outer
+      # subprocess, 3 min per source). Dev overrides in .env.dev shorten
+      # both so the 30-domain fixture pipeline completes in <2 min on Mac.
+      - SUBFINDER_TIMEOUT=${SUBFINDER_TIMEOUT:-300}
+      - SUBFINDER_MAX_ENUM_TIME=${SUBFINDER_MAX_ENUM_TIME:-3}
     secrets:
       - grayhatwarfare_api_key
     volumes:

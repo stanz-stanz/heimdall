@@ -289,11 +289,19 @@ class JobCreator:
         return actual_workers
 
     def wait_for_enrichment(
-        self, timeout: int = 3600, poll_interval: int = 5
+        self,
+        timeout: int = 3600,
+        poll_interval: int = 5,
+        progress_callback: Any = None,
     ) -> bool:
         """Poll Redis until all enrichment batches have completed.
 
         Returns True when all batches complete, False on timeout.
+
+        ``progress_callback`` (optional) is invoked as
+        ``progress_callback(completed, total)`` on every poll where
+        the completed count has advanced — used by the daemon to publish
+        per-batch progress events to the operator console.
         """
         deadline = time.monotonic() + timeout
         total = int(self._conn.get(ENRICHMENT_TOTAL_KEY) or 0)
@@ -304,8 +312,17 @@ class JobCreator:
 
         logger.info("Waiting for {} enrichment batches (timeout={}s)", total, timeout)
 
+        last_completed = -1
         while time.monotonic() < deadline:
             completed = int(self._conn.get(ENRICHMENT_COUNTER_KEY) or 0)
+            if progress_callback is not None and completed != last_completed:
+                try:
+                    progress_callback(completed, total)
+                except Exception:
+                    logger.opt(exception=True).warning(
+                        "enrichment progress_callback failed (non-fatal)"
+                    )
+                last_completed = completed
             if completed >= total:
                 logger.info(
                     "All {} enrichment batches completed", total

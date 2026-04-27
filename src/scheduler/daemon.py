@@ -9,6 +9,7 @@ import signal
 import sys
 import threading
 import time
+import uuid
 from pathlib import Path
 
 import redis
@@ -145,20 +146,26 @@ def _publish_activity(conn: redis.Redis, message: str) -> None:
 def _publish_progress(
     conn: redis.Redis,
     run_id: str,
-    completed: int,
-    total: int,
-    current_domain: str = "",
+    pct: int,
+    message: str,
+    current: int = 0,
+    total: int = 0,
+    domain: str = "",
 ) -> None:
-    """Publish pipeline progress to console:pipeline-progress channel."""
-    pct = int(completed / total * 100) if total > 0 else 0
+    """Publish pipeline progress to console:pipeline-progress channel.
+
+    Field names match what Pipeline.svelte reads (pct / current / total /
+    domain / message) so the progress bar moves on every emission.
+    """
     conn.publish("console:pipeline-progress", json.dumps({
         "type": "pipeline_progress",
         "payload": {
             "run_id": run_id,
-            "completed": completed,
-            "domain_count": total,
-            "current_domain": current_domain,
             "pct": pct,
+            "message": message,
+            "current": current,
+            "total": total,
+            "domain": domain,
         },
         "ts": datetime.datetime.now(datetime.UTC).timestamp(),
     }))
@@ -169,10 +176,20 @@ def _handle_run_pipeline(
     input_path: Path,
     filters_path: Path,
 ) -> None:
-    """Run the prospect pipeline: extract domains, enrichment, scan jobs."""
+    """Run the prospect pipeline: extract domains, enrichment, scan jobs.
+
+    Progress curve sent to the operator console:
+      0%   start
+      5%   domains extracted
+      5-85% enrichment phase (per-batch granularity via callback)
+      90%  enrichment complete, queuing scan jobs
+      100% scan jobs queued (pipeline command done — scans run async)
+    """
     from src.scheduler.job_creator import JobCreator
 
+    run_id = uuid.uuid4().hex[:12]
     _publish_activity(conn, "Pipeline started")
+    _publish_progress(conn, run_id, pct=0, message="Pipeline started")
     _publish_result(conn, "run-pipeline", "started", "Pipeline is running")
 
     # Extract the Redis URL from the connection for JobCreator
@@ -194,23 +211,50 @@ def _handle_run_pipeline(
     try:
         domains = creator.extract_prospect_domains(input_path, filters_path)
         if not domains:
+            _publish_progress(conn, run_id, pct=100, message="No domains extracted")
             _publish_result(conn, "run-pipeline", "completed", "No domains extracted")
             return
 
         _publish_activity(conn, f"Extracted {len(domains)} domains")
+        _publish_progress(
+            conn, run_id, pct=5,
+            message=f"Extracted {len(domains)} domains",
+            total=len(domains),
+        )
 
-        # Enrichment phase
+        # Enrichment phase — per-batch progress via callback
         logger.info("Starting enrichment for {} domains", len(domains))
         enrichment_count = creator.create_enrichment_jobs(domains)
         if enrichment_count > 0:
-            creator.wait_for_enrichment(timeout=3600)
+            def _on_enrichment_tick(completed: int, total: int) -> None:
+                pct = 5 + int(80 * completed / max(total, 1))
+                _publish_progress(
+                    conn, run_id, pct=pct,
+                    message=f"Enriching: {completed}/{total} batches complete",
+                    current=completed, total=total,
+                )
+
+            creator.wait_for_enrichment(
+                timeout=3600,
+                poll_interval=2,
+                progress_callback=_on_enrichment_tick,
+            )
 
         _publish_activity(conn, "Enrichment complete — creating scan jobs")
+        _publish_progress(
+            conn, run_id, pct=90,
+            message="Enrichment complete — queuing scan jobs",
+            total=len(domains),
+        )
 
-        # Scan jobs
+        # Scan jobs (queued asynchronously — workers process from queue:scan)
         count = creator.create_scan_jobs_for_domains(domains)
         msg = f"Pipeline queued {count} scan jobs for {len(domains)} domains"
         _publish_activity(conn, msg)
+        _publish_progress(
+            conn, run_id, pct=100, message=msg,
+            current=count, total=count,
+        )
         _publish_result(conn, "run-pipeline", "completed", msg)
 
     except Exception as exc:
