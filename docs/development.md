@@ -235,6 +235,57 @@ meant to change often. If you add or remove domains:
 3. Re-run `make dev-seed`.
 4. Commit both the dataset change and any new briefs.
 
+### The `data/dev/` fixture
+
+DEV containers never read production data. The bind-mounts in the base
+`docker-compose.yml` are parameterised via four `*_HOST_DIR` env vars
+(`INPUT_HOST_DIR`, `ENRICHED_HOST_DIR`, `RESULTS_HOST_DIR`,
+`BRIEFS_HOST_DIR`). PROD leaves them unset → defaults point at the canonical
+`data/output/briefs/`, `data/enriched/`, etc. DEV's `infra/compose/.env.dev`
+sets each one to a `data/dev/*` sibling, isolating DEV from prod data.
+
+| Dev path | Source | Populated by | Read by |
+|---|---|---|---|
+| `data/dev/briefs/` | filtered copy of `data/output/briefs/` (30 fixture domains) | `scripts/dev/seed_dev_briefs.py` | api container at `/data/briefs` (Live Demo, Briefs view) |
+| `data/dev/enriched/companies.db` | filtered rows from `data/enriched/companies.db` (30 fixture domains, `companies` + `domains` tables) | `scripts/dev/seed_dev_enriched.py` | scheduler container at `/data/enriched/companies.db` (job creator) |
+| `data/dev/input/` | empty | `mkdir` only | scheduler container at `/data/input` (CVR-extract drop) |
+| `data/dev/results/` | populated by dev pipeline runs over time | `mkdir` only | worker (RW) + api (RO) at `/data/results` |
+
+The whole bind-mount fixture is rebuilt by:
+
+```bash
+make dev-fixture-bootstrap   # populate the four bind-mounted dirs
+make dev-fixture-check       # verify sources exist, no writes
+```
+
+`make dev-up` invokes `dev-fixture-bootstrap` automatically as a prerequisite,
+so a fresh checkout self-populates the four bind-mount dirs before bringing
+the dev stack up.
+
+The dev stack's **`clients.db`** is a separate concern. It lives in the
+`heimdall_dev_client-data` Docker named volume (initialised empty by
+`init_db()` at first container start), NOT in `data/dev/clients.db`. The
+host-side `data/dev/clients.db` produced by `make dev-seed` is for offline
+analysis scripts that hit the dev DB directly from the Mac — it is never
+read by the dev containers. To seed synthetic client rows that the dev stack
+actually sees, use the docker-cp + docker-exec pattern (see
+`scripts/dev/issue_signup_token.py` and `scripts/dev/cert_change_dry_run.py`
+for examples).
+
+If you ever see prod data leaking into DEV (Live Demo showing thousands of
+briefs, scheduler trying to scan every CVR, etc.) the most likely cause is
+that one of the four `*_HOST_DIR` overrides is missing from `.env.dev`.
+Check with:
+
+```bash
+docker compose -p heimdall_dev --env-file infra/compose/.env.dev \
+  -f infra/compose/docker-compose.yml -f infra/compose/docker-compose.dev.yml \
+  config | grep -A1 'data/output\|data/enriched\|data/input\|data/results'
+```
+
+Every bind source path should resolve to `…/data/dev/…`, never to the
+production directories.
+
 ---
 
 ## Isolation guarantees
@@ -251,6 +302,11 @@ The dev stack cannot collide with prod. Every layer of isolation:
 - **Database**: dev uses `data/dev/clients.db`; prod uses the Pi5
   named volume `docker_client-data`. Different files on different
   machines.
+- **Bind-mounts**: all four host bind-mounts (briefs, enriched, input,
+  results) are parameterised in the base compose. DEV's `.env.dev` points
+  them at `data/dev/*` siblings; PROD's `.env` leaves them unset so the
+  defaults (the canonical prod paths) take over. See the `data/dev/` fixture
+  section above.
 - **Telegram**: separate dev bot with its own token and chat ID
   allowlist. The dev bot cannot message a real client even by accident.
 - **Scan targets**: the dev dataset is a curated 30-site list

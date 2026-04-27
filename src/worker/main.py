@@ -17,6 +17,7 @@ import json
 import os
 import signal
 import sys
+import threading
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -44,9 +45,27 @@ from .scan_job import execute_scan_job
 # Module-level flag for graceful shutdown
 _shutdown_requested: bool = False
 
-# Healthcheck file — touched after each idle poll and completed job so Docker
-# can verify the worker is alive via a HEALTHCHECK instruction.
+# Healthcheck file — touched by the heartbeat thread every 30s so Docker
+# can verify the worker process is alive via a HEALTHCHECK instruction.
+# The thread runs independently of BRPOP and scan-job execution so a
+# long-running enrichment (e.g. subfinder) does not stall the heartbeat
+# and trigger a restart-during-scan.
 HEALTHCHECK_FILE = "/tmp/healthcheck"
+HEALTHCHECK_HEARTBEAT_SECONDS = 30
+
+
+def _start_healthcheck_heartbeat() -> None:
+    """Daemon thread: touch HEALTHCHECK_FILE every 30s while the process is alive."""
+    def _run() -> None:
+        while True:
+            try:
+                Path(HEALTHCHECK_FILE).touch()
+            except OSError as exc:
+                logger.warning("healthcheck heartbeat touch failed: %s", exc)
+            time.sleep(HEALTHCHECK_HEARTBEAT_SECONDS)
+
+    t = threading.Thread(target=_run, daemon=True, name="healthcheck-heartbeat")
+    t.start()
 
 
 def _handle_signal(signum: int, _frame: object) -> None:  # pragma: no cover
@@ -259,6 +278,11 @@ def main(argv: list | None = None) -> None:
         logger.error("Cannot connect to Redis at %s: %s", args.redis_url, exc)
         sys.exit(1)
     logger.info("Connected to Redis at %s", args.redis_url)
+
+    # ------------------------------------------------------------------
+    # 2b. Start healthcheck heartbeat — independent of BRPOP / scan loop
+    # ------------------------------------------------------------------
+    _start_healthcheck_heartbeat()
 
     # ------------------------------------------------------------------
     # 3. Create ScanCache
