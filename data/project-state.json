@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-04-26T06:35:56Z",
-  "phase": "PR #44 merged — onboarding backend + signup-site slice 1 on main; browser QA pending, then SvelteKit slice 2+ + operator console V1–V6 + Message 0 sender",
+  "last_updated": "2026-04-27T08:00:00Z",
+  "phase": "PR #45 merged (signup bilingual). PR #46 open (operator console V1+V6 — CI green, awaiting Federico browser walk + V6 confirm-modal exercise). PR #47 open (M37 finalisation — host bind-mount dev/prod separation, CI green, awaiting Federico browser walk on now-isolated DEV). Operator-console architectural reframe around bounded contexts queued — architect memo + refinement memo delivered, five Federico decisions outstanding before Stage A foundation lands. Anthropic feedback issue #53958 filed re: Codex iteration antipattern.",
   "current_sprint": {
     "name": "Sentinel Onboarding — End-to-End",
     "started": "2026-04-23",
@@ -98,7 +98,7 @@
       "status": "in_progress",
       "started_date": "2026-04-26",
       "owner_agent": "project-coordinator",
-      "notes": "Critical-path slice from punchlist after PR #44 merge. Independent unblocked work streams: (a) browser-eyeball QA on slice 1 magic-link landing (one-off, gates real signups); (b) operator console V1 (trial-expiring) + V6 (retention queue) — implementable today against shipped DB layer; (c) signup site slice 2 (consent capture + scope picker + payment-mandate handoff); (d) Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent) and wire it. Soft-blocked items (need decisions, not code): MitID Erhverv broker pick (Idura / Criipto / Signicat — all sandbox-free), Betalingsservice merchant agreement (CVR-gated → SIRI-gated), CVR-match domain verification UX. Operator console V2–V5 wait on Betalingsservice webhook writing pending-state."
+      "notes": "Three PRs in flight, all CI-green. PR #45 (signup bilingual + DA dictionary + Telegram-only positioning) merged earlier 2026-04-26. PR #46 open (`feat/operator-console-v1-v6`) — operator console V1 trial-expiring + V6 retention queue tabs. Three commits: DB read queries (`src/db/console_views.py`), API endpoints with CAS guards (`src/api/console.py`), frontend Svelte tab host. 1,318 unit tests. Codex pre-commit caught 5 real issues across 3 passes. Awaiting Federico browser walk + V6 confirm-modal exercise (deferred until PR #47 lands so DEV is reliably isolated). PR #47 open (`feat/dev-prod-bind-mount-separation`) — finishes M37 by parameterising the four host bind-mounts (`data/output/briefs`, `data/input`, `data/enriched`, `data/results`) so DEV reads `data/dev/*` fixture data instead of prod. Four commits: compose param + base-compose call-site protection / seed_dev_briefs + seed_dev_enriched + empty-input rejection in seed_dev_db / wire dev/prod isolation (env-file overrides + bootstrap target + check-env validation) / docs + decision log. 27 new unit tests. Codex pre-commit drove 4 P1 + 7 P2 fixes across 7 passes + a closing class-fix sweep — iteration count flagged by Federico as antipattern, filed as anthropics/claude-code#53958. HEIMDALL_DEV_DATASET workaround retired. Awaiting Federico browser walk on the now-isolated DEV stack. **Architectural reframe queued:** architect memo + refinement memo delivered on bounded-contexts decomposition for the operator console (Tenant Identity / Findings Lifecycle / Onboarding & Conversion / Subscription & Billing / Retention & Compliance / Live Operations + Operator Identity & Audit cross-cutting + possible Notifications 7th context). Five Federico decisions outstanding: (1) Notifications as 7th context vs fold into Findings, (2) Reference Data layer vs Enrichment-domain ownership for `industries`, (3) `config_changes` writes via repository-wrapper vs DB triggers, (4) RBAC+ table-backed access policy vs hard-coded role gates v1, (5) Stage A.5 as own sprint vs first half of V2's sprint. Architect recommends V2-V5 wait one sprint for Stage A foundation (operators/sessions/audit_log + auth + ticket + WebSocket gate + per-context router carve), then ship as proof of new context model in Stage C. Stage A.5 (command_audit + config_changes + RBAC tables + require_permission decorator + X-Request-ID middleware + trace_id propagation + /console/config/history) lands before V2-V5 begin. Soft-blocked items unchanged: MitID Erhverv broker pick (Idura / Criipto / Signicat — all sandbox-free), Betalingsservice merchant agreement (CVR-gated → SIRI-gated), CVR-match domain verification UX, signup site slice 2, Message 0 sender."
     }
   ],
   "external_deadlines": [
@@ -130,8 +130,8 @@
     "briefs_generated": 1173,
     "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
   },
-  "test_count": 1201,
-  "test_count_notes": "1201 unit tests (+207 since 2026-04-18). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
+  "test_count": 1345,
+  "test_count_notes": "1345 unit tests (+27 from PR #47 dev fixture seeders, +117 from PR #46 console queries since 2026-04-25 baseline of 1201). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
   "blockers": [
     {
       "id": "B1",
@@ -149,10 +149,13 @@
     }
   ],
   "next_actions": [
-    "Browser-eyeball QA the SvelteKit slice-1 magic-link landing — `make signup-issue-token` + `make signup-dev`, walk the /signup/start?t=… flow in a real browser (token strip, Telegram CTA, QR, EN/DA copy)",
-    "Operator console V1 (trial-expiring) + V6 (retention queue) — implementable now against the shipped DB layer",
+    "Browser-walk PR #47 on DEV — `make dev-down && make dev-up`, then verify Live Demo at http://127.0.0.1:8001/app/#/livedemo lists 30 fixture domains (not 1,179), Pipeline trigger from operator console scopes to fixture domains. Merge once green.",
+    "Browser-walk PR #46 on the now-isolated DEV stack — three Clients tabs (Onboarded / Trial expiring / Retention queue). The V6 confirm-modal exercise (Force run / Cancel / Retry) needs synthetic clients + retention_jobs — see DRYRUN-CONSOLE seed plan resumption below.",
+    "Resume DRYRUN-CONSOLE seed plan for V1+V6 confirm modals — paused intentionally pending PR #47 merge. Plan archived at ~/.claude/plans/do-not-rush-this-serialized-nest.md (now superseded by the M37 finalisation work).",
+    "Decide the five operator-console reframe questions (architect memo): (1) Notifications 7th context vs fold into Findings, (2) Reference Data layer vs Enrichment-domain ownership for `industries`, (3) `config_changes` repository-wrapper vs DB triggers, (4) RBAC+ table-backed v1 vs hard-coded role gates v1, (5) Stage A.5 as own sprint vs first half of V2's sprint.",
+    "Browser-eyeball QA the SvelteKit slice-1 magic-link landing — `make signup-issue-token` + `make signup-dev`, walk the /signup/start?t=… flow in a real browser (token strip, Telegram CTA, QR, EN/DA copy). Pre-existing carry-over.",
     "Pick MitID Erhverv broker (Idura / Criipto / Signicat) — sandboxes all free, unblocks dev during SIRI wait",
-    "Signup site slice 2 (consent capture + scope picker + payment-mandate handoff)",
+    "Signup site slice 2 (consent capture + scope picker + payment-mandate handoff) — sequence depends on operator-console reframe decision (5): if Stage A.5 is its own sprint, slice 2 can ship in parallel; if folded into V2, slice 2 waits.",
     "Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent), wire it",
     "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md (also carries the 5y vs 10y consent_records retention question — depends on whether §263 stk. 3 aggravated limitation applies)",
     "SIRI video pitch script (still unwritten — blocks SIRI decision)",

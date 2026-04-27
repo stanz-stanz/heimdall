@@ -5,6 +5,30 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-27 (morning wrap-up) — PR #47 opened + operator console reframing started + Anthropic issue filed
+
+**Decided**
+
+- **PR #47 opened** against `main` (`feat/dev-prod-bind-mount-separation`, 4 commits): finishes the M37 dev/prod separation by parameterising the four host bind-mounts (`data/output/briefs`, `data/input`, `data/enriched`, `data/results`), seeding a 30-domain dev fixture under `data/dev/`, and retiring the `HEIMDALL_DEV_DATASET` workaround. CI green, mergeable, awaiting Federico's browser walk on the now-isolated DEV stack.
+- **Operator-console reframing initiated.** Architect agent delivered (a) bounded-context decomposition memo and (b) refinement memo addressing Federico's three points (narrow Live Operations to runtime orchestration + telemetry only; treat `industries` as Reference Data taxonomy not Tenant Identity aggregate; explicit Findings ↔ Retention integration contract). Five decisions surfaced for Federico, undecided as of wrap-up: (1) Notifications as 7th context vs fold into Findings, (2) Reference Data layer vs Enrichment-domain ownership, (3) `config_changes` writes via repository-wrapper vs DB triggers, (4) RBAC+ table-backed access policy vs hard-coded role gates v1, (5) Stage A.5 as own sprint vs first half of V2's sprint.
+- **Stage A migration recommendation accepted in principle.** Architect proposes V2-V5 onboarding views wait one sprint for Stage A foundation (operators + sessions + audit_log tables, auth, ticket, WebSocket gate, per-context router carve), then ship as the proof of the new context model in Stage C step 8. Federico confirmed the overall decomposition as valid for the control plane. Stage A.5 (added per Federico's expanded Operator Identity & Audit scope: `command_audit`, `config_changes`, `roles`/`permissions`/`role_permissions` tables, `require_permission` decorator, X-Request-ID middleware + trace_id propagation, `/console/config/history` git-shelling endpoint) ships before V2-V5 begin.
+- **Anthropic feedback issue filed.** anthropics/claude-code#53958 — "Opus 4.7 long-session pattern: using external review as iteration loop instead of design exhaustion." Federico explicitly requested it after the 8-pass Codex iteration on PR #47. Body covers the pattern, today's per-pass findings table, the in-session memory-update mechanism not being strong enough to break the loop from inside it, and three concrete suggestions for Anthropic (memory promotion at design-choice moments, iteration-count smell detection, model self-report). No project-specific code or paths included.
+
+**Rejected**
+
+- **Folding the dev/prod separation into PR #46.** Considered but rejected — they are different concerns (operator console feature work vs infra hygiene), and PR #46 is still pending Federico's V1+V6 browser walk. Kept as separate PRs so each can ship on its own gate.
+- **A 9th Codex pass on the dev/prod separation work** after the class-fix sweep addressing Pass 8's findings. Federico flagged the iteration count at Pass 8; the right discipline at that point is to stop, not to chase residual hardening into the PR. Any residual goes to a follow-up issue if it surfaces in production use.
+
+**Unresolved**
+
+- Federico's browser walk on PR #47 — the DEV stack is now isolated, but visual confirmation that Live Demo shows 30 (not 1,179) and that the Pipeline trigger from operator console scopes to fixture domains is still pending.
+- The five reframing decisions surfaced for Federico (see Decided above) — any/all can be answered in a fresh session, the architect memo is the input.
+- `data/project-state.json` last_updated 2026-04-26T06:35:56Z; missing PR #45 merge, PR #46 open, PR #47 open. Out of date by ~1 day.
+- CLAUDE.md Key Documents table missing entries for `scripts/dev/seed_dev_briefs.py`, `scripts/dev/seed_dev_enriched.py`, and the `dev-fixture-*` Make targets / `data/dev/` fixture pattern. CLAUDE.md "Active feature work" line still references `feat/sentinel-onboarding` (closed); active is now `feat/dev-prod-bind-mount-separation` (#47) + `feat/operator-console-v1-v6` (#46).
+- DRYRUN-CONSOLE seed-data plan for the V1+V6 confirm modals — paused intentionally pending PR #47 merge so Federico can test against the now-isolated DEV stack.
+
+---
+
 ## 2026-04-26 (late evening) — M37 finalisation: dev/prod bind-mount separation + HEIMDALL_DEV_DATASET retired
 
 **Context.** Browser-walk of PR #46 (operator console V1+V6) surfaced that Live Demo in DEV listed 1,179 brief entries — the production briefs from the 2026-04-05 prospecting run, leaking into DEV via host bind-mounts. Root cause: M37 (PR #30, 2026-04-16) parameterised the named Docker volumes (`heimdall_dev_*`) but missed the four host bind-mounts. The dev containers therefore read PROD `data/output/briefs/`, `data/input/`, `data/enriched/`, and `data/results/` directly. The scheduler had hot-patched around the enriched-DB leak with a `HEIMDALL_DEV_DATASET` env-var workaround in the dev compose — technically a workaround, not a fix. Federico restated the principle: "DEV must have its own test data. DEV must be fully functional as it is the sole purpose of its existence to allow us to test before deploying to PROD."
