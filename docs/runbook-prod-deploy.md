@@ -123,6 +123,24 @@ full sequence: `git fetch`, `git checkout prod`, `git pull origin
 prod`, rebuild affected images, force-recreate containers with the
 monitoring overlay.
 
+#### One-time external-volume creation (Stage A)
+
+When the Stage A foundation lands on `prod`, the `api` service requires a
+new external named volume `docker_console-data` (hosts `console.db` —
+operator identity / sessions / auth-event audit; mounted RW only on
+`api`). Compose declares it `external: true`, so `heimdall-deploy` will
+fail with `external volume not found` until you create it once:
+
+```bash
+ssh pi5
+docker volume create docker_console-data
+```
+
+Verify with `docker volume ls | grep console-data`. After this one-time
+step, `heimdall-deploy` works as normal and the volume persists across
+deploys, rebuilds, and `docker compose down`. Run this BEFORE the first
+`heimdall-deploy` that includes the Stage A merge.
+
 ### 6. Verify Pi5 healthy
 
 Run `scripts/verify_ct_rebuild.sh` (or whichever verify script is

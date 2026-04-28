@@ -36,8 +36,10 @@ RUN apt-get update \
 RUN groupadd --gid 1000 heimdall \
  && useradd --uid 1000 --gid 1000 --create-home heimdall
 
-# Create data directories the volumes will mount into
-RUN mkdir -p /data/clients /data/results /data/messages /config \
+# Create data directories the volumes will mount into.
+# /data/console hosts console.db (Stage A operator identity / sessions /
+# auth-event audit) — mounted RW from the console-data named volume.
+RUN mkdir -p /data/clients /data/console /data/results /data/messages /config \
  && chown -R heimdall:heimdall /data /config
 
 WORKDIR /app
@@ -45,10 +47,14 @@ WORKDIR /app
 # Bring in the pre-built Python environment from the builder stage
 COPY --from=builder /install /usr/local
 
-# Copy application code and config
+# Copy application code and config. Both DB schema files are copied —
+# init_db() loads client-db-schema.sql, init_db_console() loads
+# console-db-schema.sql (Stage A). A missing schema file fails loud
+# at startup; both must be in the runtime image.
 COPY src/ ./src/
 COPY config/ ./config/
 COPY docs/architecture/client-db-schema.sql ./docs/architecture/client-db-schema.sql
+COPY docs/architecture/console-db-schema.sql ./docs/architecture/console-db-schema.sql
 
 # Own everything by non-root user
 RUN chown -R heimdall:heimdall /app

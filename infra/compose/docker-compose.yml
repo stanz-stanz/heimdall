@@ -129,6 +129,9 @@ services:
       - MESSAGES_DIR=/data/messages
       - CONSOLE_USER=${CONSOLE_USER:-}
       - CLIENT_DATA_DIR=/data/clients
+      # Stage A: console.db lives on the console-data named-volume
+      # mount, separate from clients.db. Mounted RW only on the api.
+      - CONSOLE_DB_PATH=/data/console/console.db
       - BRIEFS_DIR=/data/briefs
       - TELEGRAM_BOT_USERNAME=${TELEGRAM_BOT_USERNAME:-}
       - SIGNUP_ALLOWED_ORIGINS=${SIGNUP_ALLOWED_ORIGINS:-}
@@ -144,6 +147,11 @@ services:
       # "attempt to write a readonly database" the moment an operator
       # clicked. Verified by scripts/dev/verify_api_clients_db_write.sh.
       - client-data:/data/clients
+      # console-data hosts /data/console/console.db — the Stage A
+      # operator identity / sessions / auth-event audit DB. Mounted RW
+      # only on the api container; no other service writes it.
+      # See docs/architecture/stage-a-implementation-spec.md §1, §2.7.
+      - console-data:/data/console
       - ${RESULTS_HOST_DIR:-../../data/results}:/data/results:ro
       - message-data:/data/messages
       - config-data:/config:ro
@@ -252,6 +260,9 @@ volumes:
   client-data:
     external: true
     name: docker_client-data
+  console-data:
+    external: true
+    name: docker_console-data
   valdi-data:
     external: true
     name: docker_valdi-data

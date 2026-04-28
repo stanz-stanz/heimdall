@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import asyncio
-import base64
 import collections
 import json
 import os
 import re
-import secrets
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -27,12 +25,17 @@ from src.client_memory import (
     DeltaDetector,
     RemediationTracker,
 )
+from src.api.auth.middleware import SessionAuthMiddleware
 from src.composer.telegram import compose_telegram
-from src.core.secrets import get_secret
+from src.db.console_connection import (
+    DEFAULT_CONSOLE_DB_PATH,
+    init_db_console,
+)
 from src.interpreter.interpreter import InterpreterError, interpret_brief
 
 from .console import router as console_router
 from .result_store import ResultStore
+from .routers.auth import router as auth_router
 from .signup import router as signup_router
 
 # Path parameter validation — rejects path traversal attempts
@@ -49,46 +52,6 @@ def _validate_name(value: str, label: str) -> str:
 # ---------------------------------------------------------------------------
 # Request logging middleware
 # ---------------------------------------------------------------------------
-
-class BasicAuthMiddleware(BaseHTTPMiddleware):
-    """HTTP Basic Auth for console endpoints."""
-
-    PROTECTED_PREFIXES = ("/console", "/app")
-
-    def __init__(self, app, username: str, password: str):
-        super().__init__(app)
-        self.username = username
-        self.password = password
-
-    async def dispatch(self, request: Request, call_next):
-        path = request.url.path
-        if not any(path.startswith(p) for p in self.PROTECTED_PREFIXES):
-            return await call_next(request)
-
-        auth = request.headers.get("Authorization", "")
-        if not auth.startswith("Basic "):
-            return Response(
-                status_code=401,
-                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
-            )
-
-        try:
-            decoded = base64.b64decode(auth[6:]).decode("utf-8")
-            username, password = decoded.split(":", 1)
-        except (ValueError, UnicodeDecodeError):
-            return Response(
-                status_code=401,
-                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
-            )
-
-        if not (secrets.compare_digest(username, self.username)
-                and secrets.compare_digest(password, self.password)):
-            return Response(
-                status_code=401,
-                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
-            )
-
-        return await call_next(request)
 
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
@@ -355,6 +318,26 @@ def create_app(
         app.state.pubsub_task = None
         app.state.log_buffer = collections.deque(maxlen=5000)
         app.state.log_listener_task = None
+
+        # console.db initialisation runs FIRST, before any pubsub task
+        # or middleware engages. console.db is api-owned (operators /
+        # sessions / audit_log); no other container initialises it.
+        # CREATE TABLE IF NOT EXISTS makes the call idempotent.
+        #
+        # NOTE: this is about SCHEMA LIFECYCLE only, not runtime data
+        # access. The api uses clients.db extensively at runtime (read
+        # queries in console.py + signup.py; PR-#49-narrow writes for
+        # retention CAS UPDATEs landing in slice 3+). What the api does
+        # NOT do is run init_db() on clients.db, because that would
+        # invoke apply_pending_migrations() with unguarded ALTER TABLE
+        # statements concurrently with the writer containers (scheduler
+        # / worker / delivery), and the loser would raise
+        # OperationalError mid-startup. The clients.audit_log table
+        # appended to client-db-schema.sql in this slice is created by
+        # the writer containers' init_db() via executescript on their
+        # own startup; the api sees it on first read.
+        init_db_console(app.state.console_db_path).close()
+
         try:
             redis_conn = redis.Redis.from_url(redis_url, decode_responses=True)
             redis_conn.ping()  # Sync call OK — runs once at startup only
@@ -404,16 +387,22 @@ def create_app(
     app.state.briefs_dir = briefs_dir
     _client_dir = os.environ.get("CLIENT_DATA_DIR", "data/clients")
     app.state.db_path = os.environ.get("DB_PATH", f"{_client_dir}/clients.db")
+    app.state.console_db_path = os.environ.get(
+        "CONSOLE_DB_PATH", DEFAULT_CONSOLE_DB_PATH,
+    )
 
     app.add_middleware(RequestLoggingMiddleware)
 
-    console_user = os.environ.get("CONSOLE_USER", "")
-    console_password = get_secret("console_password", "CONSOLE_PASSWORD")
-    if console_user and console_password:
-        app.add_middleware(BasicAuthMiddleware,
-                           username=console_user, password=console_password)
+    # Stage A slice 3g (f) retired the legacy Basic Auth fallback per
+    # spec §7.10 Option B. ``SessionAuthMiddleware`` is the only auth
+    # gate for ``/console/*`` and ``/app/*``; rollback is ``git revert``
+    # of the slice 3g merge SHA per spec §9.1, no env flag.
+    app.add_middleware(
+        SessionAuthMiddleware,
+        console_db_path=app.state.console_db_path,
+    )
 
-    # Console router + static PWA files
+    app.include_router(auth_router)
     app.include_router(console_router)
     app.include_router(signup_router)
     static_dir = Path(__file__).parent / "static"

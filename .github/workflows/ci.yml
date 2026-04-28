@@ -31,3 +31,38 @@ jobs:
         # Integration tests require a live dev stack (Redis on localhost:6379)
         # which CI does not provision. They run on Mac via `make dev-pytest-integration`.
         run: pytest -m "not integration" --tb=short --timeout=30
+
+  frontend:
+    # Stage A slice 3g.5 §7.3 Option A + 1 — separate parallel job for the
+    # SPA Vitest suites. Runs both `src/api/frontend/` (operator console)
+    # and `apps/signup/` (signup site). Mechanically enforces the §7.11
+    # Option B production-deploy gate: PRs to main fail when SPA tests
+    # fail. Lockfiles are committed for both projects so `npm ci` is
+    # deterministic + fail-on-mismatch.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: |
+            src/api/frontend/package-lock.json
+            apps/signup/package-lock.json
+
+      - name: Install operator-console SPA deps
+        working-directory: src/api/frontend
+        run: npm ci
+
+      - name: Run operator-console SPA tests
+        working-directory: src/api/frontend
+        run: npm run test
+
+      - name: Install signup-site deps
+        working-directory: apps/signup
+        run: npm ci
+
+      - name: Run signup-site tests
+        working-directory: apps/signup
+        run: npm run test

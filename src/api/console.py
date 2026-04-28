@@ -3,16 +3,25 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import sqlite3
 import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
+from types import SimpleNamespace
 
 from fastapi import APIRouter, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from loguru import logger
 from pydantic import BaseModel
 
+from src.api.auth.audit import (
+    maybe_write_disabled_operator_audit,
+    write_console_audit_row,
+)
+from src.api.auth.middleware import SESSION_COOKIE
+from src.api.auth.sessions import validate_session_by_hash
+from src.db.console_connection import DEFAULT_CONSOLE_DB_PATH, get_console_conn
 from src.db.console_views import (
     list_retention_queue_pending_due,
     list_trial_expiring,
@@ -132,6 +141,112 @@ async def console_status(request: Request):
 # Whitelists for input validation
 _VALID_SETTINGS = frozenset(("filters", "interpreter", "delivery"))
 _VALID_COMMANDS = frozenset(("run-pipeline", "interpret", "send"))
+
+
+# ---------------------------------------------------------------------------
+# WebSocket auth — handler-level gate (Stage A spec §5.2 Option 2 + §5.3)
+# ---------------------------------------------------------------------------
+
+
+class _WSRequestAdapter:
+    """Duck-typed ``Request`` adapter over a ``WebSocket`` scope.
+
+    ``write_console_audit_row`` only reads ``.client``, ``.headers``,
+    and ``.state`` from its request argument; the WS scope exposes the
+    first two natively, and ``.state`` is a fresh ``SimpleNamespace``
+    because the WS path has no SessionAuthMiddleware to pre-populate
+    operator / session / request-id attributes — the helper passes
+    those explicitly via kwargs instead. Slice 3g spec §4.2 locks this
+    adapter shape so the audit writer stays HTTP-Request-only.
+    """
+
+    __slots__ = ("client", "headers", "state")
+
+    def __init__(self, websocket: WebSocket) -> None:
+        self.client = websocket.client  # Address(host, port) | None
+        self.headers = websocket.headers
+        self.state = SimpleNamespace()
+
+
+def _build_pseudo_request(websocket: WebSocket) -> _WSRequestAdapter:
+    """Return a duck-typed ``Request`` for the audit-row helpers."""
+    return _WSRequestAdapter(websocket)
+
+
+async def _authenticate_ws(
+    websocket: WebSocket, *, audit_payload: dict
+) -> tuple[int, int] | None:
+    """Read the session cookie, validate, accept-or-close-with-4401.
+
+    On success: opens a single ``console.db`` connection, validates the
+    session, accepts the WebSocket upgrade, writes the
+    ``liveops.ws_connected`` audit row inside the same ``with conn:``
+    block, then closes the connection and returns
+    ``(operator_id, session_id)``. The returned identifiers let the
+    caller log forensic context without re-fetching.
+
+    On failure: accepts the upgrade then sends a clean
+    ``websocket.close(code=4401)`` per RFC 6455 (you must accept before
+    you can close cleanly). If the cookie maps to an otherwise-active
+    session whose operator was disabled, the disabled-operator audit
+    row is written first per §7.9 Option A — symmetry with the HTTP
+    middleware's ``auth.session_rejected_disabled`` path.
+
+    Returns ``None`` on every failure mode; the caller must ``return``
+    immediately.
+    """
+    cookie_value = websocket.cookies.get(SESSION_COOKIE)
+    if not cookie_value:
+        await websocket.accept()
+        await websocket.close(code=4401)
+        return None
+
+    presented_hash = hashlib.sha256(cookie_value.encode("utf-8")).hexdigest()
+    console_db_path = getattr(
+        websocket.app.state, "console_db_path", DEFAULT_CONSOLE_DB_PATH
+    )
+
+    pseudo_request = _build_pseudo_request(websocket)
+
+    # Mirror SessionAuthMiddleware's conn lifecycle (src/api/auth/middleware.py
+    # §3.2): open + use + close on the same thread so SQLite's
+    # check_same_thread guard is satisfied. console.db is tiny; the
+    # blocking SELECT / INSERT cost is sub-millisecond and not worth
+    # the cross-thread complexity that ``asyncio.to_thread`` would add.
+    conn = get_console_conn(console_db_path)
+    try:
+        session_row = validate_session_by_hash(conn, presented_hash)
+        if session_row is None:
+            maybe_write_disabled_operator_audit(
+                conn, pseudo_request, presented_hash
+            )
+            await websocket.accept()
+            await websocket.close(code=4401)
+            return None
+
+        operator_id = session_row["operator_id"]
+        session_id = session_row["id"]
+
+        await websocket.accept()
+
+        # §5.8 — pair the per-WS audit row with the same connection
+        # that authorized the upgrade. ``with conn:`` commits the row
+        # atomically; the audit writer does not self-commit.
+        with conn:
+            write_console_audit_row(
+                conn,
+                pseudo_request,
+                action="liveops.ws_connected",
+                target_type="websocket",
+                target_id=None,
+                payload=audit_payload,
+                operator_id=operator_id,
+                session_id=session_id,
+            )
+
+        return operator_id, session_id
+    finally:
+        conn.close()
 
 
 @router.get("/dashboard")
@@ -810,8 +925,20 @@ async def console_logs(
 
 @router.websocket("/ws")
 async def console_ws(websocket: WebSocket):
-    """WebSocket for live console updates — queue polling + Redis pub/sub forwarding."""
-    await websocket.accept()
+    """WebSocket for live console updates — queue polling + Redis pub/sub forwarding.
+
+    Stage A slice 3g (d): the auth gate lives in the handler, not the
+    HTTP middleware (master spec §5.2 Option 2). ``_authenticate_ws``
+    reads the session cookie BEFORE accepting the upgrade and either
+    accepts + writes ``liveops.ws_connected`` or sends ``close(4401)``
+    and returns ``None`` — see helper docstring for the contract.
+    """
+    auth = await _authenticate_ws(
+        websocket, audit_payload={"path": "/console/ws"}
+    )
+    if auth is None:
+        return
+
     redis_conn = getattr(websocket.app.state, "redis", None)
 
     async def _push_queue_status():
@@ -986,8 +1113,16 @@ async def demo_websocket(websocket: WebSocket, scan_id: str):
 
     The replay task launches here (not in demo_start) so events
     never publish before the client is listening.
+
+    Stage A slice 3g (d): the same handler-level auth contract as
+    ``/console/ws`` (master spec §5.5) — demo replay is operator-only.
     """
-    await websocket.accept()
+    auth = await _authenticate_ws(
+        websocket,
+        audit_payload={"path": "/console/demo/ws", "scan_id": scan_id},
+    )
+    if auth is None:
+        return
 
     # Launch the demo now that the client is connected
     pending = getattr(websocket.app.state, "_pending_demos", {})

@@ -1056,3 +1056,71 @@ CREATE INDEX IF NOT EXISTS idx_clients_trial_expires
 
 CREATE INDEX IF NOT EXISTS idx_clients_onboarding_stage
     ON clients(onboarding_stage) WHERE onboarding_stage IS NOT NULL;
+
+
+-- =================================================================
+-- SECTION 11: Audit log — mutation-event ownership (Stage A)
+-- =================================================================
+--
+-- Counterpart to console.db's audit_log. The Option B audit split
+-- (see docs/architecture/stage-a-implementation-spec.md §1.3) keeps
+-- every audit row in the same SQLite transaction as the mutation
+-- it records. console.db owns auth-event audit; this table owns
+-- mutation-event audit.
+--
+-- Writers in Stage A:
+--   - api: operator-initiated retention writes (force-run, cancel,
+--     retry) — synchronous per spec §10 D8 / D9, single audit row
+--     per action, same transaction as the CAS UPDATE on
+--     retention_jobs. Requires api's clients.db mount to be RW
+--     (provided by PR #49, separate, on main).
+--   - scheduler / worker / delivery: system-initiated mutations
+--     (trial.activated, trial.expired, retention.tick,
+--     ct.delta_observed, command outcomes) from those containers'
+--     existing RW mounts.
+--
+-- config.update is intentionally NOT written here in Stage A
+-- (spec §7.6); full capture lands in Stage A.5 via config_changes
+-- triggers per D2.
+--
+-- No FK to operators / sessions — those tables live in console.db
+-- and SQLite does not support cross-DB FKs. The columns are stored
+-- as bare integers; correlation back to operator identity goes
+-- through request_id (Stage A.5) or via the api's intent row in
+-- console.audit_log when the operator action is /console/commands/*
+-- (the only Stage A endpoint that retains the two-row pattern).
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    occurred_at     TEXT NOT NULL,                       -- ISO-8601 UTC
+    operator_id     INTEGER,                             -- bare int — NOT a FK; correlates to console.operators.id
+    session_id      INTEGER,                             -- bare int — NOT a FK; correlates to console.sessions.id
+    action          TEXT NOT NULL,                       -- e.g. 'retention.force_run', 'trial.activated', 'command.<name>'
+    target_type     TEXT,                                -- e.g. 'retention_job', 'client', 'config'
+    target_id       TEXT,                                -- string for type flexibility
+    payload_json    TEXT,                                -- JSON snapshot of mutation payload
+    source_ip       TEXT,                                -- propagated from api when the mutation was operator-initiated
+    user_agent      TEXT,                                -- truncated to 512 chars at write time
+    request_id      TEXT,                                -- NULL until Stage A.5 wires X-Request-ID
+    actor_kind      TEXT NOT NULL DEFAULT 'operator'     -- 'operator' | 'system' (CT monitor, retention timer, etc.)
+);
+
+-- "Most recent mutations" — operator console mutation timeline.
+CREATE INDEX IF NOT EXISTS idx_clients_audit_log_occurred
+    ON audit_log(occurred_at DESC);
+
+-- "All mutations attributed to operator X" — partial; system rows skip the index.
+CREATE INDEX IF NOT EXISTS idx_clients_audit_log_operator
+    ON audit_log(operator_id, occurred_at DESC) WHERE operator_id IS NOT NULL;
+
+-- "All mutations on a given target" — e.g. every action on retention_job 42.
+CREATE INDEX IF NOT EXISTS idx_clients_audit_log_target
+    ON audit_log(target_type, target_id, occurred_at DESC);
+
+-- "All mutations of action Z" — e.g. every retention.force_run.
+CREATE INDEX IF NOT EXISTS idx_clients_audit_log_action
+    ON audit_log(action, occurred_at DESC);
+
+-- "Cross-DB correlation" — request_id is NULL until Stage A.5.
+CREATE INDEX IF NOT EXISTS idx_clients_audit_log_request
+    ON audit_log(request_id) WHERE request_id IS NOT NULL;
