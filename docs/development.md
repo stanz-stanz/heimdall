@@ -272,6 +272,18 @@ actually sees, use the docker-cp + docker-exec pattern (see
 `scripts/dev/issue_signup_token.py` and `scripts/dev/cert_change_dry_run.py`
 for examples).
 
+For the **operator console** Clients view (V1 trial-expiring + V6 retention
+queue) the dev stack ships empty out of the box — no real onboarding has
+happened yet. Run `make dev-seed-console` to populate 30 synthetic
+`DRYRUN-CONSOLE-*` CVRs (15 V1 active, 3 V1 shadows that prove the
+intent-event filter, 6 Watchman purges + 5 Sentinel anonymises + 1 forced
+`purge_bookkeeping` due in V6, plus 5 future-dated `purge_bookkeeping` rows
+that test V6's scheduled-time filter). The seed is idempotent (wipe-and-
+rebuild keyed on the `DRYRUN-CONSOLE-` prefix) and is safe to leave in the
+DB across dev sessions: the trial-expiry sweep and retention runner both
+skip `DRYRUN-` CVRs. Use `make dev-seed-console-clean` to remove the seed
+without re-populating.
+
 If you ever see prod data leaking into DEV (Live Demo showing thousands of
 briefs, scheduler trying to scan every CVR, etc.) the most likely cause is
 that one of the four `*_HOST_DIR` overrides is missing from `.env.dev`.
