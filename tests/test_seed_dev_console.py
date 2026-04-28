@@ -142,7 +142,12 @@ def test_v1_returns_15_rows_in_days_remaining_asc(
     assert len(rows) == 15
     days = [r["days_remaining"] for r in rows]
     assert days == sorted(days), "V1 must order by trial_expires_at ASC"
-    assert min(days) == 0, "lower edge (0d) must be present"
+    # Under synthetic time (query.now == seed.anchor) the floor in
+    # CAST(julianday(...) - julianday(now) AS INTEGER) lands exactly on
+    # the seeded offset, so display range == seed range. Real-time
+    # clock skew shifts this to [0, 6]; the live-API assertion lives in
+    # scripts/dev/verify_dev_console_seed.py.
+    assert min(days) == 1, "smallest seeded offset is 1d (no day-0 by design)"
     assert max(days) == 7, "upper edge (7d) must be present"
 
 

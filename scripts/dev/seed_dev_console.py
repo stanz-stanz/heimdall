@@ -94,9 +94,22 @@ _DEFAULT_DATASET = _REPO_ROOT / "config" / "dev_dataset.json"
 # the container's named-volume mount lives at ``/data/clients/clients.db``.
 _DEFAULT_DB_PATH = Path("/data/clients/clients.db")
 
-# V1 active: trial_expires_at offsets (days) from anchor. 15 values, edge
-# coverage at 0 and 7 + duplicates so sort-stability is exercised.
-_V1_DAYS_REMAINING: list[int] = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7]
+# V1 active: trial_expires_at offsets (days) from anchor. 15 values.
+#
+# All offsets are >= 1 day so every row survives real-time clock skew —
+# any time elapsed between seed and query would otherwise drop a day-0
+# row below V1's ``trial_expires_at >= now`` lower bound. All offsets
+# are <= 7 (== window_days) so every row passes the upper bound. The
+# triple at 7 holds the row count at 15.
+#
+# Display semantics: V1 computes ``days_remaining`` as
+# ``CAST(julianday(trial_expires_at) - julianday(now) AS INTEGER)``,
+# which floors the float. Under real-time skew of even 1 second a
+# seed_day=N row displays as N-1; under synthetic time
+# (query.now == seed.anchor) the same row displays as N. Unit tests
+# assert the synthetic [1, 7] range; the live verify script asserts
+# the real-time [0, 6] range. Both correct for their context.
+_V1_DAYS_REMAINING: list[int] = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7]
 
 # V1 shadow: the disqualifying conversion event written per shadow CVR.
 # Each is a member of SENTINEL_CONVERSION_INTENT_EVENTS, so each shadow row
