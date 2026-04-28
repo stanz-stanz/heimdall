@@ -365,17 +365,18 @@ def create_app(
         # sessions / audit_log); no other container initialises it.
         # CREATE TABLE IF NOT EXISTS makes the call idempotent.
         #
-        # NOTE on clients.db: NOT initialised here. The scheduler /
-        # worker / delivery containers each call init_db() on their
-        # own startup, which runs apply_pending_migrations() with
-        # unguarded ALTER TABLE statements. Calling init_db() from the
-        # api too would create a concurrent-migration race (one
-        # container wins the column add, the other raises OperationalError
-        # mid-startup). The api READS clients.db — clients.db schema
-        # is the writers' responsibility. The clients.audit_log table
+        # NOTE: this is about SCHEMA LIFECYCLE only, not runtime data
+        # access. The api uses clients.db extensively at runtime (read
+        # queries in console.py + signup.py; PR-#49-narrow writes for
+        # retention CAS UPDATEs landing in slice 3+). What the api does
+        # NOT do is run init_db() on clients.db, because that would
+        # invoke apply_pending_migrations() with unguarded ALTER TABLE
+        # statements concurrently with the writer containers (scheduler
+        # / worker / delivery), and the loser would raise
+        # OperationalError mid-startup. The clients.audit_log table
         # appended to client-db-schema.sql in this slice is created by
-        # the writers via executescript, and the api will see it on
-        # first read.
+        # the writer containers' init_db() via executescript on their
+        # own startup; the api sees it on first read.
         init_db_console(app.state.console_db_path).close()
 
         try:

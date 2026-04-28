@@ -217,6 +217,40 @@ def test_operators_table_enforces_unique_username(tmp_path: Path) -> None:
     conn.close()
 
 
+def test_audit_log_restricts_operator_delete_independently(tmp_path: Path) -> None:
+    """ON DELETE RESTRICT on audit_log.operator_id fires even with no session row.
+
+    The other RESTRICT test (below) exercises ``session_id`` directly and
+    only hits ``operator_id`` via the cascade-then-restrict chain (sessions
+    cascade trying to delete, audit_log RESTRICT on session_id blocking).
+    This test isolates the ``operator_id`` RESTRICT clause by inserting an
+    audit row with ``session_id=NULL`` (legitimate for system-initiated
+    events) and confirming the operator delete is rejected.
+    """
+    db_path = tmp_path / "console.db"
+    init_db_console(db_path).close()
+    conn = get_console_conn(db_path)
+
+    conn.execute(
+        "INSERT INTO operators "
+        "(id, username, display_name, password_hash, created_at, updated_at) "
+        "VALUES (2, 'bob', 'Bob', 'h', '2026-04-28T09:00:00Z', '2026-04-28T09:00:00Z')"
+    )
+    conn.execute(
+        "INSERT INTO audit_log "
+        "(occurred_at, operator_id, session_id, action) "
+        "VALUES ('2026-04-28T09:01:00Z', 2, NULL, 'operator.password_changed')"
+    )
+    conn.commit()
+
+    with pytest.raises(sqlite3.IntegrityError):
+        conn.execute("DELETE FROM operators WHERE id = 2")
+        conn.commit()
+    conn.rollback()
+
+    conn.close()
+
+
 def test_audit_log_fk_restricts_operator_delete(tmp_path: Path) -> None:
     """ON DELETE RESTRICT on audit_log.operator_id and audit_log.session_id.
 
