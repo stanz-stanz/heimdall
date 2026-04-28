@@ -4,9 +4,11 @@
 **Sprint:** Stage A (1 of 3 — Stage A → Stage A.5 → V2)
 **Author:** Application Architect agent, 2026-04-27 (late evening)
 **Codifies:** the four operator-console reframe decisions resolved 2026-04-27 evening (`docs/decisions/log.md`)
-**Last revised:** 2026-04-28 (evening) — Federico's security review applied. Five fixes: hash session tokens at rest (§1.2, §3.2, §4.2, §8.2), audit ownership split per Option B (§1, §7, Appendix A), WS auth in handler not middleware (§5), whoami split states 204/409/200/401 (§3.5, §6.3, §8.2), password-reset runbook normalises username case (§2.2, §9). Earlier same-day pass landed the morning resolutions on D2 (split `console.db`), D5 (`whoami` 204 on empty operators), D7 (rename test file). See "Revision history" at the end of the spec.
+**Last revised:** 2026-04-28 (afternoon, tightening pass after the evening security review) — Federico's three normative fixes applied: rate limiting integrated end-to-end into login flow + tests + Appendix A (D1, §3.1 / §3.1.a / §6.3 / §8 / Appendix A), `config.update` audit explicitly out of scope for Stage A (D8, §7.3 / §7.6 / §11), retention endpoints stay synchronous (D9, §7.2 rewritten + api `clients.db` mount widened to `:rw` narrowly + Appendix B). Two new decisions resolved (D8, D9). The earlier same-day evening pass landed the security review (hash session tokens, audit ownership split, WS auth in handler, whoami split states, password-reset runbook); the morning pass landed D2 / D5 / D7. See "Revision history" at the end of the spec.
 
 > **Post-review pass applied five security/correctness fixes.** The audit guarantee is now genuinely atomic via split ownership (Option B), session tokens are hashed at rest, WS auth is in the handler not the middleware, whoami distinguishes empty-bootstrap from all-disabled, and password reset is case-normalised.
+>
+> **Tightening pass on top (2026-04-28 afternoon) applied three normative fixes.** Rate limiting is now baked into the login handler, response shapes, and test plan (D1 → integrated, not just "decided"). `config.update` audit is explicitly out of scope in Stage A and lands in Stage A.5 via `config_changes` triggers per D2 (D8). Retention endpoints stay synchronous in Stage A — the architect's earlier async-202 design is reverted; api's `clients.db` mount widens narrowly from `:ro` to `:rw` for the three audit-paired retention CAS UPDATEs (D9). See §10 D1, D8, D9 + §14 revision history.
 
 ---
 
@@ -44,7 +46,7 @@ Stage A introduces **four** new tables across two databases — three in `consol
 - **In `console.db`** (new file at `docs/architecture/console-db-schema.sql`, mirroring the style of `docs/architecture/client-db-schema.sql`): `operators`, `sessions`, `audit_log` (auth-event ownership). These DO NOT extend `client-db-schema.sql`; per D2 (resolved 2026-04-28), operator identity / sessions / api-side audit live in a separate SQLite database file `console.db` mounted RW on the api container only.
 - **In `clients.db`** (added to `docs/architecture/client-db-schema.sql`): `audit_log` (mutation-event ownership). This is the post-review Option B addition that gives Stage A its real atomicity guarantee for retention / trial / onboarding / config mutations — the writer container (scheduler / worker / delivery) inserts the audit row in the same transaction as the mutation.
 
-The existing `data/clients/clients.db` mount on api stays `:ro`, preserving the narrow blast radius around core client/scanning data. The audit-row writes in `clients.audit_log` happen from the writer containers' RW mounts of `clients.db`, which they already have today.
+The api's `clients.db` mount is widened from `:ro` to `:rw` per D8 / D9 (decided 2026-04-28 afternoon) — see §2.7 for the narrow scope (three retention CAS-UPDATE endpoints, audit-paired in the same transaction). All other writes to `clients.db` continue to come from the scheduler / worker / delivery RW mounts, exactly as today.
 
 The new console-side schema file is loaded by a new `init_db_console()` factory (see §2.5) at api startup via `executescript`. The clients-side `audit_log` is loaded by the existing `init_db()` via `client-db-schema.sql` after Stage A appends its CREATE TABLE block. Every CREATE TABLE statement is `IF NOT EXISTS` — idempotent.
 
@@ -188,13 +190,15 @@ CREATE INDEX IF NOT EXISTS idx_sessions_expires
 | Table | Lives in | Written by | Records |
 |---|---|---|---|
 | `console.audit_log` | `console.db` | `api` container (this Stage A scope) | Auth events: `auth.login_ok`, `auth.login_failed`, `auth.logout`, `auth.session_rejected_disabled`, `liveops.ws_connected`, and any future api-only mutation that writes to `console.db` |
-| `clients.audit_log` | `clients.db` | `scheduler`, `worker`, `delivery` containers (the existing writers of `clients.db`) | Mutation events on client-side state: `retention.force_run`, `retention.cancel`, `retention.retry`, `trial.activated`, `trial.expired`, `config.update`, `command.dispatch`, plus any system-initiated mutation (CT monitor, retention timer firing) |
+| `clients.audit_log` | `clients.db` | `api` (sync retention writes — see §10 D8) + `scheduler`, `worker`, `delivery` containers (the existing writers of `clients.db`) | Mutation events on client-side state: `retention.force_run`, `retention.cancel`, `retention.retry`, `trial.activated`, `trial.expired`, `command.dispatch`, plus any system-initiated mutation (CT monitor, retention timer firing). **`config.update` is intentionally NOT in this list — see §7.6 (deferred to Stage A.5).** |
 
 Each audit row is in the same SQLite transaction as the row it records — real atomicity, no reconciler needed. The cost is two audit tables, two query surfaces, and a UNION VIEW the operator console reads when it wants a unified timeline.
 
-**Cross-DB ownership rule for operator-initiated mutations.** Operator-initiated retention/config/command mutations originate at the api boundary (the operator clicks a button in the SPA), but the actual mutation lands on `clients.db` via the scheduler's command queue. The audit row for these mutations therefore lives in `clients.audit_log`, written by the container that does the SQL UPDATE — not by api. The api's role on these flows is to enqueue the operator's intent (and to write its own row in `console.audit_log` capturing "operator X dispatched command Y at time T", which is the api-side view of the same action). The `clients.audit_log` row records the actual mutation outcome from the writer's perspective. Both rows reference each other by the X-Request-ID that Stage A.5 wires through (NULL in Stage A — see §7.4), so the UNION VIEW can correlate them.
+**Cross-DB ownership rule for operator-initiated mutations.** Per D8 / D9 (decided 2026-04-28 afternoon), Stage A's operator-initiated retention writes are **synchronous and single-row**: the api itself opens a `clients.db` connection, runs the CAS UPDATE on `retention_jobs`, and writes the `clients.audit_log` row in the same transaction. There is no api-side intent row, no writer-container outcome row, no async dispatch. One operator action, one audit row, in `clients.audit_log`. `config.update` is **not audited in Stage A at all** — full capture lands in Stage A.5 via `config_changes` triggers per D2 (see §7.6).
 
-This means the operator console renders a single unified action in its timeline as TWO audit rows (one api-side intent, one writer-side outcome), and it is the operator's responsibility to read both. The UNION VIEW orders by `occurred_at` and exposes both rows; correlation post-Stage-A.5 is via `request_id`. Stage A operators see two rows with different timestamps a few hundred ms apart — acceptable trade-off for the atomicity guarantee.
+The single Stage A retained two-row pattern is `/console/commands/{command}` POST: the api writes an intent row in `console.audit_log` and pushes the command envelope onto `queue:operator-commands`; whichever container handles the command writes the outcome row in `clients.audit_log`. Commands are genuinely async (the queue is the existing dispatch mechanism for every operator-command flow today); retention was async only because the architect's earlier design speculatively introduced the queue, not because the dispatch needed it. Cross-DB correlation between the two command rows is by `target_id` + `occurred_at` proximity in Stage A, exact via `request_id` once Stage A.5 wires X-Request-ID middleware.
+
+**No cross-DB pairs in Stage A's retention path.** A reviewer scanning the audit timeline for a retention force-run sees exactly one row in `clients.audit_log`. A reviewer scanning for a command dispatch sees one row in `console.audit_log` (the intent) and one in `clients.audit_log` (the outcome) — same as before. Auth events (`auth.login_ok`, `auth.login_failed`, `auth.logout`, `liveops.ws_connected`) live entirely in `console.audit_log`; trial/system events (`trial.activated`, `trial.expired`, `retention.tick`, `ct.delta_observed`) live entirely in `clients.audit_log`.
 
 #### 1.3.a `console.audit_log` (in `console.db`)
 
@@ -207,11 +211,16 @@ This means the operator console renders a single unified action in its timeline 
 -- it records (which, for this DB, means: session issuance/revocation,
 -- operator updates, WS handshake).
 --
--- Operator-initiated mutations of clients.db state (retention,
--- trial, config) write a "dispatch intent" row HERE, and the
--- client-DB writer (scheduler/worker/delivery) writes the
--- mutation-outcome row in clients.audit_log. See §1.3 split-rationale
--- and §7.
+-- Operator-initiated retention writes are SYNCHRONOUS in Stage A
+-- (per §10 D8 / D9, decided 2026-04-28 afternoon): the api opens a
+-- clients.db connection, runs the CAS UPDATE on retention_jobs, and
+-- writes the audit row in clients.audit_log in the SAME transaction.
+-- No intent row in console.audit_log for retention.
+--
+-- The single Stage A retained two-row pattern is /console/commands/*:
+-- api writes a 'command.dispatch' intent row HERE, and whichever
+-- container handles the command writes the 'command.<name>' outcome
+-- row in clients.audit_log. See §7.2.
 --
 -- Stage A: action is free-text, populated by hand in each route
 -- handler. Stage A.5 introduces the Permission enum and migrates
@@ -222,8 +231,8 @@ CREATE TABLE IF NOT EXISTS audit_log (
     occurred_at     TEXT NOT NULL,                       -- ISO-8601 UTC
     operator_id     INTEGER,                             -- FK to operators.id; NULL for system / unauthenticated
     session_id      INTEGER,                             -- FK to sessions.id; NULL for system actions
-    action          TEXT NOT NULL,                       -- free-text in Stage A, e.g. 'auth.login_ok', 'retention.dispatch_intent'
-    target_type     TEXT,                                -- e.g. 'session', 'operator', 'retention_job' (intent only)
+    action          TEXT NOT NULL,                       -- free-text in Stage A, e.g. 'auth.login_ok', 'auth.logout', 'liveops.ws_connected', 'command.dispatch'
+    target_type     TEXT,                                -- e.g. 'session', 'operator', 'websocket', 'command'
     target_id       TEXT,                                -- string for FK flexibility (int / cvr / config name)
     payload_json    TEXT,                                -- JSON snapshot of request body or relevant state
     source_ip       TEXT,
@@ -258,16 +267,30 @@ A parallel `audit_log` table is added to `clients.db` via a Stage A entry in `_C
 -- clients.audit_log  (lives in clients.db — added by Stage A)
 -- -----------------------------------------------------------------
 -- Immutable append-only log of mutation events on client-side state.
--- Written by the SAME container that does the mutation (scheduler,
--- worker, or delivery), in the SAME SQLite transaction as the
--- mutation. This is the table that gives Stage A its real atomicity
--- guarantee for retention / trial / onboarding / config mutations.
+-- Written by the SAME container that does the mutation, in the SAME
+-- SQLite transaction as the mutation. This is the table that gives
+-- Stage A its real atomicity guarantee for retention / trial /
+-- onboarding mutations.
+--
+-- Writers in Stage A:
+--   - api: operator-initiated retention writes (force-run, cancel,
+--     retry) — synchronous per §10 D8 / D9, single audit row per
+--     action, same transaction as the CAS UPDATE on retention_jobs.
+--     Requires api's clients.db mount to be RW (Appendix B).
+--   - scheduler / worker / delivery: system-initiated mutations
+--     (trial.activated, trial.expired, retention.tick,
+--     ct.delta_observed, command outcomes) from those containers'
+--     existing RW mounts.
+--
+-- config.update is NOT written here in Stage A (§7.6); full capture
+-- lands in Stage A.5 via config_changes triggers per D2.
 --
 -- No FK to operators / sessions — those tables live in console.db
 -- and SQLite does not support cross-DB FKs. The columns are stored
 -- as bare integers; correlation back to operator identity goes
--- through request_id (Stage A.5) or via the api's parallel row in
--- console.audit_log.
+-- through request_id (Stage A.5) or via the api's intent row in
+-- console.audit_log when the operator action is /console/commands/*
+-- (the only Stage A endpoint that retains the two-row pattern).
 
 CREATE TABLE IF NOT EXISTS audit_log (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -442,9 +465,19 @@ A new named volume `console-data` is added to `infra/compose/docker-compose.yml`
 | `delivery` | not mounted | Telegram bot; receives client-side `/start` / "Got it" callbacks, not operator-attributed. |
 | `signup` (SvelteKit static + dev Vite) | not mounted | Public-facing site; no operator surface. |
 
-Stage A's writer set for `console.db` is therefore exactly `{api}`. This keeps SQLite WAL contention trivial (single writer, no need to think about checkpoint coordination) and makes the blast-radius story in Federico's D2 reasoning real: even if the api container were compromised, scanning data in `clients.db` stays `:ro` from that container's perspective.
+Stage A's writer set for `console.db` is therefore exactly `{api}`. This keeps SQLite WAL contention trivial (single writer, no need to think about checkpoint coordination).
 
-If a future stage adds a second writer, this table is the place to widen — and the corresponding `add :rw mount` is a danger-zone diff just like Stage A's initial mount.
+**Per D8 / D9 (decided 2026-04-28 afternoon), Stage A also widens api's `clients.db` mount from `:ro` to `:rw`** — narrowly, to make PR #46's already-shipped retention CAS UPDATEs work in production AND to let api write the paired `clients.audit_log` row in the same SQLite transaction. The investigation in §10 D9 found that the `:ro` assumption from the original D2 framing was not actually upheld by PR #46's runtime behaviour; the spec now states the truth. The widened api writer set against `clients.db` is exactly:
+
+| Endpoint | Write |
+|---|---|
+| `POST /console/retention-jobs/{id}/force-run` | CAS UPDATE on `retention_jobs` + INSERT into `clients.audit_log` |
+| `POST /console/retention-jobs/{id}/cancel` | CAS UPDATE on `retention_jobs` + INSERT into `clients.audit_log` |
+| `POST /console/retention-jobs/{id}/retry` | CAS UPDATE on `retention_jobs` + INSERT into `clients.audit_log` |
+
+Every other write to `clients.db` continues to come from scheduler / worker / delivery as today. The "narrow blast radius" stance from D2 is preserved by code review (not by mount mode): the api's only writes against `clients.db` are the three audit-paired retention CAS UPDATEs above, no other tables, no other call sites. A reviewer auditing the api's `sqlite3.connect(clients_db_path)` usage greps the codebase and finds exactly the retention router file. D2's split (`console.db` for the bulk of control-plane state) is the bigger blast-radius reduction and is unchanged.
+
+If a future stage adds a second console-side writer (e.g. scheduler writing `console.audit_log` for an operator-attributed scheduler action), this table is the place to widen — and the corresponding `add :rw mount` is a danger-zone diff just like Stage A's initial mount.
 
 ---
 
@@ -454,26 +487,76 @@ All flows below are over HTTPS in production (terminating at the Pi5's reverse p
 
 ### 3.1 Login flow
 
+The handler runs in a fixed three-phase order: **(1) per-IP rate-limit pre-check (Redis)**, **(2) credential lookup + Argon2id verify (SQLite)**, **(3) session issue + audit + Set-Cookie (SQLite)**. The rate-limit gate is the FIRST step — username lookup and Argon2id are NEVER reached until the rate-limit check passes. This is normative; the implementing PR must order the steps as specified.
+
 ```
-Browser                    FastAPI / api container               console.db
-   |                                |                                |
-   |  POST /console/auth/login      |                                |
-   |  Body: {username, password}    |                                |
-   | -----------------------------> |                                |
-   |                                |  SELECT * FROM operators       |
-   |                                |  WHERE LOWER(username) = ?     |
-   |                                |    AND disabled_at IS NULL     |
-   |                                | -----------------------------> |
-   |                                | <----------------------------- |
-   |                                |                                |
-   |                                |  argon2.verify(hash, pw)       |
-   |                                |  - constant-time compare       |
-   |                                |  - ~50ms CPU on Pi5            |
-   |                                |                                |
-   |                                |  IF mismatch:                  |
-   |                                |     audit_log INSERT           |
-   |                                |     (action='auth.login_failed)|
-   |                                |    return 401                  |
+Browser                    FastAPI / api container          Redis            console.db
+   |                                |                          |                |
+   |  POST /console/auth/login      |                          |                |
+   |  Body: {username, password}    |                          |                |
+   | -----------------------------> |                          |                |
+   |                                |                          |                |
+   |                                |  STEP 1 — rate limit     |                |
+   |                                |  key = f"auth:fail:      |                |
+   |                                |        {client_ip}"      |                |
+   |                                |  fail_count =            |                |
+   |                                |    int(redis.get(key)    |                |
+   |                                |         or 0)            |                |
+   |                                | -----------------------> |                |
+   |                                | <----------------------- |                |
+   |                                |  IF fail_count >= 5:     |                |
+   |                                |    ttl = redis.ttl(key)  |                |
+   |                                |    return 429            |                |
+   |                                |    Retry-After: ttl      |                |
+   |                                |    body: {"error":       |                |
+   |                                |      "rate_limited"}     |                |
+   |                                |                          |                |
+   |                                |  IF Redis is DOWN:       |                |
+   |                                |    log warning,          |                |
+   |                                |    fall through to       |                |
+   |                                |    STEP 2 (fail-open).   |                |
+   |                                |    See §3.1.a.           |                |
+   |                                |                          |                |
+   |                                |  STEP 2 — credentials    |                |
+   |                                |  SELECT * FROM operators |                |
+   |                                |  WHERE LOWER(username)=? |                |
+   |                                |    AND disabled_at IS NULL                |
+   |                                | -----------------------------------------> |
+   |                                | <----------------------------------------- |
+   |                                |                          |                |
+   |                                |  argon2.verify(hash, pw) |                |
+   |                                |  - constant-time compare |                |
+   |                                |  - ~50ms CPU on Pi5      |                |
+   |                                |  - if no row matched, run|                |
+   |                                |    against a dummy hash  |                |
+   |                                |    to keep timing flat   |                |
+   |                                |                          |                |
+   |                                |  IF mismatch (no row OR  |                |
+   |                                |    bad password):        |                |
+   |                                |    # Single failure path |                |
+   |                                |    # — never distinguish |                |
+   |                                |    # "no such user" from |                |
+   |                                |    # "wrong password" in |                |
+   |                                |    # body, status, or    |                |
+   |                                |    # rate-limit counter. |                |
+   |                                |    new = redis.incr(key) |                |
+   |                                | -----------------------> |                |
+   |                                |    IF new == 1:          |                |
+   |                                |      redis.expire(       |                |
+   |                                |        key, 900)         |                |
+   |                                | -----------------------> |                |
+   |                                |    audit_log INSERT      |                |
+   |                                |    (action='auth.        |                |
+   |                                |     login_failed')       |                |
+   |                                | -----------------------------------------> |
+   |                                |    return 401            |                |
+   |                                |                          |                |
+   |                                |  STEP 3 — success path         |
+   |                                |  redis.delete(key)              |
+   |                                |  (clear the per-IP fail counter |
+   |                                |   on every successful login —   |
+   |                                |   a legitimate operator after a |
+   |                                |   typo recovers full quota)     |
    |                                |                                |
    |                                |  Generate plaintext session    |
    |                                |    token = secrets              |
@@ -524,8 +607,29 @@ Browser                    FastAPI / api container               console.db
 
 Failure modes:
 - Unknown username, wrong password, or `disabled_at IS NOT NULL` → 401 with body `{"error": "invalid_credentials"}`. We do NOT distinguish "no such user" from "wrong password" in the body — same shape, same timing (the verify still runs against a dummy hash if the username is missing, to avoid timing oracle).
+- Per-IP rate-limit exceeded (≥5 fails in the last 15 min from the same source IP) → 429 with `Retry-After: <seconds>` header (the value is the current Redis TTL on `auth:fail:<ip>`, which is ≤ 900) and body `{"error": "rate_limited"}`. The counter is keyed on source IP, NOT on username — distinguishing "bad password" from "bad username" via the rate-limit signal would leak user enumeration. A 401 increments the counter regardless of whether the username exists; the user-enumeration oracle is closed at the rate-limit layer the same way it is at the response layer.
 - DB error → 503.
-- Account-lockout / brute-force defense: out of scope for Stage A. Add to "Decisions still open" (D1).
+
+**What counts as a "fail".** Any 401 returned from `/console/auth/login` increments the per-IP counter — this includes "no such user", "wrong password", and "operator disabled". Any 200 from the same endpoint clears the counter. 429 itself is NOT a fail (the counter is already saturated; we don't compound). 503 is NOT a fail (DB error is not an attacker signal).
+
+#### 3.1.a Rate-limit Redis contract
+
+| Item | Value |
+|---|---|
+| Key format | `auth:fail:<client_ip>` — exactly this string; the IP comes from `request.client.host`, NOT from `X-Forwarded-For` (that header is operator-controlled at the reverse proxy and any production deploy that puts a proxy in front of api MUST set `forwarded-allow-ips` on uvicorn so `request.client.host` is the trusted upstream value) |
+| Threshold | 5 fails |
+| Window | 15 min (900s) — implemented as the TTL on the key |
+| Counter mechanic | `redis.incr(key)`; if the return value is 1 (the key was just created by this INCR), immediately `redis.expire(key, 900)` to install the TTL. Subsequent INCRs in the same window inherit the TTL set by the first one (Redis does not reset the TTL on INCR, which is what we want — a sliding window would let an attacker pace 4 attempts every 14 min indefinitely). |
+| `Retry-After` header source | `redis.ttl(key)` at the moment of the 429 decision. Value is in seconds; clamp to `[1, 900]` to defend against TTL of -1 / -2 edge cases (e.g. a key that lost its TTL via manual ops). |
+| Counter cleared on | success (`redis.delete(key)` in step 3 of §3.1) |
+| Per-username counter | NOT used. Per-username lockout enables targeted DoS (an attacker locks out a known operator with five wrong attempts from any IP, denying legitimate access). Per-IP only, by design. |
+| Per-username audit | The `audit_log` row written on `auth.login_failed` records the attempted username (or `NULL` if the username didn't exist — same shape). Forensic correlation lives in audit, not in the rate-limit counter. |
+
+**Redis-down behaviour: fail-open.** If `redis.get` / `redis.incr` raises (Redis container down, network blip, password rotated), the rate-limit pre-check logs a WARNING and falls through to STEP 2 unconditionally. The login proceeds against Argon2id — auth itself is still enforced, just not throttled. Rationale: Redis is a degraded-mode dependency for this surface, not a primary one; treating its outage as auth-down would let a single Redis incident lock every operator out of the console for the duration of the outage. Argon2id's ~50ms cost gives us 20 attempts/s/IP as the worst-case throughput while Redis is down, which is well below the rate at which a weak password falls — a Redis outage of seconds-to-minutes is a brief degradation, not a security disaster. The fail-open decision is logged at WARNING level (one line per request) so the operator sees the throttle is off, and the underlying Redis incident is the actual fix.
+
+**Why fail-open, not fail-closed.** The alternative is "Redis down → 503 every login". That converts a Redis-availability incident into an auth-availability incident. Heimdall's operator console is the control plane; locking the operator out of the control plane during any Redis blip is a harder failure mode than the brief throttle gap. The choice is recorded explicitly here so a future change cannot silently flip it.
+
+The Redis client + helpers live at `src/api/auth/rate_limit.py` — see Appendix A. Lifting the Redis call out of the router makes it testable in isolation (mock the rate-limit module, exercise the router; mock the underlying Redis client, exercise the rate-limit module).
 
 ### 3.2 Authenticated request flow
 
@@ -926,8 +1030,8 @@ Every endpoint currently in `src/api/console.py` (and its line range) maps to a 
 | `POST /console/retention-jobs/{id}/force-run` | console.py:542 | routers/retention.py | retention action |
 | `POST /console/retention-jobs/{id}/cancel` | console.py:567 | routers/retention.py | retention action |
 | `POST /console/retention-jobs/{id}/retry` | console.py:656 | routers/retention.py | retention action |
-| `GET /console/settings` | console.py:681 | routers/liveops.py | config-file read (filters/interpreter/delivery) |
-| `PUT /console/settings/{name}` | console.py:695 | routers/liveops.py | config-file write |
+| `GET /console/settings` | console.py:681 | routers/liveops.py | config-file read (filters/interpreter/delivery); no audit (read-only) |
+| `PUT /console/settings/{name}` | console.py:695 | routers/liveops.py | config-file write; **no audit in Stage A** (§7.6) — full capture lands in Stage A.5 via `config_changes` triggers per D2 |
 | `POST /console/commands/{command}` | console.py:747 | routers/liveops.py | operator-command queue dispatch |
 | `GET /console/logs` | console.py:776 | routers/liveops.py | ring-buffer log query |
 | `WS /console/ws` | console.py:811 | routers/liveops.py | live updates (queues, pubsub, logs) |
@@ -947,9 +1051,18 @@ Edge-case calls justified:
 
 | Method | Path | File | Purpose |
 |---|---|---|---|
-| `POST` | `/console/auth/login` | routers/auth.py | issue session ticket |
+| `POST` | `/console/auth/login` | routers/auth.py | issue session ticket; rate-limited per source IP (5 fails / 15 min) |
 | `POST` | `/console/auth/logout` | routers/auth.py | revoke session |
 | `GET` | `/console/auth/whoami` | routers/auth.py | echo current operator + session metadata; used by SPA on boot |
+
+**`POST /console/auth/login` response shapes** (normative — the implementing PR matches this table verbatim):
+
+| Status | Headers | Body | Notes |
+|---|---|---|---|
+| 200 OK | `Set-Cookie: heimdall_session=...`, `Set-Cookie: heimdall_csrf=...` | `{operator, expires_at, absolute_expires_at, csrf_token}` | success path; per-IP rate-limit counter cleared via `redis.delete("auth:fail:<ip>")` |
+| 401 Unauthorized | — | `{"error": "invalid_credentials"}` | bad credentials, unknown username, or disabled operator — single shape, same timing; per-IP counter incremented |
+| **429 Too Many Requests** | **`Retry-After: <seconds>`** | **`{"error": "rate_limited"}`** | per-IP counter ≥ 5 fails in the last 15 min; `<seconds>` is the current Redis TTL on `auth:fail:<ip>` (clamped to [1, 900]); counter is keyed on source IP, NOT on username (per-username lockout enables targeted DoS) |
+| 503 Service Unavailable | — | `{"error": "service_unavailable"}` | DB error reaching `console.db`. Redis-down does NOT return 503 — the rate-limit gate fails open per §3.1.a so the login still proceeds |
 
 `/console/auth/whoami` has **four** response shapes per D5 (resolved 2026-04-28) plus the 2026-04-28 evening security review; see §3.5 for the full semantics and SQL pre-check:
 
@@ -1074,57 +1187,58 @@ write_clients_audit_row(
 - Inserts into `audit_log` (which lives in `clients.db`) and returns the new `id`.
 - Does NOT commit. Same atomicity contract as the console helper — bound to the `with conn:` of the underlying mutation.
 
-### 7.2 Operator-command propagation (the cross-DB choreography)
+### 7.2 Operator-initiated retention writes (synchronous, single audit row)
 
-When an operator clicks "Force run retention job" in the SPA, the action lives across both databases:
+Per D8 / D9 (decided 2026-04-28 afternoon), the three retention endpoints (`/console/retention-jobs/{id}/{force-run,cancel,retry}`) stay **synchronous** in Stage A. No Redis enqueue, no writer-container outcome row, no 202 Accepted. The api opens a `clients.db` connection, runs the CAS UPDATE on `retention_jobs`, writes a single `clients.audit_log` row in the same transaction, commits, returns 200 with the updated row. This matches PR #46's already-shipped behaviour byte-for-byte; Stage A's only addition is the in-transaction audit-row write.
+
+The architect's earlier async-dispatch + dispatch_intent + outcome design is **reverted** out of this spec. If async retention dispatch is the right answer for V2 / A.5, it is a separate spec; Stage A is auth / identity / router carve, not workflow redesign.
 
 ```
 1. api receives POST /console/retention-jobs/{id}/force-run.
-   - Validates session, CSRF, role.
-   - Opens console.db connection.
-   - INSERT into console.audit_log:
-       action       = 'retention.dispatch_intent'
-       target_type  = 'retention_job'
-       target_id    = id
-       operator_id  = request.state.operator_id
-       session_id   = request.state.session_id
-       payload      = {request_id, ...}
-   - LPUSH onto Redis queue:operator-commands with envelope:
-       {kind: 'retention.force_run',
-        retention_job_id: id,
-        operator_id: ...,
-        session_id: ...,
-        source_ip: ...,
-        user_agent: ...,
-        request_id: ...}
-   - COMMIT console.db transaction.  (Audit row + queue push are NOT
-     atomic — the queue push happens after commit; if the api crashes
-     between commit and LPUSH, the intent row exists with no
-     follow-up. Acceptable: the operator can retry, and the missing
-     mutation-side row in clients.audit_log is the operationally
-     visible signal that the dispatch never landed.)
-   - Return 202 Accepted to the SPA.
-
-2. scheduler BRPOPs the envelope from queue:operator-commands.
+   - Validates session, CSRF (and Stage A.5 will validate role).
    - Opens clients.db connection.
    - BEGIN IMMEDIATE.
-   - UPDATE retention_jobs SET status = 'force_run_pending', ...
+   - CAS UPDATE retention_jobs
+       SET scheduled_for = now    -- (force-run case)
+        or SET status = 'cancelled', executed_at = now, notes = COALESCE(?, notes)  -- (cancel case)
+        or SET status = 'pending', scheduled_for = now, attempt = ...  -- (retry case)
+       WHERE id = ?
+         AND status = ?           -- (CAS predicate matching PR #46 exactly)
+       RETURNING *
+     If rowcount == 0: SELECT to distinguish "not found" (404) from
+     "wrong state" (404 with a state-specific message — same shape
+     as today's `Retention job N is not pending (status=...)`).
    - INSERT into clients.audit_log:
-       action       = 'retention.force_run'
+       action       = 'retention.force_run' (or 'retention.cancel' / 'retention.retry')
        actor_kind   = 'operator'
-       operator_id  = envelope.operator_id  (bare int, no FK)
-       session_id   = envelope.session_id    (bare int, no FK)
+       operator_id  = request.state.operator_id   -- bare int, no FK
+       session_id   = request.state.session_id     -- bare int, no FK
        target_type  = 'retention_job'
-       target_id    = retention_job.id
-       source_ip    = envelope.source_ip
-       user_agent   = envelope.user_agent
-       request_id   = envelope.request_id
+       target_id    = updated_row.id
+       source_ip    = request.client.host
+       user_agent   = request.headers.get('user-agent', '')[:512]
+       payload      = {<action-specific>}
+       request_id   = NULL in Stage A (Stage A.5 wires X-Request-ID)
    - COMMIT.
-   - Both rows (mutation + audit) commit together inside clients.db.
-     If anything in this block raises, both roll back.
+     Both rows (mutation + audit) commit together inside clients.db
+     in the same SQLite transaction. If anything in this block raises,
+     both roll back.
+   - Publish operator-action event on Redis console:activity (matches
+     PR #46's existing _publish_retention_action; the publish is
+     fire-and-forget, NOT part of the transaction — failure to publish
+     is logged but does not roll the audit row back).
+   - Return 200 OK with the updated row in the body.
 ```
 
-Two audit rows for one operator action. The intent row in `console.audit_log` says "operator X dispatched at time T1"; the outcome row in `clients.audit_log` says "the mutation landed at time T2 against retention_job Y". Correlation in Stage A is by hand (matching `target_id` + similar `occurred_at`); Stage A.5's X-Request-ID makes correlation exact.
+**One audit row per action, not two.** The api is the writer that performs the SQL UPDATE in Stage A's retention path, so the api also writes the `clients.audit_log` row — same DB as the row it audits, same SQLite transaction, real atomicity per Option B (§1.3). There is no api-side intent row in `console.audit_log` for retention actions; the operator-attributed write IS the `clients.audit_log` row.
+
+**Why the api can write `clients.audit_log` despite D2.** D2 said "console-plane state lives in console.db, mounted RW on api only; clients.db stays `:ro` on api". The api-mount investigation in §10 D9 found that PR #46's retention endpoints already write to `clients.db` (CAS UPDATEs on `retention_jobs`); the existing `:ro` mount on api would make those endpoints raise `OperationalError` in production. Stage A resolves the contradiction by **flipping the api's `clients.db` mount to `:rw` for this narrow purpose** — retention CAS UPDATEs and the paired audit rows. The `:rw` widening is audit-paired by design (every write is matched 1:1 with a `clients.audit_log` row in the same transaction); the broader "api can write to any clients.db table" surface is gated by code review, not by mount mode. D2's larger split (the `console.db` carve for sessions/operators/auth-event audit) is the bigger blast-radius reduction and stands; the retention-mount widening here is a narrower concession to keep retention endpoints synchronous.
+
+The Appendix B mount table is updated accordingly (`client-data:/data/clients:rw` on api; the danger-zone hook will flag the change).
+
+**Trial activation, trial expiry, retention-tick, ct.delta_observed.** These are system-initiated mutations — written by `delivery` (trial activation), `scheduler` (trial expiry, retention timer firing, CT monitor). They write `clients.audit_log` rows from those containers' existing RW mounts of `clients.db`, with `actor_kind='system'`. No api involvement, no cross-DB choreography.
+
+**`/console/commands/{command}` retains the api intent + writer outcome split.** Stage A's command-dispatch endpoint is the only retained two-row pattern: the api writes a `command.dispatch` intent row to `console.audit_log` and pushes the command envelope onto `queue:operator-commands`; whichever container handles the command writes the outcome row to `clients.audit_log`. This pattern stays because commands are genuinely async (the queue is the dispatch mechanism today, used by every existing operator-command flow); the retention path was async only because the architect's earlier design speculatively introduced the queue, not because the dispatch itself needed it.
 
 ### 7.3 Endpoints that must write audit rows in Stage A
 
@@ -1136,11 +1250,11 @@ The "where" column says which audit table receives the row.
 |---|---|---|---|---|---|
 | `/console/auth/login` | POST | `auth.login_ok` / `auth.login_failed` | `console.audit_log` | `operator` / username (failed) or operator_id (ok) | api writes; failure rows have `operator_id=NULL`, `session_id=NULL` |
 | `/console/auth/logout` | POST | `auth.logout` | `console.audit_log` | `session` / session_id | api writes |
-| `/console/settings/{name}` | PUT | `config.update` (intent on api side) + `config.update` (outcome on writer side, if config edits propagate to clients.db) | `console.audit_log` for the intent; `clients.audit_log` for the outcome **iff** the config name targets clients.db state | `config` / name | payload = the diff between old and new (capped at 4KB) |
+| `/console/settings/{name}` | PUT | — | — | `config` / name | **not audited in Stage A**; full capture lands in Stage A.5 via `config_changes` triggers per D2. Endpoint behaviour (the actual config write) is unchanged from current `src/api/console.py`; only the audit-row write is deferred. See §7.6 below. |
 | `/console/commands/{command}` | POST | `command.dispatch` (intent) → followed by writer-side `command.<name>` (outcome) | both | `command` / command name | api writes intent row to console.audit_log; whichever container handles the command writes the outcome row to clients.audit_log |
-| `/console/retention-jobs/{id}/force-run` | POST | `retention.dispatch_intent` (api) + `retention.force_run` (scheduler) | console.audit_log + clients.audit_log | `retention_job` / id | choreography per §7.2 |
-| `/console/retention-jobs/{id}/cancel` | POST | `retention.dispatch_intent` (api) + `retention.cancel` (scheduler) | console.audit_log + clients.audit_log | `retention_job` / id | payload = `{notes_provided: bool}` on the outcome row |
-| `/console/retention-jobs/{id}/retry` | POST | `retention.dispatch_intent` (api) + `retention.retry` (scheduler) | console.audit_log + clients.audit_log | `retention_job` / id | |
+| `/console/retention-jobs/{id}/force-run` | POST | `retention.force_run` | `clients.audit_log` | `retention_job` / id | api writes (sync, see §7.2 + §10 D8); single audit row per action |
+| `/console/retention-jobs/{id}/cancel` | POST | `retention.cancel` | `clients.audit_log` | `retention_job` / id | api writes (sync); payload = `{notes_provided: bool}` |
+| `/console/retention-jobs/{id}/retry` | POST | `retention.retry` | `clients.audit_log` | `retention_job` / id | api writes (sync) |
 | WS `/console/ws` (handshake) | — | `liveops.ws_connected` | `console.audit_log` | `websocket` / NULL | api writes; written once after successful handshake |
 | Trial activation (signup → Watchman flip) | n/a | `trial.activated` | `clients.audit_log` | `client` / cvr | delivery container writes; `actor_kind='operator'` (the client is the actor) |
 | Trial expiry (sweeper firing) | n/a | `trial.expired` | `clients.audit_log` | `client` / cvr | scheduler writes; `actor_kind='system'` |
@@ -1153,7 +1267,12 @@ A decorator would be cleaner but premature in Stage A. The decorator design spac
 
 ### 7.5 Atomicity rule (real this time)
 
-Each writer follows this pattern, scoped to the DB it owns:
+Each writer follows this pattern, scoped to the DB it owns. The writer set per Stage A:
+
+- **`console.audit_log`** — written by the api container only (auth events, WS handshake).
+- **`clients.audit_log`** — written by the api container (operator-initiated retention writes, sync per §7.2 + §10 D8/D9), AND by scheduler / worker / delivery (system-initiated mutations, command outcomes). Multiple writers, same DB; SQLite WAL handles the contention.
+
+The pattern is identical regardless of writer:
 
 ```
 with sqlite3.connect(db_path, timeout=5) as conn:
@@ -1170,6 +1289,20 @@ What Stage A does NOT promise: cross-DB atomicity between the api's `console.aud
 
 The original spec's claim of single-transaction atomicity across DBs was wrong; this section now says what actually holds.
 
+### 7.6 Explicitly out of audit scope in Stage A: `config.update`
+
+**The decision.** `/console/settings/{name}` PUT — the operator-config edit endpoint — does NOT write an audit row in Stage A. Full capture lands in Stage A.5 via the `config_changes` table + DB triggers per D2. This is intentional, normative, and recorded here as an explicit gap rather than a silent omission.
+
+**Why exempt, not best-effort.** The Stage A audit guarantee ("every operator-mutating endpoint writes an audit row in the same transaction as the mutation it records") only holds for endpoints whose mutation lands on a SQLite row inside a DB the api can transactionally write to. Config edits are different in two ways: (1) they may write to `clients.db`, to a JSON file in `config-data`, to an env var, or to no persistent store at all — depending on the `name` parameter — and the spec for which writes go where is itself the Stage A.5 `config_changes` design; (2) the formal capture contract (D2) is "DB triggers for capture, repository wrappers for validation/intent/actor", which is a Stage A.5 concern. A best-effort Stage A audit row would either lie about which endpoint really wrote what (api-side row says "config.update", actual write may have been to a JSON file the api can edit but which has no transactional pairing with `console.audit_log`), or duplicate work that Stage A.5 will replace.
+
+**What this means concretely.**
+
+- `/console/settings` GET and `/console/settings/{name}` PUT continue to work in Stage A exactly as they do today in `src/api/console.py`. The router carve (§6.2) moves them to `routers/liveops.py` unchanged in behaviour.
+- The Stage A audit guarantee is restated as: "every operator-mutating endpoint *that is in scope for Stage A audit* writes an audit row in the same transaction as the mutation it records". The set of in-scope endpoints is exactly the rows in §7.3's table that have a non-`—` `action` string. Config is the only mutating endpoint that has a `—`.
+- Stage A.5 lands `config_changes` (table + triggers + repository wrappers + `GET /console/config/history`), at which point config writes become first-class audited mutations and the §7.3 row is updated with the proper `action` strings.
+
+This exclusion is recorded in §11 (Out of scope), in §10 D8 (the "decided 2026-04-28 afternoon" entry), and in §14 revision history. A reviewer scanning the spec for "where is config audit?" finds the answer in three places, all consistent.
+
 ---
 
 ## 8. Test plan
@@ -1182,13 +1315,14 @@ tests/
 ├── test_auth_sessions.py            # NEW — session lifecycle (issue/refresh/revoke)
 ├── test_auth_middleware.py          # NEW — SessionAuthMiddleware behaviour
 ├── test_auth_login_logout.py        # NEW — login/logout/whoami endpoint unit tests (incl. 204 empty-operators branch, D5)
+├── test_auth_rate_limit.py          # NEW — per-IP login rate limit (5 fails / 15 min via Redis); separate file because the Redis dependency is distinct from the SQLite-only login/logout tests
 ├── test_auth_csrf.py                # NEW — double-submit token behaviour
 ├── test_audit_log_writer.py         # NEW — write_audit_row helper
 ├── test_session_auth.py             # RENAMED from tests/test_console_auth.py (D7, 2026-04-28)
 │                                    #   — repurposed for session-cookie auth
 ├── test_console_ws_auth.py          # NEW — WS handshake (cookie path + first-frame path)
 ├── test_router_carve.py             # NEW — every endpoint reaches its target router
-└── test_console_integration.py      # NEW — login → ws → state-change → logout round trip
+└── test_console_integration.py      # NEW — login → ws → state-change → logout round trip (incl. rate-limit scenario)
 ```
 
 Per D7 (resolved 2026-04-28), the existing `tests/test_console_auth.py` is RENAMED to `tests/test_session_auth.py` — not deleted-and-recreated. The implementation PR's commit MUST use `git mv` so `git log --follow` continues to track the file's history. The commit message MUST mention the rename explicitly so anyone grepping for the old filename in PR descriptions or chat history finds the breadcrumb. Recommended commit subject: `tests(auth): rename test_console_auth.py → test_session_auth.py (Stage A D7)`.
@@ -1245,6 +1379,18 @@ Grep continuity is treated as a documentation problem (this paragraph + the deci
 - Login when operators table is empty → 401 (no-such-user path; documented behaviour — login semantics are unchanged; only `whoami` differentiates the bootstrap and all-disabled states).
 - Login when all operators disabled → 401 (same path as no-such-user; the SELECT filters on `disabled_at IS NULL`).
 
+**`test_auth_rate_limit.py`** (~10 tests; ~150 LOC NEW file — kept separate from `test_auth_login_logout.py` so the dependency on Redis is explicit and isolatable. Uses fakeredis or a redis-fixture pattern; the SQLite-only login/logout tests must NOT need a Redis fixture)
+- `test_rate_limit_blocks_after_5_fails` — five consecutive 401s from one source IP, sixth attempt returns 429 with `Retry-After` header set to a value in `[1, 900]` and body `{"error": "rate_limited"}`. Assert the 6th request never reaches the SELECT against `operators` (mock the DB layer, assert no call) — the rate-limit gate is the FIRST step.
+- `test_rate_limit_resets_on_success` — four 401s, then one 200 (correct credentials), then one fresh 401 from the same IP — the post-success 401 returns 401 (not 429). Assert `redis.delete("auth:fail:<ip>")` was called between steps 5 and 6, and the post-success 401 starts a fresh INCR=1 with a fresh 900s TTL.
+- `test_rate_limit_separate_ips` — IP A makes 5 failed attempts (blocked at the 6th with 429); IP B from the same test makes 1 attempt and gets the normal 401 (NOT 429). Confirms the counter is per-IP, not global.
+- `test_rate_limit_redis_failure_fail_open` — patch the Redis client to raise `ConnectionError` on `get`/`incr`; submit 10 failed login attempts in a row from the same IP; assert all 10 return 401 (NOT 429), assert exactly 10 WARNING-level loglines record the fail-open decision, assert the SQLite path was reached on every attempt. **The choice is fail-open per §3.1.a; this test locks it in.**
+- `test_rate_limit_429_does_not_increment` — once an IP is at the 429 threshold, additional attempts return 429 but do NOT compound the counter further (`redis.incr` is NOT called in the 429 branch). The TTL stays bounded at the original 900s, so the operator's own block window does not extend itself just by retrying.
+- `test_rate_limit_503_does_not_increment` — when the DB returns 503 (mock `console.db` connect to raise `OperationalError`), the rate-limit counter is NOT incremented. DB errors are not attacker signals.
+- `test_rate_limit_unknown_username_increments` — submit 5 logins with non-existent usernames from one IP; 6th attempt returns 429. Confirms the user-enumeration oracle is closed at the rate-limit layer the same way it is at the response layer.
+- `test_rate_limit_key_format` — assert the Redis key is exactly `f"auth:fail:{client_ip}"` (no prefix variations, no per-environment namespace) — locks the contract for ops alerts that grep Redis keys.
+- `test_rate_limit_ttl_set_on_first_incr_only` — first failed login: `redis.incr` returns 1 → `redis.expire(key, 900)` is called. Second failed login: `redis.incr` returns 2 → `redis.expire` is NOT called (the TTL inherited from the first). Locks the sliding-window-reset bug from re-emerging.
+- `test_rate_limit_retry_after_clamped` — manually set the key to a non-positive TTL (-1, simulating a TTL-loss bug); next 429 returns `Retry-After: 1` (clamped to ≥1, never 0/negative).
+
 **`test_auth_csrf.py`** (~6 tests)
 - POST with header matching cookie → 200.
 - POST with header not matching cookie → 403.
@@ -1282,10 +1428,11 @@ Grep continuity is treated as a documentation problem (this paragraph + the deci
 - `routers.billing` is allowed to be empty in Stage A (placeholder); test asserts the file exists and exports `router` even if no endpoints.
 - `from src.api.console import router` either works (shim) or import-errors (deleted) — pick one and lock in the test.
 
-**`test_console_integration.py`** (~3 tests)
+**`test_console_integration.py`** (~4 tests)
 - End-to-end happy path: POST /login → GET /dashboard → POST /retention-jobs/1/cancel → audit_log has 3 rows for this session → POST /logout.
 - Session expiry path: login, manually fast-forward the row's `expires_at`, request → 401 + cookie cleared.
 - Operator disabled mid-session: login, set `disabled_at`, request → 401 + audit row + cookie cleared.
+- **Rate-limit scenario (full Redis path).** Real Redis (or fakeredis with TTL expiry support): five POST /login with bad credentials from the same IP → all 401 + counter hits 5; sixth POST /login → 429 with `Retry-After: <ttl>`. Wait until the TTL elapses (test-time fast-forward via fakeredis or a small TTL override for this test) → next POST /login with correct credentials → 200 + counter cleared. This walks the full Redis → 429 → wait-for-TTL → success path that the unit tests cover in isolation.
 
 ### 8.3 Coverage target
 
@@ -1397,17 +1544,21 @@ If the Stage A schema additions corrupt something subtle and levers 1 / 1b aren'
 
 ## 10. Decisions still open
 
-> **Note (2026-04-28 evening):** Five security/correctness fixes were applied 2026-04-28 evening per Federico's review. The fixes do NOT add new open decisions, but they DO override prior recommendations recorded in this section in places where the §1 / §3 / §4 / §5 / §7 / §9 prose changed. The text below is the resolved-on-2026-04-28-morning state and is preserved for the audit trail. For the post-review, currently-authoritative state of those sections, see §14 revision history (the 2026-04-28-evening row) and the corresponding section bodies above. Specifically: D2's "split into separate console.db" is unchanged, but the audit ownership inside that split is now also halved per Option B (mutation audit lives in clients.db); §3.5's whoami signal is now four states (204 / 409 / 200 / 401), not three; the WS auth path is in the handler, not the middleware; session tokens are hashed at rest; the password-reset runbook is case-normalised.
+> **Note (2026-04-28 afternoon, after the evening security review):** Five security/correctness fixes were applied 2026-04-28 evening per Federico's review; three additional normative tightening fixes (D1 rate-limit integration, D8 config.update exempt, D9 retention sync) were applied 2026-04-28 afternoon. The fixes override prior recommendations recorded in this section in places where the §1 / §3 / §4 / §5 / §7 / §9 prose changed. The text below for D1–D7 is the resolved-on-2026-04-28-morning state and is preserved for the audit trail; D8 and D9 sit at the end of the list and are the new tightening-pass decisions. For the currently-authoritative state of every section, see §14 revision history and the corresponding section bodies above. Highlights: D2's `console.db` carve stands, but per D9 the api's `clients.db` mount widens narrowly from `:ro` to `:rw` for the three audit-paired retention CAS UPDATEs; D1's rate-limit decision is now integrated end-to-end into the login flow / response shapes / tests / file map (no longer "decided + invisible"); D8 makes config.update audit explicitly out of scope (deferred to Stage A.5's `config_changes` triggers per D2); §3.5's whoami signal is four states (204 / 409 / 200 / 401), the WS auth path is in the handler, session tokens are hashed at rest, password-reset runbook is case-normalised.
 
-These surfaced while drafting the spec. **All seven were decided 2026-04-28.** Original discussion preserved for context; the chosen path is recorded under each item.
+These surfaced while drafting the spec. **All nine were decided 2026-04-28.** D1–D7 resolved earlier in the day (morning + evening security review); D8 and D9 added 2026-04-28 afternoon during the tightening pass and resolved in the same session. Original discussion preserved for context; the chosen path is recorded under each item.
 
 1. **Account lockout / brute-force defense.** The spec has no per-IP / per-username rate limit on `/console/auth/login`. Argon2id at our parameters takes ~50ms, so a single attacker can attempt ~20 passwords/s, ~1.7M/day per IP — enough to break a weak password. Options: (a) per-IP rate limit (5 fails / 15 min) implemented via Redis `INCR` + TTL; (b) per-username lockout (5 fails → disabled_at set, manual unlock); (c) defer to Stage A.5 / a separate rate-limit PR. Recommend (a) for Stage A as the lowest-cost defense; happy to move to A.5 if you'd rather keep Stage A surface minimal.
 
    **Decided 2026-04-28 — option (a): per-IP rate limit (5 fails / 15 min via Redis `INCR` + TTL) lands inside Stage A.** Federico confirmed the recommendation.
 
+   **Implementation pointer (added 2026-04-28 afternoon, normative-integration pass).** The decision is now baked into the spec body, not just recorded here. See: §3.1 step 1 (rate-limit gate is the FIRST step of the login handler, before username lookup or Argon2id), §3.1.a (Redis contract — key format, TTL, Retry-After source, fail-open behaviour), §6.3 (`/console/auth/login` 429 response shape with `Retry-After` header and `{"error": "rate_limited"}` body), §8.2 ten rate-limit tests in the new `tests/test_auth_rate_limit.py`, §8.3 integration scenario, Appendix A `tests/test_auth_rate_limit.py` (~150 LOC) and `src/api/auth/rate_limit.py` (~60 LOC; Redis client + check/incr/clear helpers lifted out of the router).
+
 2. **`api` container DB write access.** ~~Today the api container mounts `client-data:/data/clients:ro` (`infra/compose/docker-compose.yml:140`). Stage A requires the api to write (sessions, audit_log, operator last_login). Options: (a) flip the api mount to RW and accept the broader write surface; (b) keep api `:ro` and proxy auth writes through the scheduler container via Redis (a queue request, an async write, a callback) — much heavier; (c) split clients.db so audit/sessions/operators live in a separate `console.db` that api mounts RW while clients.db stays `:ro` for the api. Recommend (a)~~
 
-   **Decided 2026-04-28 — option (c): split into a separate `console.db` mounted RW.** Federico's reasoning: "Flipping the main client DB from RO to RW in the API widens the blast radius at exactly the layer you are trying to harden. Auth/session/audit data is control-plane state; it does not need to share a write surface with core client/scanning data." Implementation: new SQLite DB at `/data/console/console.db`, new compose volume `console-data` mounted RW on `api` only, new `docs/architecture/console-db-schema.sql`, new `src/db/console_connection.py` with `init_db_console()` factory invoked at api startup alongside `init_db()`. The existing `client-data:/data/clients:ro` mount on api is unchanged. See §1, §2.5–§2.7, §6.4, §9, Appendix A, Appendix B for the full ripple.
+   **Decided 2026-04-28 — option (c): split into a separate `console.db` mounted RW.** Federico's reasoning: "Flipping the main client DB from RO to RW in the API widens the blast radius at exactly the layer you are trying to harden. Auth/session/audit data is control-plane state; it does not need to share a write surface with core client/scanning data." Implementation: new SQLite DB at `/data/console/console.db`, new compose volume `console-data` mounted RW on `api` only, new `docs/architecture/console-db-schema.sql`, new `src/db/console_connection.py` with `init_db_console()` factory invoked at api startup alongside `init_db()`. See §1, §2.5–§2.7, §6.4, §9, Appendix A, Appendix B for the full ripple.
+
+   **Amendment 2026-04-28 (afternoon, per D9):** The original framing here said "the existing `client-data:/data/clients:ro` mount on api is unchanged". The D9 investigation found that PR #46's already-shipped retention CAS UPDATEs would raise `OperationalError` against the `:ro` mount in production — i.e. D2's `:ro` framing did not match the runtime. Stage A widens the api's `clients.db` mount narrowly from `:ro` to `:rw` for the three retention CAS UPDATE endpoints (audit-paired in the same transaction); D2's larger split (`console.db` for the bulk of control-plane state) is preserved and is still the bigger blast-radius reduction. D9 is the source of truth for the api `clients.db` mount mode in Stage A; D2 stands as the source of truth for the `console.db` carve.
 
 3. **Deprecation shim vs hard delete of `src/api/console.py`.** §6.6 says quick-grep for external imports, then either ship a 5-line shim or hard-delete. Quick grep before merge will tell us; want me to do that grep as part of plan refinement, or should the implementing PR decide?
 
@@ -1429,6 +1580,18 @@ These surfaced while drafting the spec. **All seven were decided 2026-04-28.** O
 
    **Decided 2026-04-28 — rename `tests/test_console_auth.py` → `tests/test_session_auth.py`.** Federico's reasoning: "Keeping the old filename preserves grep continuity, but it also preserves the wrong mental model. If you care, leave a short note in the decision log and make grep continuity a documentation problem, not a test-naming problem." Implementation: `git mv` (not delete + recreate); commit message must mention the rename so `git log --follow` works for anyone who greps for the old name. See §8.1, §8.2 for the test plan.
 
+8. **`config.update` audit in Stage A: atomic or exempt?** Federico's framing 2026-04-28 afternoon: "decide whether `config.update` is truly atomic in Stage A or explicitly exempt." Earlier draft of this spec hand-waved an api-side intent + writer-side outcome split for config edits, parallel to the retention choreography. That conflated two things: (a) the config-update workflow itself (which depends on whether config edits land in `clients.db`, in `console.db`, in JSON files, or in env vars — itself a Stage A.5 design point), and (b) the formal capture contract (D2: DB triggers + repository wrappers), which is unambiguously Stage A.5.
+
+   **Decided 2026-04-28 (afternoon) — `config.update` audit in Stage A is explicitly out of scope.** Picked exempt over best-effort. The `/console/settings/{name}` PUT endpoint ships in Stage A's router carve unchanged in behaviour (it does the same write today's `src/api/console.py` does); it does NOT write a `console.audit_log` row in Stage A; it writes its `config_changes` row only when Stage A.5 lands the trigger machinery per D2. The Stage A audit guarantee is restated as "every operator-mutating endpoint *that is in scope for Stage A audit* writes an audit row in the same transaction as the mutation it records" — config is the only mutating endpoint outside that set, and the exclusion is recorded explicitly so reviewers don't expect coverage. Ripples: §1 (clients.audit_log action list), §6.2 (`/console/settings/*` row annotation), §7.3 (mutation table row), §7.6 (new explicit-out-of-scope subsection), §11 (Out of Scope row added). Don't relitigate D2 — the trigger design lives there.
+
+9. **Retention dispatch semantics in Stage A: synchronous or async 202?** Federico's framing 2026-04-28 afternoon: "Stage A scope is drifting into workflow-behavior redesign via async retention dispatch. State clearly whether retention endpoints remain synchronous in Stage A or intentionally switch to async 202 dispatch semantics." The earlier draft introduced an "intent → enqueue → writer container does SQL → outcome" async dispatch design for the three retention endpoints with a 202 Accepted response. That was a workflow redesign smuggled into an auth / identity / router carve sprint.
+
+   **Decided 2026-04-28 (afternoon) — Stage A retention endpoints remain synchronous.** No async 202. No dispatch-intent + outcome split. The architect's async design is reverted out of this spec; if it's the right answer for V2 / A.5, it's a separate spec. Picked synchronous to keep Stage A scope focused on auth/identity/router carve, not workflow redesign. Behaviour matches PR #46 verbatim: api opens a SQLite connection to `clients.db`, runs a CAS UPDATE on `retention_jobs`, returns 200 with the updated row. The Stage A addition is a single audit row in `clients.audit_log` written in the same transaction as the CAS UPDATE — one row per action, not two. Ripples: §3.x and §6.3 retention rows (200, not 202), §7.3 (single audit row, action strings without `dispatch_intent`), §7.2 (rewritten as sync + same-transaction audit), §1 DDL action list (no `retention.dispatch_intent`), Appendix A LOC budget (no Redis enqueue helper, no api-side dispatch-intent writer; the api now becomes a clients.audit_log writer for retention/trial events).
+
+   **Api mount investigation outcome (Federico requested).** Compose review (`infra/compose/docker-compose.yml:140`) confirms api today mounts `client-data:/data/clients:ro`. PR #46's retention endpoints write directly via `sqlite3.connect(db_path).commit()` against `data/clients/clients.db`. With the existing `:ro` mount this MUST raise `OperationalError: attempt to write a readonly database` in production — i.e. Outcome C (PR #46 inherits a broken assumption). The decision flagged here is therefore not "keep current behaviour" but "make the current intent work": Stage A flips api's `clients.db` mount from `:ro` to `:rw` for the specific retention/trial audit-write surface. **This is a narrow, audit-paired widening of the api mount, NOT a wholesale "api can write anything to clients.db" capability** — the actual read-side surface of api against `clients.db` is unchanged (operator console reads); the new write surface is exactly the retention/trial CAS UPDATEs already shipped in PR #46 plus the audit-row paired with each. D2's split (`console.db` for control-plane state) stands and is the larger blast-radius reduction; the `:ro` → `:rw` flip on `clients.db` here is a narrower scoped concession to keep retention/trial endpoints synchronous. The danger-zone hook will flag the compose change; the implementing PR includes a Codex review specifically on the new write call sites in `src/api/routers/retention.py`.
+
+   This investigation outcome supersedes the earlier "api stays `:ro` on clients.db" framing in §1, §2.7, and Appendix B. See the Appendix B note added in the same revision pass.
+
 ---
 
 ## 11. Out of scope (deferred)
@@ -1442,13 +1605,13 @@ Each item below is explicitly NOT in Stage A. The "Lands in" column is binding �
 | `command_audit` table | Stage A.5 | Separate table for command-level audit (richer than `audit_log`'s per-action rows) |
 | `config_changes` table | Stage A.5 | Captures every config-affecting write |
 | DB triggers populating `config_changes` | Stage A.5 | Per D2: triggers for capture, repository wrappers for intent/actor |
+| `config.update` audit (the operator-config-edit `/console/settings/{name}` PUT writing an audit row) | Stage A.5 | Per D8 (decided 2026-04-28 afternoon): exempt in Stage A — see §7.6. Endpoint behaviour ships unchanged in the Stage A router carve; only the audit-row write is deferred until A.5's `config_changes` triggers land. |
 | Repository wrappers for actor/trace_id propagation | Stage A.5 | Sets SQLite session-state vars that triggers read |
 | X-Request-ID middleware | Stage A.5 | Generates / propagates a per-request UUID; populates `audit_log.request_id` |
 | `trace_id` propagation through loguru context | Stage A.5 | Binds `request_id` into loguru's per-task context |
 | `GET /console/config/history` | Stage A.5 | Reads `config_changes` + git-shells to compare config-file revisions |
 | Table-backed RBAC (`roles` / `permissions` / `role_permissions`) | Post-Stage-A.5 (TBD) | Per D3, deferred until >2 roles or runtime role admin needed |
 | Notifications context (`routers/notifications.py`) | Post-V2 sprint | Per D1, the 7th context; unifies CT-change / retention-failure / Message 0 / future SMS |
-| Account lockout / rate limit on login | TBD (decision #1 above) | Either Stage A or a separate PR; not specced here |
 | Operator admin UI (create/disable/role-edit operators) | Stage A.5 or later | Stage A creates rows manually via SQL; admin UI is a follow-up |
 | Read-side audit (GET endpoints write rows) | Notifications-carve sprint | Volume + PII concerns; not in Stage A |
 | Per-WS-disconnect audit row | Not in any planned sprint | Documented as deliberate Stage A simplification |
@@ -1467,9 +1630,10 @@ src/api/auth/hashing.py                                   # ~50 LOC (Argon2id wr
 src/api/auth/sessions.py                                  # ~170 LOC (issue/refresh/revoke; SHA-256 token-hash helper for the cookie-vs-DB split)
 src/api/auth/middleware.py                                # ~130 LOC (HTTP-only; computes sha256(cookie) → token_hash lookup; defensive WS scope early-return)
 src/api/auth/audit.py                                     # ~60 LOC (write_console_audit_row — writes ONLY to console.audit_log; security review 2026-04-28 evening)
+src/api/auth/rate_limit.py                                # ~60 LOC NEW (Redis client + check/incr/clear helpers; lifted out of the auth router so it's testable in isolation; fail-open on Redis errors per §3.1.a)
 src/db/clients_audit.py                                   # ~70 LOC NEW (write_clients_audit_row — writes ONLY to clients.audit_log from scheduler/worker/delivery; Option B helper)
 src/api/routers/__init__.py                               # ~30 LOC (placeholder for Notifications too)
-src/api/routers/auth.py                                   # ~110 LOC (login + logout + whoami; whoami covers 200/204/409/401 per D5 + security review)
+src/api/routers/auth.py                                   # ~140 LOC (login + logout + whoami; login wires the rate_limit module in as STEP 1 before any DB lookup; whoami covers 200/204/409/401 per D5 + security review)
 src/api/routers/tenant.py                                 # ~150 LOC (extracted from console.py)
 src/api/routers/findings.py                               # ~80 LOC
 src/api/routers/onboarding.py                             # ~80 LOC
@@ -1481,12 +1645,13 @@ scripts/dev/console_login.sh                              # ~40 LOC
 tests/test_auth_hashing.py                                # ~80 LOC
 tests/test_auth_sessions.py                               # ~250 LOC
 tests/test_auth_middleware.py                             # ~270 LOC (HTTP-only assertions + token_hash-lookup test + WS-scope-bypass test; security review)
-tests/test_auth_login_logout.py                           # ~260 LOC (whoami 200/204/409/401 + token-hash storage assertion; security review)
+tests/test_auth_login_logout.py                           # ~270 LOC (whoami 200/204/409/401 + token-hash storage assertion + rate-limit integration in login table; security review)
+tests/test_auth_rate_limit.py                             # ~150 LOC NEW (per-IP rate limit; ~10 tests; isolatable Redis fixture)
 tests/test_auth_csrf.py                                   # ~120 LOC
 tests/test_audit_log_writer.py                            # ~180 LOC (covers BOTH write_console_audit_row and write_clients_audit_row helpers)
 tests/test_console_ws_auth.py                             # ~180 LOC (handler-level auth; close-with-4401 before accept; middleware-bypass assertion)
 tests/test_router_carve.py                                # ~100 LOC
-tests/test_console_integration.py                         # ~160 LOC (cross-DB audit timeline read — both rows present after a retention force-run)
+tests/test_console_integration.py                         # ~190 LOC (cross-DB audit timeline read — both rows present after a retention force-run; full Redis → 429 → TTL → success rate-limit scenario)
 ```
 
 Files RENAMED in Stage A (use `git mv` so `git log --follow` continues to track history):
@@ -1505,9 +1670,10 @@ src/db/migrate.py                                         # +5–15 LOC: one new
 docs/architecture/client-db-schema.sql                    # +1 SECTION at the end — clients.audit_log CREATE TABLE + 5 indexes (Option B; security review 2026-04-28 evening)
 src/scheduler/runner.py + src/worker/main.py + src/delivery/bot.py
                                                           # ~3 small call sites each — invoke write_clients_audit_row(conn, ...) inside the existing
-                                                          # `with conn:` block of every state-changing mutation (retention.force_run, retention.cancel,
-                                                          # retention.retry, trial.activated, trial.expired, retention.tick, ct.delta_observed,
-                                                          # config.update if applicable). +20–40 LOC each container; the helper is the only new import.
+                                                          # `with conn:` block of every state-changing system mutation (trial.expired, retention.tick,
+                                                          # ct.delta_observed, command.<name>). Operator-initiated retention writes are SYNC from api
+                                                          # per §10 D8 — those call sites land in src/api/routers/retention.py, NOT here. config.update
+                                                          # is NOT audited in Stage A (§7.6). +10–20 LOC each container; the helper is the only new import.
 requirements.txt                                          # +1 line: argon2-cffi
 infra/compose/docker-compose.yml                          # see Appendix B for danger-zone touches (new console-data volume + RW mount on api)
 infra/compose/.env.example, .env.dev.example              # add CONSOLE_SESSION_IDLE_TTL_MIN, _ABSOLUTE_TTL_MIN, HEIMDALL_COOKIE_SECURE, CONSOLE_DB_PATH
@@ -1529,9 +1695,9 @@ Estimated total diff: +2500 / -700 LOC across ~34 files (one extra schema file, 
 
 ## 13. Appendix B — infra surface flagged for the danger-zone hook
 
-Per CLAUDE.md "Hook-Based Enforcement" and `.claude/hooks/infra_danger_zone.py`, the following file edits will trigger the danger-zone hook on the implementation PR. Listing here so the implementation isn't surprised. **Per D2 (2026-04-28), the compose surface is reshaped**: we add a new volume + a new mount on the api container, instead of flipping the existing `client-data` mount to RW. Same blast-radius category (volume topology change) but smaller in actual blast radius — `clients.db` stays `:ro` for api.
+Per CLAUDE.md "Hook-Based Enforcement" and `.claude/hooks/infra_danger_zone.py`, the following file edits will trigger the danger-zone hook on the implementation PR. Listing here so the implementation isn't surprised. **Per D2 (2026-04-28 morning) + D8/D9 (2026-04-28 afternoon), the compose surface is reshaped twice**: D2 adds the `console-data` volume + RW mount on api; D9 widens the existing `client-data` mount on api from `:ro` to `:rw` (the `:ro` was the original D2 framing but did not match PR #46's actual runtime, so Stage A states the truth). Two danger-zone diffs, both inside the api service block.
 
-1. **`infra/compose/docker-compose.yml`** — TWO changes inside the api service block:
+1. **`infra/compose/docker-compose.yml`** — THREE changes inside the api service block:
 
    1a. **NEW top-level volume entry** (in the `volumes:` block at the bottom of the compose file):
 
@@ -1546,21 +1712,27 @@ Per CLAUDE.md "Hook-Based Enforcement" and `.claude/hooks/infra_danger_zone.py`,
        # becomes operationally desirable post-Stage-A, add it then.
    ```
 
-   1b. **NEW mount line on the api service**, added BELOW the existing `client-data:/data/clients:ro` mount (which is unchanged):
+   1b. **`client-data` mount on api FLIPPED `:ro` → `:rw`** (per D9, 2026-04-28 afternoon):
 
    ```yaml
    services:
      api:
        # ... unchanged ...
        volumes:
-         - client-data:/data/clients:ro    # UNCHANGED — clients.db stays read-only on api
-         - console-data:/data/console:rw   # NEW — Stage A operators/sessions/audit_log live here
+         - client-data:/data/clients:rw    # CHANGED from :ro — narrow widening for the three retention CAS-UPDATE
+                                           #   endpoints (force-run, cancel, retry) per §10 D8/D9. Code review
+                                           #   gates the surface: api's only writes against clients.db are the
+                                           #   audit-paired retention CAS UPDATEs in src/api/routers/retention.py.
+                                           #   Every other table on clients.db is reachable but not written to
+                                           #   by api — enforced by Codex review on the implementation PR and on
+                                           #   any subsequent PR that adds a clients.db write call site to api.
+         - console-data:/data/console:rw   # NEW — Stage A operators/sessions/auth-event audit_log live here
          # ... other existing mounts unchanged ...
    ```
 
-   The existing `client-data:/data/clients:ro` line is preserved verbatim. NO `:ro` → `:rw` flip on it. This is the explicit D2 contract.
+   The `:ro` → `:rw` flip on `client-data` is the explicit D9 contract. It overrides the earlier D2 framing of "api stays `:ro` on clients.db", which was correct in spirit (narrow blast radius) but not in fact (PR #46 already writes). The narrow-blast-radius guarantee is now upheld by code review on the api's clients.db write surface, not by mount mode.
 
-   The secrets block is also unchanged in Stage A (`console_password` stays mounted for the legacy lever; a follow-up PR removes it).
+   The secrets block is unchanged in Stage A (`console_password` stays mounted for the legacy lever; a follow-up PR removes it).
 
    Per §2.7, no other container (`scheduler`, `worker`, `delivery`) gets the `console-data` mount in Stage A.
 
@@ -1588,6 +1760,7 @@ The `ci_config_reminder.py` hook will fire when the Dockerfile / requirements.tx
 |---|---|
 | 2026-04-27 (late evening) | Initial draft. Codifies the four operator-console reframe decisions resolved 2026-04-27 evening. Seven decisions remain open (§10). |
 | **2026-04-28 (morning)** | **Federico's call on three of the seven open decisions:** **D2** — split into separate `console.db` mounted RW (rejected the recommended option (a) of flipping `clients.db` to RW; control-plane state is carved out from core client/scanning data). New schema file `docs/architecture/console-db-schema.sql`, new connection module `src/db/console_connection.py` with `init_db_console()` factory, new `console-data` volume RW on `api` only. Ripples through §1, §2.5–§2.7, §6.4, §9, Appendix A, Appendix B. **D5** — `/console/auth/whoami` returns 204 (not 401) when the `operators` table has zero non-disabled rows; login endpoint behaviour unchanged. Ripples through §3.5, §6.3, §8.2. **D7** — `tests/test_console_auth.py` is renamed (via `git mv`) to `tests/test_session_auth.py`; commit message must mention the rename so `git log --follow` works. Ripples through §8.1, §8.2, Appendix A. Items 1, 3, 4, 6 remain as-is (Federico approved the recommendations). Spec updated in place. |
+| **2026-04-28 (afternoon)** | **Federico tightening pass — three fixes, all normative.** (1) **Rate limiting integrated end-to-end (D1).** §10 had recorded the decision but the spec body never showed it; rate-limit was effectively "decided + invisible". Now baked in: §3.1 step 1 makes the per-IP gate the FIRST step of the login handler (before username lookup or Argon2id), §3.1.a documents the Redis contract (key `auth:fail:<ip>`, threshold 5, window 900s, `redis.expire` only on first INCR, success clears via `redis.delete`, fail-open on Redis errors with WARNING-level log), §6.3 adds the 429 response shape with `Retry-After: <seconds>` header and `{"error": "rate_limited"}` body, §8.1 adds a new `tests/test_auth_rate_limit.py` file (~150 LOC, 10 tests including the fail-open lock-in), §8.3 adds an integration scenario walking the full Redis → 429 → wait-for-TTL → success path, Appendix A adds `src/api/auth/rate_limit.py` (~60 LOC; Redis client + check/incr/clear helpers lifted out of the router for isolated testability) and bumps `src/api/routers/auth.py` to ~140 LOC. §11 (Out of scope) row removed; §10 D1 gets an "Implementation pointer" line citing every section. (2) **`config.update` audit explicitly out of scope (D8).** Earlier draft hand-waved an api-side intent + writer-side outcome split for config edits, parallel to retention. That conflated two things: the config-update workflow itself (Stage A.5 design point) and the formal capture contract (D2: triggers + repository wrappers, also Stage A.5). Picked exempt over best-effort: §7.3 mutation-table row reads "not audited in Stage A; full capture lands in Stage A.5", §7.6 (new subsection) documents the rationale, §1 `clients.audit_log` action list strips `config.update`, §6.2 router carve annotates `/console/settings/*` as "no audit in Stage A", §11 adds the explicit out-of-scope row. The Stage A audit guarantee is restated as "every operator-mutating endpoint *that is in scope for Stage A audit* writes an audit row" — the in-scope set is exactly §7.3's table rows with non-`—` `action` strings; config is the only mutating endpoint outside the set. (3) **Retention dispatch synchronous in Stage A, NOT async 202 (D9).** Federico's framing: "Stage A scope is drifting into workflow-behavior redesign via async retention dispatch." Picked synchronous. The architect's "intent → enqueue → writer outcome" design with 202 Accepted is reverted out of this spec. §7.2 rewritten end-to-end as sync + same-transaction audit (one row per action, in `clients.audit_log`, written by api itself), §3.x and §6.3 retention rows stay 200, §1 DDL action list strips `retention.dispatch_intent`, Appendix A LOC budgets shrink (no Redis enqueue helper). Investigation outcome on the api mount: compose review confirmed `client-data:/data/clients:ro` today, but PR #46's CAS UPDATEs would raise `OperationalError` against `:ro` — i.e. PR #46 inherits a broken assumption (Outcome C). Resolved by **flipping api's `clients.db` mount from `:ro` to `:rw`** narrowly for the three retention CAS-UPDATE endpoints (audit-paired in the same transaction); other clients.db tables are reachable but not written by api, enforced by code review (not mount mode). D2's `console.db` carve stands; the `:ro` → `:rw` flip on `clients.db` is a narrower scoped concession. Ripples through §1 (audit rationale paragraph), §1.3 (cross-DB ownership rule rewritten), §1.3.b (writer comment rewritten), §2.7 (api now widens `clients.db` mount, table added), Appendix B (compose stanza updated with explicit `:ro` → `:rw` flip + code-review gate). |
 | **2026-04-28 (evening)** | **Federico security review applied. Five fixes:** (1) **Hash session tokens at rest** — `sessions.token` renamed to `sessions.token_hash` storing SHA-256 of the plaintext; the cookie still carries the plaintext, the server hashes the presented value at the start of each request and looks up the hash in the table; the unhashed token is never persisted server-side. No PBKDF on the token (256-bit entropy from `secrets.token_urlsafe(32)`, not a human password). Ripples through §1.2, §3.1, §3.2, §3.4, §4.2, §8.2 (`test_auth_login_logout.py` adds the cookie-vs-DB-key separation assertion; `test_auth_middleware.py` adds the `token_hash`-lookup test). (2) **Audit ownership split per Option B** — the false-atomicity claim ("audit row in same transaction as the mutation") could not be honored across the post-D2 console.db / clients.db split. Resolved by splitting audit ownership: `console.audit_log` lives in `console.db` and is written by the `api` container for auth events; `clients.audit_log` lives in `clients.db` and is written by `scheduler` / `worker` / `delivery` for retention / trial / onboarding / config mutations. Each row is in the SAME SQLite transaction as the mutation it records — real atomicity. Operator-initiated mutations write TWO rows (intent on api side, outcome on writer side); correlation is by `request_id` once Stage A.5 wires X-Request-ID. Ripples through §1, §2.1, §7, Appendix A. (3) **WS auth in the handler, not the middleware** — Starlette's `BaseHTTPMiddleware` does not reliably gate WebSocket upgrades (HTTP-only by design). Auth moved into the WS handler: read `ws.cookies['heimdall_session']`, hash via SHA-256, validate against `console.db`, accept-or-close-with-4401 before `ws.accept()`. The first-frame fallback path is deferred out of Stage A. Middleware explicitly does NOT touch `/console/ws`. Ripples through §3.6, §5, §8.2 (`test_console_ws_auth.py` rewritten for handler-level auth). (4) **Whoami split states 204 / 409 / 200 / 401** — earlier draft conflated "genuine empty bootstrap" with "operators exist but all disabled" under a single 204. Now distinguished: 204 for zero rows total (genuine bootstrap), **409 Conflict** with `{"error": "all_operators_disabled"}` for the all-disabled state, 200 for authenticated, 401 for unauthenticated. Ripples through §3.5, §6.3, §8.2 (`test_auth_login_logout.py` adds the all-disabled test case). (5) **Password-reset runbook normalises username case** — the earlier runbook targeted by `WHERE username = 'admin'` which silently failed on case skew. Replaced with query-by-LOWER → UPDATE-by-id, robust against typos in `CONSOLE_USER` or case skew between seed time and runbook time. Operator #0 seed also normalises explicitly: `CONSOLE_USER.strip().lower()` is the canonical form stored in the DB. Ripples through §2.2, §9.2. |
 
 ---
