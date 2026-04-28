@@ -10,6 +10,10 @@ from fastapi.testclient import TestClient
 
 from src.api.app import create_app
 from src.api.demo_orchestrator import SCAN_SEQUENCE, get_demo_queue, run_demo_replay
+from tests._console_auth_helpers import (
+    login_console_client,
+    seed_console_operator,
+)
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -60,10 +64,12 @@ def results_dir(tmp_path):
     return tmp_path / "results"
 
 
-def _make_app(results_dir: str, briefs_dir: str, monkeypatch):
-    """Create app with fakeredis patched in."""
+def _make_app(results_dir: str, briefs_dir: str, monkeypatch, console_db_path):
+    """Create app with fakeredis + temp console.db path patched in."""
     fake = fakeredis.FakeRedis(decode_responses=True)
     monkeypatch.setattr("redis.Redis.from_url", lambda *a, **kw: fake)
+    monkeypatch.setenv("CONSOLE_DB_PATH", str(console_db_path))
+    monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
     app = create_app(
         redis_url="redis://fake:6379/0",
         results_dir=results_dir,
@@ -73,9 +79,13 @@ def _make_app(results_dir: str, briefs_dir: str, monkeypatch):
 
 
 @pytest.fixture
-def client(results_dir, briefs_dir, monkeypatch):
-    app = _make_app(str(results_dir), str(briefs_dir), monkeypatch)
+def client(results_dir, briefs_dir, tmp_path, monkeypatch):
+    """Authenticated TestClient — see ``_console_auth_helpers``."""
+    console_db_path = tmp_path / "console.db"
+    app = _make_app(str(results_dir), str(briefs_dir), monkeypatch, console_db_path)
     with TestClient(app) as tc:
+        seed_console_operator(console_db_path)
+        login_console_client(tc)
         yield tc
 
 
@@ -100,19 +110,24 @@ class TestConsoleStatus:
         assert body["queues"]["enrichment"] == 0
         assert "wpscan" not in body["queues"]
 
-    def test_status_with_queued_jobs(self, results_dir, briefs_dir, monkeypatch):
+    def test_status_with_queued_jobs(self, results_dir, briefs_dir, tmp_path, monkeypatch):
         fake = fakeredis.FakeRedis(decode_responses=True)
         fake.lpush("queue:scan", json.dumps({"job_id": "j1", "domain": "a.dk"}))
         fake.lpush("queue:scan", json.dumps({"job_id": "j2", "domain": "b.dk"}))
         fake.set("enrichment:completed", "2")
         fake.set("enrichment:total", "3")
         monkeypatch.setattr("redis.Redis.from_url", lambda *a, **kw: fake)
+        console_db_path = tmp_path / "console.db"
+        monkeypatch.setenv("CONSOLE_DB_PATH", str(console_db_path))
+        monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
         app = create_app(
             redis_url="redis://fake:6379/0",
             results_dir=str(results_dir),
             briefs_dir=str(briefs_dir),
         )
         with TestClient(app) as tc:
+            seed_console_operator(console_db_path)
+            login_console_client(tc)
             body = tc.get("/console/status").json()
             assert body["queues"]["scan"] == 2
             assert body["enrichment"]["completed"] == 2
@@ -123,15 +138,25 @@ class TestConsoleStatus:
         assert len(body["recent_scans"]) >= 1
         assert body["recent_scans"][0]["domain"] == "example.dk"
 
-    def test_status_redis_down(self, results_dir, briefs_dir, monkeypatch):
-        """If Redis is unavailable, status still returns with zero values."""
+    def test_status_redis_down(self, results_dir, briefs_dir, tmp_path, monkeypatch):
+        """If Redis is unavailable, status still returns with zero values.
+
+        The login handler's rate-limit gate fails open on a missing
+        Redis client (slice 3c spec §3.1.a), so the seeded operator can
+        still acquire a session even with Redis down.
+        """
         monkeypatch.setattr("redis.Redis.from_url", lambda *a, **kw: (_ for _ in ()).throw(Exception("down")))
+        console_db_path = tmp_path / "console.db"
+        monkeypatch.setenv("CONSOLE_DB_PATH", str(console_db_path))
+        monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
         app = create_app(
             redis_url="redis://fake:6379/0",
             results_dir=str(results_dir),
             briefs_dir=str(briefs_dir),
         )
         with TestClient(app) as tc:
+            seed_console_operator(console_db_path)
+            login_console_client(tc)
             body = tc.get("/console/status").json()
             assert body["queues"]["scan"] == 0
 
@@ -153,14 +178,20 @@ class TestConsoleBriefs:
     def test_list_briefs_empty_dir(self, results_dir, monkeypatch, tmp_path):
         empty = tmp_path / "empty_briefs"
         empty.mkdir()
-        app = _make_app(str(results_dir), str(empty), monkeypatch)
+        console_db_path = tmp_path / "console.db"
+        app = _make_app(str(results_dir), str(empty), monkeypatch, console_db_path)
         with TestClient(app) as tc:
+            seed_console_operator(console_db_path)
+            login_console_client(tc)
             body = tc.get("/console/briefs").json()
             assert body == []
 
-    def test_list_briefs_missing_dir(self, results_dir, monkeypatch):
-        app = _make_app(str(results_dir), "/nonexistent", monkeypatch)
+    def test_list_briefs_missing_dir(self, results_dir, tmp_path, monkeypatch):
+        console_db_path = tmp_path / "console.db"
+        app = _make_app(str(results_dir), "/nonexistent", monkeypatch, console_db_path)
         with TestClient(app) as tc:
+            seed_console_operator(console_db_path)
+            login_console_client(tc)
             body = tc.get("/console/briefs").json()
             assert body == []
 

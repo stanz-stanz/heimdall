@@ -1,10 +1,21 @@
 /** Fetch wrappers for console REST endpoints. */
 
+// Stage A slice 3f transitional behaviour: 401 from /console/* used
+// to call window.location.reload() to re-trigger the legacy Basic
+// Auth dialog. Under SessionAuthMiddleware no such dialog exists, so
+// reloading produces an infinite 401-reload loop in browsers without
+// an existing session cookie. Throw instead — callers render the
+// error in their normal failure UI. The SPA login slice (next)
+// replaces this with a proper redirect to the login view; until then
+// "Session required — flip HEIMDALL_LEGACY_BASIC_AUTH=1 on the Pi5
+// for UI access" is the operator-facing instruction.
+const SESSION_REQUIRED_MESSAGE =
+  'Session required — log in via the legacy Basic Auth path until the SPA login slice ships.';
+
 async function fetchJSON(url) {
   const res = await fetch(url, { credentials: 'same-origin' });
   if (res.status === 401) {
-    window.location.reload();
-    throw new Error('Authentication required');
+    throw new Error(SESSION_REQUIRED_MESSAGE);
   }
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
   return res.json();
@@ -21,8 +32,7 @@ async function postJSON(url, body = null) {
   }
   const res = await fetch(url, init);
   if (res.status === 401) {
-    window.location.reload();
-    throw new Error('Authentication required');
+    throw new Error(SESSION_REQUIRED_MESSAGE);
   }
   if (!res.ok) {
     let detail = '';

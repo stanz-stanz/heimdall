@@ -10,6 +10,10 @@ from fastapi.testclient import TestClient
 
 from src.api.app import create_app
 from src.db.connection import init_db
+from tests._console_auth_helpers import (
+    login_console_client,
+    seed_console_operator,
+)
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -106,7 +110,13 @@ def config_dir(tmp_path):
 
 @pytest.fixture
 def client(db_path, config_dir, tmp_path, monkeypatch):
-    """Create test client with fakeredis and test DB."""
+    """Create authenticated test client with fakeredis and test DB.
+
+    Stage A slice 3f mounts ``SessionAuthMiddleware`` unconditionally,
+    so the fixture seeds an operator into a temp ``console.db`` and
+    walks one login round trip before yielding. The session cookie +
+    default ``X-CSRF-Token`` header are primed on the returned client.
+    """
     fake = fakeredis.FakeRedis(decode_responses=True)
     monkeypatch.setattr("redis.Redis.from_url", lambda *a, **kw: fake)
     monkeypatch.chdir(tmp_path)
@@ -116,6 +126,10 @@ def client(db_path, config_dir, tmp_path, monkeypatch):
     if not config_link.exists():
         config_link.symlink_to(config_dir)
 
+    console_db_path = tmp_path / "console.db"
+    monkeypatch.setenv("CONSOLE_DB_PATH", str(console_db_path))
+    monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
+
     app = create_app(
         redis_url="redis://fake:6379/0",
         results_dir=str(tmp_path / "results"),
@@ -124,6 +138,8 @@ def client(db_path, config_dir, tmp_path, monkeypatch):
     app.state.db_path = db_path
 
     with TestClient(app) as tc:
+        seed_console_operator(console_db_path)
+        login_console_client(tc)
         yield tc
 
 
@@ -183,6 +199,10 @@ class TestPipelineLast:
         if not config_link.exists():
             config_link.symlink_to(config_dir)
 
+        console_db_path = tmp_path / "console.db"
+        monkeypatch.setenv("CONSOLE_DB_PATH", str(console_db_path))
+        monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
+
         app = create_app(
             redis_url="redis://fake:6379/0",
             results_dir=str(tmp_path / "results"),
@@ -190,6 +210,8 @@ class TestPipelineLast:
         )
         app.state.db_path = str(db_file)
         with TestClient(app) as tc:
+            seed_console_operator(console_db_path)
+            login_console_client(tc)
             body = tc.get("/console/pipeline/last").json()
             assert body["status"] == "no_runs"
 

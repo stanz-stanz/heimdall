@@ -46,9 +46,18 @@ export function connect() {
     }
   };
 
-  ws.onclose = () => {
+  ws.onclose = (event) => {
     cleanup();
     wsState.connected = false;
+    // Stage A slice 3f: 4401 is the auth-rejection close code from
+    // ``/console/ws`` (handler-side cookie check before ws.accept()).
+    // Without a session cookie every reconnect attempt re-triggers
+    // 4401, producing steady server-log noise even with exponential
+    // backoff. Halt the retry loop on auth failure — the SPA login
+    // slice resumes the connection from the post-login flow.
+    if (event && event.code === 4401) {
+      return;
+    }
     scheduleReconnect();
   };
 

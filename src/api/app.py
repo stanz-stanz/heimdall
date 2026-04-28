@@ -27,6 +27,7 @@ from src.client_memory import (
     DeltaDetector,
     RemediationTracker,
 )
+from src.api.auth.middleware import SessionAuthMiddleware
 from src.composer.telegram import compose_telegram
 from src.core.secrets import get_secret
 from src.db.console_connection import (
@@ -55,8 +56,16 @@ def _validate_name(value: str, label: str) -> str:
 # Request logging middleware
 # ---------------------------------------------------------------------------
 
-class BasicAuthMiddleware(BaseHTTPMiddleware):
-    """HTTP Basic Auth for console endpoints."""
+class LegacyBasicAuthMiddleware(BaseHTTPMiddleware):
+    """Legacy HTTP Basic Auth for console endpoints (Stage A rollback lever).
+
+    Renamed from ``BasicAuthMiddleware`` in slice 3f and gated on the
+    ``HEIMDALL_LEGACY_BASIC_AUTH=1`` env flag. The default Stage A path
+    is ``SessionAuthMiddleware``; this class only mounts when an
+    operator has flipped the rollback flag in ``infra/compose/.env``.
+    See ``docs/architecture/stage-a-implementation-spec.md`` §9.1 for
+    the rollback runbook.
+    """
 
     PROTECTED_PREFIXES = ("/console", "/app")
 
@@ -435,20 +444,53 @@ def create_app(
 
     app.add_middleware(RequestLoggingMiddleware)
 
+    # Stage A slice 3f: SessionAuthMiddleware is the default gate for
+    # ``/console/*`` and ``/app/*``. ``HEIMDALL_LEGACY_BASIC_AUTH=1`` is
+    # the documented rollback lever (spec §9.1) — when set with both
+    # ``CONSOLE_USER`` and ``console_password``, the legacy Basic Auth
+    # path mounts INSTEAD of SessionAuthMiddleware. If the legacy flag
+    # is set but credentials are missing we fall through to the session
+    # middleware (fail-closed) and log a warning so the operator sees
+    # the misconfiguration without leaving the console open.
+    legacy_basic_auth = (
+        os.environ.get("HEIMDALL_LEGACY_BASIC_AUTH", "0") == "1"
+    )
     console_user = os.environ.get("CONSOLE_USER", "")
     console_password = get_secret("console_password", "CONSOLE_PASSWORD")
-    if console_user and console_password:
-        app.add_middleware(BasicAuthMiddleware,
-                           username=console_user, password=console_password)
+    legacy_active = (
+        legacy_basic_auth and bool(console_user) and bool(console_password)
+    )
+    if legacy_active:
+        app.add_middleware(
+            LegacyBasicAuthMiddleware,
+            username=console_user,
+            password=console_password,
+        )
+    else:
+        if legacy_basic_auth:
+            logger.warning(
+                "HEIMDALL_LEGACY_BASIC_AUTH=1 but CONSOLE_USER or "
+                "console_password is missing; falling back to "
+                "SessionAuthMiddleware",
+            )
+        app.add_middleware(
+            SessionAuthMiddleware,
+            console_db_path=app.state.console_db_path,
+        )
 
-    # Console router + static PWA files. The new ``auth`` router lives
-    # alongside the legacy ``console_router`` until slice 3f does the
-    # ``LegacyBasicAuthMiddleware`` rename + ``SessionAuthMiddleware``
-    # mount; until then the new endpoints are reachable but not used
-    # by the SPA. The new auth paths
-    # (``/console/auth/{login,logout,whoami}``) do NOT collide with
-    # any existing console_router path.
-    app.include_router(auth_router)
+    # Routers. The session auth router (``/console/auth/{login,logout,
+    # whoami}``) is only mounted when the session middleware is active
+    # — under the legacy rollback path the auth router would issue
+    # session cookies that the legacy middleware never reads, and
+    # ``logout``/``whoami`` depend on ``request.state`` populated by
+    # ``SessionAuthMiddleware``. Skipping the include keeps the
+    # rollback world coherent: a Basic-Auth-only console returns 404
+    # for the session endpoints rather than half-completing a
+    # handshake. When slice 3g carves ``console_router`` up, this
+    # branching becomes one entry in a router-list rather than a
+    # special case.
+    if not legacy_active:
+        app.include_router(auth_router)
     app.include_router(console_router)
     app.include_router(signup_router)
     static_dir = Path(__file__).parent / "static"

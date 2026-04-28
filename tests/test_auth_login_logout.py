@@ -846,8 +846,7 @@ def test_integration_full_login_whoami_logout_flow(
 ) -> None:
     """Walk the full auth lifecycle through the real ``create_app()``
     factory — login → whoami → logout → re-login. This catches wiring
-    assumptions that a toy app would hide before slice 3f does the
-    legacy-Basic-Auth rename + middleware swap.
+    assumptions that a toy app would hide.
 
     Specifically validates:
     - Lifespan init order: ``init_db_console`` runs BEFORE any request
@@ -861,18 +860,16 @@ def test_integration_full_login_whoami_logout_flow(
     - No path conflict between the new ``/console/auth/*`` endpoints
       and the existing ``console_router`` from ``src/api/console.py``.
 
-    Slice 3f will replace ``BasicAuthMiddleware`` with the new
-    ``SessionAuthMiddleware`` mount; this test runs with both
-    middleware classes available but neither mounted as a side effect
-    (CONSOLE_USER unset → BasicAuth not registered today; the new
-    SessionAuthMiddleware will be added in 3f). The test is shaped to
-    stay green across that transition: it asserts behaviour through
-    the new auth router only, not the legacy console gate.
+    Slice 3f mounts ``SessionAuthMiddleware`` inside ``create_app`` —
+    the test relies on that wiring rather than re-adding the middleware
+    out-of-band, so the integration coverage matches the production
+    factory exactly.
     """
     db_path = tmp_path / "console.db"
     monkeypatch.setenv("CONSOLE_DB_PATH", str(db_path))
     monkeypatch.delenv("CONSOLE_USER", raising=False)
     monkeypatch.delenv("CONSOLE_PASSWORD", raising=False)
+    monkeypatch.delenv("HEIMDALL_LEGACY_BASIC_AUTH", raising=False)
     # TestClient is HTTP, not HTTPS — Secure cookies won't be echoed
     # back to the next request. Production deploys keep
     # HEIMDALL_COOKIE_SECURE=1; this override is local to the test so
@@ -891,16 +888,6 @@ def test_integration_full_login_whoami_logout_flow(
             briefs_dir=str(tmp_path / "briefs"),
             clients_dir=str(tmp_path / "clients"),
         )
-
-    # Simulate the post-slice-3f wiring: ``SessionAuthMiddleware``
-    # mounted after ``RequestLoggingMiddleware`` so logout's
-    # ``request.state.{operator_id, session_id}`` flow works end-to-
-    # end. Slice 3f will move this into ``create_app`` proper; until
-    # then we mount it here so the integration test exercises the
-    # full lifecycle as it will exist after 3f lands.
-    app.add_middleware(
-        SessionAuthMiddleware, console_db_path=str(db_path)
-    )
 
     with TestClient(app) as test_client:
         # Lifespan has run — init_db_console created the schema. Seed

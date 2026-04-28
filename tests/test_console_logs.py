@@ -7,6 +7,10 @@ import pytest
 from fastapi.testclient import TestClient
 
 from src.api.app import create_app
+from tests._console_auth_helpers import (
+    login_console_client,
+    seed_console_operator,
+)
 
 NOW = time.time()
 
@@ -26,9 +30,13 @@ def _make_entry(source="api", level="INFO", message="test", ts=None, ctx=None):
 
 @pytest.fixture
 def app_with_buffer(tmp_path, monkeypatch):
-    """Create app and return (TestClient, log_buffer) with only test data."""
+    """Create authenticated app and return (TestClient, log_buffer)."""
     fake = fakeredis.FakeRedis(decode_responses=True)
     monkeypatch.setattr("redis.Redis.from_url", lambda *a, **kw: fake)
+
+    console_db_path = tmp_path / "console.db"
+    monkeypatch.setenv("CONSOLE_DB_PATH", str(console_db_path))
+    monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
 
     app = create_app(
         redis_url="redis://fake:6379/0",
@@ -37,6 +45,8 @@ def app_with_buffer(tmp_path, monkeypatch):
     )
 
     with TestClient(app) as tc:
+        seed_console_operator(console_db_path)
+        login_console_client(tc)
         # Clear startup logs, then populate with test data only
         buffer = app.state.log_buffer
         buffer.clear()
@@ -121,12 +131,17 @@ class TestLogsEndpoint:
     def test_logs_empty_buffer(self, tmp_path, monkeypatch):
         fake = fakeredis.FakeRedis(decode_responses=True)
         monkeypatch.setattr("redis.Redis.from_url", lambda *a, **kw: fake)
+        console_db_path = tmp_path / "console.db"
+        monkeypatch.setenv("CONSOLE_DB_PATH", str(console_db_path))
+        monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
         app = create_app(
             redis_url="redis://fake:6379/0",
             results_dir=str(tmp_path / "results"),
             briefs_dir=str(tmp_path / "briefs"),
         )
         with TestClient(app) as tc:
+            seed_console_operator(console_db_path)
+            login_console_client(tc)
             app.state.log_buffer.clear()
             body = tc.get("/console/logs").json()
             assert body["entries"] == []
