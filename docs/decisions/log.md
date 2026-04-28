@@ -1637,3 +1637,33 @@ Full onboarding product specified end-to-end and locked via a 22-decision interv
 - Operator console "issue magic link" UI — slice 3.
 - Slice-3 `<html lang>` runtime flip needs either a SvelteKit `handle` hook (SSR) or a build-time multi-locale prerender; `apps/signup/src/app.html` is hard-coded `<html lang="en">` for slice 1.
 - `apps/` vs `src/api/frontend/` long-term home for SvelteKit code: no ADR yet.
+
+## 2026-04-28 — Scanning subsystem priority order (compliance asymmetry first)
+
+**Context**
+Architecture review of the scanning subsystem surfaced that the production-shaped worker path enforces *less* explicit compliance than the prospecting batch path. The runner validates approval tokens with hash checks before execution; the worker does not. The contract drift / result-shape divergence flagged in the same review is real but secondary — the inversion of compliance ceremony between batch and durable paths is the load-bearing issue.
+
+**Decided**
+- Priority order for scanning subsystem cleanup, in this sequence:
+  1. **Valdí Gate 1 ruling on the worker compliance gate.** Confirm whether boot-time approval-hash validation plus per-job policy assertion in the worker satisfies Gate 1 for the durable path under Valdí's interpretation. This is the heart of compliance; nothing in items 2–5 ships without it.
+  2. **Compliance-gate parity in the worker** — implement the rule once Valdí confirms. Bring the production path to the same Gate 1 hash assurance the runner enforces.
+  3. **Bucket filter to per-job load** — replace the import-time bucket-filter load in the worker so runtime config changes take effect without process restart.
+  4. **Shared evidence-normalization layer** — extract CMS, hosting, plugin-merge, and SAN-merge derivation (currently duplicated across the runner and worker paths) into one normalizer used by both.
+  5. **Scan-plan abstraction** — only after #4. A shared *config* object (target, allowed levels, consent state, cache policy, enabled scan types, budgets) compiled by both schedulers, executed differently by each. Not a unified executor.
+- Architectural rule proposed for Valdí review (Priority 1) and implementation (Priority 2):
+  - **Validate scanner approval hashes once at worker boot.** Fail-closed startup if validation fails — same semantics as the runner's pre-batch validation.
+  - **Persist the validated max level / approved scan set in process state.**
+  - **Reject any job whose requested level or scan set exceeds that validated envelope.**
+  - Conceptual symmetry: runner validates once per batch invocation; worker validates once per process lifetime.
+  - Per-job execution-time check is policy-focused (level within envelope, consent/tier conditions, scan-type allowlist), not hash re-validation.
+
+**Rejected**
+- Treating contract drift between prospecting batch and per-client durable paths as the top issue — corrected in-session. Result-shape divergence is real but downstream of the compliance gap.
+- Compiling both modes into a unified executor. Batch prospecting and per-client durable monitoring have legitimately different needs (operator confirmation, pre-scan artifact, fan-out shape). The shared abstraction is the scan plan as a config object, not a single executor.
+- Per-job re-hashing of scanner functions in the worker. Wasteful; would re-hash every scanner on every domain. Boot-time validation is the correct seam.
+- Logging the Valdí ruling as a side-item under Unresolved. Valdí is the heart of compliance and must follow a priority path — promoted to Priority 1.
+
+**Unresolved**
+- Implementation timing for Priority 2: the active branch is mid-Stage-A carve. Whether Priority 2 ships as a parallel PR or waits for Stage A closure is open.
+- The lru_cache-once-per-process slug-map load in the worker shares the same brittleness pattern as the bucket filter; whether it folds into Priority 3 or stays separate is open.
+- Tier (Watchman/Sentinel) ↔ level (0/1) coupling is currently inferred by the scheduler; would become explicit in the Priority 5 scan-plan model.
