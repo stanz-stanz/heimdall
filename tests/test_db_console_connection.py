@@ -1,9 +1,8 @@
 """Tests for src.db.console_connection — Stage A console.db factories.
 
-Mirrors tests/test_db_connection.py (the sibling for clients.db). Slice 1
-ships only the schema + connection factories; the operator-#0 seed is
-deferred to slice 2 alongside the argon2-cffi dependency, so these tests
-don't exercise it.
+Mirrors tests/test_db_connection.py (the sibling for clients.db). This
+file owns the schema + connection-factory invariants. The operator-#0
+seed (slice 2) has its own coverage in tests/test_console_seed.py.
 
 Coverage:
 - All Stage A tables present after init_db_console().
@@ -22,12 +21,39 @@ from pathlib import Path
 
 import pytest
 
+import src.core.secrets as core_secrets
 import src.db.console_connection as cc
 from src.db.console_connection import (
     DEFAULT_CONSOLE_DB_PATH,
     get_console_conn,
     init_db_console,
 )
+
+
+# ---------------------------------------------------------------------------
+# Env / secrets isolation
+# ---------------------------------------------------------------------------
+# Slice 2 wired ``_seed_operator_zero`` into ``init_db_console``. If a
+# developer runs the suite in a shell that also exports ``CONSOLE_USER``
+# + ``CONSOLE_PASSWORD`` (or has the matching Docker secret mounted),
+# every ``init_db_console`` call below would silently insert operator #0
+# before the test body runs. The schema-invariant tests below assume an
+# empty ``operators`` table (and several hard-code ``id=1`` /
+# ``username='federico'``), so the seed firing would turn them into
+# spurious UNIQUE / IntegrityError failures. Isolate the env + secrets
+# dir for every test in this file.
+
+
+@pytest.fixture(autouse=True)
+def _isolate_console_seed_env(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    secrets_dir = tmp_path / "run-secrets"
+    secrets_dir.mkdir()
+    monkeypatch.setattr(core_secrets, "_SECRETS_DIR", secrets_dir)
+    monkeypatch.delenv("CONSOLE_USER", raising=False)
+    monkeypatch.delenv("CONSOLE_PASSWORD", raising=False)
+
 
 # ---------------------------------------------------------------------------
 # Expected objects from docs/architecture/console-db-schema.sql

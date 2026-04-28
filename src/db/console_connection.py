@@ -10,12 +10,10 @@ Stage A implementation spec at
 Mirror of the ``init_db()`` shape: WAL mode, Row factory, FK pragma,
 schema loaded from a separate file via ``executescript``.
 
-Slice 1 ships the schema + factories only. The Argon2id-backed
-operator-#0 seed is deferred to slice 2 (it requires the
-``argon2-cffi`` dependency that's not in ``requirements.txt`` yet).
-The ``operators`` table stays empty until that slice lands; the api
-keeps using the legacy ``BasicAuthMiddleware`` from
-``src/api/app.py:53-91`` for now.
+Slice 2 (this file) wires the Argon2id-backed operator-#0 seed in
+after the schema apply. The api still uses ``BasicAuthMiddleware`` —
+the session-cookie middleware lands in subsequent slices that build on
+the now-seeded ``operators`` table.
 """
 
 from __future__ import annotations
@@ -25,6 +23,10 @@ import sqlite3
 from pathlib import Path
 
 from loguru import logger
+
+from src.api.auth.hashing import hash_password
+from src.core.secrets import get_secret
+from src.db.connection import _now
 
 # Resolve project root from this file's location:
 #   src/db/console_connection.py -> parents[2] = project root
@@ -77,6 +79,8 @@ def init_db_console(db_path: str | Path = DEFAULT_CONSOLE_DB_PATH) -> sqlite3.Co
     schema_sql = _load_schema()
     conn.executescript(schema_sql)
 
+    _seed_operator_zero(conn)
+
     # Checkpoint the WAL so any reader opening this DB immediately
     # afterwards sees the new schema rather than an empty main DB +
     # the pending WAL.
@@ -97,6 +101,67 @@ def get_console_conn(db_path: str | Path = DEFAULT_CONSOLE_DB_PATH) -> sqlite3.C
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys=ON")
     return conn
+
+
+def _seed_operator_zero(conn: sqlite3.Connection) -> None:
+    """Seed operator #0 from ``CONSOLE_USER`` + ``console_password``.
+
+    Stage A spec §2.2. Runs inside :func:`init_db_console` after the
+    schema apply. Silent no-op when any of the three preconditions
+    fails — the api startup must not raise just because env vars are
+    missing in a fresh dev environment.
+
+    Preconditions (all must hold):
+      1. ``operators`` table is empty (idempotent — never re-seeds).
+      2. ``get_secret("console_password", "CONSOLE_PASSWORD")`` is
+         non-empty after stripping whitespace.
+      3. ``CONSOLE_USER`` env var is non-empty after stripping
+         whitespace.
+
+    Username normalisation matches the case-insensitive UNIQUE index on
+    ``LOWER(username)``: ``username = CONSOLE_USER.strip().lower()``,
+    ``display_name = CONSOLE_USER.strip()`` (case preserved for UI).
+    The password is hashed once with Argon2id; rotating
+    ``CONSOLE_PASSWORD`` and restarting is documented as a no-op (see
+    spec §2.3 + rollback lever §9.2).
+    """
+    existing = conn.execute("SELECT COUNT(*) FROM operators").fetchone()[0]
+    if existing:
+        logger.info(
+            "Operator-zero seed skipped: operators table already has {} row(s)",
+            existing,
+        )
+        return
+
+    raw_user = os.environ.get("CONSOLE_USER", "").strip()
+    if not raw_user:
+        logger.info("Operator-zero seed skipped: CONSOLE_USER not set")
+        return
+
+    password = get_secret("console_password", "CONSOLE_PASSWORD").strip()
+    if not password:
+        logger.info("Operator-zero seed skipped: console_password not set")
+        return
+
+    username = raw_user.lower()
+    display_name = raw_user
+    password_hash = hash_password(password)
+    now = _now()
+
+    conn.execute(
+        "INSERT INTO operators "
+        "(username, display_name, password_hash, role_hint, "
+        " created_at, updated_at) "
+        "VALUES (?, ?, ?, 'owner', ?, ?)",
+        (username, display_name, password_hash, now, now),
+    )
+    conn.commit()
+
+    logger.info(
+        "Seeded operator #0 username={} (from CONSOLE_USER='{}')",
+        username,
+        raw_user,
+    )
 
 
 def _load_schema() -> str:

@@ -414,7 +414,7 @@ This is the migration path for the existing `make dev-seed-console`-style workfl
 
 - Wraps `argon2.PasswordHasher` from the `argon2-cffi` package.
 - Single instance with explicit parameters: `time_cost=2, memory_cost=65536, parallelism=2, hash_len=32, salt_len=16`. These match argon2-cffi's RFC 9106 first-recommended defaults and run in <100ms on a Pi5.
-- Optional pepper: if `/run/secrets/operator_password_pepper` exists, it's HMAC-SHA256-prefixed onto the password before passing to Argon2 (a defense-in-depth against DB-only theft). Stage A ships WITHOUT a pepper file by default; Federico can add the secret post-deploy if desired without a code change.
+- Optional pepper: if `/run/secrets/operator_password_pepper` exists, it's HMAC-SHA256-prefixed onto the password before passing to Argon2 (a defense-in-depth against DB-only theft). Stage A ships WITHOUT a pepper file by default. **Enabling or rotating the pepper after first seed locks every operator out until each `password_hash` row is re-hashed** — the PHC string carries no marker for which pepper produced it, and `_seed_operator_zero` is idempotent by design (will NOT re-hash on restart, see §2.3). The supported path for adding or rotating the pepper post-deploy is rollback lever §9.2 ("operator #1 password reset"), one row at a time inside the running api container — the new hash automatically picks up whatever pepper the container has mounted. Stage A.5's operator-admin UI is the right place to ship rolling re-hash; until then, lever 9.2 is the documented runbook step.
 - Two functions: `hash_password(plaintext: str) -> str` and `verify_password(hash: str, plaintext: str) -> bool`.
 
 Add `argon2-cffi` to `requirements.txt` and the API container's `Dockerfile.api`. This is a new pip dep, so the next push will trigger an image rebuild.
@@ -1482,6 +1482,8 @@ If the failure mode is specifically "console.db is corrupted" (not "the new auth
 ### 9.2 Lever 2 — operator #1 password reset (case-normalised; query then update by id)
 
 If operator #1's password is forgotten (or the seed didn't fire because `CONSOLE_PASSWORD` was unset at first start), Federico recovers via SQLite directly. Per D2, the RW writer for `console.db` is the `api` container — that's the container we exec into for this.
+
+**This lever is also the supported trigger for enabling or rotating the optional `/run/secrets/operator_password_pepper` file** (see §2.5). The PHC string carries no marker for which (if any) pepper produced it, so any change to pepper presence or value invalidates every existing `operators.password_hash`. After mounting or rotating the pepper file, run this lever for each operator row in turn — the new hash generated inside the api container automatically picks up the new pepper. Stage A.5's operator-admin UI is the right place for rolling re-hash; until it ships, this lever is the documented path. The seed in `_seed_operator_zero` is intentionally idempotent (§2.3) and will NOT re-hash on restart, even with a fresh pepper file mounted.
 
 **The bug we are explicitly avoiding** (security review 2026-04-28 evening — Amendment 5): an earlier draft of this runbook used `WHERE username = 'admin'`. If `CONSOLE_USER` was set to `Admin` in `.env` but stored as `admin` in the DB (or vice versa, across some mismatched seed/runbook history), the UPDATE would silently affect zero rows. The operator gets no error, the password isn't actually reset, and they discover the lie only at the next failed login. This is the case-sensitivity bug Federico flagged.
 
