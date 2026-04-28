@@ -1457,6 +1457,8 @@ Stage A is a structural change; "undo" is not as simple as reverting a feature f
 
 ### 9.1 Lever 1 — keep Basic Auth path live behind an env flag (one release)
 
+> **Retired in slice 3g (f) per spec §7.10 Option B.** The `HEIMDALL_LEGACY_BASIC_AUTH` env-flag lever was deleted along with `LegacyBasicAuthMiddleware`; the single recovery path is now `git revert <slice-3g-merge-sha>` → `heimdall-deploy` (~5 min). The §9.1 / §9.1a prose below is preserved as the rationale-of-record for pre-slice-3g releases. §9.2 (operator password reset) is unaffected.
+
 The Stage A PR does NOT delete `BasicAuthMiddleware`. It renames it to `LegacyBasicAuthMiddleware` and gates its inclusion on `os.environ.get("HEIMDALL_LEGACY_BASIC_AUTH", "0") == "1"`. When the flag is set, the legacy middleware runs INSTEAD of `SessionAuthMiddleware`; the new `console.db` is still created (idempotent) but the runtime path is the old one. The `console-data` volume can stay mounted on the api container during the rollback — the flag short-circuits any read/write against it.
 
 Rollback in prod (operator session corruption, auth lockout, or unforeseen middleware bug):

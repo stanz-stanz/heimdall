@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import asyncio
-import base64
 import collections
 import json
 import os
 import re
-import secrets
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -29,7 +27,6 @@ from src.client_memory import (
 )
 from src.api.auth.middleware import SessionAuthMiddleware
 from src.composer.telegram import compose_telegram
-from src.core.secrets import get_secret
 from src.db.console_connection import (
     DEFAULT_CONSOLE_DB_PATH,
     init_db_console,
@@ -55,54 +52,6 @@ def _validate_name(value: str, label: str) -> str:
 # ---------------------------------------------------------------------------
 # Request logging middleware
 # ---------------------------------------------------------------------------
-
-class LegacyBasicAuthMiddleware(BaseHTTPMiddleware):
-    """Legacy HTTP Basic Auth for console endpoints (Stage A rollback lever).
-
-    Renamed from ``BasicAuthMiddleware`` in slice 3f and gated on the
-    ``HEIMDALL_LEGACY_BASIC_AUTH=1`` env flag. The default Stage A path
-    is ``SessionAuthMiddleware``; this class only mounts when an
-    operator has flipped the rollback flag in ``infra/compose/.env``.
-    See ``docs/architecture/stage-a-implementation-spec.md`` §9.1 for
-    the rollback runbook.
-    """
-
-    PROTECTED_PREFIXES = ("/console", "/app")
-
-    def __init__(self, app, username: str, password: str):
-        super().__init__(app)
-        self.username = username
-        self.password = password
-
-    async def dispatch(self, request: Request, call_next):
-        path = request.url.path
-        if not any(path.startswith(p) for p in self.PROTECTED_PREFIXES):
-            return await call_next(request)
-
-        auth = request.headers.get("Authorization", "")
-        if not auth.startswith("Basic "):
-            return Response(
-                status_code=401,
-                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
-            )
-
-        try:
-            decoded = base64.b64decode(auth[6:]).decode("utf-8")
-            username, password = decoded.split(":", 1)
-        except (ValueError, UnicodeDecodeError):
-            return Response(
-                status_code=401,
-                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
-            )
-
-        if not (secrets.compare_digest(username, self.username)
-                and secrets.compare_digest(password, self.password)):
-            return Response(
-                status_code=401,
-                headers={"WWW-Authenticate": 'Basic realm="Heimdall Console"'},
-            )
-
-        return await call_next(request)
 
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
@@ -444,53 +393,16 @@ def create_app(
 
     app.add_middleware(RequestLoggingMiddleware)
 
-    # Stage A slice 3f: SessionAuthMiddleware is the default gate for
-    # ``/console/*`` and ``/app/*``. ``HEIMDALL_LEGACY_BASIC_AUTH=1`` is
-    # the documented rollback lever (spec §9.1) — when set with both
-    # ``CONSOLE_USER`` and ``console_password``, the legacy Basic Auth
-    # path mounts INSTEAD of SessionAuthMiddleware. If the legacy flag
-    # is set but credentials are missing we fall through to the session
-    # middleware (fail-closed) and log a warning so the operator sees
-    # the misconfiguration without leaving the console open.
-    legacy_basic_auth = (
-        os.environ.get("HEIMDALL_LEGACY_BASIC_AUTH", "0") == "1"
+    # Stage A slice 3g (f) retired the legacy Basic Auth fallback per
+    # spec §7.10 Option B. ``SessionAuthMiddleware`` is the only auth
+    # gate for ``/console/*`` and ``/app/*``; rollback is ``git revert``
+    # of the slice 3g merge SHA per spec §9.1, no env flag.
+    app.add_middleware(
+        SessionAuthMiddleware,
+        console_db_path=app.state.console_db_path,
     )
-    console_user = os.environ.get("CONSOLE_USER", "")
-    console_password = get_secret("console_password", "CONSOLE_PASSWORD")
-    legacy_active = (
-        legacy_basic_auth and bool(console_user) and bool(console_password)
-    )
-    if legacy_active:
-        app.add_middleware(
-            LegacyBasicAuthMiddleware,
-            username=console_user,
-            password=console_password,
-        )
-    else:
-        if legacy_basic_auth:
-            logger.warning(
-                "HEIMDALL_LEGACY_BASIC_AUTH=1 but CONSOLE_USER or "
-                "console_password is missing; falling back to "
-                "SessionAuthMiddleware",
-            )
-        app.add_middleware(
-            SessionAuthMiddleware,
-            console_db_path=app.state.console_db_path,
-        )
 
-    # Routers. The session auth router (``/console/auth/{login,logout,
-    # whoami}``) is only mounted when the session middleware is active
-    # — under the legacy rollback path the auth router would issue
-    # session cookies that the legacy middleware never reads, and
-    # ``logout``/``whoami`` depend on ``request.state`` populated by
-    # ``SessionAuthMiddleware``. Skipping the include keeps the
-    # rollback world coherent: a Basic-Auth-only console returns 404
-    # for the session endpoints rather than half-completing a
-    # handshake. When slice 3g carves ``console_router`` up, this
-    # branching becomes one entry in a router-list rather than a
-    # special case.
-    if not legacy_active:
-        app.include_router(auth_router)
+    app.include_router(auth_router)
     app.include_router(console_router)
     app.include_router(signup_router)
     static_dir = Path(__file__).parent / "static"

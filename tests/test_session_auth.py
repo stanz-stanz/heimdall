@@ -2,8 +2,9 @@
 
 RENAMED from ``tests/test_console_auth.py`` per Stage A spec D7
 (2026-04-28). The previous file asserted the legacy ``Basic`` auth
-contract on ``/console/*``; slice 3f swaps the default mount to
-``SessionAuthMiddleware``, so every assertion here is now cookie-based.
+contract on ``/console/*``; slice 3f swapped the default mount to
+``SessionAuthMiddleware``, and slice 3g (f) retired the legacy fallback
+entirely per spec §7.10 Option B — every assertion here is cookie-based.
 The ``test_no_middleware_when_env_vars_absent`` case is repurposed as
 ``test_no_middleware_when_no_operators_seeded`` per §8.2 — empty
 ``operators`` table now means ``/console/*`` returns 401, not "open".
@@ -22,11 +23,7 @@ import fakeredis
 import pytest
 from fastapi.testclient import TestClient
 
-from src.api.app import (
-    LegacyBasicAuthMiddleware,
-    SessionAuthMiddleware,
-    create_app,
-)
+from src.api.app import SessionAuthMiddleware, create_app
 from tests._console_auth_helpers import (
     login_console_client,
     seed_console_operator,
@@ -46,7 +43,6 @@ def configured_env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     db = tmp_path / "console.db"
     monkeypatch.setenv("CONSOLE_DB_PATH", str(db))
     monkeypatch.setenv("HEIMDALL_COOKIE_SECURE", "0")
-    monkeypatch.delenv("HEIMDALL_LEGACY_BASIC_AUTH", raising=False)
     return db
 
 
@@ -167,65 +163,22 @@ def test_no_middleware_when_no_operators_seeded(
 
 
 # ---------------------------------------------------------------------------
-# Middleware-stack assertions for the three branches in create_app
+# Middleware-stack assertion for the single Stage A branch in create_app
 # ---------------------------------------------------------------------------
 
 
-def _middleware_classes(app) -> list[type]:
-    return [m.cls for m in getattr(app, "user_middleware", [])]
-
-
-def test_default_branch_mounts_session_auth(
+def test_session_auth_middleware_mounted(
     configured_env: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """``HEIMDALL_LEGACY_BASIC_AUTH`` unset → SessionAuthMiddleware is
-    in the stack, LegacyBasicAuthMiddleware is not, and the session
-    auth router is mounted."""
+    """Slice 3g (f) retired the legacy fallback per spec §7.10 Option B:
+    ``SessionAuthMiddleware`` is the only auth middleware mounted, and
+    the session auth router is unconditionally included."""
     app = _build_app(tmp_path, monkeypatch)
-    classes = _middleware_classes(app)
+    classes = [m.cls for m in getattr(app, "user_middleware", [])]
     assert SessionAuthMiddleware in classes
-    assert LegacyBasicAuthMiddleware not in classes
     routes = {getattr(r, "path", None) for r in app.routes}
     assert "/console/auth/login" in routes
     assert "/console/auth/logout" in routes
     assert "/console/auth/whoami" in routes
-
-
-def test_legacy_flag_with_creds_mounts_legacy(
-    configured_env: Path,
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    """Rollback path: legacy flag + creds → LegacyBasicAuthMiddleware
-    runs INSTEAD of SessionAuthMiddleware (spec §9.1). The session
-    auth router is also skipped so callers don't half-complete a
-    session handshake against a Basic-Auth-only middleware."""
-    monkeypatch.setenv("HEIMDALL_LEGACY_BASIC_AUTH", "1")
-    monkeypatch.setenv("CONSOLE_USER", "admin")
-    monkeypatch.setenv("CONSOLE_PASSWORD", "secret123")
-    app = _build_app(tmp_path, monkeypatch)
-    classes = _middleware_classes(app)
-    assert LegacyBasicAuthMiddleware in classes
-    assert SessionAuthMiddleware not in classes
-    routes = {getattr(r, "path", None) for r in app.routes}
-    assert "/console/auth/login" not in routes
-    assert "/console/auth/logout" not in routes
-    assert "/console/auth/whoami" not in routes
-
-
-def test_legacy_flag_without_creds_falls_back_to_session(
-    configured_env: Path,
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    """Misconfigured rollback (flag set, creds missing) must fail
-    closed: SessionAuthMiddleware mounts so the console is not open."""
-    monkeypatch.setenv("HEIMDALL_LEGACY_BASIC_AUTH", "1")
-    monkeypatch.delenv("CONSOLE_USER", raising=False)
-    monkeypatch.delenv("CONSOLE_PASSWORD", raising=False)
-    app = _build_app(tmp_path, monkeypatch)
-    classes = _middleware_classes(app)
-    assert SessionAuthMiddleware in classes
-    assert LegacyBasicAuthMiddleware not in classes

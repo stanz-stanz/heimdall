@@ -5,12 +5,9 @@
 // Auth dialog. Under SessionAuthMiddleware no such dialog exists, so
 // reloading produces an infinite 401-reload loop in browsers without
 // an existing session cookie. Throw instead — callers render the
-// error in their normal failure UI. The SPA login slice (next)
-// replaces this with a proper redirect to the login view; until then
-// "Session required — flip HEIMDALL_LEGACY_BASIC_AUTH=1 on the Pi5
-// for UI access" is the operator-facing instruction.
-const SESSION_REQUIRED_MESSAGE =
-  'Session required — log in via the legacy Basic Auth path until the SPA login slice ships.';
+// error in their normal failure UI. Slice 3g (a)(b)(c) replaces this
+// with a transition to the SPA login view via the auth state machine.
+const SESSION_REQUIRED_MESSAGE = 'Session required — log in to continue.';
 
 async function fetchJSON(url) {
   const res = await fetch(url, { credentials: 'same-origin' });

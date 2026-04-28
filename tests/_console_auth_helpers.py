@@ -1,9 +1,11 @@
 """Authenticated TestClient helper for console tests.
 
-Stage A slice 3f mounts ``SessionAuthMiddleware`` unconditionally in
-``create_app``, so any test that exercises ``/console/*`` endpoints
-needs a logged-in session cookie before its requests will reach the
-handler. This module exposes two minimal building blocks:
+``create_app`` mounts ``SessionAuthMiddleware`` unconditionally
+(slice 3f baseline; slice 3g (f) retired the legacy Basic-Auth
+fallback per spec §7.10 Option B), so any test that exercises
+``/console/*`` endpoints needs a logged-in session cookie before its
+requests will reach the handler. This module exposes two minimal
+building blocks:
 
 - :func:`seed_console_operator` writes one operator row into the
   caller-supplied ``console.db`` with a known password hash.
@@ -16,11 +18,9 @@ Use both from inside ``with TestClient(app) as tc:`` — the FastAPI
 lifespan must have already run ``init_db_console`` on the temp DB
 before the seed insert can find the ``operators`` table.
 
-Tests whose ``create_app()`` call goes through the default branch
-(``HEIMDALL_LEGACY_BASIC_AUTH`` unset) should also monkeypatch
-``CONSOLE_DB_PATH`` to a tmp_path-relative location and set
-``HEIMDALL_COOKIE_SECURE=0`` so ``TestClient``'s plain-HTTP cookie
-jar can carry the session forward.
+Tests should also monkeypatch ``CONSOLE_DB_PATH`` to a tmp_path-relative
+location and set ``HEIMDALL_COOKIE_SECURE=0`` so ``TestClient``'s
+plain-HTTP cookie jar can carry the session forward.
 """
 
 from __future__ import annotations
