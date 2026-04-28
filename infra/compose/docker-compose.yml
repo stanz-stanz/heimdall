@@ -137,7 +137,13 @@ services:
       - claude_api_key
       - console_password
     volumes:
-      - client-data:/data/clients:ro
+      # client-data is RW so the api can perform retention CAS UPDATEs
+      # (POST /console/retention-jobs/{id}/{force-run,cancel,retry} from
+      # PR #46) directly via sqlite3 connection. Earlier ":ro" was
+      # incompatible with those endpoints — they would fail with
+      # "attempt to write a readonly database" the moment an operator
+      # clicked. Verified by scripts/dev/verify_api_clients_db_write.sh.
+      - client-data:/data/clients
       - ${RESULTS_HOST_DIR:-../../data/results}:/data/results:ro
       - message-data:/data/messages
       - config-data:/config:ro

@@ -160,6 +160,10 @@ dev-pytest-integration: ## Run integration tests against the running dev stack.
 dev-smoke: dev-up dev-seed dev-pytest-integration ## End-to-end dev verification.
 	@echo "dev smoke: OK"
 
+.PHONY: dev-verify-api-write
+dev-verify-api-write: dev-up ## Probe whether the api container has RW on clients.db. Guards against the PR #46 :ro-mount regression.
+	@bash scripts/dev/verify_api_clients_db_write.sh
+
 .PHONY: dev-cert-dry-run
 dev-cert-dry-run: dev-up ## End-to-end cert-change alert dry run (synthetic target, no Telegram send).
 	@docker cp scripts/dev/cert_change_dry_run.py heimdall_dev-delivery-1:/app/scripts/dev/cert_change_dry_run.py
