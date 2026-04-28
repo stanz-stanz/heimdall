@@ -20,6 +20,14 @@ Caller contract:
 
 The helper does NOT commit. If the caller's transaction raises, both
 the mutation and the audit row roll back together.
+
+Slice 3g spec §7.9 also relocated :func:`maybe_write_disabled_operator_audit`
+to this module from ``src/api/auth/middleware.py`` so the HTTP middleware
+and the WebSocket handler at ``/console/ws`` (slice 3g) share a single
+implementation. The probe SELECT and audit-row write are identical
+across both call sites; the only difference is the request-shape passed
+in (real Starlette ``Request`` for HTTP, ``_build_pseudo_request`` adapter
+for WS scope per slice 3g spec §4.2).
 """
 
 from __future__ import annotations
@@ -28,6 +36,8 @@ import json
 import sqlite3
 from datetime import UTC, datetime
 from typing import Any
+
+from loguru import logger
 
 
 # Schema enforces no SQL-level limit on user_agent, but a pathological
@@ -160,3 +170,71 @@ def write_console_audit_row(
         ),
     )
     return cursor.lastrowid or 0
+
+
+def maybe_write_disabled_operator_audit(
+    conn: sqlite3.Connection,
+    request: Any,
+    presented_hash: str,
+) -> None:
+    """Write ``auth.session_rejected_disabled`` iff the cookie maps to
+    an otherwise-active session whose operator was disabled.
+
+    The probe SELECT mirrors slice 3a's session-active filter (not
+    revoked, not idle-expired, not absolute-expired) but inverts the
+    operator filter to ``disabled_at IS NOT NULL``. If a row matches,
+    we know the rejection reason was specifically "operator disabled
+    while session was alive" — that's the only state where we write
+    the row. Other miss reasons stay silent so we don't drown the
+    audit log in routine expired-cookie events.
+
+    Best-effort: a probe SELECT failure or audit-write failure logs
+    at WARNING and falls through. The caller still returns the 401 /
+    closes the WS with 4401 — this helper exists to capture forensic
+    state, not to gate the rejection.
+
+    Originally lived in ``src/api/auth/middleware.py`` (slice 3e item
+    F). Relocated here in slice 3g per spec §7.9 so the HTTP middleware
+    and the ``/console/ws`` handler share a single implementation. The
+    ``request`` arg is duck-typed: it just needs ``.state``, ``.client``,
+    ``.headers`` for :func:`write_console_audit_row` to populate the
+    audit row. The WS handler passes a ``_build_pseudo_request`` adapter
+    over the WebSocket scope (slice 3g spec §4.2).
+    """
+    now_iso = _now_iso()
+    try:
+        row = conn.execute(
+            "SELECT s.id, s.operator_id "
+            "FROM sessions s "
+            "JOIN operators o ON o.id = s.operator_id "
+            "WHERE s.token_hash = ? "
+            "  AND s.revoked_at IS NULL "
+            "  AND s.expires_at > ? "
+            "  AND s.absolute_expires_at > ? "
+            "  AND o.disabled_at IS NOT NULL",
+            (presented_hash, now_iso, now_iso),
+        ).fetchone()
+    except sqlite3.OperationalError as exc:
+        logger.warning(
+            "session_rejected_disabled probe failed: {}", exc
+        )
+        return
+
+    if row is None:
+        return
+
+    try:
+        with conn:
+            write_console_audit_row(
+                conn,
+                request,
+                action="auth.session_rejected_disabled",
+                target_type="session",
+                target_id=row["id"],
+                operator_id=row["operator_id"],
+                session_id=row["id"],
+            )
+    except sqlite3.OperationalError as exc:
+        logger.warning(
+            "session_rejected_disabled audit insert failed: {}", exc
+        )

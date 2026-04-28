@@ -67,15 +67,13 @@ from __future__ import annotations
 import hashlib
 import secrets as stdlib_secrets
 import sqlite3
-from datetime import UTC, datetime
-from typing import Any
 
 from loguru import logger
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from src.api.auth.audit import write_console_audit_row
+from src.api.auth.audit import maybe_write_disabled_operator_audit
 from src.api.auth.sessions import refresh_session, validate_session_by_hash
 from src.db.console_connection import get_console_conn
 
@@ -180,7 +178,7 @@ class SessionAuthMiddleware:
                 # before the 401. Other miss reasons (no such session,
                 # revoked, idle/absolute expired) stay silent — the
                 # revoke or expiry is its own audited event upstream.
-                _maybe_write_disabled_operator_audit(
+                maybe_write_disabled_operator_audit(
                     conn, request, presented_hash
                 )
                 response = _unauthenticated(clear_cookies=True)
@@ -277,65 +275,6 @@ def _unauthenticated(*, clear_cookies: bool) -> JSONResponse:
         response.delete_cookie(SESSION_COOKIE, path="/")
         response.delete_cookie(CSRF_COOKIE, path="/")
     return response
-
-
-def _maybe_write_disabled_operator_audit(
-    conn: sqlite3.Connection,
-    request: Request,
-    presented_hash: str,
-) -> None:
-    """Write ``auth.session_rejected_disabled`` iff the cookie maps to
-    an otherwise-active session whose operator was disabled.
-
-    The probe SELECT mirrors slice 3a's session-active filter (not
-    revoked, not idle-expired, not absolute-expired) but inverts the
-    operator filter to ``disabled_at IS NOT NULL``. If a row matches,
-    we know the rejection reason was specifically "operator disabled
-    while session was alive" — that's the only state where we write
-    the row. Other miss reasons stay silent so we don't drown the
-    audit log in routine expired-cookie events.
-
-    Best-effort: a probe SELECT failure or audit-write failure logs
-    at WARNING and falls through. The 401 is still returned by the
-    caller — this helper exists to capture forensic state, not to
-    gate the rejection."""
-    now_iso = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-    try:
-        row = conn.execute(
-            "SELECT s.id, s.operator_id "
-            "FROM sessions s "
-            "JOIN operators o ON o.id = s.operator_id "
-            "WHERE s.token_hash = ? "
-            "  AND s.revoked_at IS NULL "
-            "  AND s.expires_at > ? "
-            "  AND s.absolute_expires_at > ? "
-            "  AND o.disabled_at IS NOT NULL",
-            (presented_hash, now_iso, now_iso),
-        ).fetchone()
-    except sqlite3.OperationalError as exc:
-        logger.warning(
-            "session_rejected_disabled probe failed: {}", exc
-        )
-        return
-
-    if row is None:
-        return
-
-    try:
-        with conn:
-            write_console_audit_row(
-                conn,
-                request,
-                action="auth.session_rejected_disabled",
-                target_type="session",
-                target_id=row["id"],
-                operator_id=row["operator_id"],
-                session_id=row["id"],
-            )
-    except sqlite3.OperationalError as exc:
-        logger.warning(
-            "session_rejected_disabled audit insert failed: {}", exc
-        )
 
 
 def _csrf_mismatch() -> JSONResponse:
