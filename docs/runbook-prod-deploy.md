@@ -247,6 +247,51 @@ After that, every future deploy follows the normal flow above.
 
 ---
 
+## Approval-token regeneration
+
+When `.claude/agents/valdi/approvals.json` is regenerated via
+`scripts/valdi/regenerate_approvals.py --apply` — typically after a
+refactor changes scanner-function source and Valdí re-issues hashes —
+**workers must be restarted before the next scan batch is dispatched**.
+
+Per Valdí's 2026-04-28 Gate 1 ruling on the durable scanning path
+(`logs/valdi/2026-04-28_08-03-26_durable_path_gate1_ruling.md`), the
+worker validates the approval-token envelope once per process lifetime
+at boot. A worker started before the regen continues running under the
+*previous* envelope until restart: new approvals won't be honoured and
+revoked approvals will still execute. This is a deploy-discipline
+requirement, not a runtime requirement — there is no SIGHUP path for
+v1 of the durable-path gate.
+
+The clean discipline:
+
+1. Regenerate approvals on the laptop, commit, push to `main`.
+2. `make dev-smoke` to confirm green.
+3. Fast-forward `prod`, `HEIMDALL_APPROVED=1 git push origin prod`.
+4. `heimdall-deploy` on Pi5 — containers force-recreate, workers
+   re-validate at boot under the new envelope.
+
+`heimdall-deploy` already force-recreates containers on every deploy,
+so a normal deploy after the regen is sufficient. The hazard is
+regenerating approvals *outside* a deploy — running the regen script
+directly on Pi5 without a redeploy, or hot-patching `approvals.json`
+on a running host. Don't.
+
+Boot-validation outcomes land in `logs/valdi/{timestamp}_worker_boot.md`
+(approval) or `_worker_boot_REJECTED.md` (failure). On rejection, the
+worker exits non-zero and `heimdall-deploy` fails fast — investigate
+the hash mismatch named in the rejection log, do not bypass.
+
+> **Forward-looking note.** This discipline becomes load-bearing once
+> the Priority 2 implementation lands (boot-time approval-hash
+> validation in `src/worker/scan_job.py`). Until then, the worker
+> doesn't enforce the envelope, so approval-token regen has no
+> immediate compliance hazard on the worker side — the discipline is
+> documented in advance so it's in place by the time the code requires
+> it. Tracked in `docs/decisions/log.md` 2026-04-28 entries.
+
+---
+
 ## What is NOT allowed
 
 - **Pushing to `prod` without `HEIMDALL_APPROVED=1`.** The hook

@@ -1637,3 +1637,66 @@ Full onboarding product specified end-to-end and locked via a 22-decision interv
 - Operator console "issue magic link" UI — slice 3.
 - Slice-3 `<html lang>` runtime flip needs either a SvelteKit `handle` hook (SSR) or a build-time multi-locale prerender; `apps/signup/src/app.html` is hard-coded `<html lang="en">` for slice 1.
 - `apps/` vs `src/api/frontend/` long-term home for SvelteKit code: no ADR yet.
+
+## 2026-04-28 — Scanning subsystem priority order (compliance asymmetry first)
+
+**Context**
+Architecture review of the scanning subsystem surfaced that the production-shaped worker path enforces *less* explicit compliance than the prospecting batch path. The runner validates approval tokens with hash checks before execution; the worker does not. The contract drift / result-shape divergence flagged in the same review is real but secondary — the inversion of compliance ceremony between batch and durable paths is the load-bearing issue.
+
+**Decided**
+- Priority order for scanning subsystem cleanup, in this sequence:
+  1. **Valdí Gate 1 ruling on the worker compliance gate.** Confirm whether boot-time approval-hash validation plus per-job policy assertion in the worker satisfies Gate 1 for the durable path under Valdí's interpretation. This is the heart of compliance; nothing in items 2–5 ships without it.
+  2. **Compliance-gate parity in the worker** — implement the rule once Valdí confirms. Bring the production path to the same Gate 1 hash assurance the runner enforces.
+  3. **Bucket filter to per-job load** — replace the import-time bucket-filter load in the worker so runtime config changes take effect without process restart.
+  4. **Shared evidence-normalization layer** — extract CMS, hosting, plugin-merge, and SAN-merge derivation (currently duplicated across the runner and worker paths) into one normalizer used by both.
+  5. **Scan-plan abstraction** — only after #4. A shared *config* object (target, allowed levels, consent state, cache policy, enabled scan types, budgets) compiled by both schedulers, executed differently by each. Not a unified executor.
+- Architectural rule proposed for Valdí review (Priority 1) and implementation (Priority 2):
+  - **Validate scanner approval hashes once at worker boot.** Fail-closed startup if validation fails — same semantics as the runner's pre-batch validation.
+  - **Persist the validated max level / approved scan set in process state.**
+  - **Reject any job whose requested level or scan set exceeds that validated envelope.**
+  - Conceptual symmetry: runner validates once per batch invocation; worker validates once per process lifetime.
+  - Per-job execution-time check is policy-focused (level within envelope, consent/tier conditions, scan-type allowlist), not hash re-validation.
+
+**Rejected**
+- Treating contract drift between prospecting batch and per-client durable paths as the top issue — corrected in-session. Result-shape divergence is real but downstream of the compliance gap.
+- Compiling both modes into a unified executor. Batch prospecting and per-client durable monitoring have legitimately different needs (operator confirmation, pre-scan artifact, fan-out shape). The shared abstraction is the scan plan as a config object, not a single executor.
+- Per-job re-hashing of scanner functions in the worker. Wasteful; would re-hash every scanner on every domain. Boot-time validation is the correct seam.
+- Logging the Valdí ruling as a side-item under Unresolved. Valdí is the heart of compliance and must follow a priority path — promoted to Priority 1.
+
+**Unresolved**
+- Implementation timing for Priority 2: the active branch is mid-Stage-A carve. Whether Priority 2 ships as a parallel PR or waits for Stage A closure is open.
+- The lru_cache-once-per-process slug-map load in the worker shares the same brittleness pattern as the bucket filter; whether it folds into Priority 3 or stays separate is open.
+- Tier (Watchman/Sentinel) ↔ level (0/1) coupling is currently inferred by the scheduler; would become explicit in the Priority 5 scan-plan model.
+
+## 2026-04-28 — Valdí Gate 1 ruling on durable scanning path: APPROVE WITH CONDITIONS
+
+**Context**
+Follows the same-day "Scanning subsystem priority order (compliance asymmetry first)" entry. Priority 1 of that entry was a Valdí Gate 1 ruling on whether boot-time approval-hash validation plus per-job policy assertion in the worker satisfies Gate 1 for the durable scanning path. Brief dispatched and ruling returned in-session. Full forensic record at `logs/valdi/2026-04-28_08-03-26_durable_path_gate1_ruling.md`.
+
+**Decided**
+- Ruling: **APPROVE WITH CONDITIONS**. The boot-time validation + envelope-persistence + per-job policy check architecture is the correct shape and satisfies Gate 1 for the durable scanning path subject to five conditions. Priority 2 implementation is unblocked once those conditions are wired in.
+- Conditions on Priority 2 implementation:
+  - **C1.** Boot-time validation must fail-closed with non-zero exit. Multi-role workers may continue running with scan execution disabled only if the disabled state is observable to the operator (Telegram alert or equivalent).
+  - **C2.** The persisted envelope must include `function_hash` and `helper_hash` per `scan_type_id`, not just the ID set. Preserves the option of sampled drift detection later.
+  - **C3.** Every accepted job must produce a per-job pre-scan forensic record (Gate 2 parity with the runner's batch-level `_write_pre_scan_check()`). Schema specified in the ruling — minimum: scan_request_id, client_id, target, scan_type_ids, scan_level, approval_token_ids, envelope_max_level, envelope_validated_at, the six policy checks, result, block_reason, checked_at.
+  - **C4.** Boot-time validation must produce `logs/valdi/{timestamp}_worker_boot.md` (approval) or `_worker_boot_REJECTED.md` (failure, naming `regenerate_approvals.py --apply` as remedy).
+  - **C5.** `max_level` is derived from worker deploy config, never from per-job claims. Job's `level` field is an *input* to validate against the envelope — never permitted to *expand* it.
+- Sub-question rulings:
+  - **Validation cadence:** once-per-process is sufficient. No SIGHUP path required for v1. Restart-after-regen is a deploy-discipline requirement, not a runtime requirement — captured in `docs/runbook-prod-deploy.md`.
+  - **Mid-process envelope staleness:** acceptable until next restart. The asymmetric case (approval revoked but worker still runs the revoked scan type) is the only compliance-hazard scenario; revisit if it occurs in practice.
+  - **`max_level` parameterisation:** either single Sentinel-capable worker (`max_level=1`) **or** segregated worker pools (Watchman-only `max_level=0`, Sentinel-pool `max_level=1`) — both compliant. Topology is the operator's call. Forbidden: booting with `max_level=0` and re-validating mid-process to handle Layer 2.
+  - **Per-job policy check minimum:** scan_type in envelope, level ≤ envelope ceiling, robots.txt allows, consent currency+coverage for L≥1 (delegate to `src/consent/validator.py`), tier-vs-level (Watchman cannot request Level 1 even with stale consent on file), synthetic-target registry bypass.
+  - **No per-job operator prompt** — Sentinel consent and Watchman magic-link signup are the prompt-equivalent.
+  - **Priority 3–5 confirmed out of jurisdiction** *as currently scoped*. If Priority 5 (scan-plan abstraction) ever changes runtime scan-type selection, re-submit for a fresh ruling.
+
+**Rejected**
+- Single Layer-1-only worker that re-validates Layer 2 hashes mid-process to accept a stray Level 1 job. Collapses boot-time validation into per-job validation and re-introduces the runtime overhead the proposal was designed to avoid. A worker that handles Layer 2 must validate Layer 2 hashes at boot.
+- Storing only `scan_type_id` set in the persisted envelope (rejected by C2). Forecloses future drift-detection options.
+- Aggregated-only loguru events for per-job pre-scan checks. The artifact must be queryable per job; loguru without per-job aggregation fails this.
+- Periodic re-validation while the worker runs (rejected as not required by SCANNING_RULES.md). Adds operational complexity for marginal compliance gain.
+- Per-job operator-confirmation prompt for the worker path. Sentinel consent and Watchman magic-link signup are the prompt-equivalent.
+
+**Unresolved**
+- Worker topology choice (single Sentinel-capable worker vs segregated Watchman-only and Sentinel-only pools). Both compliant; deployment ergonomics decide. Open until Priority 2 implementation begins.
+- Per-job pre-scan-check storage strategy — per-file under `data/compliance/{client_id}/pre-scan-{job_id}.json` vs structured loguru events with separate aggregation process. Operator's call within the C3 constraint.
+- Operator-alert mechanism for C1 (multi-role worker with scan execution disabled). Telegram is the natural channel; whether to reuse the existing `src/delivery/` operator notifications path or add a dedicated channel is open.
