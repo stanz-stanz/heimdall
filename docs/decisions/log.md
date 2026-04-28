@@ -5,6 +5,81 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-04-28 — Stage A slice 3g locked scope (all §7 decisions locked; slice 3g.5 hard-gates production deploy)
+
+**Context.** Slice 3f shipped on `feat/stage-a-foundation` (commit `d0bc063`) and locked `SessionAuthMiddleware` as the default mount + retained `/app/*` in `_PROTECTED_PREFIXES`, but explicitly deferred the SPA login flow + handler-level WS auth + CSRF helper threading + the `tests/test_console_ws_auth.py` test file to "the very next slice." That slice is 3g. Per the 2026-04-28 slice 3f entry's Unresolved section, the scope is atomic — five mutually load-bearing components — and a partial ship leaves either a known data-leak window (`/console/ws` open while `/app` allows the SPA shell to load) or a UI that can never log in.
+
+This entry now records the locked scope, the nine spec §7.1–§7.9 decisions Federico accepted on 2026-04-28, and the new §7.10 open question added the same evening per Federico's constraint that legacy-mode SPA behavior must stop being optional before implementation starts. Full spec at `docs/architecture/stage-a-slice-3g-spec.md` (still marked DRAFT until §7.10 is locked). All references below are to master spec `docs/architecture/stage-a-implementation-spec.md` by section number; the slice 3g spec inherits contracts rather than restating them.
+
+**Locked scope (atomic — none ship without all five).**
+
+(a) Login view in `src/api/frontend/src/App.svelte` (or new `views/Login.svelte` driven by App.svelte's whoami state machine) wired to `POST /console/auth/login` with cookie-aware fetch (`credentials: 'same-origin'` already set throughout `lib/api.js`). Form has username + password fields; on 200 stores `csrf_token` in centralised app state; on 401 shows error; on 429 shows `Retry-After` countdown.
+
+(b) Bootstrap `GET /console/auth/whoami` probe on app mount that drives the 200/401/204/409 state machine into the right UI branch:
+- 200 — logged-in dashboard (current default)
+- 401 — login form
+- 204 — "no operators seeded — talk to your admin" splash
+- 409 — "all operators disabled" notice
+
+(c) `X-CSRF-Token` header helper in `src/api/frontend/src/lib/api.js`:
+- Centralised csrf_token state (set on login, cleared on logout)
+- Threaded through `postJSON`, `saveSettings`, `sendCommand`, `forceRunRetentionJob`, `cancelRetentionJob`, `retryRetentionJob` (state-changing methods)
+- Read methods (`fetchJSON` etc.) skip CSRF — server-side check is method-gated.
+
+(d) Handler-level WS auth in `src/api/console.py` for both `/console/ws` and `/console/demo/ws/{scan_id}` per master spec §5.2:
+- Read `ws.cookies['heimdall_session']`
+- SHA-256 hash
+- `validate_session_by_hash` against `console.db` sessions table
+- On miss: `await ws.close(code=4401)` BEFORE `ws.accept()`. No pubsub setup.
+- On hit: `await ws.accept()`, write `liveops.ws_connected` audit row to `console.audit_log` (use `write_console_audit_row` helper — already exists from slice 3b), proceed with normal pubsub.
+
+(e) New `tests/test_console_ws_auth.py` covering all 7 cases per master spec §8.2:
+1. Valid cookie → handler reads cookie, hashes, finds matching `token_hash` row, calls `ws.accept()`, normal pubsub stream proceeds, audit row `liveops.ws_connected` written.
+2. No cookie → `close(4401)` BEFORE accept-pipeline. No audit row, no DB session refresh, no pubsub subscription.
+3. Cookie that does not hash to any row → `close(4401)`.
+4. Cookie matching a revoked session → `close(4401)`.
+5. Cookie matching an idle-expired session → `close(4401)`.
+6. Cookie matching an absolute-expired session → `close(4401)`.
+7. Cookie matching a session whose operator was disabled → `close(4401)`.
+Plus: HTTP middleware does NOT auth the WS upgrade — assert by spinning up the app with `SessionAuthMiddleware` registered, sending a WS upgrade with no cookie, and confirming the handler is reached not the middleware.
+
+**Note on `/app` protection.** `src/api/auth/middleware.py:97` already reads `_PROTECTED_PREFIXES = ("/console", "/app")` on the committed slice 3f baseline (commit `d0bc063`). The original "single-line revert" wording in earlier briefs referred to a transient option-2 carve during the slice 3f session that was reverted before commit. **No middleware change is needed in slice 3g** — the implementation PR's only obligation is a verification grep at start-of-work to confirm the constant hasn't drifted; `tests/test_session_auth.py::test_app_prefix_protected` continues to fail CI on any regression.
+
+**Decided 2026-04-28 (per Federico's review, all nine recommendations accepted):**
+
+1. **Login form placement → separate `Login.svelte` component** mounted by App.svelte's whoami state machine. Login is an app state, not a navigation target.
+2. **CSRF token storage → re-derive from `heimdall_csrf` cookie via `document.cookie`** (master §4.1's spec-blessed access path); in-memory state in `lib/auth.svelte.js` is a fast cache repopulated from the cookie on fresh module load.
+3. **WS reconnect timing after login → direct call** from inside `login()` after `auth.status = 'authenticated'`. Most explicit shape; avoids reactive-effect-re-fire risk.
+4. **204 (no operators seeded) UX → distinct screen, copy only, no runbook link.** SMB-targeted product; the only realistic operator hitting this is Federico or whoever inherits the deployment.
+5. **409 (all operators disabled) UX → distinct components per state.** The two states are operationally distinct per master §3.5; two small files are clearer than one parameterised component.
+6. **Mid-session 401 UX → redirect-to-login.** Console UI is predominantly read-only; mutating actions don't maintain partial-input state worth preserving across an idle-expiry.
+7. **Demo WS endpoint (`/console/demo/ws/{scan_id}`) → ships together** with handler auth. Same shape, same imports. Extract `_authenticate_ws(websocket)` helper inside `src/api/console.py` so both handlers call one auth path.
+8. **`liveops.ws_connected` audit-row test shape → real round trip** via `client.websocket_connect` in TestClient. The whole point of the test file is to lock handler behaviour against real ASGI plumbing.
+9. **Disabled-operator audit row on WS rejection → symmetry with HTTP middleware**. Extract `_maybe_write_disabled_operator_audit` from `src/api/auth/middleware.py:282-339` into `src/api/auth/audit.py` and import from both call sites to prevent drift.
+
+**Decided 2026-04-28 (review-pass additions, after Codex pass 7 surfaced two P1 findings):**
+
+10. **§7.10 — Legacy-mode SPA behavior → Option B (retire legacy in slice 3g).** Slice 3f's `HEIMDALL_LEGACY_BASIC_AUTH=1` flag mounts `LegacyBasicAuthMiddleware` and skips the auth-router include. Once slice 3g lands, the SPA's whoami bootstrap probes `/console/auth/whoami`, which is NOT mounted in legacy mode → 404 → cascades to "unauthenticated" → SPA renders new login form → posts to `/console/auth/login` (also not mounted) → 404. The SPA in legacy mode is broken without an explicit decision. Federico's call: retire `LegacyBasicAuthMiddleware` + the env flag in slice 3g; slice 3g becomes the slice that completes the Stage A auth migration AND removes the rollback lever. Cleanest endgame: ~60 LOC removed from `src/api/app.py` + `LegacyBasicAuthMiddleware` class + three branch-mount tests deleted from `tests/test_session_auth.py`. Master spec §9.1 needs a one-line update noting legacy retired. Rollback under Option B is `git revert` the slice-3g merge SHA → automatic redeploy in ~5 minutes; no env-flip path remains.
+
+11. **§7.11 — SPA automated test coverage → Option B (hard-gate production deploy on slice 3g.5).** Codex pass 7 P1: a new auth-critical frontend state machine (login, whoami branching across 200/204/409/401, CSRF header threading on mutations, mid-session 401 recovery, 429 Retry-After countdown) ships without automated coverage if slice 3g lands without SPA tests. Verified state of the operator console: `src/api/frontend/package.json` has no `vitest` dep, no `vitest.config.*` file, no `*.test.js` files of our own — Vitest harness setup from scratch is non-trivial (add deps, config, jsdom or happy-dom, possibly @testing-library/svelte, write tests). Federico's call: split slice 3g implementation from the SPA test layer. Slice 3g implementation merges to `feat/stage-a-foundation`; the bundle does NOT merge to `main` or push to `prod` until slice 3g.5 lands the Vitest harness + auth-flow tests. Coverage target: login (200/401/429), whoami bootstrap (all four UI branches), CSRF threading on mutation helpers, mid-session 401 redirect, Retry-After. Estimated 3g.5 size: ~400 LOC of test code + harness configs. Pattern reference exists in `apps/signup/` (Vitest 21/21).
+
+**Locked rollback story (per §7.10 Option B + §9.1).** `git revert <slice-3g-merge-sha>` is the single recovery path. ~5 minutes. No env-flip lever. Restores slice 3f's posture — `SessionAuthMiddleware` mounted by default, `/app/*` returning a static 401 to anonymous browsers. If slice 3g.5 has also merged, the revert chain unwinds both at once. The reviewer's P1 #1 concern (rollback path "can choose to include or omit" the SPA compatibility branch) goes away because there is no longer a legacy mode for the SPA to be broken under.
+
+**Why the reviewer's six findings shaped this commit** (audit trail for future readers):
+
+- P1 #1 (rollback under-specified) → resolved by §7.10 Option B; §9.1 collapses to a single sentence (`git revert`).
+- P1 #2 (no automated SPA coverage) → resolved by §7.11 Option B; slice 3g.5 hard-gates the deploy.
+- P2 #3 (`/app` baseline contradiction in §1 vs §6) → resolved by removing all "single-line revert" framing from §1 and §5.2; §6 is now a verification-only step against the slice 3f baseline.
+- P2 #4 (§7.9 "decision still presented as recommendation") → resolved by the §7 summary table that lists all locked outcomes in one glance.
+- P2 #5 (audit-writer transport choice unlocked) → resolved by locking `_build_pseudo_request` adapter (Option (i)) in §4.2, with explicit rejection of widening `write_console_audit_row`.
+- P3 #6 (slice "atomic" but loose) → resolved by §7 summary table + §1 expansion to six locked components (a–f).
+
+**Spec file.** Full implementation spec at `docs/architecture/stage-a-slice-3g-spec.md`. All decisions locked. Sections: locked scope (six components + production-deploy gate), SPA login + whoami bootstrap, CSRF helper, handler-level WS auth + `_build_pseudo_request` adapter, test plan, `/app` protection (verification only), §7 decisions (all locked), out of scope (3g.5 listed), rollback plan (single `git revert` lever), file map, master-spec cross-reference appendix, revision history.
+
+**Status.** Spec LOCKED. Slice 3g implementation unblocked. Slice 3g.5 (SPA Vitest harness + auth-flow tests) gates production deploy — slice 3g may merge to `feat/stage-a-foundation` immediately after implementation green; the merge to `main` and push to `prod` waits on 3g.5. Working tree carries the spec file + this decision-log entry; no code written yet.
+
+---
+
 ## 2026-04-28 (evening) — Stage A foundation: slices 3d + 3e shipped
 
 **Context.** Branch `feat/stage-a-foundation` advanced two more implementation slices in one session on top of the morning's 2/3a/3b/3c batch. Each slice TDD'd, Codex-reviewed pre-commit (multiple rounds; five Codex passes across the two slices), and committed with `HEIMDALL_CODEX_REVIEWED=1`. Net session diff vs the morning baseline: +2,632 LOC across 7 new files plus middleware + app.py touches. Full unit suite 1,471 passed / 16 skipped on this commit. Net branch diff vs `main` now ~8,300 insertions across ~30 files.
