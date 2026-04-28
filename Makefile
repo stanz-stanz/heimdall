@@ -146,6 +146,26 @@ dev-fixture-check: ## Verify dev fixture sources exist (briefs + enriched compan
 	@python -m scripts.dev.seed_dev_briefs --check
 	@python -m scripts.dev.seed_dev_enriched --check
 
+.PHONY: dev-seed-console
+dev-seed-console: dev-up ## Seed DRYRUN-CONSOLE-* rows for V1 (trial-expiring) + V6 (retention-queue) inside the dev delivery container.
+	@docker cp scripts/dev/seed_dev_console.py heimdall_dev-delivery-1:/app/scripts/dev/seed_dev_console.py
+	@docker exec heimdall_dev-delivery-1 python scripts/dev/seed_dev_console.py
+
+.PHONY: dev-seed-console-clean
+dev-seed-console-clean: dev-up ## Wipe DRYRUN-CONSOLE-* rows from the dev clients DB (no re-seed).
+	@docker cp scripts/dev/seed_dev_console.py heimdall_dev-delivery-1:/app/scripts/dev/seed_dev_console.py
+	@docker exec heimdall_dev-delivery-1 python scripts/dev/seed_dev_console.py --clean
+
+.PHONY: dev-verify-seed-console
+dev-verify-seed-console: dev-up ## End-to-end verify: seed → assert shape → clean → assert empty. One command, explicit pass/fail.
+	@$(MAKE) dev-seed-console
+	@echo "==> verify post-seed shape"
+	@python -m scripts.dev.verify_dev_console_seed
+	@$(MAKE) dev-seed-console-clean
+	@echo "==> verify post-clean empty"
+	@python -m scripts.dev.verify_dev_console_seed --post-clean
+	@echo "dev console seed verify: OK"
+
 # --- Tests --------------------------------------------------------------
 
 .PHONY: dev-pytest
