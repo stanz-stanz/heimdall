@@ -294,6 +294,10 @@ signup-build: ## Build the SvelteKit signup site to apps/signup/build/.
 signup-test: ## Run the signup-site Vitest suite.
 	cd apps/signup && npm install --prefer-offline && npm run test
 
+.PHONY: frontend-test
+frontend-test: ## Run the operator-console SPA Vitest suite.
+	cd src/api/frontend && npm install --prefer-offline && npm run test
+
 .PHONY: signup-verify
 signup-verify: dev-up ## Run scripts/dev/verify_signup_slice1.py inside the dev delivery container (RW client-data + scripts/dev mounted).
 	@docker cp scripts/dev/verify_signup_slice1.py heimdall_dev-delivery-1:/app/scripts/dev/verify_signup_slice1.py

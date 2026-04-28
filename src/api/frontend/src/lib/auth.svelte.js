@@ -149,15 +149,27 @@ async function _bootstrapImpl() {
  *  branch. Always called from App.svelte's onMount before any other
  *  fetch — the rest of the SPA must not run until status reaches
  *  'authenticated'. Concurrent callers share the same in-flight probe
- *  so a 401 burst can't race overlapping state mutations. */
-export async function bootstrap() {
+ *  so a 401 burst can't race overlapping state mutations.
+ *
+ *  Not declared `async` — the runtime would wrap the returned in-flight
+ *  promise in a fresh promise on each call, defeating the
+ *  `p1 === p2` identity guarantee that slice 3g.5 §5.2 test #1 locks. */
+export function bootstrap() {
   if (bootstrapInFlight) return bootstrapInFlight;
-  bootstrapInFlight = _bootstrapImpl();
-  try {
-    await bootstrapInFlight;
-  } finally {
-    bootstrapInFlight = null;
-  }
+  const probe = _bootstrapImpl();
+  bootstrapInFlight = probe;
+  // Clear the in-flight slot whether the probe resolves or rejects so
+  // a subsequent call retries instead of returning a dead promise.
+  // Use `.then(...).then(...)` rather than `.finally(...)` so we can
+  // guarantee the slot clears before any chained `.then` on the
+  // returned promise observes the result — without that ordering, a
+  // caller's `.then` could fire while bootstrapInFlight still points
+  // at the resolved promise, briefly hiding a release-on-throw bug.
+  probe.then(
+    () => { if (bootstrapInFlight === probe) bootstrapInFlight = null; },
+    () => { if (bootstrapInFlight === probe) bootstrapInFlight = null; },
+  );
+  return probe;
 }
 
 function parseRetryAfter(headerValue) {
