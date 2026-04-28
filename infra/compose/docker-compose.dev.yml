@@ -76,6 +76,9 @@ volumes:
   client-data:
     external: false
     name: heimdall_dev_client-data
+  console-data:
+    external: false
+    name: heimdall_dev_console-data
   valdi-data:
     external: false
     name: heimdall_dev_valdi-data

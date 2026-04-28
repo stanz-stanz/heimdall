@@ -29,6 +29,10 @@ from src.client_memory import (
 )
 from src.composer.telegram import compose_telegram
 from src.core.secrets import get_secret
+from src.db.console_connection import (
+    DEFAULT_CONSOLE_DB_PATH,
+    init_db_console,
+)
 from src.interpreter.interpreter import InterpreterError, interpret_brief
 
 from .console import router as console_router
@@ -355,6 +359,25 @@ def create_app(
         app.state.pubsub_task = None
         app.state.log_buffer = collections.deque(maxlen=5000)
         app.state.log_listener_task = None
+
+        # console.db initialisation runs FIRST, before any pubsub task
+        # or middleware engages. console.db is api-owned (operators /
+        # sessions / audit_log); no other container initialises it.
+        # CREATE TABLE IF NOT EXISTS makes the call idempotent.
+        #
+        # NOTE on clients.db: NOT initialised here. The scheduler /
+        # worker / delivery containers each call init_db() on their
+        # own startup, which runs apply_pending_migrations() with
+        # unguarded ALTER TABLE statements. Calling init_db() from the
+        # api too would create a concurrent-migration race (one
+        # container wins the column add, the other raises OperationalError
+        # mid-startup). The api READS clients.db — clients.db schema
+        # is the writers' responsibility. The clients.audit_log table
+        # appended to client-db-schema.sql in this slice is created by
+        # the writers via executescript, and the api will see it on
+        # first read.
+        init_db_console(app.state.console_db_path).close()
+
         try:
             redis_conn = redis.Redis.from_url(redis_url, decode_responses=True)
             redis_conn.ping()  # Sync call OK — runs once at startup only
@@ -404,6 +427,9 @@ def create_app(
     app.state.briefs_dir = briefs_dir
     _client_dir = os.environ.get("CLIENT_DATA_DIR", "data/clients")
     app.state.db_path = os.environ.get("DB_PATH", f"{_client_dir}/clients.db")
+    app.state.console_db_path = os.environ.get(
+        "CONSOLE_DB_PATH", DEFAULT_CONSOLE_DB_PATH,
+    )
 
     app.add_middleware(RequestLoggingMiddleware)
 

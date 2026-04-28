@@ -26,6 +26,7 @@ EXPECTED_TABLES = {
     "brief_snapshots",
     "delivery_log",
     "delivery_retry",
+    "audit_log",  # Stage A SECTION 11 — mutation-event audit log
 }
 
 EXPECTED_VIEWS = {
