@@ -466,7 +466,7 @@ def test_absolute_expired_session_returns_401_and_clears_cookies(
     assert resp.status_code == 401
 
 
-def test_disabled_operator_session_returns_401_and_clears_cookies(
+def test_disabled_operator_session_returns_401_clears_cookies_and_writes_audit(
     client: TestClient,
     console_db_path: str,
     seeded_session: tuple[str, str, int],
@@ -474,13 +474,14 @@ def test_disabled_operator_session_returns_401_and_clears_cookies(
     """Disabling the operator mid-session invalidates live sessions
     immediately — slice 3a's SELECT filters on ``disabled_at IS NULL``.
 
-    Note (Federico's call (b), 2026-04-28): the
-    ``auth.session_rejected_disabled`` audit row from spec §8.2 is
-    DEFERRED to slice 3e where the audit-row plumbing is the slice's
-    focus. This test locks in the 401 + clear-cookie contract only;
-    the audit-row assertion will land in 3e's test file.
-    """
-    plaintext, _csrf, _sid = seeded_session
+    Slice 3e item F: in addition to the 401 + clear-cookie contract,
+    the middleware writes an ``auth.session_rejected_disabled`` row
+    to ``console.audit_log`` with the operator/session pair so a
+    later forensic review can spot disabled-operator session-reuse
+    attempts. Other miss reasons (revoked / idle-expired / absolute-
+    expired) DO NOT write this row — see the negative-control tests
+    below."""
+    plaintext, _csrf, sid = seeded_session
     conn = get_console_conn(console_db_path)
     conn.execute(
         "UPDATE operators SET disabled_at = ? WHERE id = 1",
@@ -496,6 +497,70 @@ def test_disabled_operator_session_returns_401_and_clears_cookies(
     joined = " | ".join(resp.headers.get_list("set-cookie"))
     assert "heimdall_session=" in joined
     assert "heimdall_csrf=" in joined
+
+    conn = get_console_conn(console_db_path)
+    rows = conn.execute(
+        "SELECT operator_id, session_id, target_type, target_id "
+        "FROM audit_log WHERE action = 'auth.session_rejected_disabled'"
+    ).fetchall()
+    conn.close()
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["operator_id"] == 1
+    assert row["session_id"] == sid
+    assert row["target_type"] == "session"
+    assert row["target_id"] == str(sid)
+
+
+def test_revoked_session_does_not_write_disabled_audit_row(
+    client: TestClient,
+    console_db_path: str,
+    seeded_session: tuple[str, str, int],
+) -> None:
+    """Negative control for item F: a revoked session is rejected by
+    the middleware but does NOT trigger the disabled-operator probe
+    insert (the row records "operator was disabled mid-session", not
+    "any rejection")."""
+    plaintext, _csrf, _sid = seeded_session
+    _set_session_field(console_db_path, plaintext, revoked_at=_iso_offset(0))
+
+    resp = client.get(
+        "/console/dashboard", cookies={"heimdall_session": plaintext}
+    )
+    assert resp.status_code == 401
+
+    conn = get_console_conn(console_db_path)
+    count = conn.execute(
+        "SELECT COUNT(*) FROM audit_log "
+        "WHERE action = 'auth.session_rejected_disabled'"
+    ).fetchone()[0]
+    conn.close()
+    assert count == 0
+
+
+def test_idle_expired_session_does_not_write_disabled_audit_row(
+    client: TestClient,
+    console_db_path: str,
+    seeded_session: tuple[str, str, int],
+) -> None:
+    """Negative control for item F: idle-expired sessions stay
+    silent — the only state we audit is "session active, operator
+    disabled"."""
+    plaintext, _csrf, _sid = seeded_session
+    _set_session_field(console_db_path, plaintext, expires_at=_iso_offset(-1))
+
+    resp = client.get(
+        "/console/dashboard", cookies={"heimdall_session": plaintext}
+    )
+    assert resp.status_code == 401
+
+    conn = get_console_conn(console_db_path)
+    count = conn.execute(
+        "SELECT COUNT(*) FROM audit_log "
+        "WHERE action = 'auth.session_rejected_disabled'"
+    ).fetchone()[0]
+    conn.close()
+    assert count == 0
 
 
 # ---------------------------------------------------------------------------

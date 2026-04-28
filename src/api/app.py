@@ -37,6 +37,7 @@ from src.interpreter.interpreter import InterpreterError, interpret_brief
 
 from .console import router as console_router
 from .result_store import ResultStore
+from .routers.auth import router as auth_router
 from .signup import router as signup_router
 
 # Path parameter validation — rejects path traversal attempts
@@ -440,7 +441,14 @@ def create_app(
         app.add_middleware(BasicAuthMiddleware,
                            username=console_user, password=console_password)
 
-    # Console router + static PWA files
+    # Console router + static PWA files. The new ``auth`` router lives
+    # alongside the legacy ``console_router`` until slice 3f does the
+    # ``LegacyBasicAuthMiddleware`` rename + ``SessionAuthMiddleware``
+    # mount; until then the new endpoints are reachable but not used
+    # by the SPA. The new auth paths
+    # (``/console/auth/{login,logout,whoami}``) do NOT collide with
+    # any existing console_router path.
+    app.include_router(auth_router)
     app.include_router(console_router)
     app.include_router(signup_router)
     static_dir = Path(__file__).parent / "static"
