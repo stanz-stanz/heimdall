@@ -7,11 +7,14 @@
 # ---------------------------------------------------------------------------
 # Stage 1: Build Go CLI tools
 # ---------------------------------------------------------------------------
-FROM golang:1.24-alpine AS go-builder
+FROM golang:1.25-alpine AS go-builder
 
 RUN apk add --no-cache git ca-certificates
 
-ENV GOTOOLCHAIN=auto
+# Keep the builder toolchain explicit. If a pinned dependency starts
+# requiring a newer Go release, fail here and update the base image
+# deliberately instead of downloading a different toolchain at build time.
+ENV GOTOOLCHAIN=local
 
 # Install Go CLI tools one at a time (easier to debug failures).
 RUN mkdir -p /go/tools

@@ -1,0 +1,75 @@
+name: docker-smoke
+
+# Pre-merge smoke build for all 5 service images. Catches Dockerfile and
+# .dockerignore regressions at PR time, before they break the post-merge
+# publish-images run.
+#
+# Background: 2026-04-29 — PR #51 merged with `console-db-schema.sql` not
+# allowlisted in `.dockerignore`. Local Dockerfile builds passed (working
+# tree had the file); CI's clean checkout + .dockerignore filter stripped
+# it from the build context, and `publish-images` failed at buildx for
+# `api` only. Result: missing `heimdall-api:main` rollback tag on GHCR
+# until hotfix `a3b97a0`. This workflow exists to catch that class of
+# regression before the merge button gets pushed.
+#
+# Scope decisions:
+#   - All 5 services (api, delivery, scheduler, worker, twin) — the
+#     regression class is service-agnostic; `api` was just the symptom.
+#   - linux/amd64 only — missing-files / bad-COPY / dockerignore-gap
+#     bugs are platform-agnostic. arm64 via QEMU is ~5x slower and
+#     stays in `publish-images.yml` on main.
+#   - Path filter covers every COPY source across the 5 Dockerfiles
+#     plus the build-config files themselves. PRs that don't touch any
+#     of these paths skip this workflow entirely (signup-only / docs-only
+#     PRs don't pay the CI minutes).
+#   - PR-only trigger — `publish-images.yml` already covers post-merge
+#     on main. Running smoke-build on main pushes would be pure
+#     redundancy.
+#   - Separate GHA cache scope (`smoke-<service>`) so PR builds don't
+#     pollute the production `publish-images` cache, and vice-versa.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'infra/compose/**'
+      - '.dockerignore'
+      - 'requirements.txt'
+      - 'src/**'
+      - 'config/**'
+      - 'scripts/**'
+      - 'tools/**'
+      - '.claude/agents/**'
+      - 'docs/architecture/client-db-schema.sql'
+      - 'docs/architecture/console-db-schema.sql'
+      # Self-reference so this workflow's own creation/edits exercise the
+      # smoke build. Narrow on purpose — `.github/workflows/**` would fire
+      # on every unrelated workflow edit (ci.yml, publish-images.yml, etc.)
+      # which adds noise without catching a real regression class.
+      - '.github/workflows/docker-smoke.yml'
+
+jobs:
+  smoke-build:
+    runs-on: ubuntu-latest
+    strategy:
+      # Parallelise. If one fails, others continue so we can tell whether
+      # the regression is service-specific or systemic.
+      fail-fast: false
+      matrix:
+        service: [api, delivery, scheduler, worker, twin]
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Smoke-build ${{ matrix.service }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: infra/compose/Dockerfile.${{ matrix.service }}
+          platforms: linux/amd64
+          push: false
+          load: false
+          cache-from: type=gha,scope=smoke-${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=smoke-${{ matrix.service }}
