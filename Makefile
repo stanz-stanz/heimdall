@@ -325,3 +325,22 @@ prod-render: ## Print the full prod compose render to stdout (never deploys).
 .PHONY: dev-render
 dev-render: ## Print the full dev compose render to stdout.
 	@$(DC_DEV) config
+
+# --- Docker CI helpers --------------------------------------------------
+
+.PHONY: image-smoke
+image-smoke: ## Build one service image locally like PR Docker smoke. Usage: make image-smoke SERVICE=api [PLATFORM=linux/amd64]
+	@service="$(SERVICE)"; \
+	if [ -z "$$service" ]; then \
+		echo "error: SERVICE is required, e.g. make image-smoke SERVICE=api"; \
+		exit 1; \
+	fi; \
+	bash scripts/ci/build_service_image.sh "$$service" "$(or $(PLATFORM),linux/amd64)"
+
+.PHONY: image-smoke-all
+image-smoke-all: ## Build all 5 service images locally like PR Docker smoke.
+	@bash scripts/ci/check_docker_contexts.sh
+
+.PHONY: image-context-check
+image-context-check: ## Alias for image-smoke-all; keeps the regression class explicit.
+	@bash scripts/ci/check_docker_contexts.sh
