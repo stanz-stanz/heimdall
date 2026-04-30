@@ -6,8 +6,15 @@
 
 # ---------------------------------------------------------------------------
 # Stage 1: Build Go CLI tools
+# Builder runs natively on $BUILDPLATFORM, cross-compiles to $TARGETPLATFORM
+# (avoids QEMU emulation of the Go compiler). cgo off — alpine has no cross
+# C toolchain and all 5 tools are pure-Go.
 # ---------------------------------------------------------------------------
-FROM golang:1.25-alpine AS go-builder
+FROM --platform=$BUILDPLATFORM golang:1.25-alpine AS go-builder
+
+# Auto-supplied by buildx; declared so they're visible inside RUN.
+ARG TARGETOS
+ARG TARGETARCH
 
 RUN apk add --no-cache git ca-certificates
 
@@ -15,15 +22,27 @@ RUN apk add --no-cache git ca-certificates
 # requiring a newer Go release, fail here and update the base image
 # deliberately instead of downloading a different toolchain at build time.
 ENV GOTOOLCHAIN=local
+ENV CGO_ENABLED=0
 
 # Install Go CLI tools one at a time (easier to debug failures).
+# GOBIN is intentionally unset: `go install` refuses GOBIN when GOARCH
+# differs from the host, so cross-compiled binaries land at
+# /go/bin/${TARGETOS}_${TARGETARCH}/ and same-platform builds at /go/bin/.
+# A single mv sweep below normalises both modes into /go/tools/.
 RUN mkdir -p /go/tools
 # Pinned versions — update deliberately, not silently via @latest
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/httpx/cmd/httpx@v1.9.0
-RUN GOBIN=/go/tools go install github.com/rverton/webanalyze/cmd/webanalyze@v0.4.1
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.13.0
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/dnsx/cmd/dnsx@v1.2.3
-RUN GOBIN=/go/tools go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@v3.7.1
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go install github.com/projectdiscovery/httpx/cmd/httpx@v1.9.0
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go install github.com/rverton/webanalyze/cmd/webanalyze@v0.4.1
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.13.0
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go install github.com/projectdiscovery/dnsx/cmd/dnsx@v1.2.3
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@v3.7.1
+
+# Normalise output dir across cross-compile / native-compile modes.
+RUN if [ -d "/go/bin/${TARGETOS}_${TARGETARCH}" ]; then \
+        mv /go/bin/${TARGETOS}_${TARGETARCH}/* /go/tools/; \
+    else \
+        mv /go/bin/* /go/tools/; \
+    fi
 
 # ---------------------------------------------------------------------------
 # Stage 2: Runtime image
