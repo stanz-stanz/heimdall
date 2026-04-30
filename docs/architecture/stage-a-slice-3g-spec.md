@@ -360,6 +360,30 @@ Out of scope for this slice; flagged here for visibility.
 
 The implementation PR's only obligation here is a verification grep at the start of work to confirm the constant hasn't drifted. If it has, the PR restores the tuple. `tests/test_session_auth.py::test_app_prefix_protected` continues to assert 401 on `/app/` regardless, so any regression on the constant fails CI before merge.
 
+### 6.1 Postscript — SPA bypass added in PR #54 (2026-04-30)
+
+§6 above stands as locked rationale-of-record. Browser smoke testing after slice 3g + 3g.5 merged surfaced the chicken-and-egg gap that §6 (and master spec §8.2 `/app/...` test bullet) missed: `SessionAuthMiddleware` 401s `/app/*` for unauth users, but the SPA bundle is the surface that drives auth state via `whoami` (204 / 409 / 401 / 200). Gating the bundle itself means an unauth user can never reach BootstrapEmpty / Login / AllDisabled.
+
+PR #54 (`9b5e443`) added a method-restricted, path-restricted SPA bypass on top of `_PROTECTED_PREFIXES`:
+
+- `_SPA_SHELL_PATHS = {"/app", "/app/", "/app/index.html"}` — exact-match SPA shell entry points.
+- `_SPA_ASSET_PREFIXES = ("/app/assets/",)` — vite-emitted asset directory.
+- `_SPA_BYPASS_METHODS = frozenset({"GET", "HEAD"})` — read-only methods only.
+
+`_is_spa_public_asset(path)` matches the union and explicitly excludes `/app/api/*` / `/app/ws/*`. The middleware short-circuits to pass-through inside the protected prefix only when both predicates (path + method) match. Mutating methods on the same paths still require auth.
+
+`tests/test_session_auth.py::test_app_prefix_protected` URL changed from `/app/` to `/app/whatever-else` post-bypass; 8 new tests in `tests/test_auth_middleware.py` cover the bypass + cross-prefix exclusion. Production smoke on `heimdall-api:0a8a9ca-dirty` confirmed all 11 expected URLs match (5 bypass-200, 5 gated-401, 1 redirect-307).
+
+This postscript exists so a reader landing on §6 from a search hit knows the constants in `_PROTECTED_PREFIXES` are authoritative AND insufficient — both gates fire. Master spec §8.2 test enumeration (`/app/...` bullet) is reconciled in the same doc-PR.
+
+### 6.2 Locked-spec passages superseded by PR #54
+
+Three passages elsewhere in this LOCKED spec pre-date PR #54 and must be read with §6.1 in mind. The original prose is preserved per the LOCKED-preservation pattern; the bullets below are the corrected reading. References use section anchors rather than line numbers so the pointer survives subsequent appends.
+
+- **§5.2 — `tests/test_session_auth.py` "unchanged" claim.** The bullet describes `test_app_prefix_protected` as unchanged. PR #54 moved the asserted URL from `/app/` to `/app/whatever-else` so the 401 assertion still holds against a non-bypass path. The test still gates against any regression on `_PROTECTED_PREFIXES`; only the asserted URL moved off the bypass set.
+- **§6 — verification step.** "Continues to assert 401 on `/app/` regardless." Post-#54, that exact URL bypasses the middleware on GET/HEAD; the test asserts 401 on `/app/whatever-else` instead. Regression coverage on the prefix constant is unchanged.
+- **§9.1 — `Lever 1 — git revert` procedure.** The procedure describes a single-commit revert (`git revert <slice-3g-merge-sha>`) restoring slice 3f's posture with `/app/*` returning a static 401 to anonymous browsers. Post-#54, the revert chain is two commits, ordered: revert `9b5e443` (PR #54) **first**, then `ee8662d` (slice 3g). PR #54's `_SPA_*` additions sit inside `src/api/auth/middleware.py` whose creation/structure was introduced by slice 3g; reverting slice 3g first leaves PR #54's modifications hanging on a file the revert is trying to delete, and `git apply -R` does not produce a clean tree. After both reverts, the posture matches slice 3f (no `_SPA_*` constants, `/app/*` fully gated). Recovery time is still ~5 min; the chain is two commits.
+
 ---
 
 ## 7. Decisions (locked)

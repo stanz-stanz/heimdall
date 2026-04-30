@@ -1355,7 +1355,8 @@ Grep continuity is treated as a documentation problem (this paragraph + the deci
 - Valid cookie + expired session → 401 + clear-cookie.
 - Valid cookie + disabled operator → 401 + clear-cookie + audit row written (`auth.session_rejected_disabled`).
 - `/health` and `/results/...` still no auth.
-- `/app/...` requires auth (parity with today).
+- `/app/api/*` and `/app/ws/*` require auth on all methods.
+- `/app`, `/app/`, `/app/index.html`, and `/app/assets/*` bypass middleware on `GET`/`HEAD` only — the SPA shell + vite-emitted assets must load for unauth bootstrap (BootstrapEmpty / Login / AllDisabled splashes; PR #54 `9b5e443`). `_is_spa_public_asset` excludes `/app/api/*` and `/app/ws/*` for cross-prefix safety; mutating methods (POST/PUT/PATCH/DELETE) on bypass paths still require auth.
 - `/signup/...` no auth (signup is unauthenticated).
 - POST without `X-CSRF-Token` → 403.
 - POST with wrong `X-CSRF-Token` → 403 (no session revoke).
@@ -1457,7 +1458,7 @@ Stage A is a structural change; "undo" is not as simple as reverting a feature f
 
 ### 9.1 Lever 1 — keep Basic Auth path live behind an env flag (one release)
 
-> **Retired in slice 3g (f) per spec §7.10 Option B.** The `HEIMDALL_LEGACY_BASIC_AUTH` env-flag lever was deleted along with `LegacyBasicAuthMiddleware`; the single recovery path is now `git revert <slice-3g-merge-sha>` → `heimdall-deploy` (~5 min). The §9.1 / §9.1a prose below is preserved as the rationale-of-record for pre-slice-3g releases. §9.2 (operator password reset) is unaffected.
+> **Retired in slice 3g (f) per spec §7.10 Option B.** The `HEIMDALL_LEGACY_BASIC_AUTH` env-flag lever was deleted along with `LegacyBasicAuthMiddleware`; the recovery path is now an ordered two-commit revert: `git revert 9b5e443` (PR #54 SPA bypass) **first**, then `git revert <slice-3g-merge-sha>` → `heimdall-deploy` (~5 min). PR #54 came after slice 3g and modified the same `middleware.py`; reverting in the opposite order leaves PR #54's hunks hanging on a deleted file. The §9.1 / §9.1a prose below is preserved as the rationale-of-record for pre-slice-3g releases. §9.2 (operator password reset) is unaffected.
 
 The Stage A PR does NOT delete `BasicAuthMiddleware`. It renames it to `LegacyBasicAuthMiddleware` and gates its inclusion on `os.environ.get("HEIMDALL_LEGACY_BASIC_AUTH", "0") == "1"`. When the flag is set, the legacy middleware runs INSTEAD of `SessionAuthMiddleware`; the new `console.db` is still created (idempotent) but the runtime path is the old one. The `console-data` volume can stay mounted on the api container during the rollback — the flag short-circuits any read/write against it.
 
@@ -1469,7 +1470,7 @@ Rollback in prod (operator session corruption, auth lockout, or unforeseen middl
 
 This takes ~30s. Federico keeps `console_password` mounted regardless; the legacy middleware reads it when the flag is set. The `console-data` volume contents are preserved (so re-enabling Stage A later is a single env-flag flip back).
 
-The flag is removed in the release after Stage A ships in prod.
+**Historic note (pre-slice-3g).** The flag was originally scheduled for removal in the release after Stage A shipped in prod. Slice 3g (f) retired both the flag and `LegacyBasicAuthMiddleware` ahead of that target — see the §9.1 callout above. The recovery path is now an ordered two-commit revert chain: `git revert 9b5e443` (PR #54 SPA bypass) **first**, then `git revert <slice-3g-merge-sha>` → `heimdall-deploy` (~5 min). PR #54's `_SPA_*` additions live inside `src/api/auth/middleware.py` which slice 3g introduced; reverting slice 3g first leaves PR #54's hunks hanging on a deleted file. No env-flip lever remains.
 
 ### 9.1a Lever 1b — `console.db` corruption-only rollback
 
