@@ -105,6 +105,32 @@ _AUTH_BYPASS_PATHS = frozenset(
     }
 )
 
+# SPA shell + asset bypass (slice 3g/3g.5). The operator-console SPA is
+# the surface that DRIVES auth state: it boots, calls
+# ``/console/auth/whoami``, and renders BootstrapEmpty / Login /
+# AllDisabled splashes based on 204/409/401/200. Gating the bundle
+# itself behind auth is a chicken-and-egg trap — the user can never
+# reach the login form because the form is in the bundle. Bypass
+# exactly the shell URLs Starlette's StaticFiles(html=True) serves
+# (``/app`` redirect, ``/app/`` index, ``/app/index.html``) plus the
+# vite-emitted asset directory ``/app/assets/`` (one prefix; bundle
+# filenames are content-hashed). Every other ``/app/*`` path stays
+# gated to defend against future drift — e.g. an /app/api/* leak.
+_SPA_SHELL_PATHS = frozenset(
+    {
+        "/app",
+        "/app/",
+        "/app/index.html",
+    }
+)
+_SPA_ASSET_PREFIXES = ("/app/assets/",)
+
+# Only safe methods get the SPA bypass. StaticFiles itself only
+# answers GET/HEAD, but pinning the bypass to read-only methods
+# guarantees POST/PUT/PATCH/DELETE under ``/app/*`` cannot smuggle
+# past auth even if a future router accidentally registers one.
+_SPA_BYPASS_METHODS = frozenset({"GET", "HEAD"})
+
 # State-changing methods require a matching ``X-CSRF-Token`` header
 # (§4.4). Safe methods (GET/HEAD/OPTIONS) skip the CSRF check — the
 # threat model only covers requests that mutate server state.
@@ -153,6 +179,12 @@ class SessionAuthMiddleware:
 
         # Auth-bypass exact paths inside the protected prefix.
         if path in _AUTH_BYPASS_PATHS:
+            await self.app(scope, receive, send)
+            return
+
+        # SPA shell + assets bypass (slice 3g.5). Read-only methods only.
+        method = scope.get("method", "").upper()
+        if method in _SPA_BYPASS_METHODS and _is_spa_public_asset(path):
             await self.app(scope, receive, send)
             return
 
@@ -236,6 +268,18 @@ def _is_protected(path: str) -> bool:
         if path == prefix or path.startswith(prefix + "/"):
             return True
     return False
+
+
+def _is_spa_public_asset(path: str) -> bool:
+    """Match the SPA shell HTML and the vite-emitted asset directory.
+
+    Distinct from ``_AUTH_BYPASS_PATHS`` (exact-match only) because
+    asset filenames are content-hashed by vite and change per build.
+    Kept as a tight prefix list — generic ``startswith('/app/')`` would
+    re-open the gate this middleware exists to enforce."""
+    if path in _SPA_SHELL_PATHS:
+        return True
+    return any(path.startswith(prefix) for prefix in _SPA_ASSET_PREFIXES)
 
 
 def _csrf_ok(request: Request, expected_csrf: str) -> bool:
