@@ -122,11 +122,14 @@ def test_invalid_cookie_rejected_and_cleared(
 
 
 def test_app_prefix_protected(unauthed_client: TestClient) -> None:
-    """``/app/*`` (the SPA shell) is protected, parity with today's
-    legacy Basic Auth scope. Slice 3f keeps the originally-spec'd §5.6
-    posture; the SPA login slice + handler-level WS auth ship together
-    in the next slice and only then does the SPA actually load."""
-    resp = unauthed_client.get("/app/")
+    """``/app/*`` is gated EXCEPT the SPA shell + assets bypass slice
+    3g.5 introduced (``/app``, ``/app/``, ``/app/index.html``,
+    ``/app/assets/*`` for GET/HEAD). Everything else under ``/app/``
+    stays protected — regression coverage for that posture lives in
+    ``tests/test_auth_middleware.py`` (`test_app_other_path_still_
+    requires_auth`); this test pins the integration-level wiring with
+    a path that's outside the bypass list."""
+    resp = unauthed_client.get("/app/whatever-else")
     assert resp.status_code == 401
 
 
