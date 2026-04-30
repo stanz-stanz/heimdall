@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-04-27T19:45:00Z",
-  "phase": "PR #46 + PR #47 both merged 2026-04-27 (16:09 UTC and 17:30 UTC). Operator-console bounded-context reframe complete — all four open decisions resolved evening of 2026-04-27: Notifications becomes 7th context; `config_changes` uses DB triggers for capture + repository wrappers for validation/intent/actor; RBAC v1 ships as `Permission` enum + `require_permission` decorator (table-backed RBAC deferred until >2 roles); three-sprint sequence locked (Stage A identity/auth/session/router carve → Stage A.5 control-plane guarantees → V2 onboarding feature). Next active work: (1) DRYRUN-CONSOLE seed plan resurface for sign-off, (2) Stage A foundation begins on a fresh branch off `main`. Anthropic feedback issue #53958 filed re: Codex iteration antipattern.",
+  "last_updated": "2026-04-30T20:30:00Z",
+  "phase": "Stage A auth-plane bundle merged 2026-04-29 (PR #51 / `ee8662d`) — slices 1 through 3g.5. Post-merge dockerignore hotfix `a3b97a0` closed the `console-db-schema.sql` allowlist gap. 2026-04-30 session shipped four follow-up PRs: #52 (CI action bumps Node 20→24 + new `docker-smoke.yml` pre-merge gate + `scripts/ci/check_run_annotations.sh` reusable annotation checker), #53 (Worker QEMU Priority 1: $BUILDPLATFORM cross-compile in `go-builder`, dropped cold-cache `publish-images` worker time from 56 min to 8 min), #54 (slice 3g/3g.5 SPA-bypass chicken-and-egg fix — `SessionAuthMiddleware` was 401-ing the SPA bundle for unauth users, blocking BootstrapEmpty/Login/AllDisabled splashes; Codex confirmed real bug, Option A conservative bypass shipped), #55 in flight (`HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD`/`_WINDOW_SEC` env-overrides for dev-QA ergonomics). Next critical-path: (1) merge PR #55, (2) browser-QA the slice 3g/3g.5 walkthrough at http://localhost:8001/app/, (3) Pi5 cutover for the auth plane (fast-forward prod → push prod → SSH Pi5 → `heimdall-deploy`), (4) Stage A.5 sprint (Permission enum + require_permission decorator + X-Request-ID middleware + command_audit + config_changes triggers + /console/config/history). Worker QEMU Priorities 2 (stable runtime base image) and 3 (native arm64 runner) deferred — locked priority order at `~/.claude/projects/.../memory/project_worker_qemu_priorities.md`.",
   "current_sprint": {
     "name": "Sentinel Onboarding — End-to-End",
     "started": "2026-04-23",
@@ -130,8 +130,8 @@
     "briefs_generated": 1173,
     "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
   },
-  "test_count": 1345,
-  "test_count_notes": "1345 unit tests (+27 from PR #47 dev fixture seeders, +117 from PR #46 console queries since 2026-04-25 baseline of 1201). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
+  "test_count": 1490,
+  "test_count_notes": "1490 unit tests (+145 since 2026-04-27 baseline of 1345). Adds: PR #51 slice 3g/3g.5 auth tests; PR #54 SPA bypass middleware (8 new) + test_session_auth.py URL fixup; PR #55 rate-limit env-override helper (5 new). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
   "blockers": [
     {
       "id": "B1",
@@ -149,12 +149,15 @@
     }
   ],
   "next_actions": [
+    "Merge PR #55 (`chore/auth-rate-limit-env-overrides`) once docker-smoke + CI land green. Unblocks the slice 3g/3g.5 manual walkthrough by allowing `HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD=2 HEIMDALL_AUTH_RATE_LIMIT_WINDOW_SEC=10` so the rate-limit step takes 10s instead of 15 min.",
+    "Browser-QA the slice 3g/3g.5 SPA against `make dev-up` per PR #51's test plan: empty `console.db` → BootstrapEmpty splash; seed operator → Login → submit good creds → Dashboard with display_name + WS connected; submit bad creds → invalid_credentials error; submit until rate-limited → countdown; click 'Log out' → returns to Login. DevTools-confirm `/console/ws` rejects unauthenticated WS upgrades with code 4401. Dev stack is up at http://localhost:8001/app/ (admin / devpassword).",
+    "Pi5 cutover for the auth-plane bundle (PR #51 / `ee8662d`) — gated on browser-QA above. Sequence: `git checkout prod && git merge --ff-only main && HEIMDALL_APPROVED=1 git push origin prod` → SSH Pi5 → `heimdall-deploy`. First Pi5 deploy of slice 3g + 3g.5 is the auth-plane production cutover.",
+    "Stage A.5 — control-plane guarantees per D2-D3-D4: `command_audit` table + `config_changes` table + DB triggers on config-affecting tables (D2) + `Permission` enum in `src/api/auth/permissions.py` + `require_permission` decorator (D3) + X-Request-ID middleware + trace_id propagation through loguru + `GET /console/config/history` git-shelling endpoint. Lands AFTER Pi5 cutover, BEFORE V2.",
+    "Spec correction: reconcile slice 3g spec §357 + implementation-spec §1358 (`/app/*` protected) with §69 + §101 (whoami drives unauth UI on mount). PR #54 fixed the implementation; the spec text still reads as if `/app/*` is fully gated. Worth a follow-up doc-only PR to mark the bypass list as authoritative.",
     "Resurface DRYRUN-CONSOLE seed plan for V1+V6 confirm modals (paused 2026-04-26, never approved). Plan covers synthetic clients + retention_jobs in the dev `clients.db` so the V1 (Trial expiring) and V6 (Retention queue) tabs in `main` actually render data in DEV — required to exercise the V6 confirm modals (Force run / Cancel / Retry). Independent of Stage A; can ship in parallel as a small infra PR.",
-    "Begin Stage A foundation on a fresh branch off `main` — `operators` table, `sessions` table, `audit_log` table, password auth (replacing CONSOLE_PASSWORD Basic Auth), session ticket, WebSocket auth gate, per-context router carve under `src/api/routers/{tenant,findings,onboarding,billing,retention,liveops,notifications}.py`. Browser-walkable as soon as auth + WS gate land.",
-    "Stage A.5 — control-plane guarantees per D2-D3-D4: `command_audit` table + `config_changes` table + DB triggers on config-affecting tables (D2) + `Permission` enum in `src/api/auth/permissions.py` + `require_permission` decorator (D3) + X-Request-ID middleware + trace_id propagation through loguru + `GET /console/config/history` git-shelling endpoint. Lands AFTER Stage A, BEFORE V2.",
     "Browser-eyeball QA the SvelteKit slice-1 magic-link landing — `make signup-issue-token` + `make signup-dev`, walk the /signup/start?t=… flow in a real browser (token strip, Telegram CTA, QR, EN/DA copy). Pre-existing carry-over.",
     "Pick MitID Erhverv broker (Idura / Criipto / Signicat) — sandboxes all free, unblocks dev during SIRI wait",
-    "Signup site slice 2 (consent capture + scope picker + payment-mandate handoff) — sequence depends on operator-console reframe decision (5): if Stage A.5 is its own sprint, slice 2 can ship in parallel; if folded into V2, slice 2 waits.",
+    "Signup site slice 2 (consent capture + scope picker + payment-mandate handoff) — sequence depends on Stage A.5 timing.",
     "Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent), wire it",
     "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md (also carries the 5y vs 10y consent_records retention question — depends on whether §263 stk. 3 aggravated limitation applies)",
     "SIRI video pitch script (still unwritten — blocks SIRI decision)",
