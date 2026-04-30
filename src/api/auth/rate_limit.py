@@ -26,18 +26,49 @@ choice is recorded here so a future change cannot silently flip it.
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
 from loguru import logger
 
 
 # ---------------------------------------------------------------------------
-# Constants — wire contract (do not change without spec amendment)
+# Constants — wire contract (do not change defaults without spec amendment)
 # ---------------------------------------------------------------------------
+#
+# ``THRESHOLD`` and ``WINDOW_SEC`` accept env-var overrides so dev/test
+# can dial down the lockout window without sitting through 15 minutes
+# during a manual-QA walkthrough. Production is expected to leave both
+# unset; any non-default value is opt-in. Invalid / sub-1 values fall
+# back to the spec default — the limiter must never run with a zero or
+# negative threshold/window.
 
 KEY_PREFIX = "auth:fail:"
-THRESHOLD = 5
-WINDOW_SEC = 900  # 15 minutes
+_THRESHOLD_DEFAULT = 5
+_WINDOW_SEC_DEFAULT = 900  # 15 minutes
+
+
+def _env_int_or_default(name: str, default: int) -> int:
+    """Read an int env var, fall back to ``default`` on missing /
+    empty / non-int / sub-1 values. Sub-1 is rejected because a
+    threshold/window of 0 would brick the limiter (every request
+    blocked or every request let through, depending on which it is)."""
+    raw = os.environ.get(name, "").strip()
+    if not raw:
+        return default
+    try:
+        value = int(raw)
+    except ValueError:
+        return default
+    return value if value >= 1 else default
+
+
+THRESHOLD = _env_int_or_default(
+    "HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD", _THRESHOLD_DEFAULT
+)
+WINDOW_SEC = _env_int_or_default(
+    "HEIMDALL_AUTH_RATE_LIMIT_WINDOW_SEC", _WINDOW_SEC_DEFAULT
+)
 
 
 # ---------------------------------------------------------------------------
