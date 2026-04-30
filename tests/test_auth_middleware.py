@@ -174,6 +174,30 @@ def _build_app(console_db_path: str) -> FastAPI:
     async def spa() -> dict[str, str]:
         return {"spa": "ok"}
 
+    @app.get("/app")
+    async def app_root() -> dict[str, str]:
+        return {"spa_shell": "root"}
+
+    @app.get("/app/")
+    async def app_root_slash() -> dict[str, str]:
+        return {"spa_shell": "root_slash"}
+
+    @app.get("/app/index.html")
+    async def app_index_html() -> dict[str, str]:
+        return {"spa_shell": "index"}
+
+    @app.get("/app/assets/{filename:path}")
+    async def app_assets(filename: str) -> dict[str, str]:
+        return {"asset": filename}
+
+    @app.post("/app/index.html")
+    async def app_index_html_post() -> dict[str, str]:  # pragma: no cover
+        return {"spa_shell": "post_should_not_reach"}
+
+    @app.get("/app/whatever-else")
+    async def app_other() -> dict[str, str]:  # pragma: no cover
+        return {"reached": "should_not"}
+
     @app.get("/health")
     async def health() -> dict[str, str]:
         return {"status": "ok"}
@@ -266,6 +290,73 @@ def test_console_without_cookie_does_not_set_clear_cookies(
 def test_app_prefix_requires_auth(client: TestClient) -> None:
     """Parity with today's BasicAuthMiddleware: ``/app`` is protected."""
     resp = client.get("/app/spa")
+    assert resp.status_code == 401
+
+
+# ---------------------------------------------------------------------------
+# SPA shell + assets bypass (slice 3g/3g.5)
+# ---------------------------------------------------------------------------
+
+
+def test_spa_root_no_slash_bypasses_auth(client: TestClient) -> None:
+    """``GET /app`` is StaticFiles' redirect-to-/app/ entrypoint and must
+    reach the inner app without a session cookie. The SPA bundle is what
+    DRIVES auth state via ``/console/auth/whoami`` — gating the bundle
+    itself is the chicken-and-egg bug slice 3g.5 exists to fix."""
+    resp = client.get("/app")
+    assert resp.status_code == 200
+    assert resp.json() == {"spa_shell": "root"}
+
+
+def test_spa_root_slash_bypasses_auth(client: TestClient) -> None:
+    """``GET /app/`` is what StaticFiles(html=True) serves the index for."""
+    resp = client.get("/app/")
+    assert resp.status_code == 200
+    assert resp.json() == {"spa_shell": "root_slash"}
+
+
+def test_spa_index_html_bypasses_auth(client: TestClient) -> None:
+    resp = client.get("/app/index.html")
+    assert resp.status_code == 200
+    assert resp.json() == {"spa_shell": "index"}
+
+
+def test_spa_known_asset_filename_bypasses_auth(client: TestClient) -> None:
+    """Real vite-emitted asset filename from a current build."""
+    resp = client.get("/app/assets/index-LQ5IcGwD.js")
+    assert resp.status_code == 200
+    assert resp.json() == {"asset": "index-LQ5IcGwD.js"}
+
+
+def test_spa_arbitrary_asset_name_bypasses_auth(client: TestClient) -> None:
+    """Hashed bundle names change per vite build — the bypass is by
+    prefix (``/app/assets/``), not by exact filename."""
+    resp = client.get("/app/assets/index-anyHash1234.css")
+    assert resp.status_code == 200
+    assert resp.json() == {"asset": "index-anyHash1234.css"}
+
+
+def test_app_other_path_still_requires_auth(client: TestClient) -> None:
+    """Bypass is conservative: only the listed shell paths and the
+    ``/app/assets/`` prefix. Everything else under ``/app/*`` stays
+    gated so a future ``/app/api/secret`` route can't accidentally leak."""
+    resp = client.get("/app/whatever-else")
+    assert resp.status_code == 401
+
+
+def test_spa_bypass_does_not_relax_post(client: TestClient) -> None:
+    """The bypass is GET/HEAD only — state-changing methods on the same
+    URLs must still 401. StaticFiles only answers safe methods anyway,
+    but pinning method-restriction here defends against a future router
+    that accidentally registers a POST handler under the same path."""
+    resp = client.post("/app/index.html")
+    assert resp.status_code == 401
+
+
+def test_console_path_not_widened_by_spa_bypass(client: TestClient) -> None:
+    """Regression: the SPA bypass must not affect ``/console/*``. A
+    cookie-less GET to a non-whitelisted ``/console`` path stays 401."""
+    resp = client.get("/console/dashboard")
     assert resp.status_code == 401
 
 
