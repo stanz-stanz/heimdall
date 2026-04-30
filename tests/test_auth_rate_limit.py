@@ -58,10 +58,69 @@ def redis() -> fakeredis.FakeStrictRedis:
 
 
 def test_constants_match_spec() -> None:
-    """Spec §3.1.a: 5 fails, 15-min window, exact key prefix."""
+    """Spec §3.1.a: 5 fails, 15-min window, exact key prefix.
+
+    Env-overridable since the dev-QA-knobs change — but with no env
+    var set (the production case), the wire-contract defaults must
+    still be what the module exposes.
+    """
     assert KEY_PREFIX == "auth:fail:"
     assert THRESHOLD == 5
     assert WINDOW_SEC == 900
+
+
+# ---------------------------------------------------------------------------
+# Env-var override helper — _env_int_or_default
+# ---------------------------------------------------------------------------
+
+
+def test_env_int_or_default_returns_default_when_unset(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv("HEIMDALL_TEST_KNOB", raising=False)
+    assert rate_limit._env_int_or_default("HEIMDALL_TEST_KNOB", 5) == 5
+
+
+def test_env_int_or_default_returns_default_when_empty(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Empty string and whitespace-only values count as unset — they
+    are common shell-misconfiguration shapes (``FOO=`` in a ``.env``
+    file, or trailing-space values from a copy-paste)."""
+    monkeypatch.setenv("HEIMDALL_TEST_KNOB", "")
+    assert rate_limit._env_int_or_default("HEIMDALL_TEST_KNOB", 5) == 5
+
+    monkeypatch.setenv("HEIMDALL_TEST_KNOB", "   ")
+    assert rate_limit._env_int_or_default("HEIMDALL_TEST_KNOB", 5) == 5
+
+
+def test_env_int_or_default_parses_valid_int(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("HEIMDALL_TEST_KNOB", "2")
+    assert rate_limit._env_int_or_default("HEIMDALL_TEST_KNOB", 5) == 2
+
+
+def test_env_int_or_default_falls_back_on_non_int(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Non-int values fall back to the default rather than raising —
+    the limiter must never crash on a misconfigured env var."""
+    monkeypatch.setenv("HEIMDALL_TEST_KNOB", "twelve")
+    assert rate_limit._env_int_or_default("HEIMDALL_TEST_KNOB", 5) == 5
+
+
+def test_env_int_or_default_rejects_zero_and_negative(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Sub-1 values fall back to the default. A threshold/window of 0
+    would brick the limiter (depending on which sign of the comparison
+    flips); a negative value is operationally meaningless."""
+    monkeypatch.setenv("HEIMDALL_TEST_KNOB", "0")
+    assert rate_limit._env_int_or_default("HEIMDALL_TEST_KNOB", 5) == 5
+
+    monkeypatch.setenv("HEIMDALL_TEST_KNOB", "-1")
+    assert rate_limit._env_int_or_default("HEIMDALL_TEST_KNOB", 5) == 5
 
 
 def test_key_format_is_exactly_auth_fail_ip(
