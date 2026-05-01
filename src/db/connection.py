@@ -3,6 +3,15 @@
 Follows the enrichment/db.py pattern: WAL mode, Row factory, _now() helper.
 Schema is loaded from docs/architecture/client-db-schema.sql rather than
 embedded inline (the client DB schema is too large to inline).
+
+Stage A.5 (2026-05-01): connections opened via :func:`init_db` are
+:class:`HeimdallConnection` instances (a thin subclass of
+:class:`sqlite3.Connection`). The subclass exposes ``__dict__`` so
+per-connection actor metadata for the audit-trigger ``audit_context()``
+SQL function can live as a regular attribute (``conn._audit_ctx``). Base
+``sqlite3.Connection`` does not allow arbitrary attributes. The
+``audit_context`` UDF is registered automatically on every connection
+opened through this module — see :func:`src.db.audit_context.install_audit_context`.
 """
 
 from __future__ import annotations
@@ -22,6 +31,19 @@ _SCHEMA_PATH = _PROJECT_ROOT / "docs" / "architecture" / "client-db-schema.sql"
 _DEFAULT_DB_PATH = "data/clients/clients.db"
 
 
+class HeimdallConnection(sqlite3.Connection):
+    """Subclass that adds ``__dict__`` for per-connection state.
+
+    The Stage A.5 audit-trigger machinery stores actor metadata on
+    ``conn._audit_ctx`` so a Python-side UDF (``audit_context()``) can
+    read it inside trigger bodies. Base ``sqlite3.Connection`` rejects
+    attribute assignment because it has no ``__dict__``; subclassing
+    fixes that without touching SQLite behaviour.
+    """
+
+    pass
+
+
 def init_db(db_path: str | Path = _DEFAULT_DB_PATH) -> sqlite3.Connection:
     """Initialize the client database. Creates file and applies schema if needed.
 
@@ -30,8 +52,10 @@ def init_db(db_path: str | Path = _DEFAULT_DB_PATH) -> sqlite3.Connection:
             created automatically if they do not exist.
 
     Returns:
-        A read-write connection with WAL mode, Row factory, and foreign keys
-        enabled.
+        A :class:`HeimdallConnection` with WAL mode, Row factory, foreign
+        keys enabled, and the ``audit_context()`` UDF registered. The
+        UDF is mandatory — Stage A.5 ``config_changes`` triggers crash on
+        first fire if it is missing.
 
     Raises:
         FileNotFoundError: If the schema SQL file cannot be found.
@@ -41,13 +65,24 @@ def init_db(db_path: str | Path = _DEFAULT_DB_PATH) -> sqlite3.Connection:
     if parent:
         os.makedirs(parent, exist_ok=True)
 
-    conn = sqlite3.connect(db_path, timeout=10)
+    conn = sqlite3.connect(db_path, timeout=10, factory=HeimdallConnection)
     conn.row_factory = sqlite3.Row
 
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA synchronous=NORMAL")
     conn.execute("PRAGMA foreign_keys=ON")
     conn.execute("PRAGMA cache_size=-8000")
+
+    # Register the audit_context() UDF BEFORE the schema bundle runs.
+    # The bundle's CREATE TRIGGER statements compile against the
+    # presence of this function (SQLite verifies at fire time, not
+    # create time, but registering early is harmless and guards
+    # against any future SQLite tightening).
+    # Lazy-imported because audit_context imports nothing from this
+    # module today, but circular imports are easy to introduce later.
+    from src.db.audit_context import install_audit_context
+
+    install_audit_context(conn)
 
     schema_sql = _load_schema()
     conn.executescript(schema_sql)

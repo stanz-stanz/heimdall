@@ -240,6 +240,8 @@ Three tiers of writer surface in `clients.db`. The trigger surface is **tier 1 o
 
 #### 4.1.3 Trigger shape — example for `clients`
 
+> **Implementation note (2026-05-01).** The subquery shape shown below (`(SELECT value FROM _audit_context WHERE key='X')`) is illustrative of the value-population pattern. The wire form in the merged code uses `audit_context('X')` calls — see §4.1.10 postscript for the rationale.
+
 One AFTER trigger per (table, operation) pair. **INSERT triggers are not included.** Rationale: a row creation is its own audit when the wrapper writes the canonical creation row (`signup`, `trial.activated`); there is no `OLD` to compare for diff-shape audit, and the canonical creation rows already carry actor/intent. UPDATE and DELETE triggers cover the modify and remove paths.
 
 ```sql
@@ -359,6 +361,8 @@ END;
 **Why a `_audit_context` TEMP table not `PRAGMA user_data` or session vars.** SQLite has no per-connection session-variable mechanism that a trigger can read (`PRAGMA user_data` is per-database, not per-connection, and is a single value not a dict). The repository wrapper creates `TEMP TABLE _audit_context (key TEXT PRIMARY KEY, value TEXT)` on the connection (TEMP tables are per-connection-private in SQLite — they vanish when the connection closes, do not appear to other connections). The wrapper UPSERTs the actor / intent / request_id keys at the start of the transaction; the trigger reads them with subqueries. On connection close (every API handler closes its connection in the `finally` block) the temp table drops automatically.
 
 #### 4.1.4 Repository wrappers — `src/db/audit_context.py` [NEW]
+
+> **Implementation note (2026-05-01).** The TEMP-table-based shape shown below was superseded during commit (1) implementation — see §4.1.10 postscript for the UDF replacement. The contract (per-connection scoping, bypass detection via NULL actor columns, exception-safe cleanup) is preserved.
 
 ```python
 """Audit-context binding for D2 hybrid trigger-captured writes."""
@@ -505,6 +509,24 @@ The wrapper opens `clients.db` after the file write succeeds; writes the audit r
 - All entries idempotent (`CREATE TABLE IF NOT EXISTS`, `CREATE TRIGGER IF NOT EXISTS`). Re-running `init_db()` on every container start is safe.
 
 The schema additions ride the **first prod deploy of the Stage A.5 PR** via the standard `init_db()` path on container startup. There is no separate "install triggers" runbook step.
+
+#### 4.1.10 Postscript — TEMP-table → UDF pivot (locked 2026-05-01 during implementation)
+
+§4.1.3 and §4.1.4 above describe the locked design: a per-connection `_audit_context` TEMP table that triggers on `clients` / `subscriptions` / `consent_records` / `signup_tokens` / `client_domains` / `retention_jobs` read via subqueries. **That design does not work in stock SQLite.** Verified empirically during commit (1) implementation: triggers raise `sqlite3.OperationalError: no such table: main._audit_context` on first fire. Cause: SQLite documents at https://www.sqlite.org/lang_createtrigger.html that "It is not valid to refer to temporary tables [...] from within the trigger body" when the trigger itself is on a non-temp table. SQLite searches `main` first and refuses to fall through to the temp schema.
+
+**Replacement (Codex-confirmed, Federico-approved 2026-05-01).** The four `(SELECT value FROM _audit_context WHERE key='X')` subqueries in every trigger become `audit_context('X')` calls. `audit_context` is a per-connection user-defined SQL function registered via `sqlite3.Connection.create_function` from `src/db/audit_context.install_audit_context`. The function reads from per-connection state living on a `HeimdallConnection` subclass attribute (`conn._audit_ctx` — a dict; the subclass adds `__dict__` which the base `sqlite3.Connection` does not expose).
+
+**Mandatory registration.** Every write-capable connection MUST have `audit_context` registered before any audited DML fires. The canonical path is `src.db.connection.init_db`, which calls `install_audit_context(conn)` after PRAGMA setup and **before** the schema bundle's `executescript()` (the bundle defines triggers but contains no DML, so registration timing is not load-bearing today; registering early guards against any future SQLite tightening or against bundle-time DML being added). Connections opened outside `init_db` (raw `sqlite3.connect`) skip registration and crash at first trigger fire — that is intentional fail-fast behaviour.
+
+**Type contract.** The UDF returns native Python `int` for `operator_id` / `session_id` (INTEGER columns), TEXT for `intent` / `request_id` / `actor_kind`. Returning native ints rather than stringified `'42'` avoids SQLite's silent type-coercion failure on malformed values (`''`, `'user-42'`, whitespace).
+
+**Files affected by the pivot.** 1) `docs/architecture/client-db-schema.sql` SECTION 14 — all 12 triggers updated. 2) `src/db/migrate.py:_TRIGGER_ADDS` — same change. 3) `src/db/audit_context.py` — `bind_audit_context` now manipulates `conn._audit_ctx` instead of UPSERTing into the TEMP table; the `_INIT_SQL = "CREATE TEMP TABLE..."` block is deleted. 4) `src/db/connection.py` — adds `class HeimdallConnection(sqlite3.Connection)` and passes `factory=HeimdallConnection` to `sqlite3.connect`; calls `install_audit_context(conn)` after PRAGMA setup, before the schema bundle's `executescript`.
+
+**Bypass detection contract preserved.** A wrapper-bypass UPDATE (no `with bind_audit_context`) still fires the trigger; `audit_context()` returns `None` for every key because `conn._audit_ctx` is empty. Actor columns land NULL — forensically detectable at audit-review time, identical to the original design.
+
+**Testing.** `tests/test_audit_context.py` (6 cases, all green) and `tests/test_command_audit_writer.py` (6 cases, all green) cover the pivot. The original test names (e.g. `test_bind_audit_context_temp_table_is_per_connection`) describe the contract not the mechanism — they pass against the new implementation because per-connection scoping is preserved.
+
+**§4.1.3 trigger SQL example status.** The clients UPDATE / DELETE example at lines 245-356 above shows the pre-pivot subquery shape. Treat it as illustrative of the trigger's value-population pattern (intent / operator_id / session_id / request_id / actor_kind) — the exact wire form in the merged code uses `audit_context('intent')` etc. per this postscript.
 
 ### 4.2 RBAC decorator (D3)
 

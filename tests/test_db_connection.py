@@ -26,7 +26,25 @@ EXPECTED_TABLES = {
     "brief_snapshots",
     "delivery_log",
     "delivery_retry",
-    "audit_log",  # Stage A SECTION 11 — mutation-event audit log
+    "audit_log",        # Stage A SECTION 11 — mutation-event audit log
+    "command_audit",    # Stage A.5 SECTION 12 — operator command outcome audit
+    "config_changes",   # Stage A.5 SECTION 13 — trigger-captured config audit
+}
+
+# Stage A.5 SECTION 14 — config_changes triggers, 6 tier-1 tables × 2 ops.
+EXPECTED_AUDIT_TRIGGERS = {
+    "trg_clients_audit_update",
+    "trg_clients_audit_delete",
+    "trg_subscriptions_audit_update",
+    "trg_subscriptions_audit_delete",
+    "trg_consent_records_audit_update",
+    "trg_consent_records_audit_delete",
+    "trg_signup_tokens_audit_update",
+    "trg_signup_tokens_audit_delete",
+    "trg_client_domains_audit_update",
+    "trg_client_domains_audit_delete",
+    "trg_retention_jobs_audit_update",
+    "trg_retention_jobs_audit_delete",
 }
 
 EXPECTED_VIEWS = {
@@ -91,7 +109,13 @@ def test_init_db_pragmas(tmp_path: object) -> None:
 
 
 def test_init_db_idempotent(tmp_path: object) -> None:
-    """Calling init_db twice on the same path does not raise."""
+    """Calling init_db twice on the same path does not raise.
+
+    Also enforces that A.5 phase 4 (audit tables) and phase 5
+    (config_changes triggers) installed cleanly on the second pass —
+    a regression where either phase silently stops creating its DDL
+    surface would otherwise fail open.
+    """
     db_path = tmp_path / "test.db"  # type: ignore[operator]
     conn1 = init_db(db_path)
     conn1.close()
@@ -101,7 +125,18 @@ def test_init_db_idempotent(tmp_path: object) -> None:
         "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
     ).fetchall()
     table_names = {row["name"] for row in rows}
-    assert table_names >= EXPECTED_TABLES
+    assert table_names >= EXPECTED_TABLES, (
+        f"Missing tables on second init: {EXPECTED_TABLES - table_names}"
+    )
+
+    trigger_rows = conn2.execute(
+        "SELECT name FROM sqlite_master WHERE type='trigger' "
+        "AND name LIKE 'trg_%' ORDER BY name"
+    ).fetchall()
+    trigger_names = {row["name"] for row in trigger_rows}
+    missing = EXPECTED_AUDIT_TRIGGERS - trigger_names
+    assert not missing, f"Missing A.5 triggers on second init: {missing}"
+    assert len(trigger_names & EXPECTED_AUDIT_TRIGGERS) == 12
     conn2.close()
 
 
