@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import inspect
 import json
+from collections.abc import Callable
 
 from loguru import logger
 
@@ -119,6 +120,54 @@ def _validate_approval_tokens(max_level: int = 0) -> dict | None:
             return None
 
     return data
+
+
+def _load_approvals_data() -> dict:
+    from src.prospecting.config import PROJECT_ROOT
+
+    approvals_path = PROJECT_ROOT / ".claude" / "agents" / "valdi" / "approvals.json"
+    with open(approvals_path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def get_scan_functions_for_level(max_level: int) -> dict[str, Callable]:
+    _init_scan_type_map()
+    functions: dict[str, Callable] = {}
+    functions.update(_LEVEL0_SCAN_FUNCTIONS)
+    if max_level >= 1:
+        functions.update(_LEVEL1_SCAN_FUNCTIONS)
+    return functions
+
+
+def get_scan_function(scan_type_id: str) -> Callable:
+    _init_scan_type_map()
+    return _SCAN_TYPE_FUNCTIONS[scan_type_id]
+
+
+def build_validated_scan_catalog(max_level: int) -> dict[str, dict]:
+    """Return the validated scan-type catalog for *max_level*.
+
+    Raises:
+        RuntimeError: Approval tokens are missing or invalid.
+    """
+    _init_scan_type_map()
+    data = _validate_approval_tokens(max_level=max_level)
+    if data is None:
+        raise RuntimeError("Valdi approval token validation failed")
+
+    approvals = {a["scan_type_id"]: a for a in data.get("approvals", [])}
+    catalog: dict[str, dict] = {}
+    for scan_type_id, func in get_scan_functions_for_level(max_level).items():
+        approval = approvals[scan_type_id]
+        catalog[scan_type_id] = {
+            "function_hash": approval["function_hash"],
+            "helper_hash": approval.get("helper_hash"),
+            "level": approval["level"],
+            "approval_token": approval["token"],
+            "module": func.__module__,
+            "function_name": func.__name__,
+        }
+    return catalog
 
 
 def _validate_helper_hash(scan_type_id: str, func: callable, approval: dict) -> bool:

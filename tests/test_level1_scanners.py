@@ -16,6 +16,7 @@ from src.prospecting.scanners.registry import (
     _validate_approval_tokens,
     _validate_helper_hash,
 )
+from src.valdi import GateDecision, gated_execution
 from src.prospecting.scanners.nuclei import run_nuclei
 from src.worker.cache import ScanCache
 from src.worker.scan_job import execute_scan_job
@@ -33,6 +34,24 @@ def _make_cache(server: fakeredis.FakeServer | None = None) -> ScanCache:
     cache._available = True
     cache._redis = fakeredis.FakeRedis(server=server, decode_responses=True)
     return cache
+
+
+def _gate_all_scans():
+    _init_scan_type_map()
+    decision = GateDecision(
+        decision_id=1,
+        envelope_id="env-test",
+        approval_token_ids=("tok",),
+        scan_type="passive_domain_scan_orchestrator",
+        requested_level=1,
+        authorised_level=1,
+        target_basis="consented_client",
+        decision="allowed",
+        reason="test",
+        forensic_path="",
+        allowed_scan_types=tuple(sorted(_SCAN_TYPE_FUNCTIONS.keys())),
+    )
+    return gated_execution(decision)
 
 
 _DOMAIN = "example.dk"
@@ -359,7 +378,8 @@ class TestLevel1Execution:
         for p in patches:
             p.start()
         try:
-            result = execute_scan_job(job, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(job, cache)
             assert result["status"] == "completed"
             assert "level1_scan_result" in result
             assert "nuclei" in result["level1_scan_result"]
@@ -384,7 +404,8 @@ class TestLevel1Execution:
         for p in patches:
             mocks.append(p.start())
         try:
-            result = execute_scan_job(job, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(job, cache)
             assert result["status"] == "completed"
             assert "level1_scan_result" not in result
             # nuclei mock is second-to-last (last is run_twin_scan)
@@ -407,7 +428,8 @@ class TestLevel1Execution:
         for p in patches:
             p.start()
         try:
-            result = execute_scan_job(job, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(job, cache)
             # Should have both scan_result (Level 0) and level1_scan_result
             assert "scan_result" in result
             assert "level1_scan_result" in result
@@ -461,7 +483,8 @@ class TestVulnDBLookup:
         for p in patches:
             p.start()
         try:
-            result = execute_scan_job(job, cache, redis_conn=redis_conn)
+            with _gate_all_scans():
+                result = execute_scan_job(job, cache, redis_conn=redis_conn)
             assert "level1_scan_result" in result
             assert "wpvulnerability" in result["level1_scan_result"]
             assert result["level1_scan_result"]["wpvulnerability"]["finding_count"] == 1
@@ -501,7 +524,8 @@ class TestVulnDBLookup:
         for p in patches:
             p.start()
         try:
-            result = execute_scan_job(job, cache, redis_conn=redis_conn)
+            with _gate_all_scans():
+                result = execute_scan_job(job, cache, redis_conn=redis_conn)
             assert "level1_scan_result" in result
             assert "wpvulnerability" not in result["level1_scan_result"]
         finally:
@@ -523,7 +547,8 @@ class TestVulnDBLookup:
         for p in patches:
             p.start()
         try:
-            result = execute_scan_job(job, cache, redis_conn=redis_conn)
+            with _gate_all_scans():
+                result = execute_scan_job(job, cache, redis_conn=redis_conn)
             assert "level1_scan_result" not in result
         finally:
             for p in patches:

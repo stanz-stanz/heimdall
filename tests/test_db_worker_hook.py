@@ -36,6 +36,7 @@ SAMPLE_JOB: dict = {
     "job_id": "job-001",
     "domain": "test.dk",
     "client_id": "12345678",
+    "gate_decision_id": 7,
 }
 
 SAMPLE_RESULT: dict = {
@@ -89,6 +90,7 @@ class TestSaveScanCreatesScanEntry:
         assert entry["cache_hits"] == 2
         assert entry["cache_misses"] == 5
         assert entry["result_json"] is not None
+        assert entry["gate_decision_id"] == 7
         parsed = json.loads(entry["result_json"])
         assert parsed["domain"] == "test.dk"
 

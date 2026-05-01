@@ -21,7 +21,6 @@ from src.prospecting.bucketer import classify
 from src.core.config import CMS_KEYWORDS, DEFAULT_FILTERS, HOSTING_PROVIDERS
 from src.prospecting.cvr import Company
 from src.prospecting.filters import load_filters
-from src.prospecting.scanners.ct import query_crt_sh_single
 from src.prospecting.scanners.models import ScanResult
 from src.prospecting.scanners.tls import check_ssl
 from src.prospecting.scanners.headers import get_response_headers
@@ -30,11 +29,14 @@ from src.prospecting.scanners.httpx_scan import run_httpx
 from src.prospecting.scanners.webanalyze import run_webanalyze
 from src.prospecting.scanners.subfinder import run_subfinder
 from src.prospecting.scanners.dnsx import run_dnsx
+from src.prospecting.scanners.ct import query_crt_sh_single
 from src.prospecting.scanners.grayhat import query_grayhatwarfare
 from src.prospecting.scanners.nuclei import run_nuclei
 from src.prospecting.scanners.cmseek import run_cmseek
-from src.prospecting.scanners.nmap import nmap_ports_to_findings, run_nmap
+from src.prospecting.scanners.nmap import run_nmap
+from src.prospecting.scanners.nmap import nmap_ports_to_findings
 from src.prospecting.scanners.wordpress import extract_page_meta
+from src.valdi import get_gate_execution_context
 
 from .cache import ScanCache
 
@@ -44,6 +46,42 @@ _BUCKET_FILTER = None
 _bucket_raw = _filters.get("bucket")
 if _bucket_raw:
     _BUCKET_FILTER = {b.upper() for b in _bucket_raw}
+
+SSL_SCAN = "ssl_certificate_check"
+META_SCAN = "homepage_meta_extraction"
+HTTPX_SCAN = "httpx_tech_fingerprint"
+WEBANALYZE_SCAN = "webanalyze_cms_detection"
+HEADERS_SCAN = "response_header_check"
+SUBFINDER_SCAN = "subdomain_enumeration_passive"
+DNS_SCAN = "dns_enrichment"
+CT_SCAN = "certificate_transparency_query"
+CLOUD_SCAN = "cloud_storage_index_query"
+NUCLEI_SCAN = "nuclei_vulnerability_scan"
+CMSEEK_SCAN = "cmseek_cms_deep_scan"
+NMAP_SCAN = "nmap_port_scan"
+
+
+def _run_scan_impl(scan_type: str, *args: Any) -> Any:
+    ctx = get_gate_execution_context()
+    if ctx is None:
+        raise RuntimeError(f"Registered scan {scan_type} executed without Valdi gate context")
+    if scan_type not in ctx.decision.allowed_scan_types:
+        raise RuntimeError(f"Registered scan {scan_type} not authorised by current Valdi decision")
+    dispatch = {
+        SSL_SCAN: check_ssl,
+        META_SCAN: extract_page_meta,
+        HTTPX_SCAN: run_httpx,
+        WEBANALYZE_SCAN: run_webanalyze,
+        HEADERS_SCAN: get_response_headers,
+        SUBFINDER_SCAN: run_subfinder,
+        DNS_SCAN: run_dnsx,
+        CT_SCAN: query_crt_sh_single,
+        CLOUD_SCAN: query_grayhatwarfare,
+        NUCLEI_SCAN: run_nuclei,
+        CMSEEK_SCAN: run_cmseek,
+        NMAP_SCAN: run_nmap,
+    }
+    return dispatch[scan_type](*args)
 
 def _timed(fn: Any, *args: Any, **kwargs: Any) -> tuple[Any, float]:
     """Call *fn* and return ``(result, elapsed_seconds)``."""
@@ -127,12 +165,12 @@ def execute_scan_job(
     job_hits = 0
     job_misses = 0
 
-    # ------------------------------------------------------------------
-    # 1. robots.txt — always checked fresh, never cached
-    # ------------------------------------------------------------------
-    robots_allowed, robots_dt = _timed(check_robots_txt, domain)
-    timing["robots_txt"] = round(robots_dt, 4)
-
+    if "robots_allowed" in job:
+        robots_allowed = bool(job.get("robots_allowed"))
+        timing["robots_txt"] = 0.0
+    else:
+        robots_allowed, robots_dt = _timed(check_robots_txt, domain)
+        timing["robots_txt"] = round(robots_dt, 4)
     if not robots_allowed:
         logger.bind(context={"domain": domain, "reason": "robots.txt denied"}).info("domain_skipped")
         return {
@@ -145,34 +183,28 @@ def execute_scan_job(
             "cache_stats": {"hits": 0, "misses": 0},
         }
 
-    # ------------------------------------------------------------------
-    # 2. Per-scan-type: check cache, run if miss, store result
-    # ------------------------------------------------------------------
-
-    def _cached_or_run(
-        scan_type: str, fn: Any, *args: Any
-    ) -> Any:
+    def _cached_or_run(cache_key: str, scan_type: str, *args: Any) -> Any:
         nonlocal job_hits, job_misses
-        cached = cache.get(scan_type, domain)
+        cached = cache.get(cache_key, domain)
         if cached is not None:
             job_hits += 1
             logger.bind(context={"domain": domain, "scan_type": scan_type}).debug("cache_hit")
             return cached
         job_misses += 1
-        result, dt = _timed(fn, *args)
+        result, dt = _timed(_run_scan_impl, scan_type, *args)
         timing[scan_type] = round(dt, 4)
         # Normalise result to a JSON-serialisable dict/list for caching
         serialisable = result
         if isinstance(result, tuple):
             serialisable = list(result)
-        cache.set(scan_type, domain, serialisable)
+        cache.set(cache_key, domain, serialisable)
         logger.bind(context={"domain": domain, "scan_type": scan_type, "duration_ms": int(dt * 1000)}).info("scan_type_complete")
         return result
 
     # --- individual per-domain scans ---
-    ssl_info = _cached_or_run("ssl", check_ssl, domain)
-    headers = _cached_or_run("headers", get_response_headers, domain)
-    meta_raw = _cached_or_run("meta", extract_page_meta, domain)
+    ssl_info = _cached_or_run("ssl", SSL_SCAN, domain)
+    headers = _cached_or_run("headers", HEADERS_SCAN, domain)
+    meta_raw = _cached_or_run("meta", META_SCAN, domain)
 
     # meta comes back as tuple/list:
     # New: (meta_author, footer_credit, plugins, plugin_versions, themes)
@@ -192,8 +224,8 @@ def execute_scan_job(
         meta_author, footer_credit, plugins = "", "", []
 
     # --- batch-style tools for tech detection (cheap) ---
-    httpx_results = _cached_or_run("httpx", run_httpx, [domain])
-    webanalyze_results = _cached_or_run("webanalyze", run_webanalyze, [domain])
+    httpx_results = _cached_or_run("httpx", HTTPX_SCAN, [domain])
+    webanalyze_results = _cached_or_run("webanalyze", WEBANALYZE_SCAN, [domain])
 
     # ------------------------------------------------------------------
     # 3. Assemble ScanResult
@@ -303,10 +335,10 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     # 4. Expensive scans — only for domains that pass bucket filter
     # ------------------------------------------------------------------
-    subfinder_results = _cached_or_run("subfinder", run_subfinder, [domain])
-    dnsx_results = _cached_or_run("dnsx", run_dnsx, [domain])
-    crtsh_raw = _cached_or_run("crtsh", query_crt_sh_single, domain)
-    ghw_results = _cached_or_run("ghw", query_grayhatwarfare, [domain])
+    subfinder_results = _cached_or_run("subfinder", SUBFINDER_SCAN, [domain])
+    dnsx_results = _cached_or_run("dnsx", DNS_SCAN, [domain])
+    crtsh_raw = _cached_or_run("crtsh", CT_SCAN, domain)
+    ghw_results = _cached_or_run("ghw", CLOUD_SCAN, [domain])
 
     # Subdomains
     if isinstance(subfinder_results, dict):
@@ -316,14 +348,8 @@ def execute_scan_job(
     if isinstance(dnsx_results, dict):
         scan.dns_records = dnsx_results.get(domain, {})
 
-    # crt.sh — returns (domain, certs_list) or cached list
-    if isinstance(crtsh_raw, (list, tuple)):
-        if len(crtsh_raw) == 2 and isinstance(crtsh_raw[0], str):
-            scan.ct_certificates = crtsh_raw[1] if isinstance(crtsh_raw[1], list) else []
-        else:
-            scan.ct_certificates = list(crtsh_raw)
-    elif isinstance(crtsh_raw, dict):
-        scan.ct_certificates = []
+    if isinstance(crtsh_raw, dict):
+        scan.ct_certificates = crtsh_raw.get(domain, [])
 
     # GrayHatWarfare
     if isinstance(ghw_results, dict):
@@ -336,19 +362,19 @@ def execute_scan_job(
     job_level = job.get("level", 0)
 
     if isinstance(job_level, int) and not isinstance(job_level, bool) and job_level >= 1:
-        nuclei_results = _cached_or_run("nuclei", run_nuclei, [domain])
+        nuclei_results = _cached_or_run("nuclei", NUCLEI_SCAN, [domain])
 
         nuclei_data: dict = {}
         if isinstance(nuclei_results, dict):
             nuclei_data = nuclei_results.get(domain, {"findings": [], "finding_count": 0})
 
-        cmseek_results = _cached_or_run("cmseek", run_cmseek, [domain])
+        cmseek_results = _cached_or_run("cmseek", CMSEEK_SCAN, [domain])
 
         cmseek_data: dict = {}
         if isinstance(cmseek_results, dict):
             cmseek_data = cmseek_results.get(domain, {})
 
-        nmap_results = _cached_or_run("nmap", run_nmap, [domain])
+        nmap_results = _cached_or_run("nmap", NMAP_SCAN, [domain])
 
         nmap_data: dict = {}
         if isinstance(nmap_results, dict):

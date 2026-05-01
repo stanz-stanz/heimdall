@@ -29,6 +29,8 @@ EXPECTED_TABLES = {
     "audit_log",        # Stage A SECTION 11 — mutation-event audit log
     "command_audit",    # Stage A.5 SECTION 12 — operator command outcome audit
     "config_changes",   # Stage A.5 SECTION 13 — trigger-captured config audit
+    "valdi_envelopes",  # Valdí runtime hardening — boot envelope persistence
+    "valdi_gate_decisions",  # Valdí runtime hardening — per-decision provenance
 }
 
 # Stage A.5 SECTION 14 — config_changes triggers, 6 tier-1 tables × 2 ops.
@@ -237,6 +239,14 @@ def test_init_db_reapply_does_not_double_insert_audit_rows(
         assert clients_count == 1
     finally:
         conn2.close()
+
+
+def test_init_db_applies_valdi_scan_history_column(tmp_path: object) -> None:
+    conn = init_db(tmp_path / "test.db")  # type: ignore[arg-type]
+    rows = conn.execute("PRAGMA table_info(scan_history)").fetchall()
+    column_names = {row[1] for row in rows}
+    assert "gate_decision_id" in column_names
+    conn.close()
 
 
 def test_open_readonly_rejects_writes(tmp_path: object) -> None:

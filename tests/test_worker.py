@@ -6,6 +6,8 @@ from unittest.mock import MagicMock, patch
 
 import fakeredis
 
+from src.prospecting.scanners.registry import _SCAN_TYPE_FUNCTIONS, _init_scan_type_map
+from src.valdi import GateDecision, gated_execution
 from src.worker.cache import ScanCache
 from src.worker.scan_job import execute_scan_job
 
@@ -23,6 +25,24 @@ def _make_cache(server: fakeredis.FakeServer | None = None) -> ScanCache:
     cache._available = True
     cache._redis = fakeredis.FakeRedis(server=server, decode_responses=True)
     return cache
+
+
+def _gate_all_scans():
+    _init_scan_type_map()
+    decision = GateDecision(
+        decision_id=1,
+        envelope_id="env-test",
+        approval_token_ids=("tok",),
+        scan_type="passive_domain_scan_orchestrator",
+        requested_level=0,
+        authorised_level=1,
+        target_basis="prospect",
+        decision="allowed",
+        reason="test",
+        forensic_path="",
+        allowed_scan_types=tuple(sorted(_SCAN_TYPE_FUNCTIONS.keys())),
+    )
+    return gated_execution(decision)
 
 
 _DOMAIN = "example.dk"
@@ -87,7 +107,8 @@ class TestColdCache:
             mocks.append(m)
 
         try:
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             assert result["status"] == "completed"
             assert result["domain"] == _DOMAIN
@@ -135,7 +156,8 @@ class TestWarmCache:
              patch("src.worker.scan_job.query_crt_sh_single") as mock_crtsh, \
              patch("src.worker.scan_job.query_grayhatwarfare") as mock_ghw:
 
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             assert result["status"] == "completed"
             # robots.txt is always called fresh
@@ -178,7 +200,8 @@ class TestMixedCache:
              patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT), \
              patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT):
 
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             assert result["status"] == "completed"
             # ssl and headers should NOT be called (cached)
@@ -199,7 +222,8 @@ class TestRobotsTxtDenied:
              patch("src.worker.scan_job.check_ssl") as mock_ssl, \
              patch("src.worker.scan_job.get_response_headers") as mock_headers:
 
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             assert result["status"] == "skipped"
             assert result["skip_reason"] == "robots.txt denied"
@@ -221,7 +245,8 @@ class TestResultStructure:
             p.start()
 
         try:
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             # Top-level keys
             assert "domain" in result
@@ -273,7 +298,8 @@ class TestCMSDerivation:
              patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
              patch("src.worker.scan_job.query_grayhatwarfare", return_value={}):
 
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             sr = result["scan_result"]
             assert sr["cms"] == "WordPress"
@@ -295,7 +321,8 @@ class TestCMSDerivation:
              patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
              patch("src.worker.scan_job.query_grayhatwarfare", return_value={}):
 
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             sr = result["scan_result"]
             assert sr["cms"] == ""
@@ -323,7 +350,8 @@ class TestBucketFilterEarlyReturn:
              patch("src.worker.scan_job.query_grayhatwarfare", return_value={}), \
              patch("src.worker.scan_job._BUCKET_FILTER", {"A"}):
 
-            result = execute_scan_job(_BASE_JOB, cache)
+            with _gate_all_scans():
+                result = execute_scan_job(_BASE_JOB, cache)
 
             assert result["status"] == "completed"
             assert result["filtered"] == "bucket:E"
