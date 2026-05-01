@@ -32,19 +32,36 @@ Summary:
   skips the bookkeeping tables so Bogføringsloven evidence survives.
 - ``purge_bookkeeping`` is Sentinel-only, runs at +5 years. Deletes
   ``subscriptions`` + ``payment_events`` for the CVR. No-ops cleanly
-  if the clients row is already gone from an earlier purge.
+  if the clients row is already gone from an earlier purge. Stage A.5
+  (Valdí ruling 2026-04-30, ``valdi-2026-04-30-audit-retention``)
+  extended this handler to also hard-delete `clients.audit_log`,
+  `config_changes`, and `command_audit` rows older than +5y under five
+  binding carve-outs — see :func:`purge_bookkeeping` for the full
+  list. Anonymise and purge MUST NOT touch any of the three audit
+  surfaces; ``purge_bookkeeping`` is the single permitted writer.
 """
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import sqlite3
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from loguru import logger
 
 from src.db.connection import _now
+
+# Stage A.5 spec §4.1.7 (Valdí ruling 2026-04-30): audit-row preservation
+# horizon for the three §263 / GDPR Art 17(3)(e) surfaces. 5 years from
+# the row's ``occurred_at`` aligns with Bogføringsloven (handler
+# convenience, not a Bogføringsloven retention obligation per se) and
+# stays inside Straffeloven §93 stk. 1 nr. 1's 2-year limitation for
+# §263 stk. 1. If Wernblad confirms §263 stk. 3 plausibly applies, this
+# raises uniformly to 10y; the carve-out shape is unchanged.
+AUDIT_PRESERVATION_DAYS = 5 * 365
 
 
 # ---------------------------------------------------------------------------
@@ -551,6 +568,25 @@ def purge_client(
 # ---------------------------------------------------------------------------
 
 
+def _audit_preservation_cutoff_iso(now_iso: str | None = None) -> str:
+    """Return ``now - AUDIT_PRESERVATION_DAYS`` as an ISO-8601 UTC string.
+
+    Used by :func:`purge_bookkeeping` to scope the per-row DELETE on
+    the three audit surfaces to rows whose ``occurred_at`` is older
+    than the +5y horizon. Stamped via the same ``%Y-%m-%dT%H:%M:%fZ``
+    millisecond shape that the trigger emits, so the lexicographic
+    string compare with ``occurred_at`` produces the right ordering.
+    """
+    ref = (
+        datetime.strptime(now_iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
+        if now_iso is not None
+        else datetime.now(UTC)
+    )
+    cutoff = ref - timedelta(days=AUDIT_PRESERVATION_DAYS)
+    millis = cutoff.microsecond // 1000
+    return cutoff.strftime("%Y-%m-%dT%H:%M:%S.") + f"{millis:03d}Z"
+
+
 def purge_bookkeeping(
     conn: sqlite3.Connection,
     job_row: dict,
@@ -563,20 +599,162 @@ def purge_bookkeeping(
     the DELETEs on subscriptions / payment_events still succeed; the
     clients row is NOT touched here.
 
+    **Stage A.5 (Valdí ruling 2026-04-30, ``valdi-2026-04-30-audit-retention``).**
+    This handler is the **single permitted writer** of the three audit
+    surfaces — ``clients.audit_log``, ``config_changes``,
+    ``command_audit``. Five binding carve-outs (spec §4.1.7):
+
+    1. **Per-row ``occurred_at < cutoff`` filter.** A blanket
+       ``WHERE cvr=?`` would over-delete still-evidentiary rows on
+       long-lived CVRs. Cutoff = ``now - AUDIT_PRESERVATION_DAYS``.
+    2. **Summary ``clients.audit_log`` row before DELETEs.** Captures
+       per-surface ``deleted_counts`` + ``occurred_at_cutoff`` so the
+       audit timeline records the purge itself. The summary row's
+       ``occurred_at`` (now) is newer than the cutoff, so it survives
+       this cycle.
+    3. **``data_retention_mode='hold'`` short-circuit.** When the
+       ``clients`` row carries the manual hold flag, the entire run
+       returns zero counts without touching any DELETE — preserved
+       for legal-discovery support pending V2's structured
+       ``retention_holds`` table (spec §10).
+    4. **``target_pk`` carve-out for orphan ``config_changes``.** Rows
+       whose ``target_pk`` does not match the target CVR are NOT
+       touched. Their retention is governed by a separate data-
+       minimisation cron (out of scope for A.5).
+    5. **``anonymise_client`` and ``purge_client`` MUST NOT touch the
+       three audit surfaces.** Enforced by inspection — neither handler
+       contains a DELETE on those tables.
+
+    Anti-violation: any future PR that proposes deletion of audit rows
+    from any handler other than this one, or shortening the +5y
+    horizon, or removing the hold short-circuit, MUST re-route through
+    Valdí Gate review per ``feedback_valdi_guidance_non_overridable``.
+
     Args:
         conn: Database connection. Caller holds the claim transaction.
         job_row: Current retention_jobs row.
 
     Returns:
-        Dict with per-table deletion counts. Zero counts are legitimate
-        (the 5y window elapsed and the CVR had no paid activity — e.g.
-        a Sentinel subscription that cancelled in its first period).
+        Dict with per-table deletion counts plus ``"held": True`` on
+        the short-circuit path. Keys: ``payment_events``,
+        ``subscriptions``, ``clients_audit_log``, ``config_changes``,
+        ``command_audit``. Zero counts are legitimate (the 5y window
+        elapsed and the CVR had no paid activity — e.g. a Sentinel
+        subscription that cancelled in its first period).
     """
     cvr = job_row["cvr"]
     bound = logger.bind(
         cvr=cvr, job_id=job_row["id"], action="purge_bookkeeping"
     )
     bound.info("retention_bookkeeping_purge_start")
+
+    # Carve-out 3: hold short-circuit. We read the current value
+    # directly with SQL — `set_data_retention_mode` does not currently
+    # accept 'hold' as a value (the validator's allow-list is the V1
+    # set per `VALID_DATA_RETENTION_MODES`). Operators set this column
+    # via admin SQL until V2 ships a structured `retention_holds`
+    # table (spec §10).
+    hold_row = conn.execute(
+        "SELECT data_retention_mode FROM clients WHERE cvr = ?", (cvr,)
+    ).fetchone()
+    if hold_row is not None and hold_row["data_retention_mode"] == "hold":
+        bound.info("retention_bookkeeping_purge_held")
+        return {
+            "payment_events": 0,
+            "subscriptions": 0,
+            "clients_audit_log": 0,
+            "config_changes": 0,
+            "command_audit": 0,
+            "held": True,
+        }
+
+    cutoff = _audit_preservation_cutoff_iso()
+
+    # Per-surface WHERE clauses for the three audit-row DELETEs.
+    # Defining each WHERE + params tuple ONCE means the pre-count
+    # (carve-out 2 — summary row payload) and the DELETE (carve-outs
+    # 1, 4, 5) cannot drift on a future predicate change. Three carve-
+    # outs are encoded directly in the WHERE strings:
+    #   - Carve-out 1: ``datetime(occurred_at) < datetime(?)`` — per-row
+    #     cutoff filter. The ``datetime(...)`` wrap normalises the
+    #     second-vs-millisecond precision skew between writers
+    #     (``clients.audit_log`` is second precision today; the
+    #     trigger-emitted ``config_changes`` and ``command_audit`` are
+    #     millisecond). At the five-year horizon this skew is
+    #     irrelevant; the wrap keeps the compare semantically correct
+    #     regardless of writer format.
+    #   - Carve-out 4: orphan ``config_changes`` rows whose
+    #     ``target_pk`` does not match the target CVR are skipped via
+    #     the ``WHERE target_pk = ?`` predicate alone — a row written
+    #     against e.g. a ``client_domains`` numeric id (``CAST(NEW.id
+    #     AS TEXT)``) will not match the CVR string and stays in place.
+    #   - Carve-out 5 (Codex 2026-05-02): ``clients.audit_log`` filter
+    #     adds ``AND target_type = 'cvr'`` so a non-CVR row whose TEXT
+    #     ``target_id`` happens to equal the CVR string (e.g. a
+    #     ``settings_file`` row whose target_id is a filename, not a
+    #     CVR) is not silently deleted.
+    audit_log_where = (
+        "WHERE target_id = ? AND target_type = 'cvr' "
+        "  AND datetime(occurred_at) < datetime(?)"
+    )
+    config_changes_where = (
+        "WHERE target_pk = ? "
+        "  AND datetime(occurred_at) < datetime(?)"
+    )
+    command_audit_where = (
+        "WHERE target_id = ? "
+        "  AND datetime(occurred_at) < datetime(?)"
+    )
+    audit_params = (cvr, cutoff)
+
+    # Pre-count: summary row payload needs these BEFORE the DELETEs run.
+    pre_counts = {
+        "payment_events": conn.execute(
+            "SELECT COUNT(*) FROM payment_events WHERE cvr = ?", (cvr,)
+        ).fetchone()[0],
+        "subscriptions": conn.execute(
+            "SELECT COUNT(*) FROM subscriptions WHERE cvr = ?", (cvr,)
+        ).fetchone()[0],
+        "clients_audit_log": conn.execute(
+            f"SELECT COUNT(*) FROM audit_log {audit_log_where}",
+            audit_params,
+        ).fetchone()[0],
+        "config_changes": conn.execute(
+            f"SELECT COUNT(*) FROM config_changes {config_changes_where}",
+            audit_params,
+        ).fetchone()[0],
+        "command_audit": conn.execute(
+            f"SELECT COUNT(*) FROM command_audit {command_audit_where}",
+            audit_params,
+        ).fetchone()[0],
+    }
+
+    # Carve-out 2: emit the summary row BEFORE the DELETEs run. Hand-
+    # written into clients.audit_log; actor_kind='system' so forensic
+    # queries can separate retention-driven from operator-driven rows.
+    # request_id stays NULL because cron-path callers have no upstream
+    # HTTP request.
+    summary_payload = {
+        "deleted_counts": pre_counts,
+        "occurred_at_cutoff": cutoff,
+    }
+    conn.execute(
+        """
+        INSERT INTO audit_log (
+            occurred_at, operator_id, session_id, action,
+            target_type, target_id, payload_json,
+            source_ip, user_agent, request_id, actor_kind
+        )
+        VALUES (?, NULL, NULL, ?, ?, ?, ?, NULL, NULL, NULL, 'system')
+        """,
+        (
+            _now(),
+            "retention.bookkeeping_purge",
+            "cvr",
+            cvr,
+            json.dumps(summary_payload),
+        ),
+    )
 
     counts: dict[str, int] = {}
 
@@ -594,6 +772,25 @@ def purge_bookkeeping(
         "DELETE FROM subscriptions WHERE cvr = ?", (cvr,)
     )
     counts["subscriptions"] = cur.rowcount or 0
+
+    # The three audit-surface DELETEs reuse the WHERE strings + params
+    # from the pre-count above so the summary row's ``deleted_counts``
+    # is accurate even if a future change tightens a predicate (the
+    # pre-count and the DELETE move together by construction).
+    cur = conn.execute(
+        f"DELETE FROM audit_log {audit_log_where}", audit_params
+    )
+    counts["clients_audit_log"] = cur.rowcount or 0
+
+    cur = conn.execute(
+        f"DELETE FROM config_changes {config_changes_where}", audit_params
+    )
+    counts["config_changes"] = cur.rowcount or 0
+
+    cur = conn.execute(
+        f"DELETE FROM command_audit {command_audit_where}", audit_params
+    )
+    counts["command_audit"] = cur.rowcount or 0
 
     bound.bind(counts=counts).info("retention_bookkeeping_purge_done")
     return counts

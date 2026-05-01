@@ -8,6 +8,7 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 
+from src.db.connection import connect_clients_audited
 from src.db.signup import consume_signup_token
 
 from tests._signup_test_helpers import (
@@ -64,8 +65,10 @@ class TestValidateReasons:
         assert resp.json() == {"ok": False, "reason": "invalid"}
 
     def test_consumed_token_returns_used(self, client, issued_token, db_path):
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
+        # Stage A.5: the UPDATE inside consume_signup_token fires
+        # trg_signup_tokens_audit_update which calls audit_context().
+        # Use the audited opener so the UDF is registered.
+        conn = connect_clients_audited(db_path)
         try:
             consume_signup_token(conn, issued_token)
         finally:

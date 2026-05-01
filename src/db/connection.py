@@ -136,6 +136,61 @@ def open_readonly(db_path: str | Path) -> sqlite3.Connection:
     return conn
 
 
+def connect_clients_audited(
+    db_path: str | Path,
+    *,
+    timeout: float = 10.0,
+) -> sqlite3.Connection:
+    """Open ``clients.db`` for read-write under the A.5 trigger contract.
+
+    Returns a :class:`HeimdallConnection` with the ``audit_context()``
+    UDF registered, so any UPDATE / DELETE on a tier-1 table can fire
+    its ``config_changes`` trigger without the
+    ``no such function: audit_context`` crash that a plain
+    ``sqlite3.connect`` would produce.
+
+    Distinct from :func:`init_db`: this helper does NOT load the schema
+    bundle and does NOT call ``apply_pending_migrations``. It is the
+    canonical opener for the api container, which intentionally never
+    runs ``init_db()`` on ``clients.db`` (see ``src/api/app.py``'s
+    lifespan comment: the api would race ALTER TABLE statements against
+    the writer containers' ``init_db()`` and lose with
+    ``OperationalError`` — the column-add phase has TOCTOU between
+    ``PRAGMA table_info`` and ``ALTER TABLE``). Schema is the writer
+    containers' responsibility; the api just connects, registers the
+    UDF, and gets out of the way.
+
+    Use :func:`init_db` from writer containers (scheduler, worker,
+    delivery, retention runner). Use :func:`connect_clients_audited`
+    from the api container for any code path that mutates a tier-1
+    table.
+
+    Args:
+        db_path: Path to an existing SQLite database file. Parent dir
+            is NOT auto-created — that's a writer concern.
+        timeout: ``sqlite3.connect`` busy-wait timeout in seconds.
+            Default 10s matches :func:`init_db`.
+
+    Returns:
+        A :class:`HeimdallConnection` with WAL-friendly defaults
+        (``foreign_keys=ON``, Row factory) and ``audit_context()``
+        registered. Caller owns the connection lifecycle.
+    """
+    conn = sqlite3.connect(
+        str(db_path), timeout=timeout, factory=HeimdallConnection
+    )
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys=ON")
+
+    # Lazy import for the same reason init_db does it (defensive against
+    # future circular dependencies; today audit_context.py imports only
+    # stdlib).
+    from src.db.audit_context import install_audit_context
+
+    install_audit_context(conn)
+    return conn
+
+
 def _now() -> str:
     """ISO-8601 UTC timestamp.
 

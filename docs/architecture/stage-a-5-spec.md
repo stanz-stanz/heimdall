@@ -221,8 +221,8 @@ Three tiers of writer surface in `clients.db`. The trigger surface is **tier 1 o
 | `clients` | Plan changes, churn flips, retention-mode changes are operator-decisive | api (signup), scheduler (lifecycle) |
 | `subscriptions` | Billing state machine | api (signup webhook), scheduler (Betalingsservice reconcile) |
 | `consent_records` | **Valdí §263 evidence — preservation rule applies (§4.1.7)** | api (signup), scheduler (consent revocation) |
-| `signup_tokens` | Magic-link issuance + redemption | api (signup) |
-| `client_domains` | Authorised-domain scope changes (consent gate input) | api (signup) |
+| `signup_tokens` | Magic-link issuance + redemption | api (issuance via `src/db/signup.create_signup_token`); delivery bot (redemption via `src/delivery/bot.py:handle_start_command` → `activate_watchman_trial` — INSERT triggers not installed, so issuance is never trigger-captured; the redemption UPDATE is what fires `trg_signup_tokens_audit_update`). |
+| `client_domains` | Authorised-domain scope changes (consent gate input) | api (issuance), scheduler (CT-monitor scoped writes). UPDATE/DELETE writers add their own `bind_audit_context` per call site (none today against tier-1 mutations; trigger is defensive — fires zero rows in current flow). |
 | `retention_jobs` | Operator-driven force-run / cancel / retry. Today untracked beyond loguru + free-text `notes` suffix (verified 2026-04-30: `_run_retention_action` at `src/api/console.py:622-654`; `force_run_retention_job` at `src/db/retention.py:320-380`; `retry_failed_retention_job` at `src/db/retention.py:383-437` — none emit `clients.audit_log` rows). Joining tier 1 closes the gap per §11.6 fork (f) = b. CAS UPDATE in `console_retention_cancel` also fires the trigger. | api (operator commands), retention runner (claim + outcome) |
 
 **Tier 2 — operational state machines (no trigger; existing audit_log rows or none):**
@@ -426,6 +426,13 @@ If the wrapper is bypassed (raw `cursor.execute` outside the context manager), t
 #### 4.1.5 Intent vocabulary
 
 Each repository wrapper passes a hand-coded `intent` string (e.g. `retention.force_run`, `retention.cancel`, `trial.activated`, `retention.anonymise`, `subscription.created`, `subscription.cancelled`). The trigger reads it into `config_changes.intent`. This is application-level intent, distinct from `op` (UPDATE / DELETE). The vocabulary is grep-able; no enum (premature ceremony for a string-typed column).
+
+**Runner-introduced cron intents (commit (1) wrapper sweep, locked 2026-05-02):** `retention.reap`, `retention.claim`, `retention.dryrun_skip`, `retention.<action>` (where `action ∈ {anonymise, purge, purge_bookkeeping, export}`), `retention.backoff`, `retention.terminal_fail`. All emitted by `src/retention/runner.py:tick` with `actor_kind='system'`. The cascade DELETEs inside `purge_client` (consent_records, signup_tokens, client_domains, retention_jobs siblings) inherit the `retention.purge` intent — one logical step → N trigger rows, all uniformly stamped, single grep reconstructs the cascade.
+
+**Known bypass-row writers (NULL actor / NULL intent on the trigger row, by design):**
+
+- `src/client_memory/trial_expiry.py:126` flips `clients.status` from `watchman_active` → `watchman_expired` from a scheduler sweep. High-frequency. Stage A.5 commit (1) leaves this unwrapped — bypass-detection contract holds (NULL actor signals the writer needs review). Wrap with `intent='trial.expired'`, `actor_kind='system'` in commit (2) or (3) if the operator-console timeline UX needs the attribution.
+- Operator-set `data_retention_mode='hold'` via raw SQL (V2 will replace with a structured `retention_holds` table per §10) — the manual UPDATE fires `trg_clients_audit_update` with NULL actor. That is the right outcome: hold flips are forensically interesting and should leave a NULL-actor breadcrumb. Do not silently wrap when V2 lands.
 
 #### 4.1.6 `command_audit` writer
 

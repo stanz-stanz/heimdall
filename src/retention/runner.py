@@ -40,6 +40,7 @@ from typing import Any
 
 from loguru import logger
 
+from src.db.audit_context import bind_audit_context
 from src.db.connection import _now
 from src.db.conversion import _validate_conversion_event_type
 from src.db.retention import (
@@ -382,11 +383,16 @@ def tick(
     """
     processed = 0
 
-    # Step 1: reap
+    # Step 1: reap. Stage A.5 spec §11.6: cron-path callers MUST stamp
+    # config_changes rows with actor_kind='system' so forensic queries
+    # can separate runner-driven from operator-driven retention writes.
     try:
-        reaped = reap_stuck_running_jobs(
-            conn, timeout_seconds=reap_timeout_seconds
-        )
+        with bind_audit_context(
+            conn, intent="retention.reap", actor_kind="system"
+        ):
+            reaped = reap_stuck_running_jobs(
+                conn, timeout_seconds=reap_timeout_seconds
+            )
         if reaped:
             logger.info("retention_reaped: {} stuck running row(s)", reaped)
     except Exception:
@@ -394,9 +400,14 @@ def tick(
         # still find recently-scheduled pending rows.
         logger.opt(exception=True).warning("retention_reap_failed")
 
-    # Step 2: claim
+    # Step 2: claim. The UPDATE retention_jobs SET status='running' fires
+    # trg_retention_jobs_audit_update once per claimed row; each row
+    # lands in config_changes with intent='retention.claim'.
     try:
-        claimed = claim_due_retention_jobs(conn, limit=limit)
+        with bind_audit_context(
+            conn, intent="retention.claim", actor_kind="system"
+        ):
+            claimed = claim_due_retention_jobs(conn, limit=limit)
     except Exception:
         logger.opt(exception=True).error("retention_claim_failed")
         return 0
@@ -415,15 +426,20 @@ def tick(
             bound.info("retention_skip_dryrun")
             # Mark completed so the row does not get re-claimed next
             # tick; note the skip for auditability.
-            conn.execute(
-                """
-                UPDATE retention_jobs
-                   SET status = 'completed', executed_at = ?, notes = ?
-                 WHERE id = ?
-                """,
-                (_now(), "skipped: DRYRUN cvr", job["id"]),
-            )
-            conn.commit()
+            with bind_audit_context(
+                conn,
+                intent="retention.dryrun_skip",
+                actor_kind="system",
+            ):
+                conn.execute(
+                    """
+                    UPDATE retention_jobs
+                       SET status = 'completed', executed_at = ?, notes = ?
+                     WHERE id = ?
+                    """,
+                    (_now(), "skipped: DRYRUN cvr", job["id"]),
+                )
+                conn.commit()
             continue
 
         # Sibling-cascade / external-update guard: another claimed job in
@@ -444,23 +460,37 @@ def tick(
 
         previous_attempt = _parse_attempt(job.get("notes"))
 
+        # Each per-job run wraps under intent='retention.<action>' so
+        # every config_changes row produced by the action handler
+        # (clients UPDATE, consent_records UPDATE, signup_tokens DELETE,
+        # client_domains DELETE, retention_jobs cascade DELETEs) carries
+        # a uniform stamp for the whole logical step.
+        action_intent = f"retention.{job['action']}"
         try:
-            result = _dispatch_action(conn, job)
-            _mark_completed_in_txn(
-                conn,
-                job_id=job["id"],
-                notes=f"ok: {json.dumps(result, default=str)[:500]}",
-            )
-            conn.commit()
+            with bind_audit_context(
+                conn, intent=action_intent, actor_kind="system"
+            ):
+                result = _dispatch_action(conn, job)
+                _mark_completed_in_txn(
+                    conn,
+                    job_id=job["id"],
+                    notes=f"ok: {json.dumps(result, default=str)[:500]}",
+                )
+                conn.commit()
             bound.bind(result=result).info("retention_job_completed")
         except NotImplementedError as exc:
             # Export path — terminal on first attempt, no retry loop
             # because retrying does not help (the code is not written).
             attempt = MAX_ATTEMPTS
             conn.rollback()
-            _reschedule_with_backoff(
-                conn, job_id=job["id"], attempt=attempt, error=str(exc)
-            )
+            with bind_audit_context(
+                conn,
+                intent="retention.terminal_fail",
+                actor_kind="system",
+            ):
+                _reschedule_with_backoff(
+                    conn, job_id=job["id"], attempt=attempt, error=str(exc)
+                )
             bound.warning("retention_job_not_implemented: {}", exc)
             if alert_cb is not None:
                 alert_cb(
@@ -475,9 +505,21 @@ def tick(
         except Exception as exc:
             attempt = previous_attempt + 1
             conn.rollback()
-            terminal = _reschedule_with_backoff(
-                conn, job_id=job["id"], attempt=attempt, error=str(exc)
+            # On the failure branch the original action_intent was rolled
+            # back; the retention_jobs UPDATE that records the backoff /
+            # terminal-fail attempt is its own separate write. Stamp it
+            # with a distinct intent so post-incident greps can tell
+            # "the action ran" from "the failure was logged".
+            backoff_intent = (
+                "retention.terminal_fail" if attempt >= MAX_ATTEMPTS
+                else "retention.backoff"
             )
+            with bind_audit_context(
+                conn, intent=backoff_intent, actor_kind="system"
+            ):
+                terminal = _reschedule_with_backoff(
+                    conn, job_id=job["id"], attempt=attempt, error=str(exc)
+                )
             bound.bind(attempt=attempt).opt(exception=True).warning(
                 "retention_job_failed"
             )

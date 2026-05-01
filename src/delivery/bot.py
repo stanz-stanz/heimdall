@@ -21,6 +21,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 from src.core.secrets import get_secret
+from src.db.audit_context import bind_audit_context
 from src.db.connection import init_db
 from src.db.onboarding import InvalidSignupToken, activate_watchman_trial
 
@@ -204,9 +205,20 @@ async def handle_start_command(
 
     try:
         try:
-            client = activate_watchman_trial(
-                conn, token=token, telegram_chat_id=str(chat.id)
-            )
+            # Stage A.5 spec §4.1.5: wrap the signup_token consume +
+            # clients UPDATE/INSERT under one ``trial.activated`` intent.
+            # actor_kind='system' because the Telegram bot is not an
+            # operator — the audit row attribution stays clean. The
+            # trigger on signup_tokens (UPDATE consumed_at) and clients
+            # (UPDATE/INSERT status/plan/...) both inherit this stamp.
+            with bind_audit_context(
+                conn,
+                intent="trial.activated",
+                actor_kind="system",
+            ):
+                client = activate_watchman_trial(
+                    conn, token=token, telegram_chat_id=str(chat.id)
+                )
         except InvalidSignupToken:
             logger.bind(context={"chat_id": chat.id}).info(
                 "start_token_invalid_or_expired"

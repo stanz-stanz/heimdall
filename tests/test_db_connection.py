@@ -177,6 +177,68 @@ def test_init_db_idempotent_on_migrated_db(tmp_path: object) -> None:
     conn2.close()
 
 
+def test_init_db_reapply_does_not_double_insert_audit_rows(
+    tmp_path: object,
+) -> None:
+    """Stage A.5 spec §6.6: a second ``init_db()`` on a migrated DB
+    must not cause the CREATE TRIGGER pass (or any other phase of
+    ``apply_pending_migrations``) to fire a tier-1 mutation that would
+    leave a duplicate row in ``config_changes``.
+
+    The phases are all DDL + ``IF NOT EXISTS`` guards; no DML touches
+    tier-1 tables. We seed one bypass-path row in ``config_changes``
+    via a trigger fire, snapshot the count, re-init, and assert the
+    count is unchanged.
+    """
+    db_path = tmp_path / "audit_idempotent.db"  # type: ignore[operator]
+    conn = init_db(db_path)
+    try:
+        # Seed one client + fire one bypass-path trigger so the
+        # baseline count is non-zero (catches a regression that would
+        # zero out config_changes on re-init via a stray DELETE).
+        conn.execute(
+            "INSERT INTO clients (cvr, company_name, status, plan, "
+            "created_at, updated_at) "
+            "VALUES (?, 'Test ApS', 'prospect', 'watchman', "
+            "'2026-04-24T00:00:00Z', '2026-04-24T00:00:00Z')",
+            ("12345678",),
+        )
+        conn.execute(
+            "UPDATE clients SET status = 'active' WHERE cvr = ?",
+            ("12345678",),
+        )
+        conn.commit()
+
+        before = conn.execute(
+            "SELECT COUNT(*) FROM config_changes"
+        ).fetchone()[0]
+        assert before == 1, (
+            f"baseline trigger fire should produce one row, got {before}"
+        )
+    finally:
+        conn.close()
+
+    # Re-init. Migrations should re-run idempotently with no DML on
+    # tier-1 tables.
+    conn2 = init_db(db_path)
+    try:
+        after = conn2.execute(
+            "SELECT COUNT(*) FROM config_changes"
+        ).fetchone()[0]
+        assert after == before, (
+            f"re-init must not change config_changes; before={before}, "
+            f"after={after}"
+        )
+        # Sanity: the seeded clients row also survived re-init unchanged.
+        clients_count = conn2.execute(
+            "SELECT COUNT(*) FROM clients WHERE cvr = ?",
+            ("12345678",),
+        ).fetchone()[0]
+        assert clients_count == 1
+    finally:
+        conn2.close()
+
+
 def test_open_readonly_rejects_writes(tmp_path: object) -> None:
     """A read-only connection must reject INSERT statements."""
     db_path = tmp_path / "test.db"  # type: ignore[operator]

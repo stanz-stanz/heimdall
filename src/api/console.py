@@ -10,6 +10,7 @@ import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any, Protocol
 
 from fastapi import APIRouter, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from loguru import logger
@@ -21,6 +22,8 @@ from src.api.auth.audit import (
 )
 from src.api.auth.middleware import SESSION_COOKIE
 from src.api.auth.sessions import validate_session_by_hash
+from src.db.audit_context import bind_audit_context
+from src.db.connection import connect_clients_audited
 from src.db.console_connection import DEFAULT_CONSOLE_DB_PATH, get_console_conn
 from src.db.console_views import (
     list_retention_queue_pending_due,
@@ -619,13 +622,30 @@ async def console_retention_queue(
     return await asyncio.to_thread(_query)
 
 
+class _RetentionFn(Protocol):
+    """Shape of a retention helper invoked by ``_run_retention_action``.
+
+    The helper takes a sqlite3 connection + the retention job id +
+    arbitrary keyword arguments (e.g. ``operator='console'``) and
+    returns the post-mutation row as a dict. ``force_run_retention_job``
+    and ``retry_failed_retention_job`` both satisfy this Protocol.
+    """
+
+    def __call__(
+        self, conn: sqlite3.Connection, job_id: int, **kwargs: Any
+    ) -> dict: ...
+
+
 def _run_retention_action(
     db_path: str,
     job_id: int,
     *,
     action: str,
-    fn,
+    fn: _RetentionFn,
     fn_kwargs: dict | None = None,
+    operator_id: int | None = None,
+    session_id: int | None = None,
+    request_id: str | None = None,
 ) -> dict:
     """Open a connection, dispatch the helper, log the audit line.
 
@@ -633,12 +653,26 @@ def _run_retention_action(
     re-raise the same ``KeyError`` so the FastAPI handler can map it
     to a 404. The DB write is the source of truth — logging happens
     after a successful commit.
+
+    Stage A.5: opens via :func:`connect_clients_audited` (HeimdallConnection
+    + ``audit_context()`` UDF) and wraps the dispatch in
+    :func:`bind_audit_context` so the trigger on ``retention_jobs`` lands
+    a ``config_changes`` row stamped with ``intent='retention.<action>'``,
+    the operator/session ids, and the request id. Without the wrap the
+    trigger would fire with NULL actor — Stage A.5 spec §11.6 fork (f)
+    bypass.
     """
-    conn = sqlite3.connect(db_path, timeout=5)
-    conn.row_factory = sqlite3.Row
+    conn = connect_clients_audited(db_path, timeout=5)
     try:
-        kwargs = fn_kwargs or {}
-        updated = fn(conn, job_id, **kwargs)
+        with bind_audit_context(
+            conn,
+            intent=f"retention.{action}",
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
+        ):
+            kwargs = fn_kwargs or {}
+            updated = fn(conn, job_id, **kwargs)
     finally:
         conn.close()
 
@@ -649,6 +683,7 @@ def _run_retention_action(
             "job_id": job_id,
             "cvr": updated["cvr"],
             "operator": "console",
+            "request_id": request_id,
         }
     ).info("operator_retention_action")
     return updated
@@ -659,6 +694,9 @@ async def console_retention_force_run(job_id: int, request: Request):
     """Advance a pending retention job's ``scheduled_for`` to now so the
     next cron tick claims it. The cron remains the sole executor."""
     db_path = _resolve_db_path(request)
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
     try:
         updated = await asyncio.to_thread(
             _run_retention_action,
@@ -666,6 +704,9 @@ async def console_retention_force_run(job_id: int, request: Request):
             job_id,
             action="force_run",
             fn=force_run_retention_job,
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
         )
     except KeyError as exc:
         raise HTTPException(404, detail=str(exc)) from exc
@@ -699,48 +740,61 @@ async def console_retention_cancel(
     db_path = _resolve_db_path(request)
     now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     notes_override = body.notes if body is not None else None
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
 
     def _do():
-        conn = sqlite3.connect(db_path, timeout=5)
-        conn.row_factory = sqlite3.Row
+        conn = connect_clients_audited(db_path, timeout=5)
         try:
-            # CAS UPDATE: only flip pending → cancelled. The cron's
-            # claim path uses BEGIN IMMEDIATE + UPDATE ... WHERE
-            # status='pending' RETURNING; this matches that pattern so
-            # exactly one of the two transitions wins.
-            #
-            # COALESCE preserves any pre-existing notes when the
-            # operator submits a body-less cancel — Codex flagged the
-            # naive ``notes = ?`` overwrite on 2026-04-26.
-            cursor = conn.execute(
-                """
-                UPDATE retention_jobs
-                   SET status = 'cancelled',
-                       executed_at = ?,
-                       notes = COALESCE(?, notes)
-                 WHERE id = ?
-                   AND status = 'pending'
-                """,
-                (now, notes_override, job_id),
-            )
-            conn.commit()
-            if cursor.rowcount == 0:
-                # Either the row doesn't exist or the cron beat us.
-                # Distinguish for the operator's sake.
-                row = conn.execute(
-                    "SELECT status FROM retention_jobs WHERE id = ?",
-                    (job_id,),
-                ).fetchone()
-                if row is None:
-                    raise KeyError(f"Retention job {job_id} not found")
-                raise KeyError(
-                    f"Retention job {job_id} is not pending "
-                    f"(status={row['status']!r})"
+            # Stage A.5: stamp the trigger row with operator + intent
+            # before the CAS UPDATE fires. Without the wrap the
+            # config_changes row lands with NULL actor (spec §11.6
+            # fork (f) bypass).
+            with bind_audit_context(
+                conn,
+                intent="retention.cancel",
+                operator_id=operator_id,
+                session_id=session_id,
+                request_id=request_id,
+            ):
+                # CAS UPDATE: only flip pending → cancelled. The cron's
+                # claim path uses BEGIN IMMEDIATE + UPDATE ... WHERE
+                # status='pending' RETURNING; this matches that pattern so
+                # exactly one of the two transitions wins.
+                #
+                # COALESCE preserves any pre-existing notes when the
+                # operator submits a body-less cancel — Codex flagged the
+                # naive ``notes = ?`` overwrite on 2026-04-26.
+                cursor = conn.execute(
+                    """
+                    UPDATE retention_jobs
+                       SET status = 'cancelled',
+                           executed_at = ?,
+                           notes = COALESCE(?, notes)
+                     WHERE id = ?
+                       AND status = 'pending'
+                    """,
+                    (now, notes_override, job_id),
                 )
-            row = conn.execute(
-                "SELECT * FROM retention_jobs WHERE id = ?", (job_id,)
-            ).fetchone()
-            return dict(row)
+                conn.commit()
+                if cursor.rowcount == 0:
+                    # Either the row doesn't exist or the cron beat us.
+                    # Distinguish for the operator's sake.
+                    row = conn.execute(
+                        "SELECT status FROM retention_jobs WHERE id = ?",
+                        (job_id,),
+                    ).fetchone()
+                    if row is None:
+                        raise KeyError(f"Retention job {job_id} not found")
+                    raise KeyError(
+                        f"Retention job {job_id} is not pending "
+                        f"(status={row['status']!r})"
+                    )
+                row = conn.execute(
+                    "SELECT * FROM retention_jobs WHERE id = ?", (job_id,)
+                ).fetchone()
+                return dict(row)
         finally:
             conn.close()
 
@@ -773,6 +827,9 @@ async def console_retention_retry(job_id: int, request: Request):
     """Re-queue a failed retention job. Sets status back to ``'pending'``
     with ``scheduled_for=now``; the cron will retry on next tick."""
     db_path = _resolve_db_path(request)
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
     try:
         updated = await asyncio.to_thread(
             _run_retention_action,
@@ -780,6 +837,9 @@ async def console_retention_retry(job_id: int, request: Request):
             job_id,
             action="retry",
             fn=retry_failed_retention_job,
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
         )
     except KeyError as exc:
         raise HTTPException(404, detail=str(exc)) from exc
@@ -809,7 +869,18 @@ async def console_settings():
 
 @router.put("/settings/{name}")
 async def console_settings_update(name: str, request: Request):
-    """Write a config file atomically. Whitelist: filters, interpreter, delivery."""
+    """Write a config file atomically. Whitelist: filters, interpreter, delivery.
+
+    Stage A.5 spec §4.1.8: file-backed settings writer-wrapper. After
+    a successful atomic write, hash the old + new bytes and emit one
+    ``clients.audit_log`` row (``action='config.file_write'``,
+    ``target_type='settings_file'``, ``target_id=<filename>``,
+    ``payload_json={old_sha256, new_sha256}``). No-op writes
+    (``old_sha256 == new_sha256``) skip the audit row. The audit row
+    is hand-written because ``clients.audit_log`` is NOT trigger-
+    watched — triggers fire on tier-1 mutations, not on the audit
+    destination itself.
+    """
     if name not in _VALID_SETTINGS:
         raise HTTPException(400, detail=f"Invalid config name: {name!r}")
 
@@ -823,17 +894,33 @@ async def console_settings_update(name: str, request: Request):
 
     config_path = Path("config") / f"{name}.json"
 
-    # Merge with existing config to avoid losing keys the UI doesn't manage
-    existing = {}
+    # Merge with existing config to avoid losing keys the UI doesn't manage.
+    # Read the raw bytes once so we can both (a) parse-and-merge and
+    # (b) compute old_sha256 from the exact on-disk representation.
+    existing: dict = {}
+    old_content_bytes: bytes | None = None
     if config_path.is_file():
         try:
-            existing = json.loads(config_path.read_text(encoding="utf-8"))
+            old_content_bytes = config_path.read_bytes()
+            existing = json.loads(old_content_bytes.decode("utf-8"))
         except (json.JSONDecodeError, OSError):
-            pass
+            # Corrupt or unreadable existing file — treat as a fresh
+            # write (old_sha256 stays NULL). Bypass-detection
+            # post-deploy can flag the original corruption separately.
+            old_content_bytes = None
+            existing = {}
+
+    old_sha256 = (
+        hashlib.sha256(old_content_bytes).hexdigest()
+        if old_content_bytes is not None
+        else None
+    )
+
     merged = {**existing, **body}
     content = json.dumps(merged, indent=2, ensure_ascii=False) + "\n"
+    new_sha256 = hashlib.sha256(content.encode("utf-8")).hexdigest()
 
-    # Atomic write: write to temp file in same dir, then rename
+    # Atomic write: write to temp file in same dir, then rename.
     config_path.parent.mkdir(parents=True, exist_ok=True)
     fd = tempfile.NamedTemporaryFile(
         mode="w",
@@ -848,15 +935,103 @@ async def console_settings_update(name: str, request: Request):
         fd.close()
         Path(fd.name).rename(config_path)
     except Exception:
-        # Clean up temp file on failure
+        # Clean up temp file on failure.
         try:
             Path(fd.name).unlink(missing_ok=True)
         except Exception:
             pass
         raise
 
+    # No-op write — content byte-identical. Skip the audit row per
+    # spec §4.1.8.
+    if old_sha256 == new_sha256:
+        logger.info("config_saved_no_change name={}", name)
+        return {"status": "saved", "name": name}
+
+    db_path = _resolve_db_path(request)
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
+    client = getattr(request, "client", None)
+    source_ip = getattr(client, "host", None) if client is not None else None
+    raw_ua = request.headers.get("user-agent", "") or ""
+    user_agent = raw_ua[:512]
+
+    try:
+        await asyncio.to_thread(
+            _write_settings_audit_row,
+            db_path,
+            filename=f"{name}.json",
+            old_sha256=old_sha256,
+            new_sha256=new_sha256,
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
+            source_ip=source_ip,
+            user_agent=user_agent,
+        )
+    except sqlite3.OperationalError as exc:
+        # File write already succeeded; an audit-row drop is
+        # forensically detectable post-hoc via the bypass-detection
+        # loop (spec §4.1.8). Log + carry on so the operator's PUT
+        # does not fail after the on-disk state changed.
+        logger.warning(
+            "settings_audit_write_failed name={} err={}", name, exc
+        )
+
     logger.info("config_saved name={}", name)
     return {"status": "saved", "name": name}
+
+
+def _write_settings_audit_row(
+    db_path: str,
+    *,
+    filename: str,
+    old_sha256: str | None,
+    new_sha256: str,
+    operator_id: int | None,
+    session_id: int | None,
+    request_id: str | None,
+    source_ip: str | None,
+    user_agent: str,
+) -> None:
+    """Insert one ``clients.audit_log`` row for a settings-file write.
+
+    Stage A.5 spec §4.1.8 wrapper. Caller computes the SHA-256 digests
+    from the exact on-disk bytes; this helper just stamps the row in
+    a ``with conn:`` transaction. ``clients.audit_log`` is NOT
+    trigger-watched (it is the destination of the trigger-driven
+    surface, not a source), so no ``bind_audit_context`` here — the
+    helper supplies actor / request_id directly.
+    """
+    payload = {"old_sha256": old_sha256, "new_sha256": new_sha256}
+    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    conn = connect_clients_audited(db_path, timeout=5)
+    try:
+        with conn:
+            conn.execute(
+                """
+                INSERT INTO audit_log
+                    (occurred_at, operator_id, session_id, action,
+                     target_type, target_id, payload_json,
+                     source_ip, user_agent, request_id, actor_kind)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'operator')
+                """,
+                (
+                    now,
+                    operator_id,
+                    session_id,
+                    "config.file_write",
+                    "settings_file",
+                    filename,
+                    json.dumps(payload),
+                    source_ip,
+                    user_agent,
+                    request_id,
+                ),
+            )
+    finally:
+        conn.close()
 
 
 @router.post("/commands/{command}")
