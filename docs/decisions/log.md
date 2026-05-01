@@ -2084,3 +2084,75 @@ Slice 3g closes the auth-plane carve. Three sequenced commits on `feat/stage-a-f
 - **Live Twin staleness outside Stage A docs.** Codex flagged `docs/superpowers/specs/2026-03-28-mobile-console-design.md:10` ("Demo a live scan ... scanning a digital twin we own") and `:34` ("The digital twin can run alongside for legitimacy."). These pre-date the PR #43 Live Twin removal but sit outside the Stage A documentation surface; out of scope for the gate's DoD ("no Stage A documentation lies remain"). Address in a future doc cleanup pass when the mobile console work resumes.
 
 **Suggested opening prompt for next session:** "Resume Production Readiness Gate. Architect's A.5 spec should have returned; review + Codex pass + Federico ratification. After that, Phase 1 implementation kicks off in `feat/stage-a-5-foundation` with X-Request-ID + audit triggers in parallel commits, RBAC decorator after."
+
+---
+
+## 2026-05-01 — Stage A.5 spec ratified + 7 forks resolved + Valdí audit-retention ruling
+
+**Context.** After Phase 0 (Stage A doc reconciliation, commit `45a58bd`), the architect drafted `docs/architecture/stage-a-5-spec.md` v1. Codex returned CHANGES-REQUESTED with five substantive findings + a Valdí dependency. Architect re-drafted v2 (73 KB, down from 100 KB), Federico ruled six forks (a)/(b)/(c)/(d)/(f)/(g), Valdí ruled fork (e), my own internal review caught nine stale cross-refs the architect missed, Codex round 2 caught six more, Codex round 3 caught one. All addressed. Spec ratified at 1162 lines / 82 KB.
+
+**Decided**
+
+- **Stage A.5 spec ratified.** Path: `docs/architecture/stage-a-5-spec.md`. Three components in one PR: audit triggers (D2 hybrid), RBAC decorator (D3), X-Request-ID middleware. Pi5 deploy ordering = b (bundled Stage A + A.5 cutover); A.5 internal ordering = c (audit triggers + X-Request-ID parallel → RBAC after).
+- **Fork (a) trigger contract = A.** UPDATE+DELETE only on tier-1 tables; INSERT triggers omitted (creation rows already canonical via repository wrappers). Federico's rationale: matches locked A.5 contract, avoids duplicate creation noise.
+- **Fork (b) file-backed settings audit = (iii).** Thin writer-wrapper at the route handler level. `/console/settings/{name}` PUT (`src/api/console.py:810-859`) writes `filters.json` / `interpreter.json` / `delivery.json` directly via `tempfile.NamedTemporaryFile + Path.rename`; the wrapper computes `old_sha256` / `new_sha256` and emits one `clients.audit_log` row with `action='config.file_write'`, `target_type='settings_file'`. Spec at §4.1.8. Federico's rationale: closes the audit gap without bundling a config-storage migration.
+- **Fork (c) permission count = 7.** `CONSOLE_READ` collapsed across 13 read routes; `RETENTION_FORCE_RUN` / `RETENTION_CANCEL` / `RETENTION_RETRY` kept split; `CONFIG_WRITE`, `COMMAND_DISPATCH`, `DEMO_RUN`. Total 20 gates across 20 routes (`DEMO_RUN` covers POST + WS, others 1-1). Federico's rationale: one `CONSOLE_READ` is the right grain; splitting reads adds vocabulary without a concrete role need yet.
+- **Fork (d) WS permission gate = inline.** WebSocket handlers do NOT use `@require_permission`. Inline check inside `_authenticate_ws` (`src/api/console.py:176`) using the same `Permission` enum + `auth.permission_denied` audit vocabulary; close code `4403` is the WS analogue of HTTP 403. Federico's rationale: WS flow has its own accept-then-close / auth-audit shape; a polymorphic decorator adds abstraction without simplifying.
+- **Fork (e) §263 audit preservation = (ii) APPROVED-WITH-CONDITIONS.** Valdí ruling 2026-04-30 (`valdi-2026-04-30-audit-retention`, binding per `feedback_valdi_guidance_non_overridable`). `purge_bookkeeping` extends to hard-delete `clients.audit_log`, `config_changes`, and `command_audit` rows past +5y under five binding conditions:
+  1. Per-row `WHERE occurred_at < cutoff` filter (NOT blanket per-CVR — would over-delete still-evidentiary rows on long-lived CVRs).
+  2. Single `clients.audit_log` summary row (`action='retention.bookkeeping_purge'`, `actor_kind='system'`, `payload_json={"deleted_counts": {...}, "occurred_at_cutoff": "<ISO>"}`) BEFORE the audit DELETEs run; the summary row survives one cycle, deleted by the next.
+  3. `clients.data_retention_mode='hold'` short-circuits the entire run (manual flag until V2 ships a structured `retention_holds` table).
+  4. `target_pk` carve-out: orphan `config_changes` rows (no CVR correlation) are NOT touched by `purge_bookkeeping` — separate data-minimisation cron, V2 scope.
+  5. Wernblad re-eval: if §263 stk. 3 (aggravated) plausibly applies to Heimdall's scanning posture, the horizon raises uniformly to 10y; carve-out shape unchanged.
+
+  Citations: Straffeloven §263 stk. 1 imposes no affirmative retention duty; §93 stk. 1 nr. 1 (2y limitation for stk. 1) is covered with margin by 5y; Bogføringsloven §12 (5y `regnskabsmateriale` retention) borrowed as a handler-convenience ceiling, NOT a statutory floor on operator-action audit rows; GDPR Art. 17(3)(e) is the preservation basis against erasure requests; GDPR Art. 30 records-of-processing has no minimum, satisfied by 5y. Anti-violation: any future PR proposing deletion of audit rows from any handler other than `purge_bookkeeping`, or shortening the +5y horizon, or removing the `data_retention_mode='hold'` short-circuit, MUST re-route through Valdí Gate review, not architecture.
+
+- **Fork (f) `retention_jobs` audit = B.** Joins tier-1 trigger surface. Today `_run_retention_action` (`src/api/console.py:622-654`) emits a loguru info line only; `force_run_retention_job` (`src/db/retention.py:320-380`) and `retry_failed_retention_job` (`src/db/retention.py:383-437`) UPDATE the row with a free-text `notes` suffix — no `clients.audit_log` row written today. Joining tier 1 closes the gap. Tier-1 count: 5 → 6 tables (`clients`, `subscriptions`, `consent_records`, `signup_tokens`, `client_domains`, `retention_jobs`). Trigger count: 10 → 12 (6 × 2 ops). Verified baseline by direct file read 2026-04-30.
+- **Fork (g) `request_id` propagation = A for A.5.** Only `RequestLoggingMiddleware`'s log line carries `request_id` for A.5; per-handler `logger.bind(context=...)` sites stay as-is. Three correlation primitives already exist (middleware log line, audit rows, response header). Option C (`contextvars.ContextVar` + loguru patch) flagged as V2 follow-up. Federico's rationale: mechanical sweep across ~15 sites is fragile; contextvars cleaner long-term but follow-up not this slice.
+
+**Forensic-log entry (Valdí ruling, paste-ready when `data/forensic_logs/` is wired).** 2026-04-30 — Valdí ruling on operator-audit retention horizons (Stage A.5 §4.1.7 + §9 item 7). Question: hard-deleting `clients.audit_log` / `config_changes` / `command_audit` rows past +5y consistent with §263 evidence preservation? Verdict: APPROVE-WITH-CONDITIONS for all three at uniform +5y, gated through `purge_bookkeeping`. Citations as above. Standing: binding per `feedback_valdi_guidance_non_overridable`. Supersedes nothing; extends the 2026-04-25 `consent_records` ruling at decision-log line 454. Open: Wernblad confirmation on §263 stk. 3 → 10y; structured `retention_holds` table is V2.
+
+**Internal-consistency assertions (verified by my pass + Codex rounds 2-3):**
+
+- 7 permissions, 13 `CONSOLE_READ` routes, 20 total gates across 20 routes.
+- 6 tier-1 tables × 2 ops = 12 triggers. 10 trigger names enumerated in §5.1.
+- §4.1.x sections in numerical order (1, 2, 3, 4, 5, 6, 7, 8, 9). §4.1.8 = writer-wrapper (NEW per fork (b) = (iii)); §4.1.9 = Migration entry points (renamed from §4.1.8 to keep file order).
+- §6 test surface: `tests/test_audit_context.py` (~180), `tests/test_config_changes_triggers.py` (~320, 12 triggers × {wrapper-bound, bypass} = 24), `tests/test_command_audit_writer.py` (~120), `tests/test_permissions.py` (~200, 7-value enum coverage), `tests/test_console_permission_gates.py` (~300, 18 HTTP routes × 2 = 36), `tests/test_request_id_middleware.py` (~220), `tests/test_settings_audit_writer.py` (~80, NEW per fork (b)), `tests/test_retention_actions.py` extension (8 forensic-preservation tests for Valdí conditions).
+- Code-grounded baseline (verified): `purge_bookkeeping` (`src/retention/actions.py:554-599`) deletes only `payment_events` + `subscriptions`; settings PUT handler (`src/api/console.py:838`) uses `tempfile.NamedTemporaryFile + Path.rename` inline (no helper exists today); `_SPA_*` constants post-PR #54 confirmed at `src/api/auth/middleware.py:108-132`; 20 routes in `src/api/console.py` mapped to exactly one of 7 permissions each.
+
+**Review chain trace (per `feedback_self_review_chain`):**
+
+1. Architect drafted v1 (98 KB) — 5 P1/P2 findings on first Codex pass: permission count off (10 claimed, 7 defined), trigger contract self-contradiction (§2.1 vs §4.1.3 vs §5.1), `config_changes` scope conflated DB+file, WS pattern self-contradiction, fork-(f) baseline wrong.
+2. Architect re-drafted v2 (73 KB) addressing all 5 findings, framed §4.1.7 + §11.5 as `[PENDING VALDÍ RULING]`.
+3. Valdí ruling spliced into v2 §4.1.7 + §6.3 + §9 item 7 + §11.5 + §1.2 + §7.2 + §12.
+4. **My internal review pass** (binding per sharpened `feedback_self_review_chain`) caught 9 stale cross-refs the architect missed: 4 count sites (`CONSOLE_READ × 14` → 13, "21 gates" → 20), dangling §11.1 paragraph at line 612, stale `§11.6 forks` in §4.1.2 prose, stale `§11.2 fork` in code comment, stale `§11.4 fork` in §1.1, stale `§11.7 forks` in §4.3.4, stale `§11.4` and `§11.2` in §10 follow-ups, stale `§11.4` in §2.2 row.
+5. Codex round 2 caught 6 P2/P3 I missed: §8 "5 low-volume tables" (count not aligned to fork-(f) propagation), §11.5 heading missing inline option, §11.6 propagation list pointed to old §4.1.8 (now §4.1.9), §12 "8 tests" stale (now 9), invented `_atomic_write_json` helper that doesn't exist, "c" / "(iii)" inconsistency in fork (b) labels.
+6. Codex round 3 caught 1 nit: `§9.1` (doesn't exist; §9 has numbered items not subsections) → `§9 item 1` in §11.4 + §12.
+7. Spec SHIP, Federico ratified.
+
+**Memory updates during the cycle:**
+
+- `feedback_self_review_chain.md` sharpened — step 3 (binding pre-Codex review) made explicit with a concrete code-grounded checklist (`ls -la` every path, `grep -n` every function/class/table/column, count every assertion, run every empirical claim, verify every decision citation). Federico's reinforcement on 2026-05-01 captured: "Step up. Try harder. Internal review BEFORE Codex, which you ALWAYS have to do." Codex is confirmation, not discovery.
+
+**Rejected**
+
+- v1's claim of 10 permissions / 21 gates / 14 `CONSOLE_READ` routes — count error caught by Codex; v2 corrected to 7 / 20 / 13. The §12 internal-consistency check originally promised to verify counts but didn't — fixed in v2.
+- v1's invented `/signup/start` route — `/signup/validate` at `src/api/signup.py:55` is the actual route.
+- v1's claim that `_atomic_write_json` is a pre-existing helper — does not exist; v2 corrected to describe the actual `tempfile.NamedTemporaryFile + Path.rename` inline pattern at `src/api/console.py:838`.
+- v1's framing of fork (f) — claimed `retention_jobs` "already has audit_log rows"; verified false against `_run_retention_action` (`src/api/console.py:622-654`) which emits only loguru.
+- "c" / "(iii)" inconsistency in fork (b) resolution label — normalised to `(iii)` for spec-internal consistency.
+- `§11.1` dangling paragraph at v2 line 612 (retention permission collapse to `RETENTION_MANAGE`) — was a v1 leftover after fork renumbering; removed entirely, RETENTION_{FORCE_RUN, CANCEL, RETRY} stay split per fork (c) = 7.
+- `§9.1` cross-refs in §11.4 + §12 — §9 has numbered items not subsections; corrected to `§9 item 1`.
+- Direct edits to v2's locked §4.1.7 / §6.3 prose without the Valdí splice — Valdí's ruling provided ready-to-paste language; the splice is verbatim from `valdi-2026-04-30-audit-retention`.
+
+**Unresolved**
+
+- **Phase 1 (A.5 implementation).** Lands on `feat/stage-a-5-foundation` after Pi5 cutover of Stage A. Sequencing: audit triggers + X-Request-ID parallel commits → RBAC decorator commit. Each Codex-reviewed pre-commit per `precommit_codex_review_guard.py`.
+- **Phase 2 (Pi5 rehearsal).** Browser-QA on dev → `scripts/rollback_pi5.sh` (NEW, committed) → image-tag swap rehearsal on Pi5.
+- **Phase 3 (first Pi5 cutover).** Bundled Stage A + A.5 deploy. Smoke checklist: login/logout, whoami four-state, sliding+absolute TTL, rate-limit 429, audit row appears for a config change, X-Request-ID present in logs, retention-job force-run produces a `config_changes` row.
+- **Wernblad confirmation pending** on 5y vs 10y limitation period for §263 stk. 3 aggravated. Affects `purge_bookkeeping` schedule horizon; carve-out shape unchanged. Tracked at decision-log line 477.
+- **Structured `retention_holds` table** — V2 follow-up so Valdí condition 4 graduates from manual `data_retention_mode='hold'` flag to row-scoped freeze.
+- **Direct-edit detection on `config/*.json`** — operator SSH bypasses the §4.1.8 writer-wrapper; flagged as V2 polish (filesystem inotify or periodic SHA-comparison).
+- **`§11.5` heading format consistency reflection** — five rounds of review caught off-by-ones in counts that the architect's promised internal-consistency check missed. Pattern: pre-Codex review must count things, not pattern-match prose. Memory captures this; future architect briefs include explicit count-assertion + cross-section consistency requirements.
+
+**Suggested opening prompt for next session:** "Resume Production Readiness Gate. Stage A.5 spec ratified at `docs/architecture/stage-a-5-spec.md`. Next: PR #55 already merged; browser-QA the slice 3g/3g.5 walkthrough at http://localhost:8001/app/ → fast-forward `prod` → Pi5 cutover (bundled Stage A + A.5) → Phase 1 A.5 implementation kicks off on `feat/stage-a-5-foundation`."
