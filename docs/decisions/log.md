@@ -77,8 +77,8 @@ Running record of architectural decisions, rejections, and reasoning made during
 
 **Unresolved**
 
-- Commit (4) — `scripts/verify_audit_triggers.sh` extension (`SELECT count(*) FROM operators WHERE role_hint IS NULL OR role_hint != 'owner'` must return 0 at deploy). Closes the fork-(b) lockout vector at the deploy gate. Separate commit on this branch.
-- 5 commits unpushed (`f9eb720`, `93cf2ec`, `a89a527`, `cadc1f9`, `8ce91d5` + this commit). Push, open PR, or hold for the bundled cutover?
+- ~~Commit (4) — `scripts/verify_audit_triggers.sh` extension~~. **Shipped 2026-05-02 evening immediately after wave C** as a 12-line bash diff: new check #4 `SELECT COUNT(*) FROM operators WHERE role_hint IS NOT NULL AND role_hint != 'owner'` — must return 0 at deploy. Mirrors the existing NULL check shape, exits 1 on any non-canonical role_hint so a typo'd seed script ('Owner' / 'operator' / 'admin') cannot ship past the deploy gate. Smoke-tested both paths (happy: exit 0; non-canonical operator inserted: exit 1 with the right FAIL message). Bash diff only — no Codex round (hook scope is `src/**/*.py` + `tests/**/*.py`).
+- 6 commits unpushed (`93cf2ec`, `f9eb720`, `a89a527`, `cadc1f9`, `8ce91d5`, `ac1459a` + this commit (4)). Push, open PR, or hold for the bundled cutover?
 - iCloud Drive recovery incident this session — Federico Cmd+Deleted `~/Documents/Repos` thinking it was iCloud-only; recovered via iCloud Recently Deleted but landed in `Repos 2/`; Federico moved manually back to `Repos/`. Wave A commit `cadc1f9` survived intact in the .git/objects of the recovered tree. Memory rule saved: GUI-first instructions during incidents (lead with Finder drag-and-drop, not shell `mv` with escaped spaces). Two assumption-jump errors during the recovery surfaced — saved to memory as a hard rule on inferring state from weak signals.
 - Pi5 cutover (bundled Stage A + A.5) — gated on commit (4) ship + Wernblad §263 stk. 3 confirmation (5y vs 10y horizon — affects `purge_bookkeeping` schedule, not commit-(2) RBAC).
 

@@ -5,6 +5,13 @@
 #   2. command_audit and config_changes tables exist in clients.db.
 #   3. Every console.db operator has a non-NULL role_hint (without
 #      this, the A.5 RBAC decorator would 403 every gated route).
+#   4. Every console.db operator has role_hint = 'owner' exactly
+#      (fork (b) canonical, locked 2026-05-02). The runtime decorator
+#      case-normalises ('Owner' / '  owner  ' allow), but the deploy
+#      gate is the safety net BEFORE runtime — flagging any non-
+#      canonical value here catches typo'd seed scripts and the
+#      pre-amended spec's 'operator' vocabulary surviving in stale
+#      migration code.
 #
 # Runs from the Pi5 host (or any host with sqlite3 + the two DB
 # files mounted). Emits PASS:/FAIL: lines per check; exits 1 on
@@ -109,6 +116,24 @@ else
     pass "every operator has role_hint populated"
   else
     fail "$null_count operator(s) have NULL role_hint — RBAC decorator will 403 them"
+  fi
+
+  # ----------------------------------------------------------------
+  # 4. Every operator's role_hint is exactly 'owner' (fork (b) canon)
+  # ----------------------------------------------------------------
+  # Locked 2026-05-02. ROLE_PERMISSIONS = {"owner": frozenset(Permission)}.
+  # The runtime decorator case-normalises ('Owner' / '  owner  ' allow)
+  # but the deploy gate flags ANY non-canonical value here so a typo'd
+  # seed script or a 'role_hint=operator' row left over from spec
+  # pre-amendment cannot lock the operator out of every gated route.
+  # Future structured RBAC (V2) introduces 'observer' / 'editor';
+  # update this allowlist in lockstep with ROLE_PERMISSIONS at that time.
+  non_canonical=$("$SQLITE3" "$CONSOLE_DB" \
+    "SELECT COUNT(*) FROM operators WHERE role_hint IS NOT NULL AND role_hint != 'owner'")
+  if [[ "$non_canonical" -eq 0 ]]; then
+    pass "every operator role_hint is the 'owner' canonical (fork (b))"
+  else
+    fail "$non_canonical operator(s) have non-canonical role_hint — RBAC decorator will 403 (fork (b) lockout vector)"
   fi
 fi
 
