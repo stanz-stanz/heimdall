@@ -135,6 +135,14 @@ services:
       - BRIEFS_DIR=/data/briefs
       - TELEGRAM_BOT_USERNAME=${TELEGRAM_BOT_USERNAME:-}
       - SIGNUP_ALLOWED_ORIGINS=${SIGNUP_ALLOWED_ORIGINS:-}
+      # Auth rate-limit knobs (PR #55, 2026-04-30). Production leaves
+      # both unset; defaults in src/api/auth/rate_limit.py apply (5 fails
+      # in 900 sec). Dev sets THRESHOLD=2 WINDOW_SEC=10 in .env.dev to
+      # let the slice 3g/3g.5 5-bad-creds QA step run without a 15-min
+      # lockout. Invalid/empty values fall back to defaults — limiter
+      # never runs at zero/negative threshold.
+      - HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD=${HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD:-}
+      - HEIMDALL_AUTH_RATE_LIMIT_WINDOW_SEC=${HEIMDALL_AUTH_RATE_LIMIT_WINDOW_SEC:-}
     secrets:
       - telegram_bot_token
       - claude_api_key
