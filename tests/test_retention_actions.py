@@ -29,6 +29,7 @@ implementation's IntegrityError class of bug is gone.
 
 from __future__ import annotations
 
+import json
 from io import StringIO
 
 import pytest
@@ -1453,7 +1454,571 @@ class TestPurgeBookkeepingChildrenFirst:
         assert counts["subscriptions"] == 1
 
     def test_returns_count_dict(self, db, fake_job):
+        """Stage A.5 spec §4.1.7 extended the return shape to cover
+        the three audit surfaces. Each key is always present (zero on
+        a clean target). The ``held`` key only appears on the short-
+        circuit path (see ``test_purge_bookkeeping_respects_hold_flag``).
+        """
         cvr = "12345678"
         create_client(db, cvr=cvr, company_name="X", plan="sentinel")
         counts = purge_bookkeeping(db, fake_job(cvr, action="purge_bookkeeping"))
-        assert set(counts.keys()) == {"payment_events", "subscriptions"}
+        assert set(counts.keys()) == {
+            "payment_events",
+            "subscriptions",
+            "clients_audit_log",
+            "config_changes",
+            "command_audit",
+        }
+
+
+# ---------------------------------------------------------------------------
+# Stage A.5 spec §6.3 — Valdí §263 audit-row preservation tests
+# ---------------------------------------------------------------------------
+
+
+_NOW_FOR_AUDIT = "2026-04-24T00:00:00Z"
+
+
+def _years_ago_iso(years: int) -> str:
+    """Return an ISO-8601 UTC timestamp ``years`` calendar years before
+    the test runtime ``now``.
+
+    Codex 2026-05-02 P2: absolute test-seed constants (``2020-04-24``)
+    were stable today but would drift past the ``now - 5y`` cutoff
+    around 2030, breaking
+    ``test_purge_bookkeeping_keeps_recent_audit_rows_for_target``. The
+    seeds are now derived from the live clock so the relative
+    ordering against the cutoff stays correct as the calendar
+    advances.
+    """
+    from datetime import UTC, datetime, timedelta
+    return (datetime.now(UTC) - timedelta(days=years * 365)).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
+
+
+def _six_years_ago_iso() -> str:
+    return _years_ago_iso(6)
+
+
+def _one_year_ago_iso() -> str:
+    return _years_ago_iso(1)
+
+
+# Computed once at import. ``purge_bookkeeping`` reads the cutoff via
+# ``datetime.now(UTC)`` at call time; the few-second drift between
+# import and call never moves a row across the +/- 5y boundary.
+_SIX_YEARS_AGO = _six_years_ago_iso()
+_ONE_YEAR_AGO = _one_year_ago_iso()
+
+
+def _seed_audit_log_row(
+    conn,
+    *,
+    target_id: str,
+    action: str = "retention.force_run",
+    occurred_at: str = _NOW_FOR_AUDIT,
+    target_type: str = "cvr",
+    actor_kind: str = "operator",
+) -> int:
+    cur = conn.execute(
+        """
+        INSERT INTO audit_log (
+            occurred_at, operator_id, session_id, action,
+            target_type, target_id, payload_json,
+            source_ip, user_agent, request_id, actor_kind
+        )
+        VALUES (?, NULL, NULL, ?, ?, ?, '{}', NULL, NULL, NULL, ?)
+        """,
+        (occurred_at, action, target_type, target_id, actor_kind),
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+def _seed_config_changes_row(
+    conn,
+    *,
+    target_pk: str,
+    table_name: str = "clients",
+    op: str = "UPDATE",
+    occurred_at: str = _NOW_FOR_AUDIT,
+    intent: str | None = None,
+) -> int:
+    cur = conn.execute(
+        """
+        INSERT INTO config_changes (
+            occurred_at, table_name, op, target_pk,
+            old_json, new_json,
+            intent, operator_id, session_id, request_id, actor_kind
+        )
+        VALUES (?, ?, ?, ?, '{}', '{}', ?, NULL, NULL, NULL, 'operator')
+        """,
+        (occurred_at, table_name, op, target_pk, intent),
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+def _seed_command_audit_row(
+    conn,
+    *,
+    target_id: str,
+    command_name: str = "send",
+    outcome: str = "ok",
+    occurred_at: str = _NOW_FOR_AUDIT,
+    target_type: str = "cvr",
+) -> int:
+    cur = conn.execute(
+        """
+        INSERT INTO command_audit (
+            occurred_at, command_name, target_type, target_id,
+            outcome, payload_json, error_detail,
+            operator_id, session_id, request_id, actor_kind
+        )
+        VALUES (?, ?, ?, ?, ?, '{}', NULL, NULL, NULL, NULL, 'operator')
+        """,
+        (occurred_at, command_name, target_type, target_id, outcome),
+    )
+    conn.commit()
+    return cur.lastrowid
+
+
+class TestValdiAuditPreservation:
+    """Spec §6.3 — anonymise / purge MUST NOT touch the three audit
+    surfaces; ``purge_bookkeeping`` is the single permitted writer
+    under five binding carve-outs (Valdí ruling 2026-04-30).
+    """
+
+    def test_anonymise_does_not_touch_audit_surfaces(self, db, fake_job):
+        """Anonymise preserves all three audit surfaces — both the
+        target-CVR rows and any unrelated rows."""
+        _seed_full_sentinel(db)
+        cvr = "12345678"
+        # Target-CVR rows on each of the three audit surfaces.
+        _seed_audit_log_row(db, target_id=cvr, action="trial.activated")
+        _seed_config_changes_row(db, target_pk=cvr, table_name="clients")
+        _seed_command_audit_row(db, target_id=cvr, command_name="send")
+
+        anonymise_client(db, fake_job(cvr))
+        db.commit()
+
+        # All three audit surfaces still hold the seeded rows.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM audit_log WHERE target_id = ?",
+                (cvr,),
+            ).fetchone()[0]
+            >= 1
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM config_changes WHERE target_pk = ?",
+                (cvr,),
+            ).fetchone()[0]
+            >= 1
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM command_audit WHERE target_id = ?",
+                (cvr,),
+            ).fetchone()[0]
+            == 1
+        )
+
+    def test_purge_does_not_touch_audit_surfaces(
+        self, db, fake_job, client_data_dir
+    ):
+        """Purge cascades the client subtree but preserves all three
+        audit surfaces. The audit rows survive the hard-delete so a
+        forensic timeline can be reconstructed against the deleted CVR."""
+        cvr = "99999999"
+        create_client(
+            db, cvr=cvr, company_name="Trialist Co", plan="watchman"
+        )
+        _seed_audit_log_row(db, target_id=cvr, action="retention.purge")
+        _seed_config_changes_row(db, target_pk=cvr, table_name="clients")
+        _seed_command_audit_row(
+            db, target_id=cvr, command_name="run-pipeline"
+        )
+        cur = db.execute(
+            "INSERT INTO retention_jobs (cvr, action, scheduled_for, "
+            "status, created_at) VALUES (?, 'purge', ?, 'running', ?)",
+            (cvr, _NOW_FOR_AUDIT, _NOW_FOR_AUDIT),
+        )
+        job = fake_job(cvr, action="purge")
+        job["id"] = cur.lastrowid
+        db.commit()
+
+        purge_client(db, job)
+        db.commit()
+
+        # The clients row is gone (Watchman hard-delete).
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM clients WHERE cvr = ?", (cvr,)
+            ).fetchone()[0]
+            == 0
+        )
+        # All three audit surfaces still hold their pre-purge rows.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM audit_log WHERE target_id = ?",
+                (cvr,),
+            ).fetchone()[0]
+            >= 1
+        )
+        # Note: config_changes also contains the trigger-fired DELETE
+        # rows from the cascade. We assert the seeded row is still there
+        # rather than asserting an exact count.
+        seeded_present = db.execute(
+            "SELECT COUNT(*) FROM config_changes "
+            "WHERE target_pk = ? AND old_json = '{}' AND new_json = '{}'",
+            (cvr,),
+        ).fetchone()[0]
+        assert seeded_present == 1
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM command_audit WHERE target_id = ?",
+                (cvr,),
+            ).fetchone()[0]
+            == 1
+        )
+
+    def test_purge_bookkeeping_keeps_recent_audit_rows_for_target(
+        self, db, fake_job
+    ):
+        """Carve-out 1: per-row ``occurred_at < cutoff`` filter. A
+        year-old audit row tied to the target CVR survives the purge —
+        it's inside the +5y preservation horizon."""
+        cvr = "12345678"
+        _seed_full_sentinel(db, cvr=cvr)
+        _seed_audit_log_row(
+            db,
+            target_id=cvr,
+            action="trial.activated",
+            occurred_at=_ONE_YEAR_AGO,
+        )
+        _seed_config_changes_row(
+            db, target_pk=cvr, occurred_at=_ONE_YEAR_AGO
+        )
+        _seed_command_audit_row(
+            db, target_id=cvr, occurred_at=_ONE_YEAR_AGO
+        )
+
+        purge_bookkeeping(db, fake_job(cvr, action="purge_bookkeeping"))
+        db.commit()
+
+        # All three recent rows survive.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM audit_log "
+                "WHERE target_id = ? AND occurred_at = ?",
+                (cvr, _ONE_YEAR_AGO),
+            ).fetchone()[0]
+            == 1
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM config_changes "
+                "WHERE target_pk = ? AND occurred_at = ?",
+                (cvr, _ONE_YEAR_AGO),
+            ).fetchone()[0]
+            == 1
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM command_audit "
+                "WHERE target_id = ? AND occurred_at = ?",
+                (cvr, _ONE_YEAR_AGO),
+            ).fetchone()[0]
+            == 1
+        )
+
+    def test_purge_bookkeeping_skips_unrelated_cvrs(self, db, fake_job):
+        """Carve-out 1 (extension): rows for unrelated CVRs are
+        untouched even when older than the cutoff."""
+        cvr = "12345678"
+        unrelated = "99999999"
+        _seed_full_sentinel(db, cvr=cvr)
+        # 6-year-old row tied to a different CVR.
+        _seed_audit_log_row(
+            db, target_id=unrelated, occurred_at=_SIX_YEARS_AGO
+        )
+        _seed_config_changes_row(
+            db, target_pk=unrelated, occurred_at=_SIX_YEARS_AGO
+        )
+        _seed_command_audit_row(
+            db, target_id=unrelated, occurred_at=_SIX_YEARS_AGO
+        )
+
+        purge_bookkeeping(db, fake_job(cvr, action="purge_bookkeeping"))
+        db.commit()
+
+        # Unrelated rows untouched.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM audit_log WHERE target_id = ?",
+                (unrelated,),
+            ).fetchone()[0]
+            == 1
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM config_changes WHERE target_pk = ?",
+                (unrelated,),
+            ).fetchone()[0]
+            == 1
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM command_audit WHERE target_id = ?",
+                (unrelated,),
+            ).fetchone()[0]
+            == 1
+        )
+
+    def test_purge_bookkeeping_deletes_old_audit_rows_for_target(
+        self, db, fake_job
+    ):
+        """6-year-old rows on the target CVR are hard-deleted."""
+        cvr = "12345678"
+        _seed_full_sentinel(db, cvr=cvr)
+        _seed_audit_log_row(
+            db, target_id=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+        _seed_config_changes_row(
+            db, target_pk=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+        _seed_command_audit_row(
+            db, target_id=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+
+        counts = purge_bookkeeping(
+            db, fake_job(cvr, action="purge_bookkeeping")
+        )
+        db.commit()
+
+        assert counts["clients_audit_log"] == 1
+        assert counts["config_changes"] == 1
+        assert counts["command_audit"] == 1
+
+        # The aged rows are gone.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM audit_log "
+                "WHERE target_id = ? AND occurred_at = ?",
+                (cvr, _SIX_YEARS_AGO),
+            ).fetchone()[0]
+            == 0
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM config_changes "
+                "WHERE target_pk = ? AND occurred_at = ?",
+                (cvr, _SIX_YEARS_AGO),
+            ).fetchone()[0]
+            == 0
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM command_audit "
+                "WHERE target_id = ? AND occurred_at = ?",
+                (cvr, _SIX_YEARS_AGO),
+            ).fetchone()[0]
+            == 0
+        )
+
+    def test_purge_bookkeeping_respects_hold_flag(self, db, fake_job):
+        """Carve-out 3: ``data_retention_mode='hold'`` short-circuits
+        the entire run. Zero DELETEs even on aged rows."""
+        cvr = "12345678"
+        _seed_full_sentinel(db, cvr=cvr)
+        _seed_audit_log_row(
+            db, target_id=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+        _seed_config_changes_row(
+            db, target_pk=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+        _seed_command_audit_row(
+            db, target_id=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+
+        # Set the hold flag directly via SQL — set_data_retention_mode
+        # rejects 'hold' (V2 will replace with a structured table).
+        db.execute(
+            "UPDATE clients SET data_retention_mode = 'hold' WHERE cvr = ?",
+            (cvr,),
+        )
+        db.commit()
+
+        counts = purge_bookkeeping(
+            db, fake_job(cvr, action="purge_bookkeeping")
+        )
+        db.commit()
+
+        # All counts zero; held flag set.
+        assert counts.get("held") is True
+        assert counts["payment_events"] == 0
+        assert counts["subscriptions"] == 0
+        assert counts["clients_audit_log"] == 0
+        assert counts["config_changes"] == 0
+        assert counts["command_audit"] == 0
+
+        # Aged rows still present — short-circuit fired before any DELETE.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM audit_log "
+                "WHERE target_id = ? AND occurred_at = ?",
+                (cvr, _SIX_YEARS_AGO),
+            ).fetchone()[0]
+            == 1
+        )
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM config_changes "
+                "WHERE target_pk = ? AND occurred_at = ?",
+                (cvr, _SIX_YEARS_AGO),
+            ).fetchone()[0]
+            == 1
+        )
+        # Bookkeeping rows still present too.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM subscriptions WHERE cvr = ?",
+                (cvr,),
+            ).fetchone()[0]
+            == 1
+        )
+
+    def test_purge_bookkeeping_emits_summary_row_before_deletes(
+        self, db, fake_job
+    ):
+        """Carve-out 2: one summary ``clients.audit_log`` row lands
+        before the DELETEs run, with per-surface deleted_counts in
+        ``payload_json`` and ``occurred_at_cutoff`` in ISO-8601 form."""
+        cvr = "12345678"
+        _seed_full_sentinel(db, cvr=cvr)
+        # Seed two aged audit_log rows + one config_changes + one
+        # command_audit so the summary's deleted_counts is non-trivial.
+        _seed_audit_log_row(
+            db,
+            target_id=cvr,
+            action="trial.activated",
+            occurred_at=_SIX_YEARS_AGO,
+        )
+        _seed_audit_log_row(
+            db,
+            target_id=cvr,
+            action="retention.force_run",
+            occurred_at=_SIX_YEARS_AGO,
+        )
+        _seed_config_changes_row(
+            db, target_pk=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+        _seed_command_audit_row(
+            db, target_id=cvr, occurred_at=_SIX_YEARS_AGO
+        )
+
+        purge_bookkeeping(db, fake_job(cvr, action="purge_bookkeeping"))
+        db.commit()
+
+        # The summary row lands with action='retention.bookkeeping_purge'
+        # and survives the cycle (its occurred_at is ~now, well past
+        # the cutoff).
+        summary_rows = db.execute(
+            "SELECT occurred_at, target_type, target_id, payload_json, "
+            "actor_kind FROM audit_log WHERE action = ?",
+            ("retention.bookkeeping_purge",),
+        ).fetchall()
+        assert len(summary_rows) == 1
+        summary = summary_rows[0]
+        assert summary["target_type"] == "cvr"
+        assert summary["target_id"] == cvr
+        assert summary["actor_kind"] == "system"
+
+        payload = json.loads(summary["payload_json"])
+        assert "deleted_counts" in payload
+        assert "occurred_at_cutoff" in payload
+        assert payload["deleted_counts"]["clients_audit_log"] == 2
+        assert payload["deleted_counts"]["config_changes"] == 1
+        assert payload["deleted_counts"]["command_audit"] == 1
+        assert payload["deleted_counts"]["payment_events"] == 1
+        assert payload["deleted_counts"]["subscriptions"] == 1
+        # Cutoff ISO-8601 with 'Z' suffix.
+        assert payload["occurred_at_cutoff"].endswith("Z")
+
+    def test_purge_bookkeeping_skips_non_cvr_audit_log_rows(
+        self, db, fake_job
+    ):
+        """Codex 2026-05-02 P2 follow-up: ``clients.audit_log`` rows
+        whose ``target_type`` is something other than ``'cvr'`` are
+        NOT touched, even when their ``target_id`` happens to match
+        the CVR string. Prevents a future writer from accidentally
+        deleting (e.g.) a settings_file row whose target_id is a
+        filename that collides with a CVR.
+        """
+        cvr = "12345678"
+        _seed_full_sentinel(db, cvr=cvr)
+        # A non-CVR audit row with a colliding target_id. Aged so the
+        # cutoff filter does not protect it; only the target_type
+        # filter must.
+        _seed_audit_log_row(
+            db,
+            target_id=cvr,
+            action="config.file_write",
+            target_type="settings_file",
+            occurred_at=_SIX_YEARS_AGO,
+        )
+
+        counts = purge_bookkeeping(
+            db, fake_job(cvr, action="purge_bookkeeping")
+        )
+        db.commit()
+
+        # The non-CVR row was not counted toward this CVR's deletion.
+        assert counts["clients_audit_log"] == 0
+        # And it survives.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM audit_log "
+                "WHERE target_id = ? AND target_type = ?",
+                (cvr, "settings_file"),
+            ).fetchone()[0]
+            == 1
+        )
+
+    def test_purge_bookkeeping_skips_orphan_config_changes(
+        self, db, fake_job
+    ):
+        """Carve-out 4: a 6-year-old ``config_changes`` row whose
+        ``target_pk`` does not match any CVR is preserved. Its
+        retention is governed by a separate data-minimisation cron
+        (out of scope for A.5)."""
+        cvr = "12345678"
+        orphan_pk = "1492"  # numeric id from a client_domains row
+        _seed_full_sentinel(db, cvr=cvr)
+        # The orphan: target_pk does not match the target CVR. It is
+        # also older than the cutoff.
+        _seed_config_changes_row(
+            db,
+            target_pk=orphan_pk,
+            table_name="client_domains",
+            occurred_at=_SIX_YEARS_AGO,
+        )
+
+        counts = purge_bookkeeping(
+            db, fake_job(cvr, action="purge_bookkeeping")
+        )
+        db.commit()
+
+        # The orphan was not counted toward this CVR's deletion.
+        assert counts["config_changes"] == 0
+        # And it is still present in the table.
+        assert (
+            db.execute(
+                "SELECT COUNT(*) FROM config_changes WHERE target_pk = ?",
+                (orphan_pk,),
+            ).fetchone()[0]
+            == 1
+        )

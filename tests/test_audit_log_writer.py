@@ -118,11 +118,19 @@ def console_conn(tmp_path: Path) -> sqlite3.Connection:
 def test_writes_row_with_all_expected_fields_populated(
     console_conn: sqlite3.Connection,
 ) -> None:
-    """An authenticated operator action populates every column the
-    writer is responsible for: occurred_at, operator_id, session_id,
-    action, target_type, target_id, payload_json, source_ip,
-    user_agent. ``request_id`` stays NULL in Stage A."""
-    request = _fake_request(operator_id=1, session_id=1)
+    """An authenticated operator action with the X-Request-ID middleware
+    in play populates every column the writer is responsible for:
+    occurred_at, operator_id, session_id, action, target_type,
+    target_id, payload_json, source_ip, user_agent, request_id.
+
+    Stage A.5 §6.6 adjustment: the request fixture now seeds a
+    request_id (mirrors what RequestIdMiddleware would have populated
+    on the real HTTP path) so the assertion locks the request_id
+    propagation contract. The NULL-on-state-unset path is covered by
+    the dedicated ``test_request_id_null_when_state_unset`` below."""
+    request = _fake_request(
+        operator_id=1, session_id=1, request_id="req-all-fields-1"
+    )
 
     row_id = write_console_audit_row(
         console_conn,
@@ -153,7 +161,7 @@ def test_writes_row_with_all_expected_fields_populated(
     assert json.loads(row["payload_json"]) == {"username": "alice"}
     assert row["source_ip"] == "192.0.2.1"
     assert row["user_agent"] == "pytest-ua"
-    assert row["request_id"] is None  # Stage A.5 wires X-Request-ID
+    assert row["request_id"] == "req-all-fields-1"
 
 
 # ---------------------------------------------------------------------------
@@ -386,9 +394,12 @@ def test_source_ip_null_when_request_has_no_client(
 def test_request_id_propagated_when_set(
     console_conn: sqlite3.Connection,
 ) -> None:
-    """Stage A.5 will populate request.state.request_id via
-    X-Request-ID middleware. The helper picks it up if present so the
-    capture point is forward-compatible without a Stage A code change.
+    """Stage A.5 X-Request-ID middleware populates ``request.state.
+    request_id`` on every HTTP and WebSocket scope; the helper reads
+    that attribute and lands the value on the audit row. End-to-end
+    correlation across the two databases is exercised in
+    ``tests/test_request_id_middleware.py::
+    test_request_id_propagated_across_two_dbs``.
     """
     request = _fake_request(
         operator_id=1, session_id=1, request_id="req-abc123"
@@ -401,11 +412,12 @@ def test_request_id_propagated_when_set(
     assert stored == "req-abc123"
 
 
-def test_request_id_null_in_stage_a(
+def test_request_id_null_when_state_unset(
     console_conn: sqlite3.Connection,
 ) -> None:
-    """When middleware hasn't populated request.state.request_id (the
-    Stage A baseline), the column stays NULL."""
+    """When ``request.state.request_id`` is unset (e.g. a unit-test
+    path that bypasses the X-Request-ID middleware), the column
+    stays NULL — the helper does not invent a value."""
     request = _fake_request(operator_id=1, session_id=1)
     row_id = write_console_audit_row(console_conn, request, action="auth.login_ok")
     console_conn.commit()

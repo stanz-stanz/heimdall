@@ -7,6 +7,7 @@ import threading
 
 import pytest
 
+from src.db.connection import connect_clients_audited
 from src.db.onboarding import InvalidSignupToken, activate_watchman_trial
 
 from tests._signup_test_helpers import (
@@ -59,9 +60,12 @@ class TestRoundTrip:
         finally:
             conn.close()
 
-        # Step 2: Telegram /start handler activates
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
+        # Step 2: Telegram /start handler activates. Stage A.5: the
+        # signup_tokens UPDATE + clients UPDATE/INSERT inside
+        # activate_watchman_trial fire trigger calls into
+        # audit_context(); use connect_clients_audited so the UDF is
+        # registered on the connection.
+        conn = connect_clients_audited(db_path)
         try:
             client_row = activate_watchman_trial(
                 conn, token, "tg_chat_id_123"
@@ -114,8 +118,10 @@ class TestActivationRace:
         barrier = threading.Barrier(2)
 
         def worker(chat_id: str) -> None:
-            conn = sqlite3.connect(db_path, timeout=10)
-            conn.row_factory = sqlite3.Row
+            # Stage A.5: same audit_context UDF requirement as the
+            # round-trip test above — activate_watchman_trial fires
+            # tier-1 triggers.
+            conn = connect_clients_audited(db_path, timeout=10)
             try:
                 barrier.wait(timeout=2)
                 activate_watchman_trial(conn, token, chat_id)

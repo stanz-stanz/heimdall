@@ -846,3 +846,62 @@ def test_refresh_cas_loss_returns_401(
     joined = " | ".join(resp.headers.get_list("set-cookie"))
     assert "heimdall_session=" in joined
     assert "heimdall_csrf=" in joined
+
+
+# ---------------------------------------------------------------------------
+# Stage A.5 §6.6 — request_id plumbing through the seeded scope
+# ---------------------------------------------------------------------------
+
+
+def test_request_id_propagates_through_session_auth_to_handler(
+    console_db_path: str,
+    seeded_session: tuple[str, str, int],
+) -> None:
+    """When ``RequestIdMiddleware`` mounts OUTERMOST and
+    ``SessionAuthMiddleware`` mounts inside it (production order per
+    spec §4.3.3), the inbound ``X-Request-ID`` value lands on
+    ``request.state.request_id`` AT the handler — i.e.
+    SessionAuthMiddleware's ``scope.setdefault("state", {})`` does
+    not clobber the request_id that RequestIdMiddleware already
+    populated.
+
+    Locks the contract that future middleware reordering or state
+    rewrites cannot silently drop the correlation id."""
+    from src.api.auth.request_id import RequestIdMiddleware
+
+    plaintext, _csrf, _sid = seeded_session
+
+    app = FastAPI()
+    # add_middleware pushes onto the head of the stack, so the LAST
+    # add_middleware call is the OUTERMOST layer. Spec §4.3.3 order:
+    # [RequestId → RequestLogging → SessionAuth → handler] at runtime.
+    # We omit RequestLoggingMiddleware here — it's covered by
+    # tests/test_request_id_middleware.py — and exercise just the
+    # RequestId-on-top-of-SessionAuth pair that the spec adjustment
+    # asks us to lock.
+    app.add_middleware(SessionAuthMiddleware, console_db_path=console_db_path)
+    app.add_middleware(RequestIdMiddleware)
+
+    @app.get("/console/dashboard")
+    async def dashboard(request: Request) -> dict[str, Any]:
+        return {
+            "operator_id": getattr(request.state, "operator_id", None),
+            "session_id": getattr(request.state, "session_id", None),
+            "request_id": getattr(request.state, "request_id", None),
+        }
+
+    rid = "rid-mw-corr-1"
+    with TestClient(app) as tc:
+        resp = tc.get(
+            "/console/dashboard",
+            cookies={"heimdall_session": plaintext},
+            headers={"X-Request-ID": rid},
+        )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["operator_id"] == 1
+    assert body["session_id"] is not None
+    assert body["request_id"] == rid
+    # Echo on response too — RequestIdMiddleware injects on
+    # http.response.start.
+    assert resp.headers["x-request-id"] == rid

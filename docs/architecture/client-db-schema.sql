@@ -1124,3 +1124,622 @@ CREATE INDEX IF NOT EXISTS idx_clients_audit_log_action
 -- "Cross-DB correlation" — request_id is NULL until Stage A.5.
 CREATE INDEX IF NOT EXISTS idx_clients_audit_log_request
     ON audit_log(request_id) WHERE request_id IS NOT NULL;
+
+
+-- =================================================================
+-- SECTION 12 (Stage A.5): Operator command outcome audit
+-- =================================================================
+-- The api-INSERT-driven side of the A.5 audit pair. While
+-- `config_changes` (SECTION 13) is trigger-driven, `command_audit`
+-- captures the outcome surface of operator commands dispatched
+-- through /console/commands/{command} and executed by scheduler /
+-- worker. The two writes correlate via request_id.
+--
+-- Pair shape (master spec §1.3.b):
+--   console.audit_log row: action='command.dispatch', target_id=<name>,
+--     request_id=<rid>. Written by api in console_command handler.
+--   command_audit row: command_name=<name>, outcome='ok'|'error',
+--     request_id=<same rid>. Written by scheduler / worker on
+--     command completion.
+--
+-- The writer lives in src/db/audit.py (write_command_audit_row).
+-- Triggers do NOT fire on this table — command_audit captures
+-- domain outcomes, not row mutations.
+
+CREATE TABLE IF NOT EXISTS command_audit (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    occurred_at     TEXT NOT NULL,                       -- ISO-8601 UTC
+    command_name    TEXT NOT NULL,                       -- 'run-pipeline', 'interpret', 'send', etc.
+    target_type     TEXT,                                -- 'pipeline_run' | 'domain' | 'delivery' | NULL
+    target_id       TEXT,                                -- string for type flexibility
+    outcome         TEXT NOT NULL,                       -- 'ok' | 'error' | 'partial'
+    payload_json    TEXT,                                -- JSON snapshot of command payload
+    error_detail    TEXT,                                -- nullable; populated when outcome != 'ok'
+    operator_id     INTEGER,                             -- bare int — see audit_log §1.3
+    session_id      INTEGER,                             -- bare int
+    request_id      TEXT,                                -- correlates with console.audit_log + clients.audit_log
+    actor_kind      TEXT NOT NULL DEFAULT 'operator'     -- 'operator' | 'system'
+);
+
+CREATE INDEX IF NOT EXISTS idx_command_audit_occurred
+    ON command_audit(occurred_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_command_audit_request
+    ON command_audit(request_id) WHERE request_id IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_command_audit_command
+    ON command_audit(command_name, occurred_at DESC);
+
+
+-- =================================================================
+-- SECTION 13 (Stage A.5): Config-changes audit (trigger-captured)
+-- =================================================================
+-- Tamper-proof config-write capture. AFTER UPDATE / AFTER DELETE
+-- triggers (SECTION 14) on every tier-1 table emit one row HERE per
+-- mutation. The repository wrapper sets actor / intent / request_id
+-- in the per-connection TEMP table _audit_context BEFORE the
+-- mutation; the trigger reads the TEMP table into the row. If the
+-- wrapper is bypassed, the row still fires — actor columns will be
+-- NULL, surfacing the bypass at audit-review time.
+--
+-- INSERT triggers are intentionally NOT installed (spec §4.1.3
+-- rationale): a row creation is its own audit when the wrapper
+-- writes the canonical creation row (signup, trial.activated);
+-- there is no OLD to diff. UPDATE and DELETE cover the modify and
+-- remove paths.
+
+CREATE TABLE IF NOT EXISTS config_changes (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    occurred_at     TEXT NOT NULL,                       -- ISO-8601 UTC, set by trigger
+    table_name      TEXT NOT NULL,                       -- 'clients' | 'subscriptions' | etc.
+    op              TEXT NOT NULL,                       -- 'UPDATE' | 'DELETE' (no INSERT)
+    target_pk       TEXT NOT NULL,                       -- primary-key value as string
+    old_json        TEXT,                                -- JSON snapshot of OLD row
+    new_json        TEXT,                                -- JSON snapshot of NEW row (NULL for DELETE)
+    intent          TEXT,                                -- repository-supplied intent (see §4.1.5)
+    operator_id     INTEGER,                             -- read from _audit_context TEMP
+    session_id      INTEGER,
+    request_id      TEXT,
+    actor_kind      TEXT NOT NULL DEFAULT 'operator'
+);
+
+CREATE INDEX IF NOT EXISTS idx_config_changes_occurred
+    ON config_changes(occurred_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_config_changes_table
+    ON config_changes(table_name, occurred_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_config_changes_request
+    ON config_changes(request_id) WHERE request_id IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_config_changes_target
+    ON config_changes(table_name, target_pk, occurred_at DESC);
+
+
+-- =================================================================
+-- SECTION 14 (Stage A.5): config_changes triggers — 6 tier-1 tables × 2 ops
+-- =================================================================
+-- One AFTER trigger per (table, operation) pair. INSERT triggers are
+-- not included (spec §4.1.3 rationale). Each trigger reads actor /
+-- intent / request_id from the per-connection TEMP table
+-- _audit_context (see src/db/audit_context.py) and snapshots a
+-- forensically-relevant column subset of OLD / NEW into JSON.
+--
+-- WHEN predicates filter "noise" updates: pure timestamp-only bumps
+-- (e.g. updated_at) don't change config. Tables without an
+-- updated_at column (client_domains, signup_tokens, retention_jobs)
+-- have no WHEN predicate.
+--
+-- Each trigger requires the SQLite json_object() function, available
+-- in 3.38+. The Pi5 + Hetzner runtimes both run 3.42+.
+
+-- -----------------------------------------------------------------
+-- clients
+-- -----------------------------------------------------------------
+
+CREATE TRIGGER IF NOT EXISTS trg_clients_audit_update
+AFTER UPDATE ON clients
+FOR EACH ROW
+WHEN (
+    OLD.cvr               IS NOT NEW.cvr               OR
+    OLD.status            IS NOT NEW.status            OR
+    OLD.plan              IS NOT NEW.plan              OR
+    OLD.consent_granted   IS NOT NEW.consent_granted   OR
+    OLD.monitoring_enabled IS NOT NEW.monitoring_enabled OR
+    OLD.data_retention_mode IS NOT NEW.data_retention_mode OR
+    OLD.churn_reason      IS NOT NEW.churn_reason      OR
+    OLD.churn_purge_at    IS NOT NEW.churn_purge_at    OR
+    OLD.onboarding_stage  IS NOT NEW.onboarding_stage  OR
+    OLD.trial_started_at  IS NOT NEW.trial_started_at  OR
+    OLD.trial_expires_at  IS NOT NEW.trial_expires_at  OR
+    OLD.signup_source     IS NOT NEW.signup_source     OR
+    OLD.churn_requested_at IS NOT NEW.churn_requested_at
+)
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'clients',
+        'UPDATE',
+        NEW.cvr,
+        json_object(
+            'cvr', OLD.cvr, 'status', OLD.status, 'plan', OLD.plan,
+            'consent_granted', OLD.consent_granted,
+            'monitoring_enabled', OLD.monitoring_enabled,
+            'data_retention_mode', OLD.data_retention_mode,
+            'churn_reason', OLD.churn_reason,
+            'churn_purge_at', OLD.churn_purge_at,
+            'onboarding_stage', OLD.onboarding_stage,
+            'trial_started_at', OLD.trial_started_at,
+            'trial_expires_at', OLD.trial_expires_at,
+            'signup_source', OLD.signup_source,
+            'churn_requested_at', OLD.churn_requested_at
+        ),
+        json_object(
+            'cvr', NEW.cvr, 'status', NEW.status, 'plan', NEW.plan,
+            'consent_granted', NEW.consent_granted,
+            'monitoring_enabled', NEW.monitoring_enabled,
+            'data_retention_mode', NEW.data_retention_mode,
+            'churn_reason', NEW.churn_reason,
+            'churn_purge_at', NEW.churn_purge_at,
+            'onboarding_stage', NEW.onboarding_stage,
+            'trial_started_at', NEW.trial_started_at,
+            'trial_expires_at', NEW.trial_expires_at,
+            'signup_source', NEW.signup_source,
+            'churn_requested_at', NEW.churn_requested_at
+        ),
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_clients_audit_delete
+AFTER DELETE ON clients
+FOR EACH ROW
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'clients',
+        'DELETE',
+        OLD.cvr,
+        json_object(
+            'cvr', OLD.cvr, 'status', OLD.status, 'plan', OLD.plan,
+            'consent_granted', OLD.consent_granted,
+            'monitoring_enabled', OLD.monitoring_enabled,
+            'data_retention_mode', OLD.data_retention_mode,
+            'churn_reason', OLD.churn_reason,
+            'churn_purge_at', OLD.churn_purge_at,
+            'onboarding_stage', OLD.onboarding_stage,
+            'trial_started_at', OLD.trial_started_at,
+            'trial_expires_at', OLD.trial_expires_at,
+            'signup_source', OLD.signup_source,
+            'churn_requested_at', OLD.churn_requested_at
+        ),
+        NULL,
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+-- -----------------------------------------------------------------
+-- subscriptions
+-- -----------------------------------------------------------------
+
+CREATE TRIGGER IF NOT EXISTS trg_subscriptions_audit_update
+AFTER UPDATE ON subscriptions
+FOR EACH ROW
+WHEN (
+    OLD.status             IS NOT NEW.status             OR
+    OLD.current_period_end IS NOT NEW.current_period_end OR
+    OLD.cancelled_at       IS NOT NEW.cancelled_at       OR
+    OLD.invoice_ref        IS NOT NEW.invoice_ref        OR
+    OLD.amount_dkk         IS NOT NEW.amount_dkk         OR
+    OLD.billing_period     IS NOT NEW.billing_period     OR
+    OLD.mandate_id         IS NOT NEW.mandate_id         OR
+    OLD.plan               IS NOT NEW.plan               OR
+    OLD.started_at         IS NOT NEW.started_at
+)
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'subscriptions',
+        'UPDATE',
+        NEW.cvr,
+        json_object(
+            'cvr', OLD.cvr, 'plan', OLD.plan, 'status', OLD.status,
+            'started_at', OLD.started_at,
+            'current_period_end', OLD.current_period_end,
+            'cancelled_at', OLD.cancelled_at,
+            'invoice_ref', OLD.invoice_ref,
+            'amount_dkk', OLD.amount_dkk,
+            'billing_period', OLD.billing_period,
+            'mandate_id', OLD.mandate_id
+        ),
+        json_object(
+            'cvr', NEW.cvr, 'plan', NEW.plan, 'status', NEW.status,
+            'started_at', NEW.started_at,
+            'current_period_end', NEW.current_period_end,
+            'cancelled_at', NEW.cancelled_at,
+            'invoice_ref', NEW.invoice_ref,
+            'amount_dkk', NEW.amount_dkk,
+            'billing_period', NEW.billing_period,
+            'mandate_id', NEW.mandate_id
+        ),
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_subscriptions_audit_delete
+AFTER DELETE ON subscriptions
+FOR EACH ROW
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'subscriptions',
+        'DELETE',
+        OLD.cvr,
+        json_object(
+            'cvr', OLD.cvr, 'plan', OLD.plan, 'status', OLD.status,
+            'started_at', OLD.started_at,
+            'current_period_end', OLD.current_period_end,
+            'cancelled_at', OLD.cancelled_at,
+            'invoice_ref', OLD.invoice_ref,
+            'amount_dkk', OLD.amount_dkk,
+            'billing_period', OLD.billing_period,
+            'mandate_id', OLD.mandate_id
+        ),
+        NULL,
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+-- -----------------------------------------------------------------
+-- consent_records — Valdí §263 preservation: old_json captures all
+-- columns including authorised_by_name / _email / consent_document
+-- so the anonymise UPDATE preserves PII in the trigger row even
+-- after the live row is scrubbed.
+-- -----------------------------------------------------------------
+
+CREATE TRIGGER IF NOT EXISTS trg_consent_records_audit_update
+AFTER UPDATE ON consent_records
+FOR EACH ROW
+WHEN (
+    OLD.authorised_domains  IS NOT NEW.authorised_domains  OR
+    OLD.consent_type        IS NOT NEW.consent_type        OR
+    OLD.consent_date        IS NOT NEW.consent_date        OR
+    OLD.consent_expiry      IS NOT NEW.consent_expiry      OR
+    OLD.consent_document    IS NOT NEW.consent_document    OR
+    OLD.authorised_by_name  IS NOT NEW.authorised_by_name  OR
+    OLD.authorised_by_role  IS NOT NEW.authorised_by_role  OR
+    OLD.authorised_by_email IS NOT NEW.authorised_by_email OR
+    OLD.status              IS NOT NEW.status              OR
+    OLD.notes               IS NOT NEW.notes
+)
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'consent_records',
+        'UPDATE',
+        NEW.cvr,
+        json_object(
+            'cvr', OLD.cvr,
+            'authorised_domains', OLD.authorised_domains,
+            'consent_type', OLD.consent_type,
+            'consent_date', OLD.consent_date,
+            'consent_expiry', OLD.consent_expiry,
+            'consent_document', OLD.consent_document,
+            'authorised_by_name', OLD.authorised_by_name,
+            'authorised_by_role', OLD.authorised_by_role,
+            'authorised_by_email', OLD.authorised_by_email,
+            'status', OLD.status,
+            'notes', OLD.notes
+        ),
+        json_object(
+            'cvr', NEW.cvr,
+            'authorised_domains', NEW.authorised_domains,
+            'consent_type', NEW.consent_type,
+            'consent_date', NEW.consent_date,
+            'consent_expiry', NEW.consent_expiry,
+            'consent_document', NEW.consent_document,
+            'authorised_by_name', NEW.authorised_by_name,
+            'authorised_by_role', NEW.authorised_by_role,
+            'authorised_by_email', NEW.authorised_by_email,
+            'status', NEW.status,
+            'notes', NEW.notes
+        ),
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_consent_records_audit_delete
+AFTER DELETE ON consent_records
+FOR EACH ROW
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'consent_records',
+        'DELETE',
+        OLD.cvr,
+        json_object(
+            'cvr', OLD.cvr,
+            'authorised_domains', OLD.authorised_domains,
+            'consent_type', OLD.consent_type,
+            'consent_date', OLD.consent_date,
+            'consent_expiry', OLD.consent_expiry,
+            'consent_document', OLD.consent_document,
+            'authorised_by_name', OLD.authorised_by_name,
+            'authorised_by_role', OLD.authorised_by_role,
+            'authorised_by_email', OLD.authorised_by_email,
+            'status', OLD.status,
+            'notes', OLD.notes
+        ),
+        NULL,
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+-- -----------------------------------------------------------------
+-- signup_tokens
+-- -----------------------------------------------------------------
+
+CREATE TRIGGER IF NOT EXISTS trg_signup_tokens_audit_update
+AFTER UPDATE ON signup_tokens
+FOR EACH ROW
+WHEN (
+    OLD.consumed_at IS NOT NEW.consumed_at OR
+    OLD.expires_at  IS NOT NEW.expires_at  OR
+    OLD.email       IS NOT NEW.email       OR
+    OLD.cvr         IS NOT NEW.cvr         OR
+    OLD.source      IS NOT NEW.source
+)
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'signup_tokens',
+        'UPDATE',
+        NEW.token,
+        json_object(
+            'token', OLD.token, 'cvr', OLD.cvr, 'email', OLD.email,
+            'source', OLD.source, 'expires_at', OLD.expires_at,
+            'consumed_at', OLD.consumed_at
+        ),
+        json_object(
+            'token', NEW.token, 'cvr', NEW.cvr, 'email', NEW.email,
+            'source', NEW.source, 'expires_at', NEW.expires_at,
+            'consumed_at', NEW.consumed_at
+        ),
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_signup_tokens_audit_delete
+AFTER DELETE ON signup_tokens
+FOR EACH ROW
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'signup_tokens',
+        'DELETE',
+        OLD.token,
+        json_object(
+            'token', OLD.token, 'cvr', OLD.cvr, 'email', OLD.email,
+            'source', OLD.source, 'expires_at', OLD.expires_at,
+            'consumed_at', OLD.consumed_at
+        ),
+        NULL,
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+-- -----------------------------------------------------------------
+-- client_domains
+-- -----------------------------------------------------------------
+
+CREATE TRIGGER IF NOT EXISTS trg_client_domains_audit_update
+AFTER UPDATE ON client_domains
+FOR EACH ROW
+WHEN (
+    OLD.cvr        IS NOT NEW.cvr        OR
+    OLD.domain     IS NOT NEW.domain     OR
+    OLD.is_primary IS NOT NEW.is_primary
+)
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'client_domains',
+        'UPDATE',
+        CAST(NEW.id AS TEXT),
+        json_object(
+            'id', OLD.id, 'cvr', OLD.cvr, 'domain', OLD.domain,
+            'is_primary', OLD.is_primary, 'added_at', OLD.added_at
+        ),
+        json_object(
+            'id', NEW.id, 'cvr', NEW.cvr, 'domain', NEW.domain,
+            'is_primary', NEW.is_primary, 'added_at', NEW.added_at
+        ),
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_client_domains_audit_delete
+AFTER DELETE ON client_domains
+FOR EACH ROW
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'client_domains',
+        'DELETE',
+        CAST(OLD.id AS TEXT),
+        json_object(
+            'id', OLD.id, 'cvr', OLD.cvr, 'domain', OLD.domain,
+            'is_primary', OLD.is_primary, 'added_at', OLD.added_at
+        ),
+        NULL,
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+-- -----------------------------------------------------------------
+-- retention_jobs (joined tier 1 per fork (f), 2026-05-01)
+-- -----------------------------------------------------------------
+
+CREATE TRIGGER IF NOT EXISTS trg_retention_jobs_audit_update
+AFTER UPDATE ON retention_jobs
+FOR EACH ROW
+WHEN (
+    OLD.action        IS NOT NEW.action        OR
+    OLD.scheduled_for IS NOT NEW.scheduled_for OR
+    OLD.claimed_at    IS NOT NEW.claimed_at    OR
+    OLD.executed_at   IS NOT NEW.executed_at   OR
+    OLD.status        IS NOT NEW.status        OR
+    OLD.notes         IS NOT NEW.notes
+)
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'retention_jobs',
+        'UPDATE',
+        CAST(NEW.id AS TEXT),
+        json_object(
+            'id', OLD.id, 'cvr', OLD.cvr, 'action', OLD.action,
+            'scheduled_for', OLD.scheduled_for,
+            'claimed_at', OLD.claimed_at,
+            'executed_at', OLD.executed_at,
+            'status', OLD.status, 'notes', OLD.notes
+        ),
+        json_object(
+            'id', NEW.id, 'cvr', NEW.cvr, 'action', NEW.action,
+            'scheduled_for', NEW.scheduled_for,
+            'claimed_at', NEW.claimed_at,
+            'executed_at', NEW.executed_at,
+            'status', NEW.status, 'notes', NEW.notes
+        ),
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;
+
+CREATE TRIGGER IF NOT EXISTS trg_retention_jobs_audit_delete
+AFTER DELETE ON retention_jobs
+FOR EACH ROW
+BEGIN
+    INSERT INTO config_changes (
+        occurred_at, table_name, op, target_pk,
+        old_json, new_json,
+        intent, operator_id, session_id, request_id, actor_kind
+    )
+    VALUES (
+        strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+        'retention_jobs',
+        'DELETE',
+        CAST(OLD.id AS TEXT),
+        json_object(
+            'id', OLD.id, 'cvr', OLD.cvr, 'action', OLD.action,
+            'scheduled_for', OLD.scheduled_for,
+            'claimed_at', OLD.claimed_at,
+            'executed_at', OLD.executed_at,
+            'status', OLD.status, 'notes', OLD.notes
+        ),
+        NULL,
+        audit_context('intent'),
+        audit_context('operator_id'),
+        audit_context('session_id'),
+        audit_context('request_id'),
+        COALESCE(audit_context('actor_kind'), 'operator')
+    );
+END;

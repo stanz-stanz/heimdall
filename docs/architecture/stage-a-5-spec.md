@@ -221,8 +221,8 @@ Three tiers of writer surface in `clients.db`. The trigger surface is **tier 1 o
 | `clients` | Plan changes, churn flips, retention-mode changes are operator-decisive | api (signup), scheduler (lifecycle) |
 | `subscriptions` | Billing state machine | api (signup webhook), scheduler (Betalingsservice reconcile) |
 | `consent_records` | **Valdí §263 evidence — preservation rule applies (§4.1.7)** | api (signup), scheduler (consent revocation) |
-| `signup_tokens` | Magic-link issuance + redemption | api (signup) |
-| `client_domains` | Authorised-domain scope changes (consent gate input) | api (signup) |
+| `signup_tokens` | Magic-link issuance + redemption | api (issuance via `src/db/signup.create_signup_token`); delivery bot (redemption via `src/delivery/bot.py:handle_start_command` → `activate_watchman_trial` — INSERT triggers not installed, so issuance is never trigger-captured; the redemption UPDATE is what fires `trg_signup_tokens_audit_update`). |
+| `client_domains` | Authorised-domain scope changes (consent gate input) | api (issuance), scheduler (CT-monitor scoped writes). UPDATE/DELETE writers add their own `bind_audit_context` per call site (none today against tier-1 mutations; trigger is defensive — fires zero rows in current flow). |
 | `retention_jobs` | Operator-driven force-run / cancel / retry. Today untracked beyond loguru + free-text `notes` suffix (verified 2026-04-30: `_run_retention_action` at `src/api/console.py:622-654`; `force_run_retention_job` at `src/db/retention.py:320-380`; `retry_failed_retention_job` at `src/db/retention.py:383-437` — none emit `clients.audit_log` rows). Joining tier 1 closes the gap per §11.6 fork (f) = b. CAS UPDATE in `console_retention_cancel` also fires the trigger. | api (operator commands), retention runner (claim + outcome) |
 
 **Tier 2 — operational state machines (no trigger; existing audit_log rows or none):**
@@ -239,6 +239,8 @@ Three tiers of writer surface in `clients.db`. The trigger surface is **tier 1 o
 `finding_definitions`, `finding_occurrences`, `finding_status_log`, `brief_snapshots`, `client_cert_snapshots`, `client_cert_changes`, `delivery_retry`, `conversion_events`, `onboarding_stage_log`. Their writes are themselves audit-grade.
 
 #### 4.1.3 Trigger shape — example for `clients`
+
+> **Implementation note (2026-05-01).** The subquery shape shown below (`(SELECT value FROM _audit_context WHERE key='X')`) is illustrative of the value-population pattern. The wire form in the merged code uses `audit_context('X')` calls — see §4.1.10 postscript for the rationale.
 
 One AFTER trigger per (table, operation) pair. **INSERT triggers are not included.** Rationale: a row creation is its own audit when the wrapper writes the canonical creation row (`signup`, `trial.activated`); there is no `OLD` to compare for diff-shape audit, and the canonical creation rows already carry actor/intent. UPDATE and DELETE triggers cover the modify and remove paths.
 
@@ -360,6 +362,8 @@ END;
 
 #### 4.1.4 Repository wrappers — `src/db/audit_context.py` [NEW]
 
+> **Implementation note (2026-05-01).** The TEMP-table-based shape shown below was superseded during commit (1) implementation — see §4.1.10 postscript for the UDF replacement. The contract (per-connection scoping, bypass detection via NULL actor columns, exception-safe cleanup) is preserved.
+
 ```python
 """Audit-context binding for D2 hybrid trigger-captured writes."""
 from __future__ import annotations
@@ -422,6 +426,13 @@ If the wrapper is bypassed (raw `cursor.execute` outside the context manager), t
 #### 4.1.5 Intent vocabulary
 
 Each repository wrapper passes a hand-coded `intent` string (e.g. `retention.force_run`, `retention.cancel`, `trial.activated`, `retention.anonymise`, `subscription.created`, `subscription.cancelled`). The trigger reads it into `config_changes.intent`. This is application-level intent, distinct from `op` (UPDATE / DELETE). The vocabulary is grep-able; no enum (premature ceremony for a string-typed column).
+
+**Runner-introduced cron intents (commit (1) wrapper sweep, locked 2026-05-02):** `retention.reap`, `retention.claim`, `retention.dryrun_skip`, `retention.<action>` (where `action ∈ {anonymise, purge, purge_bookkeeping, export}`), `retention.backoff`, `retention.terminal_fail`. All emitted by `src/retention/runner.py:tick` with `actor_kind='system'`. The cascade DELETEs inside `purge_client` (consent_records, signup_tokens, client_domains, retention_jobs siblings) inherit the `retention.purge` intent — one logical step → N trigger rows, all uniformly stamped, single grep reconstructs the cascade.
+
+**Known bypass-row writers (NULL actor / NULL intent on the trigger row, by design):**
+
+- `src/client_memory/trial_expiry.py:126` flips `clients.status` from `watchman_active` → `watchman_expired` from a scheduler sweep. High-frequency. Stage A.5 commit (1) leaves this unwrapped — bypass-detection contract holds (NULL actor signals the writer needs review). Wrap with `intent='trial.expired'`, `actor_kind='system'` in commit (2) or (3) if the operator-console timeline UX needs the attribution.
+- Operator-set `data_retention_mode='hold'` via raw SQL (V2 will replace with a structured `retention_holds` table per §10) — the manual UPDATE fires `trg_clients_audit_update` with NULL actor. That is the right outcome: hold flips are forensically interesting and should leave a NULL-actor breadcrumb. Do not silently wrap when V2 lands.
 
 #### 4.1.6 `command_audit` writer
 
@@ -505,6 +516,24 @@ The wrapper opens `clients.db` after the file write succeeds; writes the audit r
 - All entries idempotent (`CREATE TABLE IF NOT EXISTS`, `CREATE TRIGGER IF NOT EXISTS`). Re-running `init_db()` on every container start is safe.
 
 The schema additions ride the **first prod deploy of the Stage A.5 PR** via the standard `init_db()` path on container startup. There is no separate "install triggers" runbook step.
+
+#### 4.1.10 Postscript — TEMP-table → UDF pivot (locked 2026-05-01 during implementation)
+
+§4.1.3 and §4.1.4 above describe the locked design: a per-connection `_audit_context` TEMP table that triggers on `clients` / `subscriptions` / `consent_records` / `signup_tokens` / `client_domains` / `retention_jobs` read via subqueries. **That design does not work in stock SQLite.** Verified empirically during commit (1) implementation: triggers raise `sqlite3.OperationalError: no such table: main._audit_context` on first fire. Cause: SQLite documents at https://www.sqlite.org/lang_createtrigger.html that "It is not valid to refer to temporary tables [...] from within the trigger body" when the trigger itself is on a non-temp table. SQLite searches `main` first and refuses to fall through to the temp schema.
+
+**Replacement (Codex-confirmed, Federico-approved 2026-05-01).** The four `(SELECT value FROM _audit_context WHERE key='X')` subqueries in every trigger become `audit_context('X')` calls. `audit_context` is a per-connection user-defined SQL function registered via `sqlite3.Connection.create_function` from `src/db/audit_context.install_audit_context`. The function reads from per-connection state living on a `HeimdallConnection` subclass attribute (`conn._audit_ctx` — a dict; the subclass adds `__dict__` which the base `sqlite3.Connection` does not expose).
+
+**Mandatory registration.** Every write-capable connection MUST have `audit_context` registered before any audited DML fires. The canonical path is `src.db.connection.init_db`, which calls `install_audit_context(conn)` after PRAGMA setup and **before** the schema bundle's `executescript()` (the bundle defines triggers but contains no DML, so registration timing is not load-bearing today; registering early guards against any future SQLite tightening or against bundle-time DML being added). Connections opened outside `init_db` (raw `sqlite3.connect`) skip registration and crash at first trigger fire — that is intentional fail-fast behaviour.
+
+**Type contract.** The UDF returns native Python `int` for `operator_id` / `session_id` (INTEGER columns), TEXT for `intent` / `request_id` / `actor_kind`. Returning native ints rather than stringified `'42'` avoids SQLite's silent type-coercion failure on malformed values (`''`, `'user-42'`, whitespace).
+
+**Files affected by the pivot.** 1) `docs/architecture/client-db-schema.sql` SECTION 14 — all 12 triggers updated. 2) `src/db/migrate.py:_TRIGGER_ADDS` — same change. 3) `src/db/audit_context.py` — `bind_audit_context` now manipulates `conn._audit_ctx` instead of UPSERTing into the TEMP table; the `_INIT_SQL = "CREATE TEMP TABLE..."` block is deleted. 4) `src/db/connection.py` — adds `class HeimdallConnection(sqlite3.Connection)` and passes `factory=HeimdallConnection` to `sqlite3.connect`; calls `install_audit_context(conn)` after PRAGMA setup, before the schema bundle's `executescript`.
+
+**Bypass detection contract preserved.** A wrapper-bypass UPDATE (no `with bind_audit_context`) still fires the trigger; `audit_context()` returns `None` for every key because `conn._audit_ctx` is empty. Actor columns land NULL — forensically detectable at audit-review time, identical to the original design.
+
+**Testing.** `tests/test_audit_context.py` (6 cases, all green) and `tests/test_command_audit_writer.py` (6 cases, all green) cover the pivot. The original test names (e.g. `test_bind_audit_context_temp_table_is_per_connection`) describe the contract not the mechanism — they pass against the new implementation because per-connection scoping is preserved.
+
+**§4.1.3 trigger SQL example status.** The clients UPDATE / DELETE example at lines 245-356 above shows the pre-pivot subquery shape. Treat it as illustrative of the trigger's value-population pattern (intent / operator_id / session_id / request_id / actor_kind) — the exact wire form in the merged code uses `audit_context('intent')` etc. per this postscript.
 
 ### 4.2 RBAC decorator (D3)
 
@@ -592,9 +621,12 @@ class Permission(str, Enum):
     DEMO_RUN = "demo.run"
 
 
-# Single role in v1 (D3). Maps OPERATOR → all permissions.
+# Single role in v1 (D3). Maps OWNER → all permissions.
+# Fork (h) [RESOLVED 2026-05-02 = 'owner']: the dict key matches the
+# seeded reality at src/db/console_connection.py:155, not the original
+# 'operator' draft of this section. See §11.8.
 ROLE_PERMISSIONS: dict[str, frozenset[Permission]] = {
-    "operator": frozenset(Permission),
+    "owner": frozenset(Permission),
     # Future: 'observer': frozenset({Permission.CONSOLE_READ}),
 }
 ```
@@ -643,11 +675,13 @@ Decorator goes **inside** the FastAPI router decorator (`@router.get` outermost;
 
 #### 4.2.4 401 vs 403 semantics
 
-| Condition | Status | Body | Audit row |
+| Condition | Status | Body (HTTP wire shape) | Audit row |
 |---|---|---|---|
-| No session cookie / cookie does not validate | 401 | `{"error": "not_authenticated"}` | None (middleware path) |
-| Cookie validates, role_hint not in `ROLE_PERMISSIONS` | 403 | `{"error": "permission_denied", "permission": "<value>"}` | `auth.permission_denied` in console.audit_log |
+| No session cookie / cookie does not validate | 401 | `{"detail": {"error": "not_authenticated"}}` | None (middleware path) |
+| Cookie validates, role_hint not in `ROLE_PERMISSIONS` | 403 | `{"detail": {"error": "permission_denied", "permission": "<value>"}}` | `auth.permission_denied` in console.audit_log |
 | Cookie validates, permission in role mapping | per handler | per handler | per handler |
+
+**Wire shape note (resolved 2026-05-02 during commit (2) wave B Codex review).** Both 401 and 403 use FastAPI's `HTTPException(detail={"error": ..., ...})` mechanism, so the wire body is wrapped under a top-level `"detail"` key per FastAPI's exception-handler contract. Earlier drafts of this spec showed the bare inner dict; this section is now reconciled with the implementation. Decorator-level unit tests (e.g. `tests/test_permissions.py`) may assert `exc.value.detail == {"error": ...}` directly because `HTTPException.detail` is the inner payload; integration / TestClient tests must assert against `r.json() == {"detail": {"error": ...}}` because that is the over-the-wire shape clients actually receive. Both surfaces are validated in the test suite.
 
 #### 4.2.5 WebSocket auth + permission — locked v2: inline gate, no decorator
 
@@ -899,10 +933,12 @@ Tests assert the **resolved** behaviour per the 2026-04-30 Valdí ruling: `anony
 
 Every gated `/console/*` HTTP route gets two parameterised tests (allowed for OPERATOR role, denied for empty-permission role). 18 HTTP routes × 2 = 36 cases parameterised over `(method, path, permission)` tuples. Each denied case asserts:
 - `r.status_code == 403`
-- `r.json() == {"error": "permission_denied", "permission": permission.value}`
+- `r.json() == {"detail": {"error": "permission_denied", "permission": permission.value}}` (HTTP wire shape per §4.2.4 wire-shape note; FastAPI wraps `HTTPException.detail` under a top-level `"detail"` key)
 - One row in `console.audit_log WHERE action='auth.permission_denied'` with `target_id=permission.value`.
 
-Plus one assertion that 401 precedes 403 (unauthenticated POST returns `{"error": "not_authenticated"}`, status 401).
+Decorator-level unit tests in `tests/test_permissions.py` may assert `exc.value.detail == {"error": "permission_denied", "permission": permission.value}` directly because `HTTPException.detail` is the inner payload — both surfaces are exercised in the suite.
+
+Plus one assertion that 401 precedes 403 (unauthenticated POST returns `{"detail": {"error": "not_authenticated"}}`, status 401).
 
 #### 6.4.1 WS auth + permission tests (inline gate)
 
@@ -1102,6 +1138,23 @@ Implementation lands per the carve-outs in §4.1.7. Spec language is binding per
 | C | follow-up | `contextvars.ContextVar` populated by `RequestIdMiddleware`; patch loguru `bind` to auto-merge. Automatic, no per-call discipline. ~30 LOC patch module hooking loguru internals. The cleaner long-term move; not this slice. |
 
 **Resolution: A for A.5; C as a follow-up.** Federico ruled 2026-05-01: correlation already comes from three primitives (middleware log line, audit rows, response header). Mechanical sweep is fragile; contextvars is cleaner long-term but follow-up, not this slice.
+
+### 11.8 Fork (h) — RBAC role-name vocabulary [RESOLVED 2026-05-02 = b ('owner')]
+
+This fork surfaced during commit (2) wave A implementation, not during spec ratification — the v2 spec text in §4.2.1 declared `ROLE_PERMISSIONS = {"operator": frozenset(Permission)}` but the seeded reality at `src/db/console_connection.py:155` and across 8 test fixtures is `role_hint = 'owner'`. Implementing the spec verbatim would 403 every existing console test and lock the seeded operator out of every gated route.
+
+| Option | Status | Description |
+|---|---|---|
+| a | rejected | Spec-verbatim. Keep `ROLE_PERMISSIONS = {"operator": ...}`; mass-rename `'owner' → 'operator'` across seed + 8 test fixtures + the seed-assertion test. Larger diff, single source of truth, requires a data migration on prod for any existing operator row. |
+| b | **APPROVED** | Reality-verbatim. Lock `ROLE_PERMISSIONS = {"owner": frozenset(Permission)}`; amend §4.2.1 to match seeded reality. Smallest diff, no data migration. |
+| c | rejected | Alias both. `ROLE_PERMISSIONS = {"operator": all, "owner": all}`. No migration but accepts canonicalisation drift. Future `'observer'` / `'editor'` entries would have to pick one canonical name and the alias would atrophy. |
+
+**Resolution: b — `'owner'` is canonical.** Federico ruled 2026-05-02 evening (during the wave-A planning cycle, before any RBAC code shipped). Implementation safeguards added per peer-review hardening:
+
+- Decorator + WS inline gate normalise the lookup with `(role_hint or "").lower().strip()` so a `'Owner'` / `'  owner  '` typo cannot lock the operator out at runtime (network-security peer-review P1 #4).
+- Deploy-time gate `scripts/verify_audit_triggers.sh` check #4 asserts `SELECT COUNT(*) FROM operators WHERE role_hint IS NOT NULL AND role_hint != 'owner'` returns 0 — catches non-canonical seeds before runtime (commit (4), `10589c2`).
+
+Future structured RBAC (V2: table-backed roles, `'observer'` + `'editor'` entries) revisits the vocabulary; until then `'owner'` is the only acceptable role string and the deploy gate enforces it.
 
 ---
 

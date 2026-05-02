@@ -9,7 +9,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from src.api.app import create_app
-from src.db.connection import init_db
+from src.db.connection import connect_clients_audited, init_db
 from tests._console_auth_helpers import (
     login_console_client,
     seed_console_operator,
@@ -592,8 +592,11 @@ class TestRetentionCancel:
     def test_cancels_without_body(self, client, retention_seed, db_path):
         # One-click cancel — no JSON body. Endpoint must accept this
         # and must NOT erase any pre-existing notes.
-        # Seed an existing note so we can prove preservation.
-        conn = sqlite3.connect(db_path)
+        # Seed an existing note so we can prove preservation. Stage A.5
+        # the bare UPDATE fires trg_retention_jobs_audit_update, which
+        # calls audit_context(); use connect_clients_audited so the
+        # UDF is registered.
+        conn = connect_clients_audited(db_path)
         try:
             conn.execute(
                 "UPDATE retention_jobs SET notes = ? WHERE id = ?",
@@ -614,7 +617,8 @@ class TestRetentionCancel:
     def test_cancels_with_null_notes_preserves_existing(
         self, client, retention_seed, db_path
     ):
-        conn = sqlite3.connect(db_path)
+        # Same Stage A.5 reason: this UPDATE fires the audit trigger.
+        conn = connect_clients_audited(db_path)
         try:
             conn.execute(
                 "UPDATE retention_jobs SET notes = ? WHERE id = ?",
@@ -726,7 +730,10 @@ class TestRetentionCancelRaceGuard:
         # endpoint returns 404; without CAS it would silently cancel
         # an in-flight job.
         job_id = retention_seed["due_job_id"]
-        conn = sqlite3.connect(db_path)
+        # Stage A.5: simulating the cron's claim flips status='running',
+        # which fires trg_retention_jobs_audit_update. Use the audited
+        # opener so the UDF is registered.
+        conn = connect_clients_audited(db_path)
         try:
             conn.execute(
                 "UPDATE retention_jobs SET status='running', claimed_at=? WHERE id=?",

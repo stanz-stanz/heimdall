@@ -10,6 +10,7 @@ import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any, Callable, Protocol
 
 from fastapi import APIRouter, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from loguru import logger
@@ -19,8 +20,15 @@ from src.api.auth.audit import (
     maybe_write_disabled_operator_audit,
     write_console_audit_row,
 )
-from src.api.auth.middleware import SESSION_COOKIE
+from src.api.auth.middleware import SESSION_COOKIE, _fetch_role_hint
+from src.api.auth.permissions import (
+    ROLE_PERMISSIONS,
+    Permission,
+    require_permission,
+)
 from src.api.auth.sessions import validate_session_by_hash
+from src.db.audit_context import bind_audit_context
+from src.db.connection import connect_clients_audited
 from src.db.console_connection import DEFAULT_CONSOLE_DB_PATH, get_console_conn
 from src.db.console_views import (
     list_retention_queue_pending_due,
@@ -87,6 +95,7 @@ def _load_brief(briefs_path: Path, domain: str) -> dict | None:
 # ---------------------------------------------------------------------------
 
 @router.get("/status")
+@require_permission(Permission.CONSOLE_READ)
 async def console_status(request: Request):
     """Operator dashboard data — queue depths, recent scans, cache stats."""
     redis_conn = getattr(request.app.state, "redis", None)
@@ -153,11 +162,18 @@ class _WSRequestAdapter:
 
     ``write_console_audit_row`` only reads ``.client``, ``.headers``,
     and ``.state`` from its request argument; the WS scope exposes the
-    first two natively, and ``.state`` is a fresh ``SimpleNamespace``
-    because the WS path has no SessionAuthMiddleware to pre-populate
-    operator / session / request-id attributes — the helper passes
-    those explicitly via kwargs instead. Slice 3g spec §4.2 locks this
-    adapter shape so the audit writer stays HTTP-Request-only.
+    first two natively. Operator / session ids are passed by the
+    handler via explicit kwargs (no SessionAuthMiddleware on the WS
+    path — slice 3g spec §4.2 locked this).
+
+    Stage A.5 §4.3.6: ``request_id`` IS read off the ASGI scope. The
+    outermost ``RequestIdMiddleware`` populates ``scope['state']
+    ['request_id']`` for both HTTP and WebSocket scopes; the adapter
+    threads it onto ``self.state.request_id`` so the audit writer
+    (which reads ``getattr(state, 'request_id', None)``) lands the
+    same UUID on the ``liveops.ws_connected`` row that the cross-DB
+    correlation query expects. Header fallback covers test paths
+    that bypass the middleware (drives the same format guard).
     """
 
     __slots__ = ("client", "headers", "state")
@@ -166,6 +182,22 @@ class _WSRequestAdapter:
         self.client = websocket.client  # Address(host, port) | None
         self.headers = websocket.headers
         self.state = SimpleNamespace()
+        # Lazy-import to keep the auth.request_id module out of any
+        # import-cycle path through src.api.console.
+        from src.api.auth.request_id import _validate_or_generate
+
+        scope_state = websocket.scope.get("state") or {}
+        scope_rid = scope_state.get("request_id")
+        if scope_rid:
+            self.state.request_id = scope_rid
+        else:
+            # Defensive fallback — e.g. a unit test that drives the
+            # WS handler directly without mounting the middleware.
+            # Validates the inbound header through the same guard so
+            # malformed values cannot leak past.
+            self.state.request_id = _validate_or_generate(
+                websocket.headers.get("x-request-id")
+            )
 
 
 def _build_pseudo_request(websocket: WebSocket) -> _WSRequestAdapter:
@@ -174,23 +206,43 @@ def _build_pseudo_request(websocket: WebSocket) -> _WSRequestAdapter:
 
 
 async def _authenticate_ws(
-    websocket: WebSocket, *, audit_payload: dict
+    websocket: WebSocket,
+    *,
+    audit_payload: dict,
+    required_permission: Permission,
+    on_deny_cleanup: Callable[[], None] | None = None,
 ) -> tuple[int, int] | None:
-    """Read the session cookie, validate, accept-or-close-with-4401.
+    """Read the session cookie, validate, gate on ``required_permission``,
+    accept-or-close.
 
-    On success: opens a single ``console.db`` connection, validates the
-    session, accepts the WebSocket upgrade, writes the
-    ``liveops.ws_connected`` audit row inside the same ``with conn:``
-    block, then closes the connection and returns
-    ``(operator_id, session_id)``. The returned identifiers let the
-    caller log forensic context without re-fetching.
+    Two close codes per RFC 6455 (4xxx is application-defined):
 
-    On failure: accepts the upgrade then sends a clean
-    ``websocket.close(code=4401)`` per RFC 6455 (you must accept before
-    you can close cleanly). If the cookie maps to an otherwise-active
-    session whose operator was disabled, the disabled-operator audit
-    row is written first per §7.9 Option A — symmetry with the HTTP
-    middleware's ``auth.session_rejected_disabled`` path.
+    - ``4401`` — unauthenticated. No cookie, invalid session, disabled
+      operator. Same path as slice 3g.
+    - ``4403`` — authenticated but unauthorised. Cookie validates and
+      the operator exists, but ``role_hint`` is not in
+      :data:`ROLE_PERMISSIONS` or does not include
+      ``required_permission``. Stage A.5 §4.2.5 inline gate (the WS
+      analogue of the HTTP decorator's 403).
+
+    On success: opens a single ``console.db`` connection, validates
+    session, fetches role_hint, checks permission, accepts the
+    upgrade, writes the ``liveops.ws_connected`` audit row, returns
+    ``(operator_id, session_id)``.
+
+    On unauthenticated failure: ``accept()`` + ``close(4401)`` (you
+    must accept before close-cleanly). Disabled-operator audit row
+    written first per slice 3g §7.9 Option A.
+
+    On permission deny (Stage A.5 §4.2.5): if ``on_deny_cleanup`` is
+    supplied, run it FIRST so demo replay's
+    ``app.state._pending_demos[scan_id]`` is dropped before the
+    operator could leak state to a later authorised connection
+    (network-security peer review P1 #5, 2026-05-02). Then write one
+    ``auth.permission_denied`` row in a try/except — fail-secure: if
+    the audit INSERT raises, log WARNING and STILL ``close(4403)``,
+    never let an audit-layer fault swallow the deny decision
+    (network-security P1 #3). Then ``accept()`` + ``close(4403)``.
 
     Returns ``None`` on every failure mode; the caller must ``return``
     immediately.
@@ -227,6 +279,51 @@ async def _authenticate_ws(
         operator_id = session_row["operator_id"]
         session_id = session_row["id"]
 
+        # Stage A.5 §4.2.5 — inline permission gate. The WS analogue
+        # of the HTTP decorator's 403 path. Same case-norm rule as
+        # require_permission so a 'Owner' / '  owner  ' typo cannot
+        # lock an operator out (peer-review P1 #4, 2026-05-02).
+        operator_role = _fetch_role_hint(conn, operator_id)
+        granted = ROLE_PERMISSIONS.get(
+            (operator_role or "").lower().strip(), frozenset()
+        )
+        if required_permission not in granted:
+            if on_deny_cleanup is not None:
+                try:
+                    on_deny_cleanup()
+                except Exception as exc:
+                    logger.warning(
+                        "ws_deny_cleanup_failed permission={} err={}",
+                        required_permission.value,
+                        exc,
+                    )
+            try:
+                with conn:
+                    write_console_audit_row(
+                        conn,
+                        pseudo_request,
+                        action="auth.permission_denied",
+                        target_type="permission",
+                        target_id=required_permission.value,
+                        payload={"role_hint": operator_role},
+                        operator_id=operator_id,
+                        session_id=session_id,
+                    )
+            except sqlite3.DatabaseError as exc:
+                # Catches OperationalError (db locked / disk full) AND
+                # IntegrityError / DataError / NotSupportedError —
+                # any sqlite3-layer fault here must NOT bypass the
+                # unconditional 4403 close below (Codex round 3
+                # finding 2026-05-02; widened from OperationalError).
+                logger.warning(
+                    "ws_permission_denied_audit_failed permission={} err={}",
+                    required_permission.value,
+                    exc,
+                )
+            await websocket.accept()
+            await websocket.close(code=4403)
+            return None
+
         await websocket.accept()
 
         # §5.8 — pair the per-WS audit row with the same connection
@@ -250,6 +347,7 @@ async def _authenticate_ws(
 
 
 @router.get("/dashboard")
+@require_permission(Permission.CONSOLE_READ)
 async def console_dashboard(request: Request):
     """Dashboard stats — prospect/brief/client/critical counts, queues, activity."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -321,6 +419,7 @@ async def console_dashboard(request: Request):
 
 
 @router.get("/pipeline/last")
+@require_permission(Permission.CONSOLE_READ)
 async def console_pipeline_last(request: Request):
     """Last completed pipeline run from v_latest_run."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -348,6 +447,7 @@ async def console_pipeline_last(request: Request):
 
 
 @router.get("/campaigns")
+@require_permission(Permission.CONSOLE_READ)
 async def console_campaigns(request: Request):
     """Campaign list with status counts from v_campaign_summary."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -372,6 +472,7 @@ async def console_campaigns(request: Request):
 
 
 @router.get("/campaigns/{campaign}/prospects")
+@require_permission(Permission.CONSOLE_READ)
 async def console_campaign_prospects(
     campaign: str,
     request: Request,
@@ -413,6 +514,7 @@ async def console_campaign_prospects(
 
 
 @router.get("/briefs/list")
+@require_permission(Permission.CONSOLE_READ)
 async def console_briefs_list(
     request: Request,
     critical: bool = Query(default=False),
@@ -458,6 +560,7 @@ async def console_briefs_list(
 
 
 @router.get("/clients/list")
+@require_permission(Permission.CONSOLE_READ)
 async def console_clients_list(request: Request):
     """Onboarded clients with domain, latest scan, open findings, last delivery."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -563,6 +666,7 @@ def _publish_retention_action(
 
 
 @router.get("/clients/trial-expiring")
+@require_permission(Permission.CONSOLE_READ)
 async def console_trial_expiring(
     request: Request,
     window_days: int = Query(default=7, ge=1, le=30),
@@ -590,6 +694,7 @@ async def console_trial_expiring(
 
 
 @router.get("/clients/retention-queue")
+@require_permission(Permission.CONSOLE_READ)
 async def console_retention_queue(
     request: Request,
     limit: int = Query(default=200, ge=1, le=1000),
@@ -619,13 +724,30 @@ async def console_retention_queue(
     return await asyncio.to_thread(_query)
 
 
+class _RetentionFn(Protocol):
+    """Shape of a retention helper invoked by ``_run_retention_action``.
+
+    The helper takes a sqlite3 connection + the retention job id +
+    arbitrary keyword arguments (e.g. ``operator='console'``) and
+    returns the post-mutation row as a dict. ``force_run_retention_job``
+    and ``retry_failed_retention_job`` both satisfy this Protocol.
+    """
+
+    def __call__(
+        self, conn: sqlite3.Connection, job_id: int, **kwargs: Any
+    ) -> dict: ...
+
+
 def _run_retention_action(
     db_path: str,
     job_id: int,
     *,
     action: str,
-    fn,
+    fn: _RetentionFn,
     fn_kwargs: dict | None = None,
+    operator_id: int | None = None,
+    session_id: int | None = None,
+    request_id: str | None = None,
 ) -> dict:
     """Open a connection, dispatch the helper, log the audit line.
 
@@ -633,12 +755,26 @@ def _run_retention_action(
     re-raise the same ``KeyError`` so the FastAPI handler can map it
     to a 404. The DB write is the source of truth — logging happens
     after a successful commit.
+
+    Stage A.5: opens via :func:`connect_clients_audited` (HeimdallConnection
+    + ``audit_context()`` UDF) and wraps the dispatch in
+    :func:`bind_audit_context` so the trigger on ``retention_jobs`` lands
+    a ``config_changes`` row stamped with ``intent='retention.<action>'``,
+    the operator/session ids, and the request id. Without the wrap the
+    trigger would fire with NULL actor — Stage A.5 spec §11.6 fork (f)
+    bypass.
     """
-    conn = sqlite3.connect(db_path, timeout=5)
-    conn.row_factory = sqlite3.Row
+    conn = connect_clients_audited(db_path, timeout=5)
     try:
-        kwargs = fn_kwargs or {}
-        updated = fn(conn, job_id, **kwargs)
+        with bind_audit_context(
+            conn,
+            intent=f"retention.{action}",
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
+        ):
+            kwargs = fn_kwargs or {}
+            updated = fn(conn, job_id, **kwargs)
     finally:
         conn.close()
 
@@ -649,16 +785,21 @@ def _run_retention_action(
             "job_id": job_id,
             "cvr": updated["cvr"],
             "operator": "console",
+            "request_id": request_id,
         }
     ).info("operator_retention_action")
     return updated
 
 
 @router.post("/retention-jobs/{job_id}/force-run")
+@require_permission(Permission.RETENTION_FORCE_RUN)
 async def console_retention_force_run(job_id: int, request: Request):
     """Advance a pending retention job's ``scheduled_for`` to now so the
     next cron tick claims it. The cron remains the sole executor."""
     db_path = _resolve_db_path(request)
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
     try:
         updated = await asyncio.to_thread(
             _run_retention_action,
@@ -666,6 +807,9 @@ async def console_retention_force_run(job_id: int, request: Request):
             job_id,
             action="force_run",
             fn=force_run_retention_job,
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
         )
     except KeyError as exc:
         raise HTTPException(404, detail=str(exc)) from exc
@@ -680,6 +824,7 @@ async def console_retention_force_run(job_id: int, request: Request):
 
 
 @router.post("/retention-jobs/{job_id}/cancel")
+@require_permission(Permission.RETENTION_CANCEL)
 async def console_retention_cancel(
     job_id: int,
     request: Request,
@@ -699,48 +844,61 @@ async def console_retention_cancel(
     db_path = _resolve_db_path(request)
     now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     notes_override = body.notes if body is not None else None
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
 
     def _do():
-        conn = sqlite3.connect(db_path, timeout=5)
-        conn.row_factory = sqlite3.Row
+        conn = connect_clients_audited(db_path, timeout=5)
         try:
-            # CAS UPDATE: only flip pending → cancelled. The cron's
-            # claim path uses BEGIN IMMEDIATE + UPDATE ... WHERE
-            # status='pending' RETURNING; this matches that pattern so
-            # exactly one of the two transitions wins.
-            #
-            # COALESCE preserves any pre-existing notes when the
-            # operator submits a body-less cancel — Codex flagged the
-            # naive ``notes = ?`` overwrite on 2026-04-26.
-            cursor = conn.execute(
-                """
-                UPDATE retention_jobs
-                   SET status = 'cancelled',
-                       executed_at = ?,
-                       notes = COALESCE(?, notes)
-                 WHERE id = ?
-                   AND status = 'pending'
-                """,
-                (now, notes_override, job_id),
-            )
-            conn.commit()
-            if cursor.rowcount == 0:
-                # Either the row doesn't exist or the cron beat us.
-                # Distinguish for the operator's sake.
-                row = conn.execute(
-                    "SELECT status FROM retention_jobs WHERE id = ?",
-                    (job_id,),
-                ).fetchone()
-                if row is None:
-                    raise KeyError(f"Retention job {job_id} not found")
-                raise KeyError(
-                    f"Retention job {job_id} is not pending "
-                    f"(status={row['status']!r})"
+            # Stage A.5: stamp the trigger row with operator + intent
+            # before the CAS UPDATE fires. Without the wrap the
+            # config_changes row lands with NULL actor (spec §11.6
+            # fork (f) bypass).
+            with bind_audit_context(
+                conn,
+                intent="retention.cancel",
+                operator_id=operator_id,
+                session_id=session_id,
+                request_id=request_id,
+            ):
+                # CAS UPDATE: only flip pending → cancelled. The cron's
+                # claim path uses BEGIN IMMEDIATE + UPDATE ... WHERE
+                # status='pending' RETURNING; this matches that pattern so
+                # exactly one of the two transitions wins.
+                #
+                # COALESCE preserves any pre-existing notes when the
+                # operator submits a body-less cancel — Codex flagged the
+                # naive ``notes = ?`` overwrite on 2026-04-26.
+                cursor = conn.execute(
+                    """
+                    UPDATE retention_jobs
+                       SET status = 'cancelled',
+                           executed_at = ?,
+                           notes = COALESCE(?, notes)
+                     WHERE id = ?
+                       AND status = 'pending'
+                    """,
+                    (now, notes_override, job_id),
                 )
-            row = conn.execute(
-                "SELECT * FROM retention_jobs WHERE id = ?", (job_id,)
-            ).fetchone()
-            return dict(row)
+                conn.commit()
+                if cursor.rowcount == 0:
+                    # Either the row doesn't exist or the cron beat us.
+                    # Distinguish for the operator's sake.
+                    row = conn.execute(
+                        "SELECT status FROM retention_jobs WHERE id = ?",
+                        (job_id,),
+                    ).fetchone()
+                    if row is None:
+                        raise KeyError(f"Retention job {job_id} not found")
+                    raise KeyError(
+                        f"Retention job {job_id} is not pending "
+                        f"(status={row['status']!r})"
+                    )
+                row = conn.execute(
+                    "SELECT * FROM retention_jobs WHERE id = ?", (job_id,)
+                ).fetchone()
+                return dict(row)
         finally:
             conn.close()
 
@@ -769,10 +927,14 @@ async def console_retention_cancel(
 
 
 @router.post("/retention-jobs/{job_id}/retry")
+@require_permission(Permission.RETENTION_RETRY)
 async def console_retention_retry(job_id: int, request: Request):
     """Re-queue a failed retention job. Sets status back to ``'pending'``
     with ``scheduled_for=now``; the cron will retry on next tick."""
     db_path = _resolve_db_path(request)
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
     try:
         updated = await asyncio.to_thread(
             _run_retention_action,
@@ -780,6 +942,9 @@ async def console_retention_retry(job_id: int, request: Request):
             job_id,
             action="retry",
             fn=retry_failed_retention_job,
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
         )
     except KeyError as exc:
         raise HTTPException(404, detail=str(exc)) from exc
@@ -794,7 +959,8 @@ async def console_retention_retry(job_id: int, request: Request):
 
 
 @router.get("/settings")
-async def console_settings():
+@require_permission(Permission.CONSOLE_READ)
+async def console_settings(request: Request):
     """Read all 3 config files (filters, interpreter, delivery)."""
     config_dir = Path("config")
     result = {}
@@ -808,8 +974,20 @@ async def console_settings():
 
 
 @router.put("/settings/{name}")
+@require_permission(Permission.CONFIG_WRITE)
 async def console_settings_update(name: str, request: Request):
-    """Write a config file atomically. Whitelist: filters, interpreter, delivery."""
+    """Write a config file atomically. Whitelist: filters, interpreter, delivery.
+
+    Stage A.5 spec §4.1.8: file-backed settings writer-wrapper. After
+    a successful atomic write, hash the old + new bytes and emit one
+    ``clients.audit_log`` row (``action='config.file_write'``,
+    ``target_type='settings_file'``, ``target_id=<filename>``,
+    ``payload_json={old_sha256, new_sha256}``). No-op writes
+    (``old_sha256 == new_sha256``) skip the audit row. The audit row
+    is hand-written because ``clients.audit_log`` is NOT trigger-
+    watched — triggers fire on tier-1 mutations, not on the audit
+    destination itself.
+    """
     if name not in _VALID_SETTINGS:
         raise HTTPException(400, detail=f"Invalid config name: {name!r}")
 
@@ -823,17 +1001,33 @@ async def console_settings_update(name: str, request: Request):
 
     config_path = Path("config") / f"{name}.json"
 
-    # Merge with existing config to avoid losing keys the UI doesn't manage
-    existing = {}
+    # Merge with existing config to avoid losing keys the UI doesn't manage.
+    # Read the raw bytes once so we can both (a) parse-and-merge and
+    # (b) compute old_sha256 from the exact on-disk representation.
+    existing: dict = {}
+    old_content_bytes: bytes | None = None
     if config_path.is_file():
         try:
-            existing = json.loads(config_path.read_text(encoding="utf-8"))
+            old_content_bytes = config_path.read_bytes()
+            existing = json.loads(old_content_bytes.decode("utf-8"))
         except (json.JSONDecodeError, OSError):
-            pass
+            # Corrupt or unreadable existing file — treat as a fresh
+            # write (old_sha256 stays NULL). Bypass-detection
+            # post-deploy can flag the original corruption separately.
+            old_content_bytes = None
+            existing = {}
+
+    old_sha256 = (
+        hashlib.sha256(old_content_bytes).hexdigest()
+        if old_content_bytes is not None
+        else None
+    )
+
     merged = {**existing, **body}
     content = json.dumps(merged, indent=2, ensure_ascii=False) + "\n"
+    new_sha256 = hashlib.sha256(content.encode("utf-8")).hexdigest()
 
-    # Atomic write: write to temp file in same dir, then rename
+    # Atomic write: write to temp file in same dir, then rename.
     config_path.parent.mkdir(parents=True, exist_ok=True)
     fd = tempfile.NamedTemporaryFile(
         mode="w",
@@ -848,20 +1042,127 @@ async def console_settings_update(name: str, request: Request):
         fd.close()
         Path(fd.name).rename(config_path)
     except Exception:
-        # Clean up temp file on failure
+        # Clean up temp file on failure.
         try:
             Path(fd.name).unlink(missing_ok=True)
         except Exception:
             pass
         raise
 
+    # No-op write — content byte-identical. Skip the audit row per
+    # spec §4.1.8.
+    if old_sha256 == new_sha256:
+        logger.info("config_saved_no_change name={}", name)
+        return {"status": "saved", "name": name}
+
+    db_path = _resolve_db_path(request)
+    operator_id = getattr(request.state, "operator_id", None)
+    session_id = getattr(request.state, "session_id", None)
+    request_id = getattr(request.state, "request_id", None)
+    client = getattr(request, "client", None)
+    source_ip = getattr(client, "host", None) if client is not None else None
+    raw_ua = request.headers.get("user-agent", "") or ""
+    user_agent = raw_ua[:512]
+
+    try:
+        await asyncio.to_thread(
+            _write_settings_audit_row,
+            db_path,
+            filename=f"{name}.json",
+            old_sha256=old_sha256,
+            new_sha256=new_sha256,
+            operator_id=operator_id,
+            session_id=session_id,
+            request_id=request_id,
+            source_ip=source_ip,
+            user_agent=user_agent,
+        )
+    except sqlite3.OperationalError as exc:
+        # File write already succeeded; an audit-row drop is
+        # forensically detectable post-hoc via the bypass-detection
+        # loop (spec §4.1.8). Log + carry on so the operator's PUT
+        # does not fail after the on-disk state changed.
+        logger.warning(
+            "settings_audit_write_failed name={} err={}", name, exc
+        )
+
     logger.info("config_saved name={}", name)
     return {"status": "saved", "name": name}
 
 
+def _write_settings_audit_row(
+    db_path: str,
+    *,
+    filename: str,
+    old_sha256: str | None,
+    new_sha256: str,
+    operator_id: int | None,
+    session_id: int | None,
+    request_id: str | None,
+    source_ip: str | None,
+    user_agent: str,
+) -> None:
+    """Insert one ``clients.audit_log`` row for a settings-file write.
+
+    Stage A.5 spec §4.1.8 wrapper. Caller computes the SHA-256 digests
+    from the exact on-disk bytes; this helper just stamps the row in
+    a ``with conn:`` transaction. ``clients.audit_log`` is NOT
+    trigger-watched (it is the destination of the trigger-driven
+    surface, not a source), so no ``bind_audit_context`` here — the
+    helper supplies actor / request_id directly.
+    """
+    payload = {"old_sha256": old_sha256, "new_sha256": new_sha256}
+    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    conn = connect_clients_audited(db_path, timeout=5)
+    try:
+        with conn:
+            conn.execute(
+                """
+                INSERT INTO audit_log
+                    (occurred_at, operator_id, session_id, action,
+                     target_type, target_id, payload_json,
+                     source_ip, user_agent, request_id, actor_kind)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'operator')
+                """,
+                (
+                    now,
+                    operator_id,
+                    session_id,
+                    "config.file_write",
+                    "settings_file",
+                    filename,
+                    json.dumps(payload),
+                    source_ip,
+                    user_agent,
+                    request_id,
+                ),
+            )
+    finally:
+        conn.close()
+
+
 @router.post("/commands/{command}")
+@require_permission(Permission.COMMAND_DISPATCH)
 async def console_command(command: str, request: Request):
-    """Push an operator command to Redis queue:operator-commands."""
+    """Push an operator command to Redis queue:operator-commands.
+
+    Stage A.5 spec §4.1.6 (master spec §1.3.b pair shape). After a
+    successful ``lpush`` returns, write one ``console.audit_log`` row
+    with ``action='command.dispatch'``, ``target_type='command'``,
+    ``target_id=<command>``. The row pairs with the worker-side
+    ``command_audit`` row (in ``clients.db``) written when the
+    scheduler dequeues + completes the command, correlated by
+    ``request_id``.
+
+    Ordering rule (peer-review P1, 2026-05-02). The audit row is
+    written ONLY after ``lpush`` succeeds. If Redis raises, the
+    exception bubbles to FastAPI 500 and no audit row is recorded —
+    otherwise the audit log would claim a dispatch that never reached
+    the queue (orphan with no ``command_audit`` follow-up). If the
+    audit-row INSERT itself fails post-``lpush`` (db locked / disk
+    full), log WARNING and return 200 anyway: the dispatch already
+    happened, the gap is detectable post-hoc via the missing pair.
+    """
     if command not in _VALID_COMMANDS:
         raise HTTPException(400, detail=f"Invalid command: {command!r}")
 
@@ -882,13 +1183,57 @@ async def console_command(command: str, request: Request):
 
     await asyncio.to_thread(redis_conn.lpush, "queue:operator-commands", cmd_json)
     logger.info("command_queued command={}", command)
+
+    # Audit-row write — strictly after the lpush returned successfully.
+    console_db_path = getattr(
+        request.app.state, "console_db_path", DEFAULT_CONSOLE_DB_PATH
+    )
+    try:
+        await asyncio.to_thread(
+            _write_command_dispatch_audit,
+            console_db_path,
+            request,
+            command,
+        )
+    except sqlite3.OperationalError as exc:
+        logger.warning(
+            "command_dispatch_audit_write_failed command={} err={}",
+            command,
+            exc,
+        )
+
     return {"status": "queued", "command": command}
+
+
+def _write_command_dispatch_audit(
+    console_db_path: str, request: Request, command: str
+) -> None:
+    """Open console.db, INSERT one ``command.dispatch`` row, close.
+
+    Module-level so :func:`asyncio.to_thread` runs the sync sqlite3
+    work off the event loop and tests can monkeypatch the writer in
+    isolation. Reads operator_id / session_id / request_id from
+    ``request.state`` via :func:`write_console_audit_row`.
+    """
+    conn = get_console_conn(console_db_path)
+    try:
+        with conn:
+            write_console_audit_row(
+                conn,
+                request,
+                action="command.dispatch",
+                target_type="command",
+                target_id=command,
+            )
+    finally:
+        conn.close()
 
 
 _LEVEL_ORDER = {"DEBUG": 0, "INFO": 1, "WARNING": 2, "ERROR": 3, "CRITICAL": 4}
 
 
 @router.get("/logs")
+@require_permission(Permission.CONSOLE_READ)
 async def console_logs(
     request: Request,
     source: str | None = Query(default=None),
@@ -934,7 +1279,9 @@ async def console_ws(websocket: WebSocket):
     and returns ``None`` — see helper docstring for the contract.
     """
     auth = await _authenticate_ws(
-        websocket, audit_payload={"path": "/console/ws"}
+        websocket,
+        audit_payload={"path": "/console/ws"},
+        required_permission=Permission.CONSOLE_READ,
     )
     if auth is None:
         return
@@ -1064,6 +1411,7 @@ async def console_ws(websocket: WebSocket):
 # ---------------------------------------------------------------------------
 
 @router.get("/briefs")
+@require_permission(Permission.CONSOLE_READ)
 async def list_briefs(request: Request):
     """List available prospect briefs for the demo selector."""
     briefs_path = _briefs_dir(request)
@@ -1086,6 +1434,7 @@ async def list_briefs(request: Request):
 
 
 @router.post("/demo/start", response_model=DemoStartResponse)
+@require_permission(Permission.DEMO_RUN)
 async def demo_start(body: DemoStartRequest, request: Request):
     """Start a demo scan replay for a prospect domain.
 
@@ -1117,9 +1466,21 @@ async def demo_websocket(websocket: WebSocket, scan_id: str):
     Stage A slice 3g (d): the same handler-level auth contract as
     ``/console/ws`` (master spec §5.5) — demo replay is operator-only.
     """
+    # Stage A.5 §4.2.5: on permission deny, the cleanup callback drops
+    # any queued demo state for this scan_id BEFORE the audit row is
+    # written and the WS closes 4403. Without this, a denied operator's
+    # _pending_demos entry could be picked up by a later authorised
+    # connection — cross-session leak (network-security peer review
+    # P1 #5, 2026-05-02).
+    def _cleanup_pending() -> None:
+        pending = getattr(websocket.app.state, "_pending_demos", {})
+        pending.pop(scan_id, None)
+
     auth = await _authenticate_ws(
         websocket,
         audit_payload={"path": "/console/demo/ws", "scan_id": scan_id},
+        required_permission=Permission.DEMO_RUN,
+        on_deny_cleanup=_cleanup_pending,
     )
     if auth is None:
         return

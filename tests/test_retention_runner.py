@@ -20,7 +20,7 @@ from unittest.mock import patch
 import pytest
 
 from src.db.clients import create_client
-from src.db.connection import init_db
+from src.db.connection import connect_clients_audited, init_db
 from src.db.retention import (
     claim_due_retention_jobs,
     get_retention_job,
@@ -136,13 +136,15 @@ class TestClaimAtomicity:
         )
         conn.close()
 
-        # Two independent connections fight over it.
-        conn_a = sqlite3.connect(path, timeout=5)
-        conn_a.row_factory = sqlite3.Row
+        # Two independent connections fight over it. Stage A.5: the
+        # claim-UPDATE on retention_jobs fires trg_retention_jobs_audit_update
+        # which calls the per-connection ``audit_context()`` UDF —
+        # ``connect_clients_audited`` registers it. (Plain sqlite3.connect
+        # would raise ``no such function: audit_context``.)
+        conn_a = connect_clients_audited(path, timeout=5)
         conn_a.execute("PRAGMA journal_mode=WAL")
 
-        conn_b = sqlite3.connect(path, timeout=5)
-        conn_b.row_factory = sqlite3.Row
+        conn_b = connect_clients_audited(path, timeout=5)
         conn_b.execute("PRAGMA journal_mode=WAL")
 
         try:

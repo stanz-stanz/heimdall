@@ -26,6 +26,7 @@ from src.client_memory import (
     RemediationTracker,
 )
 from src.api.auth.middleware import SessionAuthMiddleware
+from src.api.auth.request_id import RequestIdMiddleware
 from src.composer.telegram import compose_telegram
 from src.db.console_connection import (
     DEFAULT_CONSOLE_DB_PATH,
@@ -57,6 +58,12 @@ def _validate_name(value: str, label: str) -> str:
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         t0 = time.monotonic()
+        # Stage A.5 §4.3.4: read request_id off state populated by
+        # RequestIdMiddleware (mounted outermost, so always present
+        # for HTTP scopes). Defensive ``getattr`` keeps the logger
+        # bind harmless on the unit-test path where this middleware
+        # is exercised in isolation.
+        request_id = getattr(request.state, "request_id", None)
         try:
             response: Response = await call_next(request)
         except Exception:
@@ -65,6 +72,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 "method": request.method,
                 "path": request.url.path,
                 "duration_ms": elapsed_ms,
+                "request_id": request_id,
             }).opt(exception=True).error("http_error")
             raise
         elapsed_ms = int((time.monotonic() - t0) * 1000)
@@ -73,6 +81,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             "path": request.url.path,
             "status": response.status_code,
             "duration_ms": elapsed_ms,
+            "request_id": request_id,
         }).info("http_request")
         return response
 
@@ -391,8 +400,20 @@ def create_app(
         "CONSOLE_DB_PATH", DEFAULT_CONSOLE_DB_PATH,
     )
 
-    app.add_middleware(RequestLoggingMiddleware)
-
+    # Stage A.5 §4.3.3 mount order (locked 2026-05-02): Starlette /
+    # FastAPI ``add_middleware`` pushes onto the HEAD of the stack —
+    # the LAST add_middleware call is the OUTERMOST runtime layer. So
+    # to get [RequestId → RequestLogging → SessionAuth → handler] at
+    # runtime, we add SessionAuth FIRST (innermost), RequestLogging
+    # SECOND (middle), RequestIdMiddleware LAST (outermost).
+    #
+    # Behavior change vs slice 3g.5 baseline: RequestLoggingMiddleware
+    # now wraps SessionAuthMiddleware, so unauthenticated probes (401s)
+    # are logged with request_id (today they short-circuit before
+    # logging fires). RequestIdMiddleware outermost ensures every
+    # downstream layer (and the ASGI WS scope) sees state.request_id
+    # populated.
+    #
     # Stage A slice 3g (f) retired the legacy Basic Auth fallback per
     # spec §7.10 Option B. ``SessionAuthMiddleware`` is the only auth
     # gate for ``/console/*`` and ``/app/*``; rollback is ``git revert``
@@ -401,6 +422,8 @@ def create_app(
         SessionAuthMiddleware,
         console_db_path=app.state.console_db_path,
     )
+    app.add_middleware(RequestLoggingMiddleware)
+    app.add_middleware(RequestIdMiddleware)
 
     app.include_router(auth_router)
     app.include_router(console_router)

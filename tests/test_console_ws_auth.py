@@ -596,3 +596,174 @@ def test_ws_middleware_does_not_auth_upgrade(
         "lock violated; see master spec §5.2 Option 2."
     )
     assert calls[0]["path"] == "/console/ws"
+
+
+# ===========================================================================
+# Stage A.5 §4.2.5 + §6.4.1 — inline permission gate (cases 9-11 + extras)
+# ===========================================================================
+
+
+def _set_operator_role(console_db_path: Path, role_hint: str | None) -> None:
+    """Re-seed every operator row's ``role_hint`` for permission-deny
+    tests. ``None`` writes SQL NULL — exercises the case-norm path
+    where ``(role_hint or "")`` collapses to the empty string."""
+    conn = get_console_conn(str(console_db_path))
+    try:
+        conn.execute("UPDATE operators SET role_hint = ?", (role_hint,))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _expect_4403_close(client: TestClient, path: str, **kwargs) -> None:
+    """Connect to *path* and assert close code 4403 (Stage A.5 §4.2.5
+    inline permission deny). Mirrors :func:`_expect_4401_close` for
+    the unauthorised-but-authenticated branch."""
+    with pytest.raises(WebSocketDisconnect) as exc_info:
+        with client.websocket_connect(path, **kwargs) as ws:
+            ws.receive_text()
+    assert exc_info.value.code == 4403, (
+        f"expected 4403 close on {path}, got {exc_info.value.code}"
+    )
+
+
+def test_ws_no_permission_closes_4403(
+    authed_client: TestClient, configured_env: Path
+) -> None:
+    """Case 9 (spec §6.4.1). Operator with ``role_hint='observer'`` (not
+    in :data:`ROLE_PERMISSIONS`) attempts ``/console/ws``. Server
+    closes 4403, exactly one ``auth.permission_denied`` row exists
+    with ``target_id='console.read'`` and ``payload_json``
+    containing ``role_hint='observer'``, and NO
+    ``liveops.ws_connected`` row appears for that session
+    (deny-symmetry — successful-connection audit MUST NOT fire on the
+    denied path)."""
+    _set_operator_role(configured_env, "observer")
+
+    _expect_4403_close(authed_client, "/console/ws")
+
+    deny_rows = _audit_rows(configured_env, action="auth.permission_denied")
+    assert len(deny_rows) == 1
+    row = deny_rows[0]
+    assert row["target_type"] == "permission"
+    assert row["target_id"] == "console.read"
+    import json
+    assert json.loads(row["payload_json"]) == {"role_hint": "observer"}
+
+    accept_rows = _audit_rows(configured_env, action="liveops.ws_connected")
+    assert accept_rows == []
+
+
+def test_ws_demo_permission_required(
+    authed_client: TestClient, configured_env: Path
+) -> None:
+    """Case 10 (spec §6.4.1). Same as case 9 but for
+    ``/console/demo/ws/{scan_id}``. Close 4403; audit row
+    ``target_id='demo.run'``."""
+    _set_operator_role(configured_env, "observer")
+
+    _expect_4403_close(authed_client, "/console/demo/ws/test-scan-id")
+
+    deny_rows = _audit_rows(configured_env, action="auth.permission_denied")
+    assert len(deny_rows) == 1
+    assert deny_rows[0]["target_id"] == "demo.run"
+
+    accept_rows = _audit_rows(configured_env, action="liveops.ws_connected")
+    assert accept_rows == []
+
+
+def test_ws_permission_audit_includes_request_id(
+    authed_client: TestClient, configured_env: Path
+) -> None:
+    """Case 11 (spec §6.4.1). X-Request-ID round-trips onto the
+    permission_denied row — proves the cross-DB correlation contract
+    holds even on the deny path. ``RequestIdMiddleware`` (commit 3)
+    populates ``scope['state']['request_id']`` on every WS scope; the
+    ``_WSRequestAdapter`` reads it; the audit writer stamps it."""
+    _set_operator_role(configured_env, "observer")
+
+    rid = "r-ws-deny-1"
+    _expect_4403_close(
+        authed_client,
+        "/console/ws",
+        headers={"X-Request-ID": rid},
+    )
+
+    deny_rows = _audit_rows(configured_env, action="auth.permission_denied")
+    assert len(deny_rows) == 1
+    # _audit_rows returns dicts including occurred_at / operator_id /
+    # session_id / action / target_type / target_id / payload_json;
+    # request_id needs a separate fetch since the helper omits it.
+    conn = get_console_conn(str(configured_env))
+    try:
+        rid_row = conn.execute(
+            "SELECT request_id FROM audit_log "
+            "WHERE action = 'auth.permission_denied' "
+            "ORDER BY id DESC LIMIT 1"
+        ).fetchone()
+    finally:
+        conn.close()
+    assert rid_row is not None
+    assert rid_row["request_id"] == rid
+
+
+def test_ws_audit_write_failure_still_closes_4403(
+    authed_client: TestClient,
+    configured_env: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Peer-review P1 #3 (network-security, 2026-05-02). If the
+    deny-path audit INSERT raises ``sqlite3.OperationalError``, the
+    handler must STILL close 4403. Fail-secure: an audit-layer fault
+    cannot swallow the deny decision (which would manifest as a
+    silent connection drop indistinguishable from a network glitch)."""
+    import sqlite3
+
+    from src.api import console as console_module
+
+    real_writer = console_module.write_console_audit_row
+
+    def _broken_writer(conn, request, **kwargs):
+        # Only fail on the deny-row write so the rest of the test
+        # (cookie validation SELECTs etc.) still runs through.
+        if kwargs.get("action") == "auth.permission_denied":
+            raise sqlite3.OperationalError("simulated db lock")
+        return real_writer(conn, request, **kwargs)
+
+    monkeypatch.setattr(
+        console_module, "write_console_audit_row", _broken_writer
+    )
+
+    _set_operator_role(configured_env, "observer")
+    _expect_4403_close(authed_client, "/console/ws")
+
+    # Audit write was monkeypatched to raise — so the row should NOT
+    # exist. The 4403 close MUST still have fired (asserted by the
+    # _expect_4403_close above). Fail-secure proven.
+    deny_rows = _audit_rows(configured_env, action="auth.permission_denied")
+    assert deny_rows == []
+
+
+def test_ws_demo_deny_clears_pending_state(
+    authed_client: TestClient, configured_env: Path
+) -> None:
+    """Peer-review P1 #5 (network-security, 2026-05-02). When demo WS
+    permission is denied, ``app.state._pending_demos[scan_id]`` must
+    be popped BEFORE the close — otherwise a denied operator's
+    pending demo brief would be inherited by a later authorised
+    connection on the same scan_id (cross-session leak)."""
+    scan_id = "test-scan-leak-1"
+    pending = getattr(authed_client.app.state, "_pending_demos", {})
+    pending[scan_id] = {"domain": "example.com"}
+    authed_client.app.state._pending_demos = pending
+
+    _set_operator_role(configured_env, "observer")
+    _expect_4403_close(authed_client, f"/console/demo/ws/{scan_id}")
+
+    pending_after = getattr(
+        authed_client.app.state, "_pending_demos", {}
+    )
+    assert scan_id not in pending_after, (
+        "denied operator left pending demo state behind — cross-session "
+        "leak vector. Network-security P1 #5 regression."
+    )
