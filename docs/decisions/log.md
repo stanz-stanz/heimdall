@@ -5,6 +5,89 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-05-02 (afternoon) — Stage A.5 commit (3): X-Request-ID middleware shipped + §6.6 test adjustments
+
+> Builds on the morning entry below. Commit (1) (`f9eb720`) and commit (3) (`a89a527`) are now both on the branch — 2 commits ahead of `origin/feat/stage-a-5-audit-rbac-requestid`. Commit (2) RBAC is the only remaining piece of the bundled Stage A.5 sprint.
+
+**Decided**
+
+- `RequestIdMiddleware` mounted as the OUTERMOST ASGI layer per spec §4.3.3. Runtime stack is now `[RequestId → RequestLogging → SessionAuth → handler]`. Behavior change vs slice 3g.5: 401s from SessionAuth flow back through RequestLogging, so unauthenticated probes ARE logged with `request_id`. Pure ASGI (not BaseHTTPMiddleware) so it gates WebSocket scopes too — `scope["state"]["request_id"]` is populated on both HTTP and WS scopes; HTTP responses also echo `X-Request-ID` on `http.response.start`.
+- Wire contract locked: `_REQUEST_ID_PATTERN = ^[A-Za-z0-9_-]{1,128}$`. Inbound match → use verbatim; malformed (length / charset) → ignore + fresh UUIDv4; absent → fresh UUIDv4. Format guard rejects header-splitting (`\r\n` injection) and 4096-char strings polluting the audit log.
+- `_WSRequestAdapter.__init__` reads `websocket.scope.get("state", {}).get("request_id")` (populated by middleware on the WS scope) and threads onto `self.state.request_id`. Falls back to `_validate_or_generate(websocket.headers.get("x-request-id"))` for unit-test paths that bypass the middleware. Lazy-import to keep `auth.request_id` out of any circular-import path through `console.py`.
+- `RequestLoggingMiddleware.dispatch` reads `request.state.request_id` once at entry and binds it to BOTH the `http_request` and `http_error` log lines. Per spec §11.7 = A: per-handler log lines stay manual for A.5; the contextvars + loguru auto-injection move (option C) is V2 follow-up.
+- §6.6 existing-test adjustments: `tests/test_audit_log_writer.py` — `test_writes_row_with_all_expected_fields_populated` now seeds `request_id` and asserts the value (was `is None`); `test_request_id_propagated_when_set` docstring updated; `test_request_id_null_in_stage_a` renamed → `test_request_id_null_when_state_unset` with rewritten contract docstring. `tests/test_auth_middleware.py` gains `test_request_id_propagates_through_session_auth_to_handler` — builds an ad-hoc app with both middlewares mounted in spec §4.3.3 order, asserts `SessionAuthMiddleware`'s `scope.setdefault("state", {})` does not clobber the upstream `request_id`.
+- 10 new tests in `tests/test_request_id_middleware.py` per spec §6.5. Canonical cross-DB correlation proof (`test_request_id_propagated_across_two_dbs`) demonstrates one operator-supplied UUID lands in `clients.config_changes` (force-run trigger) AND `console.audit_log` (auth.logout writer) AND ≥1 log line AND both response headers, in one logical workflow. After Codex P1 fix: assertions are non-vacuous (`len(rows) >= 1` + value match), not `isinstance(rows, list)`.
+- Decision lineage chain: discovery → me self-reading the diff → Codex review (codex:codex-rescue, 2026-05-02 afternoon) flagged 2 P1s (`test_audit_row_includes_request_id` was querying clients.audit_log not console.audit_log; `test_request_id_propagated_across_two_dbs` had a vacuous `isinstance(rows, list)` assertion) — both addressed before commit. 1573 tests passing on the working tree.
+- Hard-rule memory locked 2026-05-02: `feedback_no_assumed_agreement.md` saved + indexed. Anger / profanity / silence / pointed questions / context are NOT permission. Only explicit "yes / do it / proceed / run X / commit / approved" counts. Triggered by my interpreting an angry reaction as authorisation to auto-run `/codex:review`.
+
+**Rejected**
+
+- Adding the spec §4.1.6 `command.dispatch` console.audit_log row to `console_command` in commit (3). Out of scope for X-Request-ID middleware; properly belongs in commit (2) RBAC where the per-handler audit-row scaffolding lives. Recorded as known gap; commit (2) closes it.
+- Restoring the slice 3g.5 mount order (RequestLogging innermost). Deliberately swapped per spec §4.3.3 so 401s carry `request_id` in the log line. Operational-noise concern (every 401 now logs) deemed acceptable — 401s are already low-volume against `/console/*` routes (gated by SessionAuth → no honest user load), and forensic value of correlated 401 logs outweighs the noise.
+- Deferring the §6.6 test_audit_log_writer.py / test_auth_middleware.py adjustments to commit (2). Federico explicitly asked for them in commit (3) ("address §6.6 adjustments first"). Done.
+
+**Unresolved**
+
+- Commit (2) RBAC decorator + Permission enum (7 values per fork (c)) + 18 HTTP route gates + 2 WS inline gates per spec §4.2 / §6.4 — pending. Spec §4.1.6 `command.dispatch` console.audit_log row also belongs here.
+- 2 commits unpushed (`f9eb720`, `a89a527`). Push, open PR, or hold for commit (2) bundle?
+- Pi5 cutover gated on commit (2) per spec §7.4 (decision A.5-deploy = b — bundled with all three commits).
+- Two unauthorised file deletions surfaced this session: `docs/analysis/pipeline-analysis-2026-04-05.docx` + `docs/images/heimdall.png` (would have broken the README header image). Restored from HEAD on Federico's call. Cause unknown — not from any edit I made (directory mtime `May 2 08:18` during this session). Worth a quick "what tool deleted these" check at next session start to rule out a misbehaving editor / hook / Spotlight glitch.
+- Wernblad confirmation on §263 stk. 3 → 10y horizon (carried from morning entry). No code change required if 5y stays.
+- `trial.expired` bypass-row writer in `client_memory/trial_expiry.py` — defer to commit (2) or (3); now commit (2) is the only remaining slot.
+
+**Next-session opener**
+
+> "Resume on `feat/stage-a-5-audit-rbac-requestid` (2 commits ahead of origin: `f9eb720` + `a89a527`). Start commit (2) RBAC: `Permission` enum (7 values) + `require_permission` decorator + 18 HTTP route gates + 2 WS inline gates per spec §4.2; also add the spec §4.1.6 `command.dispatch` console.audit_log row to `console_command`. After that the bundled Stage A + A.5 cutover to Pi5 is the next milestone (spec §7.4 decision A.5-deploy = b)."
+
+---
+
+## 2026-05-02 (evening) — Stage A.5 commit (2) shipped in three waves: RBAC decorator + 18 HTTP gates + 2 WS inline gates
+
+> Closes the morning + afternoon entries. Branch `feat/stage-a-5-audit-rbac-requestid` is now 5 commits ahead of origin: commits (1) `93cf2ec` + `f9eb720`, commit (3) `a89a527`, commit (2) wave A `cadc1f9` + wave B `8ce91d5` + wave C (this commit). Stage A.5 implementation phase is complete; only the bundled Stage A + A.5 Pi5 cutover (decision A.5-deploy = b, spec §7.4) remains.
+
+**Decided**
+
+- **Three internal waves to fit the operator's context budget.** Federico flagged the original 12-task plan as token-heavy mid-execution; restructured to three waves with discrete Codex+commit cycles. All three squash to one PR commit at A.5 merge per spec §3.3. Memory rule saved: when context budget is the constraint, prefer wave decomposition over monolith.
+- **Wave A (`cadc1f9`).** New `src/api/auth/permissions.py` (260 LOC) — Permission enum (7 values per fork (c)), ROLE_PERMISSIONS, `@require_permission` decorator with all peer-review hardenings (decoration-time TypeError on sync handlers / missing Request param via `typing.get_type_hints`; `*args, **kwargs` wrapper signature only — never names `request`; `(role_hint or "").lower().strip()` lookup; `asyncio.to_thread` audit write; fail-secure 403 even when audit INSERT raises). New `tests/test_permissions.py` — 20 cases. Codex round 1 P1 fix: `_has_request_param` was over-permissive (`name == "request"` branch); replaced with annotation-only check via `typing.get_type_hints` so `from __future__ import annotations` handlers compare class-to-class.
+- **Wave B (`8ce91d5`).** Applied `@require_permission(Permission.X)` to 18 HTTP handlers in `src/api/console.py` per spec §4.2.1 inventory. `console_settings()` (line 879+) gained a `request: Request` param so the decorator's decoration-time validation passes (previously took no params). `console_command` (line 1060+) rewritten per spec §4.1.6: after successful `lpush`, `asyncio.to_thread` into a new module-level `_write_command_dispatch_audit` helper that opens `console.db`, writes one `command.dispatch` row, closes. New `tests/test_console_command_audit.py` (4 cases) + `tests/test_console_permission_gates.py` (44 cases — 18 allow + 18 deny + 6 public + unauth-401 + permission-count assertion). Codex round 2: 0 P1 + 2 P2; both addressed (public-routes test expanded from 2 → 6 routes; spec wire-shape reconciliation per Federico's 2026-05-02 amend-spec call).
+- **Wave C (this commit).** `_authenticate_ws` (`src/api/console.py:204-303`) signature gained `required_permission: Permission` + optional `on_deny_cleanup: Callable[[], None]`. Inline permission gate after `validate_session_by_hash` succeeds: `_fetch_role_hint(conn, operator_id)` then case-norm lookup; on deny, run cleanup → try-write `auth.permission_denied` row → log WARN if INSERT fails → `accept()` + `close(4403)` UNCONDITIONALLY. Both WS callsites updated: `console_ws` passes `Permission.CONSOLE_READ`; `demo_websocket` passes `Permission.DEMO_RUN` + a `_cleanup_pending` callback that pops `app.state._pending_demos[scan_id]` so a denied operator never leaks pending demo state to a later authorised connection. Five new cases appended to `tests/test_console_ws_auth.py` (cases 9-11 per spec §6.4.1 + audit-failure-still-closes-4403 + demo-deny-clears-pending-state). 1646 tests passing on the working tree; only pre-existing `test_run_pipeline_button_roundtrip` integration failure unchanged.
+
+**Forks resolved this commit**
+
+- **Fork (b) — RBAC role-name vocabulary.** Spec §4.2.1 defined `ROLE_PERMISSIONS = {"operator": frozenset(Permission)}`; the seeded reality at `src/db/console_connection.py:155` and 8 test fixtures is `'owner'`. Federico locked **(b) keep `'owner'`, no data migration** 2026-05-02. Spec §4.2.1 line 626 amended via this entry — implementation reads `ROLE_PERMISSIONS = {"owner": frozenset(Permission)}`. Decorator's case-norm + whitespace-strip lookup ((`role_hint or "").lower().strip()`) absorbs typo'd seeds (`'Owner'` / `'  owner  '`) per network-security peer-review P1 #4. Future structured RBAC (table-backed roles, `'observer'` / `'editor'` entries) revisits the vocabulary — out of A.5 scope per spec §4.2.1 docstring.
+- **HTTP wire-shape reconciliation (Codex round 2 P2 #2).** Spec §4.2.4 + §6.4 originally showed deny body as `{"error": "permission_denied", ...}`. The implementation uses FastAPI's `HTTPException(detail={...})` mechanism, which wraps under a top-level `"detail"` key — wire shape is `{"detail": {"error": "permission_denied", "permission": "<value>"}}`. Federico's 2026-05-02 call: amend the spec, not the implementation. Reasons: 401 path already uses the same wrapped shape (`{"detail": {"error": "not_authenticated"}}`); changing only 403 to a bare `JSONResponse` would split the error contract for adjacent auth failures; the gain is cosmetic. Spec §4.2.4 + §6.4 updated in this commit.
+
+**Peer-review hardenings absorbed (in order)**
+
+1. Wrapper signature is `*args, **kwargs` only — naming `request` would 422 routes that don't take it (python-expert P1 #1).
+2. Task ordering — fixture audit before decorator sweep (python-expert P1 #2). Verified: 8 test files seed `role_hint='owner'` for handler-driving tests; 2 use `'operator'` only for db/seed mechanics that don't drive handlers; no fixture edits required.
+3. Fail-secure ordering on deny audit write — try/except around INSERT, log WARN, STILL raise 403 / close 4403 (network-security P1 #3).
+4. Fork-(b) lockout mitigation — case-norm + whitespace-strip on role_hint lookup (network-security P1 #4 first bullet); deploy-time `verify_audit_triggers.sh` extension is commit (4) per scope decision.
+5. Demo deny path pops `_pending_demos[scan_id]` BEFORE close — prevents cross-session leak (network-security P1 #5).
+6. `asyncio.to_thread` for sync sqlite3 work in the decorator's deny path — consistency with `_run_retention_action` precedent (python-expert P2 #4).
+7. Decoration-time TypeError on non-async / missing-Request handlers — fail at import not first call (python-expert P1 #1, paired with #1 above).
+8. `command.dispatch` audit-row write happens AFTER successful `lpush` — orphan dispatch rows would mislead forensic review (network-security P1 #2).
+
+**Rejected**
+
+- Decorating WS handlers with `@require_permission`. Locked v2 inline gate per spec §4.2.5 — Codex round 2 explicitly verified this is intentional, not a regression. WS handlers receive `WebSocket`, not `Request`; the decorator's `_extract_request` would fail; a dual-shape decorator was rejected during spec ratification.
+- Deploy-time lockout guard in `scripts/verify_audit_triggers.sh` (network-security P1 #4 second bullet). Carved into commit (4) on this branch per Federico's scope decision 2026-05-02 — keeps commit (2) tight to spec §4.2 RBAC.
+- Returning bare `JSONResponse` from the decorator's deny path to match the original spec §6.4 body shape. Spec amended instead (see Forks resolved above).
+- Async test infrastructure (pytest-asyncio in venv). Not present locally; unit tests in `tests/test_permissions.py` drive the async wrapper via an `asyncio.run` helper (`_drive`) — matches the repo's sync-`TestClient`-elsewhere idiom.
+
+**Unresolved**
+
+- Commit (4) — `scripts/verify_audit_triggers.sh` extension (`SELECT count(*) FROM operators WHERE role_hint IS NULL OR role_hint != 'owner'` must return 0 at deploy). Closes the fork-(b) lockout vector at the deploy gate. Separate commit on this branch.
+- 5 commits unpushed (`f9eb720`, `93cf2ec`, `a89a527`, `cadc1f9`, `8ce91d5` + this commit). Push, open PR, or hold for the bundled cutover?
+- iCloud Drive recovery incident this session — Federico Cmd+Deleted `~/Documents/Repos` thinking it was iCloud-only; recovered via iCloud Recently Deleted but landed in `Repos 2/`; Federico moved manually back to `Repos/`. Wave A commit `cadc1f9` survived intact in the .git/objects of the recovered tree. Memory rule saved: GUI-first instructions during incidents (lead with Finder drag-and-drop, not shell `mv` with escaped spaces). Two assumption-jump errors during the recovery surfaced — saved to memory as a hard rule on inferring state from weak signals.
+- Pi5 cutover (bundled Stage A + A.5) — gated on commit (4) ship + Wernblad §263 stk. 3 confirmation (5y vs 10y horizon — affects `purge_bookkeeping` schedule, not commit-(2) RBAC).
+
+**Next-session opener**
+
+> "Resume on `feat/stage-a-5-audit-rbac-requestid` (5 commits ahead of origin). Stage A.5 commits (1) + (2) waves A-C + (3) all on the branch. Next: small commit (4) for the deploy-time lockout guard in `scripts/verify_audit_triggers.sh`, then push + open PR, then bundled Stage A + A.5 Pi5 cutover per spec §7.4 (decision A.5-deploy = b)."
+
+---
+
 ## 2026-05-02 — Stage A.5 commit (1): audit foundation + wrapper sweep + Valdí audit-retention extension landed
 
 > Builds on the 2026-04-30 ratified spec at `docs/architecture/stage-a-5-spec.md` and the foundation commit `93cf2ec` (12 `config_changes` triggers + `command_audit` table + `bind_audit_context` UDF). This entry covers the commit-1 wrapper sweep + `purge_bookkeeping` Valdí extension + 4 spec-driven test files. Commit (2) RBAC and commit (3) X-Request-ID middleware follow on the same branch.

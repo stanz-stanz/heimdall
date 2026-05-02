@@ -10,7 +10,7 @@ import tempfile
 from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any, Protocol
+from typing import Any, Callable, Protocol
 
 from fastapi import APIRouter, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from loguru import logger
@@ -20,8 +20,12 @@ from src.api.auth.audit import (
     maybe_write_disabled_operator_audit,
     write_console_audit_row,
 )
-from src.api.auth.middleware import SESSION_COOKIE
-from src.api.auth.permissions import Permission, require_permission
+from src.api.auth.middleware import SESSION_COOKIE, _fetch_role_hint
+from src.api.auth.permissions import (
+    ROLE_PERMISSIONS,
+    Permission,
+    require_permission,
+)
 from src.api.auth.sessions import validate_session_by_hash
 from src.db.audit_context import bind_audit_context
 from src.db.connection import connect_clients_audited
@@ -202,23 +206,43 @@ def _build_pseudo_request(websocket: WebSocket) -> _WSRequestAdapter:
 
 
 async def _authenticate_ws(
-    websocket: WebSocket, *, audit_payload: dict
+    websocket: WebSocket,
+    *,
+    audit_payload: dict,
+    required_permission: Permission,
+    on_deny_cleanup: Callable[[], None] | None = None,
 ) -> tuple[int, int] | None:
-    """Read the session cookie, validate, accept-or-close-with-4401.
+    """Read the session cookie, validate, gate on ``required_permission``,
+    accept-or-close.
 
-    On success: opens a single ``console.db`` connection, validates the
-    session, accepts the WebSocket upgrade, writes the
-    ``liveops.ws_connected`` audit row inside the same ``with conn:``
-    block, then closes the connection and returns
-    ``(operator_id, session_id)``. The returned identifiers let the
-    caller log forensic context without re-fetching.
+    Two close codes per RFC 6455 (4xxx is application-defined):
 
-    On failure: accepts the upgrade then sends a clean
-    ``websocket.close(code=4401)`` per RFC 6455 (you must accept before
-    you can close cleanly). If the cookie maps to an otherwise-active
-    session whose operator was disabled, the disabled-operator audit
-    row is written first per §7.9 Option A — symmetry with the HTTP
-    middleware's ``auth.session_rejected_disabled`` path.
+    - ``4401`` — unauthenticated. No cookie, invalid session, disabled
+      operator. Same path as slice 3g.
+    - ``4403`` — authenticated but unauthorised. Cookie validates and
+      the operator exists, but ``role_hint`` is not in
+      :data:`ROLE_PERMISSIONS` or does not include
+      ``required_permission``. Stage A.5 §4.2.5 inline gate (the WS
+      analogue of the HTTP decorator's 403).
+
+    On success: opens a single ``console.db`` connection, validates
+    session, fetches role_hint, checks permission, accepts the
+    upgrade, writes the ``liveops.ws_connected`` audit row, returns
+    ``(operator_id, session_id)``.
+
+    On unauthenticated failure: ``accept()`` + ``close(4401)`` (you
+    must accept before close-cleanly). Disabled-operator audit row
+    written first per slice 3g §7.9 Option A.
+
+    On permission deny (Stage A.5 §4.2.5): if ``on_deny_cleanup`` is
+    supplied, run it FIRST so demo replay's
+    ``app.state._pending_demos[scan_id]`` is dropped before the
+    operator could leak state to a later authorised connection
+    (network-security peer review P1 #5, 2026-05-02). Then write one
+    ``auth.permission_denied`` row in a try/except — fail-secure: if
+    the audit INSERT raises, log WARNING and STILL ``close(4403)``,
+    never let an audit-layer fault swallow the deny decision
+    (network-security P1 #3). Then ``accept()`` + ``close(4403)``.
 
     Returns ``None`` on every failure mode; the caller must ``return``
     immediately.
@@ -254,6 +278,51 @@ async def _authenticate_ws(
 
         operator_id = session_row["operator_id"]
         session_id = session_row["id"]
+
+        # Stage A.5 §4.2.5 — inline permission gate. The WS analogue
+        # of the HTTP decorator's 403 path. Same case-norm rule as
+        # require_permission so a 'Owner' / '  owner  ' typo cannot
+        # lock an operator out (peer-review P1 #4, 2026-05-02).
+        operator_role = _fetch_role_hint(conn, operator_id)
+        granted = ROLE_PERMISSIONS.get(
+            (operator_role or "").lower().strip(), frozenset()
+        )
+        if required_permission not in granted:
+            if on_deny_cleanup is not None:
+                try:
+                    on_deny_cleanup()
+                except Exception as exc:
+                    logger.warning(
+                        "ws_deny_cleanup_failed permission={} err={}",
+                        required_permission.value,
+                        exc,
+                    )
+            try:
+                with conn:
+                    write_console_audit_row(
+                        conn,
+                        pseudo_request,
+                        action="auth.permission_denied",
+                        target_type="permission",
+                        target_id=required_permission.value,
+                        payload={"role_hint": operator_role},
+                        operator_id=operator_id,
+                        session_id=session_id,
+                    )
+            except sqlite3.DatabaseError as exc:
+                # Catches OperationalError (db locked / disk full) AND
+                # IntegrityError / DataError / NotSupportedError —
+                # any sqlite3-layer fault here must NOT bypass the
+                # unconditional 4403 close below (Codex round 3
+                # finding 2026-05-02; widened from OperationalError).
+                logger.warning(
+                    "ws_permission_denied_audit_failed permission={} err={}",
+                    required_permission.value,
+                    exc,
+                )
+            await websocket.accept()
+            await websocket.close(code=4403)
+            return None
 
         await websocket.accept()
 
@@ -1210,7 +1279,9 @@ async def console_ws(websocket: WebSocket):
     and returns ``None`` — see helper docstring for the contract.
     """
     auth = await _authenticate_ws(
-        websocket, audit_payload={"path": "/console/ws"}
+        websocket,
+        audit_payload={"path": "/console/ws"},
+        required_permission=Permission.CONSOLE_READ,
     )
     if auth is None:
         return
@@ -1395,9 +1466,21 @@ async def demo_websocket(websocket: WebSocket, scan_id: str):
     Stage A slice 3g (d): the same handler-level auth contract as
     ``/console/ws`` (master spec §5.5) — demo replay is operator-only.
     """
+    # Stage A.5 §4.2.5: on permission deny, the cleanup callback drops
+    # any queued demo state for this scan_id BEFORE the audit row is
+    # written and the WS closes 4403. Without this, a denied operator's
+    # _pending_demos entry could be picked up by a later authorised
+    # connection — cross-session leak (network-security peer review
+    # P1 #5, 2026-05-02).
+    def _cleanup_pending() -> None:
+        pending = getattr(websocket.app.state, "_pending_demos", {})
+        pending.pop(scan_id, None)
+
     auth = await _authenticate_ws(
         websocket,
         audit_payload={"path": "/console/demo/ws", "scan_id": scan_id},
+        required_permission=Permission.DEMO_RUN,
+        on_deny_cleanup=_cleanup_pending,
     )
     if auth is None:
         return
