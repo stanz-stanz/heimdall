@@ -11,12 +11,14 @@ check inside ``_authenticate_ws`` (spec §4.2.5, locked v2). The audit
 vocabulary (``auth.permission_denied`` action, ``Permission.X.value``
 target_id) is shared across both paths.
 
-Fork (b) — locked 2026-05-02. ``ROLE_PERMISSIONS`` keys on ``'owner'``,
+Fork (h) — locked 2026-05-02. ``ROLE_PERMISSIONS`` keys on ``'owner'``,
 matching the seeded reality at ``src/db/console_connection.py:155``.
-The spec text used ``'operator'``; see ``docs/decisions/log.md``
-fork-(b) entry for the resolution. The lookup case-normalises +
-whitespace-strips so a ``'Owner'`` / ``'  owner  '`` typo cannot
-permanently lock the operator out of the console.
+The spec text used ``'operator'``; see spec §11.8 and the
+``docs/decisions/log.md`` 2026-05-02 evening entry for the
+resolution. The lookup case-normalises + whitespace-strips so a
+``'Owner'`` / ``'  owner  '`` typo cannot permanently lock the
+operator out of the console. Note: spec §11.2 already had a Fork
+(b) for ``config_changes`` scope — unrelated; this fork is (h).
 
 Audit-write fail-secure rule (peer-review P1, 2026-05-02). If the
 deny-path INSERT into ``console.audit_log`` raises a
@@ -70,8 +72,8 @@ class Permission(str, Enum):
     DEMO_RUN = "demo.run"
 
 
-# Single role in v1 (D3, fork (b) = 'owner'). Maps OWNER → all permissions.
-# Future: 'observer': frozenset({Permission.CONSOLE_READ}).
+# Single role in v1 (D3, fork (h) = 'owner' per spec §11.8). Maps OWNER →
+# all permissions. Future: 'observer': frozenset({Permission.CONSOLE_READ}).
 ROLE_PERMISSIONS: dict[str, frozenset[Permission]] = {
     "owner": frozenset(Permission),
 }

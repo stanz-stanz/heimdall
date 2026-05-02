@@ -6,7 +6,7 @@
 #   3. Every console.db operator has a non-NULL role_hint (without
 #      this, the A.5 RBAC decorator would 403 every gated route).
 #   4. Every console.db operator has role_hint = 'owner' exactly
-#      (fork (b) canonical, locked 2026-05-02). The runtime decorator
+#      (fork (h) canonical, locked 2026-05-02). The runtime decorator
 #      case-normalises ('Owner' / '  owner  ' allow), but the deploy
 #      gate is the safety net BEFORE runtime — flagging any non-
 #      canonical value here catches typo'd seed scripts and the
@@ -119,7 +119,7 @@ else
   fi
 
   # ----------------------------------------------------------------
-  # 4. Every operator's role_hint is exactly 'owner' (fork (b) canon)
+  # 4. Every operator's role_hint is exactly 'owner' (fork (h) canon)
   # ----------------------------------------------------------------
   # Locked 2026-05-02. ROLE_PERMISSIONS = {"owner": frozenset(Permission)}.
   # The runtime decorator case-normalises ('Owner' / '  owner  ' allow)
@@ -131,9 +131,9 @@ else
   non_canonical=$("$SQLITE3" "$CONSOLE_DB" \
     "SELECT COUNT(*) FROM operators WHERE role_hint IS NOT NULL AND role_hint != 'owner'")
   if [[ "$non_canonical" -eq 0 ]]; then
-    pass "every operator role_hint is the 'owner' canonical (fork (b))"
+    pass "every operator role_hint is the 'owner' canonical (fork (h))"
   else
-    fail "$non_canonical operator(s) have non-canonical role_hint — RBAC decorator will 403 (fork (b) lockout vector)"
+    fail "$non_canonical operator(s) have non-canonical role_hint — RBAC decorator will 403 (fork (h) lockout vector)"
   fi
 fi
 

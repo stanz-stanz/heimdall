@@ -621,9 +621,12 @@ class Permission(str, Enum):
     DEMO_RUN = "demo.run"
 
 
-# Single role in v1 (D3). Maps OPERATOR → all permissions.
+# Single role in v1 (D3). Maps OWNER → all permissions.
+# Fork (h) [RESOLVED 2026-05-02 = 'owner']: the dict key matches the
+# seeded reality at src/db/console_connection.py:155, not the original
+# 'operator' draft of this section. See §11.8.
 ROLE_PERMISSIONS: dict[str, frozenset[Permission]] = {
-    "operator": frozenset(Permission),
+    "owner": frozenset(Permission),
     # Future: 'observer': frozenset({Permission.CONSOLE_READ}),
 }
 ```
@@ -1135,6 +1138,23 @@ Implementation lands per the carve-outs in §4.1.7. Spec language is binding per
 | C | follow-up | `contextvars.ContextVar` populated by `RequestIdMiddleware`; patch loguru `bind` to auto-merge. Automatic, no per-call discipline. ~30 LOC patch module hooking loguru internals. The cleaner long-term move; not this slice. |
 
 **Resolution: A for A.5; C as a follow-up.** Federico ruled 2026-05-01: correlation already comes from three primitives (middleware log line, audit rows, response header). Mechanical sweep is fragile; contextvars is cleaner long-term but follow-up, not this slice.
+
+### 11.8 Fork (h) — RBAC role-name vocabulary [RESOLVED 2026-05-02 = b ('owner')]
+
+This fork surfaced during commit (2) wave A implementation, not during spec ratification — the v2 spec text in §4.2.1 declared `ROLE_PERMISSIONS = {"operator": frozenset(Permission)}` but the seeded reality at `src/db/console_connection.py:155` and across 8 test fixtures is `role_hint = 'owner'`. Implementing the spec verbatim would 403 every existing console test and lock the seeded operator out of every gated route.
+
+| Option | Status | Description |
+|---|---|---|
+| a | rejected | Spec-verbatim. Keep `ROLE_PERMISSIONS = {"operator": ...}`; mass-rename `'owner' → 'operator'` across seed + 8 test fixtures + the seed-assertion test. Larger diff, single source of truth, requires a data migration on prod for any existing operator row. |
+| b | **APPROVED** | Reality-verbatim. Lock `ROLE_PERMISSIONS = {"owner": frozenset(Permission)}`; amend §4.2.1 to match seeded reality. Smallest diff, no data migration. |
+| c | rejected | Alias both. `ROLE_PERMISSIONS = {"operator": all, "owner": all}`. No migration but accepts canonicalisation drift. Future `'observer'` / `'editor'` entries would have to pick one canonical name and the alias would atrophy. |
+
+**Resolution: b — `'owner'` is canonical.** Federico ruled 2026-05-02 evening (during the wave-A planning cycle, before any RBAC code shipped). Implementation safeguards added per peer-review hardening:
+
+- Decorator + WS inline gate normalise the lookup with `(role_hint or "").lower().strip()` so a `'Owner'` / `'  owner  '` typo cannot lock the operator out at runtime (network-security peer-review P1 #4).
+- Deploy-time gate `scripts/verify_audit_triggers.sh` check #4 asserts `SELECT COUNT(*) FROM operators WHERE role_hint IS NOT NULL AND role_hint != 'owner'` returns 0 — catches non-canonical seeds before runtime (commit (4), `10589c2`).
+
+Future structured RBAC (V2: table-backed roles, `'observer'` + `'editor'` entries) revisits the vocabulary; until then `'owner'` is the only acceptable role string and the deploy gate enforces it.
 
 ---
 
