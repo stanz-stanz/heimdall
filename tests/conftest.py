@@ -2,7 +2,74 @@
 import pytest
 
 from src.prospecting.cvr import Company
+from src.prospecting.scanners import registry as _scanner_registry
 from src.prospecting.scanners.models import ScanResult
+
+
+# ---------------------------------------------------------------------------
+# Dev-stack integration test gating
+# ---------------------------------------------------------------------------
+#
+# Tests under `tests/integration/` need the live dev stack (`make dev-up`)
+# and gitignored secret files (`infra/compose/secrets.dev/console_password`,
+# …) that do not exist in fresh git worktrees. Default `pytest -q` runs
+# used to error there; opt in via `--run-integration` instead. When the
+# flag is given, the existing fail-loud fixtures inside
+# `tests/integration/conftest.py` still apply — they refuse to silently
+# skip if the stack is opted-into but unreachable.
+#
+# The skip is scoped to the `tests/integration/` directory rather than the
+# `integration` pytest marker, because the marker is also used by
+# self-contained local-HTTP tests (e.g. `test_twin_regression.py`) that
+# do **not** need `make dev-up` and should keep running by default.
+
+import os as _os
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--run-integration",
+        action="store_true",
+        default=False,
+        help=(
+            "Run dev-stack integration tests under `tests/integration/` "
+            "(require `make dev-up` and `infra/compose/secrets.dev/`)."
+        ),
+    )
+
+
+def pytest_collection_modifyitems(config, items):
+    if config.getoption("--run-integration"):
+        return
+    dev_stack_dir = _os.path.join("tests", "integration") + _os.sep
+    skip_dev_stack = pytest.mark.skip(
+        reason=(
+            "dev-stack integration test — needs live dev stack + secrets; "
+            "opt in with --run-integration"
+        )
+    )
+    for item in items:
+        if dev_stack_dir in str(item.fspath):
+            item.add_marker(skip_dev_stack)
+
+
+@pytest.fixture(autouse=True)
+def _refresh_scanner_registry_each_test():
+    """Refresh the scan-type registry before every test.
+
+    ``_init_scan_type_map`` is one-shot per process for production
+    hot-path performance. That means a level dict patched by an earlier
+    test (via ``_force_reinit_scan_type_map`` while a
+    ``unittest.mock.patch`` was active) leaks its mock references into
+    subsequent tests after the patch context unwinds. Calling
+    ``_force_reinit_scan_type_map`` here rebuilds the dispatch from
+    canonical imports so each test starts against the real scanner
+    functions; tests that need patches still call
+    ``_force_reinit_scan_type_map`` themselves while their patch is
+    active.
+    """
+    _scanner_registry._force_reinit_scan_type_map()
+    yield
 
 
 @pytest.fixture

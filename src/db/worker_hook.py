@@ -41,6 +41,7 @@ def save_scan_to_db(conn: sqlite3.Connection, job: dict, result: dict) -> None:
     timing = result.get("timing", {})
     cache_stats = result.get("cache_stats", {})
     status = result.get("status", "completed")
+    gate_decision_id = job.get("gate_decision_id")
 
     # 1. Create scan_history entry
     create_scan_entry(
@@ -50,6 +51,7 @@ def save_scan_to_db(conn: sqlite3.Connection, job: dict, result: dict) -> None:
         scan_date=_now()[:10],
         run_id=job.get("run_id"),
         cvr=job.get("client_id"),
+        gate_decision_id=gate_decision_id,
     )
 
     # 2. Complete it with timing, cache stats, and raw result

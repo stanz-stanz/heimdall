@@ -127,6 +127,7 @@ def create_scan_entry(
     scan_date: str,
     run_id: str | None = None,
     cvr: str | None = None,
+    gate_decision_id: int | None = None,
 ) -> dict:
     """Create a scan_history entry. Sets created_at.
 
@@ -143,9 +144,10 @@ def create_scan_entry(
     """
     now = _now()
     conn.execute(
-        "INSERT INTO scan_history (scan_id, run_id, cvr, domain, scan_date, created_at) "
-        "VALUES (?, ?, ?, ?, ?, ?)",
-        (scan_id, run_id, cvr, domain, scan_date, now),
+        "INSERT INTO scan_history "
+        "(scan_id, run_id, cvr, domain, scan_date, gate_decision_id, created_at) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (scan_id, run_id, cvr, domain, scan_date, gate_decision_id, now),
     )
     conn.commit()
     row = conn.execute(

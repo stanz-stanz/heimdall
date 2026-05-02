@@ -174,6 +174,22 @@ If a function's source code changes (detected by hash comparison), the correspon
 
 **Helper-function hashing.** When a registered function delegates to an internal helper that does the scan work, the approval entry may carry `helper_hash` + `helper_function` fields. The runtime validator (`src/prospecting/scanners/registry.py::_validate_helper_hash`) re-hashes the helper from the wrapper's own module and fails worker boot on any drift. Invariant: the helper MUST be a module-level attribute of the wrapper's module (no cross-module helpers). Lambdas, non-callables, and unsourceable builtins are rejected. As of 2026-04-17 three approvals carry enforceable helper hashes: `homepage_meta_extraction::extract_rest_api_plugins`, `certificate_transparency_query::query_crt_sh_single`, `nmap_port_scan::parse_nmap_xml`. Every failure log line names `python scripts/valdi/regenerate_approvals.py --apply` as the remediation.
 
+### Runtime Execution Contract
+
+A scan type's approval token is necessary but not sufficient. Every registered scan must execute through `valdi.run_gated_scan(scan_type, *args)` from inside an open `gated_execution(decision)` scope on the calling thread. The contract is:
+
+1. **Caller has a `GateDecision`** (returned by `gate_or_raise(ScanRequest)`).
+2. **Caller opens `gated_execution(decision)` on the execution thread.** `contextvars.ContextVar` does not propagate across `concurrent.futures.ThreadPoolExecutor` workers — each pool worker (and each new `threading.Thread`) must open its own scope. The runner pattern is `_scan_single_domain(decision, ...)` opening its own `with gated_execution(decision):` inside the worker callable.
+3. **Caller invokes `run_gated_scan(scan_type, *args)`.** The gate refuses execution if the calling thread has no gate context, or if `scan_type` is not in `decision.allowed_scan_types`.
+
+When reviewing a new scan-type submission, verify the surrounding integration:
+
+- The scan must be reachable via `registry.get_scan_function(scan_type_id)` — i.e. registered in `_LEVEL0_SCAN_FUNCTIONS` or `_LEVEL1_SCAN_FUNCTIONS` inside `_populate_scan_type_map`.
+- No caller may compose a "lookup then call" path against the registry. There is no `_run_scan_impl`-style local dispatch in `runner.py` or `scan_job.py`; structural guards in `tests/test_valdi_runtime_invariant.py` enforce this.
+- Public registry surface: `get_scan_function`, `get_scan_functions_for_level`, `iter_registered_scan_types`. The mutable dispatch dicts are module-private (`_LEVEL0_SCAN_FUNCTIONS`, `_LEVEL1_SCAN_FUNCTIONS`) and must not be re-exported.
+
+**REJECT a Gate 1 submission that bypasses `run_gated_scan` or composes its own dispatch — even if the scan type itself is otherwise compliant.** Bypassing the gate breaks the runtime authorisation invariant and the persisted provenance trail (`valdi_envelopes` + `valdi_gate_decisions` rows linked from `scan_history.gate_decision_id`).
+
 ---
 
 ## Gate 2: Per-Target Authorisation

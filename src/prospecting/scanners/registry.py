@@ -10,22 +10,80 @@ from __future__ import annotations
 import hashlib
 import inspect
 import json
+import threading
+from collections.abc import Callable
 
 from loguru import logger
 
 
-# Level 0: passive observation only (Layer 1)
+# Internal level dicts. Module-private; external code must use the public
+# accessors (`get_scan_function`, `get_scan_functions_for_level`,
+# `iter_registered_scan_types`). The mutable dispatch map used to be exported
+# as `_SCAN_TYPE_FUNCTIONS`, which let runner.py / scan_job.py compose their
+# own "lookup then call" path and bypass `valdi.run_gated_scan`. That export
+# is intentionally removed — see Valdí runtime hardening (per-thread gate
+# context + single execution API).
 _LEVEL0_SCAN_FUNCTIONS: dict[str, callable] = {}
-
-# Level 1: active probing (Layer 2), requires written consent
 _LEVEL1_SCAN_FUNCTIONS: dict[str, callable] = {}
 
-# Combined view for backward compatibility
-_SCAN_TYPE_FUNCTIONS: dict[str, callable] = {}
+# Reentrant lock guarding init + lookup of the level dicts. Necessary because
+# `_init_scan_type_map` does ``clear()`` then ``update()`` — without this
+# lock, concurrent ``get_scan_function`` calls from runner pool workers can
+# observe a partially-cleared dict and raise ``KeyError`` for a real scan
+# type. RLock so that nested public accessors (e.g. an init that internally
+# calls another accessor) do not self-deadlock.
+_REGISTRY_LOCK = threading.RLock()
+
+# One-shot init flag. Production callers (`worker/main.py`, `runner.py`,
+# accessors) all run `_init_scan_type_map()` defensively, but the underlying
+# imports are stable for the process lifetime. Without idempotency, every
+# `get_scan_function` cache-miss on the worker hot path pays for the full
+# import + dict rebuild. Tests that monkeypatch a scanner module call
+# `_force_reinit_scan_type_map()` to refresh the registry against the
+# patched source.
+_INITIALIZED: bool = False
 
 
 def _init_scan_type_map() -> None:
-    """Populate the scan type function maps. Called once at module load."""
+    """Populate the scan type function maps. One-shot per process.
+
+    Holds ``_REGISTRY_LOCK`` so concurrent ``get_scan_function`` callers
+    cannot observe a partial state. Subsequent calls after the first
+    successful population are O(1) — they take the lock, see
+    ``_INITIALIZED``, and return.
+
+    Tests that monkeypatch a scanner-module attribute (and therefore need
+    the registry to re-import) must call ``_force_reinit_scan_type_map()``
+    explicitly while their patch is active.
+    """
+    global _INITIALIZED
+    if _INITIALIZED:
+        return
+    with _REGISTRY_LOCK:
+        if _INITIALIZED:
+            return
+        _populate_scan_type_map()
+        _INITIALIZED = True
+
+
+def _force_reinit_scan_type_map() -> None:
+    """Test helper: clear + repopulate the level dicts unconditionally.
+
+    Use after activating a monkeypatch on a scanner module so the registry
+    re-imports the patched attribute. Production code never calls this.
+    """
+    global _INITIALIZED
+    with _REGISTRY_LOCK:
+        _INITIALIZED = False
+        _populate_scan_type_map()
+        _INITIALIZED = True
+
+
+def _populate_scan_type_map() -> None:
+    """Internal: run the imports and rebuild both level dicts atomically.
+
+    Caller must hold ``_REGISTRY_LOCK``.
+    """
     # Import from extracted scanner modules (P2-3)
     from src.prospecting.scanners.tls import check_ssl as _check_ssl
     from src.prospecting.scanners.wordpress import extract_page_meta as _extract_page_meta
@@ -59,11 +117,6 @@ def _init_scan_type_map() -> None:
         "cmseek_cms_deep_scan": _run_cmseek,
         "nmap_port_scan": _run_nmap,
     })
-
-    # Backward-compat: combined view
-    _SCAN_TYPE_FUNCTIONS.clear()
-    _SCAN_TYPE_FUNCTIONS.update(_LEVEL0_SCAN_FUNCTIONS)
-    _SCAN_TYPE_FUNCTIONS.update(_LEVEL1_SCAN_FUNCTIONS)
 
 
 def _validate_approval_tokens(max_level: int = 0) -> dict | None:
@@ -119,6 +172,73 @@ def _validate_approval_tokens(max_level: int = 0) -> dict | None:
             return None
 
     return data
+
+
+def _load_approvals_data() -> dict:
+    from src.prospecting.config import PROJECT_ROOT
+
+    approvals_path = PROJECT_ROOT / ".claude" / "agents" / "valdi" / "approvals.json"
+    with open(approvals_path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def get_scan_functions_for_level(max_level: int) -> dict[str, Callable]:
+    _init_scan_type_map()
+    with _REGISTRY_LOCK:
+        functions: dict[str, Callable] = {}
+        functions.update(_LEVEL0_SCAN_FUNCTIONS)
+        if max_level >= 1:
+            functions.update(_LEVEL1_SCAN_FUNCTIONS)
+    return functions
+
+
+def get_scan_function(scan_type_id: str) -> Callable:
+    _init_scan_type_map()
+    with _REGISTRY_LOCK:
+        if scan_type_id in _LEVEL0_SCAN_FUNCTIONS:
+            return _LEVEL0_SCAN_FUNCTIONS[scan_type_id]
+        return _LEVEL1_SCAN_FUNCTIONS[scan_type_id]
+
+
+def iter_registered_scan_types(max_level: int = 1) -> tuple[str, ...]:
+    """Public: ordered tuple of every scan-type ID registered up to *max_level*.
+
+    Replaces direct iteration over the (now-private) dispatch dicts. Used by
+    callers that need to enumerate authorised scan types — operator summary,
+    Valdí envelope catalog, gate `allowed_scan_types` construction in tests.
+    """
+    _init_scan_type_map()
+    with _REGISTRY_LOCK:
+        types = list(_LEVEL0_SCAN_FUNCTIONS)
+        if max_level >= 1:
+            types.extend(_LEVEL1_SCAN_FUNCTIONS)
+    return tuple(sorted(types))
+
+
+def build_validated_scan_catalog(max_level: int) -> dict[str, dict]:
+    """Return the validated scan-type catalog for *max_level*.
+
+    Raises:
+        RuntimeError: Approval tokens are missing or invalid.
+    """
+    _init_scan_type_map()
+    data = _validate_approval_tokens(max_level=max_level)
+    if data is None:
+        raise RuntimeError("Valdi approval token validation failed")
+
+    approvals = {a["scan_type_id"]: a for a in data.get("approvals", [])}
+    catalog: dict[str, dict] = {}
+    for scan_type_id, func in get_scan_functions_for_level(max_level).items():
+        approval = approvals[scan_type_id]
+        catalog[scan_type_id] = {
+            "function_hash": approval["function_hash"],
+            "helper_hash": approval.get("helper_hash"),
+            "level": approval["level"],
+            "approval_token": approval["token"],
+            "module": func.__module__,
+            "function_name": func.__name__,
+        }
+    return catalog
 
 
 def _validate_helper_hash(scan_type_id: str, func: callable, approval: dict) -> bool:

@@ -230,6 +230,7 @@ CREATE TABLE IF NOT EXISTS scan_history (
     cache_misses    INTEGER DEFAULT 0,
     -- Raw result archive (the full scan_result + brief, replaces JSON files)
     result_json     TEXT,                            -- complete scan result (raw_httpx, dns, etc.)
+    gate_decision_id INTEGER,                        -- FK to valdi_gate_decisions.id (nullable legacy)
     -- Metadata
     error_message   TEXT,                            -- non-NULL only if status = failed
     created_at      TEXT NOT NULL
@@ -246,6 +247,52 @@ CREATE INDEX IF NOT EXISTS idx_scan_history_date
 
 CREATE INDEX IF NOT EXISTS idx_scan_history_cvr
     ON scan_history(cvr) WHERE cvr IS NOT NULL;
+
+
+-- -----------------------------------------------------------------
+-- Valdi runtime provenance
+-- -----------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS valdi_envelopes (
+    envelope_id              TEXT PRIMARY KEY,
+    surface                  TEXT NOT NULL,
+    validated_at             TEXT NOT NULL,
+    max_level                INTEGER NOT NULL,
+    instance_id              TEXT NOT NULL,
+    pid                      INTEGER NOT NULL,
+    code_version             TEXT NOT NULL,
+    registry_hash            TEXT NOT NULL,
+    approval_token_ids_json  TEXT NOT NULL,
+    scan_types_json          TEXT NOT NULL,
+    created_at               TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS valdi_gate_decisions (
+    id                       INTEGER PRIMARY KEY AUTOINCREMENT,
+    envelope_id              TEXT NOT NULL REFERENCES valdi_envelopes(envelope_id),
+    approval_token_ids_json  TEXT NOT NULL,
+    scan_type                TEXT NOT NULL,
+    domain                   TEXT NOT NULL,
+    client_id                TEXT,
+    requested_level          INTEGER NOT NULL,
+    authorised_level         INTEGER NOT NULL,
+    target_basis             TEXT NOT NULL,
+    decision                 TEXT NOT NULL,
+    reason                   TEXT NOT NULL,
+    surface                  TEXT NOT NULL,
+    job_id                   TEXT,
+    run_id                   TEXT,
+    created_at               TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_valdi_gate_decisions_domain
+    ON valdi_gate_decisions(domain, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_valdi_gate_decisions_client
+    ON valdi_gate_decisions(client_id) WHERE client_id IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_valdi_gate_decisions_envelope
+    ON valdi_gate_decisions(envelope_id);
 
 
 -- =================================================================

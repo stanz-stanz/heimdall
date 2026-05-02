@@ -36,6 +36,8 @@ _COLUMN_ADDS: list[tuple[str, str, str]] = [
     # index applied below in _INDEX_ADDS (must run AFTER this column is
     # added on legacy DBs).
     ("payment_events", "provider", "TEXT NOT NULL DEFAULT 'betalingsservice'"),
+    # Valdi runtime hardening — scan provenance link.
+    ("scan_history", "gate_decision_id", "INTEGER"),
 ]
 
 

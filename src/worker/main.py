@@ -26,15 +26,16 @@ from typing import Any
 import redis
 from loguru import logger
 
-from src.consent.validator import check_consent
 from src.prospecting.config import ENRICHMENT_RETRY_LIMIT
 from src.core.logging_config import setup_logging
 from src.prospecting.scanners.registry import (
     _init_scan_type_map,
-    _validate_approval_tokens,
 )
+from src.prospecting.scanners.robots import check_robots_txt
 from src.prospecting.scanners.subfinder import run_subfinder
 from src.scheduler.job_creator import ENRICHMENT_COUNTER_KEY
+from src.valdi import GateDeniedError, ScanRequest, gate_or_raise, gated_execution
+from src.valdi.envelope import validate_and_persist_envelope
 
 from pydantic import ValidationError
 
@@ -103,12 +104,6 @@ def _parse_args(argv: list | None = None) -> argparse.Namespace:
         "--client-data-dir",
         default=os.environ.get("CLIENT_DATA_DIR", "/data/clients"),
         help="Base directory for client authorisation data (default: /data/clients)",
-    )
-    parser.add_argument(
-        "--max-level",
-        type=int,
-        default=int(os.environ.get("WORKER_MAX_LEVEL", "0")),
-        help="Maximum scan level this worker handles (0=passive only, 1=active probing). Default: 0",
     )
     return parser.parse_args(argv)
 
@@ -256,10 +251,12 @@ def main(argv: list | None = None) -> None:
     # ------------------------------------------------------------------
     # 1. Validate Valdi approval tokens (fail-fast)
     # ------------------------------------------------------------------
-    max_level = args.max_level
+    max_level = int(os.environ.get("WORKER_MAX_LEVEL", "0"))
+    db_path = os.path.join(args.client_data_dir, "clients.db")
     _init_scan_type_map()
-    approvals = _validate_approval_tokens(max_level=max_level)
-    if approvals is None:
+    try:
+        validate_and_persist_envelope(max_level, surface="worker", db_path=db_path)
+    except Exception:
         logger.error("BLOCKED — Valdi approval token validation failed. Worker refusing to start.")
         sys.exit(1)
     logger.info("Valdi approval tokens validated (max_level=%d)", max_level)
@@ -366,17 +363,8 @@ def main(argv: list | None = None) -> None:
 
         logger.bind(context={"job_id": job_id, "domain": domain, "client_id": client_id}).info("job_started")
 
-        # Gate 2: Consent check (Valdí) — Level 1+ requires valid consent
-        # NOTE: a missing level field defaults to 0 (backward compat with
-        # prospect jobs that predate the level field). Invalid types BLOCK.
-        # TODO: once all job creators set level explicitly, change the
-        # missing-field case from default-to-0 to block.
         raw_level = job.get("level")
         if raw_level is None:
-            # Prospecting jobs (Level 0) always set level=0 explicitly.
-            # A missing level field is unexpected — default to 0 for
-            # backward compatibility with existing prospect jobs, but
-            # log a warning so it gets fixed.
             job_level = 0
             logger.bind(context={
                 "job_id": job_id, "domain": domain,
@@ -395,14 +383,27 @@ def main(argv: list | None = None) -> None:
             job_level = raw_level
 
         try:
-            consent = check_consent(
-                client_dir=Path(args.client_data_dir),
-                client_id=client_id,
-                domain=domain,
-                level_requested=job_level,
+            robots_allowed = check_robots_txt(domain)
+            decision = gate_or_raise(
+                ScanRequest(
+                    surface="worker",
+                    scan_type="passive_domain_scan_orchestrator",
+                    requested_level=job_level,
+                    domain=domain,
+                    client_id=client_id,
+                    job_id=job_id,
+                    client_data_dir=args.client_data_dir,
+                    db_path=db_path,
+                    robots_allowed=robots_allowed,
+                )
             )
+        except GateDeniedError as exc:
+            logger.bind(context={
+                "job_id": job_id, "domain": domain,
+                "client_id": client_id, "reason": str(exc),
+            }).warning("gate2_blocked")
+            continue
         except Exception:
-            # SAFETY: if consent check crashes for ANY reason, BLOCK.
             logger.opt(exception=True).bind(context={
                 "job_id": job_id, "domain": domain,
                 "client_id": client_id, "level_requested": job_level,
@@ -412,16 +413,11 @@ def main(argv: list | None = None) -> None:
         logger.bind(context={
             "job_id": job_id, "domain": domain, "client_id": client_id,
             "level_requested": job_level,
-            "level_authorised": consent.level_authorised,
-            "allowed": consent.allowed, "reason": consent.reason,
-            "authorised_by_role": consent.authorised_by_role,
+            "level_authorised": decision.authorised_level,
+            "allowed": decision.decision == "allowed",
+            "reason": decision.reason,
+            "target_basis": decision.target_basis,
         }).info("gate2_consent_check")
-        if not consent.allowed:
-            logger.bind(context={
-                "job_id": job_id, "domain": domain,
-                "client_id": client_id, "reason": consent.reason,
-            }).warning("gate2_blocked")
-            continue
 
         # Level mismatch: re-queue if this worker can't handle the job's level
         if job_level > max_level:
@@ -445,8 +441,11 @@ def main(argv: list | None = None) -> None:
                 logger.error("Failed to re-queue level-%d job %s: %s", job_level, job_id, exc)
             continue
 
+        job["gate_decision_id"] = decision.decision_id
+        job["robots_allowed"] = robots_allowed
         try:
-            result = execute_scan_job(job, cache, redis_conn=redis_conn)
+            with gated_execution(decision):
+                result = execute_scan_job(job, cache, redis_conn=redis_conn)
         except Exception:
             logger.opt(exception=True).error("Unhandled error processing job for %s", domain)
             continue
