@@ -672,11 +672,13 @@ Decorator goes **inside** the FastAPI router decorator (`@router.get` outermost;
 
 #### 4.2.4 401 vs 403 semantics
 
-| Condition | Status | Body | Audit row |
+| Condition | Status | Body (HTTP wire shape) | Audit row |
 |---|---|---|---|
-| No session cookie / cookie does not validate | 401 | `{"error": "not_authenticated"}` | None (middleware path) |
-| Cookie validates, role_hint not in `ROLE_PERMISSIONS` | 403 | `{"error": "permission_denied", "permission": "<value>"}` | `auth.permission_denied` in console.audit_log |
+| No session cookie / cookie does not validate | 401 | `{"detail": {"error": "not_authenticated"}}` | None (middleware path) |
+| Cookie validates, role_hint not in `ROLE_PERMISSIONS` | 403 | `{"detail": {"error": "permission_denied", "permission": "<value>"}}` | `auth.permission_denied` in console.audit_log |
 | Cookie validates, permission in role mapping | per handler | per handler | per handler |
+
+**Wire shape note (resolved 2026-05-02 during commit (2) wave B Codex review).** Both 401 and 403 use FastAPI's `HTTPException(detail={"error": ..., ...})` mechanism, so the wire body is wrapped under a top-level `"detail"` key per FastAPI's exception-handler contract. Earlier drafts of this spec showed the bare inner dict; this section is now reconciled with the implementation. Decorator-level unit tests (e.g. `tests/test_permissions.py`) may assert `exc.value.detail == {"error": ...}` directly because `HTTPException.detail` is the inner payload; integration / TestClient tests must assert against `r.json() == {"detail": {"error": ...}}` because that is the over-the-wire shape clients actually receive. Both surfaces are validated in the test suite.
 
 #### 4.2.5 WebSocket auth + permission — locked v2: inline gate, no decorator
 
@@ -928,10 +930,12 @@ Tests assert the **resolved** behaviour per the 2026-04-30 Valdí ruling: `anony
 
 Every gated `/console/*` HTTP route gets two parameterised tests (allowed for OPERATOR role, denied for empty-permission role). 18 HTTP routes × 2 = 36 cases parameterised over `(method, path, permission)` tuples. Each denied case asserts:
 - `r.status_code == 403`
-- `r.json() == {"error": "permission_denied", "permission": permission.value}`
+- `r.json() == {"detail": {"error": "permission_denied", "permission": permission.value}}` (HTTP wire shape per §4.2.4 wire-shape note; FastAPI wraps `HTTPException.detail` under a top-level `"detail"` key)
 - One row in `console.audit_log WHERE action='auth.permission_denied'` with `target_id=permission.value`.
 
-Plus one assertion that 401 precedes 403 (unauthenticated POST returns `{"error": "not_authenticated"}`, status 401).
+Decorator-level unit tests in `tests/test_permissions.py` may assert `exc.value.detail == {"error": "permission_denied", "permission": permission.value}` directly because `HTTPException.detail` is the inner payload — both surfaces are exercised in the suite.
+
+Plus one assertion that 401 precedes 403 (unauthenticated POST returns `{"detail": {"error": "not_authenticated"}}`, status 401).
 
 #### 6.4.1 WS auth + permission tests (inline gate)
 

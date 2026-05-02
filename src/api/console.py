@@ -21,6 +21,7 @@ from src.api.auth.audit import (
     write_console_audit_row,
 )
 from src.api.auth.middleware import SESSION_COOKIE
+from src.api.auth.permissions import Permission, require_permission
 from src.api.auth.sessions import validate_session_by_hash
 from src.db.audit_context import bind_audit_context
 from src.db.connection import connect_clients_audited
@@ -90,6 +91,7 @@ def _load_brief(briefs_path: Path, domain: str) -> dict | None:
 # ---------------------------------------------------------------------------
 
 @router.get("/status")
+@require_permission(Permission.CONSOLE_READ)
 async def console_status(request: Request):
     """Operator dashboard data — queue depths, recent scans, cache stats."""
     redis_conn = getattr(request.app.state, "redis", None)
@@ -276,6 +278,7 @@ async def _authenticate_ws(
 
 
 @router.get("/dashboard")
+@require_permission(Permission.CONSOLE_READ)
 async def console_dashboard(request: Request):
     """Dashboard stats — prospect/brief/client/critical counts, queues, activity."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -347,6 +350,7 @@ async def console_dashboard(request: Request):
 
 
 @router.get("/pipeline/last")
+@require_permission(Permission.CONSOLE_READ)
 async def console_pipeline_last(request: Request):
     """Last completed pipeline run from v_latest_run."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -374,6 +378,7 @@ async def console_pipeline_last(request: Request):
 
 
 @router.get("/campaigns")
+@require_permission(Permission.CONSOLE_READ)
 async def console_campaigns(request: Request):
     """Campaign list with status counts from v_campaign_summary."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -398,6 +403,7 @@ async def console_campaigns(request: Request):
 
 
 @router.get("/campaigns/{campaign}/prospects")
+@require_permission(Permission.CONSOLE_READ)
 async def console_campaign_prospects(
     campaign: str,
     request: Request,
@@ -439,6 +445,7 @@ async def console_campaign_prospects(
 
 
 @router.get("/briefs/list")
+@require_permission(Permission.CONSOLE_READ)
 async def console_briefs_list(
     request: Request,
     critical: bool = Query(default=False),
@@ -484,6 +491,7 @@ async def console_briefs_list(
 
 
 @router.get("/clients/list")
+@require_permission(Permission.CONSOLE_READ)
 async def console_clients_list(request: Request):
     """Onboarded clients with domain, latest scan, open findings, last delivery."""
     db_path = getattr(request.app.state, "db_path", "data/clients/clients.db")
@@ -589,6 +597,7 @@ def _publish_retention_action(
 
 
 @router.get("/clients/trial-expiring")
+@require_permission(Permission.CONSOLE_READ)
 async def console_trial_expiring(
     request: Request,
     window_days: int = Query(default=7, ge=1, le=30),
@@ -616,6 +625,7 @@ async def console_trial_expiring(
 
 
 @router.get("/clients/retention-queue")
+@require_permission(Permission.CONSOLE_READ)
 async def console_retention_queue(
     request: Request,
     limit: int = Query(default=200, ge=1, le=1000),
@@ -713,6 +723,7 @@ def _run_retention_action(
 
 
 @router.post("/retention-jobs/{job_id}/force-run")
+@require_permission(Permission.RETENTION_FORCE_RUN)
 async def console_retention_force_run(job_id: int, request: Request):
     """Advance a pending retention job's ``scheduled_for`` to now so the
     next cron tick claims it. The cron remains the sole executor."""
@@ -744,6 +755,7 @@ async def console_retention_force_run(job_id: int, request: Request):
 
 
 @router.post("/retention-jobs/{job_id}/cancel")
+@require_permission(Permission.RETENTION_CANCEL)
 async def console_retention_cancel(
     job_id: int,
     request: Request,
@@ -846,6 +858,7 @@ async def console_retention_cancel(
 
 
 @router.post("/retention-jobs/{job_id}/retry")
+@require_permission(Permission.RETENTION_RETRY)
 async def console_retention_retry(job_id: int, request: Request):
     """Re-queue a failed retention job. Sets status back to ``'pending'``
     with ``scheduled_for=now``; the cron will retry on next tick."""
@@ -877,7 +890,8 @@ async def console_retention_retry(job_id: int, request: Request):
 
 
 @router.get("/settings")
-async def console_settings():
+@require_permission(Permission.CONSOLE_READ)
+async def console_settings(request: Request):
     """Read all 3 config files (filters, interpreter, delivery)."""
     config_dir = Path("config")
     result = {}
@@ -891,6 +905,7 @@ async def console_settings():
 
 
 @router.put("/settings/{name}")
+@require_permission(Permission.CONFIG_WRITE)
 async def console_settings_update(name: str, request: Request):
     """Write a config file atomically. Whitelist: filters, interpreter, delivery.
 
@@ -1058,8 +1073,27 @@ def _write_settings_audit_row(
 
 
 @router.post("/commands/{command}")
+@require_permission(Permission.COMMAND_DISPATCH)
 async def console_command(command: str, request: Request):
-    """Push an operator command to Redis queue:operator-commands."""
+    """Push an operator command to Redis queue:operator-commands.
+
+    Stage A.5 spec §4.1.6 (master spec §1.3.b pair shape). After a
+    successful ``lpush`` returns, write one ``console.audit_log`` row
+    with ``action='command.dispatch'``, ``target_type='command'``,
+    ``target_id=<command>``. The row pairs with the worker-side
+    ``command_audit`` row (in ``clients.db``) written when the
+    scheduler dequeues + completes the command, correlated by
+    ``request_id``.
+
+    Ordering rule (peer-review P1, 2026-05-02). The audit row is
+    written ONLY after ``lpush`` succeeds. If Redis raises, the
+    exception bubbles to FastAPI 500 and no audit row is recorded —
+    otherwise the audit log would claim a dispatch that never reached
+    the queue (orphan with no ``command_audit`` follow-up). If the
+    audit-row INSERT itself fails post-``lpush`` (db locked / disk
+    full), log WARNING and return 200 anyway: the dispatch already
+    happened, the gap is detectable post-hoc via the missing pair.
+    """
     if command not in _VALID_COMMANDS:
         raise HTTPException(400, detail=f"Invalid command: {command!r}")
 
@@ -1080,13 +1114,57 @@ async def console_command(command: str, request: Request):
 
     await asyncio.to_thread(redis_conn.lpush, "queue:operator-commands", cmd_json)
     logger.info("command_queued command={}", command)
+
+    # Audit-row write — strictly after the lpush returned successfully.
+    console_db_path = getattr(
+        request.app.state, "console_db_path", DEFAULT_CONSOLE_DB_PATH
+    )
+    try:
+        await asyncio.to_thread(
+            _write_command_dispatch_audit,
+            console_db_path,
+            request,
+            command,
+        )
+    except sqlite3.OperationalError as exc:
+        logger.warning(
+            "command_dispatch_audit_write_failed command={} err={}",
+            command,
+            exc,
+        )
+
     return {"status": "queued", "command": command}
+
+
+def _write_command_dispatch_audit(
+    console_db_path: str, request: Request, command: str
+) -> None:
+    """Open console.db, INSERT one ``command.dispatch`` row, close.
+
+    Module-level so :func:`asyncio.to_thread` runs the sync sqlite3
+    work off the event loop and tests can monkeypatch the writer in
+    isolation. Reads operator_id / session_id / request_id from
+    ``request.state`` via :func:`write_console_audit_row`.
+    """
+    conn = get_console_conn(console_db_path)
+    try:
+        with conn:
+            write_console_audit_row(
+                conn,
+                request,
+                action="command.dispatch",
+                target_type="command",
+                target_id=command,
+            )
+    finally:
+        conn.close()
 
 
 _LEVEL_ORDER = {"DEBUG": 0, "INFO": 1, "WARNING": 2, "ERROR": 3, "CRITICAL": 4}
 
 
 @router.get("/logs")
+@require_permission(Permission.CONSOLE_READ)
 async def console_logs(
     request: Request,
     source: str | None = Query(default=None),
@@ -1262,6 +1340,7 @@ async def console_ws(websocket: WebSocket):
 # ---------------------------------------------------------------------------
 
 @router.get("/briefs")
+@require_permission(Permission.CONSOLE_READ)
 async def list_briefs(request: Request):
     """List available prospect briefs for the demo selector."""
     briefs_path = _briefs_dir(request)
@@ -1284,6 +1363,7 @@ async def list_briefs(request: Request):
 
 
 @router.post("/demo/start", response_model=DemoStartResponse)
+@require_permission(Permission.DEMO_RUN)
 async def demo_start(body: DemoStartRequest, request: Request):
     """Start a demo scan replay for a prospect domain.
 
