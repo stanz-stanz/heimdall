@@ -2323,3 +2323,26 @@ Slice 3g closes the auth-plane carve. Three sequenced commits on `feat/stage-a-f
 - `1773d65` — `.claude/agents/valdi/SKILL.md`: added "Runtime Execution Contract" subsection to Gate 1 documenting the `run_gated_scan` + per-thread `gated_execution(decision)` invariant. Names the public registry surface (`get_scan_function`, `get_scan_functions_for_level`, `iter_registered_scan_types`) and gives valdí an explicit Gate 1 acceptance criterion: REJECT submissions that compose their own lookup-then-call path against the registry. Required two rounds of explicit operator re-authorization (the permission system flagged "Fix SKILL.md" as ambiguous against CLAUDE.md's `.claude/agents/` modification rule).
 
 PR #57 final state: 8 commits, MERGEABLE, suite green.
+
+### Late-session addendum (2026-05-02)
+
+**Decided**
+
+- **Hook tightening** — `c2ab5e5` (PR #57 wrap-up entry) → `964fffd` (`chore(hooks)`). Tightened `.claude/hooks/infra_danger_zone.py` from `cap=3 oldest-first` to `cap=2 newest-first`. Measured impact on a representative `.gitignore` injection: 4365 → 3328 bytes (−24%), 28 → 23 lines. Relevance gain is qualitatively larger than the byte saving — old fires surfaced months-old context (Pi5 microSD setup, WPVuln API field handling); new fires surface this session's Codex follow-ups + Stage A.5 deploy phases.
+- **Decision-log semantic review attempted, abandoned (option d).** Dispatched general-purpose agent for an editorial condense pass under hard preservation rules (every dated header, every Decided/Rejected/Unresolved sub-block, every concrete fact). Agent produced a 13.8% byte reduction (350KB → 302KB) but a fidelity check found 7 dropped path references — 3 of which (`infra/compose/base.yml`, `infra/compose/test.yml`, `Result/<domain>/cms.json`) were active technical references that should have stayed verbatim per the brief. Federico chose to abandon rather than accept the fidelity loss or iterate, consistent with `feedback_dealbreaker_i_present_you_decide` + "won't sacrifice effectiveness for performance."
+- **Anthropics issue filed** at https://github.com/anthropics/claude-code/issues/55581 — "Model proposes parameter changes to existing code without reading the code first." Sanitized public report capturing the cap=5 → cap=3 → cap=2 sequence as the concrete instance. Filed at Federico's explicit instruction after the third instance of the pattern this session. References `feedback_verify_data_before_presenting` + `feedback_codex_not_discovery` as the user-memory rules that should have prevented it but didn't.
+- **Cleanup** — both feature worktrees removed (`/tmp/heimdall-hook`, `/Users/fsaf/Documents/Repos/heimdall-valdi-runtime`). Local + remote branches `feat/valdi-runtime-hardening` and `chore/infra-hook-recency-cap` deleted (the former was already deleted by GitHub on PR #57 merge). Single worktree, single branch, working tree clean at `964fffd`.
+
+**Rejected**
+
+- `cap=5 most recent` (proposed by the model without reading the hook). Hook was already at `cap=3` — increasing would have made the problem worse, not better.
+- `cap=3 newest-first` (no token reduction; +13% bytes vs current). Pure relevance gain, but did not address the size complaint.
+- Decision-log condense as produced (option a). Fidelity loss on 3 active technical references made the 13.8% saving not worth it under "won't sacrifice effectiveness for performance."
+
+**Unresolved**
+
+- **Decision log size** is now 2326 lines after this addendum — still growing. Hook cap mitigation reduces per-fire cost; raw size is unmitigated. Future option: per-quarter archive split (`docs/decisions/log-archive/2026-Q1.md` etc.) keeping `log.md` hot. Not started.
+- **Architect's S1–S3 follow-ups** from PR #57's deferred-out-of-scope list still pending: per-job DB I/O on the worker hot path (`gate_or_raise → init_db` re-runs DDL + WAL checkpoint per gate decision), forensic-log volume in `logs/valdi/` (one markdown per decision, no rotation), fail-loud invariant on `scan_history.gate_decision_id` for new worker writes. Worth a separate cleanup PR.
+- **Pi5 cutover scope expands** — the bundled deploy now covers Stage A + A.5 + Valdí runtime hardening. Smoke checklist additions: worker boot validates envelope (per-process `valdi_envelopes` row appears), `scan_history.gate_decision_id` populates on a real scan, `logs/valdi/` writes a forensic markdown.
+
+**Suggested opening prompt for next session:** "Pi5 cutover prep — Stage A + A.5 + Valdí runtime hardening all on main as of `964fffd`. Browser-QA the slice 3g/3g.5 walkthrough at http://localhost:8001/app/, then fast-forward `prod` and rehearse Pi5 image-tag swap. Optional: open follow-up PR for architect's S1/S2/S3 (per-job DB I/O, valdi log rotation, fail-loud gate_decision_id) before cutover, or after."
