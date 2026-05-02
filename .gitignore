@@ -39,6 +39,10 @@ infra/compose/secrets.dev/
 
 # Valdí compliance logs (regenerated on each run)
 .claude/agents/valdi/compliance/
+# Valdí runtime forensic logs — boot envelopes + per-decision markdown,
+# written by `src/valdi/envelope.py` and `src/valdi/gate.py` at the path
+# resolved by HEIMDALL_VALDI_LOG_DIR (defaults to logs/valdi/ in-repo).
+logs/valdi/
 
 # Git worktrees (Claude Code)
 .claude/worktrees/
