@@ -27,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 
 from src.prospecting.scanners.registry import (
+    _force_reinit_scan_type_map,
     _init_scan_type_map,
     iter_registered_scan_types,
 )
@@ -97,6 +98,9 @@ def test_run_gated_scan_inside_thread_pool_under_per_thread_gate() -> None:
         "src.prospecting.scanners.tls.check_ssl",
         return_value=ssl_stub,
     ) as mock_ssl:
+        # Refresh the registry so the patched check_ssl propagates into the
+        # level dict that get_scan_function returns.
+        _force_reinit_scan_type_map()
         with ThreadPoolExecutor(max_workers=2) as executor:
             future = executor.submit(_scan_in_worker, decision, "example.dk")
             result = future.result()

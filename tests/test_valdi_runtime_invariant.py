@@ -23,6 +23,7 @@ This test file enforces both halves:
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
+from unittest.mock import patch
 
 import pytest
 
@@ -38,20 +39,19 @@ SENTINEL_SCAN = "test_sentinel_scan"
 
 
 @pytest.fixture
-def sentinel_in_registry(monkeypatch):
+def sentinel_in_registry():
     """Register a sentinel scan type for the duration of one test.
 
     The sentinel returns a recognisable marker so tests can prove the
     real registered function ran (not a mock injected at the call site).
 
-    Implementation note: ``get_scan_function`` calls ``_init_scan_type_map``
-    on every lookup, which clears + refills the level dicts from the
-    canonical imports — wiping any injected sentinel. We monkeypatch
-    ``_init_scan_type_map`` to a no-op for the duration of the test so the
-    sentinel survives the lookup. The dispatch path under test is still
-    real: ``run_gated_scan`` → ``get_scan_function`` → level dict.
+    The fixture rebuilds the registry from canonical imports first (so any
+    leftover monkeypatched refs from a previous test are cleared), then
+    injects the sentinel into the level dict. Idempotent ``_init_scan_type_map``
+    in ``get_scan_function`` is now a no-op after first init, so the sentinel
+    survives subsequent lookups for the duration of the test.
     """
-    registry._init_scan_type_map()
+    registry._force_reinit_scan_type_map()
 
     sentinel_calls: list[tuple] = []
 
@@ -60,7 +60,6 @@ def sentinel_in_registry(monkeypatch):
         return {"sentinel": True, "args": args}
 
     registry._LEVEL0_SCAN_FUNCTIONS[SENTINEL_SCAN] = _sentinel
-    monkeypatch.setattr(registry, "_init_scan_type_map", lambda: None)
     try:
         yield sentinel_calls
     finally:
@@ -143,17 +142,53 @@ def test_scan_job_module_no_longer_exposes_local_dispatch_shim() -> None:
     )
 
 
-def test_registry_lookup_race_free_under_concurrent_init() -> None:
-    """Stress: many threads calling ``get_scan_function`` while
-    ``_init_scan_type_map`` is also being called concurrently must not
-    raise ``KeyError``.
+def test_init_scan_type_map_is_one_shot() -> None:
+    """``_init_scan_type_map`` is idempotent after the first successful run.
 
-    Without the registry lock, ``_init_scan_type_map``'s
-    ``clear() + update()`` window lets one thread observe an empty
-    dispatch dict — the runner's pool then drops domains intermittently
-    with ``KeyError`` re-raised through ``as_completed``.
+    Repeated calls (the worker hot path on every cache miss) must not
+    rebuild the level dicts. Force-reinit is the explicit escape hatch
+    for tests that monkeypatch a scanner module.
     """
-    registry._init_scan_type_map()
+    # Establish the populated state so subsequent _init calls are no-ops.
+    registry._force_reinit_scan_type_map()
+
+    populate_calls: list[None] = []
+    real_populate = registry._populate_scan_type_map
+
+    def _counting_populate() -> None:
+        populate_calls.append(None)
+        real_populate()
+
+    with patch.object(registry, "_populate_scan_type_map", _counting_populate):
+        for _ in range(5):
+            registry._init_scan_type_map()
+        assert populate_calls == [], (
+            "_init_scan_type_map invoked _populate_scan_type_map after "
+            "registry was already initialized — idempotency contract "
+            "broken; worker hot-path regression."
+        )
+
+        registry._force_reinit_scan_type_map()
+        registry._force_reinit_scan_type_map()
+        assert len(populate_calls) == 2, (
+            "_force_reinit_scan_type_map must always rebuild — got "
+            f"{len(populate_calls)} populate call(s) for 2 force-reinits."
+        )
+
+
+def test_registry_lookup_race_free_under_concurrent_force_reinit() -> None:
+    """Stress: many threads calling ``get_scan_function`` while
+    ``_force_reinit_scan_type_map`` is also being called concurrently
+    must not raise ``KeyError``.
+
+    Without the registry lock, the ``clear() + update()`` window inside
+    a forced reinit lets one thread observe an empty dispatch dict — the
+    runner's pool then drops domains intermittently with ``KeyError``
+    re-raised through ``as_completed``. Production reinit is one-shot,
+    but tests do trigger ``_force_reinit_scan_type_map`` and the lock
+    must hold for that path too.
+    """
+    registry._force_reinit_scan_type_map()
 
     errors: list[Exception] = []
 
@@ -163,7 +198,7 @@ def test_registry_lookup_race_free_under_concurrent_init() -> None:
                 fn = registry.get_scan_function("ssl_certificate_check")
                 assert callable(fn)
                 # Force a re-init concurrently — worst case for the race.
-                registry._init_scan_type_map()
+                registry._force_reinit_scan_type_map()
         except Exception as exc:
             errors.append(exc)
 

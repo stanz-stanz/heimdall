@@ -11,6 +11,7 @@ import fakeredis
 from src.prospecting.scanners.registry import (
     _LEVEL0_SCAN_FUNCTIONS,
     _LEVEL1_SCAN_FUNCTIONS,
+    _force_reinit_scan_type_map,
     _init_scan_type_map,
     _validate_approval_tokens,
     _validate_helper_hash,
@@ -37,7 +38,9 @@ def _make_cache(server: fakeredis.FakeServer | None = None) -> ScanCache:
 
 
 def _gate_all_scans():
-    _init_scan_type_map()
+    # Force reinit so any active monkeypatches on scanner modules propagate
+    # into the registry's level dicts.
+    _force_reinit_scan_type_map()
     decision = GateDecision(
         decision_id=1,
         envelope_id="env-test",

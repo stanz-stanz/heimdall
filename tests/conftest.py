@@ -2,7 +2,27 @@
 import pytest
 
 from src.prospecting.cvr import Company
+from src.prospecting.scanners import registry as _scanner_registry
 from src.prospecting.scanners.models import ScanResult
+
+
+@pytest.fixture(autouse=True)
+def _refresh_scanner_registry_each_test():
+    """Refresh the scan-type registry before every test.
+
+    ``_init_scan_type_map`` is one-shot per process for production
+    hot-path performance. That means a level dict patched by an earlier
+    test (via ``_force_reinit_scan_type_map`` while a
+    ``unittest.mock.patch`` was active) leaks its mock references into
+    subsequent tests after the patch context unwinds. Calling
+    ``_force_reinit_scan_type_map`` here rebuilds the dispatch from
+    canonical imports so each test starts against the real scanner
+    functions; tests that need patches still call
+    ``_force_reinit_scan_type_map`` themselves while their patch is
+    active.
+    """
+    _scanner_registry._force_reinit_scan_type_map()
+    yield
 
 
 @pytest.fixture

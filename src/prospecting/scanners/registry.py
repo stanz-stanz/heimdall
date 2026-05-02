@@ -34,10 +34,55 @@ _LEVEL1_SCAN_FUNCTIONS: dict[str, callable] = {}
 # calls another accessor) do not self-deadlock.
 _REGISTRY_LOCK = threading.RLock()
 
+# One-shot init flag. Production callers (`worker/main.py`, `runner.py`,
+# accessors) all run `_init_scan_type_map()` defensively, but the underlying
+# imports are stable for the process lifetime. Without idempotency, every
+# `get_scan_function` cache-miss on the worker hot path pays for the full
+# import + dict rebuild. Tests that monkeypatch a scanner module call
+# `_force_reinit_scan_type_map()` to refresh the registry against the
+# patched source.
+_INITIALIZED: bool = False
+
 
 def _init_scan_type_map() -> None:
-    """Populate the scan type function maps. Holds ``_REGISTRY_LOCK`` so
-    concurrent ``get_scan_function`` callers cannot observe a partial state.
+    """Populate the scan type function maps. One-shot per process.
+
+    Holds ``_REGISTRY_LOCK`` so concurrent ``get_scan_function`` callers
+    cannot observe a partial state. Subsequent calls after the first
+    successful population are O(1) — they take the lock, see
+    ``_INITIALIZED``, and return.
+
+    Tests that monkeypatch a scanner-module attribute (and therefore need
+    the registry to re-import) must call ``_force_reinit_scan_type_map()``
+    explicitly while their patch is active.
+    """
+    global _INITIALIZED
+    if _INITIALIZED:
+        return
+    with _REGISTRY_LOCK:
+        if _INITIALIZED:
+            return
+        _populate_scan_type_map()
+        _INITIALIZED = True
+
+
+def _force_reinit_scan_type_map() -> None:
+    """Test helper: clear + repopulate the level dicts unconditionally.
+
+    Use after activating a monkeypatch on a scanner module so the registry
+    re-imports the patched attribute. Production code never calls this.
+    """
+    global _INITIALIZED
+    with _REGISTRY_LOCK:
+        _INITIALIZED = False
+        _populate_scan_type_map()
+        _INITIALIZED = True
+
+
+def _populate_scan_type_map() -> None:
+    """Internal: run the imports and rebuild both level dicts atomically.
+
+    Caller must hold ``_REGISTRY_LOCK``.
     """
     # Import from extracted scanner modules (P2-3)
     from src.prospecting.scanners.tls import check_ssl as _check_ssl
@@ -53,26 +98,25 @@ def _init_scan_type_map() -> None:
     from src.prospecting.scanners.subfinder import run_subfinder as _run_subfinder
     from src.prospecting.scanners.webanalyze import run_webanalyze as _run_webanalyze
 
-    with _REGISTRY_LOCK:
-        _LEVEL0_SCAN_FUNCTIONS.clear()
-        _LEVEL0_SCAN_FUNCTIONS.update({
-            "ssl_certificate_check": _check_ssl,
-            "homepage_meta_extraction": _extract_page_meta,
-            "httpx_tech_fingerprint": _run_httpx,
-            "webanalyze_cms_detection": _run_webanalyze,
-            "response_header_check": _get_response_headers,
-            "subdomain_enumeration_passive": _run_subfinder,
-            "dns_enrichment": _run_dnsx,
-            "certificate_transparency_query": _query_crt_sh,
-            "cloud_storage_index_query": _query_grayhatwarfare,
-        })
+    _LEVEL0_SCAN_FUNCTIONS.clear()
+    _LEVEL0_SCAN_FUNCTIONS.update({
+        "ssl_certificate_check": _check_ssl,
+        "homepage_meta_extraction": _extract_page_meta,
+        "httpx_tech_fingerprint": _run_httpx,
+        "webanalyze_cms_detection": _run_webanalyze,
+        "response_header_check": _get_response_headers,
+        "subdomain_enumeration_passive": _run_subfinder,
+        "dns_enrichment": _run_dnsx,
+        "certificate_transparency_query": _query_crt_sh,
+        "cloud_storage_index_query": _query_grayhatwarfare,
+    })
 
-        _LEVEL1_SCAN_FUNCTIONS.clear()
-        _LEVEL1_SCAN_FUNCTIONS.update({
-            "nuclei_vulnerability_scan": _run_nuclei,
-            "cmseek_cms_deep_scan": _run_cmseek,
-            "nmap_port_scan": _run_nmap,
-        })
+    _LEVEL1_SCAN_FUNCTIONS.clear()
+    _LEVEL1_SCAN_FUNCTIONS.update({
+        "nuclei_vulnerability_scan": _run_nuclei,
+        "cmseek_cms_deep_scan": _run_cmseek,
+        "nmap_port_scan": _run_nmap,
+    })
 
 
 def _validate_approval_tokens(max_level: int = 0) -> dict | None:

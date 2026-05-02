@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 import fakeredis
 
 from src.prospecting.scanners.registry import (
-    _init_scan_type_map,
+    _force_reinit_scan_type_map,
     iter_registered_scan_types,
 )
 from src.valdi import GateDecision, gated_execution
@@ -31,7 +31,10 @@ def _make_cache(server: fakeredis.FakeServer | None = None) -> ScanCache:
 
 
 def _gate_all_scans():
-    _init_scan_type_map()
+    # Force reinit so any active monkeypatches on scanner modules propagate
+    # into the registry's level dicts. Idempotent init alone would skip the
+    # rebuild after the first call and tests would see real scanners.
+    _force_reinit_scan_type_map()
     decision = GateDecision(
         decision_id=1,
         envelope_id="env-test",
