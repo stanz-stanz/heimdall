@@ -10,23 +10,35 @@ from __future__ import annotations
 import hashlib
 import inspect
 import json
+import threading
 from collections.abc import Callable
 
 from loguru import logger
 
 
-# Level 0: passive observation only (Layer 1)
+# Internal level dicts. Module-private; external code must use the public
+# accessors (`get_scan_function`, `get_scan_functions_for_level`,
+# `iter_registered_scan_types`). The mutable dispatch map used to be exported
+# as `_SCAN_TYPE_FUNCTIONS`, which let runner.py / scan_job.py compose their
+# own "lookup then call" path and bypass `valdi.run_gated_scan`. That export
+# is intentionally removed — see Valdí runtime hardening (per-thread gate
+# context + single execution API).
 _LEVEL0_SCAN_FUNCTIONS: dict[str, callable] = {}
-
-# Level 1: active probing (Layer 2), requires written consent
 _LEVEL1_SCAN_FUNCTIONS: dict[str, callable] = {}
 
-# Combined view for backward compatibility
-_SCAN_TYPE_FUNCTIONS: dict[str, callable] = {}
+# Reentrant lock guarding init + lookup of the level dicts. Necessary because
+# `_init_scan_type_map` does ``clear()`` then ``update()`` — without this
+# lock, concurrent ``get_scan_function`` calls from runner pool workers can
+# observe a partially-cleared dict and raise ``KeyError`` for a real scan
+# type. RLock so that nested public accessors (e.g. an init that internally
+# calls another accessor) do not self-deadlock.
+_REGISTRY_LOCK = threading.RLock()
 
 
 def _init_scan_type_map() -> None:
-    """Populate the scan type function maps. Called once at module load."""
+    """Populate the scan type function maps. Holds ``_REGISTRY_LOCK`` so
+    concurrent ``get_scan_function`` callers cannot observe a partial state.
+    """
     # Import from extracted scanner modules (P2-3)
     from src.prospecting.scanners.tls import check_ssl as _check_ssl
     from src.prospecting.scanners.wordpress import extract_page_meta as _extract_page_meta
@@ -41,30 +53,26 @@ def _init_scan_type_map() -> None:
     from src.prospecting.scanners.subfinder import run_subfinder as _run_subfinder
     from src.prospecting.scanners.webanalyze import run_webanalyze as _run_webanalyze
 
-    _LEVEL0_SCAN_FUNCTIONS.clear()
-    _LEVEL0_SCAN_FUNCTIONS.update({
-        "ssl_certificate_check": _check_ssl,
-        "homepage_meta_extraction": _extract_page_meta,
-        "httpx_tech_fingerprint": _run_httpx,
-        "webanalyze_cms_detection": _run_webanalyze,
-        "response_header_check": _get_response_headers,
-        "subdomain_enumeration_passive": _run_subfinder,
-        "dns_enrichment": _run_dnsx,
-        "certificate_transparency_query": _query_crt_sh,
-        "cloud_storage_index_query": _query_grayhatwarfare,
-    })
+    with _REGISTRY_LOCK:
+        _LEVEL0_SCAN_FUNCTIONS.clear()
+        _LEVEL0_SCAN_FUNCTIONS.update({
+            "ssl_certificate_check": _check_ssl,
+            "homepage_meta_extraction": _extract_page_meta,
+            "httpx_tech_fingerprint": _run_httpx,
+            "webanalyze_cms_detection": _run_webanalyze,
+            "response_header_check": _get_response_headers,
+            "subdomain_enumeration_passive": _run_subfinder,
+            "dns_enrichment": _run_dnsx,
+            "certificate_transparency_query": _query_crt_sh,
+            "cloud_storage_index_query": _query_grayhatwarfare,
+        })
 
-    _LEVEL1_SCAN_FUNCTIONS.clear()
-    _LEVEL1_SCAN_FUNCTIONS.update({
-        "nuclei_vulnerability_scan": _run_nuclei,
-        "cmseek_cms_deep_scan": _run_cmseek,
-        "nmap_port_scan": _run_nmap,
-    })
-
-    # Backward-compat: combined view
-    _SCAN_TYPE_FUNCTIONS.clear()
-    _SCAN_TYPE_FUNCTIONS.update(_LEVEL0_SCAN_FUNCTIONS)
-    _SCAN_TYPE_FUNCTIONS.update(_LEVEL1_SCAN_FUNCTIONS)
+        _LEVEL1_SCAN_FUNCTIONS.clear()
+        _LEVEL1_SCAN_FUNCTIONS.update({
+            "nuclei_vulnerability_scan": _run_nuclei,
+            "cmseek_cms_deep_scan": _run_cmseek,
+            "nmap_port_scan": _run_nmap,
+        })
 
 
 def _validate_approval_tokens(max_level: int = 0) -> dict | None:
@@ -132,16 +140,35 @@ def _load_approvals_data() -> dict:
 
 def get_scan_functions_for_level(max_level: int) -> dict[str, Callable]:
     _init_scan_type_map()
-    functions: dict[str, Callable] = {}
-    functions.update(_LEVEL0_SCAN_FUNCTIONS)
-    if max_level >= 1:
-        functions.update(_LEVEL1_SCAN_FUNCTIONS)
+    with _REGISTRY_LOCK:
+        functions: dict[str, Callable] = {}
+        functions.update(_LEVEL0_SCAN_FUNCTIONS)
+        if max_level >= 1:
+            functions.update(_LEVEL1_SCAN_FUNCTIONS)
     return functions
 
 
 def get_scan_function(scan_type_id: str) -> Callable:
     _init_scan_type_map()
-    return _SCAN_TYPE_FUNCTIONS[scan_type_id]
+    with _REGISTRY_LOCK:
+        if scan_type_id in _LEVEL0_SCAN_FUNCTIONS:
+            return _LEVEL0_SCAN_FUNCTIONS[scan_type_id]
+        return _LEVEL1_SCAN_FUNCTIONS[scan_type_id]
+
+
+def iter_registered_scan_types(max_level: int = 1) -> tuple[str, ...]:
+    """Public: ordered tuple of every scan-type ID registered up to *max_level*.
+
+    Replaces direct iteration over the (now-private) dispatch dicts. Used by
+    callers that need to enumerate authorised scan types — operator summary,
+    Valdí envelope catalog, gate `allowed_scan_types` construction in tests.
+    """
+    _init_scan_type_map()
+    with _REGISTRY_LOCK:
+        types = list(_LEVEL0_SCAN_FUNCTIONS)
+        if max_level >= 1:
+            types.extend(_LEVEL1_SCAN_FUNCTIONS)
+    return tuple(sorted(types))
 
 
 def build_validated_scan_catalog(max_level: int) -> dict[str, dict]:

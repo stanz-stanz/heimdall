@@ -22,21 +22,9 @@ from src.core.config import CMS_KEYWORDS, DEFAULT_FILTERS, HOSTING_PROVIDERS
 from src.prospecting.cvr import Company
 from src.prospecting.filters import load_filters
 from src.prospecting.scanners.models import ScanResult
-from src.prospecting.scanners.tls import check_ssl
-from src.prospecting.scanners.headers import get_response_headers
 from src.prospecting.scanners.robots import check_robots_txt
-from src.prospecting.scanners.httpx_scan import run_httpx
-from src.prospecting.scanners.webanalyze import run_webanalyze
-from src.prospecting.scanners.subfinder import run_subfinder
-from src.prospecting.scanners.dnsx import run_dnsx
-from src.prospecting.scanners.ct import query_crt_sh_single
-from src.prospecting.scanners.grayhat import query_grayhatwarfare
-from src.prospecting.scanners.nuclei import run_nuclei
-from src.prospecting.scanners.cmseek import run_cmseek
-from src.prospecting.scanners.nmap import run_nmap
 from src.prospecting.scanners.nmap import nmap_ports_to_findings
-from src.prospecting.scanners.wordpress import extract_page_meta
-from src.valdi import get_gate_execution_context
+from src.valdi import run_gated_scan
 
 from .cache import ScanCache
 
@@ -60,28 +48,6 @@ NUCLEI_SCAN = "nuclei_vulnerability_scan"
 CMSEEK_SCAN = "cmseek_cms_deep_scan"
 NMAP_SCAN = "nmap_port_scan"
 
-
-def _run_scan_impl(scan_type: str, *args: Any) -> Any:
-    ctx = get_gate_execution_context()
-    if ctx is None:
-        raise RuntimeError(f"Registered scan {scan_type} executed without Valdi gate context")
-    if scan_type not in ctx.decision.allowed_scan_types:
-        raise RuntimeError(f"Registered scan {scan_type} not authorised by current Valdi decision")
-    dispatch = {
-        SSL_SCAN: check_ssl,
-        META_SCAN: extract_page_meta,
-        HTTPX_SCAN: run_httpx,
-        WEBANALYZE_SCAN: run_webanalyze,
-        HEADERS_SCAN: get_response_headers,
-        SUBFINDER_SCAN: run_subfinder,
-        DNS_SCAN: run_dnsx,
-        CT_SCAN: query_crt_sh_single,
-        CLOUD_SCAN: query_grayhatwarfare,
-        NUCLEI_SCAN: run_nuclei,
-        CMSEEK_SCAN: run_cmseek,
-        NMAP_SCAN: run_nmap,
-    }
-    return dispatch[scan_type](*args)
 
 def _timed(fn: Any, *args: Any, **kwargs: Any) -> tuple[Any, float]:
     """Call *fn* and return ``(result, elapsed_seconds)``."""
@@ -191,7 +157,7 @@ def execute_scan_job(
             logger.bind(context={"domain": domain, "scan_type": scan_type}).debug("cache_hit")
             return cached
         job_misses += 1
-        result, dt = _timed(_run_scan_impl, scan_type, *args)
+        result, dt = _timed(run_gated_scan, scan_type, *args)
         timing[scan_type] = round(dt, 4)
         # Normalise result to a JSON-serialisable dict/list for caching
         serialisable = result
@@ -337,7 +303,9 @@ def execute_scan_job(
     # ------------------------------------------------------------------
     subfinder_results = _cached_or_run("subfinder", SUBFINDER_SCAN, [domain])
     dnsx_results = _cached_or_run("dnsx", DNS_SCAN, [domain])
-    crtsh_raw = _cached_or_run("crtsh", CT_SCAN, domain)
+    # CT now routes through the registered batch function (`query_crt_sh`)
+    # rather than the un-registered single-domain helper. Pass `[domain]`.
+    crtsh_raw = _cached_or_run("crtsh", CT_SCAN, [domain])
     ghw_results = _cached_or_run("ghw", CLOUD_SCAN, [domain])
 
     # Subdomains
@@ -350,6 +318,17 @@ def execute_scan_job(
 
     if isinstance(crtsh_raw, dict):
         scan.ct_certificates = crtsh_raw.get(domain, [])
+    elif (
+        isinstance(crtsh_raw, list)
+        and len(crtsh_raw) == 2
+        and crtsh_raw[0] == domain
+        and isinstance(crtsh_raw[1], list)
+    ):
+        # Legacy cache shape from the un-registered `query_crt_sh_single`
+        # helper (pre-Valdí runtime hardening). JSON-serialised as
+        # `[domain, certs]`. Eligible for removal once the Redis cache TTL
+        # has cycled all old entries through the new dict format.
+        scan.ct_certificates = crtsh_raw[1]
 
     # GrayHatWarfare
     if isinstance(ghw_results, dict):

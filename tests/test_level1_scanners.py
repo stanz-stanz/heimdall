@@ -11,10 +11,10 @@ import fakeredis
 from src.prospecting.scanners.registry import (
     _LEVEL0_SCAN_FUNCTIONS,
     _LEVEL1_SCAN_FUNCTIONS,
-    _SCAN_TYPE_FUNCTIONS,
     _init_scan_type_map,
     _validate_approval_tokens,
     _validate_helper_hash,
+    iter_registered_scan_types,
 )
 from src.valdi import GateDecision, gated_execution
 from src.prospecting.scanners.nuclei import run_nuclei
@@ -49,7 +49,7 @@ def _gate_all_scans():
         decision="allowed",
         reason="test",
         forensic_path="",
-        allowed_scan_types=tuple(sorted(_SCAN_TYPE_FUNCTIONS.keys())),
+        allowed_scan_types=iter_registered_scan_types(1),
     )
     return gated_execution(decision)
 
@@ -64,7 +64,7 @@ _HTTPX_RESULT = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["Wor
 _WEBANALYZE_RESULT = {}
 _SUBFINDER_RESULT = {}
 _DNSX_RESULT = {}
-_CRTSH_RESULT = (_DOMAIN, [])
+_CRTSH_RESULT: dict = {}
 _GHW_RESULT: dict = {}
 
 _NUCLEI_RESULT = {_DOMAIN: {
@@ -87,18 +87,18 @@ def _patch_all_scans_with_nuclei():
     """Patches for all scan functions including Level 1 tools."""
     return [
         patch("src.worker.scan_job.check_robots_txt", return_value=True),
-        patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT),
-        patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT),
-        patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT),
-        patch("src.worker.scan_job.run_httpx", return_value=_HTTPX_RESULT),
-        patch("src.worker.scan_job.run_webanalyze", return_value=_WEBANALYZE_RESULT),
-        patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
-        patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
-        patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT),
-        patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
-        patch("src.worker.scan_job.run_nuclei", return_value=_NUCLEI_RESULT),
-        patch("src.worker.scan_job.run_cmseek", return_value=_CMSEEK_RESULT),
-        patch("src.worker.scan_job.run_nmap", return_value={}),
+        patch("src.prospecting.scanners.tls.check_ssl", return_value=_SSL_RESULT),
+        patch("src.prospecting.scanners.headers.get_response_headers", return_value=_HEADERS_RESULT),
+        patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=_META_RESULT),
+        patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=_HTTPX_RESULT),
+        patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value=_WEBANALYZE_RESULT),
+        patch("src.prospecting.scanners.subfinder.run_subfinder", return_value=_SUBFINDER_RESULT),
+        patch("src.prospecting.scanners.dnsx.run_dnsx", return_value=_DNSX_RESULT),
+        patch("src.prospecting.scanners.ct.query_crt_sh", return_value=_CRTSH_RESULT),
+        patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value=_GHW_RESULT),
+        patch("src.prospecting.scanners.nuclei.run_nuclei", return_value=_NUCLEI_RESULT),
+        patch("src.prospecting.scanners.cmseek.run_cmseek", return_value=_CMSEEK_RESULT),
+        patch("src.prospecting.scanners.nmap.run_nmap", return_value={}),
         patch("src.worker.twin_scan.run_twin_scan", return_value=None),
         patch("src.worker.scan_job._BUCKET_FILTER", None),
     ]
@@ -226,10 +226,10 @@ class TestRegistrySplit:
         assert "ssl_certificate_check" not in _LEVEL1_SCAN_FUNCTIONS
 
     def test_combined_map_has_all(self):
-        _init_scan_type_map()
-        assert len(_SCAN_TYPE_FUNCTIONS) == 12
-        assert "ssl_certificate_check" in _SCAN_TYPE_FUNCTIONS
-        assert "nuclei_vulnerability_scan" in _SCAN_TYPE_FUNCTIONS
+        all_types = iter_registered_scan_types(1)
+        assert len(all_types) == 12
+        assert "ssl_certificate_check" in all_types
+        assert "nuclei_vulnerability_scan" in all_types
 
 
 # ---------------------------------------------------------------------------
@@ -465,18 +465,18 @@ class TestVulnDBLookup:
         wp_httpx = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["WordPress"]}}
         patches = [
             patch("src.worker.scan_job.check_robots_txt", return_value=True),
-            patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT),
-            patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT),
-            patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT),
-            patch("src.worker.scan_job.run_httpx", return_value=wp_httpx),
-            patch("src.worker.scan_job.run_webanalyze", return_value={}),
-            patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
-            patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
-            patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT),
-            patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
-            patch("src.worker.scan_job.run_nuclei", return_value=_NUCLEI_RESULT),
-            patch("src.worker.scan_job.run_cmseek", return_value=_CMSEEK_RESULT),
-            patch("src.worker.scan_job.run_nmap", return_value={}),
+            patch("src.prospecting.scanners.tls.check_ssl", return_value=_SSL_RESULT),
+            patch("src.prospecting.scanners.headers.get_response_headers", return_value=_HEADERS_RESULT),
+            patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=_META_RESULT),
+            patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=wp_httpx),
+            patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value={}),
+            patch("src.prospecting.scanners.subfinder.run_subfinder", return_value=_SUBFINDER_RESULT),
+            patch("src.prospecting.scanners.dnsx.run_dnsx", return_value=_DNSX_RESULT),
+            patch("src.prospecting.scanners.ct.query_crt_sh", return_value=_CRTSH_RESULT),
+            patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value=_GHW_RESULT),
+            patch("src.prospecting.scanners.nuclei.run_nuclei", return_value=_NUCLEI_RESULT),
+            patch("src.prospecting.scanners.cmseek.run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.prospecting.scanners.nmap.run_nmap", return_value={}),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
             patch("src.vulndb.lookup.lookup_wordpress_vulns", return_value=mock_findings),
         ]
@@ -506,18 +506,18 @@ class TestVulnDBLookup:
         no_wp_httpx = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["Nginx", "HTML5"]}}
         patches = [
             patch("src.worker.scan_job.check_robots_txt", return_value=True),
-            patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT),
-            patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT),
-            patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT),
-            patch("src.worker.scan_job.run_httpx", return_value=no_wp_httpx),
-            patch("src.worker.scan_job.run_webanalyze", return_value={}),
-            patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
-            patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
-            patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT),
-            patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
-            patch("src.worker.scan_job.run_nuclei", return_value=_NUCLEI_RESULT),
-            patch("src.worker.scan_job.run_cmseek", return_value=_CMSEEK_RESULT),
-            patch("src.worker.scan_job.run_nmap", return_value={}),
+            patch("src.prospecting.scanners.tls.check_ssl", return_value=_SSL_RESULT),
+            patch("src.prospecting.scanners.headers.get_response_headers", return_value=_HEADERS_RESULT),
+            patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=_META_RESULT),
+            patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=no_wp_httpx),
+            patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value={}),
+            patch("src.prospecting.scanners.subfinder.run_subfinder", return_value=_SUBFINDER_RESULT),
+            patch("src.prospecting.scanners.dnsx.run_dnsx", return_value=_DNSX_RESULT),
+            patch("src.prospecting.scanners.ct.query_crt_sh", return_value=_CRTSH_RESULT),
+            patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value=_GHW_RESULT),
+            patch("src.prospecting.scanners.nuclei.run_nuclei", return_value=_NUCLEI_RESULT),
+            patch("src.prospecting.scanners.cmseek.run_cmseek", return_value=_CMSEEK_RESULT),
+            patch("src.prospecting.scanners.nmap.run_nmap", return_value={}),
             patch("src.worker.twin_scan.run_twin_scan", return_value=None),
             patch("src.worker.scan_job._BUCKET_FILTER", None),
         ]

@@ -5,9 +5,11 @@ from datetime import UTC, datetime, timedelta
 from unittest.mock import MagicMock, mock_open, patch
 
 from src.prospecting.scanners.registry import (
-    _SCAN_TYPE_FUNCTIONS,
+    _LEVEL0_SCAN_FUNCTIONS,
+    _LEVEL1_SCAN_FUNCTIONS,
     _init_scan_type_map,
     _validate_approval_tokens,
+    iter_registered_scan_types,
 )
 from src.prospecting.scanners.tls import check_ssl
 from src.prospecting.scanners.headers import get_response_headers
@@ -528,9 +530,9 @@ class TestInitScanTypeMap:
             "cmseek_cms_deep_scan",
             "nmap_port_scan",
         }
-        assert set(_SCAN_TYPE_FUNCTIONS.keys()) == expected
+        assert set(iter_registered_scan_types(1)) == expected
 
     def test_all_are_callable(self):
         _init_scan_type_map()
-        for name, func in _SCAN_TYPE_FUNCTIONS.items():
+        for name, func in {**_LEVEL0_SCAN_FUNCTIONS, **_LEVEL1_SCAN_FUNCTIONS}.items():
             assert callable(func), f"{name} is not callable"

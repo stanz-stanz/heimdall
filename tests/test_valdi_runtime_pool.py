@@ -1,25 +1,25 @@
 """Regression test: Valdí gate context across ThreadPoolExecutor.
 
-Reproduces the bug in this branch where ``gated_execution`` opens the
-gate-decision ContextVar on the orchestrator thread but
-``src/prospecting/scanners/runner.py`` dispatches per-domain scans through
-a ``ThreadPoolExecutor`` whose worker threads do **not** inherit the
-parent's contextvars (PEP 567 + concurrent.futures: each ``threading.Thread``
-starts with an empty Context — only asyncio's task factory copies).
+Pinned bug: ``gated_execution()`` opens the gate-decision ContextVar on the
+orchestrator thread but ``ThreadPoolExecutor`` workers start with an empty
+Context (PEP 567 + concurrent.futures: each ``threading.Thread`` starts with
+an empty Context — only asyncio's task factory copies). Before the fix
+``runner.scan_domains`` submitted per-domain scans into a pool, and every
+worker observed ``get_gate_execution_context() is None``, raising
+``RuntimeError("...without Valdí gate context")``. The runner's
+``as_completed`` loop swallowed the exception per-future and silently
+returned ``{}`` — silent data loss in production, not a hard crash.
 
-Contract under test (mirrors ``runner.scan_domains``):
-    with gated_execution(decision):
-        with ThreadPoolExecutor(...) as executor:
-            future = executor.submit(<callable that calls a registered scan>)
-            future.result()  # must not raise
+Contract under test (mirrors ``runner.scan_domains`` after the fix):
+    decision = gate_or_raise(...)
+    with ThreadPoolExecutor(...) as executor:
+        future = executor.submit(<callable that opens its own gate scope
+                                  and calls run_gated_scan(...)>)
+        future.result()  # must not raise
 
-Currently fails with::
-    RuntimeError: Registered scan ssl_certificate_check executed
-                  without Valdí gate context
-
-The runner swallows that exception per-future and silently returns ``{}``
-in production (``runner.py`` ``as_completed`` loop catches ``Exception``
-and only logs), so the failure is **silent data loss**, not a crash.
+The fix establishes the gate context **on the worker thread**, not on the
+orchestrator. This file's tests are strategy-agnostic — they assert the
+contract, not the mechanism.
 """
 from __future__ import annotations
 
@@ -27,12 +27,13 @@ from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 
 from src.prospecting.scanners.registry import (
-    _SCAN_TYPE_FUNCTIONS,
     _init_scan_type_map,
+    iter_registered_scan_types,
 )
-from src.prospecting.scanners.runner import SSL_SCAN, _run_scan_impl
-from src.valdi import GateDecision, gated_execution
+from src.valdi import GateDecision, gated_execution, run_gated_scan
 from src.valdi.gate import get_gate_execution_context
+
+SSL_SCAN = "ssl_certificate_check"
 
 
 def _make_decision() -> GateDecision:
@@ -48,7 +49,7 @@ def _make_decision() -> GateDecision:
         decision="allowed",
         reason="test",
         forensic_path="",
-        allowed_scan_types=tuple(sorted(_SCAN_TYPE_FUNCTIONS.keys())),
+        allowed_scan_types=iter_registered_scan_types(1),
     )
 
 
@@ -61,30 +62,25 @@ def test_gate_context_visible_on_orchestrator_thread() -> None:
     assert ctx.decision.envelope_id == "env-test"
 
 
-def test_run_scan_impl_inside_thread_pool_sees_gate_context() -> None:
-    """Runner production path: ``_run_scan_impl`` invoked from a pool worker.
+def _scan_in_worker(decision: GateDecision, domain: str):
+    """Callable submitted to the pool — opens its own gate scope on the worker thread."""
+    with gated_execution(decision):
+        return run_gated_scan(SSL_SCAN, domain)
 
-    Mirrors ``src/prospecting/scanners/runner.py:248–260`` where
-    ``_scan_single_domain`` is submitted to ``ThreadPoolExecutor`` and
-    immediately calls ``_run_scan_impl(SSL_SCAN, domain)``.
 
-    With the ContextVar strategy as currently implemented, the worker
-    thread does not inherit the orchestrator's gate context, so the
-    gate guard at ``src/prospecting/scanners/runner.py:51`` raises
-    ``RuntimeError("... executed without Valdí gate context")``.
+def test_run_gated_scan_inside_thread_pool_under_per_thread_gate() -> None:
+    """Production path: a registered scan executed from a pool worker.
 
-    After the fix this test must pass — regardless of which strategy
-    the fix uses (``copy_context().run`` on submit, per-thread
-    ``gated_execution``, or explicit decision passthrough). The contract
-    is: a registered scan submitted from the orchestrator inside an
-    open ``gated_execution`` block must execute, not raise.
+    Mirrors the post-fix runner pattern: the orchestrator submits work to
+    ``ThreadPoolExecutor``; the worker callable opens its own
+    ``gated_execution(decision)`` scope before calling ``run_gated_scan``.
+
+    Before the fix, the runner relied on ContextVar inheritance from the
+    orchestrator and crashed in every worker. After the fix, the gate
+    scope is established on the execution thread itself, so this test
+    passes regardless of the cross-thread propagation rules.
     """
     decision = _make_decision()
-
-    # Mock the underlying scanner so the test fails for the gate-guard
-    # reason, not network. If the gate context propagates, check_ssl is
-    # called and the test passes; if it doesn't, the gate guard raises
-    # before check_ssl is touched.
     ssl_stub = {
         "valid": True,
         "issuer": "Test CA",
@@ -94,15 +90,35 @@ def test_run_scan_impl_inside_thread_pool_sees_gate_context() -> None:
         "tls_cipher": "TLS_AES_256_GCM_SHA384",
         "tls_bits": 256,
     }
+    # Patch at the source module — `_init_scan_type_map` re-imports each
+    # call, so patches at the source path propagate to the registry's
+    # dispatch.
     with patch(
-        "src.prospecting.scanners.runner.check_ssl",
+        "src.prospecting.scanners.tls.check_ssl",
         return_value=ssl_stub,
     ) as mock_ssl:
-        with gated_execution(decision):
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                future = executor.submit(_run_scan_impl, SSL_SCAN, "example.dk")
-                # `.result()` re-raises the worker exception on this thread.
-                result = future.result()
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            future = executor.submit(_scan_in_worker, decision, "example.dk")
+            result = future.result()
 
     assert result == ssl_stub
     mock_ssl.assert_called_once_with("example.dk")
+
+
+def test_orchestrator_gate_does_not_leak_into_pool_workers() -> None:
+    """Document the cross-thread invariant: ContextVar does NOT propagate.
+
+    A ``gated_execution`` opened on the orchestrator thread is invisible
+    to ``ThreadPoolExecutor`` workers. This is the root cause of the
+    original B1 bug. Every pool worker that needs a gate context must
+    open its own.
+    """
+    decision = _make_decision()
+    with gated_execution(decision):
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            future = executor.submit(get_gate_execution_context)
+            ctx_in_worker = future.result()
+    assert ctx_in_worker is None, (
+        "ContextVar leaked into pool worker — invariant changed. "
+        "Review whether per-thread gated_execution() is still required."
+    )

@@ -8,7 +8,7 @@ import pytest
 
 from src.consent.validator import ConsentCheckResult
 from src.db.connection import init_db
-from src.prospecting.scanners.registry import _SCAN_TYPE_FUNCTIONS, _init_scan_type_map
+from src.prospecting.scanners.registry import _init_scan_type_map  # noqa: F401
 from src.valdi import GateDeniedError, ScanRequest, gate_or_raise
 from src.valdi.envelope import get_current_envelope, validate_and_persist_envelope
 from src.valdi.models import GateDecision

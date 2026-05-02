@@ -6,7 +6,10 @@ from unittest.mock import MagicMock, patch
 
 import fakeredis
 
-from src.prospecting.scanners.registry import _SCAN_TYPE_FUNCTIONS, _init_scan_type_map
+from src.prospecting.scanners.registry import (
+    _init_scan_type_map,
+    iter_registered_scan_types,
+)
 from src.valdi import GateDecision, gated_execution
 from src.worker.cache import ScanCache
 from src.worker.scan_job import execute_scan_job
@@ -40,7 +43,7 @@ def _gate_all_scans():
         decision="allowed",
         reason="test",
         forensic_path="",
-        allowed_scan_types=tuple(sorted(_SCAN_TYPE_FUNCTIONS.keys())),
+        allowed_scan_types=iter_registered_scan_types(1),
     )
     return gated_execution(decision)
 
@@ -69,7 +72,7 @@ _HTTPX_RESULT = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["Wor
 _WEBANALYZE_RESULT = {_DOMAIN: ["WordPress", "jQuery"]}
 _SUBFINDER_RESULT = {_DOMAIN: ["mail.example.dk", "www.example.dk"]}
 _DNSX_RESULT = {_DOMAIN: {"a": ["1.2.3.4"], "aaaa": [], "cname": [], "mx": ["mx.example.dk"], "ns": [], "txt": []}}
-_CRTSH_RESULT = (_DOMAIN, [{"common_name": "*.example.dk", "issuer_name": "LE", "not_before": "2026-01-01", "not_after": "2026-04-01"}])
+_CRTSH_RESULT = {_DOMAIN: [{"common_name": "*.example.dk", "issuer_name": "LE", "not_before": "2026-01-01", "not_after": "2026-04-01"}]}
 _GHW_RESULT: dict = {}
 
 
@@ -77,15 +80,15 @@ def _patch_all_scans():
     """Return a stack of patches for every scan function used by scan_job."""
     return [
         patch("src.worker.scan_job.check_robots_txt", return_value=True),
-        patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT),
-        patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT),
-        patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT),
-        patch("src.worker.scan_job.run_httpx", return_value=_HTTPX_RESULT),
-        patch("src.worker.scan_job.run_webanalyze", return_value=_WEBANALYZE_RESULT),
-        patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT),
-        patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT),
-        patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT),
-        patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT),
+        patch("src.prospecting.scanners.tls.check_ssl", return_value=_SSL_RESULT),
+        patch("src.prospecting.scanners.headers.get_response_headers", return_value=_HEADERS_RESULT),
+        patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=_META_RESULT),
+        patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=_HTTPX_RESULT),
+        patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value=_WEBANALYZE_RESULT),
+        patch("src.prospecting.scanners.subfinder.run_subfinder", return_value=_SUBFINDER_RESULT),
+        patch("src.prospecting.scanners.dnsx.run_dnsx", return_value=_DNSX_RESULT),
+        patch("src.prospecting.scanners.ct.query_crt_sh", return_value=_CRTSH_RESULT),
+        patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value=_GHW_RESULT),
         patch("src.worker.scan_job._BUCKET_FILTER", None),
     ]
 
@@ -138,7 +141,7 @@ class TestWarmCache:
         cache.set("webanalyze", _DOMAIN, _WEBANALYZE_RESULT)
         cache.set("subfinder", _DOMAIN, _SUBFINDER_RESULT)
         cache.set("dnsx", _DOMAIN, _DNSX_RESULT)
-        cache.set("crtsh", _DOMAIN, list(_CRTSH_RESULT))
+        cache.set("crtsh", _DOMAIN, _CRTSH_RESULT)
         cache.set("ghw", _DOMAIN, _GHW_RESULT)
 
         # Reset hit/miss counters after seeding
@@ -146,15 +149,15 @@ class TestWarmCache:
         cache.misses = 0
 
         with patch("src.worker.scan_job.check_robots_txt", return_value=True) as mock_robots, \
-             patch("src.worker.scan_job.check_ssl") as mock_ssl, \
-             patch("src.worker.scan_job.get_response_headers") as mock_headers, \
-             patch("src.worker.scan_job.extract_page_meta") as mock_meta, \
-             patch("src.worker.scan_job.run_httpx") as mock_httpx, \
-             patch("src.worker.scan_job.run_webanalyze") as mock_wa, \
-             patch("src.worker.scan_job.run_subfinder") as mock_sf, \
-             patch("src.worker.scan_job.run_dnsx") as mock_dnsx, \
-             patch("src.worker.scan_job.query_crt_sh_single") as mock_crtsh, \
-             patch("src.worker.scan_job.query_grayhatwarfare") as mock_ghw:
+             patch("src.prospecting.scanners.tls.check_ssl") as mock_ssl, \
+             patch("src.prospecting.scanners.headers.get_response_headers") as mock_headers, \
+             patch("src.prospecting.scanners.wordpress.extract_page_meta") as mock_meta, \
+             patch("src.prospecting.scanners.httpx_scan.run_httpx") as mock_httpx, \
+             patch("src.prospecting.scanners.webanalyze.run_webanalyze") as mock_wa, \
+             patch("src.prospecting.scanners.subfinder.run_subfinder") as mock_sf, \
+             patch("src.prospecting.scanners.dnsx.run_dnsx") as mock_dnsx, \
+             patch("src.prospecting.scanners.ct.query_crt_sh") as mock_crtsh, \
+             patch("src.prospecting.scanners.grayhat.query_grayhatwarfare") as mock_ghw:
 
             with _gate_all_scans():
                 result = execute_scan_job(_BASE_JOB, cache)
@@ -190,15 +193,15 @@ class TestMixedCache:
         cache.misses = 0
 
         with patch("src.worker.scan_job.check_robots_txt", return_value=True), \
-             patch("src.worker.scan_job.check_ssl") as mock_ssl, \
-             patch("src.worker.scan_job.get_response_headers") as mock_headers, \
-             patch("src.worker.scan_job.extract_page_meta", return_value=_META_RESULT), \
-             patch("src.worker.scan_job.run_httpx", return_value=_HTTPX_RESULT), \
-             patch("src.worker.scan_job.run_webanalyze", return_value=_WEBANALYZE_RESULT), \
-             patch("src.worker.scan_job.run_subfinder", return_value=_SUBFINDER_RESULT), \
-             patch("src.worker.scan_job.run_dnsx", return_value=_DNSX_RESULT), \
-             patch("src.worker.scan_job.query_crt_sh_single", return_value=_CRTSH_RESULT), \
-             patch("src.worker.scan_job.query_grayhatwarfare", return_value=_GHW_RESULT):
+             patch("src.prospecting.scanners.tls.check_ssl") as mock_ssl, \
+             patch("src.prospecting.scanners.headers.get_response_headers") as mock_headers, \
+             patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=_META_RESULT), \
+             patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=_HTTPX_RESULT), \
+             patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value=_WEBANALYZE_RESULT), \
+             patch("src.prospecting.scanners.subfinder.run_subfinder", return_value=_SUBFINDER_RESULT), \
+             patch("src.prospecting.scanners.dnsx.run_dnsx", return_value=_DNSX_RESULT), \
+             patch("src.prospecting.scanners.ct.query_crt_sh", return_value=_CRTSH_RESULT), \
+             patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value=_GHW_RESULT):
 
             with _gate_all_scans():
                 result = execute_scan_job(_BASE_JOB, cache)
@@ -219,8 +222,8 @@ class TestRobotsTxtDenied:
         cache = _make_cache()
 
         with patch("src.worker.scan_job.check_robots_txt", return_value=False), \
-             patch("src.worker.scan_job.check_ssl") as mock_ssl, \
-             patch("src.worker.scan_job.get_response_headers") as mock_headers:
+             patch("src.prospecting.scanners.tls.check_ssl") as mock_ssl, \
+             patch("src.prospecting.scanners.headers.get_response_headers") as mock_headers:
 
             with _gate_all_scans():
                 result = execute_scan_job(_BASE_JOB, cache)
@@ -288,15 +291,15 @@ class TestCMSDerivation:
         httpx_with_wp = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["WordPress", "PHP", "MySQL"]}}
 
         with patch("src.worker.scan_job.check_robots_txt", return_value=True), \
-             patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT), \
-             patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT), \
-             patch("src.worker.scan_job.extract_page_meta", return_value=("", "", [])), \
-             patch("src.worker.scan_job.run_httpx", return_value=httpx_with_wp), \
-             patch("src.worker.scan_job.run_webanalyze", return_value={}), \
-             patch("src.worker.scan_job.run_subfinder", return_value={}), \
-             patch("src.worker.scan_job.run_dnsx", return_value={}), \
-             patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
-             patch("src.worker.scan_job.query_grayhatwarfare", return_value={}):
+             patch("src.prospecting.scanners.tls.check_ssl", return_value=_SSL_RESULT), \
+             patch("src.prospecting.scanners.headers.get_response_headers", return_value=_HEADERS_RESULT), \
+             patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=("", "", [])), \
+             patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=httpx_with_wp), \
+             patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value={}), \
+             patch("src.prospecting.scanners.subfinder.run_subfinder", return_value={}), \
+             patch("src.prospecting.scanners.dnsx.run_dnsx", return_value={}), \
+             patch("src.prospecting.scanners.ct.query_crt_sh", return_value={_DOMAIN: []}), \
+             patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value={}):
 
             with _gate_all_scans():
                 result = execute_scan_job(_BASE_JOB, cache)
@@ -311,15 +314,15 @@ class TestCMSDerivation:
         httpx_no_cms = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["nginx", "HTML5"]}}
 
         with patch("src.worker.scan_job.check_robots_txt", return_value=True), \
-             patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT), \
-             patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT), \
-             patch("src.worker.scan_job.extract_page_meta", return_value=("", "", [])), \
-             patch("src.worker.scan_job.run_httpx", return_value=httpx_no_cms), \
-             patch("src.worker.scan_job.run_webanalyze", return_value={}), \
-             patch("src.worker.scan_job.run_subfinder", return_value={}), \
-             patch("src.worker.scan_job.run_dnsx", return_value={}), \
-             patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
-             patch("src.worker.scan_job.query_grayhatwarfare", return_value={}):
+             patch("src.prospecting.scanners.tls.check_ssl", return_value=_SSL_RESULT), \
+             patch("src.prospecting.scanners.headers.get_response_headers", return_value=_HEADERS_RESULT), \
+             patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=("", "", [])), \
+             patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=httpx_no_cms), \
+             patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value={}), \
+             patch("src.prospecting.scanners.subfinder.run_subfinder", return_value={}), \
+             patch("src.prospecting.scanners.dnsx.run_dnsx", return_value={}), \
+             patch("src.prospecting.scanners.ct.query_crt_sh", return_value={_DOMAIN: []}), \
+             patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value={}):
 
             with _gate_all_scans():
                 result = execute_scan_job(_BASE_JOB, cache)
@@ -339,15 +342,15 @@ class TestBucketFilterEarlyReturn:
         httpx_no_cms = {_DOMAIN: {"input": _DOMAIN, "webserver": "nginx", "tech": ["nginx", "HTML5"]}}
 
         with patch("src.worker.scan_job.check_robots_txt", return_value=True), \
-             patch("src.worker.scan_job.check_ssl", return_value=_SSL_RESULT), \
-             patch("src.worker.scan_job.get_response_headers", return_value=_HEADERS_RESULT), \
-             patch("src.worker.scan_job.extract_page_meta", return_value=("", "", [])), \
-             patch("src.worker.scan_job.run_httpx", return_value=httpx_no_cms), \
-             patch("src.worker.scan_job.run_webanalyze", return_value={}), \
-             patch("src.worker.scan_job.run_subfinder") as mock_subfinder, \
-             patch("src.worker.scan_job.run_dnsx", return_value={}), \
-             patch("src.worker.scan_job.query_crt_sh_single", return_value=(_DOMAIN, [])), \
-             patch("src.worker.scan_job.query_grayhatwarfare", return_value={}), \
+             patch("src.prospecting.scanners.tls.check_ssl", return_value=_SSL_RESULT), \
+             patch("src.prospecting.scanners.headers.get_response_headers", return_value=_HEADERS_RESULT), \
+             patch("src.prospecting.scanners.wordpress.extract_page_meta", return_value=("", "", [])), \
+             patch("src.prospecting.scanners.httpx_scan.run_httpx", return_value=httpx_no_cms), \
+             patch("src.prospecting.scanners.webanalyze.run_webanalyze", return_value={}), \
+             patch("src.prospecting.scanners.subfinder.run_subfinder") as mock_subfinder, \
+             patch("src.prospecting.scanners.dnsx.run_dnsx", return_value={}), \
+             patch("src.prospecting.scanners.ct.query_crt_sh", return_value={_DOMAIN: []}), \
+             patch("src.prospecting.scanners.grayhat.query_grayhatwarfare", return_value={}), \
              patch("src.worker.scan_job._BUCKET_FILTER", {"A"}):
 
             with _gate_all_scans():

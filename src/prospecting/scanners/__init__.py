@@ -13,12 +13,17 @@ from .models import ScanResult  # noqa: F401
 from .runner import MAX_WORKERS_HTTP, scan_domains  # noqa: F401
 
 # --- Registry (scan-type map, approval validation) ---
+# `_SCAN_TYPE_FUNCTIONS` deliberately not re-exported — external modules must
+# go through the public accessors so every registered-scan call funnels through
+# `valdi.run_gated_scan`.
 from .registry import (  # noqa: F401
     _LEVEL0_SCAN_FUNCTIONS,
     _LEVEL1_SCAN_FUNCTIONS,
-    _SCAN_TYPE_FUNCTIONS,
     _init_scan_type_map,
     _validate_approval_tokens,
+    get_scan_function,
+    get_scan_functions_for_level,
+    iter_registered_scan_types,
 )
 
 # --- Compliance ---
