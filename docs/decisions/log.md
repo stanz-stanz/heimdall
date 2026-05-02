@@ -2276,3 +2276,50 @@ Slice 3g closes the auth-plane carve. Three sequenced commits on `feat/stage-a-f
 - **`§11.5` heading format consistency reflection** — five rounds of review caught off-by-ones in counts that the architect's promised internal-consistency check missed. Pattern: pre-Codex review must count things, not pattern-match prose. Memory captures this; future architect briefs include explicit count-assertion + cross-section consistency requirements.
 
 **Suggested opening prompt for next session:** "Resume Production Readiness Gate. Stage A.5 spec ratified at `docs/architecture/stage-a-5-spec.md`. Next: PR #55 already merged; browser-QA the slice 3g/3g.5 walkthrough at http://localhost:8001/app/ → fast-forward `prod` → Pi5 cutover (bundled Stage A + A.5) → Phase 1 A.5 implementation kicks off on `feat/stage-a-5-foundation`."
+
+## 2026-05-02
+
+**Decided**
+
+- Opened **PR #57** (`feat/valdi-runtime-hardening` → `main`): Valdí runtime hardening — five commits, +1800 / -356 LOC across 23 files (per branch), but actual symmetric diff vs. `main` is 52 files / +1961 / -6936 because Stage A.5 (PR #56, `d35b411`) merged to `main` after the branch diverged from `b4c30f2`.
+- Architect was dispatched to review Federico's local commit `4e53224` (foundation: envelope + gate chokepoint + execution-context invariant + `valdi_envelopes` / `valdi_gate_decisions` schema). Verdict identified two block-on-merge issues:
+  - **B1** — `gated_execution()` opened on the orchestrator thread does not propagate to `ThreadPoolExecutor` workers (PEP 567). The runner's `as_completed` loop swallows the resulting `RuntimeError("...without Valdí gate context")` per-future and silently returns `{}` — silent data loss in production, not a hard crash.
+  - **B2** — both `runner.py` and `scan_job.py` shipped their own `_run_scan_impl` with hand-built dispatch dicts, bypassing `valdi.run_gated_scan`. Runtime invariant was advisory at best.
+- Sequencing: failing baseline first (commit `d5d10d7`), then architectural fix (`ab86aef`), then Codex-flagged perf (`aac266e` — one-shot `_init_scan_type_map` + reentrant `_REGISTRY_LOCK` + idempotency contract test + 20×20 race-stress test), then a separate test-infra hygiene commit (`d372a08` — opt-in `--run-integration` flag for `tests/integration/`).
+- Federico's locked acceptance bar for the fix: delete duplicated dispatch maps; route both call sites through `valdi.run_gated_scan(...)`; establish gate context on the execution thread (preferred shape: open `gated_execution(decision)` inside the pool worker, not `copy_context().run`); keep `tests/test_valdi_runtime_pool.py` green; add an assertion-level test that a newly registered scan type reaches execution through the shared path. All five satisfied.
+- Side-effect of routing CT through the registered batch function (`query_crt_sh([domain])`): scan_job's `ct_certificates` now actually populates (was silently empty due to a latent type-mismatch from the un-registered `query_crt_sh_single` returning a tuple). Legacy cache compat branch preserves the old `[domain, certs]` JSON shape during the rollout window.
+- Test-infra gating scoped to the `tests/integration/` directory, not the `integration` pytest marker — Codex caught the over-broad first cut (the marker is also used by `test_twin_regression.py::TestTwinLiveHTTP` for self-contained loopback-HTTP tests that don't need `make dev-up`).
+- Codex review trail for the fix commit: round 1 flagged crtsh cache shape compat, fixed; round 2 flagged registry race + per-call init perf, fixed both; round 3 clean. Test-gating commit: round 1 flagged over-broad marker scope, fixed; round 2 clean.
+
+**Memory updates during the cycle**
+
+- None added — existing rules covered the situation (codex_before_commit, no_assumed_agreement, codex_finding_scope, label_command_host, no_claude_signature).
+
+**Rejected**
+
+- `copy_context().run` on `executor.submit` as the B1 fix — Federico explicitly rejected for being a short-term patch ("I would not use copy_context().run except as a short-term patch"). Per-thread `gated_execution(decision)` inside the pool worker is the right shape.
+- Bundling the architectural fix with the failing test in one commit — Federico chose the before/after pair to preserve evidence ("It preserves proof that the regression was real on the branch, not only inferred"). Committed the failing test first as a baseline.
+- Updating `infra/compose/secrets.dev/console_password` discovery to fall back to a user-scope path — the test-infra gating skips the test by default instead, preserving the conftest's "fail loud when actually running" philosophy.
+- Updating `.gitignore` for `logs/valdi/` (forensic logs from test runs are currently untracked) — flagged as out-of-scope and left for a separate decision.
+
+**Unresolved**
+
+- **PR #57 merge state is `CONFLICTING`** (`gh pr view 57`). The branch diverged at `b4c30f2`; `d35b411` (Stage A.5) landed on `main` afterwards. Branch needs `git rebase main` (or `git merge main`) before it can be merged. Likely conflict surface: `src/db/migrate.py` (both branches added rows to `_COLUMN_ADDS`), `docs/architecture/client-db-schema.sql` (both added schema), `src/db/scans.py`, `src/db/worker_hook.py`. Suite is green on the branch tip, but the rebase needs its own conftest run + Codex review pass before push.
+- **Architect's S1–S3 follow-ups deferred out of scope of PR #57:**
+  - **S1** — per-job DB I/O on the worker hot path (`gate_or_raise` → `init_db` re-runs DDL `executescript` + WAL checkpoint per gate decision). Fix sketch: pass an open writer connection in.
+  - **S2** — forensic-log volume in `logs/valdi/` (one markdown per decision, no rotation, also not gitignored). Fix sketch: reserve markdown for blocks + first-pass conversion events.
+  - **S3** — `scan_history.gate_decision_id` is silently nullable; nothing fails loudly when a future bug drops the line in `worker/main.py:443`. Fix sketch: add a fail-loud invariant in `save_scan_to_db` for worker-surface writes.
+- **Codex P2 follow-ups already committed:** `aac266e` made `_init_scan_type_map` one-shot and added the reentrant `_REGISTRY_LOCK`. No remaining Codex findings on the branch tip.
+- **Author identity on commits:** all five commits use the hostname-derived `Federico Alvarez <fsaf@Federicos-MacBook-Pro.local>` because `user.email` isn't configured in the worktree. Federico declined to amend. If a clean public author trail is needed before merge: `git config user.email <yours>` then `git rebase --exec 'git commit --amend --reset-author --no-edit' 4e53224..` then `git push --force-with-lease`.
+- **CLAUDE.md / agent SKILL.md sync:** the new `valdi.run_gated_scan` + per-thread gate contract is not yet referenced in `.claude/agents/valdi/SKILL.md`. Future scanner additions should mention the registry public API (`get_scan_function`, `iter_registered_scan_types`) and the contract that every registered scan executes through `run_gated_scan` from a `gated_execution(decision)` scope on the calling thread. Optional polish; not blocking PR #57.
+
+**Suggested opening prompt for next session:** "Rebase PR #57 on top of main (Stage A.5 has landed); resolve likely conflicts in src/db/migrate.py + docs/architecture/client-db-schema.sql; re-run pytest + codex review; push --force-with-lease; then optionally pick up architect's S1–S3 follow-ups (per-job DB I/O / forensic-log rotation / fail-loud gate_decision_id)."
+
+**Post-wrap-up actions (same session):**
+- `1a8dd54` — `.gitignore`: added `logs/valdi/` (the runtime forensic-log path was missed when commit `4e53224` moved writers off the legacy `.claude/agents/valdi/compliance/` path).
+- Rebased `feat/valdi-runtime-hardening` onto `origin/main` (Stage A.5 / `d35b411` now in base). One conflict file: `tests/test_db_connection.py` — purely additive, kept Stage A.5's `command_audit` / `config_changes` / 12 audit triggers AND valdí's `valdi_envelopes` / `valdi_gate_decisions` AND both new tests. Commits 2–7 replayed cleanly.
+- Full suite re-run on rebased tip: 1688 passed, 21 skipped, 0 errors (was 1549 / 21 / 0 pre-rebase; +139 are Stage A.5 tests now reachable).
+- Force-pushed with `--force-with-lease`. PR #57 transitioned `CONFLICTING` → `MERGEABLE`.
+- `1773d65` — `.claude/agents/valdi/SKILL.md`: added "Runtime Execution Contract" subsection to Gate 1 documenting the `run_gated_scan` + per-thread `gated_execution(decision)` invariant. Names the public registry surface (`get_scan_function`, `get_scan_functions_for_level`, `iter_registered_scan_types`) and gives valdí an explicit Gate 1 acceptance criterion: REJECT submissions that compose their own lookup-then-call path against the registry. Required two rounds of explicit operator re-authorization (the permission system flagged "Fix SKILL.md" as ambiguous against CLAUDE.md's `.claude/agents/` modification rule).
+
+PR #57 final state: 8 commits, MERGEABLE, suite green.
