@@ -156,11 +156,18 @@ class _WSRequestAdapter:
 
     ``write_console_audit_row`` only reads ``.client``, ``.headers``,
     and ``.state`` from its request argument; the WS scope exposes the
-    first two natively, and ``.state`` is a fresh ``SimpleNamespace``
-    because the WS path has no SessionAuthMiddleware to pre-populate
-    operator / session / request-id attributes — the helper passes
-    those explicitly via kwargs instead. Slice 3g spec §4.2 locks this
-    adapter shape so the audit writer stays HTTP-Request-only.
+    first two natively. Operator / session ids are passed by the
+    handler via explicit kwargs (no SessionAuthMiddleware on the WS
+    path — slice 3g spec §4.2 locked this).
+
+    Stage A.5 §4.3.6: ``request_id`` IS read off the ASGI scope. The
+    outermost ``RequestIdMiddleware`` populates ``scope['state']
+    ['request_id']`` for both HTTP and WebSocket scopes; the adapter
+    threads it onto ``self.state.request_id`` so the audit writer
+    (which reads ``getattr(state, 'request_id', None)``) lands the
+    same UUID on the ``liveops.ws_connected`` row that the cross-DB
+    correlation query expects. Header fallback covers test paths
+    that bypass the middleware (drives the same format guard).
     """
 
     __slots__ = ("client", "headers", "state")
@@ -169,6 +176,22 @@ class _WSRequestAdapter:
         self.client = websocket.client  # Address(host, port) | None
         self.headers = websocket.headers
         self.state = SimpleNamespace()
+        # Lazy-import to keep the auth.request_id module out of any
+        # import-cycle path through src.api.console.
+        from src.api.auth.request_id import _validate_or_generate
+
+        scope_state = websocket.scope.get("state") or {}
+        scope_rid = scope_state.get("request_id")
+        if scope_rid:
+            self.state.request_id = scope_rid
+        else:
+            # Defensive fallback — e.g. a unit test that drives the
+            # WS handler directly without mounting the middleware.
+            # Validates the inbound header through the same guard so
+            # malformed values cannot leak past.
+            self.state.request_id = _validate_or_generate(
+                websocket.headers.get("x-request-id")
+            )
 
 
 def _build_pseudo_request(websocket: WebSocket) -> _WSRequestAdapter:
