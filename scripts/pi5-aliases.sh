@@ -27,8 +27,29 @@ export HEIMDALL_TAG="$(cd "$HEIMDALL_DIR" && git rev-parse --short HEAD 2>/dev/n
 # Pi5 tracks the `prod` branch. `main` is dev-tested work; `prod` is
 # what has also passed `make dev-smoke` on the laptop AND been pushed
 # via the .githooks/pre-push gate. See docs/runbook-prod-deploy.md.
-alias heimdall-deploy="cd $HEIMDALL_DIR && git fetch origin && git checkout prod && git pull --ff-only origin prod && docker compose -p docker -f $COMPOSE_FILE build worker && docker compose -p docker -f $COMPOSE_FILE build api scheduler delivery && docker compose -p docker -f $COMPOSE_FILE -f $COMPOSE_MON up -d --force-recreate --remove-orphans"
-alias heimdall-quick="cd $HEIMDALL_DIR && git fetch origin && git checkout prod && git pull --ff-only origin prod && docker compose -p docker -f $COMPOSE_FILE build scheduler api && docker compose -p docker -f $COMPOSE_FILE -f $COMPOSE_MON up -d --force-recreate --remove-orphans"
+heimdall-deploy() {
+    cd "$HEIMDALL_DIR" || return 1
+    git fetch origin || return 1
+    git checkout prod || return 1
+    git pull --ff-only origin prod || return 1
+    # Recompute after the pull so image labels match the deployed SHA.
+    # Line-25 export is the shell-load default; this overrides it for
+    # the build that follows.
+    export HEIMDALL_TAG="$(git rev-parse --short HEAD)$(git diff --quiet || echo -dirty)"
+    docker compose -p docker -f "$COMPOSE_FILE" build worker || return 1
+    docker compose -p docker -f "$COMPOSE_FILE" build api scheduler delivery || return 1
+    docker compose -p docker -f "$COMPOSE_FILE" -f "$COMPOSE_MON" up -d --force-recreate --remove-orphans
+}
+
+heimdall-quick() {
+    cd "$HEIMDALL_DIR" || return 1
+    git fetch origin || return 1
+    git checkout prod || return 1
+    git pull --ff-only origin prod || return 1
+    export HEIMDALL_TAG="$(git rev-parse --short HEAD)$(git diff --quiet || echo -dirty)"
+    docker compose -p docker -f "$COMPOSE_FILE" build scheduler api || return 1
+    docker compose -p docker -f "$COMPOSE_FILE" -f "$COMPOSE_MON" up -d --force-recreate --remove-orphans
+}
 alias heimdall-export="cd $HEIMDALL_DIR && docker compose -p docker -f $COMPOSE_FILE run --rm --no-deps -v $HEIMDALL_DIR/data/input:/data/input:ro -v $HEIMDALL_DIR/data/output:/data/output --entrypoint sh worker -c 'PYTHONPATH=/app python3 scripts/export_results.py --results-dir /data/results --output-dir /data/output --cvr-file /data/input/CVR-extract.xlsx'"
 alias heimdall-analyze="cd $HEIMDALL_DIR && docker compose -p docker -f $COMPOSE_FILE run --rm --no-deps -v $HEIMDALL_DIR/data/output:/data/output:ro --entrypoint sh worker -c 'PYTHONPATH=/app python3 scripts/analyze_pipeline.py --results-dir /data/results'"
 alias heimdall-deep="cd $HEIMDALL_DIR && docker compose -p docker -f $COMPOSE_FILE run --rm --no-deps -v $HEIMDALL_DIR/data/output:/data/output:ro --entrypoint sh worker -c 'PYTHONPATH=/app python3 scripts/analyze_pipeline.py --results-dir /data/results --deep'"
