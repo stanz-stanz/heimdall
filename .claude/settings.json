@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(gh push:*)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {
@@ -54,6 +60,11 @@
           {
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/precommit_codex_review_guard.py\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/prod_branch_commit_guard.py\"",
             "timeout": 10
           }
         ]
