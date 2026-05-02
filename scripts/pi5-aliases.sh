@@ -27,7 +27,13 @@ export HEIMDALL_TAG="$(cd "$HEIMDALL_DIR" && git rev-parse --short HEAD 2>/dev/n
 # Pi5 tracks the `prod` branch. `main` is dev-tested work; `prod` is
 # what has also passed `make dev-smoke` on the laptop AND been pushed
 # via the .githooks/pre-push gate. See docs/runbook-prod-deploy.md.
-heimdall-deploy() {
+# Function names use underscores (POSIX-compliant); the user-facing
+# `heimdall-deploy` / `heimdall-quick` names are aliased below so the
+# operator's existing muscle memory works unchanged. POSIX-mode bash
+# (`set -o posix`, common in Debian/Raspbian login shells) rejects
+# function names with hyphens — caught when sourcing this file on Pi5
+# 2026-05-02.
+_heimdall_deploy() {
     cd "$HEIMDALL_DIR" || return 1
     git fetch origin || return 1
     git checkout prod || return 1
@@ -40,8 +46,9 @@ heimdall-deploy() {
     docker compose -p docker -f "$COMPOSE_FILE" build api scheduler delivery || return 1
     docker compose -p docker -f "$COMPOSE_FILE" -f "$COMPOSE_MON" up -d --force-recreate --remove-orphans
 }
+alias heimdall-deploy='_heimdall_deploy'
 
-heimdall-quick() {
+_heimdall_quick() {
     cd "$HEIMDALL_DIR" || return 1
     git fetch origin || return 1
     git checkout prod || return 1
@@ -50,6 +57,7 @@ heimdall-quick() {
     docker compose -p docker -f "$COMPOSE_FILE" build scheduler api || return 1
     docker compose -p docker -f "$COMPOSE_FILE" -f "$COMPOSE_MON" up -d --force-recreate --remove-orphans
 }
+alias heimdall-quick='_heimdall_quick'
 alias heimdall-export="cd $HEIMDALL_DIR && docker compose -p docker -f $COMPOSE_FILE run --rm --no-deps -v $HEIMDALL_DIR/data/input:/data/input:ro -v $HEIMDALL_DIR/data/output:/data/output --entrypoint sh worker -c 'PYTHONPATH=/app python3 scripts/export_results.py --results-dir /data/results --output-dir /data/output --cvr-file /data/input/CVR-extract.xlsx'"
 alias heimdall-analyze="cd $HEIMDALL_DIR && docker compose -p docker -f $COMPOSE_FILE run --rm --no-deps -v $HEIMDALL_DIR/data/output:/data/output:ro --entrypoint sh worker -c 'PYTHONPATH=/app python3 scripts/analyze_pipeline.py --results-dir /data/results'"
 alias heimdall-deep="cd $HEIMDALL_DIR && docker compose -p docker -f $COMPOSE_FILE run --rm --no-deps -v $HEIMDALL_DIR/data/output:/data/output:ro --entrypoint sh worker -c 'PYTHONPATH=/app python3 scripts/analyze_pipeline.py --results-dir /data/results --deep'"
