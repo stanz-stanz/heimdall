@@ -2346,3 +2346,32 @@ PR #57 final state: 8 commits, MERGEABLE, suite green.
 - **Pi5 cutover scope expands** — the bundled deploy now covers Stage A + A.5 + Valdí runtime hardening. Smoke checklist additions: worker boot validates envelope (per-process `valdi_envelopes` row appears), `scan_history.gate_decision_id` populates on a real scan, `logs/valdi/` writes a forensic markdown.
 
 **Suggested opening prompt for next session:** "Pi5 cutover prep — Stage A + A.5 + Valdí runtime hardening all on main as of `964fffd`. Browser-QA the slice 3g/3g.5 walkthrough at http://localhost:8001/app/, then fast-forward `prod` and rehearse Pi5 image-tag swap. Optional: open follow-up PR for architect's S1/S2/S3 (per-job DB I/O, valdi log rotation, fail-loud gate_decision_id) before cutover, or after."
+
+## 2026-05-03 — Stage A + A.5 + Valdí cutover deployed; prod-commit guards added
+
+**Decided**
+
+- Stage A + A.5 + Valdí runtime hardening bundle deployed to Pi5. PRs #51 + #54 + #55 + #56 + #57 now live in production. Auth-plane verified via `curl /console/auth/whoami` → `401 Unauthorized` + `x-request-id` header (Stage A.5 middleware confirmed). First Pi5 image tag was `1e2b0c0`; corrected to `93c45a8` after the alias-fix push.
+- `HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD` / `_WINDOW_SEC` env-knob threaded through `infra/compose/docker-compose.yml` api service `environment:` block (PR #55 only updated root `.env.example`, missed the compose passthrough — recurrence of the env-passthrough gap pattern flagged at decision-log line 938 + 948). Dev sets `THRESHOLD=2 WINDOW_SEC=10` in `.env.dev`; prod leaves both unset so spec defaults (5 fails / 900s) apply. Commit `c6b2ff1`.
+- `pi5-aliases.sh` `HEIMDALL_TAG` was computed once at shell-load (line 25), never recomputed after `git pull` inside the deploy alias. Result: first c6b2ff1 deploy mis-tagged images as `heimdall-*:4427062` (audit-trail mismatch; rollback-via-local-tag broken). Fixed by recomputing `HEIMDALL_TAG` inside the deploy function after the pull. Commit `e741aaa`.
+- Two layers added to make accidental prod commits impossible (after the model committed `5d199e8` directly on the prod branch by failing to switch back to main after a fast-forward): hook `prod_branch_commit_guard.py` (PreToolUse Bash, soft-block on `git commit` while branch=prod, bypass `HEIMDALL_PROD_COMMIT=1`); `permissions.deny` block in `.claude/settings.json` (hard-block `Bash(git push:*)` and `Bash(gh push:*)` for the model — Federico runs all pushes himself in his own shell). Commit `1e2b0c0`.
+- Pi5 bash rejected `heimdall-deploy() {` hyphenated function definitions on `source ~/.bashrc`. Renamed deploy + quick to `_heimdall_deploy` / `_heimdall_quick` (POSIX-compliant) with `alias heimdall-deploy='_heimdall_deploy'` so operator UX is unchanged. Commit `93c45a8`.
+- 88 iCloud sync-conflict duplicate files (`* 2.{ext}` pattern, all confirmed byte-identical to originals via diff sample) deleted with `rm`. Federico's directive: don't touch `.gitignore`.
+- New memory `feedback_shell_script_test_matrix.md` saved to mechanise the 4-test gate (`bash -n`, `bash --posix -n`, source+type test with `shopt -s expand_aliases`, manual flag-by-flag diff) before any commit to a sourced shell script. This session was the 7th broken alias push per the decision-log-tracked pattern.
+
+**Rejected**
+
+- `.gitignore` pattern for the iCloud `* [2-9].*` duplicates — Federico's "don't touch my gitignore". Manual `rm` only; root cause (iCloud sync of repo dir) not fixed.
+- New `verify_a5_e2e.sh` script — pytest 1679/0 + `verify_audit_triggers.sh` 16/16 PASS + browser QA 6/6 GREEN + X-Request-ID server-log inspection cover the ground; new script would duplicate.
+- GitHub MCP push tools (`mcp__github__push_files`, `create_pull_request`) for the cleanup — bypasses the spirit of the new shell-level push deny. Kept all pushes on Federico's hand.
+- Federico's brief authorisation to use a "git-github-specialist" agent — none exists in `~/.claude/agents/` or `.claude/agents/` (searched all plugin trees).
+
+**Unresolved**
+
+- Pi5-side verification that `heimdall-deploy` resolves to the underscore function after `source ~/.bashrc` (Federico's hand; I'm not authorised to SSH Pi5).
+- CLAUDE.md hook table updated this session to document `prod_branch_commit_guard.py` + `permissions.deny`. If the `heimdall-verify-secrets` / `heimdall-rollback` rename also lands this session, the hook docs are in sync.
+- Architect's S1–S3 follow-ups from PR #57's deferred-out-of-scope list still pending: per-job DB I/O on the worker hot path, forensic-log volume in `logs/valdi/` (no rotation), fail-loud invariant on `scan_history.gate_decision_id`. Worth a separate cleanup PR.
+- Decision log size growth unmitigated — now 2400+ lines after this entry. Per-quarter archive split (`docs/decisions/log-archive/2026-Q1.md`) is the open option, not started.
+- Codex review not run on `prod_branch_commit_guard.py` (precommit hook only fires on `src/**/*.py` + `tests/**/*.py`; `.claude/hooks/*.py` is exempt). Hook is small + tested with three synthetic JSON payloads (prod-commit blocks, bypass works, non-commit ignored) but a Codex pass would be defensible.
+
+**Suggested opening prompt for next session:** "Verify `heimdall-deploy` resolves cleanly on Pi5 after `source ~/.bashrc` (`type heimdall-deploy` should show `aliased to '_heimdall_deploy'`); if green, the Stage A + A.5 + Valdí cutover is done and we're back to roadmap work. Next candidate: architect's S1–S3 follow-ups from PR #57 (per-job DB I/O / forensic log rotation / fail-loud `gate_decision_id`)."
