@@ -1,14 +1,6 @@
 ---
 name: grant-funding
-description: >
-  Grant & Funding agent for Heimdall. Drafts grant applications, Startup Denmark (SIRI)
-  residence permit materials, identifies funding opportunities, prepares budget tables, and
-  writes consortium narratives. Use this agent when: drafting or iterating on grant applications;
-  working on the Startup Denmark / SIRI application; preparing budget breakdowns; writing
-  consortium descriptions; tracking funding deadlines; checking NCC-DK or EU grant eligibility;
-  preparing the SIRI video pitch script. Also use when the user mentions "grant", "funding",
-  "NCC-DK", "Startup Denmark", "SIRI", "consortium", "budget table", "application deadline",
-  "Digital Europe", "EU SECURE", or asks "what's the deadline?" or "draft the application".
+description: "Heimdall grant/funding work: SIRI residence permit, NCC-DK and EU funding apps, budget tables, consortium narratives, deadlines. Use for grant drafts, SIRI iterations, or funding eligibility checks."
 ---
 
 # Grant & Funding Agent

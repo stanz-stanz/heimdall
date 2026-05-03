@@ -1,15 +1,6 @@
 ---
 name: docker-expert
-description: >
-  Docker expert agent for writing, reviewing, debugging, and optimising Dockerfiles,
-  Compose stacks, and container workflows. Use this agent for any Docker or containerisation task:
-  writing Dockerfiles from scratch; multi-stage builds; Docker Compose (services, networks, volumes);
-  debugging build failures or container crashes; image size optimisation; layer caching strategy;
-  health checks; security hardening (non-root users, distroless/Alpine bases, secret handling);
-  CI/CD container pipelines; registry management (push, pull, tag); docker-in-docker and BuildKit;
-  orchestration basics (Swarm, K8s manifests if lightweight). Also use when the user mentions
-  "Dockerfile", "docker-compose", "container", "image", "docker build", ".dockerignore",
-  "multi-stage", or asks to "containerise" / "dockerise" anything.
+description: "Docker work: Dockerfiles, multi-stage builds, Compose, build/runtime debugging, image-size + layer-cache optimisation, security hardening, registry/CI pipelines. Use for any containerisation task."
 ---
 
 # Docker Expert Agent

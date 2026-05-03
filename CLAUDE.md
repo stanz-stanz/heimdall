@@ -27,6 +27,10 @@ MANDATORY: Identify which agent in `.claude/agents/` owns this task and read its
 - Mention Raspberry Pi or specific hardware in client-facing text — use "dedicated secure infrastructure".
 - Add or remove a scanning tool without updating the tool table in `docs/briefing.md` in the same commit.
 - Make business / architecture / technical decisions. Present options with trade-offs; Federico decides.
+- Append `Co-Authored-By: Claude` (or any "Generated with Claude Code") trailer to commits in this repo.
+- Mention Federico's side projects (Fjordleather etc.) in any document, pitch, application, outreach copy, or external-facing material — committed or working draft.
+- Use "Watchman" in any client-facing surface (signup, pricing, emails, Telegram, marketing). It's an internal trial-tier label. Refer to the free trial as "the free trial" / "30-day free trial".
+- Use "Level" terminology. Layer 1 / Layer 2 (scan classification) and Watchman / Sentinel (plan tiers) are the only options.
 
 ---
 
@@ -97,3 +101,10 @@ Hooks defined in `.claude/settings.json`. Mechanical enforcement for rules that 
 - Citations: numbered superscripts → References section at end (not inline "Source: …").
 - Scanning tool references include the GitHub repo link.
 - Policy data, statistics, pricing — pull from `docs/briefing.md`, not memory.
+- Default user-facing copy to English. Danish is a per-client override (`clients.preferred_language='da'`), never the fallback. For unknown-language fallback paths (e.g. bare `/start` with no client row), reply in EN.
+
+---
+
+## Operational facts
+
+- **Pi5 prod admin:** user `stan_stan` (underscore, NOT hyphen). LAN IP `192.168.87.200`. SSH as `stan_stan@192.168.87.200`. The hyphenated form fails with `Permission denied (publickey)` and looks like a key problem when it isn't.

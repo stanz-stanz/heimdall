@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""SessionStart hook — inject current git state and priority rules.
+"""SessionStart hook — inject current git state.
 
 Runs once at session start (or resume). Gathers branch, status, recent
-commits, and the latest decision log headline. Adds a reminder of the
-top priority rules the other hooks enforce.
+commits, and the latest decision log headline. The priority rules
+themselves live in CLAUDE.md (Do not + Hook contracts) — no point
+duplicating them here.
 """
 import json
 import os
@@ -11,12 +12,6 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-
-TOP_RULES = [
-    ("DEAL BREAKER", "You present alternatives; Federico decides. Never make product, architecture, or technical decisions autonomously."),
-    ("Infra danger zone", "Before editing .gitignore, docker-compose, Dockerfile, .env, workflows, or pyproject.toml: read docs/decisions/log.md. (A hook injects it automatically, but the reminder matters.)"),
-    ("Destructive git", "git reset --hard, git checkout --, git restore ., git clean -f are all blocked by hook — never try to route around them."),
-]
 
 
 def run(cmd, cwd):
@@ -75,11 +70,6 @@ def main():
 
     if log_headline:
         parts.append(f"Last decision log entry: {log_headline}{log_age_note}")
-
-    parts.append("")
-    parts.append("TOP PRIORITY RULES (most are hook-enforced, but stay aware):")
-    for tag, rule in TOP_RULES:
-        parts.append(f"  [{tag}] {rule}")
 
     context = "\n".join(parts)
 

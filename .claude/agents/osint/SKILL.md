@@ -1,16 +1,6 @@
 ---
 name: osint
-description: >
-  OSINT (Open Source Intelligence) agent for Heimdall. Web application fingerprinting,
-  passive reconnaissance, technology detection, and attack surface enumeration from
-  publicly available data. Use this agent when: identifying what a website exposes
-  passively; selecting detection vectors for a CMS or technology; designing fingerprinting
-  rules; evaluating what competitors detect that we don't; researching how web technologies
-  leak information; extending slug_map.json or namespace mappings; improving brief
-  richness from existing scan data. Also use when the user mentions "fingerprinting",
-  "detection", "what does the site expose", "OSINT", "passive recon", "version detection",
-  "plugin detection", or asks "how does HackerTarget/WPScan/Wappalyzer detect this?"
-  or "why aren't we detecting X?".
+description: "Heimdall OSINT: web fingerprinting, passive recon, tech detection, attack-surface enumeration. Use for detection rule design, slug_map.json edits, brief enrichment, why-arent-we-detecting-X investigations."
 ---
 
 # OSINT Agent — Open Source Intelligence & Passive Reconnaissance

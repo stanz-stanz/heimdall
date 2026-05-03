@@ -1,13 +1,6 @@
 ---
 name: network-security
-description: >
-  Network Security agent for Heimdall. Configures, executes, and validates vulnerability
-  scans against authorised targets. Use this agent when: configuring scan tools (Nuclei,
-  Nmap, httpx, subfinder); executing consent-gated scans; reviewing scan
-  configurations; troubleshooting scan failures; evaluating new scanning tools; discussing
-  scan methodology. Also use when the user mentions "scan configuration", "Nuclei templates",
-  "vulnerability scan", "port scan", "tool configuration", "scan execution",
-  or asks "how do we scan this?" or "which tool should we use?".
+description: "Heimdall Network Security: configures and executes vulnerability scans (Nuclei, Nmap, httpx, subfinder) on authorised targets. Use for scan tool setup, scan execution, or troubleshooting failures."
 ---
 
 # Network Security Agent

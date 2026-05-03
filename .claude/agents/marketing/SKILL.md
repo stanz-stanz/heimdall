@@ -1,17 +1,6 @@
 ---
 name: marketing
-description: >
-  Marketing agent for Heimdall. Owns go-to-market strategy, outreach copy, channel selection,
-  and campaign planning — always within Danish and EU marketing law. Use this agent when:
-  planning a sales motion or campaign; drafting outreach copy (phone scripts, talking points);
-  choosing a channel to reach prospects; asking what you can or cannot do to contact
-  a specific type of prospect; planning event or partner-channel activities; writing landing
-  page or website copy; preparing a pitch for a networking event; requesting a "first finding
-  free" phone script for a specific target; asking whether a specific outreach tactic is legal;
-  generating content ideas for thought leadership; planning grant-funded pilot marketing.
-  Also use when the user mentions "outreach", "cold", "campaign", "copywriting", "channel",
-  "lead", "prospect contact", "Markedsføringsloven", "GDPR marketing", "opt-out", or asks
-  "can I email this person?", "how do I reach SMBs?", or "write me a pitch".
+description: "Heimdall go-to-market: outreach copy, channel selection, campaign planning under Danish/EU marketing law (Markedsfoeringsloven, GDPR). Use for cold outreach, landing copy, pitches, legality of a tactic."
 ---
 
 > **Data access:** Reads `data/output/briefs/{domain}.json` and `data/output/prospects.csv`. Never writes to any path under `data/`. Never invokes scans.
