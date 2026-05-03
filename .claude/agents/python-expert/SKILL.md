@@ -1,15 +1,6 @@
 ---
 name: python-expert
-description: >
-  Python expert agent for writing, reviewing, debugging, and improving Python code.
-  Use this agent for any Python-related task: writing scripts, modules, or full applications;
-  debugging errors and tracebacks; refactoring for performance, readability, or idiomatic style;
-  writing tests (pytest, unittest); dependency management (pip, poetry, venv);
-  async/await patterns; type hints and mypy compliance; data work with pandas/numpy;
-  API design (FastAPI, Flask); CLI tools (click, argparse); packaging and publishing to PyPI.
-  Also use when reviewing existing Python code for best practices, security issues,
-  or when the user says anything like "write it in Python", "fix my Python", "Pythonic way",
-  "Python script", "PEP 8", or mentions .py files.
+description: "Python work: write/review/debug/refactor Python; pytest, async/await, type hints, dependency mgmt, FastAPI/Flask APIs, CLI tools, packaging. Use for any Python-related task or .py file."
 ---
 
 # Python Expert Agent

@@ -88,7 +88,7 @@ alias heimdall-validate="bash $HEIMDALL_DIR/scripts/validate_pi5.sh"
 # Uses `test -s` (exit code only) — never reads secret contents. Even a byte
 # count leaks signal, so no cat/head/wc. The env-var absence check catches
 # a PR-D regression where a service still pulls the key from the environment.
-heimdall-verify-secrets() {
+_heimdall_verify_secrets() {
     local fail=0
     local svc
     for svc in scheduler api delivery; do
@@ -107,6 +107,7 @@ heimdall-verify-secrets() {
     echo "OK: claude_api_key populated via /run/secrets in 3 services, no env fallback"
     return 0
 }
+alias heimdall-verify-secrets='_heimdall_verify_secrets'
 
 # List locally-cached SHA-tagged Heimdall images — first-choice rollback
 # targets. If a SHA is not in this list, heimdall-rollback falls through
@@ -122,7 +123,7 @@ HEIMDALL_GHCR_OWNER="${HEIMDALL_GHCR_OWNER:-stanz-stanz}"
 # Tries local cache first; if absent, pulls all 5 images from GHCR,
 # retags atomically, then recreates the stack. If any pull fails, no
 # retag happens — local state stays consistent.
-heimdall-rollback() {
+_heimdall_rollback() {
     local target="${1:-}"
     if [ -z "$target" ]; then
         echo "usage: heimdall-rollback <short-sha>"
@@ -157,3 +158,4 @@ heimdall-rollback() {
     cd "$HEIMDALL_DIR" || return 1
     HEIMDALL_TAG="$target" docker compose -p docker -f "$COMPOSE_FILE" -f "$COMPOSE_MON" up -d --force-recreate --remove-orphans
 }
+alias heimdall-rollback='_heimdall_rollback'

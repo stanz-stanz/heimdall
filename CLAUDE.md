@@ -79,8 +79,11 @@ Hooks defined in `.claude/settings.json`. Mechanical enforcement for rules that 
 | `inline_script_guard.py` | PreToolUse / `Bash` | Soft-blocks inline `python -c` / `node -e` > 150 chars or multi-line. |
 | `main_branch_push_guard.py` | PreToolUse / `Bash` | Soft-blocks `git push origin main` when local commits include `src/**/*.py`. |
 | `precommit_codex_review_guard.py` | PreToolUse / `Bash` | Soft-blocks `git commit` when staged diff includes `src/**/*.py` or `tests/**/*.py` and the command lacks `HEIMDALL_CODEX_REVIEWED=1`. |
+| `prod_branch_commit_guard.py` | PreToolUse / `Bash` | Soft-blocks `git commit` when current branch is `prod`. Bypass `HEIMDALL_PROD_COMMIT=1` for deliberate hotfixes. Branching rule: features → branch + PR; bug fixes → main; prod only ever fast-forwards from main. |
 | `ci_config_reminder.py` | PostToolUse / `Edit\|Write` | Reminds to push + `gh run watch` after editing CI/dep files. |
 | `session_start_context.py` | SessionStart | Injects branch, status, recent commits, latest decision-log headline. |
+
+**Permissions deny (project `settings.json`).** `permissions.deny` hard-blocks `Bash(git push:*)` and `Bash(gh push:*)` for the model. Federico runs all pushes himself in his own shell. Layered with `prod_branch_commit_guard.py` to make the 2026-05-02 prod-commit accident impossible to repeat.
 
 **Limitation.** shlex doesn't read shell heredocs — `git commit -F - <<'EOF'` with dangerous text in the body can false-fire the destructive/secret guards. Workaround: write the message to a tempfile, `git commit -F /tmp/msg.txt`.
 
@@ -100,3 +103,10 @@ Hooks defined in `.claude/settings.json`. Mechanical enforcement for rules that 
 - Citations: numbered superscripts → References section at end (not inline "Source: …").
 - Scanning tool references include the GitHub repo link.
 - Policy data, statistics, pricing — pull from `docs/briefing.md`, not memory.
+- Default user-facing copy to English. Danish is a per-client override (`clients.preferred_language='da'`), never the fallback. For unknown-language fallback paths (e.g. bare `/start` with no client row), reply in EN.
+
+---
+
+## Operational facts
+
+- **Pi5 prod admin:** user `stan_stan` (underscore, NOT hyphen). LAN IP `192.168.87.200`. SSH as `stan_stan@192.168.87.200`. The hyphenated form fails with `Permission denied (publickey)` and looks like a key problem when it isn't.

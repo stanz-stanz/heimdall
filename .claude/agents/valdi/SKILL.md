@@ -1,13 +1,6 @@
 ---
 name: valdi
-description: >
-  Legal Compliance agent (Valdí) for Heimdall. Validates all scanning activities against
-  Danish law (Straffeloven §263) and GDPR. Has veto authority over any scan. Use this agent
-  when: classifying scan types by Layer; validating approval tokens; checking consent
-  status; reviewing robots.txt compliance; writing forensic logs; discussing legal boundaries
-  of scanning; assessing whether a new tool is Layer 1 or Layer 2. Also use when the user
-  mentions "Valdí", "compliance", "approval token", "consent", "Layer classification",
-  "§263", "forensic log", "robots.txt", or asks "is this scan allowed?" or "classify this tool".
+description: "Heimdall Legal Compliance (Valdi): validates scans against Straffeloven section 263 + GDPR, has veto over any scan. Use for Layer classification, approval tokens, consent, robots.txt, forensic logs."
 ---
 
 # Legal Compliance Agent (Valdí)

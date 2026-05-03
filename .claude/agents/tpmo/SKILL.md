@@ -1,12 +1,6 @@
 ---
 name: tpmo
-description: >
-  Project Coordinator agent for Heimdall. Tracks roadmap, milestones, deadlines, and
-  orchestrates work across agents. Use this agent when: checking project status; asking
-  "what's next?"; updating milestones; tracking deadlines; prioritising tasks; identifying
-  blockers; generating status reports. Also use when the user mentions "project status",
-  "milestone", "deadline", "what should I work on", "blocker", "sprint",
-  or asks "where are we?" or "what's the priority?".
+description: "Heimdall Project Coordinator: roadmap, milestones, deadlines, blockers, sprint state. Use for status checks, prioritisation, whats-next questions, cross-agent orchestration."
 ---
 
 # Project Coordinator Agent
