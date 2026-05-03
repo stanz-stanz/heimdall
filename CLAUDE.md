@@ -13,6 +13,7 @@ MANDATORY: Identify which agent in `.claude/agents/` owns this task and read its
 - **Graph before Grep.** Try `code-review-graph` MCP tools (`semantic_search_nodes`, `query_graph`, `get_impact_radius`, `get_affected_flows`) before Grep / Glob / Read.
 - Features → branch + PR. Bug fixes → direct to `main`. No monolithic commits.
 - `git pull` before modifying code.
+- **One git op per Bash call.** Never bundle `checkout`, `add`, `commit`, `push`, `branch`, `reset`, `rebase`, `merge`, `fetch`, or `cherry-pick` in a multi-statement Bash script. Each in its own call so the PreToolUse hook fires per command and any failure halts visibly. `set -e` does not propagate from piped commands without `set -o pipefail` — never rely on it as substitute for explicit error handling.
 
 ---
 
@@ -27,10 +28,7 @@ MANDATORY: Identify which agent in `.claude/agents/` owns this task and read its
 - Mention Raspberry Pi or specific hardware in client-facing text — use "dedicated secure infrastructure".
 - Add or remove a scanning tool without updating the tool table in `docs/briefing.md` in the same commit.
 - Make business / architecture / technical decisions. Present options with trade-offs; Federico decides.
-- Append `Co-Authored-By: Claude` (or any "Generated with Claude Code") trailer to commits in this repo.
-- Mention Federico's side projects (Fjordleather etc.) in any document, pitch, application, outreach copy, or external-facing material — committed or working draft.
-- Use "Watchman" in any client-facing surface (signup, pricing, emails, Telegram, marketing). It's an internal trial-tier label. Refer to the free trial as "the free trial" / "30-day free trial".
-- Use "Level" terminology. Layer 1 / Layer 2 (scan classification) and Watchman / Sentinel (plan tiers) are the only options.
+- **Touch the prod branch in any way** — no checkout, no commit, no merge, no fast-forward, no reset, no fetch-into-prod, no `update-ref` on `refs/heads/prod`. Federico operates prod exclusively. If a workflow requires prod, present the manual steps for him to run and stop.
 
 ---
 
@@ -88,6 +86,10 @@ Hooks defined in `.claude/settings.json`. Mechanical enforcement for rules that 
 **Permissions deny (project `settings.json`).** `permissions.deny` hard-blocks `Bash(git push:*)` and `Bash(gh push:*)` for the model. Federico runs all pushes himself in his own shell. Layered with `prod_branch_commit_guard.py` to make the 2026-05-02 prod-commit accident impossible to repeat.
 
 **Limitation.** shlex doesn't read shell heredocs — `git commit -F - <<'EOF'` with dangerous text in the body can false-fire the destructive/secret guards. Workaround: write the message to a tempfile, `git commit -F /tmp/msg.txt`.
+
+**Limitation 2 (`permissionDecision: "ask"` is silenced by `skipAutoPermissionPrompt: true`).** The Claude Code harness silently auto-approves `permissionDecision: "ask"` when `skipAutoPermissionPrompt: true` is set in `~/.claude/settings.json` (Federico's setup). Use `"deny"` for any hook that must actually block — `"ask"` becomes a no-op and the hook fires invisibly with no consequence. Audited 2026-05-03 after `prod_branch_commit_guard.py` was bypassed this way and recreated the 2026-05-02 prod-commit accident; the guard is now `deny` mode. The other three `ask`-mode hooks (`inline_script_guard.py`, `main_branch_push_guard.py`, `precommit_codex_review_guard.py`) remain bypassable by this user setting.
+
+**Git-level hook (`infra/git-hooks/pre-commit`).** Second-layer defence at the git layer: hard-blocks `git commit` on the prod branch regardless of any Claude Code harness config (immune to `skipAutoPermissionPrompt`, multi-statement Bash, `set -e` without `pipefail`, etc.). Bypass with `HEIMDALL_PROD_COMMIT=1`. Per-clone install (one-time after clone): `git config core.hooksPath infra/git-hooks`.
 
 **When a hook misfires:** the hook is right (reconsider) or the hook has a bug (fix the script + commit the fix). Never phrase around it.
 

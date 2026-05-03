@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Hard-block commits on the prod branch.
+#
+# Defends at the git layer — runs regardless of any Claude Code harness
+# config (e.g. skipAutoPermissionPrompt) and regardless of how the
+# triggering shell command is structured (multi-statement, set -e
+# without pipefail, subshells, etc).
+#
+# Bypass for a deliberate hotfix:
+#   HEIMDALL_PROD_COMMIT=1 git commit ...
+#
+# Per-clone install (one-time after clone):
+#   git config core.hooksPath infra/git-hooks
+#
+set -euo pipefail
+
+BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
+
+if [ "$BRANCH" = "prod" ] && [ "${HEIMDALL_PROD_COMMIT:-}" != "1" ]; then
+    cat >&2 <<'EOF'
+
+ERROR: commits on the prod branch are forbidden.
+
+Per CLAUDE.md: features → branch + PR; bug fixes → main; prod only ever
+fast-forwards from main. A direct commit on prod bypasses the
+dev → main → prod gate.
+
+Switch to main and commit there:
+  git checkout main && git commit ...
+
+Or, for a deliberate hotfix that must land on prod first:
+  HEIMDALL_PROD_COMMIT=1 git commit ...
+
+EOF
+    exit 1
+fi
+
+exit 0
