@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PreToolUse hook — soft-block git commits on the prod branch.
+"""PreToolUse hook — hard-block (deny) git commits on the prod branch.
 
 Per Federico's directive 2026-05-02: commits to ``prod`` must never
 happen by accident. The branching rule is:
@@ -11,9 +11,11 @@ A direct commit on ``prod`` bypasses the dev → main → prod gate
 entirely, putting unreviewed code straight onto the deploy branch.
 
 This hook fires PreToolUse / Bash, detects ``git commit`` on the
-``prod`` branch, and asks for explicit confirmation. It mirrors the
-``HEIMDALL_APPROVED=1`` self-attestation pattern used by
-``main_branch_push_guard.py`` and ``.githooks/pre-push``.
+``prod`` branch, and DENIES the call (hard block). The previous
+``permissionDecision: "ask"`` was silently auto-approved by Federico's
+``skipAutoPermissionPrompt: true`` user setting, recreating the
+2026-05-02 prod-commit accident on 2026-05-03. ``deny`` cannot be
+auto-approved.
 
 Bypass (rare hotfix only — e.g. broken alias on prod that blocks
 future deploys, where the fix MUST land on prod first):
@@ -85,7 +87,7 @@ def main() -> None:
     output = {
         "hookSpecificOutput": {
             "hookEventName": "PreToolUse",
-            "permissionDecision": "ask",
+            "permissionDecision": "deny",
             "permissionDecisionReason": reason,
         }
     }
