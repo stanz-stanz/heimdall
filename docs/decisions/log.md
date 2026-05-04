@@ -52,6 +52,14 @@ The hook code is not what breaks first. What breaks first is Claude either skipp
 
 **Suggested opening prompt for next session.** "Try the new `/verify-claims` skill on the next TPMO / status / planning question. Check whether `unknown` claims survive to final prose. After 3–5 invocations, decide whether to ship bite 2 (docs commit guard) and bite 3 (eval set)."
 
+**Session-close addendum.**
+
+- Eval at session close: 1 AMBER, 4 GREEN. AMBER = forward-references in `.claude/skills/verify-claims/SKILL.md` (`Bites 2 and 3` section) will need cleanup when bite 2 ships.
+- Local `main` = `origin/main` = `745b8e1`. Federico pushed bite 1 immediately after commit.
+- Working tree clean at session close.
+- Bite 1 lands without auto-firing surface — skill is opt-in. Discipline gap (Codex Q7: "Claude either skipping the verification skill or submitting an incomplete claim set, then writing fluent prose over the gap") is unmitigated until bite 2 (commit-event hook) and bite 3 (measurement) ship.
+- This `/wrap-up` itself was the first natural test case for the new `/verify-claims` discipline — used live-context (`git status` / `git diff HEAD --stat` / `git log --oneline -5` / `grep TODO`) for every state assertion in the eval table; no Codex round-trip needed because every claim traced directly to a command output in this turn. Federico confirmed the eval and authorized this addendum.
+
 ---
 
 ## 2026-05-03 — Hook hardening: prod-commit guard ask→deny + git-level pre-commit hook
