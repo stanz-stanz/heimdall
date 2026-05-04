@@ -1382,20 +1382,12 @@ async def console_ws(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_json()
-            # Handle client messages
+            # Read-only socket — connect-time gate is CONSOLE_READ. Command
+            # dispatch lives on POST /console/commands/{command}, which
+            # gates on COMMAND_DISPATCH and writes the paired
+            # command.dispatch audit row. Do not lpush from here.
             if data.get("type") == "ping":
                 await websocket.send_json({"type": "pong"})
-            elif data.get("type") == "command" and redis_conn:
-                cmd = data.get("command", "")
-                if cmd in _VALID_COMMANDS:
-                    cmd_json = json.dumps({
-                        "command": cmd,
-                        "payload": data.get("payload", {}),
-                        "ts": datetime.now(UTC).isoformat(),
-                    })
-                    await asyncio.to_thread(
-                        redis_conn.lpush, "queue:operator-commands", cmd_json,
-                    )
     except WebSocketDisconnect:
         pass
     except Exception:

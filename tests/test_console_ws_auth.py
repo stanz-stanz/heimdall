@@ -518,6 +518,45 @@ def test_ws_valid_cookie_accepts_console_ws(
     assert "/console/ws" in row["payload_json"]
 
 
+def test_ws_does_not_dispatch_commands(
+    authed_client: TestClient, configured_env: Path
+) -> None:
+    """Regression — /console/ws is read-gated (CONSOLE_READ at connect)
+    and must NOT enqueue operator commands. Command dispatch belongs to
+    ``POST /console/commands/{command}``, which gates on
+    ``COMMAND_DISPATCH`` and writes the paired ``command.dispatch``
+    audit row. Removed 2026-05-04 after the inbound WS branch was found
+    to bypass both controls.
+
+    Three-axis lock: queue stays empty, no ``command.dispatch`` audit
+    row is written, and the WS connection itself remains healthy
+    (ping/pong round trip succeeds), proving the unknown frame is
+    silently ignored rather than crashing the loop or short-circuiting
+    before any other code path can lpush.
+    """
+    redis_conn = authed_client.app.state.redis
+    assert redis_conn.llen("queue:operator-commands") == 0
+
+    with authed_client.websocket_connect("/console/ws") as ws:
+        ws.send_json({
+            "type": "command",
+            "command": "run-pipeline",
+            "payload": {},
+        })
+        # Force a server round-trip so any side effect would land
+        # before pong arrives.
+        ws.send_json({"type": "ping"})
+        for _ in range(10):
+            resp = ws.receive_json()
+            if resp.get("type") == "pong":
+                break
+        else:
+            raise AssertionError("Did not receive pong after 10 frames")
+
+    assert redis_conn.llen("queue:operator-commands") == 0
+    assert _audit_rows(configured_env, action="command.dispatch") == []
+
+
 def test_ws_valid_cookie_accepts_demo_ws(
     authed_client: TestClient, configured_env: Path
 ) -> None:
