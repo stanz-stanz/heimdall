@@ -5,6 +5,55 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-05-04 — `/verify-claims` skill (first bite of Codex-augmented verification)
+
+> Branch: `main` (chore-style commit, single revertible change).
+
+**Context.** This session opened with a TPMO assessment that asserted three unverified claims as fact in plain prose (PRs #58/#59 "open" when they were already merged in `origin/main`; "1573 tests passing" copied from a 4-day-stale `data/project-state.json`; "none of this is on Pi5 yet" — pure inference, never checked). Federico called the pattern out as the load-bearing failure ("don't lie to me"). Memory rules `feedback_verify_data_before_presenting`, `feedback_no_state_inference_from_weak_signals`, and `feedback_codex_not_discovery` already targeted this; none of them caught it. The slip happens between reading a source file and the sentence written after — no rule polices that gap.
+
+**Decided.**
+
+- New skill `.claude/skills/verify-claims/SKILL.md` — three modes (`pre-draft`, `post-draft`, `doc-pass`) routing factual assertions through Codex via the `codex:codex-rescue` subagent. Required output schema per claim: `{claim, status (confirmed/refuted/unknown), evidence (file:line), rewrite_guidance}`. Hard rule: `unknown` MUST survive to final user-facing prose with an inline uncertainty marker — collapsing `unknown` to confidence reintroduces the failure. Hard rule: `missing_coverage` items go through a fresh verification round before the response ships.
+- Mandatory triggers documented in the skill body: TPMO / status / planning / "what's next" / kanban / backlog answers, decision-log entries, edits to `CLAUDE.md` / `docs/briefing.md` / `docs/repo-map.md` / specs, cross-reference fixups, and any prose asserting state about Pi5 / prod / test counts / PR or branch state / file existence / function behavior / schema state / counts.
+- Single revertible commit. Files added: `.claude/skills/verify-claims/SKILL.md`. Files modified: `docs/decisions/log.md` (this entry). To revert: `git revert <sha>`.
+
+**Codex-driven simplifications (Codex review 2026-05-04, full transcript in conversation history).**
+
+- Three separate skills (`factcheck`, `verify-claims`, `doc-consistency`) collapsed to ONE unified skill with three modes. Codex Q1: "selection ambiguity > clarity benefit." Mirrors the existing in-repo `wrap-up` skill shape (one skill, multiple sequential steps).
+- UserPromptSubmit regex hook (`synthesis_class_prompt_detector.py`) DROPPED. Codex Q3: "regex matches `plan` / `status` / `assessment` on ordinary coding work and misses synthesis requests phrased differently. Hook philosophy is mechanical enforcement for objective failures, not semantic task classification. Likely net effect: false confidence."
+- Pre-commit doc-consistency hook DEFERRED to bite 2 with narrowed scope. Codex Q4: original `docs/architecture/` scope was too broad ("specs are point-in-time and intentionally contain historical state"). Bite 2 will scope to canonical living docs only: `CLAUDE.md`, `docs/briefing.md`, `docs/decisions/log.md`, `docs/repo-map.md`. Hook itself never calls Codex (self-attestation pattern, mirroring `precommit_codex_review_guard.py`).
+- Eval set / measurement baseline DEFERRED to bite 3. Codex Q6: "small eval set of past hallucinated assertions to measure whether the intervention actually reduced the failure mode, or just added ritual." Tonight's three concrete instances (PR-state, test count, Pi5 state) are seed candidates.
+
+**Token projection (per session).**
+
+- Coding-only session: +0–5k Claude, 0 Codex (skill not invoked).
+- Synthesis-heavy session: +10–34k Claude, +30–200k Codex.
+- Auto-firing Codex surface in this bite: NONE. Skill is manual; no hooks.
+- Federico is on Claude Max — Claude-side delta is single-digit percent. Codex tokens go to a separate (OpenAI/Codex CLI) budget.
+- Tail risk per Codex Q5: "real tail higher if long docs are passed through multiple times" + "Claude-side overhead for claim extraction, revision, and retry after `unknown` results" likely underestimated.
+
+**Highest risk acknowledged (Codex Q7).**
+
+The hook code is not what breaks first. What breaks first is Claude either skipping the skill on a synthesis turn (because "I am sure") or submitting an incomplete claim list and writing prose over the gap. The existing self-attestation pattern works for commits because the trigger is objective (file paths, `git commit`); synthesis classification is not objective in the same way. Bites 2 (commit-event hook) and 3 (measurement) are partial mitigations; manual discipline is unmitigated until then.
+
+**Rejected.**
+
+- Three-skill split. Per Codex Q1.
+- UserPromptSubmit regex prompt-classifier hook. Per Codex Q3.
+- Doc-consistency hook in this commit (right idea, wrong scope). Defer to bite 2 with `CLAUDE.md` / `docs/briefing.md` / `docs/decisions/log.md` / `docs/repo-map.md` scope.
+- Adding the skill to the harness `~/.claude/settings.json` (user-global). Repo-tracked at `.claude/skills/` so the change is scoped and revertible by commit.
+
+**Unresolved.**
+
+- Bite 2: docs commit guard hook on canonical living docs (`CLAUDE.md`, `docs/briefing.md`, `docs/decisions/log.md`, `docs/repo-map.md`). Self-attestation pattern (`HEIMDALL_DOC_REVIEWED=1`). Open.
+- Bite 3: small eval set of past hallucinated assertions to measure intervention efficacy before adding more machinery. Open.
+- Discipline gap (Codex Q7): nothing structurally forces invocation on synthesis turns. Bites 2 and 3 partially address; until then, the skill is opt-in.
+- The first agent's TPMO assessment earlier this session ran on stale `data/project-state.json` (last-updated 2026-04-30). Refresh of that file is unrelated to this bite but worth noting as a separate follow-up.
+
+**Suggested opening prompt for next session.** "Try the new `/verify-claims` skill on the next TPMO / status / planning question. Check whether `unknown` claims survive to final prose. After 3–5 invocations, decide whether to ship bite 2 (docs commit guard) and bite 3 (eval set)."
+
+---
+
 ## 2026-05-03 — Hook hardening: prod-commit guard ask→deny + git-level pre-commit hook
 
 > Branch: `chore/hook-hardening-prod-deny` off `origin/main` (which is 3 commits behind `origin/prod`).
