@@ -5,6 +5,32 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-05-04 — `/console/ws` command-dispatch branch removed (RBAC + audit bypass)
+
+> Branch: `main` (bug-fix-direct-to-main per CLAUDE.md). Commit `0133eb0`.
+
+**Context.** Codex security review of the console-hardening change set surfaced a High finding: `/console/ws` connect-time gate is `Permission.CONSOLE_READ` (`src/api/console.py:1281`), but the inbound message loop accepted `{type:"command"}` and lpushed to `queue:operator-commands` directly (`src/api/console.py:1388-1398` pre-fix) — bypassing the REST gate `Permission.COMMAND_DISPATCH` and skipping the paired `command.dispatch` audit row written by `POST /console/commands/{command}` (`src/api/console.py:1144-1205`). Latent while only `owner` exists; breaks the A.5 RBAC model the moment a read-only role is enabled, and skips request-id correlation either way.
+
+**Decided.**
+
+- Option A — delete the WS branch entirely. Frontend `sendCommand()` (`src/api/frontend/src/lib/api.js:97-103`) is REST-only; no in-repo client sent `{type:"command"}` over WS; no test exercised the path. Removing surface is cheaper and safer than hardening unused surface.
+- Lock the contract with `test_ws_does_not_dispatch_commands` (`tests/test_console_ws_auth.py`): authed WS sends `{type:"command", command:"run-pipeline"}` (a valid command, so the old code would have lpushed), test asserts (a) queue length stays 0, (b) no `command.dispatch` audit row, (c) ping/pong round-trip still completes — proving the unknown frame is silently ignored, not crashing the loop. Three-axis lock so the dead-code branch cannot return silently.
+- Codex review verdict: deletion sound (no orphaned symbols — `_VALID_COMMANDS` still consumed by REST handler at `console.py:1166`); regression test sound (covers the exact former success condition with `run-pipeline` rather than only an invalid-command no-op).
+
+**Rejected.**
+
+- Option B — extract a shared dispatch helper used by both REST and WS handlers, gated on `COMMAND_DISPATCH` and writing the same audit row. No client wants to dispatch over an open socket; introducing a helper to support a non-existent caller would expand attack surface for no value.
+- Bundling Codex's two follow-up findings into this commit. Per `feedback_codex_finding_scope`: fix only what was named in the original finding; the follow-ups are reliability gaps, not part of the RBAC bypass.
+
+**Unresolved.**
+
+- No `CONSOLE_READ`-only role is fixture-seeded in `tests/_console_auth_helpers.py` (only `owner` = `frozenset(Permission)`). The "read allowed, dispatch denied" cell of the role matrix is therefore not exercised. Not a regression against this fix (the WS branch is deleted, not permission-gated), but the matrix remains underspecified if WS gains write surface again. Codex flagged.
+- `liveops.ws_connected` audit insert (`src/api/console.py:327-344`) is not wrapped in the fail-secure catch used for permission-denied audit writes (`src/api/console.py:300-324`). DB error there can abort an already-accepted WS connection. Reliability gap, not a security regression. Codex flagged.
+
+**Suggested opening prompt for next session.** "Pick one of the two Codex follow-ups: either seed a `CONSOLE_READ`-only role + add a dispatch-denied test cell, or wrap the `liveops.ws_connected` audit write in a fail-secure catch. Or continue `/verify-claims` bite 2 (commit-event hook). Federico picks."
+
+---
+
 ## 2026-05-04 — `/verify-claims` skill (first bite of Codex-augmented verification)
 
 > Branch: `main` (chore-style commit, single revertible change).
