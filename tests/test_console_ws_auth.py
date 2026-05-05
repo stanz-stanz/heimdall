@@ -783,6 +783,45 @@ def test_ws_audit_write_failure_still_closes_4403(
     assert deny_rows == []
 
 
+def test_ws_connected_audit_failure_closes_1011(
+    authed_client: TestClient,
+    configured_env: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Sibling of the deny-path fail-secure case: when an authorised
+    upgrade reaches the ``liveops.ws_connected`` INSERT and that
+    INSERT raises ``sqlite3.DatabaseError``, the handler must close
+    1011 and return ``None`` rather than let an unaudited operator
+    session proceed. ``with conn:`` would otherwise let the exception
+    propagate past ``websocket.accept()`` — the operator would be on
+    the wire with no forensic row paired to the session.
+    """
+    import sqlite3
+
+    from src.api import console as console_module
+
+    real_writer = console_module.write_console_audit_row
+
+    def _broken_writer(conn, request, **kwargs):
+        if kwargs.get("action") == "liveops.ws_connected":
+            raise sqlite3.OperationalError("simulated db lock on connect row")
+        return real_writer(conn, request, **kwargs)
+
+    monkeypatch.setattr(
+        console_module, "write_console_audit_row", _broken_writer
+    )
+
+    with pytest.raises(WebSocketDisconnect) as exc_info:
+        with authed_client.websocket_connect("/console/ws") as ws:
+            ws.receive_text()
+    assert exc_info.value.code == 1011, (
+        f"expected 1011 close on audit failure, got {exc_info.value.code}"
+    )
+
+    rows = _audit_rows(configured_env, action="liveops.ws_connected")
+    assert rows == []
+
+
 def test_ws_demo_deny_clears_pending_state(
     authed_client: TestClient, configured_env: Path
 ) -> None:

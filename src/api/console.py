@@ -244,6 +244,12 @@ async def _authenticate_ws(
     never let an audit-layer fault swallow the deny decision
     (network-security P1 #3). Then ``accept()`` + ``close(4403)``.
 
+    On audit-write failure for the ``liveops.ws_connected`` row: same
+    fail-secure stance — log WARNING + ``close(1011)`` + ``return
+    None``. The upgrade was accepted but the row never landed; an
+    operator session that cannot be paired with a forensic row must
+    not be allowed to proceed.
+
     Returns ``None`` on every failure mode; the caller must ``return``
     immediately.
     """
@@ -329,17 +335,36 @@ async def _authenticate_ws(
         # §5.8 — pair the per-WS audit row with the same connection
         # that authorized the upgrade. ``with conn:`` commits the row
         # atomically; the audit writer does not self-commit.
-        with conn:
-            write_console_audit_row(
-                conn,
-                pseudo_request,
-                action="liveops.ws_connected",
-                target_type="websocket",
-                target_id=None,
-                payload=audit_payload,
-                operator_id=operator_id,
-                session_id=session_id,
+        #
+        # Fail-secure: if the INSERT raises, the upgrade is already
+        # accepted but the connection is unaudited — close 1011 and
+        # return ``None`` rather than let the operator proceed without
+        # a forensic row. Mirror of the §4.2.5 deny-side pattern; same
+        # widened ``sqlite3.DatabaseError`` catch (Codex round 3
+        # 2026-05-02) covering OperationalError / IntegrityError /
+        # DataError / NotSupportedError. Programming-bug exceptions
+        # propagate as before.
+        try:
+            with conn:
+                write_console_audit_row(
+                    conn,
+                    pseudo_request,
+                    action="liveops.ws_connected",
+                    target_type="websocket",
+                    target_id=None,
+                    payload=audit_payload,
+                    operator_id=operator_id,
+                    session_id=session_id,
+                )
+        except sqlite3.DatabaseError as exc:
+            logger.warning(
+                "ws_connected_audit_failed operator_id={} session_id={} err={}",
+                operator_id,
+                session_id,
+                exc,
             )
+            await websocket.close(code=1011)
+            return None
 
         return operator_id, session_id
     finally:
