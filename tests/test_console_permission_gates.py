@@ -38,6 +38,7 @@ from fastapi.testclient import TestClient
 
 import src.core.secrets as core_secrets
 from src.api.app import create_app
+from src.api.auth.permissions import ROLE_PERMISSIONS, Permission
 from src.db.connection import init_db
 from src.db.console_connection import get_console_conn
 from tests._console_auth_helpers import (
@@ -175,6 +176,32 @@ def observer_client(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
         # re-fetches role_hint per request via _fetch_role_hint, so
         # the deny path triggers immediately on the next call.
         _set_operator_role(console_db_path, "observer")
+        yield tc, console_db_path
+
+
+@pytest.fixture
+def console_read_client(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """TestClient logged in as an operator with reduced ``role_hint=
+    'console_read'`` — granted ``Permission.CONSOLE_READ`` only, denied
+    every other gate. Exercises the "read allowed, dispatch denied"
+    cell of the role matrix that ``observer_client`` (deny everything)
+    and ``owner_client`` (allow everything) leave uncovered.
+
+    Production ``ROLE_PERMISSIONS`` stays single-key (``'owner'``) per
+    Stage A.5 D3 lock; ``monkeypatch.setitem`` registers the
+    ``'console_read'`` entry only for this test's lifetime and reverts
+    on teardown.
+    """
+    app, console_db_path = _build_app(tmp_path, monkeypatch)
+    with TestClient(app) as tc:
+        seed_console_operator(console_db_path)
+        login_console_client(tc)
+        _set_operator_role(console_db_path, "console_read")
+        monkeypatch.setitem(
+            ROLE_PERMISSIONS,
+            "console_read",
+            frozenset({Permission.CONSOLE_READ}),
+        )
         yield tc, console_db_path
 
 
@@ -333,6 +360,50 @@ def test_unauth_post_returns_401_not_403(tmp_path: Path, monkeypatch) -> None:
     assert resp.status_code == 401
     # No permission_denied row — that's a 403-tier event.
     assert _select_deny_rows(console_db_path) == []
+
+
+# ===========================================================================
+# HEIM-22 — read allowed, dispatch denied (mixed-permission role).
+#
+# Closes the matrix gap flagged by Codex on 2026-05-04 (decision-log
+# entry "/console/ws command-dispatch branch removed"). The owner
+# fixture covers allow-everything; the observer fixture covers
+# deny-everything; this cell covers the only intermediate shape that
+# matters in v1 — read allowed, mutation denied.
+# ===========================================================================
+
+
+def test_console_read_role_denied_on_command_dispatch(
+    console_read_client: Any,
+) -> None:
+    tc, console_db_path = console_read_client
+    resp = tc.post("/console/commands/run-pipeline", json={})
+    assert resp.status_code == 403
+    assert resp.json() == {
+        "detail": {
+            "error": "permission_denied",
+            "permission": "command.dispatch",
+        }
+    }
+    rows = _select_deny_rows(console_db_path, "command.dispatch")
+    assert len(rows) == 1
+    assert json.loads(rows[0]["payload_json"]) == {
+        "role_hint": "console_read"
+    }
+
+
+def test_console_read_role_allowed_on_console_read_route(
+    console_read_client: Any,
+) -> None:
+    """Allow path — same contract as ``test_owner_role_allowed_*``: the
+    response may legitimately 200/404/503 depending on test data; what
+    matters is the decorator did NOT 403 and did NOT write a
+    permission_denied audit row for ``console.read``."""
+    tc, console_db_path = console_read_client
+    resp = tc.get("/console/clients/list")
+    assert resp.status_code != 403
+    assert resp.status_code != 401
+    assert _select_deny_rows(console_db_path, "console.read") == []
 
 
 # ===========================================================================
