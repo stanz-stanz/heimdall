@@ -14,22 +14,29 @@
   },
 
   "current_sprint": {
-    "name": "Sprint 01 — Auth Plane Polish",
+    "name": "SCRUM Sprint 1",
+    "sprint_id": 1,
     "epic_key": "HEIM-21",
-    "status": "planned",
+    "status": "active",
     "start_date": "2026-05-05",
     "target_end_date": "2026-05-12",
     "length_weeks": 1,
+    "story_points_committed": 13,
+    "story_points_done": 8,
     "stories": [
-      {"key": "HEIM-22", "type": "Task",  "summary": "Add CONSOLE_READ-only role fixture and dispatch-denied test cell", "tests": ["HEIM-29", "HEIM-30"]},
-      {"key": "HEIM-23", "type": "Task",  "summary": "Wrap remaining liveops audit writes in fail-secure catch",       "tests": ["HEIM-31"]},
-      {"key": "HEIM-24", "type": "Task",  "summary": "Pass open writer connection through worker gate path (S1)",     "tests": ["HEIM-32"]},
-      {"key": "HEIM-25", "type": "Task",  "summary": "Rotate logs/valdi/ markdown writes (S2)",                       "tests": ["HEIM-33"]},
-      {"key": "HEIM-26", "type": "Task",  "summary": "Add fail-loud invariant on scan_history.gate_decision_id (S3)", "tests": ["HEIM-34"]},
-      {"key": "HEIM-27", "type": "Story", "summary": "Ship /verify-claims bite 2 — docs commit guard hook",           "tests": ["HEIM-35", "HEIM-36"]},
-      {"key": "HEIM-28", "type": "Story", "summary": "Ship /verify-claims bite 3 — eval set + measurement baseline",  "tests": ["HEIM-37"]}
+      {"key": "HEIM-22", "type": "Task",  "status": "Done",  "story_points": 3, "commit": "b2ee9c0", "summary": "Add CONSOLE_READ-only role fixture and dispatch-denied test cell", "tests": ["HEIM-29", "HEIM-30"]},
+      {"key": "HEIM-23", "type": "Task",  "status": "Done",  "story_points": 3, "commit": "e71d3e7", "summary": "Lock audit-write fail-secure invariant via AST lint",         "tests": ["HEIM-31"]},
+      {"key": "HEIM-26", "type": "Task",  "status": "Done",  "story_points": 2, "commit": "429757e", "summary": "Add fail-loud invariant on scan_history.gate_decision_id (S3)","tests": ["HEIM-34"]},
+      {"key": "HEIM-27", "type": "Story", "status": "To Do", "story_points": 5,                       "summary": "Ship /verify-claims bite 2 — docs commit guard hook",        "tests": ["HEIM-35", "HEIM-36"]}
     ]
   },
+  "deferred_to_sprint_02": [
+    {"key": "HEIM-24", "type": "Task",  "summary": "Pass open writer connection through worker gate path (S1)",                       "story_points": 5, "tests": ["HEIM-32"]},
+    {"key": "HEIM-25", "type": "Task",  "summary": "Rotate logs/valdi/ markdown writes (S2)",                                          "story_points": 3, "tests": ["HEIM-33"]},
+    {"key": "HEIM-28", "type": "Story", "summary": "Ship /verify-claims bite 3 — eval set + measurement baseline",                     "story_points": 3, "tests": ["HEIM-37"]},
+    {"key": "HEIM-38", "type": "Task",  "summary": "Extend audit-write fail-secure lint to src/api/** (HEIM-23 follow-up)",            "story_points": 3},
+    {"key": "HEIM-39", "type": "Task",  "summary": "Schema NOT NULL + null-row backfill for scan_history.gate_decision_id (HEIM-26 follow-up)", "story_points": 5}
+  ],
 
   "production": {
     "branch": "prod",

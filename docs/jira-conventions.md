@@ -131,6 +131,14 @@ labels = area-valdi
 - Sprint numbering is sequential from `Sprint 01` (starts 2026-05-05).
 - Historical work pre-Jira is preserved as `Done` Epics with no Sprint assignment — see backfill in `data/project-state.json`.
 
+## Sprint container assignment (mandatory)
+
+Every workable ticket must be assigned to a real **Sprint container** (`customfield_10020`), not merely labelled `sprint-NN`. The label is a JQL convenience; the container is the source of truth for the Board, burndown, and velocity. Working from the backlog with a label only is invisible to Sprint reporting.
+
+- Subtasks ride their parent — `subtasks cannot be associated to a sprint` per the Jira agile API. Set the Sprint field on the parent Task/Story/Bug only.
+- Sprint container ID discovery: query `project = HEIM AND sprint is not EMPTY` with `fields=["customfield_10020"]` to extract `id` from any issue already in a sprint. If none, drag one ticket into the sprint via the Backlog UI to seed the ID.
+- "Done" tickets stay in their sprint — verify with `project = HEIM AND status = Done AND sprint = <ID>` after bulk-assign.
+
 ---
 
 ## Writing rules (carry over from `CLAUDE.md`)
