@@ -1,180 +1,120 @@
 {
-  "last_updated": "2026-04-30T20:30:00Z",
-  "phase": "Stage A auth-plane bundle merged 2026-04-29 (PR #51 / `ee8662d`) — slices 1 through 3g.5. Post-merge dockerignore hotfix `a3b97a0` closed the `console-db-schema.sql` allowlist gap. 2026-04-30 session shipped four follow-up PRs: #52 (CI action bumps Node 20→24 + new `docker-smoke.yml` pre-merge gate + `scripts/ci/check_run_annotations.sh` reusable annotation checker), #53 (Worker QEMU Priority 1: $BUILDPLATFORM cross-compile in `go-builder`, dropped cold-cache `publish-images` worker time from 56 min to 8 min), #54 (slice 3g/3g.5 SPA-bypass chicken-and-egg fix — `SessionAuthMiddleware` was 401-ing the SPA bundle for unauth users, blocking BootstrapEmpty/Login/AllDisabled splashes; Codex confirmed real bug, Option A conservative bypass shipped), #55 in flight (`HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD`/`_WINDOW_SEC` env-overrides for dev-QA ergonomics). Next critical-path: (1) merge PR #55, (2) browser-QA the slice 3g/3g.5 walkthrough at http://localhost:8001/app/, (3) Pi5 cutover for the auth plane (fast-forward prod → push prod → SSH Pi5 → `heimdall-deploy`), (4) Stage A.5 sprint (Permission enum + require_permission decorator + X-Request-ID middleware + command_audit + config_changes triggers + /console/config/history). Worker QEMU Priorities 2 (stable runtime base image) and 3 (native arm64 runner) deferred — locked priority order at `~/.claude/projects/.../memory/project_worker_qemu_priorities.md`.",
-  "current_sprint": {
-    "name": "Sentinel Onboarding — End-to-End",
-    "started": "2026-04-23",
-    "target_end": "TBD (SIRI-gated for production cutover)",
-    "status": "PR #44 merged 2026-04-25 22:07 +0200 (commit 2b189e6) — backend (schema + signup + subscriptions + conversion + retention DB layer + retention cron + trial-expiry + /start handler + Valdí §263 hardening + pre-commit Codex gate) + SvelteKit signup-site slice 1 (landing/pricing/legal/magic-link landing) all on main. feat/sentinel-onboarding now 1 commit behind main, effectively closed. Next critical-path: browser-eyeball QA on slice 1, then SvelteKit slice 2+, operator console views V1–V6, Message 0 magic-link email sender.",
-    "progress_pct": 75,
-    "notes": "2026-04-23 plan session produced 22 locked decisions (D1–D22), archived at ~/.claude/plans/i-need-you-to-logical-pebble.md. Key architectural commitments: Watchman = FREE 30-day trial (not 199 kr.); Sentinel = 399 kr./mo via Betalingsservice direct debit; one-click consent via MitID Erhverv (QES-grade, Danish-native); SvelteKit public site on Hetzner Cloud (EU residency); CVR-match domain verification (no DNS TXT / file upload); legal counsel re-targeted from Plesner to Anders Wernblad, Aumento Law. Tiered retention REVISED 2026-04-25 to Watchman zero-retention (immediate hard-purge at trial expiry, no anonymise stage, no tombstone — D16's literal '90d/365d' rejected as inconsistent with a free trial) and Sentinel 30d anonymise + 5y purge_bookkeeping (per Bogføringsloven). Valdí ruled `consent_records` is §263 evidence per GDPR Art 17(3)(e) — anonymise preserves structured PII; only `notes` scrubbed. Branch feat/sentinel-onboarding has ~22 commits (14 today): DB-layer additions, /start handler, retention cron (runner + actions + scheduler timer), trial-expiry scanner + reconciler, Codex pre-commit hook. 1,201 non-integration tests passing (+207 since 2026-04-18). 8 Codex passes drove 6 P1/P2 fixes in the retention slice before the gate returned clean. MitID Erhverv sandbox is free → dev unblocked during SIRI wait."
+  "schema_version": 2,
+  "last_updated": "2026-05-05",
+  "convention_doc": "docs/jira-conventions.md",
+
+  "jira": {
+    "site": "project-heimdall.atlassian.net",
+    "cloud_id": "8b5ae1b8-c844-4ac5-8667-a62d08bd916a",
+    "project_key": "HEIM",
+    "project_name": "Heimdall",
+    "template": "Team-managed Scrum (Free plan)",
+    "issue_types": ["Epic", "Story", "Task", "Bug", "Subtask"],
+    "github_integration": true
   },
-  "completed_sprints": [
-    {"name": "Sprint 1 — Consolidate & Ship", "status": "complete", "notes": "153 tests, structured logging, benchmarks"},
-    {"name": "Sprint 2 — Docker Architecture (Pi5)", "status": "complete", "notes": "204 domains in 8.5 min. 217 tests."},
-    {"name": "Sprint 3 — Consent-Gated Pipeline", "status": "complete", "notes": "Results API, consent, Layer 2 scanners, interpreter, composer, client memory, digital twin. 500 tests."},
-    {"name": "Sprint 4 — Pilot Prep", "status": "complete", "notes": "Client SQLite DB, Telegram delivery, tier-aware interpreter, provenance split, operator console, scheduler daemon, console API+WS, Redis log streaming, Nmap, prospect lifecycle, interpretation cache."},
-    {"name": "MVP Hardening Phase 1/2", "status": "complete", "notes": "PRs #23/#25. CI pipeline, 8 production bug fixes, delivery retry, SQLite integrity check, Docker health checks, cron Telegram alerting, atomic WAL-safe backup, HTTP Basic Auth, scanner decomposition, core extraction, Pydantic validation, coverage floor, golden-path smoke test."}
+
+  "current_sprint": {
+    "name": "Sprint 01 — Auth Plane Polish",
+    "epic_key": "HEIM-21",
+    "status": "planned",
+    "start_date": "2026-05-05",
+    "target_end_date": "2026-05-12",
+    "length_weeks": 1,
+    "stories": [
+      {"key": "HEIM-22", "type": "Task",  "summary": "Add CONSOLE_READ-only role fixture and dispatch-denied test cell", "tests": ["HEIM-29", "HEIM-30"]},
+      {"key": "HEIM-23", "type": "Task",  "summary": "Wrap remaining liveops audit writes in fail-secure catch",       "tests": ["HEIM-31"]},
+      {"key": "HEIM-24", "type": "Task",  "summary": "Pass open writer connection through worker gate path (S1)",     "tests": ["HEIM-32"]},
+      {"key": "HEIM-25", "type": "Task",  "summary": "Rotate logs/valdi/ markdown writes (S2)",                       "tests": ["HEIM-33"]},
+      {"key": "HEIM-26", "type": "Task",  "summary": "Add fail-loud invariant on scan_history.gate_decision_id (S3)", "tests": ["HEIM-34"]},
+      {"key": "HEIM-27", "type": "Story", "summary": "Ship /verify-claims bite 2 — docs commit guard hook",           "tests": ["HEIM-35", "HEIM-36"]},
+      {"key": "HEIM-28", "type": "Story", "summary": "Ship /verify-claims bite 3 — eval set + measurement baseline",  "tests": ["HEIM-37"]}
+    ]
+  },
+
+  "production": {
+    "branch": "prod",
+    "last_deploy_commit": "93c45a8",
+    "last_deploy_date": "2026-05-03",
+    "live_components": ["scanning_pipeline", "auth_plane", "valdi_runtime"],
+    "verification": "curl /console/auth/whoami → 401 + x-request-id header on dedicated secure infrastructure"
+  },
+
+  "historical_epics": [
+    {"key": "HEIM-5",  "summary": "Sprint 1 — Consolidate & Ship",                                "shipped": "early-2026"},
+    {"key": "HEIM-6",  "summary": "Sprint 2 — Docker Architecture",                               "shipped": "early-2026"},
+    {"key": "HEIM-7",  "summary": "Sprint 3 — Consent-Gated Pipeline",                            "shipped": "early-2026"},
+    {"key": "HEIM-8",  "summary": "Sprint 4 — Pilot Prep",                                        "shipped": "mid-2026"},
+    {"key": "HEIM-9",  "summary": "MVP Hardening (Phase 1 + 2)",                                  "shipped": "2026-04-12"},
+    {"key": "HEIM-10", "summary": "CT Monitoring Rebuild (Sentinel Tier)",                        "shipped": "2026-04-12"},
+    {"key": "HEIM-11", "summary": "Dev/Prod Environment Split",                                   "shipped": "2026-04-16"},
+    {"key": "HEIM-12", "summary": "Operational Hardening April 2026",                             "shipped": "2026-04-18"},
+    {"key": "HEIM-13", "summary": "Sentinel Onboarding — Backend & Plan",                         "shipped": "2026-04-25"},
+    {"key": "HEIM-14", "summary": "Sentinel Onboarding — Console V1/V6 + Signup Bilingual",       "shipped": "2026-04-28"},
+    {"key": "HEIM-15", "summary": "Stage A — Auth Plane Carve",                                   "shipped": "2026-04-30"},
+    {"key": "HEIM-16", "summary": "Stage A.5 — Audit + RBAC + X-Request-ID",                      "shipped": "2026-05-02"},
+    {"key": "HEIM-17", "summary": "Valdí Runtime Hardening",                                      "shipped": "2026-05-02"},
+    {"key": "HEIM-18", "summary": "Auth Plane Production Cutover",                                "shipped": "2026-05-03"},
+    {"key": "HEIM-19", "summary": "Hook Hardening — Prod-Commit Deny",                            "shipped": "2026-05-03"},
+    {"key": "HEIM-20", "summary": "/verify-claims (Bite 1) — Codex-Grounded Verification",        "shipped": "2026-05-04"}
   ],
-  "milestones": [
+
+  "blocked_outcomes": [
     {
-      "id": "M31",
-      "name": "Client onboarding — first 5 Vejle businesses",
-      "target_date": "2026-04-30",
-      "status": "blocked",
-      "owner_agent": "project-coordinator",
-      "blockers": ["SIRI approval"],
-      "notes": "Soft-blocked by SIRI approval (pilot launch gates). Code is ready. No onboarding workflow yet; need telegram_chat_id registration per client."
+      "outcome": "Pilot launch (first 5 Vejle businesses)",
+      "blocked_by": ["SIRI approval"],
+      "notes": "SIRI gates CVR registration → gates pilot onboarding. Code is ready."
     },
     {
-      "id": "M33",
-      "name": "Finding Interpreter wired to live pipeline",
-      "status": "complete",
-      "completed_date": "2026-04-18",
-      "owner_agent": "finding-interpreter",
-      "notes": "Interpreter wire exists in src/delivery/runner.py:266 (interpret_brief on every client-scan-complete). Operational proof shipped 2026-04-18: scripts/dev/interpret_dry_run.py (observe + send-to-operator modes with CI cost guard) + heimdall-verify-secrets Pi5 alias. Send-mode dry run green on dev stack 2026-04-18 — 12s wall-clock, real Claude API call, delivery_log row written. Observe mode proves runner reachability zero-cost."
+      "outcome": "Sentinel revenue (first paid client)",
+      "blocked_by": ["SIRI approval", "CVR registration", "Betalingsservice merchant agreement", "MitID Erhverv production switch"],
+      "notes": "All four chain off SIRI."
     },
     {
-      "id": "M35",
-      "name": "CT monitoring rebuild (Sentinel tier)",
-      "status": "complete",
-      "completed_date": "2026-04-12",
-      "owner_agent": "client-memory",
-      "notes": "PR #26. ct-collector deleted (CertStream upstream dead). crt.sh SAN extraction merged into prospecting. Sentinel-tier daily CertSpotter polling (07:00 UTC), new_cert/new_san/ca_change events on Redis, Telegram delivery wired. $0 recurring cost. src/client_memory/ct_monitor.py."
-    },
-    {
-      "id": "M36",
-      "name": "MVP Hardening Phase 1/2",
-      "status": "complete",
-      "completed_date": "2026-04-12",
-      "owner_agent": "devops",
-      "notes": "PRs #23 #25. CI, 8 bug fixes, scanner decomposed (18 modules), src/core/, Pydantic validation, 65% coverage floor, microSD backup, 7 enforcement hooks, Valdí tokens regenerated."
-    },
-    {
-      "id": "M37",
-      "name": "Dev/prod environment split + Docker infra unpark",
-      "status": "complete",
-      "completed_date": "2026-04-16",
-      "owner_agent": "devops",
-      "notes": "PRs #27 #29 #30 #31 #32 #33 #34 #35 #36 #37. Pi5=PROD / Mac=DEV hard split via sibling docker-compose.dev.yml. External volumes + log rotation, multi-stage Dockerfiles, SHA-tagged images, file-backed secrets, infra/docker→infra/compose rename, GHCR publish + registry-backed rollback. Root Makefile (17 targets). prod branch with pre-push hook. Dev bot @HeimdallSecurityDEVbot confirmed live 2026-04-17 — make dev-smoke green end-to-end."
-    },
-    {
-      "id": "M38",
-      "name": "Valdí helper-hash gap closed (declaration + enforcement)",
-      "status": "complete",
-      "completed_date": "2026-04-17",
-      "owner_agent": "valdi",
-      "notes": "query_crt_sh_single now tracked. _validate_helper_hash extracted in registry.py, fails-closed on 6 unsafe branches (missing helper_function, non-colocated, non-callable, lambda, unsourceable, hash mismatch). 3 of 14 approvals now carry enforceable helper_hash (up from 0). 8 new regression tests in TestHelperHashEnforcement. Architect-reviewed APPROVE-WITH-CHANGES, all changes folded in."
-    },
-    {
-      "id": "M39",
-      "name": "Compose env-passthrough regression test",
-      "status": "complete",
-      "completed_date": "2026-04-17",
-      "owner_agent": "devops",
-      "notes": "Extended make dev-ops-smoke with 4 new check blocks: backup.sh regression guard for bug 2489905 (project-name coupling), dev-project container resolution (>=5), /run/secrets populated across 10 (service, secret) pairs, no env-var fallback for the 5 file-backed credentials. Total wall time <15s."
-    },
-    {
-      "id": "M40",
-      "name": "Cert-change alert dry run (synthetic target)",
-      "status": "complete",
-      "completed_date": "2026-04-17",
-      "owner_agent": "client-memory",
-      "notes": "scripts/dev/cert_change_dry_run.py + config/ct_dry_run.json + make dev-cert-dry-run. Exercises publisher + subscriber + composer end-to-end against heimdall.dk via CertSpotter. No Telegram send (telegram_chat_id=NULL). Architect APPROVE-WITH-CHANGES — single Python driver (no bash shim), no response cache, one wait. Surfaced TWO production bugs (filed as unresolved): ct_monitor commit-before-publish race + init_db not applying migrations. Wall-clock ~10s per run. Working tree uncommitted pending feature branch + PR covering all 2026-04-17 work."
-    },
-    {
-      "id": "M41",
-      "name": "Sentinel onboarding — plan locked + backend data layer + signup-site slice 1 (PR #44)",
-      "status": "complete",
-      "started_date": "2026-04-23",
-      "completed_date": "2026-04-25",
-      "owner_agent": "project-coordinator",
-      "merge_commit": "2b189e6",
-      "notes": "PR #44 merged to main 2026-04-25 22:07 +0200. Plan session 2026-04-23: 22 decisions (D1–D22) locked across channel/message, consent/legal, state/data, website/payment. Full plan at ~/.claude/plans/i-need-you-to-logical-pebble.md (state machine, 12-message sequence DA+EN, integration architecture, cost math, critical path). Shipped: (1) docs sweep — Watchman = FREE across 10 files + Plesner → Aumento Law across 10 files + new decision log entry; (2) DB schema migration — 8 new clients columns + 6 new tables (signup_tokens, subscriptions, payment_events, conversion_events, onboarding_stage_log, retention_jobs) + 5 new indexes + validation updates; (3) onboarding-playbook.md + 2026-04-23 design section; (4) src/db/signup.py + 16 tests; (5) src/db/subscriptions.py + 24 tests; (6) src/db/conversion.py (17 event types incl. 7-row Sentinel consent audit trail) + tests; (7) src/db/retention.py (D16 tiered policy: Watchman immediate hard-purge, Sentinel 30d anonymise + 5y purge_bookkeeping; claim-lock helpers) + tests; (8) src/db/onboarding.py (activate_watchman_trial atomic transition) + tests; (9) src/retention/ execution cron (runner.py + actions.py — claim-lock, action handlers, Telegram alert at attempt 5, two-tier path-traversal guard, Valdí §263 evidence preservation in anonymise); (10) Telegram /start <token> handler; (11) trial-expiry scanner + reconcile_watchman_expired_orphans; (12) pre-commit Codex review hook (precommit_codex_review_guard.py); (13) SvelteKit signup-site slice 1 at apps/signup/ (8 routes: /, /pricing, /legal/{privacy,terms,dpa}, /signup/start magic-link landing — Vitest 9/9, signup-verify green); (14) verify scripts + Make targets (signup-{dev,build,test,verify,issue-token}). 1,201 unit tests passing."
-    },
-    {
-      "id": "M42",
-      "name": "Sentinel onboarding — slice 2 (operator console V1–V6 + signup site beyond landing + Message 0 sender)",
-      "status": "in_progress",
-      "started_date": "2026-04-26",
-      "owner_agent": "project-coordinator",
-      "notes": "PR #45 (signup bilingual) merged 2026-04-26. PR #46 (operator console V1 trial-expiring + V6 retention queue tabs) merged 2026-04-27 16:09 UTC — V1+V6 tabs render in `main` but stay empty in DEV until DRYRUN-CONSOLE seed plan ships. PR #46 shipped 3 commits (DB layer + API endpoints with CAS guards + frontend Svelte tab host); Codex pre-commit gate caught 5 real issues across 3 passes. PR #47 (M37 dev/prod bind-mount separation + operator-console pipeline-progress emission + worker healthcheck heartbeat thread + dev subfinder tuning) merged 2026-04-27 17:30 UTC as squash commit `efbbe6b`. PR #47 final shape: original 4 commits (compose param + base-compose call-site protection / seed_dev_briefs + seed_dev_enriched + empty-input rejection in seed_dev_db / wire dev/prod isolation / docs + decision log) plus 3 new (operator-console pipeline-progress emission + worker healthcheck heartbeat thread + dev subfinder tuning) plus 2 docs/state-refresh commits + 1 merge commit pulling in #46. Codex pre-commit drove 4 P1 + 7 P2 fixes across 7 passes for the M37 work + a closing class-fix sweep — iteration count flagged by Federico as antipattern, filed as anthropics/claude-code#53958. HEIMDALL_DEV_DATASET workaround retired. Federico browser-walked PR #47 on dev (Live Demo 30 not 1,179, pipeline 30s with smoothly-moving bar) and merged. **Operator-console reframe complete (4/4 decisions resolved 2026-04-27 evening, see decision log):** D1 Notifications becomes 7th bounded context. D2 `config_changes` uses DB triggers for capture + repository wrappers for validation/intent/actor (hybrid). D3 RBAC v1 = code-backed via `Permission` enum + `require_permission` decorator (table-backed RBAC deferred until >2 roles). D4 three-sprint sequence locked: Stage A (identity/auth/session/router carve) → Stage A.5 (control-plane guarantees: command_audit + config_changes triggers + Permission enum + require_permission decorator + X-Request-ID middleware + trace_id propagation + /console/config/history) → V2 (first onboarding feature consuming the guarantees). `industries` resolved earlier to Tenant Identity. Next active work: (1) DRYRUN-CONSOLE seed plan resurface for sign-off (parallel, small infra PR), (2) Stage A foundation begins on a fresh branch off `main`. Soft-blocked items unchanged: MitID Erhverv broker pick (Idura / Criipto / Signicat — all sandbox-free), Betalingsservice merchant agreement (CVR-gated → SIRI-gated), CVR-match domain verification UX, signup site slice 2, Message 0 sender."
+      "outcome": "Outreach campaign launch",
+      "blocked_by": ["Aumento Law (Wernblad) response to legal briefing"],
+      "notes": "Re-targeted from Plesner 2026-04-23. Briefing at docs/legal/legal-briefing-outreach-20260414.md. Does not block code."
     }
   ],
+
   "external_deadlines": [
     {
-      "name": "Lawyer consultation — outreach legal questions",
-      "date": "re-targeted 2026-04-23",
-      "status": "re-engaging — Plesner dropped, briefing being re-sent to Aumento Law",
-      "owner_agent": "project-coordinator",
-      "counsel": "Anders Wernblad, Aumento Law",
-      "notes": "Initial engagement with David van Boen (Plesner) on 2026-04-14 did not proceed (Plesner declared incompetent 2026-04-23). New counsel: Anders Wernblad, Aumento Law (Danish IT law specialist — member of Association of Danish IT Attorneys, IT Society, Network for IT contracts, Danish Bar). The 16-question briefing at docs/legal/legal-briefing-outreach-20260414.md is being re-sent to Wernblad. Briefing covers §263, outreach under Markedsføringsloven §10, NIS2/CRA applicability (citing LOV 434/2025 + CRA Article 14, 2026-09-11), GDPR DPA, MitID Erhverv one-click signing, and Betalingsservice mandate flow."
-    },
-    {
-      "name": "Startup Denmark (SIRI) application",
+      "name": "SIRI (Startup Denmark) application",
       "date": "TBD",
       "status": "drafting — video pitch script pending",
-      "owner_agent": "grant-funding",
-      "dependency_type": "hard",
-      "notes": "Application drafted. Video pitch script unwritten (mandatory). SIRI approval gates CVR registration, which gates pilot onboarding."
-    }
-  ],
-  "clients": {
-    "pilot_target": 5,
-    "onboarded": 0,
-    "scanned": 0
-  },
-  "pipeline_run": {
-    "last_full_analysis": "2026-04-05",
-    "domains_analyzed": 1173,
-    "briefs_generated": 1173,
-    "notes": "Provenance-aware stats report in docs/analysis/pipeline-analysis-2026-04-05.md. SIRI-ready market evidence."
-  },
-  "test_count": 1490,
-  "test_count_notes": "1490 unit tests (+145 since 2026-04-27 baseline of 1345). Adds: PR #51 slice 3g/3g.5 auth tests; PR #54 SPA bypass middleware (8 new) + test_session_auth.py URL fixup; PR #55 rate-limit env-override helper (5 new). Integration test tests/integration/test_pipeline_button_flow.py requires dev Docker stack up — known Docker-dependent, not run in CI-equivalent.",
-  "blockers": [
-    {
-      "id": "B1",
-      "description": "SIRI approval gates CVR registration → gates pilot onboarding",
-      "severity": "high",
-      "affects": ["M31", "business launch"],
-      "notes": "Not a code blocker. Application drafted, video pitch script still unwritten."
+      "notes": "Application drafted. Video pitch script unwritten (mandatory). Gates everything downstream."
     },
     {
-      "id": "B2",
-      "description": "Outreach channel viability unconfirmed — awaiting Aumento Law (Anders Wernblad) response to legal briefing",
-      "severity": "medium",
-      "affects": ["marketing", "outreach"],
-      "notes": "Plesner engagement did not proceed (2026-04-23). Briefing re-targeted to Anders Wernblad, Aumento Law. Does not block technical work. Blocks finalisation of outreach campaign copy and channel selection."
+      "name": "Aumento Law (Anders Wernblad) consultation",
+      "date": "re-engaging since 2026-04-23",
+      "status": "briefing re-sent",
+      "notes": "Plesner dropped 2026-04-23. 16-Q briefing covers §263, Markedsføringsloven §10, NIS2/CRA, GDPR DPA, MitID Erhverv, Betalingsservice mandate, plus 5y vs 10y consent_records retention question (§263 stk. 3 aggravated)."
     }
   ],
-  "next_actions": [
-    "Merge PR #55 (`chore/auth-rate-limit-env-overrides`) once docker-smoke + CI land green. Unblocks the slice 3g/3g.5 manual walkthrough by allowing `HEIMDALL_AUTH_RATE_LIMIT_THRESHOLD=2 HEIMDALL_AUTH_RATE_LIMIT_WINDOW_SEC=10` so the rate-limit step takes 10s instead of 15 min.",
-    "Browser-QA the slice 3g/3g.5 SPA against `make dev-up` per PR #51's test plan: empty `console.db` → BootstrapEmpty splash; seed operator → Login → submit good creds → Dashboard with display_name + WS connected; submit bad creds → invalid_credentials error; submit until rate-limited → countdown; click 'Log out' → returns to Login. DevTools-confirm `/console/ws` rejects unauthenticated WS upgrades with code 4401. Dev stack is up at http://localhost:8001/app/ (admin / devpassword).",
-    "Pi5 cutover for the auth-plane bundle (PR #51 / `ee8662d`) — gated on browser-QA above. Sequence: `git checkout prod && git merge --ff-only main && HEIMDALL_APPROVED=1 git push origin prod` → SSH Pi5 → `heimdall-deploy`. First Pi5 deploy of slice 3g + 3g.5 is the auth-plane production cutover.",
-    "Stage A.5 — control-plane guarantees per D2-D3-D4: `command_audit` table + `config_changes` table + DB triggers on config-affecting tables (D2) + `Permission` enum in `src/api/auth/permissions.py` + `require_permission` decorator (D3) + X-Request-ID middleware + trace_id propagation through loguru + `GET /console/config/history` git-shelling endpoint. Lands AFTER Pi5 cutover, BEFORE V2.",
-    "Spec correction: reconcile slice 3g spec §357 + implementation-spec §1358 (`/app/*` protected) with §69 + §101 (whoami drives unauth UI on mount). PR #54 fixed the implementation; the spec text still reads as if `/app/*` is fully gated. Worth a follow-up doc-only PR to mark the bypass list as authoritative.",
-    "Resurface DRYRUN-CONSOLE seed plan for V1+V6 confirm modals (paused 2026-04-26, never approved). Plan covers synthetic clients + retention_jobs in the dev `clients.db` so the V1 (Trial expiring) and V6 (Retention queue) tabs in `main` actually render data in DEV — required to exercise the V6 confirm modals (Force run / Cancel / Retry). Independent of Stage A; can ship in parallel as a small infra PR.",
-    "Browser-eyeball QA the SvelteKit slice-1 magic-link landing — `make signup-issue-token` + `make signup-dev`, walk the /signup/start?t=… flow in a real browser (token strip, Telegram CTA, QR, EN/DA copy). Pre-existing carry-over.",
-    "Pick MitID Erhverv broker (Idura / Criipto / Signicat) — sandboxes all free, unblocks dev during SIRI wait",
-    "Signup site slice 2 (consent capture + scope picker + payment-mandate handoff) — sequence depends on Stage A.5 timing.",
-    "Message 0 magic-link email sender — pick EU-residency transactional email provider (Postmark or equivalent), wire it",
-    "Engage Anders Wernblad, Aumento Law — send adapted 16-Q brief at docs/legal/legal-briefing-outreach-20260414.md (also carries the 5y vs 10y consent_records retention question — depends on whether §263 stk. 3 aggravated limitation applies)",
-    "SIRI video pitch script (still unwritten — blocks SIRI decision)",
-    "Restart Claude Code harness so the renamed cloud-devsec agent slug resolves (registry is loaded at session start, currently still serving cloud-devsecops-architect from cache)"
-  ],
-  "follow_ups": [
+
+  "deferred_backlog": [
+    "Operator console V2 onboarding view (paused 2026-04-26 when production-readiness gate took priority)",
+    "Signup-site slice 2 (consent capture + scope picker + payment-mandate handoff)",
+    "Message 0 magic-link email sender (needs EU-residency provider pick)",
+    "MitID Erhverv broker pick (Idura / Criipto / Signicat — sandboxes free)",
+    "Browser-eyeball QA on signup-site slice 1",
+    "SIRI video pitch script (the only thing standing between drafted and submitted)",
     "Non-WordPress passive detection (SPF/DKIM/DMARC, cookie security, JS library versions)",
     "Grafana pipeline operations dashboard",
     "Tailscale remote access",
     "Threat feed integration: abuse.ch URLhaus + WHOIS domain age",
     "Professional indemnity insurance quote",
-    "Retire src/client_memory/ JSON module once all consumers migrated",
-    "Marketing strategy finalization (post lawyer consultation)",
-    "Naming session (post SIRI / post tech+legal spec lock — D22)",
-    "Betalingsservice merchant agreement — CVR-gated (SIRI-blocked)",
-    "MitID Erhverv production switch — CVR-gated (SIRI-blocked)",
+    "Decision-log per-quarter archive split (log.md > 2486 lines)",
+    "Marketing strategy finalization (post-Wernblad)",
+    "Naming session (post-SIRI / post-tech+legal spec lock per D22)",
     "Liability insurance quote (Danish IT SMB, est. 8,000–15,000 kr./yr excl. moms)",
-    "Sole-proprietorship (enkeltmandsvirksomhed) contingency plan if SIRI > 4 months"
-  ]
+    "Sole-proprietorship contingency plan if SIRI > 4 months",
+    "Retire src/client_memory/ JSON module once all consumers migrated",
+    "Bulk-transition the 16 historical Epics in Jira to Done (manual UI step or automation follow-up)"
+  ],
+
+  "metrics": {
+    "test_count_main": null,
+    "test_count_main_verified_at": null,
+    "notes": "Run `pytest --collect-only -q | tail -1` on main to populate. Last recorded figure 1688 (2026-05-02, PR #57 rebased tip) — not re-verified since."
+  }
 }
