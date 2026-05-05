@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from src.db.connection import init_db
-from src.db.worker_hook import save_scan_to_db
+from src.db.worker_hook import MissingGateDecisionError, save_scan_to_db
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -70,6 +70,34 @@ SAMPLE_RESULT: dict = {
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
+
+
+class TestSaveScanFailLoudOnMissingGateDecisionId:
+    """HEIM-26 — fail-loud invariant on ``scan_history.gate_decision_id``.
+
+    Architect S3 from PR #57 deferred-out-of-scope list: the writer
+    refuses to insert a NULL ``gate_decision_id`` row. Every Valdí
+    gate stamps ``job["gate_decision_id"]`` upstream; absence here is
+    drift evidence and must surface loudly rather than silently
+    polluting the audit trail.
+    """
+
+    def test_raises_when_gate_decision_id_missing_from_job(self, db) -> None:
+        job = dict(SAMPLE_JOB)
+        del job["gate_decision_id"]
+        with pytest.raises(MissingGateDecisionError, match="test.dk"):
+            save_scan_to_db(db, job, SAMPLE_RESULT)
+        # Refused BEFORE any DB write — no scan_history row landed.
+        row = db.execute(
+            "SELECT * FROM scan_history WHERE domain = ?", ("test.dk",)
+        ).fetchone()
+        assert row is None
+
+    def test_raises_when_gate_decision_id_explicitly_none(self, db) -> None:
+        job = dict(SAMPLE_JOB)
+        job["gate_decision_id"] = None
+        with pytest.raises(MissingGateDecisionError):
+            save_scan_to_db(db, job, SAMPLE_RESULT)
 
 
 class TestSaveScanCreatesScanEntry:
@@ -154,6 +182,9 @@ class TestSaveScanWithoutCvr:
         job_no_cvr = {
             "job_id": "job-002",
             "domain": "nocvr.dk",
+            # gate_decision_id required by the HEIM-26 fail-loud
+            # invariant — orthogonal to the CVR-absent case under test.
+            "gate_decision_id": 7,
         }
         save_scan_to_db(db, job_no_cvr, SAMPLE_RESULT)
 

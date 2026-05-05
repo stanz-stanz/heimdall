@@ -466,7 +466,10 @@ def main(argv: list | None = None) -> None:
         try:
             from src.db.connection import init_db
             from src.db.migrate import LegacyDataIntegrityError
-            from src.db.worker_hook import save_scan_to_db
+            from src.db.worker_hook import (
+                MissingGateDecisionError,
+                save_scan_to_db,
+            )
 
             client_data_dir = os.environ.get("CLIENT_DATA_DIR", "data/clients")
             db_path = os.path.join(client_data_dir, "clients.db")
@@ -477,6 +480,24 @@ def main(argv: list | None = None) -> None:
                 "FATAL worker_db_integrity for {}: {} — process exiting "
                 "non-zero so the container restart policy surfaces the "
                 "stop condition. Operator action required.",
+                domain,
+                exc,
+            )
+            sys.exit(2)
+        except MissingGateDecisionError as exc:
+            # HEIM-26 — Valdí gate-stamping drift at line 444 (or
+            # upstream) would silently insert NULL into
+            # scan_history.gate_decision_id and pollute the audit
+            # trail. Loop-continue would mean every subsequent scan
+            # fails identically, so mirror LegacyDataIntegrityError
+            # and exit non-zero to surface via the container restart
+            # policy. The result file is already on disk; only the
+            # scan_history row is intentionally skipped.
+            logger.critical(
+                "FATAL worker_gate_decision_missing for {}: {} — "
+                "process exiting non-zero so the container restart "
+                "policy surfaces the stop condition. Operator action "
+                "required (check src/worker/main.py:444 for drift).",
                 domain,
                 exc,
             )

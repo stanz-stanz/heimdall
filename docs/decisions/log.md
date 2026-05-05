@@ -5,6 +5,34 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-05-05 — HEIM-26 fail-loud invariant on `scan_history.gate_decision_id` (architect S3)
+
+> Branch: `main` (feature-class change but Sprint-1 polish; precedent set by HEIM-22 / HEIM-23 direct-to-main).
+
+**Decided.**
+
+- New `MissingGateDecisionError(RuntimeError)` in `src/db/worker_hook.py`. `save_scan_to_db` raises before any DB I/O when `job["gate_decision_id"]` is missing or `None`.
+- Worker (`src/worker/main.py`) gains a specific `except MissingGateDecisionError` handler immediately before the generic `except Exception` fallback. Logs CRITICAL + `sys.exit(2)`, mirroring the `LegacyDataIntegrityError` pattern. Loop-continue would silently repeat the same audit failure for every subsequent job; exiting surfaces it via the container restart policy.
+- Two new tests in `tests/test_db_worker_hook.py::TestSaveScanFailLoudOnMissingGateDecisionId` — missing key + explicit `None`. Pre-existing `test_save_scan_without_cvr` restored by adding `gate_decision_id: 7` (the test was orthogonal — testing CVR absence, not gate-decision absence).
+- Codex review 2 rounds: round 1 = 0 P1 + 2 P2 (Q4 specific handler + Q5 schema NOT NULL/backfill); round 2 = SHIP.
+
+**Rejected (deferred to HEIM-39).**
+
+- **Schema-level `NOT NULL`** on `scan_history.gate_decision_id`. Currently `INTEGER` (nullable legacy) per `docs/architecture/client-db-schema.sql:233` and `src/db/migrate.py:40`. Pre-invariant production rows may carry NULL from before Valdí runtime hardening landed.
+- **Null-row backfill migration.** The architect's S3 description asked for this in the same migration, but the data-integrity choice (sentinel ID / hard-delete legacy / `legacy_unkated` boolean column) is a Federico-decision, not architecture. Shipping a half-baked migration would be worse than a forward-only invariant.
+- **Defensive guard in `create_scan_entry`.** Lower-layer writer also accepts `None`; HEIM-26 deliberately scopes the invariant to the worker-surface entry point.
+
+All three deferrals filed as **HEIM-39** (Sprint 02, 5 SP — audit existing NULLs → pick backfill strategy → migration → NOT NULL → defensive check). HEIM-26 is forward-only by design; rationale captured here.
+
+**Unresolved.**
+
+- HEIM-39 backfill strategy choice — Federico picks sentinel vs hard-delete vs nullable-with-disambiguation column.
+- `data/clients/clients.db` NULL row count not yet measured; Codex sandbox couldn't open the production DB. First step of HEIM-39 is the audit pass.
+
+**Suggested opening prompt for next session.** "Continue Sprint 1 with HEIM-27 (`/verify-claims` bite 2 docs commit-guard hook, 5 SP), the last Sprint 1 item. After that, HEIM-39 backfill strategy decision."
+
+---
+
 ## 2026-05-04 — `/console/ws` command-dispatch branch removed (RBAC + audit bypass)
 
 > Branch: `main` (bug-fix-direct-to-main per CLAUDE.md). Commit `0133eb0`.

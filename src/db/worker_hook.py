@@ -17,6 +17,30 @@ from src.db.connection import _now
 from src.db.scans import complete_scan_entry, create_scan_entry, save_brief_snapshot
 
 
+class MissingGateDecisionError(RuntimeError):
+    """Raised when :func:`save_scan_to_db` receives a job whose
+    ``gate_decision_id`` is ``None``.
+
+    Every successful Valdí gate stamps ``job["gate_decision_id"]``
+    before the scan reaches this writer (``src/worker/main.py:444``).
+    A missing value here is drift evidence — almost certainly a
+    regression upstream of the writer — and inserting a NULL row
+    into ``scan_history`` would silently pollute the audit trail.
+
+    Failing loud surfaces the error in the worker's existing
+    ``except Exception`` log line at ``src/worker/main.py:484``; the
+    result file is already on disk by that point, the ``scan_history``
+    row is intentionally omitted so an operator notices the gap rather
+    than discovering it months later.
+
+    Locked 2026-05-05 (HEIM-26 — architect S3 from PR #57 deferred
+    follow-up list, decision-log entry 2026-05-02). Pre-invariant rows
+    in production may carry NULL ``gate_decision_id`` from before the
+    Valdí runtime hardening landed; this exception governs new writes
+    only and does not migrate historical rows.
+    """
+
+
 def save_scan_to_db(conn: sqlite3.Connection, job: dict, result: dict) -> None:
     """Save a completed scan result to the client database.
 
@@ -27,21 +51,36 @@ def save_scan_to_db(conn: sqlite3.Connection, job: dict, result: dict) -> None:
     Args:
         conn: Connection to data/clients/clients.db (must be read-write).
         job: The scan job dict with keys: job_id, domain, client_id,
-            and optionally run_id.
+            ``gate_decision_id`` (REQUIRED — see Raises below), and
+            optionally run_id.
         result: The scan result dict from execute_scan_job(), with keys:
             domain, status, brief, timing, cache_stats, scan_result.
 
     Raises:
-        Any exception from the underlying DB operations. The caller in
-        main.py wraps this in try/except to keep the pipeline running.
+        MissingGateDecisionError: ``job["gate_decision_id"]`` is missing
+            or ``None``. Refused before any DB write — the scan_history
+            row is intentionally NOT inserted so the audit trail stays
+            clean. The result file on disk is unaffected.
+        Any other exception from the underlying DB operations. The
+            caller in main.py wraps this in ``try/except Exception`` to
+            keep the pipeline running.
     """
     domain = job.get("domain", "")
+    gate_decision_id = job.get("gate_decision_id")
+    if gate_decision_id is None:
+        raise MissingGateDecisionError(
+            f"save_scan_to_db invoked for {domain!r} with "
+            "gate_decision_id=None. Every successful Valdí gate stamps "
+            "job['gate_decision_id'] before reaching this writer; a "
+            "missing value indicates a regression in "
+            "src/worker/main.py:444 or upstream of it."
+        )
+
     scan_id = f"scan-{_now()[:10]}-{uuid.uuid4().hex[:8]}"
     brief = result.get("brief", {})
     timing = result.get("timing", {})
     cache_stats = result.get("cache_stats", {})
     status = result.get("status", "completed")
-    gate_decision_id = job.get("gate_decision_id")
 
     # 1. Create scan_history entry
     create_scan_entry(
