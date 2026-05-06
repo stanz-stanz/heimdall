@@ -5,6 +5,43 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-05-06 — Sprint 1 close (work shipped 2026-05-05): Auth Plane Polish epic, 13/13 SP
+
+> Branch: `main` (4 feat/test/fix commits + 2 docs commits, all direct-to-main per Sprint-1 trajectory).
+
+**Decided**
+
+- HEIM-22 (`b2ee9c0`) — `console_read_only` fixture + 2 regression tests in `test_console_permission_gates.py` close the "read allowed, dispatch denied" matrix cell flagged by Codex 2026-05-04. `ROLE_PERMISSIONS` monkeypatched into the test scope only; production lock (single `'owner'` per Stage A.5 D3) preserved.
+- HEIM-23 (`e71d3e7`) — `tests/test_console_audit_invariants.py` AST lint asserts every `write_console_audit_row(...)` call in `src/api/console.py` is enclosed in a `try/except` for `sqlite3.Error` or one of 5 named subclasses. Codifies the canonical pattern at `console.py:333-372`. 12 tests cover wrapper allowlist, function/lambda boundary, strict tuple/sibling handler checks, import-aware sqlite3 alias resolution, attribute-form writer calls. Codex 3 rounds: 5 P1, 3 P2 closed; final SHIP.
+- HEIM-26 (`429757e`) — `MissingGateDecisionError(RuntimeError)` in `src/db/worker_hook.py` raises before any DB I/O when `job["gate_decision_id"]` is missing or `None`. Worker catches with CRITICAL log + `sys.exit(2)`, mirroring `LegacyDataIntegrityError`. Forward-only invariant; null-row backfill + schema NOT NULL deferred to HEIM-39.
+- HEIM-27 (`694a2ef`) — `.claude/hooks/precommit_doc_consistency_guard.py` soft-blocks `git commit` when staged diff includes any of `CLAUDE.md`, `docs/briefing.md`, `docs/decisions/log.md`, `docs/repo-map.md`, unless prefixed with `HEIMDALL_DOC_REVIEWED=1`. shlex-based bypass detection so the bypass token inside a quoted commit message body cannot self-trigger the gate. 11 tests; Codex 2 rounds → SHIP. Closes `/verify-claims` bite-2 contract.
+- **Naming convention + Jira project locked** (`2234a68`): HEIM project at project-heimdall.atlassian.net, schema `Epic → {Story|Task|Bug} → Subtask`, `Test:` subtask-prefix convention, label vocabulary (`area-*` / `theme-*` / `release-*` / `tier-*` / `blocked-*`), 1-week sprints. 16 historical Epics backfilled (HEIM-5..20).
+- **Sprint container convention** (`67708d4`): tickets must live in `customfield_10020`, not just `sprint-NN` labelled. Subtasks ride parents per Jira's `subtasks cannot be associated to a sprint` invariant.
+- **Three new memory rules locked** this session (all indexed in `MEMORY.md`):
+  1. `feedback_jira_update_before_commit.md` — every Jira transition + status comment lands BEFORE the corresponding git commit, never after.
+  2. `feedback_jira_sprint_container_required.md` — tickets must be in a Sprint container; backlog-with-label is invisible on the Board.
+  3. `feedback_clarify_before_destructive_cleanup.md` — "clean up" / "fix" / "tidy" default to the visibility reading, NOT the destructive one. Removing data is asymmetrically expensive.
+- `feedback_chunk_and_parallelize.md` sharpened: Phase 1 dispatches up to 3 Explore agents in parallel. Domain expert review pass runs IN PARALLEL with self-review on the same diff. Codex review parallel with broader regression where the diff doesn't touch tests.
+
+**Rejected**
+
+- **Removing HEIM-22/23/26 from Sprint 1 container** mid-session (the misread of "clean up now"). Reverted within 10 minutes after Federico flagged the dashboard mismatch. Captured in `feedback_clarify_before_destructive_cleanup`.
+- **Backdating sprint start time** to credit pre-start commits — fabricates retrospective reporting; rejected.
+- **Folding HEIM-40** (sibling-hook exception broaden) into HEIM-27. Codex round 2 rated P3, recommended deferral. Filed as Sprint 02 work, 1 SP.
+- **Schema-level `NOT NULL`** on `scan_history.gate_decision_id` THIS sprint. Data-integrity choice (sentinel ID / hard-delete legacy / nullable-with-disambiguation column) is Federico's call, not architecture. Filed as HEIM-39 (5 SP).
+
+**Unresolved**
+
+- **HEIM-3 ("Task 3" template-starter Bug)** sits in Sprint 1 as `In Progress`, no SP, no description. Federico's call to delete or repurpose. Not blocking.
+- **Sprint 02 Sprint container** does not yet exist in Jira. Six tickets carry `sprint-02` labels (HEIM-24, 25, 28, 38, 39, 40 — 20 SP combined) but no actual Sprint 2 has been created on the board. Atlassian MCP does not expose a sprint-create endpoint — Federico creates via Backlog UI ("Create sprint" button), then API can bulk-assign.
+- **Sprint 02 trim** unaddressed. 20 SP > single-week solo capacity. Three candidate shapes: polish-heavy (HEIM-25 + 28 + 38 + 40 = 10 SP), architect-heavy (HEIM-24 + 25 + 39 = 13 SP), mixed (HEIM-24 + 28 + 38 + 40 = 12 SP). Federico picks before sprint start.
+- **Push to origin/main** for the 6 session commits — held per repo `permissions.deny` on `git push`. Federico's hand.
+- **CLAUDE.md vocabulary refresh** for the Stage A/A.5 historical references + "pilot" framing post-Sprint-1. Low priority; nothing broken.
+
+**Suggested opening prompt for next session.** "Sprint 02 plan + trim. 20 SP candidate backlog (HEIM-24/25/28/38/39/40) — pick polish-heavy / architect-heavy / mixed shape, then create the Sprint 2 container in Jira UI. After trim is locked + container is up, start with the smallest item."
+
+---
+
 ## 2026-05-05 — HEIM-26 fail-loud invariant on `scan_history.gate_decision_id` (architect S3)
 
 > Branch: `main` (feature-class change but Sprint-1 polish; precedent set by HEIM-22 / HEIM-23 direct-to-main).
