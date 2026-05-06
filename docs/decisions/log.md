@@ -5,6 +5,43 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-05-06 — Sprint 1 close (work shipped 2026-05-05): Auth Plane Polish epic, 13/13 SP
+
+> Branch: `main` (4 feat/test/fix commits + 2 docs commits, all direct-to-main per Sprint-1 trajectory).
+
+**Decided**
+
+- HEIM-22 (`b2ee9c0`) — `console_read_only` fixture + 2 regression tests in `test_console_permission_gates.py` close the "read allowed, dispatch denied" matrix cell flagged by Codex 2026-05-04. `ROLE_PERMISSIONS` monkeypatched into the test scope only; production lock (single `'owner'` per Stage A.5 D3) preserved.
+- HEIM-23 (`e71d3e7`) — `tests/test_console_audit_invariants.py` AST lint asserts every `write_console_audit_row(...)` call in `src/api/console.py` is enclosed in a `try/except` for `sqlite3.Error` or one of 5 named subclasses. Codifies the canonical pattern at `console.py:333-372`. 12 tests cover wrapper allowlist, function/lambda boundary, strict tuple/sibling handler checks, import-aware sqlite3 alias resolution, attribute-form writer calls. Codex 3 rounds: 5 P1, 3 P2 closed; final SHIP.
+- HEIM-26 (`429757e`) — `MissingGateDecisionError(RuntimeError)` in `src/db/worker_hook.py` raises before any DB I/O when `job["gate_decision_id"]` is missing or `None`. Worker catches with CRITICAL log + `sys.exit(2)`, mirroring `LegacyDataIntegrityError`. Forward-only invariant; null-row backfill + schema NOT NULL deferred to HEIM-39.
+- HEIM-27 (`694a2ef`) — `.claude/hooks/precommit_doc_consistency_guard.py` soft-blocks `git commit` when staged diff includes any of `CLAUDE.md`, `docs/briefing.md`, `docs/decisions/log.md`, `docs/repo-map.md`, unless prefixed with `HEIMDALL_DOC_REVIEWED=1`. shlex-based bypass detection so the bypass token inside a quoted commit message body cannot self-trigger the gate. 11 tests; Codex 2 rounds → SHIP. Closes `/verify-claims` bite-2 contract.
+- **Naming convention + Jira project locked** (`2234a68`): HEIM project at project-heimdall.atlassian.net, schema `Epic → {Story|Task|Bug} → Subtask`, `Test:` subtask-prefix convention, label vocabulary (`area-*` / `theme-*` / `release-*` / `tier-*` / `blocked-*`), 1-week sprints. 16 historical Epics backfilled (HEIM-5..20).
+- **Sprint container convention** (`67708d4`): tickets must live in `customfield_10020`, not just `sprint-NN` labelled. Subtasks ride parents per Jira's `subtasks cannot be associated to a sprint` invariant.
+- **Three new memory rules locked** this session (all indexed in `MEMORY.md`):
+  1. `feedback_jira_update_before_commit.md` — every Jira transition + status comment lands BEFORE the corresponding git commit, never after.
+  2. `feedback_jira_sprint_container_required.md` — tickets must be in a Sprint container; backlog-with-label is invisible on the Board.
+  3. `feedback_clarify_before_destructive_cleanup.md` — "clean up" / "fix" / "tidy" default to the visibility reading, NOT the destructive one. Removing data is asymmetrically expensive.
+- `feedback_chunk_and_parallelize.md` sharpened: Phase 1 dispatches up to 3 Explore agents in parallel. Domain expert review pass runs IN PARALLEL with self-review on the same diff. Codex review parallel with broader regression where the diff doesn't touch tests.
+
+**Rejected**
+
+- **Removing HEIM-22/23/26 from Sprint 1 container** mid-session (the misread of "clean up now"). Reverted within 10 minutes after Federico flagged the dashboard mismatch. Captured in `feedback_clarify_before_destructive_cleanup`.
+- **Backdating sprint start time** to credit pre-start commits — fabricates retrospective reporting; rejected.
+- **Folding HEIM-40** (sibling-hook exception broaden) into HEIM-27. Codex round 2 rated P3, recommended deferral. Filed as Sprint 02 work, 1 SP.
+- **Schema-level `NOT NULL`** on `scan_history.gate_decision_id` THIS sprint. Data-integrity choice (sentinel ID / hard-delete legacy / nullable-with-disambiguation column) is Federico's call, not architecture. Filed as HEIM-39 (5 SP).
+
+**Unresolved**
+
+- **HEIM-3 ("Task 3" template-starter Bug)** sits in Sprint 1 as `In Progress`, no SP, no description. Federico's call to delete or repurpose. Not blocking.
+- **Sprint 02 Sprint container** does not yet exist in Jira. Six tickets carry `sprint-02` labels (HEIM-24, 25, 28, 38, 39, 40 — 20 SP combined) but no actual Sprint 2 has been created on the board. Atlassian MCP does not expose a sprint-create endpoint — Federico creates via Backlog UI ("Create sprint" button), then API can bulk-assign.
+- **Sprint 02 trim** unaddressed. 20 SP > single-week solo capacity. Three candidate shapes: polish-heavy (HEIM-25 + 28 + 38 + 40 = 10 SP), architect-heavy (HEIM-24 + 25 + 39 = 13 SP), mixed (HEIM-24 + 28 + 38 + 40 = 12 SP). Federico picks before sprint start.
+- **Push to origin/main** for the 6 session commits — held per repo `permissions.deny` on `git push`. Federico's hand.
+- **CLAUDE.md vocabulary refresh** for the Stage A/A.5 historical references + "pilot" framing post-Sprint-1. Low priority; nothing broken.
+
+**Suggested opening prompt for next session.** "Sprint 02 plan + trim. 20 SP candidate backlog (HEIM-24/25/28/38/39/40) — pick polish-heavy / architect-heavy / mixed shape, then create the Sprint 2 container in Jira UI. After trim is locked + container is up, start with the smallest item."
+
+---
+
 ## 2026-05-05 — HEIM-26 fail-loud invariant on `scan_history.gate_decision_id` (architect S3)
 
 > Branch: `main` (feature-class change but Sprint-1 polish; precedent set by HEIM-22 / HEIM-23 direct-to-main).
@@ -30,6 +67,91 @@ All three deferrals filed as **HEIM-39** (Sprint 02, 5 SP — audit existing NUL
 - `data/clients/clients.db` NULL row count not yet measured; Codex sandbox couldn't open the production DB. First step of HEIM-39 is the audit pass.
 
 **Suggested opening prompt for next session.** "Continue Sprint 1 with HEIM-27 (`/verify-claims` bite 2 docs commit-guard hook, 5 SP), the last Sprint 1 item. After that, HEIM-39 backfill strategy decision."
+
+---
+
+## 2026-05-05 — Jira project + naming convention locked (HEIM/Heimdall on project-heimdall.atlassian.net)
+
+> Branch: `main` (docs + state-file refresh, direct-to-main per CLAUDE.md). New file: `docs/jira-conventions.md`. Refresh: `data/project-state.json`.
+
+**Context.** Federico called out that ad-hoc planning with accreted naming (Stage A / A.5 / V2 / M37 / M41 …) had become illegible. Two-step decision: (1) consolidate the project plan; (2) move tracking off free-prose `data/project-state.json` and into Jira with a real convention.
+
+**Decided.**
+
+- **Jira site provisioned** at `project-heimdall.atlassian.net` (cloud id `8b5ae1b8-c844-4ac5-8667-a62d08bd916a`). Project key `HEIM`, name `Heimdall`. Team-managed Scrum (Free plan). GitHub-for-Jira integration installed and linked to `stanz-stanz/heimdall`.
+- **Atlassian MCP** is the bridge — issues created direct via `createJiraIssue`, no CSV import.
+- **Hierarchy = Epic → {Story | Task | Bug} → Subtask.** Initiative dropped (Premium-only). Test issue type dropped (Xray/Zephyr-only). Test cases live as Subtasks under their parent with summary prefix `Test:` — searchable via JQL `summary ~ "Test:"`.
+- **Naming format** (full table in `docs/jira-conventions.md`):
+  - Sprint: `Sprint NN — <Theme>` (zero-padded, sequential from 01).
+  - Epic: outcome noun-phrase, Title Case, ≤40 chars.
+  - Story / Task: imperative verb + concrete object, ≤80 chars, no period.
+  - Subtask (test): `Test: Verify <behavior> [when <condition>]`, present tense.
+- **Story vs Task split.** Story = user-visible deliverable; Task = engineering chore. Default to Story; pick Task only when there's no user surface.
+- **Story-points scale = Fibonacci `1 / 2 / 3 / 5 / 8 / 13`.** > 13 must be split before sprint commit.
+- **Components dropped** (Free plan limitation) — `area-*` labels replace them: `area-api`, `area-frontend`, `area-worker`, `area-scheduler`, `area-signup`, `area-valdi`, `area-infra`, `area-docs`.
+- **Versions dropped** — `release-*` labels replace them: `release-pilot-v1`, `release-sentinel-v1`, `release-watchman-v1`.
+- **Initiative dropped** — `theme-*` labels replace them: `theme-pilot-launch`, `theme-auth-prod`, `theme-onboarding`. Plus `tier-watchman` / `tier-sentinel`, `blocked-siri` / `blocked-cvr` / `blocked-wernblad`, `theme-historical` for backfilled work.
+- **Sprint cadence = 1 week**, Mon–Sun. (Project length-setting may need a UI nudge; the convention is the source of truth.)
+- **Smart commits enabled** via the GitHub integration: `HEIM-12 #close`, `HEIM-12 #time 30m`, `HEIM-12 #comment …` work in commit messages.
+
+**Backfill — 16 historical Epics created at HEIM-5 through HEIM-20** (HEIM-1..4 are template starter issues, ignore). All carry `theme-historical` label and are still in `To Do` status — bulk-transition to Done is a follow-up (UI-side, JQL `project = HEIM AND issuetype = Epic AND labels = theme-historical` → bulk select → transition).
+
+| Key | Epic |
+|---|---|
+| HEIM-5  | Sprint 1 — Consolidate & Ship |
+| HEIM-6  | Sprint 2 — Docker Architecture |
+| HEIM-7  | Sprint 3 — Consent-Gated Pipeline |
+| HEIM-8  | Sprint 4 — Pilot Prep |
+| HEIM-9  | MVP Hardening (Phase 1 + 2) |
+| HEIM-10 | CT Monitoring Rebuild (Sentinel Tier) |
+| HEIM-11 | Dev/Prod Environment Split |
+| HEIM-12 | Operational Hardening April 2026 |
+| HEIM-13 | Sentinel Onboarding — Backend & Plan |
+| HEIM-14 | Sentinel Onboarding — Console V1/V6 + Signup Bilingual |
+| HEIM-15 | Stage A — Auth Plane Carve |
+| HEIM-16 | Stage A.5 — Audit + RBAC + X-Request-ID |
+| HEIM-17 | Valdí Runtime Hardening |
+| HEIM-18 | Auth Plane Production Cutover |
+| HEIM-19 | Hook Hardening — Prod-Commit Deny |
+| HEIM-20 | /verify-claims (Bite 1) — Codex-Grounded Verification |
+
+**Sprint 01 — Auth Plane Polish — created at HEIM-21** (Epic) with 7 children HEIM-22..28 (5 Tasks + 2 Stories) and 9 Test subtasks HEIM-29..37. All carry `theme-auth-prod` + `sprint-01` labels. No-user-visible-feature sprint — closes Codex follow-ups + architect S1/S2/S3 + `/verify-claims` bites 2 and 3.
+
+| Key | Type | Summary |
+|---|---|---|
+| HEIM-21 | Epic    | Auth Plane Polish |
+| HEIM-22 | Task    | Add CONSOLE_READ-only role fixture and dispatch-denied test cell |
+| HEIM-23 | Task    | Wrap remaining liveops audit writes in fail-secure catch |
+| HEIM-24 | Task    | Pass open writer connection through worker gate path (S1) |
+| HEIM-25 | Task    | Rotate logs/valdi/ markdown writes (S2) |
+| HEIM-26 | Task    | Add fail-loud invariant on scan_history.gate_decision_id (S3) |
+| HEIM-27 | Story   | Ship /verify-claims bite 2 — docs commit guard hook |
+| HEIM-28 | Story   | Ship /verify-claims bite 3 — eval set + measurement baseline |
+
+**`data/project-state.json` refreshed to schema version 2.** Free-prose `phase` blob replaced with structured fields: `jira` (site/cloud_id/project_key), `current_sprint` (epic + stories with test arrays), `production` (last deploy commit/date), `historical_epics[]`, `blocked_outcomes[]`, `external_deadlines[]`, `deferred_backlog[]`, `metrics` (test count nullable until re-verified). Old schema's `completed_sprints`, `milestones`, `next_actions`, `follow_ups`, `clients`, `pipeline_run` arrays all collapsed into Jira tickets or the `historical_epics` / `deferred_backlog` arrays.
+
+**Rejected.**
+
+- **CSV bulk import.** Picked MCP-direct after Atlassian plugin install, since each issue creation is auditable in the conversation.
+- **Premium plan retention.** Trial is on but Federico is dropping it. No Initiative layer (would become read-only on downgrade), no Atlassian Intelligence dependency.
+- **Components / Versions native fields.** Free-plan team-managed Scrum doesn't expose these; labels are functionally equivalent at solo scale.
+- **Story Points on Issue Layout for Bug + Subtask + Epic.** Only Story + Task got the field surfaced — Bug + Subtask + Epic don't typically carry estimates.
+- **Confluence space.** Would duplicate `docs/` which CLAUDE.md mandates as source of truth.
+- **Custom workflows / extra statuses.** Solo-shop overhead.
+- **Initiative as parent of Epic on the trial-Premium tier.** Locking data structure on a feature that disappears post-downgrade.
+- **Sprint 06 / Sprint 10 / numbered-from-history.** Sprint numbering reset to `01` since none of the historical sprints existed in Jira; preserve historical context as backfilled Done Epics.
+
+**Unresolved.**
+
+- **Bulk-transition 16 historical Epics to Done.** Manual UI action via JQL `project = HEIM AND issuetype = Epic AND labels = theme-historical` → select all → transition. Or a follow-up MCP automation; not gating Sprint 1 work.
+- **Sprint 01 actually starting.** Issues are in the backlog with `sprint-01` labels. Federico drags them into the active sprint via the Jira backlog UI (Backlog → "Start sprint" action). 1-week sprint targeting end 2026-05-12.
+- **Sprint length confirmation.** Federico said "move on with what we have" before confirming the 1-week setting was saved; convention says weekly, the UI may default to 2.
+- **Story Points field verification.** Test by clicking + Create on a Story; `feedback_pre_push_verification` dictates manual eyeball before next sprint planning.
+- **Test count on `main`.** State file's `metrics.test_count_main` is null — needs `pytest --collect-only -q | tail -1` to populate. Not blocking.
+- **Decision-log size growth.** Now ≥ 2486 lines, this entry pushes it further. Per-quarter archive split (`docs/decisions/log-archive/2026-Q1.md` …) remains the unstarted option.
+- **CLAUDE.md update.** This entry doesn't touch CLAUDE.md; if Jira becomes the canonical roadmap, a CLAUDE.md pointer to `docs/jira-conventions.md` would help future sessions land on the right convention. Federico's call.
+
+**Suggested opening prompt for next session.** "Jira is up at project-heimdall.atlassian.net. Bulk-transition HEIM-5..20 to Done in the UI, start Sprint 01 with HEIM-22..28, then begin HEIM-22 (CONSOLE_READ fixture) — smallest piece, lowest risk."
 
 ---
 
