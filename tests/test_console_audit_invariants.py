@@ -1,7 +1,7 @@
-"""HEIM-23 — Audit-write fail-secure invariant for src/api/console.py.
+"""HEIM-23 / HEIM-38 — Audit-write fail-secure invariant for src/api/**.
 
 Closes the discipline gap that motivated the 2026-05-04 /console/ws
-fix (commit 07294bd): every console handler that calls
+fix (commit 07294bd): every handler under ``src/api/`` that calls
 ``write_console_audit_row(...)`` must enclose the call in a
 ``try/except`` whose handler catches ``sqlite3.Error`` or one of the
 5 named subclasses (``DatabaseError``, ``OperationalError``,
@@ -11,9 +11,9 @@ already-accepted WS connection by exception propagation.
 
 Static AST scan. No fixtures, no DB, no app boot.
 
-**Wrapper helpers** (currently ``_write_command_dispatch_audit``) are
-exempt from the inner-call check; instead every callsite of the
-wrapper — direct, ``asyncio.to_thread(wrapper, ...)``, OR keyword-form
+**Wrapper helpers** (see ``_WRAPPER_HELPERS`` below) are exempt from
+the inner-call check; instead every callsite of the wrapper —
+direct, ``asyncio.to_thread(wrapper, ...)``, OR keyword-form
 ``runner(fn=wrapper)`` — must itself sit inside a failsafe ``try.body``.
 
 **Function/lambda boundary.** A writer call inside a nested
@@ -45,10 +45,9 @@ and attribute form ``audit.write_console_audit_row(...)`` are
 detected. Function-name uniqueness in the codebase makes the false-
 positive risk on the attribute form negligible.
 
-Scope: ``src/api/console.py`` only. Sibling writer call sites at
-``src/api/routers/auth.py:307``, ``src/api/auth/permissions.py``,
-and ``src/api/auth/audit.py:228`` are out of scope and tracked as a
-follow-up ticket.
+Scope (HEIM-38): every ``src/api/**/*.py`` file is parsed and walked
+independently. Per-file ``import sqlite3`` resolution; violations
+aggregated across files in the real-tree assertion.
 """
 
 from __future__ import annotations
@@ -58,10 +57,38 @@ import textwrap
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-_CONSOLE_PY = REPO_ROOT / "src" / "api" / "console.py"
+_API_DIR = REPO_ROOT / "src" / "api"
 
 _WRITER_NAME = "write_console_audit_row"
-_WRAPPER_HELPERS = frozenset({"_write_command_dispatch_audit"})
+
+# Wrapper-helper allowlist. Each entry is a function whose body
+# contains a writer call; the lint redirects from the inner call to
+# the helper's own callsites and requires THOSE to be wrapped instead.
+#
+# - ``_write_command_dispatch_audit`` (src/api/console.py): thin
+#   audit-only helper invoked via ``asyncio.to_thread`` from inside
+#   a failsafe try.body in the WS dispatch handler.
+# - ``_write_deny_audit`` (src/api/auth/permissions.py): thin
+#   audit-only helper invoked via ``asyncio.to_thread`` from inside
+#   the ``require_permission`` decorator's failsafe try.body. Helper's
+#   own docstring delegates exception handling to the caller.
+# - ``_login_with_conn`` (src/api/routers/auth.py): NOT a thin audit
+#   helper — it is the entire login workflow. Allowlisted because the
+#   protective ``try/except sqlite3.OperationalError`` lives in its
+#   only caller, ``login()`` (src/api/routers/auth.py:240-255), and
+#   that placement is intentional: the §3.1.a invariant
+#   (auth.py:293-300) requires audit-write failures to surface as 503
+#   so the rate-limit counter does NOT advance on a DB outage.
+#   Wrapping inside ``_login_with_conn`` with the canonical "log WARN
+#   and continue" pattern would silently swallow the DB error and
+#   return 200, masquerading a transient outage as an auth fail.
+_WRAPPER_HELPERS = frozenset(
+    {
+        "_write_command_dispatch_audit",
+        "_write_deny_audit",
+        "_login_with_conn",
+    }
+)
 _ALLOWED_EXC = frozenset(
     {
         "Error",
@@ -288,19 +315,66 @@ def _writer_calls(tree: ast.AST) -> list[ast.Call]:
     return out
 
 
-def _wrapper_callsites(tree: ast.AST, wrapper_name: str) -> list[ast.Call]:
+def _collect_wrapper_aliases(tree: ast.AST) -> dict[str, str]:
+    """Local name → canonical wrapper-helper name.
+
+    Tracks ``from <module> import <wrapper> [as <local>]`` patterns
+    where ``<wrapper>`` is in ``_WRAPPER_HELPERS``. Closes the
+    cross-module aliasing blind spot Codex P2 flagged on 2026-05-06:
+    a callsite ``await asyncio.to_thread(deny_audit, ...)`` — where
+    ``deny_audit`` is the import alias for ``_write_deny_audit`` —
+    would otherwise pass the cross-file wrapper-callsite check
+    silently. Module-level ``ImportFrom`` only; local imports inside a
+    function are not tracked, matching the sqlite3-import scope used
+    elsewhere in this lint.
+    """
+    aliases: dict[str, str] = {}
+    for node in tree.body if isinstance(tree, ast.Module) else []:
+        if isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                if alias.name in _WRAPPER_HELPERS:
+                    local_name = alias.asname or alias.name
+                    aliases[local_name] = alias.name
+    return aliases
+
+
+def _wrapper_callsites(
+    tree: ast.AST,
+    wrapper_name: str,
+    aliases: dict[str, str] | None = None,
+) -> list[ast.Call]:
     """Every callsite of *wrapper_name*. Covers:
 
     * Direct call ``wrapper_name(...)``.
-    * Indirect via ``asyncio.to_thread(wrapper_name, ...)`` — wrapper
+    * Aliased call ``<local>(...)`` where ``<local>`` was bound via
+      ``from X import wrapper_name as <local>``.
+    * Attribute call ``<anything>.wrapper_name(...)`` — mirrors the
+      defensive matching used by ``_writer_calls``.
+    * Indirect via ``asyncio.to_thread(wrapper_name, ...)`` /
+      ``asyncio.to_thread(<local>, ...)`` /
+      ``asyncio.to_thread(<module>.wrapper_name, ...)`` — wrapper
       passed as positional arg.
-    * Indirect via ``runner(fn=wrapper_name)`` — wrapper passed as
-      keyword arg.
+    * Indirect via ``runner(fn=wrapper_name)`` (keyword form), with
+      the same alias / attribute coverage.
 
     The wrapping ``Call`` (the to_thread / runner one, not the wrapper
     itself) is the unit we treat as protected, since that's where the
     caller can attach a try/except.
     """
+    aliases = aliases or {}
+    matching_local_names: set[str] = {wrapper_name} | {
+        local
+        for local, canonical in aliases.items()
+        if canonical == wrapper_name
+    }
+
+    def _matches(expr: ast.expr) -> bool:
+        if isinstance(expr, ast.Name):
+            return expr.id in matching_local_names
+        if isinstance(expr, ast.Attribute):
+            return expr.attr == wrapper_name
+        return False
+
     out: list[ast.Call] = []
     seen: set[int] = set()
 
@@ -312,21 +386,15 @@ def _wrapper_callsites(tree: ast.AST, wrapper_name: str) -> list[ast.Call]:
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
-        if (
-            isinstance(node.func, ast.Name)
-            and node.func.id == wrapper_name
-        ):
+        if _matches(node.func):
             _record(node)
             continue
         for arg in node.args:
-            if isinstance(arg, ast.Name) and arg.id == wrapper_name:
+            if _matches(arg):
                 _record(node)
                 break
         for kw in node.keywords:
-            if (
-                isinstance(kw.value, ast.Name)
-                and kw.value.id == wrapper_name
-            ):
+            if _matches(kw.value):
                 _record(node)
                 break
     return out
@@ -345,12 +413,15 @@ def _audit_violations(source: str, filename: str) -> list[int]:
     tree = ast.parse(source, filename=filename)
     parents = _build_parent_map(tree)
     module_aliases, name_aliases = _collect_sqlite_imports(tree)
+    wrapper_aliases = _collect_wrapper_aliases(tree)
 
     violations: set[int] = set()
     for call in _writer_calls(tree):
         func = _enclosing_function(call, parents)
         if func is not None and func.name in _WRAPPER_HELPERS:
-            for ws_call in _wrapper_callsites(tree, func.name):
+            for ws_call in _wrapper_callsites(
+                tree, func.name, wrapper_aliases
+            ):
                 if not _enclosing_failsafe_try(
                     ws_call, parents, module_aliases, name_aliases
                 ):
@@ -360,6 +431,24 @@ def _audit_violations(source: str, filename: str) -> list[int]:
             call, parents, module_aliases, name_aliases
         ):
             violations.add(call.lineno)
+
+    # Cross-module wrapper-callsite check. The loop above only fires
+    # when a writer is found INSIDE an allowlisted wrapper in this
+    # file — so a sibling module that imports e.g. ``_write_deny_audit``
+    # and calls it unwrapped would otherwise pass silently. Walk every
+    # allowlisted wrapper name through ``_wrapper_callsites`` regardless
+    # of where the wrapper is defined; alias resolution + attribute
+    # matching close the rename / module-attribute blind spots Codex
+    # flagged. Same-file overlap is deduped by the set accumulator.
+    for wrapper_name in _WRAPPER_HELPERS:
+        for ws_call in _wrapper_callsites(
+            tree, wrapper_name, wrapper_aliases
+        ):
+            if not _enclosing_failsafe_try(
+                ws_call, parents, module_aliases, name_aliases
+            ):
+                violations.add(ws_call.lineno)
+
     return sorted(violations)
 
 
@@ -368,19 +457,40 @@ def _audit_violations(source: str, filename: str) -> list[int]:
 # ---------------------------------------------------------------------------
 
 
-def test_console_audit_writes_are_failsafe() -> None:
+def _iter_api_files() -> list[Path]:
+    """Every ``*.py`` under ``src/api/``, sorted for deterministic
+    failure messages.
+    """
+    return sorted(p for p in _API_DIR.rglob("*.py") if p.is_file())
+
+
+def test_api_audit_writes_are_failsafe() -> None:
     """Lock the canonical fail-secure pattern at
     ``src/api/console.py:333-372``. Every ``write_console_audit_row(...)``
-    callsite (and every callsite of an allow-listed wrapper) must sit
-    inside a ``try.body`` whose handlers include only
-    ``sqlite3.Error`` / ``DatabaseError`` / ``OperationalError`` /
-    ``IntegrityError`` / ``DataError`` / ``NotSupportedError``.
+    callsite under ``src/api/**/*.py`` (and every callsite of an
+    allow-listed wrapper) must sit inside a ``try.body`` whose
+    handlers include only ``sqlite3.Error`` / ``DatabaseError`` /
+    ``OperationalError`` / ``IntegrityError`` / ``DataError`` /
+    ``NotSupportedError``.
     """
-    source = _CONSOLE_PY.read_text(encoding="utf-8")
-    violations = _audit_violations(source, str(_CONSOLE_PY))
+    files = _iter_api_files()
+    assert files, f"No Python files found under {_API_DIR}"
+
+    violations: dict[str, list[int]] = {}
+    for path in files:
+        source = path.read_text(encoding="utf-8")
+        rel = path.relative_to(REPO_ROOT)
+        bad = _audit_violations(source, str(path))
+        if bad:
+            violations[str(rel)] = bad
+
     assert not violations, (
-        "Unwrapped audit-write call sites in src/api/console.py:\n"
-        + "\n".join(f"  - line {ln}" for ln in violations)
+        "Unwrapped audit-write call sites under src/api/**:\n"
+        + "\n".join(
+            f"  {rel}:\n"
+            + "\n".join(f"    - line {ln}" for ln in lns)
+            for rel, lns in sorted(violations.items())
+        )
         + "\n\nWrap each in:\n"
         "    try:\n"
         "        write_console_audit_row(...)\n"
@@ -620,3 +730,194 @@ def test_lint_detects_attribute_form_writer_call() -> None:
         """
     )
     assert len(violations) == 1, violations
+
+
+# ---------------------------------------------------------------------------
+# HEIM-38 — Multi-file scan + extended wrapper-helper allowlist
+# ---------------------------------------------------------------------------
+
+
+def test_lint_aggregates_violations_per_file() -> None:
+    """Independent per-file parse: one synthetic source carries a
+    violation, another is clean. Each is parsed separately so the
+    sqlite3 import scope is per-file.
+    """
+    dirty = textwrap.dedent(
+        """
+        import sqlite3
+
+        def bad():
+            write_console_audit_row(conn, request, action="leaks")
+        """
+    ).strip()
+    clean = textwrap.dedent(
+        """
+        import sqlite3
+
+        def good():
+            try:
+                write_console_audit_row(conn, request, action="ok")
+            except sqlite3.DatabaseError:
+                pass
+        """
+    ).strip()
+
+    assert _audit_violations(dirty, "<dirty>")
+    assert _audit_violations(clean, "<clean>") == []
+
+
+def test_lint_allowlists_login_with_conn_wrapper() -> None:
+    """``_login_with_conn`` is the entire login workflow, not a thin
+    audit helper, but its single caller wraps the call in a failsafe
+    try/except. Allowlisting is intentional — see ``_WRAPPER_HELPERS``
+    docstring for the §3.1.a rationale.
+    """
+    violations = _violations_in(
+        """
+        import sqlite3
+
+        async def _login_with_conn(*, request, body, conn, ip, redis_client):
+            with conn:
+                write_console_audit_row(conn, request, action="auth.login_failed")
+
+        async def login(request, body):
+            try:
+                return await _login_with_conn(
+                    request=request, body=body, conn=None, ip=None, redis_client=None
+                )
+            except sqlite3.OperationalError:
+                return None
+        """
+    )
+    assert violations == [], violations
+
+
+def test_lint_allowlists_write_deny_audit_wrapper() -> None:
+    """``_write_deny_audit`` (permissions.py) mirrors the
+    ``_write_command_dispatch_audit`` pattern: thin audit-only helper
+    invoked via ``asyncio.to_thread`` from inside a failsafe try.body
+    in the ``require_permission`` decorator.
+    """
+    violations = _violations_in(
+        """
+        import asyncio
+        import sqlite3
+
+        def _write_deny_audit(request, permission, role_hint, operator_id, session_id):
+            write_console_audit_row(conn, request, action="auth.permission_denied")
+
+        async def wrapper(request, permission, role_hint, operator_id, session_id):
+            try:
+                await asyncio.to_thread(
+                    _write_deny_audit, request, permission, role_hint, operator_id, session_id,
+                )
+            except sqlite3.OperationalError:
+                pass
+        """
+    )
+    assert violations == [], violations
+
+
+def test_lint_flags_unwrapped_login_with_conn_callsite() -> None:
+    """If a future refactor drops the outer try/except around the
+    ``_login_with_conn`` call, the lint must catch it — the
+    allowlist redirects from inner-call to caller-call, but the
+    caller-call must still be wrapped.
+    """
+    violations = _violations_in(
+        """
+        import sqlite3
+
+        async def _login_with_conn(*, request, body, conn, ip, redis_client):
+            with conn:
+                write_console_audit_row(conn, request, action="auth.login_failed")
+
+        async def login(request, body):
+            return await _login_with_conn(
+                request=request, body=body, conn=None, ip=None, redis_client=None
+            )
+        """
+    )
+    assert len(violations) == 1, violations
+
+
+def test_lint_flags_cross_module_wrapper_callsite() -> None:
+    """A sibling module that imports an allowlisted wrapper and
+    calls it unwrapped must still be flagged. Codex P2 (2026-05-06):
+    the inner-call check only fires when the writer body is in
+    THIS file, so cross-module callers were previously a blind
+    spot. The independent wrapper-callsite pass closes that gap.
+    """
+    violations = _violations_in(
+        """
+        from src.api.auth.permissions import _write_deny_audit
+
+        async def some_handler(request, permission, role_hint, oid, sid):
+            await asyncio.to_thread(
+                _write_deny_audit, request, permission, role_hint, oid, sid,
+            )
+        """
+    )
+    assert len(violations) == 1, violations
+
+
+def test_lint_flags_aliased_cross_module_wrapper_callsite() -> None:
+    """Codex P2 round 2 (2026-05-06): a renamed import like
+    ``from src.api.auth.permissions import _write_deny_audit as
+    deny_audit`` must still trip the wrapper-callsite check, even
+    though the local name no longer matches the canonical wrapper
+    name. Alias resolution in ``_collect_wrapper_aliases`` closes
+    this.
+    """
+    violations = _violations_in(
+        """
+        from src.api.auth.permissions import _write_deny_audit as deny_audit
+
+        async def some_handler(request, permission, role_hint, oid, sid):
+            await asyncio.to_thread(
+                deny_audit, request, permission, role_hint, oid, sid,
+            )
+        """
+    )
+    assert len(violations) == 1, violations
+
+
+def test_lint_flags_attribute_form_wrapper_callsite() -> None:
+    """Codex P2 round 2 (2026-05-06): a module-attribute form
+    ``permissions._write_deny_audit`` must still trip the
+    wrapper-callsite check. Mirrors the defensive attribute matching
+    already applied to the writer name in ``_writer_calls``.
+    """
+    violations = _violations_in(
+        """
+        from src.api.auth import permissions
+
+        async def some_handler(request, permission, role_hint, oid, sid):
+            await asyncio.to_thread(
+                permissions._write_deny_audit, request, permission, role_hint, oid, sid,
+            )
+        """
+    )
+    assert len(violations) == 1, violations
+
+
+def test_lint_accepts_aliased_cross_module_wrapper_when_wrapped() -> None:
+    """Aliased + wrapped should pass. Symmetric to the unwrapped
+    variant — the alias-resolution must NOT introduce false
+    positives when the callsite IS protected.
+    """
+    violations = _violations_in(
+        """
+        import sqlite3
+        from src.api.auth.permissions import _write_deny_audit as deny_audit
+
+        async def some_handler(request, permission, role_hint, oid, sid):
+            try:
+                await asyncio.to_thread(
+                    deny_audit, request, permission, role_hint, oid, sid,
+                )
+            except sqlite3.OperationalError:
+                pass
+        """
+    )
+    assert violations == [], violations
