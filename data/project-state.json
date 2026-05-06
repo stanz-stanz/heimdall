@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_updated": "2026-05-05",
+  "last_updated": "2026-05-06",
   "convention_doc": "docs/jira-conventions.md",
 
   "jira": {
@@ -14,28 +14,53 @@
   },
 
   "current_sprint": {
-    "name": "SCRUM Sprint 1",
-    "sprint_id": 1,
+    "name": "Sprint 2",
+    "jira_sprint_id": 35,
+    "board_id": 1,
     "epic_key": "HEIM-21",
-    "status": "active",
-    "start_date": "2026-05-05",
-    "target_end_date": "2026-05-12",
+    "theme": "Worker + Schema Hardening",
+    "jira_state": "future",
+    "planned_start": "2026-05-06",
+    "planned_end": "2026-05-13",
     "length_weeks": 1,
-    "story_points_committed": 13,
-    "story_points_done": 8,
+    "story_points_committed": 19,
+    "story_points_done": 0,
     "stories": [
-      {"key": "HEIM-22", "type": "Task",  "status": "Done",  "story_points": 3, "commit": "b2ee9c0", "summary": "Add CONSOLE_READ-only role fixture and dispatch-denied test cell", "tests": ["HEIM-29", "HEIM-30"]},
-      {"key": "HEIM-23", "type": "Task",  "status": "Done",  "story_points": 3, "commit": "e71d3e7", "summary": "Lock audit-write fail-secure invariant via AST lint",         "tests": ["HEIM-31"]},
-      {"key": "HEIM-26", "type": "Task",  "status": "Done",  "story_points": 2, "commit": "429757e", "summary": "Add fail-loud invariant on scan_history.gate_decision_id (S3)","tests": ["HEIM-34"]},
-      {"key": "HEIM-27", "type": "Story", "status": "To Do", "story_points": 5,                       "summary": "Ship /verify-claims bite 2 — docs commit guard hook",        "tests": ["HEIM-35", "HEIM-36"]}
+      {"key": "HEIM-38", "type": "Task",  "status": "To Do", "story_points": 3, "class": "polish",    "summary": "Extend audit-write fail-secure lint to src/api/** (HEIM-23 follow-up)"},
+      {"key": "HEIM-25", "type": "Task",  "status": "To Do", "story_points": 3, "class": "polish",    "summary": "Rotate logs/valdi/ markdown writes (S2)"},
+      {"key": "HEIM-28", "type": "Story", "status": "To Do", "story_points": 3, "class": "polish",    "summary": "Ship /verify-claims bite 3 — eval set + measurement baseline"},
+      {"key": "HEIM-39", "type": "Task",  "status": "To Do", "story_points": 5, "class": "architect", "summary": "Schema NOT NULL + null-row backfill for scan_history.gate_decision_id (HEIM-26 follow-up)"},
+      {"key": "HEIM-24", "type": "Task",  "status": "To Do", "story_points": 5, "class": "architect", "summary": "Pass open writer connection through worker gate path (S1)"}
+    ],
+    "execution_order_rationale": "smallest-first ramps confidence; architect-heavy 5-pointers (HEIM-39, HEIM-24) saved for last because their scope is the least bounded.",
+    "pending_ui_clicks": [
+      "Complete Sprint 1 (Backlog UI → Sprint 1 panel → Complete sprint)",
+      "Start Sprint 2 (Backlog UI → Sprint 2 panel → Start sprint)"
     ]
   },
-  "deferred_to_sprint_02": [
-    {"key": "HEIM-24", "type": "Task",  "summary": "Pass open writer connection through worker gate path (S1)",                       "story_points": 5, "tests": ["HEIM-32"]},
-    {"key": "HEIM-25", "type": "Task",  "summary": "Rotate logs/valdi/ markdown writes (S2)",                                          "story_points": 3, "tests": ["HEIM-33"]},
-    {"key": "HEIM-28", "type": "Story", "summary": "Ship /verify-claims bite 3 — eval set + measurement baseline",                     "story_points": 3, "tests": ["HEIM-37"]},
-    {"key": "HEIM-38", "type": "Task",  "summary": "Extend audit-write fail-secure lint to src/api/** (HEIM-23 follow-up)",            "story_points": 3},
-    {"key": "HEIM-39", "type": "Task",  "summary": "Schema NOT NULL + null-row backfill for scan_history.gate_decision_id (HEIM-26 follow-up)", "story_points": 5}
+
+  "closed_sprints": [
+    {
+      "name": "SCRUM Sprint 1",
+      "jira_sprint_id": 1,
+      "epic_key": "HEIM-21",
+      "theme": "Auth Plane Polish",
+      "start_date": "2026-05-05",
+      "end_date": "2026-05-05",
+      "story_points_committed": 13,
+      "story_points_done": 13,
+      "stories": [
+        {"key": "HEIM-22", "type": "Task",  "status": "Done", "story_points": 3, "commit": "b2ee9c0"},
+        {"key": "HEIM-23", "type": "Task",  "status": "Done", "story_points": 3, "commit": "e71d3e7"},
+        {"key": "HEIM-26", "type": "Task",  "status": "Done", "story_points": 2, "commit": "429757e"},
+        {"key": "HEIM-27", "type": "Story", "status": "Done", "story_points": 5, "commit": "694a2ef"}
+      ],
+      "retro_notes": [
+        "Velocity surprise: 13 SP planned for a 7-day window shipped same-day. Cause: small focused items, follow-ups already pre-scoped from PR #57, hook/test-only surface.",
+        "Action for Sprint 2: 19 SP committed; sized higher but skewed architect-heavy (10/19 SP in HEIM-24 + HEIM-39) — those will not burn at the Sprint 1 rate.",
+        "Convention rule locked: customfield_10020 is mandatory; sprint-NN labels alone are invisible to the Board."
+      ]
+    }
   ],
 
   "production": {
