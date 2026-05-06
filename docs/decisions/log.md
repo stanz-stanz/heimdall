@@ -5,6 +5,38 @@ Running record of architectural decisions, rejections, and reasoning made during
 ---
 <!-- Entries added by /wrap-up. Format: ## YYYY-MM-DD — [topic] -->
 
+## 2026-05-06 — Sprint 2 opened, HEIM-38 shipped, 9 unpushed commits split into 3 PRs (all merged)
+
+> Branch: `main` (3 PRs squash-merged: #60 / #61 / #62). Sprint 2 (id=35, "Worker + Schema Hardening") active in Jira.
+
+**Decided**
+
+- **Sprint 2 (id=35, "Worker + Schema Hardening") opened** with 5 tickets / 19 SP committed: HEIM-24 (5 SP, architect — worker connection refactor), HEIM-25 (3 SP, polish — `logs/valdi/` rotation), HEIM-28 (3 SP, polish — `/verify-claims` bite 3 eval), HEIM-38 (3 SP, polish — DONE), HEIM-39 (5 SP, architect — schema NOT NULL backfill, blocked on data-integrity decision). Container seeded via Backlog UI by Federico; tickets bulk-assigned via API.
+- **HEIM-38 shipped** (commit `c2c8776` via #62). AST lint at `tests/test_console_audit_invariants.py` extended from `src/api/console.py` (single-file scope) to glob over `src/api/**/*.py`. `_WRAPPER_HELPERS` gained `_login_with_conn` (caller-protected per §3.1.a — applying canonical "WARN and continue" pattern would have let the rate-limit counter advance on a DB outage; allowlist preserves the 503 contract) and `_write_deny_audit` (mirrors `_write_command_dispatch_audit` `asyncio.to_thread` pattern). Codex 3 rounds: 2 P2s closed (cross-module wrapper-callsite blind spot via independent per-file pass; alias + attribute resolution via new `_collect_wrapper_aliases` + matcher upgrade). 8 new tests (1 multi-file aggregation, 3 allowlist regression, 4 cross-module / aliased / attribute-form coverage); 1725/1725 full pytest pass.
+- **3-PR retroactive split** of 9 unpushed commits: #60 (Sprint 1 ticket work HEIM-22/23/26/27), #61 (Sprint admin: HEIM-21 conventions + Sprint container rule + Sprint 1 close + Sprint 2 open), #62 (HEIM-38). Stacked: #62 based off #60 because of file dependency. After #60 squash-merged, both #61 and #62 needed rebase onto the new SHA (`70cfbfb`) to clear file-overlap conflicts in `docs/decisions/log.md` and `tests/test_console_audit_invariants.py`. All three merged.
+- **6 orphan test Subtasks bulk-transitioned to Done** (HEIM-29/30/31/34/35/36) under Sprint 1 parents — tests had shipped in Sprint 1 commits but Subtask transitions were skipped, blocking Sprint 1 Complete-Sprint. Federico authorised "transition all 6"; status comments + transitions landed via API.
+- **HEIM-3 deleted** ("Task 3" template-starter Bug, In Progress in Sprint 1, no SP, no description). Federico ran the UI delete after API-delete proved unavailable in the Atlassian MCP.
+- **New memory rule** `feedback_codex_not_for_decisions.md` — don't delegate design/scope decisions to Codex; the context-handover cost is prohibitive at multi-decision scale.
+- **Decision log archived** — 13 entries from 2026-Q1 (March 25–30) moved to `docs/decisions/log-archive/2026-Q1.md`. log.md trimmed by ~320 lines.
+
+**Rejected**
+
+- **Sprint-2-only experiment** routing all design decisions through Codex. Tried first dispatch (~2 KB of structured context for the HEIM-38 §3.1.a conflict); Federico cancelled mid-prep — context handover too expensive. Reverted; saved the retro lesson so it's not re-proposed.
+- **Applying canonical "log WARN and continue" pattern** to `routers/auth.py:307` and `:338` (the ticket text literally said so). Would silently swallow audit-write DB failures and let the rate-limit counter advance on a DB outage, contradicting `routers/auth.py:293-300` §3.1.a. Allowlist `_login_with_conn` instead — preserves 503 contract, makes protection lint-visible.
+- **Squash-merge for stacked / file-overlapping sibling PRs without rebase awareness.** Squashing #60 stranded #62 and #61 with new-SHA conflicts. Future split-PR workflows: prefer merge-commit, or accept the rebase ritual upfront.
+
+**Unresolved**
+
+- **Sprint 2 in flight: 16 SP remaining.** Smallest-next is HEIM-25 (3 SP, polish — `logs/valdi/` markdown rotation). HEIM-39 (5 SP architect, schema NOT NULL + null-row backfill) is gated on Federico's data-integrity choice (sentinel ID / hard-delete legacy / nullable-with-disambiguation column).
+- **7 stale `gone`-upstream local branches** still present (`chore/auth-rate-limit-env-overrides`, `chore/ci-action-bumps-and-docker-smoke`, `chore/post-pr42-cleanup-2026-04-22`, `dev-stack`, `docs/architect-decisions-2026-04-27`, `docs/scanning-priority-order-2026-04-28`, `feat/console-overhaul-2026-04-22`). All need `git branch -D` (hook-blocked for the assistant). Three session branches already pruned with `-d`.
+- **Origin merged branches** for the 3 session PRs (`sprint-1-auth-plane-polish`, `sprint-admin-2026-05-06`, `heim-38-audit-lint-src-api`) — pruning candidate via `git push origin --delete`.
+- **Bulk-transition 16 historical Epics (HEIM-5..20) to Done** in Jira — pre-existing carry-over.
+- **Atlassian MCP disconnected** mid-session. Reconnect needed before any Sprint 2 ticket transitions or HEIM-5..20 bulk work.
+
+**Suggested opening prompt for next session.** "Sprint 2 continues: HEIM-25 next (3 SP, polish — `logs/valdi/` markdown rotation, smallest-next). After that, HEIM-39 needs your data-integrity call before architect work can start. Reconnect Atlassian MCP if Jira transitions are needed."
+
+---
+
 ## 2026-05-06 — Sprint 1 close (work shipped 2026-05-05): Auth Plane Polish epic, 13/13 SP
 
 > Branch: `main` (4 feat/test/fix commits + 2 docs commits, all direct-to-main per Sprint-1 trajectory).
@@ -1781,326 +1813,9 @@ Full onboarding product specified end-to-end and locked via a 22-decision interv
 - Compliance checklist "Open Questions" section (6 items) is now a stale subset of the 16-question briefing — consider updating or adding a pointer to the briefing.
 - Lawyer meeting outcome will determine which outreach channels are viable — decisions on Q1 (notification ≠ marketing) are now existential since physical mail and phone were removed.
 
-## 2026-03-30 — Session wrap-up: twin networking, bucket filter, tool audit, terminology purge
 
-**Decided**
-- Twin WPScan networking fix: `socket.gethostname()` → `_get_container_ip()` (UDP socket trick to discover container IP on Docker bridge network). Sidecar was failing because container IDs aren't resolvable cross-container.
-- WPScan exit code 4 root cause identified: "Could not connect to server" (networking) + "HTTP Error 401" (missing API token). Both addressed.
-- Mid-scan bucket filter: worker classifies bucket after cheap CMS detection (httpx + webanalyze), returns early for filtered buckets. Skips expensive scans (subfinder, dnsx, nuclei, twin) for unwanted buckets.
-- CVR Excel column indices fixed: shifted by 2 (Startdato, Ophørsdato columns were missing). Industry code, email, and Reklamebeskyttet were all reading wrong columns.
-- `heimdall-deploy` alias sequenced: build worker first (heavy Go compilation), then lighter images, then `up -d`. Prevents OOM on Pi5.
-- `heimdall-pipeline` now flushes `cache:wpscan:*` keys alongside queue flush.
-- WPScan API token moved from hardcoded default to Docker Compose env var (`${WPSCAN_API_TOKEN:-}`).
-- "Level" terminology purged from all 15 active docs. Replaced with Layer 1/2 + consent state language + Watchman/Sentinel/Guardian plan names.
-- CLAUDE.md rules added: tool table must update with tool changes; no decisions without Federico.
+**Older entries (2026-Q1, March 25–30) archived to** [`docs/decisions/log-archive/2026-Q1.md`](log-archive/2026-Q1.md).
 
-**Rejected**
-- Claude making tool scope decisions ("sufficient", "replaced by") — all decisions are Federico's.
-- "Level 0/1/2" as terminology — replaced by consent state descriptions.
-
-**Unresolved**
-- Twin WPScan still failing on Pi5 — networking fix deployed but WPScan API 401 errors need `.env` token on Pi5
-- Nikto implementation (decided: implement now, code not written)
-- Nmap implementation (decided: implement now, code not written)
-- "Level" terminology still in Python code (`job.level`, `_LEVEL0_SCAN_FUNCTIONS`, etc.) — code purge deferred
-- SSLyze backlog milestone not assigned
-- GrayHatWarfare API key not configured on Pi5
-- WPScan commercial API pricing research for SIRI cost projections
-- Subfinder 300s timeout for large batches
-
----
-
-## 2026-03-30 — Tool audit: align documentation with implementation reality
-
-**Context:** Briefing and SIRI application listed tools never implemented (SSLyze, testssl.sh). Tools actively used (dnsx, CMSeek, GrayHatWarfare, CertStream) were missing from docs. 22 documents referenced tools inconsistently.
-
-**Decided (by Federico)**
-- **Nikto**: Implement now — install in Docker, write `_run_nikto()`, add to Layer 2 pipeline.
-- **Nmap**: Implement now — install in Docker, write `_run_nmap()`, add to Layer 2 pipeline.
-- **SSLyze**: Defer — keep current Python ssl module for TLS checks. SSLyze goes to backlog for deeper analysis (cipher suites, protocol versions, HSTS, OCSP). Docs updated to reflect current state.
-- **testssl.sh**: Discard permanently — overlaps with SSLyze, bash-based, harder to integrate into Python pipeline.
-- Briefing tool table updated: 9 tools → 11 tools. Added dnsx, CMSeek, CertStream, GrayHatWarfare. Removed SSLyze, testssl.sh.
-- CLAUDE.md rule added: "Do not add or remove a scanning tool without updating the tool table in `docs/briefing.md` in the same commit"
-- CLAUDE.md rule added: "Do not make business, architecture, or technical decisions — present options with trade-offs, Federico decides"
-- "Level" terminology to be purged from all docs — replaced by Layer 1/2 for scan classification, Watchman/Sentinel/Guardian for plan tiers.
-
-**Rejected**
-- testssl.sh as part of the tool chain — overlaps with SSLyze, bash dependency, no Python integration path.
-
-**Unresolved**
-- Nikto and Nmap code implementation (Docker install, scanner functions, scan_job.py integration, tests)
-- "Level" terminology purge across all docs and code
-- SSLyze backlog milestone not yet assigned
-- GrayHatWarfare API key not configured — free tier evaluation pending
-- WPScan API pricing research for SIRI cost projections
-
----
-
-## 2026-03-29 — OpenClaw removal, twin WPScan fix, SIRI doc correction, backlog audit
-
-**Decided**
-- OpenClaw permanently removed from Heimdall architecture. Replaced by Claude API agent (Anthropic SDK tool_use + agentic loops) + python-telegram-bot. Reasons: 512 known vulns, plaintext API key storage, 1,184 malicious ClawHub skills, Node.js/Python runtime mismatch, zero integration code after 3+ sprints. OpenClaw references retained only where it appears as a scanning TARGET (exposed instance detection).
-- Human-in-the-loop message approval is pilot-only (5 clients). At scale the agent sends autonomously with confidence-gated escalation. "It is unthinkable that I can review hundreds of messages every week."
-- Twin WPScan fix: added `--force` (bypasses NotWordPress error), `--disable-tls-checks`, `--api-token` passthrough, HTTP/1.1, oEmbed link, RSS feed, slash-agnostic routing, WordPress HTML comments. 15 new tests, 484 total pass. Not yet verified on Pi5.
-- SIRI docs corrected: replaced "353 live Vejle-area domains" with "203" (actual clean pipeline output) in all achievement/metric contexts.
-- WPScan cache flush added to `heimdall-flush` alias (clears `cache:wpscan:*` keys that cached stale "not_wordpress" results for 24h).
-- Full backlog audit by TPMO + architect: identified 5 blockers, 6 high-priority items, 7 medium items for Sprint 4 readiness.
-
-**Rejected**
-- OpenClaw as Heimdall runtime — security posture incompatible with a security product. See above.
-- Claude Agent SDK (`claude-agent-sdk`) for the delivery agent — wraps Claude Code CLI with file/web/shell tools, wrong abstraction for domain-specific tools. Vanilla `anthropic` SDK with manual agentic loop is simpler and gives approval gates.
-- Single Telegram bot for both operator and client — separation of concerns requires two bots (operator: approve/reject/edit; client: receive reports, ask questions).
-
-**Unresolved**
-- Twin WPScan fix not verified on Pi5 — `heimdall-deploy` then `heimdall-pipeline` needed
-- Telegram bot does not exist — no bot created, no `python-telegram-bot` in requirements, no delivery code
-- Agent coordinator not built — Claude API agentic loop with tools for scan results, client memory, message composition, Telegram delivery
-- Cron scheduling not implemented — `src/scheduler/main.py` `--mode scheduled` returns error
-- Client onboarding workflow missing — no way to create client profile, link Telegram chat, set scan tier
-- Scanning authorization template missing — lawyer meeting (week of 2026-03-31) should produce this
-- Industry names empty for all 203 briefs — data flow issue from CVR extract
-- Agency detection producing no results — `meta_author`/`footer_credit` empty upstream
-- Subfinder 300s timeout for 68-domain batches
-- Video pitch script for SIRI — mandatory, unstarted
-- Project plan (`docs/plans/project-plan.md`) materially stale
-- `docs/briefing.md` last-updated header says March 22
-
----
-
-## 2026-03-29 — Late session: concurrent scheduler fix, twin WPScan, OpenClaw
-
-**Decided**
-- Concurrent scheduler fix: scheduler moved to Docker Compose profile `["run"]` (not started by `docker compose up`), Redis lock (`scheduler:lock`, NX, 1h TTL) prevents double execution, flush now clears enrichment counters
-- Twin WPScan format mismatch fixed: `_request_twin_wpscan` now reads sidecar's flat `vulnerabilities` list instead of raw WPScan format. Two regression tests added with mocked sidecar responses.
-- Queue labels: `heimdall-queue` now shows `scan: N`, `enrichment: N`, `wpscan: N`
-- OpenClaw is the core runtime for Heimdall — not optional, not "worth exploring." Telegram delivery, cron scheduling, agent coordination all go through OpenClaw. Sprint 4 starts with OpenClaw installation on Pi5.
-
-**Rejected**
-- Building a custom Telegram bot for Sprint 4.1 — OpenClaw has built-in Telegram channel integration
-- Treating OpenClaw as optional infrastructure — it's been in the architecture from day 1
-
-**Unresolved**
-- Twin WPScan exit code 4: WPScan likely doesn't recognize the twin as WordPress. Sidecar logging deployed but exit codes not yet verified. Twin WordPress emulation may need improvement.
-- Subfinder times out at 300s for 68-domain batches — batch size vs timeout mismatch
-- Industry names not flowing from CVR extract to briefs
-- Agency detection producing no results
-
----
-
-## 2026-03-29 — Sprint 3.5 hardening + pipeline operations + marketing strategy
-
-**Decided**
-- Deployment hardening (Sprint 3.5): Docker smoke test (bash, not pytest — no test framework in prod image), export script tests, all Go tool versions pinned (httpx v1.9.0, webanalyze v0.4.1, subfinder v2.13.0, dnsx v1.2.3, nuclei v3.7.1), CMSeek pinned to commit 20f9780
-- Pi5 operational aliases: heimdall-pipeline (smoke → flush → schedule), heimdall-export, heimdall-analyze, heimdall-deep, heimdall-audit, heimdall-smoke
-- Pipeline results: bind-mount data/results to host (not Docker named volume), CVR extract tracked in git, pipeline output tracked in git — enables laptop/Pi5 sync
-- Twin WPScan: route through Redis sidecar (rpush for priority), sidecar handles http:// URLs
-- PerimeterIQ evaluated by architect, docker-expert, network-security: cherry-pick threat feeds into Heimdall, don't build as separate product
-- Marketing strategy: LinkedIn irrelevant for SMB target segment (<20 employees). Primary channels: phone, in-person, Facebook. Physical letters ruled out. Legal briefing prepared (8 questions for lawyer meeting week of 2026-03-31)
-- Threat feed integration planned (Sprint 4+): abuse.ch URLhaus + WHOIS domain age first, PhishTank/CrowdSec/GreyNoise deferred (rate limits)
-- Deep analysis script: contactable breakdown, industry, timing, outreach prioritization matrix
-
-**Rejected**
-- PerimeterIQ as standalone product — no recurring revenue model, fleet management nightmare, architecturally incompatible with Heimdall
-- PerimeterIQ as Heimdall tier — scope creep, DNS filtering catches ~40% of threats, SMBs won't understand "DNS anomaly"
-- LinkedIn for end-customer outreach — target customers (restaurants, physios, barbershops) are not on LinkedIn
-- pytest inside Docker container — production image shouldn't ship test framework
-- Disposable inline analysis scripts — all analysis now in reusable scripts/analyze_pipeline.py
-
-**Unresolved**
-- Twin Nuclei produces 0 findings — templates don't match simplified twin responses (design limitation, not bug)
-- Twin WPScan sidecar — jobs received but no completion logs visible. Needs debugging with better sidecar logging (added but not yet verified on Pi5)
-- Industry names not flowing from CVR to briefs — empty in pipeline output
-- Agency detection producing no results — meta_author/footer_credit empty in briefs
-- 6 consecutive broken alias pushes — need better pre-push testing for infrastructure changes
-
----
-
-## 2026-03-28 — Mobile console PWA + live twin demo mode
-
-**Decided**
-- Mobile console merged from `feature/mobile-console` as a PWA (vanilla JS, no framework, no build step) served from the existing FastAPI API container
-- Two modes: Monitor (5s polling of Redis queue depths + recent scans) and Demo (theatrical brief replay with WebSocket streaming)
-- Live Twin demo mode added: orchestrator starts a digital twin in-process, runs Nuclei/WPScan against it, streams findings to WebSocket as they arrive. Same event schema as replay — frontend animation code unchanged
-- Concurrency guard: only one live demo at a time (asyncio.Lock), returns 429 if occupied. Falls back to replay if tools not installed
-- `agents/fullstack-guy/SKILL.md` placed at `.claude/agents/fullstack-guy/SKILL.md` (consistent with agents/ refactor)
-- Console explored as Svelte rewrite — user evaluated options via visual companion, preferred the existing vanilla JS design
-
-**Rejected**
-- Svelte/React rewrite — user saw mockups, preferred current vanilla JS (no build step, simpler deployment)
-- Redesigned demo section with terminal + chips layout — user preferred the original radial progress + timeline design
-- Separate Docker container for console — lives in existing API container, no additional resource cost
-
-**Unresolved**
-- Console not yet reflected in CLAUDE.md or briefing.md (PR #12 still open)
-- `prefers-reduced-motion` media query not implemented in console CSS
-- WebSocket auto-reconnect on network drop not implemented
-- Multi-client simultaneous demo would need Redis pub/sub refactor (current: single asyncio.Queue per scan_id)
-
----
-
-## 2026-03-28 — Digital twin: brief-to-website generator
-
-**Decided**
-- Digital twin tool reads prospect brief JSON, spins up a local Docker container that replicates the prospect's tech stack (WordPress version, plugin versions, missing headers, exposed endpoints)
-- Lives in `tools/twin/`, Dockerfile at `infra/docker/Dockerfile.twin`, compose profile `["twin"]`
-- Legal: scanning the twin is scanning our own infrastructure — Straffeloven §263 does not apply. Consent framework only applies to the prospect's actual servers. Validated by Valdi agent (`.claude/agents/valdi/SKILL.md`).
-- Compliance framework amended: `SCANNING_RULES.md` now includes a "Heimdall-Owned Test Infrastructure" section. Twin-targeted scans require Gate 1 approval tokens but bypass Gate 2 consent checks via synthetic target registry (`config/synthetic_targets.json`).
-- Key use case: Layer 2 tools (Nuclei, WPScan) can run against the twin without prospect consent, surfacing specific CVEs and vulnerability matches from Level 0 passive data. This is a significant competitive advantage — vulnerability-grade findings without a signed agreement.
-- Six documented use cases: Layer 2 without consent, pre-consent sales reports, pipeline regression testing, new tool onboarding, remediation verification, interpreter training. See `docs/digital-twin-use-cases.md`.
-- DevOps review: Dockerfile in `infra/docker/` (convention), ports 9080/9443 (avoids Dozzle conflict), compose profile pattern (matches ct-backfill), cert at build time, health check
-- Network Security review: slug normalization table (Yoast SEO → `wordpress-seo`), added `/readme.html`, `/favicon.ico`, `X-Powered-By`, `Link`, `X-Pingback` headers, ~50KB HTML with Danish filler, response jitter
-
-**Rejected**
-- Separate repository for the twin — no independent users, no separate release cycle, sole input format is our brief JSON
-- nginx/Apache container — over-engineered for what is purely HTTP response simulation; stdlib `http.server` keeps it simple and dependency-free
-- Generate Dockerfiles per-brief — unnecessary complexity; a single server reads the brief at startup
-
-**Unresolved**
-- Twin-derived findings should be labelled as "derived from passive fingerprinting" in output — not yet implemented in the brief generator
-- Automated pipeline extension (Layer 1 brief → twin → Layer 2 scan → enriched brief) — future sprint work
-- Non-WordPress CMS support (Shopify, Drupal, Joomla) — extensible by adding CMS-specific template modules
-
----
-
-## 2026-03-28 — Sprint 3.2 Level 1 scan types shipped (Nuclei, WPScan, CMSeek)
-
-**Decided**
-- Nuclei: Go binary in worker image, 12,763 templates baked at build. Safety flags: `-exclude-tags rce,exploit,intrusive,dos`, `-no-interactsh`, `-disable-redirects`. Verified on Pi5 ARM64 (v3.7.1)
-- WPScan: Ruby sidecar container (`ruby:3.2-alpine`) — NOT embedded in worker image. Redis request-response delegation pattern (LPUSH queue:wpscan → BRPOP result). Security-reviewed: fixed UA, no TLS bypass, no user enum, API token via env var only. Verified on Pi5 ARM64 (v3.8.28)
-- CMSeek: Pure Python, git clone in worker image (`/opt/cmseek`). File-based output adapter (reads `Result/<domain>/cms.json`, cleans up). Path traversal guard (regex + realpath). Verified on Pi5 ARM64
-- Level-gated registry: `_LEVEL0_SCAN_FUNCTIONS` (9 types) / `_LEVEL1_SCAN_FUNCTIONS` (3 types) with `WORKER_MAX_LEVEL` env var. Workers only validate tokens for their level
-- Re-queue with cap: Level 0 workers re-queue Level 1 jobs max 5 times, then drop with error log
-- Full stack verified on Pi5: 3 workers + WPScan sidecar + Redis all healthy, Valdí tokens validated
-
-**Rejected**
-- WPScan embedded in worker image — 250-350 MB Ruby bloat, 200-400 MB runtime RAM, ARM64 gem compilation risk. Sidecar is lighter (single 150 MB container vs Ruby in 3 workers)
-- `wpscanteam/wpscan` upstream Docker image — likely no ARM64 support. Built our own from `ruby:3.2-alpine`
-- `--random-user-agent` for WPScan — evasion concern under Danish law
-- `--disable-tls-checks` for WPScan — weakens forensic chain
-- `u1-3` user enumeration for WPScan — may exceed consent scope
-- `--api-token` on CLI — token visible in process list. WPScan reads from env natively
-
-**Unresolved**
-- WPScan commercial API pricing (Automattic quote still pending)
-- CMSeek git clone has no version pin — supply chain risk (MEDIUM, deferred)
-- CMSeek cache TTL 7d may be too long for version data (security-relevant)
-- Digital twin for end-to-end Level 1 testing without real targets
-- Orphan monitoring containers on Pi5 (prometheus, cadvisor, grafana) need cleanup or integration into compose
-
----
-
-## 2026-03-28 — Sprint 3 increments 3.0, 3.1, 3.3, 3.2 planned
-
-**Decided**
-- Results API (3.0): FastAPI in existing 256 MB API container, reads from disk (not Redis), pub/sub listener wired for interpretation pipeline
-- Consent framework (3.1): fail-closed on all error paths, `authorised_by.role` is informational only (legal standing question deferred to Danish counsel), subdomain scope is strict (explicit list, no wildcards), consent document existence verified on disk, path traversal protection on consent_document field
-- Finding Interpreter (3.3): Claude API (Sonnet) over template-based — the contextual narrative (connecting findings across a business's specific situation) is the product differentiator. LLM backend abstraction allows Ollama swap via config change. Tone parameter (concise/balanced/detailed) configurable per client.
-- Message Composer: Telegram formatting with 4096-char auto-splitting, ready for Sprint 4.1 bot delivery
-- Level 1 scan types (3.2): Nuclei first (same Go ecosystem), WPScan + CMSeek deferred to follow-up (ARM64 Ruby gem risk). Level-gated registry refactor: `_LEVEL0_SCAN_FUNCTIONS` / `_LEVEL1_SCAN_FUNCTIONS` with `WORKER_MAX_LEVEL` env var
-- Python-expert and docker-expert reviews run in parallel after each increment — caught path traversal via pub/sub, missing Docker volumes, client re-creation per API call, fragile JSON parsing
-
-**Rejected**
-- Template-based interpretation (Option C) — produces generic output indistinguishable from templates for the end client; the value is in contextual, industry-specific narratives
-- Ollama on Pi5 alongside current stack — only 200 MB free RAM; would require stopping workers during interpretation phase
-- Separate Level 0 vs Level 1 worker Docker images — doubles build time and deployment complexity for no operational benefit on a single Pi5
-- Pydantic response models for the API — unnecessary overhead for serving worker-written JSON as-is
-
-**Unresolved**
-- Who is legally authorised to consent to active scanning under Danish law (§263) — pending legal counsel
-- WPScan commercial API pricing (Automattic quote pending)
-- WPScan Ruby gem ARM64 compilation — deferred until Nuclei is verified
-- CMSeek pip package availability — may need git clone install
-- Nuclei template size (~300 MB) — may need filtering to critical/high severity only
-- CLAUDE.md Build Priority section still says "Phase 0" — needs update to reflect Sprint 3 state
-
----
-
-## 2026-03-27 — Tiered enrichment: subfinder batch + local CT database + observability
-
-**Decided**
-- Subfinder batch pre-scan: two-phase scheduler (enrichment → scan), 3 parallel batches of 68 domains, Redis atomic counter for completion signaling
-- Local CertStream CT database replaces remote crt.sh API: SQLite WAL mode on NVMe, `immutable=1` for readers, ct-collector Docker container
-- cAdvisor replaced with Docker built-in Prometheus metrics endpoint (cAdvisor incompatible with Pi OS containerd snapshotter)
-- Docker-expert agent reviews mandatory before merge (both branches reviewed, 9 findings fixed per branch)
-- Prometheus retention: 30 days or 2GB whichever first
-- Worker `stop_grace_period: 330s` (5 min subfinder + 20s stagger + 30s buffer)
-- `ENRICHMENT_WORKERS` configurable via env var, not hardcoded
-- Subfinder CLI flags: `-t 10` (threads) and `-max-time 3` (min/domain) to cap memory within 1GB container budget
-
-**Rejected**
-- cAdvisor for container metrics — incompatible with Pi OS overlayfs/containerd snapshotter
-- Worker `depends_on: ct-collector` — .dk certificates too rare in CertStream for healthcheck timing
-- Hardcoded `ENRICHMENT_WORKERS=3` — made env-configurable per docker-expert review
-
-**Unresolved**
-- Subfinder found 0 subdomains — most passive sources need API keys (not blocking, pipeline works)
-- CT backfill from crt.sh not yet run — one-time step before first production deploy
-- cgroup memory limits not supported on Pi OS kernel — `cgroup_enable=memory` added to cmdline.txt but container memory limits still show warnings
-- Grafana dashboard needs customization for Heimdall-specific panels
-
----
-
-## 2026-03-26 — Session wrap-up: tooling, pipeline enrichment, GDPR redesign, project restructure
-
-**Decided**
-- Integrate 4 new Level 0 tools: subfinder (subdomain enumeration), dnsx (DNS enrichment), crt.sh (CT log queries), GrayHatWarfare (exposed cloud storage index)
-- Valdí classification: GrayHatWarfare → Layer 1 (third-party index), CloudEnum → Layer 2 (active enumeration)
-- Add 5 Level 1 tools to SCANNING_RULES.md: CMSeek, Katana, FeroxBuster, SecretFinder, CloudEnum (not registered — no approval tokens until Level 1 pipeline is built)
-- Replace flat `sales_hook` with structured `findings` array: severity (industry-standard), description, risk
-- Evidence-based GDPR determination from scan results (plugins, tracking, e-commerce) replaces industry-code-only approach
-- WPScan commercial API: flag as cost to investigate with Automattic, add to COGS in SIRI financials
-- Three-phase project restructure: `pipeline/` → `src/prospecting/`, `docs/agents/` → `agents/`, docs reorganised
-
-**Rejected**
-- Flat per-event remediation pricing (Model A) — too rigid for variable-complexity work
-- Bundled remediation credits (Model C) — premature before pilot validation
-- Code-lives-with-agent structure (Option A) — awkward Python imports
-
-**Unresolved**
-- WPScan commercial API pricing (need quote from Automattic)
-- crt.sh rate limiting (429s at 1s delay — increase to 2-3s)
-- Hardcoded config values in config.py need extracting to `config/*.json` files (planned follow-up)
-- Agent SKILL.md files have stale path references (data/prospects/, docs/Heimdall_Business_Case_v2.md)
-- CLAUDE.md Scanning Workflow section still references `pipeline.main`
-- Video pitch script (mandatory for SIRI) deferred
-- Valdí forensic logs missing for the 4 new scan types (approval tokens reference files that don't exist yet)
-
----
-
-## 2026-03-25 — Session wrap-up: SIRI pivot + pricing + remediation service
-
-**Decided**
-- Pricing finalized at aggressive tiers: Watchman 199 / Sentinel 399 / Guardian 799 kr./mo (annual: 599). All excl. moms. Source: Heimdall_Investor_Plan_v1_angel.docx (the manually maintained .docx had the final pricing, not the .md)
-- Optional per-event remediation service added to all tiers: 599 kr. first hour, 399 kr./hr additional (reference pricing, subject to pilot adjustment, excl. moms). Model B — hourly with minimum
-- Remediation service positioned as 4th durable differentiator: neither Intruder.io nor HostedScan offers hands-on fixes
-
-**Rejected**
-- Model A (flat per-event pricing) — too rigid for variable-complexity work
-- Model C (bundled credits / unlimited add-on) — premature before pilot validation
-- Premium pricing (499/799/1,199) — superseded by aggressive pricing strategy in .docx
-
-**Unresolved**
-- Video pitch script (mandatory 5-min for SIRI) — deferred to separate session
-- Specific remediation pricing needs pilot validation
-- CLAUDE.md Build Priority section has stale references that need cleanup
-
----
-
-## 2026-03-25 — Pivot business documents from angel investor to Startup Denmark (SIRI) audience
-
-**Context:** Federico is Argentinian, currently in Denmark on a Fast-Track employment scheme (Senior SAP Engineer at LEGO). The project was originally targeting angel investors and the NCC-DK grant pool. However, NCC-DK requires a CVR (Danish company registration), and Federico does not have one. The Startup Denmark program provides a path: a work/residence permit for non-EU founders to establish a company in Denmark — which then provides the CVR needed for grants.
-
-**Decision:** Reframe all business case documents from "angel investor pitch" to "Startup Denmark residence permit application." The technical product is unchanged. The business case is reframed around SIRI's four scoring criteria: Innovation, Market Potential, Scalability, Team Competencies. Expert panel scores 1–5 per criterion; minimum average 3.5 required for approval.
-
-**Consequences:**
-- `heimdall-investor-plan.md` → `heimdall-siri-application.md` (major rewrite)
-- `investor-plan-outline.md` → `siri-application-outline.md` (major rewrite)
-- `Heimdall_Investor_Plan.docx` archived to `docs/business/archive/`
-- Grant & Funding agent scope expanded to include SIRI application as Priority 0
-- NCC-DK grant becomes Phase 2 (post-CVR), not primary goal
-- New mandatory sections: "Why Denmark", "Scalability & Job Creation in Denmark", "Innovation"
-- Sections removed: Risk Analysis, The Ask, Why Now (content folded into other sections)
-- New future deliverable: 5-minute video pitch script (mandatory for SIRI submission)
 ## 2026-04-22
 
 **Decided**
