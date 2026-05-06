@@ -79,6 +79,7 @@ Hooks defined in `.claude/settings.json`. Mechanical enforcement for rules that 
 | `inline_script_guard.py` | PreToolUse / `Bash` | Soft-blocks inline `python -c` / `node -e` > 150 chars or multi-line. |
 | `main_branch_push_guard.py` | PreToolUse / `Bash` | Soft-blocks `git push origin main` when local commits include `src/**/*.py`. |
 | `precommit_codex_review_guard.py` | PreToolUse / `Bash` | Soft-blocks `git commit` when staged diff includes `src/**/*.py` or `tests/**/*.py` and the command lacks `HEIMDALL_CODEX_REVIEWED=1`. |
+| `precommit_doc_consistency_guard.py` | PreToolUse / `Bash` | Soft-blocks `git commit` when staged diff includes any of `CLAUDE.md`, `docs/briefing.md`, `docs/decisions/log.md`, `docs/repo-map.md` and the command lacks `HEIMDALL_DOC_REVIEWED=1`. Forces a `/verify-claims doc-pass` review of the four canonical living docs. |
 | `prod_branch_commit_guard.py` | PreToolUse / `Bash` | Soft-blocks `git commit` when current branch is `prod`. Bypass `HEIMDALL_PROD_COMMIT=1` for deliberate hotfixes. Branching rule: features → branch + PR; bug fixes → main; prod only ever fast-forwards from main. |
 | `ci_config_reminder.py` | PostToolUse / `Edit\|Write` | Reminds to push + `gh run watch` after editing CI/dep files. |
 | `session_start_context.py` | SessionStart | Injects branch, status, recent commits, latest decision-log headline. |
